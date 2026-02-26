@@ -5,10 +5,12 @@ Visualize mnemonica type hierarchies with interactive D3 force-directed graphs i
 ## Features
 
 - **Interactive Graph Visualization**: See your mnemonica type inheritance as a force-directed graph
-- **Click to Definition**: Click any node to jump to its source definition
-- **Hover for Details**: View type properties on hover
+- **2D/3D Toggle**: Switch between 2D force-directed layout and 3D WebGL visualization
+- **Click to Definition**: Single-click any node to view its properties, double-click to jump to source definition
+- **Hover for Details**: View type properties on hover (name, depth, property list with types)
 - **Real-time Updates**: Automatically refreshes when you modify source files
 - **Zoom & Pan**: Navigate large type hierarchies easily
+- **Draggable Nodes**: Drag nodes in 2D mode to rearrange the layout
 
 ## Requirements
 
@@ -34,6 +36,23 @@ The graph will display:
 |---------|-------------|
 | `Mnemonica: Show Type Graph` | Open the type hierarchy visualization |
 | `Mnemonica: Refresh Type Graph` | Manually refresh the graph |
+| `Toggle 2D/3D` | Switch between 2D and 3D visualization modes |
+
+## Interaction
+
+### 2D Mode
+- **Hover**: View type properties tooltip
+- **Single Click**: Pin tooltip with full property details
+- **Double Click**: Jump to source definition
+- **Drag**: Rearrange node positions
+- **Scroll**: Zoom in/out
+- **Right-click drag**: Pan the view
+
+### 3D Mode
+- **Click**: Select node and view properties
+- **Double Click**: Jump to source definition
+- **Drag**: Rotate the 3D view
+- **Scroll**: Zoom in/out
 
 ## Configuration
 
