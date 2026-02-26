@@ -49,6 +49,13 @@
 					"command": "mnemographica.refreshGraph"
 				}
 			],
+			"editor/title": [
+				{
+					"command": "mnemographica.showTypeGraph",
+					"when": "resourceExtname == .ts",
+					"group": "navigation"
+				}
+			],
 			"panel/title": [
 				{
 					"command": "mnemographica.showTypeGraph",

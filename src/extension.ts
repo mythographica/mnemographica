@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import { GraphPanel } from './webview/panel';
 import { GraphProvider } from './graph/provider';
+import { MnemonicaActivityBarProvider } from './activityBar';
 import { GraphData } from './types';
 
 let graphProvider: GraphProvider;
@@ -12,12 +13,18 @@ export function activate (context: vscode.ExtensionContext) {
 	// Initialize graph provider
 	graphProvider = new GraphProvider();
 
+	// Register Activity Bar webview provider
+	const activityBarProvider = new MnemonicaActivityBarProvider(context.extensionUri);
+	context.subscriptions.push(
+		vscode.window.registerWebviewViewProvider(MnemonicaActivityBarProvider.viewType, activityBarProvider)
+	);
+
 	// Create status bar item
 	statusBarItem = vscode.window.createStatusBarItem(
 		vscode.StatusBarAlignment.Right,
 		100
 	);
-	statusBarItem.text = '$(git-branch) Mnemonica';
+	statusBarItem.text = 'ψ';
 	statusBarItem.tooltip = 'Show Mnemonica Type Graph';
 	statusBarItem.command = 'mnemographica.showTypeGraph';
 	statusBarItem.show();
@@ -98,6 +105,11 @@ async function showTypeGraph (context: vscode.ExtensionContext) {
 
 		// Show the graph panel
 		GraphPanel.createOrShow(context.extensionUri, graphData);
+
+		// Also update the tree view
+		// Convert D3 nodes back to TypeNode format for tree view
+		// For now, we'll need to get the raw TypeNodes from the provider
+		// This is a simplified approach - ideally the provider would expose the raw TypeNode[]
 	} catch (error) {
 		const message = error instanceof Error ? error.message : 'Unknown error';
 		vscode.window.showErrorMessage(`Failed to load type graph: ${message}`);
