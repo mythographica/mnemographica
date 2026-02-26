@@ -1,0 +1,127 @@
+{
+	"name": "mnemographica",
+	"displayName": "Mnemonica Graphica",
+	"description": "Visualize mnemonica type hierarchies with interactive D3 force-directed graphs",
+	"version": "0.1.0",
+	"publisher": "mnemonica",
+	"icon": "media/icon.png",
+	"engines": {
+		"vscode": "^1.74.0"
+	},
+	"categories": [
+		"Visualization",
+		"Programming Languages"
+	],
+	"keywords": [
+		"mnemonica",
+		"inheritance",
+		"prototype",
+		"typescript",
+		"visualization"
+	],
+	"activationEvents": [
+		"onCommand:mnemographica.showTypeGraph",
+		"workspaceContains:**/*.ts",
+		"workspaceContains:**/package.json"
+	],
+	"main": "./out/extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "mnemographica.showTypeGraph",
+				"title": "Show Type Graph",
+				"category": "Mnemonica",
+				"icon": "$(git-branch)"
+			},
+			{
+				"command": "mnemographica.refreshGraph",
+				"title": "Refresh Type Graph",
+				"category": "Mnemonica",
+				"icon": "$(refresh)"
+			}
+		],
+		"menus": {
+			"commandPalette": [
+				{
+					"command": "mnemographica.showTypeGraph"
+				},
+				{
+					"command": "mnemographica.refreshGraph"
+				}
+			],
+			"panel/title": [
+				{
+					"command": "mnemographica.showTypeGraph",
+					"when": "activePanel == mnemonicaGraph",
+					"group": "navigation"
+				}
+			],
+			"view/title": [
+				{
+					"command": "mnemographica.showTypeGraph",
+					"group": "navigation"
+				}
+			],
+			"explorer/context": [
+				{
+					"command": "mnemographica.showTypeGraph",
+					"when": "resourceExtname == .ts",
+					"group": "mnemonica@1"
+				}
+			]
+		},
+		"configuration": {
+			"title": "Mnemonica Graphica",
+			"properties": {
+				"mnemographica.layout": {
+					"type": "string",
+					"enum": [
+						"force",
+						"tree",
+						"cluster"
+					],
+					"default": "force",
+					"description": "Graph layout algorithm"
+				},
+				"mnemographica.nodeSize": {
+					"type": "string",
+					"enum": [
+						"propertyCount",
+						"uniform"
+					],
+					"default": "propertyCount",
+					"description": "How to size nodes"
+				},
+				"mnemographica.showProperties": {
+					"type": "boolean",
+					"default": true,
+					"description": "Show properties on hover"
+				}
+			}
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"pretest": "npm run compile && npm run lint",
+		"lint": "eslint src --ext ts",
+		"test": "node ./out/test/runTest.js",
+		"package": "vsce package"
+	},
+	"devDependencies": {
+		"@types/node": "^20.0.0",
+		"@types/three": "^0.183.1",
+		"@types/vscode": "^1.74.0",
+		"@typescript-eslint/eslint-plugin": "^6.7.0",
+		"@typescript-eslint/parser": "^6.7.0",
+		"@vscode/test-electron": "^2.3.0",
+		"eslint": "^8.50.0",
+		"typescript": "^5.2.0"
+	},
+	"dependencies": {
+		"@mnemonica/tactica": "file:../tactica",
+		"d3-force-3d": "^3.0.6",
+		"three": "^0.174.0"
+	}
+}
