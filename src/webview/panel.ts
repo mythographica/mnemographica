@@ -655,7 +655,6 @@ export class GraphPanel {
 											.classed('visible', true)
 											.html('<strong>' + d.name + '</strong><br>' +
 												'<em>depth: ' + d.depth + '</em><br>' +
-												'<em>properties: ' + (d.properties ? d.properties.length : 0) + '</em><br>' +
 												(props ? '<hr>' + props : ''))
 											.style('left', (event.pageX + 10) + 'px')
 											.style('top', (event.pageY - 10) + 'px');
@@ -712,7 +711,6 @@ export class GraphPanel {
 						.classed('visible', true)
 						.html('<strong>' + d.name + '</strong><br>' +
 							'<em>depth: ' + d.depth + '</em><br>' +
-							'<em>properties: ' + (d.properties ? d.properties.length : 0) + '</em><br>' +
 							(props ? '<hr>' + props : ''))
 						.style('left', (event.pageX + 10) + 'px')
 						.style('top', (event.pageY - 10) + 'px');
@@ -737,9 +735,6 @@ export class GraphPanel {
 				// Remove any existing panel
 				d3.select('#properties-panel').remove();
 
-				if (!d.properties || d.properties.length === 0) {
-					return; // No properties to show
-				}
 
 				const panel = d3.select('body').append('div')
 					.attr('id', 'properties-panel')
@@ -1189,7 +1184,6 @@ export class GraphPanel {
 									.classed('visible', true)
 									.html('<strong>' + node.name + '</strong><br>' +
 										'<em>depth: ' + node.depth + '</em><br>' +
-										'<em>properties: ' + (node.properties ? node.properties.length : 0) + '</em><br>' +
 										(props ? '<hr>' + props : ''))
 									.style('left', (event.pageX + 10) + 'px')
 									.style('top', (event.pageY - 10) + 'px');

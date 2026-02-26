@@ -55,43 +55,99 @@ export class TacticaAdapter {
 			line: number;
 		}>();
 
-		// Parse type definitions: export type Name = ...
-		const typeRegex = /export\s+type\s+(\w+)\s*=\s*([^;]+);/g;
-		let match;
+		// Parse type definitions by finding export type declarations
+		// and tracking curly braces to find the complete definition
+		const lines = content.split('\n');
+		let i = 0;
 
-		while ((match = typeRegex.exec(content)) !== null) {
-			const typeName = match[1];
-			const typeDef = match[2].trim();
+		while (i < lines.length) {
+			const line = lines[i];
+			const match = line.match(/export\s+type\s+(\w+)\s*=/);
 
-			// Check for inheritance: Type = ParentType & { ... }
-			let parentName: string | undefined;
-			const extendsMatch = typeDef.match(/^(\w+)\s*&/);
-			if (extendsMatch) {
-				parentName = extendsMatch[1];
-			}
+			if (match) {
+				const typeName = match[1];
+				const startLine = i;
+	
+				// Collect lines until we close the outermost braces
+				// Type definitions look like: export type Name = { ... }
+				// We start counting braces after '=', stop when braceDepth returns to 0
+				let typeDef = '';
+				let braceDepth = 0;
+				let foundEnd = false;
+				let foundEquals = false;
+				let enteredBraces = false;
+	
+				while (i < lines.length && !foundEnd) {
+					const currentLine = lines[i];
+					typeDef += currentLine + '\n';
+	
+					// Only start counting braces after we see '=' on first line
+					let startIdx = 0;
+					if (!foundEquals && i === startLine) {
+						const equalsIdx = currentLine.indexOf('=');
+						if (equalsIdx !== -1) {
+							foundEquals = true;
+							startIdx = equalsIdx + 1;
+						}
+					}
+	
+					if (foundEquals) {
+						for (let idx = startIdx; idx < currentLine.length; idx++) {
+							const char = currentLine[idx];
+							if (char === '{') {
+								braceDepth++;
+								enteredBraces = true;
+							}
+							else if (char === '}') {
+								braceDepth--;
+								// When we close the outermost braces, we're done
+								if (enteredBraces && braceDepth === 0) {
+									foundEnd = true;
+									break;
+								}
+							}
+						}
+					}
+					i++;
+				}
+	
+				// Remove 'export type Name = ' prefix and trailing semicolon/newlines
+				let cleanDef = typeDef.replace(/export\s+type\s+\w+\s*=\s*/, '').trim();
+				if (cleanDef.endsWith(';')) {
+					cleanDef = cleanDef.slice(0, -1).trim();
+				}
 
-			// Parse properties
-			const properties = this.parseProperties(typeDef);
+				// Check for inheritance: Type = ParentType & { ... }
+				let parentName: string | undefined;
+				const extendsMatch = cleanDef.match(/^(\w+)\s*&/);
+				if (extendsMatch) {
+					parentName = extendsMatch[1];
+				}
 
-			// Find TypeConstructor properties (subtypes)
-			const subtypeRegex = /(\w+):\s*TypeConstructor<(\w+)>/g;
-			let subtypeMatch;
-			while ((subtypeMatch = subtypeRegex.exec(typeDef)) !== null) {
-				const subtypeName = subtypeMatch[1];
-				// This is a subtype reference, not a regular property
-				properties.set(subtypeName, {
-					name: subtypeName,
-					type: `TypeConstructor<${subtypeMatch[2]}>`,
-					optional: false
+				// Parse properties from the full definition
+				const properties = this.parseProperties(cleanDef);
+
+				// Find TypeConstructor properties (subtypes)
+				const subtypeRegex = /(\w+):\s*TypeConstructor<(\w+)>/g;
+				let subtypeMatch;
+				while ((subtypeMatch = subtypeRegex.exec(cleanDef)) !== null) {
+					const subtypeName = subtypeMatch[1];
+					properties.set(subtypeName, {
+						name: subtypeName,
+						type: `TypeConstructor<${subtypeMatch[2]}>`,
+						optional: false
+					});
+				}
+
+				typeDefs.set(typeName, {
+					name: typeName,
+					parentName,
+					properties,
+					line: startLine + 1 // 1-based line number
 				});
+			} else {
+				i++;
 			}
-
-			typeDefs.set(typeName, {
-				name: typeName,
-				parentName,
-				properties,
-				line: this.getLineNumber(content, match.index)
-			});
 		}
 
 		// Second pass: build TypeNode hierarchy
@@ -138,11 +194,33 @@ export class TacticaAdapter {
 	private parseProperties (typeDef: string): Map<string, PropertyInfo> {
 		const properties = new Map<string, PropertyInfo>();
 
-		// Look for { propName: type; ... }
-		const objectMatch = typeDef.match(/\{([^}]*)\}/);
-		if (!objectMatch) return properties;
+		// Find the first { and extract content using brace counting
+		const braceStart = typeDef.indexOf('{');
+		if (braceStart === -1) {
+			return properties;
+		}
 
-		const propsContent = objectMatch[1];
+		// Extract content between outermost braces
+		let braceDepth = 0;
+		const contentStart = braceStart + 1;
+		let contentEnd = -1;
+
+		for (let i = braceStart; i < typeDef.length; i++) {
+			if (typeDef[i] === '{') braceDepth++;
+			else if (typeDef[i] === '}') {
+				braceDepth--;
+				if (braceDepth === 0) {
+					contentEnd = i;
+					break;
+				}
+			}
+		}
+
+		if (contentEnd === -1) {
+			return properties;
+		}
+
+		const propsContent = typeDef.substring(contentStart, contentEnd);
 
 		// Parse each property line
 		const propLines = propsContent.split('\n');
@@ -150,10 +228,10 @@ export class TacticaAdapter {
 			const trimmed = line.trim();
 			if (!trimmed || trimmed.startsWith('//')) continue;
 
-			// Parse property: name?: type or name: type
-			// Handle TypeConstructor specially
+			// Skip TypeConstructor properties (handled separately)
 			if (trimmed.includes('TypeConstructor')) continue;
 
+			// Parse property: name?: type or name: type
 			const propMatch = trimmed.match(/^(\w+)(\?)?:\s*(.+?);?$/);
 			if (propMatch) {
 				const propName = propMatch[1];
