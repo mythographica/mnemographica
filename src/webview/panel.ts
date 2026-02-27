@@ -328,6 +328,8 @@ export class GraphPanel {
 			let currentData = null;
 			let is3D = false;
 			let renderer3D = null;
+			let clickTimeout = null;
+			let resizeHandler3D = null;
 
 			// Initialize when DOM is ready
 			if (document.readyState === 'loading') {
@@ -388,16 +390,17 @@ export class GraphPanel {
 			}
 
 			function toggle3DMode() {
-				console.log('[Mnemonica] Toggling 3D mode, current is3D:', is3D);
 				is3D = !is3D;
 				const btn = document.getElementById('toggle-3d');
 				btn.textContent = is3D ? '3D' : '2D';
 				btn.classList.toggle('active', is3D);
 
-				const container = document.getElementById('graph');
-				container.innerHTML = '';
+				// Hide any visible tooltip
+				d3.select('#tooltip').classed('visible', false);
 
-				// Clean up previous mode
+				const container = document.getElementById('graph');
+
+				// Clean up previous mode BEFORE clearing container
 				if (simulation) {
 					simulation.stop();
 					simulation = null;
@@ -413,43 +416,56 @@ export class GraphPanel {
 					renderer3D = null;
 				}
 
+				// Remove 3D resize handler
+				if (resizeHandler3D) {
+					window.removeEventListener('resize', resizeHandler3D);
+					resizeHandler3D = null;
+				}
+
+				// Clear any pending click timeouts
+				if (clickTimeout) {
+					clearTimeout(clickTimeout);
+					clickTimeout = null;
+				}
+
+				// NOW clear the container after cleanup
+				container.innerHTML = '';
+
 				// Re-render in new mode
-				if (currentData) {
-					if (is3D) {
-						console.log('[Mnemonica] Switching to 3D, THREE available:', typeof THREE);
-						// Wait for THREE to be ready
-						if (typeof THREE !== 'undefined') {
-							console.log('[Mnemonica] THREE is ready, rendering 3D graph');
-							render3DGraph(currentData);
-						} else {
-							console.log('[Mnemonica] THREE not ready, waiting...');
-							container.innerHTML = '<div class="loading">Loading 3D engine...</div>';
-							const checkThree = setInterval(function() {
-								console.log('[Mnemonica] Checking THREE...', typeof THREE);
-								if (typeof THREE !== 'undefined') {
+				try {
+					if (currentData) {
+						if (is3D) {
+							// Wait for THREE to be ready
+							if (typeof THREE !== 'undefined') {
+								render3DGraph(currentData);
+							} else {
+								container.innerHTML = '<div class="loading">Loading 3D engine...</div>';
+								const checkThree = setInterval(function() {
+									if (typeof THREE !== 'undefined') {
+										clearInterval(checkThree);
+										render3DGraph(currentData);
+									}
+								}, 100);
+								setTimeout(function() {
 									clearInterval(checkThree);
-									console.log('[Mnemonica] THREE is now ready');
-									render3DGraph(currentData);
-								}
-							}, 100);
-							setTimeout(function() {
-								clearInterval(checkThree);
-								if (typeof THREE === 'undefined') {
-									console.error('[Mnemonica] THREE failed to load after timeout');
-									container.innerHTML = '<div class="loading">3D engine failed to load (timeout)</div>';
-								}
-							}, 5000);
+									if (typeof THREE === 'undefined') {
+										container.innerHTML = '<div class="loading">3D engine failed to load (timeout)</div>';
+									}
+								}, 5000);
+							}
+						} else {
+							render2DGraph(currentData);
 						}
-					} else {
-						render2DGraph(currentData);
 					}
+				} catch (err) {
+					console.error('[Mnemonica] Error toggling mode:', err);
+					container.innerHTML = '<div class="loading">Error: ' + err.message + '</div>';
 				}
 			}
 
 			// Handle messages from extension
 			window.addEventListener('message', function(event) {
 				const message = event.data;
-				console.log('[Mnemonica] Received message:', message.command);
 
 				if (message.command === 'updateGraph') {
 					currentData = message.data;
@@ -563,9 +579,6 @@ export class GraphPanel {
 				// Add root class to root nodes
 				node.filter(function(d) { return d.isRoot; })
 					.classed('root', true);
-
-				// Track click state
-				let clickTimeout = null;
 
 				// Node circles
 				node.append('circle')
@@ -870,13 +883,13 @@ export class GraphPanel {
 				renderer3D.renderGraph(data, d3);
 
 				// Handle resize
-				const resizeHandler = function() {
+				resizeHandler3D = function() {
 					if (!is3D || !renderer3D) return;
 					const newWidth = container.clientWidth || 800;
 					const newHeight = container.clientHeight || 600;
 					renderer3D.resize(newWidth, newHeight);
 				};
-				window.addEventListener('resize', resizeHandler);
+				window.addEventListener('resize', resizeHandler3D);
 
 				// Update status
 				const status = document.getElementById('status');
@@ -1430,7 +1443,10 @@ export class GraphPanel {
 					}
 					if (this.renderer) {
 						this.renderer.dispose();
-						this.container.removeChild(this.renderer.domElement);
+						// Only remove if still a child (might be removed by container.innerHTML = '')
+						if (this.renderer.domElement.parentNode === this.container) {
+							this.container.removeChild(this.renderer.domElement);
+						}
 					}
 				}
 			}
