@@ -1535,15 +1535,24 @@
 			 * Each generation forms a complete spherical shell
 			 * INCREASED distances for better visibility
 			 */
+			// Calculate root radius based on number of roots to prevent label overlap
+			// Need enough circumference for all root node labels
+			const rootCount = rootNodes.length;
+			const avgLabelWidth = 60; // Average width needed per label (smaller, labels can overlap slightly)
+			const minRootRadius = 60;  // Minimum radius
+			// Use square root scaling for better distribution
+			// More roots = larger radius, but not linearly
+			const calculatedRootRadius = Math.max(minRootRadius, 60 + Math.sqrt(rootCount) * 30);
+			
 			// Use instance depthRadii if available (for adjustments), otherwise use defaults
 			if (!this.depthRadii) {
 				this.depthRadii = new Map([
-					[0, 40],   // Roots: 40px from center
-					[1, 85],   // Gen 1: 85px (+45px)
-					[2, 130],  // Gen 2: 130px (+45px)
-					[3, 175],  // Gen 3: 175px (+45px)
-					[4, 220],  // Gen 4: 220px (+45px)
-					[5, 265]   // Gen 5: 265px (+45px)
+					[0, calculatedRootRadius],   // Roots: dynamic based on count
+					[1, calculatedRootRadius + 60],   // Gen 1: +60px
+					[2, calculatedRootRadius + 110],  // Gen 2: +110px
+					[3, calculatedRootRadius + 160],  // Gen 3: +160px
+					[4, calculatedRootRadius + 210],  // Gen 4: +210px
+					[5, calculatedRootRadius + 260]   // Gen 5: +260px
 				]);
 			}
 			const depthRadii = this.depthRadii;
