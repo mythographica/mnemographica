@@ -656,6 +656,7 @@
 
 	/**
 		* Calculate 2D concentric circle positions
+		* Children are placed in sectors radiating from their parent's direction
 		*/
 	function calculate2DPositions (data) {
 		const layoutWidth = 800;
@@ -663,14 +664,19 @@
 		const centerX = layoutWidth / 2;
 		const centerY = layoutHeight / 2;
 
-		// Group nodes by depth
-		const nodesByDepth = new Map();
+		// Build parent-child relationships first
+		const nodeMap = new Map();
 		data.nodes.forEach(node => {
-			const depth = node.depth || 0;
-			if (!nodesByDepth.has(depth)) {
-				nodesByDepth.set(depth, []);
+			nodeMap.set(node.id, node);
+			node.children = [];
+		});
+		data.links.forEach(link => {
+			const source = typeof link.source === 'object' ? link.source : nodeMap.get(link.source);
+			const target = typeof link.target === 'object' ? link.target : nodeMap.get(link.target);
+			if (source && target) {
+				source.children.push(target);
+				target.parent = source;
 			}
-			nodesByDepth.get(depth).push(node);
 		});
 
 		// Fixed radii for each generation
@@ -683,17 +689,52 @@
 			[5, 480]   // Gen 5
 		]);
 
-		// Position nodes in concentric circles
-		nodesByDepth.forEach((nodes, depth) => {
-			const radius = depthRadii.get(depth) || (80 + depth * 80);
-			const count = nodes.length;
+		// Position nodes by depth
+		const maxDepth = Math.max(...data.nodes.map(n => n.depth || 0));
 
-			nodes.forEach((node, index) => {
-				const angle = (index / count) * 2 * Math.PI;
-				node.x2d = centerX + radius * Math.cos(angle);
-				node.y2d = centerY + radius * Math.sin(angle);
-			});
-		});
+		for (let depth = 0; depth <= maxDepth; depth++) {
+			const nodesAtDepth = data.nodes.filter(n => (n.depth || 0) === depth);
+			const radius = depthRadii.get(depth) || (80 + depth * 80);
+
+			if (depth === 0) {
+				// Roots: evenly spaced around the circle
+				const count = nodesAtDepth.length;
+				nodesAtDepth.forEach((node, index) => {
+					const angle = (index / count) * 2 * Math.PI;
+					node.x2d = centerX + radius * Math.cos(angle);
+					node.y2d = centerY + radius * Math.sin(angle);
+					node.angle2d = angle; // Store angle for children
+				});
+			} else {
+				// Children: placed in sectors radiating from parent's angle
+				nodesAtDepth.forEach(node => {
+					if (node.parent && node.parent.angle2d !== undefined) {
+						const parentAngle = node.parent.angle2d;
+						const siblings = node.parent.children;
+						const siblingIndex = siblings.indexOf(node);
+						const siblingCount = siblings.length;
+
+						// Spread children in a sector around parent's angle
+						// Max spread of 60 degrees (PI/3) for multiple children
+						const maxSpread = Math.min(Math.PI / 3, Math.PI / 6 * siblingCount);
+						const angleOffset = siblingCount > 1
+							? ((siblingIndex / (siblingCount - 1)) - 0.5) * maxSpread
+							: 0;
+						const angle = parentAngle + angleOffset;
+
+						node.x2d = centerX + radius * Math.cos(angle);
+						node.y2d = centerY + radius * Math.sin(angle);
+						node.angle2d = angle;
+					} else {
+						// Fallback: place at parent's angle or 0
+						const angle = node.parent ? node.parent.angle2d : 0;
+						node.x2d = centerX + radius * Math.cos(angle);
+						node.y2d = centerY + radius * Math.sin(angle);
+						node.angle2d = angle;
+					}
+				});
+			}
+		}
 	}
 
 	// Show properties panel for a node
@@ -993,6 +1034,7 @@
 
 	/**
 		* Calculate 2D positions using stored genRadii
+		* Children are placed in sectors radiating from their parent's direction
 		*/
 	function calculate2DPositionsWithRadii (data) {
 		const layoutWidth = 800;
@@ -1000,32 +1042,56 @@
 		const centerX = layoutWidth / 2;
 		const centerY = layoutHeight / 2;
 
-		// Group nodes by depth
-		const nodesByDepth = new Map();
-		data.nodes.forEach(node => {
-			const depth = node.depth || 0;
-			if (!nodesByDepth.has(depth)) {
-				nodesByDepth.set(depth, []);
-			}
-			nodesByDepth.get(depth).push(node);
-		});
-
 		// Default radii
 		const defaults = [80, 160, 240, 320, 400, 480];
 
-		// Position nodes in concentric circles using stored radii
-		nodesByDepth.forEach((nodes, depth) => {
+		// Get max depth
+		const maxDepth = Math.max(...data.nodes.map(n => n.depth || 0));
+
+		// Position nodes by depth
+		for (let depth = 0; depth <= maxDepth; depth++) {
+			const nodesAtDepth = data.nodes.filter(n => (n.depth || 0) === depth);
 			const radius = window.genRadii && window.genRadii[depth] !== undefined
 				? window.genRadii[depth]
 				: (defaults[depth] || 80 + depth * 80);
-			const count = nodes.length;
 
-			nodes.forEach((node, index) => {
-				const angle = (index / count) * 2 * Math.PI;
-				node.x2d = centerX + radius * Math.cos(angle);
-				node.y2d = centerY + radius * Math.sin(angle);
-			});
-		});
+			if (depth === 0) {
+				// Roots: evenly spaced around the circle
+				const count = nodesAtDepth.length;
+				nodesAtDepth.forEach((node, index) => {
+					const angle = (index / count) * 2 * Math.PI;
+					node.x2d = centerX + radius * Math.cos(angle);
+					node.y2d = centerY + radius * Math.sin(angle);
+					node.angle2d = angle;
+				});
+			} else {
+				// Children: placed in sectors radiating from parent's angle
+				nodesAtDepth.forEach(node => {
+					if (node.parent && node.parent.angle2d !== undefined) {
+						const parentAngle = node.parent.angle2d;
+						const siblings = node.parent.children;
+						const siblingIndex = siblings.indexOf(node);
+						const siblingCount = siblings.length;
+
+						// Spread children in a sector around parent's angle
+						const maxSpread = Math.min(Math.PI / 3, Math.PI / 6 * siblingCount);
+						const angleOffset = siblingCount > 1
+							? ((siblingIndex / (siblingCount - 1)) - 0.5) * maxSpread
+							: 0;
+						const angle = parentAngle + angleOffset;
+
+						node.x2d = centerX + radius * Math.cos(angle);
+						node.y2d = centerY + radius * Math.sin(angle);
+						node.angle2d = angle;
+					} else {
+						const angle = node.parent ? node.parent.angle2d : 0;
+						node.x2d = centerX + radius * Math.cos(angle);
+						node.y2d = centerY + radius * Math.sin(angle);
+						node.angle2d = angle;
+					}
+				});
+			}
+		}
 	}
 
 	// 3D Renderer Class with human-readable layout
@@ -1584,13 +1650,23 @@
 				linewidth: 2
 			});
 
+			// Arrow geometry for directional indicators
+			const arrowGeometry = new THREE.ConeGeometry(3, 8, 8);
+			arrowGeometry.rotateX(Math.PI / 2); // Point along Z axis initially
+			const arrowMaterial = new THREE.MeshBasicMaterial({ color: 0xaaaaaa });
+
 			data.links.forEach(link => {
 				const geometry = new THREE.BufferGeometry();
 				const positions = new Float32Array([0, 0, 0, 0, 0, 0]);
 				geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 				const line = new THREE.Line(geometry, lineMaterial);
 				this.scene.add(line);
-				this.linkLines.push({ line, link });
+
+				// Add arrowhead
+				const arrow = new THREE.Mesh(arrowGeometry, arrowMaterial);
+				this.scene.add(arrow);
+
+				this.linkLines.push({ line, arrow, link });
 			});
 
 			// Update link positions
@@ -1598,18 +1674,48 @@
 		}
 
 		updateLinkPositions () {
-			this.linkLines.forEach(({ line, link }) => {
+			this.linkLines.forEach(({ line, arrow, link }) => {
 				const positions = line.geometry.attributes.position.array;
 				const source = typeof link.source === 'object' ? link.source : null;
 				const target = typeof link.target === 'object' ? link.target : null;
 				if (source && target) {
-					positions[0] = source.x || 0;
-					positions[1] = source.y || 0;
-					positions[2] = source.z || 0;
-					positions[3] = target.x || 0;
-					positions[4] = target.y || 0;
-					positions[5] = target.z || 0;
+					const sx = source.x || 0;
+					const sy = source.y || 0;
+					const sz = source.z || 0;
+					const tx = target.x || 0;
+					const ty = target.y || 0;
+					const tz = target.z || 0;
+
+					positions[0] = sx;
+					positions[1] = sy;
+					positions[2] = sz;
+					positions[3] = tx;
+					positions[4] = ty;
+					positions[5] = tz;
 					line.geometry.attributes.position.needsUpdate = true;
+
+					// Position arrow at target, pointing from source to target
+					if (arrow) {
+						// Position arrow slightly before target (to not overlap node)
+						const dx = tx - sx;
+						const dy = ty - sy;
+						const dz = tz - sz;
+						const len = Math.sqrt(dx*dx + dy*dy + dz*dz);
+						const nodeRadius = 12; // Approximate node radius
+
+						if (len > nodeRadius) {
+							// Position arrow before the target node
+							const ratio = (len - nodeRadius) / len;
+							const ax = sx + dx * ratio;
+							const ay = sy + dy * ratio;
+							const az = sz + dz * ratio;
+
+							arrow.position.set(ax, ay, az);
+
+							// Orient arrow to point from source to target
+							arrow.lookAt(tx, ty, tz);
+						}
+					}
 				}
 			});
 		}
@@ -1687,9 +1793,14 @@
 			});
 			this.nodeMeshes.clear();
 
-			this.linkLines.forEach(({ line }) => {
+			this.linkLines.forEach(({ line, arrow }) => {
 				this.scene.remove(line);
 				line.geometry.dispose();
+				if (arrow) {
+					this.scene.remove(arrow);
+					arrow.geometry.dispose();
+					arrow.material.dispose();
+				}
 			});
 			this.linkLines = [];
 

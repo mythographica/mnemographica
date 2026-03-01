@@ -78,6 +78,11 @@ body {
 	stroke-width: 2.5px;
 }
 
+/* Arrow marker */
+#arrowhead path {
+	fill: var(--vscode-foreground);
+}
+
 .link:hover {
 	stroke: var(--vscode-focusBorder);
 	stroke-opacity: 1;
