@@ -171,6 +171,7 @@
 	let renderer3D = null;
 	let clickTimeout = null;
 	let resizeHandler3D = null;
+	let saved3DCameraState = null; // Stores camera state when switching to 2D
 
 	// Initialize when DOM is ready
 	if (document.readyState === 'loading') {
@@ -255,6 +256,15 @@
 					if (node.y !== undefined) node.y3d = node.y;
 					if (node.z !== undefined) node.z3d = node.z;
 				});
+				// Save 3D camera state
+				if (renderer3D) {
+					saved3DCameraState = {
+						cameraRotation: { ...renderer3D.cameraRotation },
+						zoom: renderer3D.zoom,
+						panOffset: { ...renderer3D.panOffset }
+					};
+					debugLog('Saved 3D camera state: ' + JSON.stringify(saved3DCameraState), 'log');
+				}
 			} else {
 				// Switching to 3D - save 2D coordinates
 				currentData.nodes.forEach(function (node) {
@@ -303,13 +313,13 @@
 				if (is3D) {
 					// Wait for THREE to be ready
 					if (typeof THREE !== 'undefined') {
-						render3DGraph(currentData);
+						render3DGraph(currentData, saved3DCameraState);
 					} else {
 						container.innerHTML = '<div class="loading">Loading 3D engine...</div>';
 						const checkThree = setInterval(function () {
 							if (typeof THREE !== 'undefined') {
 								clearInterval(checkThree);
-								render3DGraph(currentData);
+								render3DGraph(currentData, saved3DCameraState);
 							}
 						}, 100);
 						setTimeout(function () {
@@ -656,7 +666,8 @@
 
 	/**
 		* Calculate 2D concentric circle positions
-		* Children are placed in sectors radiating from their parent's direction
+		* Uses space-filling angular sectors based on subtree sizes
+		* Prevents line crossings by allocating exclusive angular wedges
 		*/
 	function calculate2DPositions (data) {
 		const layoutWidth = 800;
@@ -689,51 +700,63 @@
 			[5, 480]   // Gen 5
 		]);
 
-		// Position nodes by depth
-		const maxDepth = Math.max(...data.nodes.map(n => n.depth || 0));
+		// Calculate subtree sizes (total descendants including self)
+		function calculateSubtreeSize (node) {
+			let size = 1; // Count self
+			if (node.children && node.children.length > 0) {
+				for (const child of node.children) {
+					size += calculateSubtreeSize(child);
+				}
+			}
+			node.subtreeSize = size;
+			return size;
+		}
 
+		// Calculate subtree sizes for all roots
+		data.nodes.filter(n => !n.parent).forEach(calculateSubtreeSize);
+
+		// Assign angular sectors using space-filling approach
+		// Each node gets [startAngle, endAngle] sector proportional to its subtree size
+		function assignSectors (node, startAngle, endAngle) {
+			node.startAngle = startAngle;
+			node.endAngle = endAngle;
+			node.angle2d = (startAngle + endAngle) / 2; // Center angle for positioning
+
+			if (node.children && node.children.length > 0) {
+				const totalChildSize = node.children.reduce((sum, c) => sum + c.subtreeSize, 0);
+				const sectorSize = endAngle - startAngle;
+
+				let currentAngle = startAngle;
+				for (const child of node.children) {
+					const childSectorSize = (child.subtreeSize / totalChildSize) * sectorSize;
+					assignSectors(child, currentAngle, currentAngle + childSectorSize);
+					currentAngle += childSectorSize;
+				}
+			}
+		}
+
+		// Assign sectors to roots (distribute full circle proportionally)
+		const roots = data.nodes.filter(n => !n.parent);
+		const totalRootSize = roots.reduce((sum, r) => sum + r.subtreeSize, 0);
+		let currentAngle = 0;
+
+		for (const root of roots) {
+			const rootSectorSize = (root.subtreeSize / totalRootSize) * 2 * Math.PI;
+			assignSectors(root, currentAngle, currentAngle + rootSectorSize);
+			currentAngle += rootSectorSize;
+		}
+
+		// Position nodes at their center angles
+		const maxDepth = Math.max(...data.nodes.map(n => n.depth || 0));
 		for (let depth = 0; depth <= maxDepth; depth++) {
 			const nodesAtDepth = data.nodes.filter(n => (n.depth || 0) === depth);
 			const radius = depthRadii.get(depth) || (80 + depth * 80);
 
-			if (depth === 0) {
-				// Roots: evenly spaced around the circle
-				const count = nodesAtDepth.length;
-				nodesAtDepth.forEach((node, index) => {
-					const angle = (index / count) * 2 * Math.PI;
-					node.x2d = centerX + radius * Math.cos(angle);
-					node.y2d = centerY + radius * Math.sin(angle);
-					node.angle2d = angle; // Store angle for children
-				});
-			} else {
-				// Children: placed in sectors radiating from parent's angle
-				nodesAtDepth.forEach(node => {
-					if (node.parent && node.parent.angle2d !== undefined) {
-						const parentAngle = node.parent.angle2d;
-						const siblings = node.parent.children;
-						const siblingIndex = siblings.indexOf(node);
-						const siblingCount = siblings.length;
-
-						// Spread children in a sector around parent's angle
-						// Max spread of 60 degrees (PI/3) for multiple children
-						const maxSpread = Math.min(Math.PI / 3, Math.PI / 6 * siblingCount);
-						const angleOffset = siblingCount > 1
-							? ((siblingIndex / (siblingCount - 1)) - 0.5) * maxSpread
-							: 0;
-						const angle = parentAngle + angleOffset;
-
-						node.x2d = centerX + radius * Math.cos(angle);
-						node.y2d = centerY + radius * Math.sin(angle);
-						node.angle2d = angle;
-					} else {
-						// Fallback: place at parent's angle or 0
-						const angle = node.parent ? node.parent.angle2d : 0;
-						node.x2d = centerX + radius * Math.cos(angle);
-						node.y2d = centerY + radius * Math.sin(angle);
-						node.angle2d = angle;
-					}
-				});
-			}
+			nodesAtDepth.forEach(node => {
+				const angle = node.angle2d || 0;
+				node.x2d = centerX + radius * Math.cos(angle);
+				node.y2d = centerY + radius * Math.sin(angle);
+			});
 		}
 	}
 
@@ -846,7 +869,7 @@
 		}, 100);
 	}
 
-	function render3DGraph (data) {
+	function render3DGraph (data, initialCameraState = null) {
 		console.log('[Mnemonica] Rendering 3D graph with', data.nodes.length, 'nodes and', data.links.length, 'links');
 
 		// Show generation controls
@@ -870,7 +893,7 @@
 		container.innerHTML = '';
 
 		// Create 3D renderer
-		renderer3D = new Graph3DRenderer(container);
+		renderer3D = new Graph3DRenderer(container, initialCameraState);
 		renderer3D.setOnNodeClick(function (node) {
 			console.log('[Mnemonica] 3D Node clicked:', node.name);
 			if (node.location) {
@@ -1034,7 +1057,7 @@
 
 	/**
 		* Calculate 2D positions using stored genRadii
-		* Children are placed in sectors radiating from their parent's direction
+		* Uses space-filling angular sectors based on subtree sizes
 		*/
 	function calculate2DPositionsWithRadii (data) {
 		const layoutWidth = 800;
@@ -1045,58 +1068,70 @@
 		// Default radii
 		const defaults = [80, 160, 240, 320, 400, 480];
 
-		// Get max depth
-		const maxDepth = Math.max(...data.nodes.map(n => n.depth || 0));
+		// Calculate subtree sizes (total descendants including self)
+		function calculateSubtreeSize (node) {
+			let size = 1;
+			if (node.children && node.children.length > 0) {
+				for (const child of node.children) {
+					size += calculateSubtreeSize(child);
+				}
+			}
+			node.subtreeSize = size;
+			return size;
+		}
 
-		// Position nodes by depth
+		// Calculate subtree sizes for all roots
+		data.nodes.filter(n => !n.parent).forEach(calculateSubtreeSize);
+
+		// Assign angular sectors
+		function assignSectors (node, startAngle, endAngle) {
+			node.startAngle = startAngle;
+			node.endAngle = endAngle;
+			node.angle2d = (startAngle + endAngle) / 2;
+
+			if (node.children && node.children.length > 0) {
+				const totalChildSize = node.children.reduce((sum, c) => sum + c.subtreeSize, 0);
+				const sectorSize = endAngle - startAngle;
+
+				let currentAngle = startAngle;
+				for (const child of node.children) {
+					const childSectorSize = (child.subtreeSize / totalChildSize) * sectorSize;
+					assignSectors(child, currentAngle, currentAngle + childSectorSize);
+					currentAngle += childSectorSize;
+				}
+			}
+		}
+
+		// Assign sectors to roots
+		const roots = data.nodes.filter(n => !n.parent);
+		const totalRootSize = roots.reduce((sum, r) => sum + r.subtreeSize, 0);
+		let currentAngle = 0;
+
+		for (const root of roots) {
+			const rootSectorSize = (root.subtreeSize / totalRootSize) * 2 * Math.PI;
+			assignSectors(root, currentAngle, currentAngle + rootSectorSize);
+			currentAngle += rootSectorSize;
+		}
+
+		// Position nodes at their center angles
+		const maxDepth = Math.max(...data.nodes.map(n => n.depth || 0));
 		for (let depth = 0; depth <= maxDepth; depth++) {
 			const nodesAtDepth = data.nodes.filter(n => (n.depth || 0) === depth);
 			const radius = window.genRadii && window.genRadii[depth] !== undefined
 				? window.genRadii[depth]
 				: (defaults[depth] || 80 + depth * 80);
 
-			if (depth === 0) {
-				// Roots: evenly spaced around the circle
-				const count = nodesAtDepth.length;
-				nodesAtDepth.forEach((node, index) => {
-					const angle = (index / count) * 2 * Math.PI;
-					node.x2d = centerX + radius * Math.cos(angle);
-					node.y2d = centerY + radius * Math.sin(angle);
-					node.angle2d = angle;
-				});
-			} else {
-				// Children: placed in sectors radiating from parent's angle
-				nodesAtDepth.forEach(node => {
-					if (node.parent && node.parent.angle2d !== undefined) {
-						const parentAngle = node.parent.angle2d;
-						const siblings = node.parent.children;
-						const siblingIndex = siblings.indexOf(node);
-						const siblingCount = siblings.length;
-
-						// Spread children in a sector around parent's angle
-						const maxSpread = Math.min(Math.PI / 3, Math.PI / 6 * siblingCount);
-						const angleOffset = siblingCount > 1
-							? ((siblingIndex / (siblingCount - 1)) - 0.5) * maxSpread
-							: 0;
-						const angle = parentAngle + angleOffset;
-
-						node.x2d = centerX + radius * Math.cos(angle);
-						node.y2d = centerY + radius * Math.sin(angle);
-						node.angle2d = angle;
-					} else {
-						const angle = node.parent ? node.parent.angle2d : 0;
-						node.x2d = centerX + radius * Math.cos(angle);
-						node.y2d = centerY + radius * Math.sin(angle);
-						node.angle2d = angle;
-					}
-				});
-			}
+			nodesAtDepth.forEach(node => {
+				const angle = node.angle2d || 0;
+				node.x2d = centerX + radius * Math.cos(angle);
+				node.y2d = centerY + radius * Math.sin(angle);
+			});
 		}
 	}
 
 	// 3D Renderer Class with human-readable layout
 	class Graph3DRenderer {
-		constructor (container) {
+		constructor (container, initialCameraState = null) {
 			this.container = container;
 			this.nodeMeshes = new Map();
 			this.linkLines = [];
@@ -1105,8 +1140,17 @@
 			this.mouse = { x: 0, y: 0 };
 			this.isDragging = false;
 			this.previousMousePosition = { x: 0, y: 0 };
-			this.cameraRotation = { x: 0, y: 0 };
-			this.zoom = 500;
+			// Restore saved camera state or use defaults
+			if (initialCameraState) {
+				this.cameraRotation = { ...initialCameraState.cameraRotation };
+				this.zoom = initialCameraState.zoom;
+				this.panOffset = { ...initialCameraState.panOffset };
+				debugLog('Restored 3D camera state: ' + JSON.stringify(initialCameraState), 'log');
+			} else {
+				this.cameraRotation = { x: 0, y: 0 };
+				this.zoom = 500;
+				this.panOffset = { x: 0, y: 0 };
+			}
 			this.depthRadii = null; // Will be initialized in renderGraph
 
 			this.init();
@@ -1132,12 +1176,13 @@
 			const height = this.container.clientHeight || 600;
 			console.log('[3D] Using size:', width, 'x', height);
 			this.camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 5000);
-			this.zoom = 600;
-			this.panOffset = { x: 0, y: 0 };
+			// Use existing zoom/panOffset if they were restored, otherwise set defaults
+			if (this.zoom === undefined) this.zoom = 600;
+			if (this.panOffset === undefined) this.panOffset = { x: 0, y: 0 };
 			this.isPanning = false;
 			this.draggedNode = null;
-			this.camera.position.set(0, 0, this.zoom);
-			this.camera.lookAt(0, 0, 0);
+			// Apply the camera position based on restored/default values
+			this.updateCameraPosition();
 
 			// Create renderer
 			try {
@@ -1586,8 +1631,8 @@
 				const siblingIndex = siblings.indexOf(node);
 				const siblingCount = siblings.length;
 				
-				// 30-degree cone spread
-				const maxAngle = Math.PI / 6;
+				// 15-degree cone spread (smaller angle = tighter grouping)
+				const maxAngle = Math.PI / 12;
 				
 				return placeInCone(node.parent, siblingIndex, siblingCount, radius, maxAngle);
 			}
