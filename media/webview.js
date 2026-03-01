@@ -1626,8 +1626,14 @@
 
 			/**
 			 * Calculate 3D position
+			 * Uses saved x3d/y3d/z3d if available, otherwise calculates
 			 */
 			function calculatePosition (node, depth, index, totalAtDepth) {
+				// Check if we have saved 3D coordinates - use them!
+				if (node.x3d !== undefined && node.y3d !== undefined && node.z3d !== undefined) {
+					return { x: node.x3d, y: node.y3d, z: node.z3d };
+				}
+				
 				const radius = depthRadii.get(depth) || (180 + (depth - 6) * 26);
 				
 				// ROOTS: distributed on sphere surface (not just a circle!)
