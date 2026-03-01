@@ -1,0 +1,348 @@
+/* Mnemonica Graphica - Webview Styles */
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: var(--vscode-font-family);
+	background: var(--vscode-editor-background);
+	color: var(--vscode-foreground);
+	overflow: hidden;
+	width: 100vw;
+	height: 100vh;
+}
+
+#graph {
+	width: 100%;
+	height: 100%;
+	perspective: 1000px;
+	transform-style: preserve-3d;
+}
+
+#graph svg {
+	transform-style: preserve-3d;
+	transition: transform 0.1s ease-out;
+}
+
+#graph.rotating {
+	cursor: move;
+}
+
+#rotation-hint {
+	position: absolute;
+	bottom: 30px;
+	left: 10px;
+	font-size: 10px;
+	color: var(--vscode-descriptionForeground);
+	opacity: 0.7;
+	z-index: 100;
+}
+
+.node circle {
+	cursor: pointer;
+	stroke: var(--vscode-editor-background);
+	stroke-width: 2px;
+	transition: all 0.2s ease;
+}
+
+.node circle:hover {
+	stroke: var(--vscode-focusBorder);
+	stroke-width: 3px;
+	filter: brightness(1.2);
+}
+
+.node.root circle {
+	stroke: #8B0000;
+	stroke-width: 6px;
+	stroke-dasharray: 4px 2px;
+}
+
+.node.root circle:hover {
+	stroke: #A52A2A;
+	stroke-width: 7px;
+}
+
+.node text {
+	font-size: 12px;
+	fill: var(--vscode-foreground);
+	pointer-events: none;
+	text-shadow: 0 0 3px var(--vscode-editor-background);
+}
+
+.link {
+	stroke: var(--vscode-foreground);
+	stroke-opacity: 0.8;
+	stroke-width: 2.5px;
+}
+
+.link:hover {
+	stroke: var(--vscode-focusBorder);
+	stroke-opacity: 1;
+	stroke-width: 3px;
+}
+
+#tooltip {
+	position: absolute;
+	padding: 10px;
+	background: var(--vscode-editorHoverWidget-background);
+	border: 1px solid var(--vscode-editorHoverWidget-border);
+	border-radius: 4px;
+	color: var(--vscode-editorHoverWidget-foreground);
+	font-size: 11px;
+	font-family: var(--vscode-editor-font-family);
+	pointer-events: none;
+	opacity: 0;
+	transition: opacity 0.2s;
+	max-width: 300px;
+	z-index: 1000;
+}
+
+#tooltip.visible {
+	opacity: 1;
+}
+
+#controls {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	display: flex;
+	gap: 5px;
+	z-index: 100;
+}
+
+#controls button {
+	padding: 6px 12px;
+	background: var(--vscode-button-background);
+	color: var(--vscode-button-foreground);
+	border: none;
+	border-radius: 3px;
+	cursor: pointer;
+	font-size: 11px;
+	font-family: var(--vscode-font-family);
+}
+
+#controls button:hover {
+	background: var(--vscode-button-hoverBackground);
+}
+
+#controls button.active {
+	background: var(--vscode-button-hoverBackground);
+	box-shadow: inset 0 0 0 1px var(--vscode-focusBorder);
+}
+
+/* Generation Distance Controls */
+#gen-controls {
+	position: absolute;
+	top: 50px;
+	right: 10px;
+	width: 220px;
+	background: var(--vscode-editorHoverWidget-background);
+	border: 1px solid var(--vscode-editorHoverWidget-border);
+	border-radius: 4px;
+	padding: 10px;
+	z-index: 100;
+	font-size: 11px;
+	max-height: 80vh;
+	overflow-y: auto;
+}
+
+.gen-controls-header {
+	font-weight: bold;
+	margin-bottom: 8px;
+	padding-bottom: 5px;
+	border-bottom: 1px solid var(--vscode-editorHoverWidget-border);
+	color: var(--vscode-foreground);
+}
+
+.gen-control-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin: 5px 0;
+	padding: 3px 0;
+}
+
+.gen-control-label {
+	flex: 1;
+	color: var(--vscode-foreground);
+}
+
+.gen-control-buttons {
+	display: flex;
+	gap: 3px;
+}
+
+.gen-control-btn {
+	padding: 2px 6px;
+	background: var(--vscode-button-background);
+	color: var(--vscode-button-foreground);
+	border: none;
+	border-radius: 2px;
+	cursor: pointer;
+	font-size: 10px;
+	min-width: 35px;
+}
+
+.gen-control-btn:hover {
+	background: var(--vscode-button-hoverBackground);
+}
+
+.gen-control-value {
+	min-width: 35px;
+	text-align: center;
+	color: var(--vscode-descriptionForeground);
+	font-family: var(--vscode-editor-font-family);
+}
+
+#status {
+	position: absolute;
+	bottom: 10px;
+	left: 10px;
+	font-size: 11px;
+	color: var(--vscode-descriptionForeground);
+	z-index: 100;
+}
+
+.loading {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	font-size: 14px;
+	color: var(--vscode-descriptionForeground);
+}
+
+/* 3D Canvas styles */
+#graph canvas {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+/* Debug Console Overlay */
+#debug-console {
+	position: absolute;
+	bottom: 40px;
+	right: 10px;
+	width: 400px;
+	max-height: 300px;
+	background: var(--vscode-editor-background);
+	border: 1px solid var(--vscode-panel-border);
+	border-radius: 4px;
+	font-family: var(--vscode-editor-font-family);
+	font-size: 11px;
+	z-index: 1000;
+	display: flex;
+	flex-direction: column;
+}
+
+#debug-console.collapsed {
+	height: 30px;
+	max-height: 30px;
+}
+
+#debug-header {
+	padding: 5px 10px;
+	background: var(--vscode-titleBar-activeBackground);
+	border-bottom: 1px solid var(--vscode-panel-border);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	cursor: pointer;
+}
+
+#debug-title {
+	font-weight: bold;
+	color: var(--vscode-titleBar-activeForeground);
+}
+
+#debug-actions {
+	display: flex;
+	gap: 5px;
+}
+
+.debug-btn {
+	padding: 2px 8px;
+	background: var(--vscode-button-background);
+	color: var(--vscode-button-foreground);
+	border: none;
+	border-radius: 2px;
+	cursor: pointer;
+	font-size: 10px;
+}
+
+.debug-btn:hover {
+	background: var(--vscode-button-hoverBackground);
+}
+
+#debug-content {
+	flex: 1;
+	overflow-y: auto;
+	padding: 5px;
+	max-height: 270px;
+}
+
+.debug-log {
+	padding: 2px 5px;
+	border-bottom: 1px solid var(--vscode-panel-border);
+	font-family: monospace;
+}
+
+.debug-log.error {
+	color: var(--vscode-errorForeground);
+	background: var(--vscode-errorBackground);
+}
+
+.debug-log.warn {
+	color: var(--vscode-editorWarning-foreground);
+}
+
+.debug-log.info {
+	color: var(--vscode-foreground);
+}
+
+.debug-timestamp {
+	color: var(--vscode-descriptionForeground);
+	margin-right: 5px;
+}
+
+/* Debug hint */
+#debug-hint {
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+	font-size: 10px;
+	color: var(--vscode-descriptionForeground);
+	opacity: 0.5;
+	z-index: 100;
+}
+
+#debug-hint:hover {
+	opacity: 1;
+}
+
+/* Debug toolbar */
+#debug-toolbar {
+	padding: 5px 10px;
+	border-top: 1px solid var(--vscode-panel-border);
+	display: flex;
+	gap: 5px;
+	background: var(--vscode-titleBar-activeBackground);
+}
+
+#debug-toolbar button {
+	padding: 2px 8px;
+	background: var(--vscode-button-background);
+	color: var(--vscode-button-foreground);
+	border: none;
+	border-radius: 2px;
+	cursor: pointer;
+	font-size: 10px;
+}
+
+#debug-toolbar button:hover {
+	background: var(--vscode-button-hoverBackground);
+}
