@@ -233,6 +233,38 @@
 	}
 
 	function toggle3DMode () {
+		// Determine what mode we're LEAVING (before flipping is3D)
+		const was3D = is3D;
+
+		// Save state of the mode we're leaving
+		if (currentData) {
+			if (was3D) {
+				// Leaving 3D mode - save 3D coordinates
+				currentData.nodes.forEach(function (node) {
+					if (node.x !== undefined) node.x3d = node.x;
+					if (node.y !== undefined) node.y3d = node.y;
+					if (node.z !== undefined) node.z3d = node.z;
+				});
+				// Save 3D camera state
+				if (renderer3D) {
+					debugLog('Saving 3D camera state before switch...', 'log');
+					saved3DCameraState = {
+						cameraRotation: { ...renderer3D.cameraRotation },
+						zoom: renderer3D.zoom,
+						panOffset: { ...renderer3D.panOffset }
+					};
+					debugLog('Saved: ' + JSON.stringify(saved3DCameraState), 'log');
+				}
+			} else {
+				// Leaving 2D mode - save 2D coordinates
+				currentData.nodes.forEach(function (node) {
+					if (node.x !== undefined) node.x2d = node.x;
+					if (node.y !== undefined) node.y2d = node.y;
+				});
+			}
+		}
+
+		// NOW flip the mode
 		is3D = !is3D;
 		const btn = document.getElementById('toggle-3d');
 		btn.textContent = is3D ? '3D' : '2D';
@@ -245,33 +277,6 @@
 		const genControls = document.getElementById('gen-controls');
 		if (genControls) {
 			genControls.style.display = is3D ? 'block' : 'none';
-		}
-
-		// Save current coordinates before switching
-		if (currentData) {
-			if (!is3D) {
-				// Switching to 2D - save 3D coordinates
-				currentData.nodes.forEach(function (node) {
-					if (node.x !== undefined) node.x3d = node.x;
-					if (node.y !== undefined) node.y3d = node.y;
-					if (node.z !== undefined) node.z3d = node.z;
-				});
-				// Save 3D camera state
-				if (renderer3D) {
-					saved3DCameraState = {
-						cameraRotation: { ...renderer3D.cameraRotation },
-						zoom: renderer3D.zoom,
-						panOffset: { ...renderer3D.panOffset }
-					};
-					debugLog('Saved 3D camera state: ' + JSON.stringify(saved3DCameraState), 'log');
-				}
-			} else {
-				// Switching to 3D - save 2D coordinates
-				currentData.nodes.forEach(function (node) {
-					if (node.x !== undefined) node.x2d = node.x;
-					if (node.y !== undefined) node.y2d = node.y;
-				});
-			}
 		}
 
 		const container = document.getElementById('graph');
@@ -871,6 +876,10 @@
 
 	function render3DGraph (data, initialCameraState = null) {
 		console.log('[Mnemonica] Rendering 3D graph with', data.nodes.length, 'nodes and', data.links.length, 'links');
+		debugLog('render3DGraph called with initialCameraState: ' + (initialCameraState ? 'YES' : 'NO'), 'log');
+		if (initialCameraState) {
+			debugLog('Camera state: ' + JSON.stringify(initialCameraState), 'log');
+		}
 
 		// Show generation controls
 		const genControls = document.getElementById('gen-controls');
@@ -1142,11 +1151,15 @@
 			this.previousMousePosition = { x: 0, y: 0 };
 			// Restore saved camera state or use defaults
 			if (initialCameraState) {
+				debugLog('Restoring camera state: ' + JSON.stringify(initialCameraState), 'log');
 				this.cameraRotation = { ...initialCameraState.cameraRotation };
 				this.zoom = initialCameraState.zoom;
 				this.panOffset = { ...initialCameraState.panOffset };
-				debugLog('Restored 3D camera state: ' + JSON.stringify(initialCameraState), 'log');
+				debugLog('Restored cameraRotation: ' + JSON.stringify(this.cameraRotation), 'log');
+				debugLog('Restored zoom: ' + this.zoom, 'log');
+				debugLog('Restored panOffset: ' + JSON.stringify(this.panOffset), 'log');
 			} else {
+				debugLog('No saved camera state, using defaults', 'log');
 				this.cameraRotation = { x: 0, y: 0 };
 				this.zoom = 500;
 				this.panOffset = { x: 0, y: 0 };
