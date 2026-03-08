@@ -6,6 +6,23 @@ Guidance for AI agents working on the Mnemonica Graphica VS Code extension.
 
 Mnemonica Graphica is a VS Code extension that visualizes mnemonica type hierarchies using interactive graphs. It parses `.tactica/types.ts` files to build a visual representation of the instance inheritance trie.
 
+### Purpose
+
+Mnemonica Graphica provides:
+- **Bird's eye view** of the entire type hierarchy
+- **Visual IDE/navigation** - click a node to jump to definition
+- **2D and 3D visualizations** of the inheritance graph
+- **Instance tracking** - shows both type definitions and instance creations
+
+This helps developers understand and navigate complex inheritance structures that Mnemonica enables.
+
+### AI Integration
+
+The visualization helps AI agents:
+- Understand the project's type structure at a glance
+- Navigate between related types efficiently
+- Comprehend the inheritance graph for better code generation
+
 ## Architecture
 
 ### Core Components
