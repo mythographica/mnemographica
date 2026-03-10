@@ -38,6 +38,12 @@
 				"title": "Refresh Type Graph",
 				"category": "Mnemonica",
 				"icon": "$(refresh)"
+			},
+			{
+				"command": "mnemonographica.refreshTree",
+				"title": "Refresh Tree View",
+				"category": "Mnemonica",
+				"icon": "$(refresh)"
 			}
 		],
 		"menus": {
@@ -74,6 +80,15 @@
 					"command": "mnemographica.showTypeGraph",
 					"when": "resourceExtname == .ts",
 					"group": "mnemonica@1"
+				}
+			]
+		},
+		"views": {
+			"explorer": [
+				{
+					"id": "mnemonicaTypes",
+					"name": "Mnemonica Types",
+					"when": "workspaceHasMnemonicaTypes"
 				}
 			]
 		},

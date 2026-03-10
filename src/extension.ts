@@ -2,9 +2,11 @@ import * as vscode from 'vscode';
 import { GraphPanel } from './webview/panel';
 import { GraphProvider } from './graph/provider';
 import { MnemonicaActivityBarProvider } from './activityBar';
+import { MnemonicaTreeProvider } from './views/treeProvider';
 import { GraphData } from './types';
 
 let graphProvider: GraphProvider;
+let treeProvider: MnemonicaTreeProvider;
 let statusBarItem: vscode.StatusBarItem;
 
 export function activate (context: vscode.ExtensionContext) {
@@ -12,6 +14,18 @@ export function activate (context: vscode.ExtensionContext) {
 
 	// Initialize graph provider
 	graphProvider = new GraphProvider();
+
+	// Initialize and register tree provider
+	treeProvider = new MnemonicaTreeProvider();
+	context.subscriptions.push(
+		vscode.window.registerTreeDataProvider('mnemonicaTypes', treeProvider)
+	);
+
+	// Load definitions from workspace if available
+	const workspaceFolders = vscode.workspace.workspaceFolders;
+	if (workspaceFolders) {
+		treeProvider.loadDefinitions(workspaceFolders[0].uri.fsPath);
+	}
 
 	// Register Activity Bar webview provider
 	const activityBarProvider = new MnemonicaActivityBarProvider(context.extensionUri);
@@ -106,10 +120,8 @@ async function showTypeGraph (context: vscode.ExtensionContext) {
 		// Show the graph panel
 		GraphPanel.createOrShow(context.extensionUri, graphData);
 
-		// Also update the tree view
-		// Convert D3 nodes back to TypeNode format for tree view
-		// For now, we'll need to get the raw TypeNodes from the provider
-		// This is a simplified approach - ideally the provider would expose the raw TypeNode[]
+		// Also update the tree view with workspace definitions
+		treeProvider.loadDefinitions(workspaceFolders[0].uri.fsPath);
 	} catch (error) {
 		const message = error instanceof Error ? error.message : 'Unknown error';
 		vscode.window.showErrorMessage(`Failed to load type graph: ${message}`);
