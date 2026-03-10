@@ -1,0 +1,214 @@
+{
+  "version": "1.0",
+  "generatedAt": "2026-03-10T11:55:09.977Z",
+  "definitions": {
+    "Definition": {
+      "name": "Definition",
+      "location": "/code/mnemonica/mnemographica/src/models/Definition.ts:5:27",
+      "kind": "define",
+      "parent": null,
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Definition.Link": {
+      "name": "Link",
+      "location": "/code/mnemonica/mnemographica/src/models/Definition.ts:15:21",
+      "kind": "define",
+      "parent": "Definition",
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "LoggerTab": {
+      "name": "LoggerTab",
+      "location": "/code/mnemonica/mnemographica/src/models/LoggerTab.ts:5:26",
+      "kind": "define",
+      "parent": null,
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "LoggerTab.LogEntry": {
+      "name": "LogEntry",
+      "location": "/code/mnemonica/mnemographica/src/models/LoggerTab.ts:9:25",
+      "kind": "define",
+      "parent": "LoggerTab",
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Main": {
+      "name": "Main",
+      "location": "/code/mnemonica/mnemographica/src/models/Main.ts:5:21",
+      "kind": "define",
+      "parent": null,
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Main.Adapter": {
+      "name": "Adapter",
+      "location": "/code/mnemonica/mnemographica/src/models/Main.ts:13:24",
+      "kind": "define",
+      "parent": "Main",
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Registry": {
+      "name": "Registry",
+      "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:5:25",
+      "kind": "define",
+      "parent": null,
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Registry.DefinitionEntry": {
+      "name": "DefinitionEntry",
+      "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:9:32",
+      "kind": "define",
+      "parent": "Registry",
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Scene2D": {
+      "name": "Scene2D",
+      "location": "/code/mnemonica/mnemographica/src/models/Scene2D.ts:5:24",
+      "kind": "define",
+      "parent": null,
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Scene2D.Camera2D": {
+      "name": "Camera2D",
+      "location": "/code/mnemonica/mnemographica/src/models/Scene2D.ts:9:25",
+      "kind": "define",
+      "parent": "Scene2D",
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Scene2D.GraphNode2D": {
+      "name": "GraphNode2D",
+      "location": "/code/mnemonica/mnemographica/src/models/Scene2D.ts:18:28",
+      "kind": "define",
+      "parent": "Scene2D",
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Scene2D.GraphNode2D.Link2D": {
+      "name": "Link2D",
+      "location": "/code/mnemonica/mnemographica/src/models/Scene2D.ts:30:23",
+      "kind": "define",
+      "parent": "Scene2D.GraphNode2D",
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Scene2D.GraphNode2D.Tooltip2D": {
+      "name": "Tooltip2D",
+      "location": "/code/mnemonica/mnemographica/src/models/Scene2D.ts:39:26",
+      "kind": "define",
+      "parent": "Scene2D.GraphNode2D",
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Scene3D": {
+      "name": "Scene3D",
+      "location": "/code/mnemonica/mnemographica/src/models/Scene3D.ts:5:24",
+      "kind": "define",
+      "parent": null,
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Scene3D.Camera3D": {
+      "name": "Camera3D",
+      "location": "/code/mnemonica/mnemographica/src/models/Scene3D.ts:9:25",
+      "kind": "define",
+      "parent": "Scene3D",
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Scene3D.GraphNode3D": {
+      "name": "GraphNode3D",
+      "location": "/code/mnemonica/mnemographica/src/models/Scene3D.ts:21:28",
+      "kind": "define",
+      "parent": "Scene3D",
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Scene3D.GraphNode3D.Link3D": {
+      "name": "Link3D",
+      "location": "/code/mnemonica/mnemographica/src/models/Scene3D.ts:34:23",
+      "kind": "define",
+      "parent": "Scene3D.GraphNode3D",
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Scene3D.GraphNode3D.Tooltip3D": {
+      "name": "Tooltip3D",
+      "location": "/code/mnemonica/mnemographica/src/models/Scene3D.ts:43:26",
+      "kind": "define",
+      "parent": "Scene3D.GraphNode3D",
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Trie": {
+      "name": "Trie",
+      "location": "/code/mnemonica/mnemographica/src/models/Trie.ts:5:21",
+      "kind": "define",
+      "parent": null,
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Trie.GraphNodeTrie": {
+      "name": "GraphNodeTrie",
+      "location": "/code/mnemonica/mnemographica/src/models/Trie.ts:9:30",
+      "kind": "define",
+      "parent": "Trie",
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Trie.GraphNodeTrie.LinkTrie": {
+      "name": "LinkTrie",
+      "location": "/code/mnemonica/mnemographica/src/models/Trie.ts:20:25",
+      "kind": "define",
+      "parent": "Trie.GraphNodeTrie",
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Trie.GraphNodeTrie.ContextMenu": {
+      "name": "ContextMenu",
+      "location": "/code/mnemonica/mnemographica/src/models/Trie.ts:29:28",
+      "kind": "define",
+      "parent": "Trie.GraphNodeTrie",
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Types": {
+      "name": "Types",
+      "location": "/code/mnemonica/mnemographica/src/models/Types.ts:5:22",
+      "kind": "define",
+      "parent": null,
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Types.TypeEntry": {
+      "name": "TypeEntry",
+      "location": "/code/mnemonica/mnemographica/src/models/Types.ts:9:26",
+      "kind": "define",
+      "parent": "Types",
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Usages": {
+      "name": "Usages",
+      "location": "/code/mnemonica/mnemographica/src/models/Usages.ts:5:23",
+      "kind": "define",
+      "parent": null,
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Usages.UsageEntry": {
+      "name": "UsageEntry",
+      "location": "/code/mnemonica/mnemographica/src/models/Usages.ts:9:27",
+      "kind": "define",
+      "parent": "Usages",
+      "strictChain": true,
+      "blockErrors": false
+    }
+  }
+}

@@ -1,0 +1,577 @@
+{
+  "version": "1.0",
+  "generatedAt": "2026-03-10T11:55:09.979Z",
+  "usages": {
+    "vscode.WebviewViewProvider": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/activityBar.ts:3:54",
+        "kind": "propertyAccess",
+        "code": "vscode.WebviewViewProvider"
+      }
+    ],
+    "vscode.ViewColumn.One": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:25:14",
+        "kind": "propertyAccess",
+        "code": "vscode.ViewColumn.One"
+      }
+    ],
+    "vscode.ViewColumn": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:25:14",
+        "kind": "propertyAccess",
+        "code": "vscode.ViewColumn"
+      }
+    ],
+    "vscode.Uri": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:30:6",
+        "kind": "propertyAccess",
+        "code": "vscode.Uri"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:115:4",
+        "kind": "propertyAccess",
+        "code": "vscode.Uri"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:118:4",
+        "kind": "propertyAccess",
+        "code": "vscode.Uri"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/treeProvider.ts:56:5",
+        "kind": "propertyAccess",
+        "code": "vscode.Uri"
+      }
+    ],
+    "GraphPanel": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:35:29",
+        "kind": "instantiation",
+        "code": "new GraphPanel(panel, extensionUri, graphData)"
+      }
+    ],
+    "vscode.Position": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:101:21",
+        "kind": "instantiation",
+        "code": "new vscode.Position(location.line - 1, location.column - 1)"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:101:25",
+        "kind": "propertyAccess",
+        "code": "vscode.Position"
+      }
+    ],
+    "vscode.Selection": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:102:23",
+        "kind": "instantiation",
+        "code": "new vscode.Selection(position, position)"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:102:27",
+        "kind": "propertyAccess",
+        "code": "vscode.Selection"
+      }
+    ],
+    "vscode.Range": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:103:23",
+        "kind": "instantiation",
+        "code": "new vscode.Range(position, position)"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:103:27",
+        "kind": "propertyAccess",
+        "code": "vscode.Range"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/treeProvider.ts:57:18",
+        "kind": "instantiation",
+        "code": "new vscode.Range(node.line - 1, node.column, node.line - 1, node.column)"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/treeProvider.ts:57:22",
+        "kind": "propertyAccess",
+        "code": "vscode.Range"
+      }
+    ],
+    "Map": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/graph/tactica.ts:9:43",
+        "kind": "instantiation",
+        "code": "new Map()"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/graph/tactica.ts:51:20",
+        "kind": "instantiation",
+        "code": "new Map<string, {\n\t\t\tname: string;\n\t\t\tparentName?: string;\n\t\t\tproperties: Map<string, PropertyInfo>;"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/graph/tactica.ts:154:19",
+        "kind": "instantiation",
+        "code": "new Map<string, TypeNode>()"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/graph/tactica.ts:163:15",
+        "kind": "instantiation",
+        "code": "new Map()"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/graph/tactica.ts:195:22",
+        "kind": "instantiation",
+        "code": "new Map<string, PropertyInfo>()"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/graph/tactica.ts:301:17",
+        "kind": "instantiation",
+        "code": "new Map<string, PropertyInfo>()"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/graph/tactica.ts:302:15",
+        "kind": "instantiation",
+        "code": "new Map<string, TypeNode>()"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/graph/converter.ts:93:28",
+        "kind": "instantiation",
+        "code": "new Map<number, number>()"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:14:48",
+        "kind": "instantiation",
+        "code": "new Map()"
+      }
+    ],
+    "Set": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/graph/converter.ts:14:19",
+        "kind": "instantiation",
+        "code": "new Set<string>()"
+      }
+    ],
+    "TacticaAdapter": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/graph/provider.ts:14:25",
+        "kind": "instantiation",
+        "code": "new TacticaAdapter()"
+      }
+    ],
+    "GraphProvider": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:14:18",
+        "kind": "instantiation",
+        "code": "new GraphProvider()"
+      }
+    ],
+    "MnemonicaActivityBarProvider": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:17:30",
+        "kind": "instantiation",
+        "code": "new MnemonicaActivityBarProvider(context.extensionUri)"
+      }
+    ],
+    "vscode.StatusBarAlignment.Right": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:24:3",
+        "kind": "propertyAccess",
+        "code": "vscode.StatusBarAlignment.Right"
+      }
+    ],
+    "vscode.StatusBarAlignment": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:24:3",
+        "kind": "propertyAccess",
+        "code": "vscode.StatusBarAlignment"
+      }
+    ],
+    "vscode.ProgressLocation.Notification": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:81:15",
+        "kind": "propertyAccess",
+        "code": "vscode.ProgressLocation.Notification"
+      }
+    ],
+    "vscode.ProgressLocation": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:81:15",
+        "kind": "propertyAccess",
+        "code": "vscode.ProgressLocation"
+      }
+    ],
+    "vscode.TreeDataProvider": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/treeProvider.ts:4:47",
+        "kind": "propertyAccess",
+        "code": "vscode.TreeDataProvider"
+      }
+    ],
+    "vscode.EventEmitter": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/treeProvider.ts:5:99",
+        "kind": "instantiation",
+        "code": "new vscode.EventEmitter<MnemonicaTreeItem | undefined | null | void>()"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/treeProvider.ts:5:103",
+        "kind": "propertyAccess",
+        "code": "vscode.EventEmitter"
+      }
+    ],
+    "MnemonicaTreeItem": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/treeProvider.ts:24:18",
+        "kind": "instantiation",
+        "code": "new MnemonicaTreeItem(node)"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/treeProvider.ts:29:32",
+        "kind": "instantiation",
+        "code": "new MnemonicaTreeItem(child)"
+      }
+    ],
+    "vscode.TreeItem": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/treeProvider.ts:33:33",
+        "kind": "propertyAccess",
+        "code": "vscode.TreeItem"
+      }
+    ],
+    "vscode.TreeItemCollapsibleState.Collapsed": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/treeProvider.ts:37:29",
+        "kind": "propertyAccess",
+        "code": "vscode.TreeItemCollapsibleState.Collapsed"
+      }
+    ],
+    "vscode.TreeItemCollapsibleState": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/treeProvider.ts:37:29",
+        "kind": "propertyAccess",
+        "code": "vscode.TreeItemCollapsibleState"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/treeProvider.ts:37:73",
+        "kind": "propertyAccess",
+        "code": "vscode.TreeItemCollapsibleState"
+      }
+    ],
+    "vscode.TreeItemCollapsibleState.None": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/treeProvider.ts:37:73",
+        "kind": "propertyAccess",
+        "code": "vscode.TreeItemCollapsibleState.None"
+      }
+    ],
+    "vscode.ThemeIcon": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/treeProvider.ts:46:20",
+        "kind": "instantiation",
+        "code": "new vscode.ThemeIcon('symbol-class', new vscode.ThemeColor('symbolIcon.classForeground'))"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/treeProvider.ts:46:24",
+        "kind": "propertyAccess",
+        "code": "vscode.ThemeIcon"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/treeProvider.ts:48:20",
+        "kind": "instantiation",
+        "code": "new vscode.ThemeIcon('symbol-interface', new vscode.ThemeColor('symbolIcon.interfaceForeground'))"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/treeProvider.ts:48:24",
+        "kind": "propertyAccess",
+        "code": "vscode.ThemeIcon"
+      }
+    ],
+    "vscode.ThemeColor": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/treeProvider.ts:46:57",
+        "kind": "instantiation",
+        "code": "new vscode.ThemeColor('symbolIcon.classForeground')"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/treeProvider.ts:46:61",
+        "kind": "propertyAccess",
+        "code": "vscode.ThemeColor"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/treeProvider.ts:48:61",
+        "kind": "instantiation",
+        "code": "new vscode.ThemeColor('symbolIcon.interfaceForeground')"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/treeProvider.ts:48:65",
+        "kind": "propertyAccess",
+        "code": "vscode.ThemeColor"
+      }
+    ],
+    "THREE.Scene": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:26:16",
+        "kind": "instantiation",
+        "code": "new THREE.Scene()"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:26:20",
+        "kind": "propertyAccess",
+        "code": "THREE.Scene"
+      }
+    ],
+    "THREE.Color": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:27:27",
+        "kind": "instantiation",
+        "code": "new THREE.Color(0x1e1e1e)"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:27:31",
+        "kind": "propertyAccess",
+        "code": "THREE.Color"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:100:25",
+        "kind": "instantiation",
+        "code": "new THREE.Color(0x8B0000)"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:100:29",
+        "kind": "propertyAccess",
+        "code": "THREE.Color"
+      }
+    ],
+    "THREE.PerspectiveCamera": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:32:17",
+        "kind": "instantiation",
+        "code": "new THREE.PerspectiveCamera(\n\t\t\t75,\n\t\t\twidth / height,\n\t\t\t0.1,\n\t\t\t2000\n\t\t)"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:32:21",
+        "kind": "propertyAccess",
+        "code": "THREE.PerspectiveCamera"
+      }
+    ],
+    "THREE.WebGLRenderer": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:41:19",
+        "kind": "instantiation",
+        "code": "new THREE.WebGLRenderer({ antialias: true })"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:41:23",
+        "kind": "propertyAccess",
+        "code": "THREE.WebGLRenderer"
+      }
+    ],
+    "OrbitControls": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:47:19",
+        "kind": "instantiation",
+        "code": "new OrbitControls(this.camera, this.renderer.domElement)"
+      }
+    ],
+    "THREE.Raycaster": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:54:20",
+        "kind": "instantiation",
+        "code": "new THREE.Raycaster()"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:54:24",
+        "kind": "propertyAccess",
+        "code": "THREE.Raycaster"
+      }
+    ],
+    "THREE.Vector2": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:55:16",
+        "kind": "instantiation",
+        "code": "new THREE.Vector2()"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:55:20",
+        "kind": "propertyAccess",
+        "code": "THREE.Vector2"
+      }
+    ],
+    "THREE.AmbientLight": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:58:24",
+        "kind": "instantiation",
+        "code": "new THREE.AmbientLight(0x404040, 2)"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:58:28",
+        "kind": "propertyAccess",
+        "code": "THREE.AmbientLight"
+      }
+    ],
+    "THREE.DirectionalLight": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:61:28",
+        "kind": "instantiation",
+        "code": "new THREE.DirectionalLight(0xffffff, 1)"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:61:32",
+        "kind": "propertyAccess",
+        "code": "THREE.DirectionalLight"
+      }
+    ],
+    "THREE.PointLight": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:65:22",
+        "kind": "instantiation",
+        "code": "new THREE.PointLight(0xffffff, 0.5)"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:65:26",
+        "kind": "propertyAccess",
+        "code": "THREE.PointLight"
+      }
+    ],
+    "THREE.Fog": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:70:20",
+        "kind": "instantiation",
+        "code": "new THREE.Fog(0x1e1e1e, 200, 1000)"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:70:24",
+        "kind": "propertyAccess",
+        "code": "THREE.Fog"
+      }
+    ],
+    "THREE.SphereGeometry": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:88:26",
+        "kind": "instantiation",
+        "code": "new THREE.SphereGeometry(8, 32, 32)"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:88:30",
+        "kind": "propertyAccess",
+        "code": "THREE.SphereGeometry"
+      }
+    ],
+    "THREE.MeshPhongMaterial": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:92:21",
+        "kind": "instantiation",
+        "code": "new THREE.MeshPhongMaterial({\n\t\t\t\tcolor: color,\n\t\t\t\tshininess: 100,\n\t\t\t\tspecular: 0x111111\n\t\t\t})"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:92:25",
+        "kind": "propertyAccess",
+        "code": "THREE.MeshPhongMaterial"
+      }
+    ],
+    "THREE.Mesh": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:104:19",
+        "kind": "instantiation",
+        "code": "new THREE.Mesh(sphereGeometry, material)"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:104:23",
+        "kind": "propertyAccess",
+        "code": "THREE.Mesh"
+      }
+    ],
+    "THREE.LineBasicMaterial": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:116:24",
+        "kind": "instantiation",
+        "code": "new THREE.LineBasicMaterial({\n\t\t\tcolor: 0x888888,\n\t\t\ttransparent: true,\n\t\t\topacity: 0.6\n\t\t})"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:116:28",
+        "kind": "propertyAccess",
+        "code": "THREE.LineBasicMaterial"
+      }
+    ],
+    "THREE.BufferGeometry": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:123:21",
+        "kind": "instantiation",
+        "code": "new THREE.BufferGeometry()"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:123:25",
+        "kind": "propertyAccess",
+        "code": "THREE.BufferGeometry"
+      }
+    ],
+    "Float32Array": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:124:22",
+        "kind": "instantiation",
+        "code": "new Float32Array([\n\t\t\t\t0, 0, 0,\n\t\t\t\t0, 0, 0\n\t\t\t])"
+      }
+    ],
+    "THREE.BufferAttribute": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:128:38",
+        "kind": "instantiation",
+        "code": "new THREE.BufferAttribute(positions, 3)"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:128:42",
+        "kind": "propertyAccess",
+        "code": "THREE.BufferAttribute"
+      }
+    ],
+    "THREE.Line": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:129:17",
+        "kind": "instantiation",
+        "code": "new THREE.Line(geometry, lineMaterial)"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:129:21",
+        "kind": "propertyAccess",
+        "code": "THREE.Line"
+      }
+    ],
+    "THREE.CanvasTexture": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:159:19",
+        "kind": "instantiation",
+        "code": "new THREE.CanvasTexture(canvas)"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:159:23",
+        "kind": "propertyAccess",
+        "code": "THREE.CanvasTexture"
+      }
+    ],
+    "THREE.SpriteMaterial": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:160:26",
+        "kind": "instantiation",
+        "code": "new THREE.SpriteMaterial({ map: texture })"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:160:30",
+        "kind": "propertyAccess",
+        "code": "THREE.SpriteMaterial"
+      }
+    ],
+    "THREE.Sprite": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:161:18",
+        "kind": "instantiation",
+        "code": "new THREE.Sprite(spriteMaterial)"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:161:22",
+        "kind": "propertyAccess",
+        "code": "THREE.Sprite"
+      }
+    ]
+  }
+}
