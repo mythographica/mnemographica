@@ -3,6 +3,7 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
+import { getLogger } from '../services/LoggerService';
 
 type TreeNodeType = 'root' | 'type' | 'subtype' | 'definition';
 
@@ -89,6 +90,7 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 	private definitions: Map<string, DefinitionData> = new Map();
 	private types: Map<string, TypeData> = new Map();
 	private debug = true; // Enable debug logging
+	private logger = getLogger();
 
 	refresh (): void {
 		this._onDidChangeTreeData.fire();
@@ -133,8 +135,8 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 			}
 
 			if (this.debug) {
-				console.log(`[MnemonicaTree] Loaded ${this.definitions.size} definitions`);
-				console.log(`[MnemonicaTree] Definitions: ${Array.from(this.definitions.keys()).join(', ')}`);
+				this.logger.info(`[MnemonicaTree] Loaded ${this.definitions.size} definitions`);
+				this.logger.info(`[MnemonicaTree] Definitions: ${Array.from(this.definitions.keys()).join(', ')}`);
 			}
 		}
 
@@ -153,7 +155,7 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 			}
 
 			if (this.debug) {
-				console.log(`[MnemonicaTree] Loaded ${this.types.size} types`);
+				this.logger.info(`[MnemonicaTree] Loaded ${this.types.size} types`);
 			}
 		}
 
@@ -177,7 +179,7 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 		if (element.data.label === 'Definitions') {
 			const roots = this.getRootDefinitions();
 			if (this.debug) {
-				console.log(`[MnemonicaTree] Root definitions: ${roots.map(r => r.name).join(', ')}`);
+				this.logger.info(`[MnemonicaTree] Root definitions: ${roots.map(r => r.name).join(', ')}`);
 			}
 			return roots.map(def => this.createDefinitionItem(def));
 		}
@@ -194,8 +196,8 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 			const defChildren = this.getChildDefinitions(lookupName);
 
 			if (this.debug) {
-				console.log(`[MnemonicaTree] getChildren for definition "${lookupName}": found ${defChildren.length} children`);
-				console.log(`[MnemonicaTree]   Children: ${defChildren.map(c => c.name).join(', ')}`);
+				this.logger.info(`[MnemonicaTree] getChildren for definition "${lookupName}": found ${defChildren.length} children`);
+				this.logger.info(`[MnemonicaTree]   Children: ${defChildren.map(c => c.name).join(', ')}`);
 			}
 
 			if (defChildren.length > 0) {
@@ -260,7 +262,7 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 		const hasChildren = this.getChildDefinitions(def.fullName).length > 0;
 
 		if (this.debug) {
-			console.log(`[MnemonicaTree] createDefinitionItem: ${def.name} (short: ${shortName}), fullName: ${def.fullName}, hasChildren: ${hasChildren}`);
+			this.logger.info(`[MnemonicaTree] createDefinitionItem: ${def.name} (short: ${shortName}), fullName: ${def.fullName}, hasChildren: ${hasChildren}`);
 		}
 
 		return new MnemonicaTreeItem(

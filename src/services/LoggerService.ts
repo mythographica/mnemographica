@@ -16,9 +16,6 @@ export class LoggerService {
 		this.outputChannel = null as unknown as vscode.OutputChannel;
 	}
 
-	/**
-	 * Get singleton instance
-	 */
 	static getInstance (): LoggerService {
 		if (!LoggerService.instance) {
 			LoggerService.instance = new LoggerService();
@@ -128,13 +125,15 @@ export class LoggerService {
 			formattedMessage = this.formatMessage(message, args);
 		}
 
-		// Also log to console for development
-		// eslint-disable-next-line no-console
-		console.log(`${prefix} ${formattedMessage}`);
+		const logline = `${prefix} ${formattedMessage}`;
 
-		// Write to output channel if initialized
+		// Write to output channel if initialized, otherwise log to console
 		if (this.isInitialized && this.outputChannel) {
-			this.outputChannel.appendLine(`${prefix} ${formattedMessage}`);
+			this.outputChannel.appendLine(logline);
+		} else {
+			// Fallback to console when output channel not ready
+			// eslint-disable-next-line no-console
+			console.log(logline);
 		}
 	}
 

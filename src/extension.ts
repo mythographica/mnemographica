@@ -13,7 +13,6 @@ export function activate (context: vscode.ExtensionContext) {
 	// Initialize logger first so we can capture all subsequent logs
 	const logger = getLogger();
 	logger.initialize(context);
-	logger.show();
 
 	logger.info('Mnemonica Graphica extension activated');
 

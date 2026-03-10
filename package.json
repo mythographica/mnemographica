@@ -31,7 +31,7 @@
 				"command": "mnemographica.showTypeGraph",
 				"title": "Show Type Graph",
 				"category": "Mnemonica",
-				"icon": "$(git-branch)"
+				"icon": "media/psi-icon.svg"
 			},
 			{
 				"command": "mnemographica.refreshGraph",
@@ -100,7 +100,7 @@
 				{
 					"id": "mnemonica",
 					"title": "Mnemonica",
-					"icon": "media/icon.svg"
+					"icon": "media/psi-icon.svg"
 				}
 			]
 		},

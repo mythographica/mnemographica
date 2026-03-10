@@ -5,113 +5,24 @@
 (function () {
 	'use strict';
 
-	// ===== Debug Console Overlay =====
-	const debugLogs = [];
-	let debugConsoleEnabled = false;
+	// Placeholder for vscode reference (set after acquireVsCodeApi)
+	let vscodeRef = null;
 
-	function initDebugConsole () {
-		const consoleDiv = document.createElement('div');
-		consoleDiv.id = 'debug-console';
-		consoleDiv.innerHTML = `
-			<div id="debug-header">
-				<span>Debug Console</span>
-				<button id="debug-clear">Clear</button>
-				<button id="debug-close">×</button>
-			</div>
-			<div id="debug-content"></div>
-			<div id="debug-toolbar">
-				<button id="debug-test-toggle">Auto-toggle 10×</button>
-				<button id="debug-test-nodes">Log Nodes</button>
-				<button id="debug-test-state">Log State</button>
-			</div>
-		`;
-		document.body.appendChild(consoleDiv);
+	// Send log message to extension's LoggerService
+	function debugLog (message, type) {
+		if (vscodeRef) {
 
-		// Make draggable
-		let isDragging = false;
-		let dragOffset = { x: 0, y: 0 };
-		const header = document.getElementById('debug-header');
-
-		header.addEventListener('mousedown', (e) => {
-			isDragging = true;
-			dragOffset.x = e.clientX - consoleDiv.offsetLeft;
-			dragOffset.y = e.clientY - consoleDiv.offsetTop;
-		});
-
-		document.addEventListener('mousemove', (e) => {
-			if (!isDragging) return;
-			consoleDiv.style.left = (e.clientX - dragOffset.x) + 'px';
-			consoleDiv.style.top = (e.clientY - dragOffset.y) + 'px';
-		});
-
-		document.addEventListener('mouseup', () => {
-			isDragging = false;
-		});
-
-		// Button handlers
-		document.getElementById('debug-clear').addEventListener('click', () => {
-			debugLogs.length = 0;
-			updateDebugDisplay();
-		});
-
-		document.getElementById('debug-close').addEventListener('click', () => {
-			consoleDiv.style.display = 'none';
-			debugConsoleEnabled = false;
-		});
-
-		document.getElementById('debug-test-toggle').addEventListener('click', runAutoToggleTest);
-		document.getElementById('debug-test-nodes').addEventListener('click', logNodeInfo);
-		document.getElementById('debug-test-state').addEventListener('click', logStateInfo);
-
-		debugConsoleEnabled = true;
-		debugLog('Debug console initialized', 'info');
+			try {
+				vscodeRef.postMessage({
+					command: 'log',
+					data: { message: String(message), type: type }
+				});
+			} catch (error) {
+				console.log(type, message);
+				console.error(error);
+			}
+		}
 	}
-
-	function debugLog (message, type = 'log') {
-		const entry = {
-			time: new Date().toLocaleTimeString(),
-			message: String(message),
-			type: type
-		};
-		debugLogs.push(entry);
-		if (debugLogs.length > 100) debugLogs.shift();
-		updateDebugDisplay();
-	}
-
-	function updateDebugDisplay () {
-		const content = document.getElementById('debug-content');
-		if (!content) return;
-		content.innerHTML = debugLogs.map(log =>
-			`<div class="debug-log debug-${log.type}">[${log.time}] ${escapeHtml(log.message)}</div>`
-		).join('');
-		content.scrollTop = content.scrollHeight;
-	}
-
-	function escapeHtml (text) {
-		const div = document.createElement('div');
-		div.textContent = text;
-		return div.innerHTML;
-	}
-
-	// Override console methods
-	const originalLog = console.log;
-	const originalWarn = console.warn;
-	const originalError = console.error;
-
-	console.log = function (...args) {
-		originalLog.apply(console, args);
-		debugLog(args.map(a => typeof a === 'object' ? JSON.stringify(a) : String(a)).join(' '), 'log');
-	};
-
-	console.warn = function (...args) {
-		originalWarn.apply(console, args);
-		debugLog(args.map(a => typeof a === 'object' ? JSON.stringify(a) : String(a)).join(' '), 'warn');
-	};
-
-	console.error = function (...args) {
-		originalError.apply(console, args);
-		debugLog(args.map(a => typeof a === 'object' ? JSON.stringify(a) : String(a)).join(' '), 'error');
-	};
 
 	// Test functions
 	async function runAutoToggleTest () {
@@ -143,23 +54,12 @@
 		return new Promise(resolve => setTimeout(resolve, ms));
 	}
 
-	// Keyboard shortcut to toggle debug console
-	document.addEventListener('keydown', (e) => {
-		if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'D')) {
-			e.preventDefault();
-			const consoleDiv = document.getElementById('debug-console');
-			if (consoleDiv) {
-				consoleDiv.style.display = consoleDiv.style.display === 'none' ? 'block' : 'none';
-				debugConsoleEnabled = consoleDiv.style.display === 'block';
-			}
-		}
-	});
-
 	// ===== Main Application Code =====
-	console.log('[Mnemonica] Script starting...');
-	console.log('[Mnemonica] THREE available:', typeof THREE);
+	debugLog('[Mnemonica] Script starting...', 'log');
+	debugLog('[Mnemonica] THREE available: ' + typeof THREE, 'log');
 
 	const vscode = acquireVsCodeApi();
+	vscodeRef = vscode;
 	// eslint-disable-next-line no-undef
 	const showProperties = SHOW_PROPERTIES_PLACEHOLDER;
 	let simulation = null;
@@ -181,10 +81,9 @@
 	}
 
 	function init () {
-		console.log('[Mnemonica] DOM ready, d3 available:', typeof d3 !== 'undefined');
-		console.log('[Mnemonica] THREE available:', typeof THREE !== 'undefined');
-		console.log('[Mnemonica] Requesting data from extension...');
-		initDebugConsole();
+		debugLog('[Mnemonica] DOM ready, d3 available: ' + (typeof d3 !== 'undefined'), 'log');
+		debugLog('[Mnemonica] THREE available: ' + (typeof THREE !== 'undefined'), 'log');
+		debugLog('[Mnemonica] Requesting data from extension...', 'log');
 		setupEventListeners();
 		vscode.postMessage({ command: 'ready' });
 	}
@@ -339,7 +238,7 @@
 				}
 			}
 		} catch (err) {
-			console.error('[Mnemonica] Error toggling mode:', err);
+			debugLog('[Mnemonica] Error toggling mode:', err, 'error');
 			container.innerHTML = '<div class="loading">Error: ' + err.message + '</div>';
 		}
 	}
@@ -359,10 +258,10 @@
 	});
 
 	function render2DGraph (data) {
-		console.log('[Mnemonica] Rendering 2D graph with', data.nodes.length, 'nodes and', data.links.length, 'links');
+		debugLog('[Mnemonica] Rendering 2D graph with ' + data.nodes.length + ' nodes and ' + data.links.length + ' links', 'log');
 
 		if (!data || data.nodes.length === 0) {
-			console.warn('[Mnemonica] No data to render');
+			debugLog('[Mnemonica] No data to render', 'warn');
 			document.getElementById('graph').innerHTML = '<div class="loading">No type data found</div>';
 			return;
 		}
@@ -391,7 +290,7 @@
 
 		const container = document.getElementById('graph');
 		if (!container) {
-			console.error('[Mnemonica] Graph container not found!');
+			debugLog('[Mnemonica] Graph container not found!', 'error');
 			return;
 		}
 
@@ -400,7 +299,7 @@
 		const width = container.clientWidth || 800;
 		const height = container.clientHeight || 600;
 
-		console.log('[Mnemonica] Container size:', width, 'x', height);
+		debugLog('[Mnemonica] Container size:', width, 'x', height, 'log');
 
 		// Create SVG
 		svg = d3.select('#graph')
@@ -666,7 +565,7 @@
 		// Create generation distance controls for 2D too
 		createGenControls(data, null);
 
-		console.log('[Mnemonica] 2D Graph rendered successfully');
+		debugLog('[Mnemonica] 2D Graph rendered successfully', 'log');
 	}
 
 	/**
@@ -875,7 +774,7 @@
 	}
 
 	function render3DGraph (data, initialCameraState = null) {
-		console.log('[Mnemonica] Rendering 3D graph with', data.nodes.length, 'nodes and', data.links.length, 'links');
+		debugLog('[Mnemonica] Rendering 3D graph with', data.nodes.length, 'nodes and', data.links.length, 'links', 'log');
 		debugLog('render3DGraph called with initialCameraState: ' + (initialCameraState ? 'YES' : 'NO'), 'log');
 		if (initialCameraState) {
 			debugLog('Camera state: ' + JSON.stringify(initialCameraState), 'log');
@@ -888,14 +787,14 @@
 		}
 
 		if (!data || data.nodes.length === 0) {
-			console.warn('[Mnemonica] No data to render');
+			debugLog('[Mnemonica] No data to render', 'warn');
 			document.getElementById('graph').innerHTML = '<div class="loading">No type data found</div>';
 			return;
 		}
 
 		const container = document.getElementById('graph');
 		if (!container) {
-			console.error('[Mnemonica] Graph container not found!');
+			debugLog('[Mnemonica] Graph container not found!', 'error');
 			return;
 		}
 
@@ -904,7 +803,7 @@
 		// Create 3D renderer
 		renderer3D = new Graph3DRenderer(container, initialCameraState);
 		renderer3D.setOnNodeClick(function (node) {
-			console.log('[Mnemonica] 3D Node clicked:', node.name);
+			debugLog('[Mnemonica] 3D Node clicked:', node.name, 'log');
 			if (node.location) {
 				vscode.postMessage({
 					command: 'goToDefinition',
@@ -933,7 +832,7 @@
 		// Create generation distance controls
 		createGenControls(data, renderer3D);
 
-		console.log('[Mnemonica] 3D Graph rendered successfully');
+		debugLog('[Mnemonica] 3D Graph rendered successfully', 'log');
 	}
 
 	/**
@@ -1170,15 +1069,15 @@
 		}
 
 		init () {
-			console.log('[3D] init() called');
-			console.log('[3D] THREE available:', typeof THREE);
-			console.log('[3D] Container:', this.container);
-			console.log('[3D] Container size:', this.container.clientWidth, 'x', this.container.clientHeight);
+			debugLog('[3D] init() called', 'log');
+			debugLog('[3D] THREE available:', typeof THREE, 'log');
+			debugLog('[3D] Container:', this.container, 'log');
+			debugLog('[3D] Container size:', this.container.clientWidth, 'x', this.container.clientHeight, 'log');
 
 			// Check WebGL support
 			const testCanvas = document.createElement('canvas');
 			const gl = testCanvas.getContext('webgl') || testCanvas.getContext('experimental-webgl');
-			console.log('[3D] WebGL available:', !!gl);
+			debugLog('[3D] WebGL available:', !!gl, 'log');
 
 			// Create scene with lighter background
 			this.scene = new THREE.Scene();
@@ -1187,7 +1086,7 @@
 			// Create camera with better initial position
 			const width = this.container.clientWidth || 800;
 			const height = this.container.clientHeight || 600;
-			console.log('[3D] Using size:', width, 'x', height);
+			debugLog('[3D] Using size:', width, 'x', height, 'log');
 			this.camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 5000);
 			// Use existing zoom/panOffset if they were restored, otherwise set defaults
 			if (this.zoom === undefined) this.zoom = 600;
@@ -1200,9 +1099,9 @@
 			// Create renderer
 			try {
 				this.renderer = new THREE.WebGLRenderer({ antialias: true });
-				console.log('[3D] WebGLRenderer created');
+				debugLog('[3D] WebGLRenderer created', 'log');
 			} catch (e) {
-				console.error('[3D] WebGLRenderer failed:', e);
+				debugLog('[3D] WebGLRenderer failed:', e, 'error');
 				this.container.innerHTML = '<div class="loading">WebGL not supported</div>';
 				return;
 			}

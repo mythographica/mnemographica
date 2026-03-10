@@ -1,5 +1,9 @@
 import * as vscode from 'vscode';
 import type { GraphData, WebviewMessage } from '../types/index.js';
+import { getLogger } from '../services/LoggerService';
+
+// Get logger instance once at module level
+const logger = getLogger();
 
 export class GraphPanel {
 	public static currentPanel: GraphPanel | undefined;
@@ -72,6 +76,22 @@ export class GraphPanel {
 					// Webview is ready, send data if we have it
 					if (graphData) {
 						this.updateGraph(graphData);
+					}
+					break;
+				case 'log':
+					// Forward webview logs to LoggerService
+					if (message.data &&
+						typeof message.data === 'object' &&
+						'message' in message.data) {
+						const logType = 'type' in message.data ? String(message.data.type) : 'info';
+						const logMsg = String(message.data.message);
+						if (logType === 'error') {
+							logger.error('[Webview]', logMsg);
+						} else if (logType === 'warn') {
+							logger.warn('[Webview]', logMsg);
+						} else {
+							logger.info('[Webview]', logMsg);
+						}
 					}
 					break;
 				}
@@ -147,7 +167,6 @@ export class GraphPanel {
 	<div id="graph"></div>
 	<div id="tooltip"></div>
 	<div id="status"></div>
-	<div id="debug-hint">Press F12 or Ctrl+Shift+D for debug console</div>
 
 	<script>
 		// Pass configuration to the webview script

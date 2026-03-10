@@ -67,7 +67,7 @@ export interface GraphData {
  */
 export interface WebviewMessage {
 	/** Command type */
-	command: 'goToDefinition' | 'nodeHover' | 'ready' | 'refresh';
+	command: 'goToDefinition' | 'nodeHover' | 'ready' | 'refresh' | 'log';
 	/** Optional payload */
 	data?: unknown;
 }

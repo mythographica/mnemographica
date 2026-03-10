@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { TypeNode, PropertyInfo } from '../types';
+import { getLogger } from '../services/LoggerService';
 
 /**
  * Adapter for loading type graph from tactica output or source files
@@ -12,6 +13,8 @@ export class TacticaAdapter {
 	 * Load type graph from workspace
 	 */
 	async loadTypeGraph (workspacePath: string): Promise<TypeNode[]> {
+		const logger = getLogger();
+
 		// Check cache
 		if (this.cache.has(workspacePath)) {
 			return this.cache.get(workspacePath)!;
@@ -20,15 +23,15 @@ export class TacticaAdapter {
 		// Try to read .tactica/types.ts first
 		const tacticaPath = path.join(workspacePath, '.tactica', 'types.ts');
 		if (fs.existsSync(tacticaPath)) {
-			console.log('[Mnemonica] Found .tactica/types.ts, parsing...');
+			logger.info('[Mnemonica] Found .tactica/types.ts, parsing...');
 			const types = await this.parseTacticaOutput(tacticaPath);
-			console.log('[Mnemonica] Parsed', types.length, 'types from tactica output');
+			logger.info('[Mnemonica] Parsed', types.length, 'types from tactica output');
 			this.cache.set(workspacePath, types);
 			return types;
 		}
 
 		// Fall back to analyzing source files directly
-		console.log('[Mnemonica] No .tactica/types.ts found, analyzing source files...');
+		logger.info('[Mnemonica] No .tactica/types.ts found, analyzing source files...');
 		const types = await this.analyzeSourceFiles(workspacePath);
 		this.cache.set(workspacePath, types);
 		return types;
@@ -184,7 +187,8 @@ export class TacticaAdapter {
 			}
 		}
 
-		console.log('[Mnemonica] Found', rootTypes.length, 'root types');
+		const logger = getLogger();
+		logger.info('[Mnemonica] Found', rootTypes.length, 'root types');
 		return rootTypes;
 	}
 

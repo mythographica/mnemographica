@@ -2,6 +2,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
+import { getLogger } from '../services/LoggerService';
 
 // Type for the models namespace
 export type MnemonicaModels = {
@@ -42,19 +43,21 @@ export function loadModels (extensionPath: string): MnemonicaModels {
 
 	const modelsPath = path.join(extensionPath, 'out', 'models');
 
+	const logger = getLogger();
+
 	if (!fs.existsSync(modelsPath)) {
-		console.log('[Topologica Bootstrap] Models path not found:', modelsPath);
+		logger.info('[Topologica Bootstrap] Models path not found:', modelsPath);
 		return models;
 	}
 
-	console.log('[Topologica Bootstrap] Loading models from:', modelsPath);
+	logger.info('[Topologica Bootstrap] Loading models from:', modelsPath);
 
 	// Discover model files
 	const files = fs.readdirSync(modelsPath)
 		.filter(f => f.endsWith('.js') && f !== 'index.js')
 		.map(f => path.join(modelsPath, f));
 
-	console.log('[Topologica Bootstrap] Found model files:', files.length);
+	logger.info('[Topologica Bootstrap] Found model files:', files.length);
 
 	// Load each model file
 	for (const file of files) {
@@ -73,14 +76,14 @@ export function loadModels (extensionPath: string): MnemonicaModels {
 			if (modelModule[modelName]) {
 				// Named export
 				models[modelName as keyof MnemonicaModels] = modelModule[modelName];
-				console.log(`[Topologica Bootstrap] Loaded model: ${modelName}`);
+				logger.info(`[Topologica Bootstrap] Loaded model: ${modelName}`);
 			} else if (modelModule.default) {
 				// Default export
 				models[modelName as keyof MnemonicaModels] = modelModule.default;
-				console.log(`[Topologica Bootstrap] Loaded model (default): ${modelName}`);
+				logger.info(`[Topologica Bootstrap] Loaded model (default): ${modelName}`);
 			}
 		} catch (error) {
-			console.error(`[Topologica Bootstrap] Failed to load ${file}:`, error);
+			logger.error(`[Topologica Bootstrap] Failed to load ${file}:`, error);
 		}
 	}
 

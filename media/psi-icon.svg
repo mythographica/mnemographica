@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Left vertical stroke -->
+  <line x1="8" y1="3" x2="8" y2="11"/>
+  <!-- Right vertical stroke -->
+  <line x1="16" y1="3" x2="16" y2="11"/>
+  <!-- Bottom curve connecting the strokes (like a U shape) -->
+  <path d="M8 11 Q8 17 12 17 Q16 17 16 11" fill="none"/>
+  <!-- Center vertical line from top through the curve and down -->
+  <line x1="12" y1="2" x2="12" y2="22"/>
+</svg>
