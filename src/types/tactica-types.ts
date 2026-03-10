@@ -6,16 +6,16 @@
 /**
  * Information about a property in a type
  */
-export interface PropertyInfo {
+export type PropertyInfo = {
 	name: string;
 	type: string;
 	optional: boolean;
-}
+};
 
 /**
  * A node in the type hierarchy graph
  */
-export interface TypeNode {
+export type TypeNode = {
 	/** Type name (e.g., "SecondType") */
 	name: string;
 	/** Full path (e.g., "FirstType.SecondType") */
@@ -34,12 +34,12 @@ export interface TypeNode {
 	column: number;
 	/** Constructor function name or class name */
 	constructorName?: string;
-}
+};
 
 /**
- * Interface for type graph operations
+ * Type for type graph operations
  */
-export interface TypeGraph {
+export type TypeGraph = {
 	/** Root types (defined at module level) */
 	roots: Map<string, TypeNode>;
 	/** All types by full path */
@@ -52,34 +52,34 @@ export interface TypeGraph {
 	getAllTypes(): TypeNode[];
 	/** Clear the graph */
 	clear(): void;
-}
+};
 
 /**
  * Result of analyzing source files
  */
-export interface AnalyzeResult {
+export type AnalyzeResult = {
 	/** Types found in the analysis */
 	types: TypeNode[];
 	/** Errors encountered */
 	errors: AnalyzeError[];
-}
+};
 
 /**
  * Error during analysis
  */
-export interface AnalyzeError {
+export type AnalyzeError = {
 	message: string;
 	file: string;
 	line: number;
 	column: number;
-}
+};
 
 /**
  * Generated types output
  */
-export interface GeneratedTypes {
+export type GeneratedTypes = {
 	/** Content of the .d.ts file */
 	content: string;
 	/** Types that were generated */
 	types: string[];
-}
+};

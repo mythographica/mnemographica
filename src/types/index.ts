@@ -15,7 +15,7 @@ export type {
 /**
  * D3-compatible node format for visualization
  */
-export interface D3Node {
+export type D3Node = {
 	/** Unique identifier (fullPath from TypeNode) */
 	id: string;
 	/** Display name */
@@ -40,42 +40,42 @@ export interface D3Node {
 	fx?: number | null;
 	/** Fixed Y position (when dragging) */
 	fy?: number | null;
-}
+};
 
 /**
  * D3-compatible link format
  */
-export interface D3Link {
+export type D3Link = {
 	/** Source node ID or reference */
 	source: string | D3Node;
 	/** Target node ID or reference */
 	target: string | D3Node;
-}
+};
 
 /**
  * Complete graph data for D3
  */
-export interface GraphData {
+export type GraphData = {
 	/** Array of nodes */
 	nodes: D3Node[];
 	/** Array of links */
 	links: D3Link[];
-}
+};
 
 /**
  * Messages passed between webview and extension
  */
-export interface WebviewMessage {
+export type WebviewMessage = {
 	/** Command type */
 	command: 'goToDefinition' | 'nodeHover' | 'ready' | 'refresh' | 'log';
 	/** Optional payload */
 	data?: unknown;
-}
+};
 
 /**
  * Extension configuration from settings
  */
-export interface ExtensionConfiguration {
+export type ExtensionConfiguration = {
 	/** Graph layout algorithm */
 	layout: 'force' | 'tree' | 'cluster';
 	/** How to size nodes */
@@ -84,4 +84,4 @@ export interface ExtensionConfiguration {
 	showProperties: boolean;
 	/** Auto-refresh on file changes */
 	autoRefresh: boolean;
-}
+};

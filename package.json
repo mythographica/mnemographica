@@ -28,12 +28,6 @@
 	"contributes": {
 		"commands": [
 			{
-				"command": "mnemographica.showTypeGraph",
-				"title": "Show Type Graph",
-				"category": "Mnemonica",
-				"icon": "media/psi-icon.svg"
-			},
-			{
 				"command": "mnemographica.refreshGraph",
 				"title": "Refresh Type Graph",
 				"category": "Mnemonica",

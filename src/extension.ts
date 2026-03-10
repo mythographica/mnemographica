@@ -48,7 +48,7 @@ export function activate (context: vscode.ExtensionContext) {
 		vscode.StatusBarAlignment.Right,
 		100
 	);
-	statusBarItem.text = 'ψ';
+	statusBarItem.text = 'Ψ';
 	statusBarItem.tooltip = 'Show Mnemonica Type Graph';
 	statusBarItem.command = 'mnemographica.showTypeGraph';
 	statusBarItem.show();
