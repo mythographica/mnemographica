@@ -5,6 +5,7 @@ import * as path from 'path';
 import { GraphData } from '../types';
 import { TacticaAdapter } from './tactica';
 import { GraphConverter } from './converter';
+import { getLogger } from '../services/LoggerService';
 // Phase 3: Removed direct imports of Definition, Link from models
 // Models are loaded at runtime via topologica bootstrap
 
@@ -52,12 +53,13 @@ export class GraphProvider {
 	 * Load graph data from workspace using mnemonica instances
 	 */
 	async loadGraph (workspacePath: string): Promise<GraphData> {
-		console.log('[Mnemonica] Loading graph from:', workspacePath);
+		const logger = getLogger();
+		logger.info('[Mnemonica] Loading graph from:', workspacePath);
 
 		// Check cache
 		const cacheKey = `${workspacePath}:${Date.now()}`;
 		if (this.cacheKey === cacheKey && this.graphData) {
-			console.log('[Mnemonica] Returning cached data');
+			logger.info('[Mnemonica] Returning cached data');
 			return this.graphData;
 		}
 
@@ -66,11 +68,11 @@ export class GraphProvider {
 
 		// Load type nodes from tactica
 		const typeNodes = await this.tacticaAdapter.loadTypeGraph(workspacePath);
-		console.log('[Mnemonica] Loaded', typeNodes.length, 'type nodes');
+		logger.info('[Mnemonica] Loaded', typeNodes.length, 'type nodes');
 
 		// Convert to D3 format
 		this.graphData = GraphConverter.convert(typeNodes);
-		console.log('[Mnemonica] Converted to', this.graphData.nodes.length, 'D3 nodes');
+		logger.info('[Mnemonica] Converted to', this.graphData.nodes.length, 'D3 nodes');
 
 		this.cacheKey = cacheKey;
 
@@ -81,10 +83,11 @@ export class GraphProvider {
 	 * Load definitions from .tactica/definitions.json and create mnemonica instances
 	 */
 	private async loadDefinitions (workspacePath: string): Promise<void> {
+		const logger = getLogger();
 		const definitionsPath = path.join(workspacePath, '.tactica', 'definitions.json');
 
 		if (!fs.existsSync(definitionsPath)) {
-			console.log('[Mnemonica] No definitions.json found');
+			logger.warn('[Mnemonica] No definitions.json found');
 			return;
 		}
 
@@ -102,83 +105,44 @@ export class GraphProvider {
 			this.definitions.set(name, def);
 		}
 
-		// Create Link data for parent relationships (Phase 3: plain objects)
+		// Create links based on parent relationships
 		for (const [name, info] of Object.entries(data.definitions)) {
-			if (info.parent) {
-				const child = this.definitions.get(name);
-				const parent = this.definitions.get(info.parent);
-				if (child && parent) {
-					const link: LinkData = {
-						source: parent,
-						target: child,
-						relation: 'extends'
-					};
-					this.links.push(link);
-				}
+			if (info.parent && this.definitions.has(info.parent)) {
+				const source = this.definitions.get(info.parent)!;
+				const target = this.definitions.get(name)!;
+				this.links.push({
+					source,
+					target,
+					relation: 'defines'
+				});
 			}
 		}
 
-		console.log('[Mnemonica] Created', this.definitions.size, 'Definition instances');
-		console.log('[Mnemonica] Created', this.links.length, 'Link instances');
-	}
-
-	/**
-	 * Get cached graph data
-	 */
-	getGraphData (): GraphData | null {
-		return this.graphData;
-	}
-
-	/**
-	 * Get definition data
-	 */
-	getDefinitions (): Map<string, DefinitionData> {
-		return this.definitions;
-	}
-
-	/**
-	 * Get link data
-	 */
-	getLinks (): LinkData[] {
-		return this.links;
+		logger.info('[Mnemonica] Created', this.definitions.size, 'Definition instances');
+		logger.info('[Mnemonica] Created', this.links.length, 'Link instances');
 	}
 
 	/**
 	 * Clear cached data
 	 */
 	clearCache (): void {
+		const logger = getLogger();
 		this.graphData = null;
 		this.cacheKey = null;
 		this.definitions.clear();
 		this.links = [];
 		this.tacticaAdapter.clearCache();
+		logger.info('[Mnemonica] Cache cleared');
 	}
 
 	/**
-	 * Get graph statistics
+	 * Get statistics about loaded data
 	 */
-	getStats (): {
-		typeCount: number;
-		relationshipCount: number;
-		propertyCount: number;
-		maxDepth: number;
-		mnemonicaDefinitions: number;
-		mnemonicaLinks: number;
-	} | null {
-		if (!this.graphData) {
-			return null;
-		}
-
-		const stats = GraphConverter.getDepthStats(this.graphData.nodes);
-		const propertyCount = GraphConverter.getTotalProperties(this.graphData.nodes);
-
+	getStats (): { definitions: number; links: number; nodes: number } {
 		return {
-			typeCount: this.graphData.nodes.length,
-			relationshipCount: this.graphData.links.length,
-			propertyCount,
-			maxDepth: stats.maxDepth,
-			mnemonicaDefinitions: this.definitions.size,
-			mnemonicaLinks: this.links.length
+			definitions: this.definitions.size,
+			links: this.links.length,
+			nodes: this.graphData?.nodes.length ?? 0
 		};
 	}
 }

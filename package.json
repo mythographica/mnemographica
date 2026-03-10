@@ -40,10 +40,16 @@
 				"icon": "$(refresh)"
 			},
 			{
-				"command": "mnemonographica.refreshTree",
+				"command": "mnemographica.refreshTree",
 				"title": "Refresh Tree View",
 				"category": "Mnemonica",
 				"icon": "$(refresh)"
+			},
+			{
+				"command": "mnemographica.showTreeView",
+				"title": "Show Tree View",
+				"category": "Mnemonica",
+				"icon": "$(list-tree)"
 			}
 		],
 		"menus": {
@@ -53,6 +59,12 @@
 				},
 				{
 					"command": "mnemographica.refreshGraph"
+				},
+				{
+					"command": "mnemographica.refreshTree"
+				},
+				{
+					"command": "mnemographica.showTreeView"
 				}
 			],
 			"editor/title": [
@@ -83,12 +95,20 @@
 				}
 			]
 		},
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "mnemonica",
+					"title": "Mnemonica",
+					"icon": "media/icon.svg"
+				}
+			]
+		},
 		"views": {
-			"explorer": [
+			"mnemonica": [
 				{
 					"id": "mnemonicaTypes",
-					"name": "Mnemonica Types",
-					"when": "workspaceHasMnemonicaTypes"
+					"name": "Types"
 				}
 			]
 		},
@@ -120,7 +140,13 @@
 					"description": "Show properties on hover"
 				}
 			}
-		}
+		},
+		"outputChannels": [
+			{
+				"id": "mnemonicaLogger",
+				"name": "Mnemonica Logger"
+			}
+		]
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
