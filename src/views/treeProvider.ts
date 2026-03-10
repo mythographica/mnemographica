@@ -3,7 +3,9 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
-import { Definition } from '../models';
+
+// Phase 3: Removed direct import of Definition from models
+// Models are now loaded at runtime via topologica bootstrap
 
 type TreeNodeType = 'root' | 'type' | 'subtype' | 'definition';
 
@@ -14,6 +16,14 @@ type MnemonicaTreeItemData = {
 	line?: number;
 	column?: number;
 	children?: MnemonicaTreeItemData[];
+};
+
+// Plain type for definition data (not mnemonica instance)
+type DefinitionData = {
+	id: string;
+	name: string;
+	fullPath: string;
+	properties: Map<string, unknown>;
 };
 
 /**
@@ -75,7 +85,7 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 	private _onDidChangeTreeData: vscode.EventEmitter<MnemonicaTreeItem | undefined | null | void> = new vscode.EventEmitter<MnemonicaTreeItem | undefined | null | void>();
 	readonly onDidChangeTreeData: vscode.Event<MnemonicaTreeItem | undefined | null | void> = this._onDidChangeTreeData.event;
 
-	private definitions: Map<string, InstanceType<typeof Definition>> = new Map();
+	private definitions: Map<string, DefinitionData> = new Map();
 
 	/**
 	 * Refresh the tree view
@@ -104,14 +114,14 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 			parent?: string;
 		}> } = JSON.parse(content);
 
-		// Create Definition instances for tree nodes
+		// Create Definition data objects for tree nodes (Phase 3: no mnemonica instances)
 		for (const [name, info] of Object.entries(data.definitions)) {
-			const def = new Definition({
+			const def: DefinitionData = {
 				id: `${name}:${info.line}:${info.column}`,
 				name: info.name,
 				fullPath: info.filePath,
 				properties: new Map()
-			});
+			};
 			this.definitions.set(name, def);
 		}
 
@@ -181,7 +191,7 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 					{
 						label: name,
 						type: 'definition',
-						fullPath: def.fullPath,
+						fullPath: def.fullPath ?? '',
 						line: 0,
 						column: 0
 					},

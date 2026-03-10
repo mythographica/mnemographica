@@ -5,7 +5,8 @@ import * as path from 'path';
 import { GraphData } from '../types';
 import { TacticaAdapter } from './tactica';
 import { GraphConverter } from './converter';
-import { Definition, Link } from '../models';
+// Phase 3: Removed direct imports of Definition, Link from models
+// Models are loaded at runtime via topologica bootstrap
 
 type DefinitionInfo = {
 	name: string;
@@ -19,6 +20,20 @@ type DefinitionsJson = {
 	definitions: Record<string, DefinitionInfo>;
 };
 
+// Plain types for graph data (Phase 3: no mnemonica instances yet)
+type DefinitionData = {
+	id: string;
+	name: string;
+	fullPath: string;
+	properties: Map<string, unknown>;
+};
+
+type LinkData = {
+	source: DefinitionData;
+	target: DefinitionData;
+	relation: string;
+};
+
 /**
  * Provides graph data for visualization using mnemonica instances
  */
@@ -26,8 +41,8 @@ export class GraphProvider {
 	private graphData: GraphData | null = null;
 	private tacticaAdapter: TacticaAdapter;
 	private cacheKey: string | null = null;
-	private definitions: Map<string, InstanceType<typeof Definition>> = new Map();
-	private links: InstanceType<typeof Link>[] = [];
+	private definitions: Map<string, DefinitionData> = new Map();
+	private links: LinkData[] = [];
 
 	constructor () {
 		this.tacticaAdapter = new TacticaAdapter();
@@ -76,28 +91,28 @@ export class GraphProvider {
 		const content = fs.readFileSync(definitionsPath, 'utf-8');
 		const data: DefinitionsJson = JSON.parse(content);
 
-		// Create Definition instances
+		// Create Definition data objects (Phase 3: plain objects, not mnemonica instances)
 		for (const [name, info] of Object.entries(data.definitions)) {
-			const def = new Definition({
+			const def: DefinitionData = {
 				id: `${name}:${info.line}:${info.column}`,
 				name: info.name,
 				fullPath: info.filePath,
 				properties: new Map()
-			});
+			};
 			this.definitions.set(name, def);
 		}
 
-		// Create Link instances for parent relationships
+		// Create Link data for parent relationships (Phase 3: plain objects)
 		for (const [name, info] of Object.entries(data.definitions)) {
 			if (info.parent) {
 				const child = this.definitions.get(name);
 				const parent = this.definitions.get(info.parent);
 				if (child && parent) {
-					const link = new Link({
+					const link: LinkData = {
 						source: parent,
 						target: child,
 						relation: 'extends'
-					});
+					};
 					this.links.push(link);
 				}
 			}
@@ -115,16 +130,16 @@ export class GraphProvider {
 	}
 
 	/**
-	 * Get mnemonica definition instances
+	 * Get definition data
 	 */
-	getDefinitions (): Map<string, InstanceType<typeof Definition>> {
+	getDefinitions (): Map<string, DefinitionData> {
 		return this.definitions;
 	}
 
 	/**
-	 * Get mnemonica link instances
+	 * Get link data
 	 */
-	getLinks (): InstanceType<typeof Link>[] {
+	getLinks (): LinkData[] {
 		return this.links;
 	}
 
