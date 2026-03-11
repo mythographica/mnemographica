@@ -44,6 +44,12 @@
 				"title": "Show Tree View",
 				"category": "Mnemonica",
 				"icon": "$(list-tree)"
+			},
+			{
+				"command": "mnemographica.showStrategyStatus",
+				"title": "Show Strategy MCP Status",
+				"category": "Mnemonica",
+				"icon": "$(server-environment)"
 			}
 		],
 		"menus": {
@@ -59,6 +65,9 @@
 				},
 				{
 					"command": "mnemographica.showTreeView"
+				},
+				{
+					"command": "mnemographica.showStrategyStatus"
 				}
 			],
 			"editor/title": [
@@ -155,6 +164,7 @@
 		"@types/node": "^20.0.0",
 		"@types/three": "^0.183.1",
 		"@types/vscode": "^1.74.0",
+		"@types/ws": "^8.5.10",
 		"@typescript-eslint/eslint-plugin": "^6.7.0",
 		"@typescript-eslint/parser": "^6.7.0",
 		"@vscode/test-electron": "^2.3.0",
@@ -164,8 +174,9 @@
 	"dependencies": {
 		"@mnemonica/tactica": "file:../tactica",
 		"@mnemonica/topologica": "file:../topologica",
-		"mnemonica": "file:../core",
 		"d3-force-3d": "^3.0.6",
-		"three": "^0.174.0"
+		"mnemonica": "file:../core",
+		"three": "^0.174.0",
+		"ws": "^8.19.0"
 	}
 }
