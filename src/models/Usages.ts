@@ -2,20 +2,38 @@
 
 import { define } from 'mnemonica';
 
-export const Usages = define('Usages', function (this: { createdAt: number }) {
-	this.createdAt = Date.now();
+export type usage = {
+	id: string;
+	typeName: string;
+	filePath: string;
+	line: number;
+	column: number;
+	context: string
+};
+
+export const Usages = define('Usages', class extends Map {
+	createdAt: number;
+	constructor() {
+		super();
+		this.createdAt = Date.now();
+	}
+	clear() {
+		super.clear();
+	}
+	get(name: string): usage[] {
+		return super.get(name);
+	}
+	set(name: string, value: usage[]) {
+		super.set(name, value);
+		return this;
+	}
 });
 
 export const UsageEntry = Usages.define('UsageEntry', function (
-	this: { id: string; typeName: string; filePath: string; line: number; column: number; context: string },
-	data: { id: string; typeName: string; filePath: string; line: number; column: number; context: string }
+	this: usage,
+	data: usage
 ) {
-	this.id = data.id;
-	this.typeName = data.typeName;
-	this.filePath = data.filePath;
-	this.line = data.line;
-	this.column = data.column;
-	this.context = data.context;
+	Object.defineProperties(this, Object.getOwnPropertyDescriptors(data));
 });
 
 export default Usages;

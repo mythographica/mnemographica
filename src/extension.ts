@@ -7,6 +7,7 @@ import { MnemonicaDefinitionProvider } from './providers/definitionProvider';
 import { MnemonicaReferenceProvider } from './providers/referenceProvider';
 import { StrategyServer } from './strategy';
 import { getLogger } from './services/LoggerService';
+import { loadModels } from './topologica/bootstrap';
 
 let graphProvider: GraphProvider;
 let treeProvider: MnemonicaTreeProvider;
@@ -68,6 +69,10 @@ export function activate (context: vscode.ExtensionContext) {
 	});
 
 	logger.info('Strategy MCP server initialized');
+
+	// Load mnemonica models using topologica
+	loadModels(context.extensionPath);
+	logger.info('Models loaded via topologica bootstrap');
 
 	// Load definitions from workspace if available
 	const workspaceFolders = vscode.workspace.workspaceFolders;

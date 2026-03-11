@@ -7,7 +7,8 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
 import { getLogger } from '../services/LoggerService';
-import { loadModels } from '../topologica/bootstrap';
+import { lookupTyped } from 'mnemonica';
+import { modelsLoaded } from '../topologica/bootstrap';
 
 type DefinitionInfo = {
 	filePath: string;
@@ -32,39 +33,39 @@ export class MnemonicaDefinitionProvider implements vscode.DefinitionProvider {
 			const content = fs.readFileSync(definitionsPath, 'utf-8');
 			const data = JSON.parse(content);
 
-			// Load models using Topologica
-			const models = loadModels(path.join(workspacePath, 'dist', 'models'));
-
 			// Parse definitions from JSON
-			const definitions = (data.definitions || data) as Record<string, unknown>;
-
-			for (const [typeName, defInfo] of Object.entries(definitions)) {
-				if (typeof defInfo === 'object' && defInfo !== null &&
-					'filePath' in defInfo && 'line' in defInfo) {
-					const info = defInfo as { filePath: string; line: number; column?: number };
-					this.definitions.set(typeName, {
-						filePath: info.filePath,
-						line: info.line,
-						column: info.column || 0
-					});
-
-					// Create mnemonica instance for tracking if models available
-					if (models) {
-						try {
-							new models.Registry.DefinitionEntry({
-								id: `${typeName}:${info.filePath}:${info.line}`,
-								name: typeName,
-								filePath: info.filePath,
-								line: info.line,
-								column: info.column || 0
-							});
-						} catch (err) {
-							// Instance creation failed, but we still have the definition
-							this.logger.debug('DefinitionEntry creation skipped for:', typeName);
+				const definitions = (data.definitions || data) as Record<string, unknown>;
+	
+				// Get DefinitionEntry model for creating instances
+				const DefinitionEntry = modelsLoaded ? lookupTyped('Registry.DefinitionEntry') : null;
+	
+				for (const [typeName, defInfo] of Object.entries(definitions)) {
+					if (typeof defInfo === 'object' && defInfo !== null &&
+						'filePath' in defInfo && 'line' in defInfo) {
+						const info = defInfo as { filePath: string; line: number; column?: number };
+						this.definitions.set(typeName, {
+							filePath: info.filePath,
+							line: info.line,
+							column: info.column || 0
+						});
+	
+						// Create mnemonica instance for tracking if models available
+						if (DefinitionEntry) {
+							try {
+								new DefinitionEntry({
+									id: `${typeName}:${info.filePath}:${info.line}`,
+									name: typeName,
+									filePath: info.filePath,
+									line: info.line,
+									column: info.column || 0
+								});
+							} catch (err) {
+								// Instance creation failed, but we still have the definition
+								this.logger.debug('DefinitionEntry creation skipped for:', typeName);
+							}
 						}
 					}
 				}
-			}
 
 			this.logger.info(`Loaded ${this.definitions.size} definitions`);
 		} catch (error) {

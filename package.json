@@ -153,12 +153,14 @@
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
-		"compile": "tsc -p ./",
+		"compile": "rm -rf ./out && tsc -p ./",
 		"watch": "tsc -watch -p ./",
 		"pretest": "npm run compile && npm run lint",
 		"lint": "eslint src --ext ts",
 		"test": "node ./out/test/runTest.js",
-		"package": "vsce package"
+		"package": "vsce package",
+		"tactica:generate": "tactica --generate",
+		"tactica:watch": "tactica --watch"
 	},
 	"devDependencies": {
 		"@types/node": "^20.0.0",

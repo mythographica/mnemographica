@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-03-10T11:55:09.979Z",
+  "generatedAt": "2026-03-11T21:42:08.616Z",
   "usages": {
     "vscode.WebviewViewProvider": [
       {
@@ -9,33 +9,62 @@
         "code": "vscode.WebviewViewProvider"
       }
     ],
+    "LoggerService": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:21:29",
+        "kind": "instantiation",
+        "code": "new LoggerService()"
+      }
+    ],
+    "Date": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:119:21",
+        "kind": "instantiation",
+        "code": "new Date()"
+      }
+    ],
     "vscode.ViewColumn.One": [
       {
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:25:14",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:29:14",
         "kind": "propertyAccess",
         "code": "vscode.ViewColumn.One"
       }
     ],
     "vscode.ViewColumn": [
       {
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:25:14",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:29:14",
         "kind": "propertyAccess",
         "code": "vscode.ViewColumn"
       }
     ],
     "vscode.Uri": [
       {
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:30:6",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:34:6",
         "kind": "propertyAccess",
         "code": "vscode.Uri"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:115:4",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:135:4",
         "kind": "propertyAccess",
         "code": "vscode.Uri"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:118:4",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:4",
+        "kind": "propertyAccess",
+        "code": "vscode.Uri"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:52:6",
+        "kind": "propertyAccess",
+        "code": "vscode.Uri"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/providers/definitionProvider.ts:116:15",
+        "kind": "propertyAccess",
+        "code": "vscode.Uri"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:119:16",
         "kind": "propertyAccess",
         "code": "vscode.Uri"
       },
@@ -47,43 +76,73 @@
     ],
     "GraphPanel": [
       {
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:35:29",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:29",
         "kind": "instantiation",
         "code": "new GraphPanel(panel, extensionUri, graphData)"
       }
     ],
     "vscode.Position": [
       {
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:101:21",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:121:21",
         "kind": "instantiation",
         "code": "new vscode.Position(location.line - 1, location.column - 1)"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:101:25",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:121:25",
+        "kind": "propertyAccess",
+        "code": "vscode.Position"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/providers/definitionProvider.ts:117:15",
+        "kind": "instantiation",
+        "code": "new vscode.Position(defInfo.line - 1, defInfo.column)"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/providers/definitionProvider.ts:117:19",
+        "kind": "propertyAccess",
+        "code": "vscode.Position"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:120:16",
+        "kind": "instantiation",
+        "code": "new vscode.Position(usage.line - 1, usage.column)"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:120:20",
         "kind": "propertyAccess",
         "code": "vscode.Position"
       }
     ],
     "vscode.Selection": [
       {
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:102:23",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:122:23",
         "kind": "instantiation",
         "code": "new vscode.Selection(position, position)"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:102:27",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:122:27",
         "kind": "propertyAccess",
         "code": "vscode.Selection"
       }
     ],
     "vscode.Range": [
       {
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:103:23",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:123:23",
         "kind": "instantiation",
         "code": "new vscode.Range(position, position)"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:103:27",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:123:27",
+        "kind": "propertyAccess",
+        "code": "vscode.Range"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:54:18",
+        "kind": "instantiation",
+        "code": "new vscode.Range(\n\t\t\t\t\t\t\tdata.line ?? 0,\n\t\t\t\t\t\t\tdata.column ?? 0,\n\t\t\t\t\t\t\tdata.line ?? 0,\n\t\t\t\t\t\t\tdata"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:54:22",
         "kind": "propertyAccess",
         "code": "vscode.Range"
       },
@@ -100,37 +159,37 @@
     ],
     "Map": [
       {
-        "location": "/code/mnemonica/mnemographica/src/graph/tactica.ts:9:43",
+        "location": "/code/mnemonica/mnemographica/src/graph/tactica.ts:10:43",
         "kind": "instantiation",
         "code": "new Map()"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/graph/tactica.ts:51:20",
+        "location": "/code/mnemonica/mnemographica/src/graph/tactica.ts:54:20",
         "kind": "instantiation",
         "code": "new Map<string, {\n\t\t\tname: string;\n\t\t\tparentName?: string;\n\t\t\tproperties: Map<string, PropertyInfo>;"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/graph/tactica.ts:154:19",
+        "location": "/code/mnemonica/mnemographica/src/graph/tactica.ts:157:19",
         "kind": "instantiation",
         "code": "new Map<string, TypeNode>()"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/graph/tactica.ts:163:15",
+        "location": "/code/mnemonica/mnemographica/src/graph/tactica.ts:166:15",
         "kind": "instantiation",
         "code": "new Map()"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/graph/tactica.ts:195:22",
+        "location": "/code/mnemonica/mnemographica/src/graph/tactica.ts:199:22",
         "kind": "instantiation",
         "code": "new Map<string, PropertyInfo>()"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/graph/tactica.ts:301:17",
+        "location": "/code/mnemonica/mnemographica/src/graph/tactica.ts:305:17",
         "kind": "instantiation",
         "code": "new Map<string, PropertyInfo>()"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/graph/tactica.ts:302:15",
+        "location": "/code/mnemonica/mnemographica/src/graph/tactica.ts:306:15",
         "kind": "instantiation",
         "code": "new Map<string, TypeNode>()"
       },
@@ -138,6 +197,36 @@
         "location": "/code/mnemonica/mnemographica/src/graph/converter.ts:93:28",
         "kind": "instantiation",
         "code": "new Map<number, number>()"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/graph/provider.ts:45:53",
+        "kind": "instantiation",
+        "code": "new Map()"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/graph/provider.ts:103:17",
+        "kind": "instantiation",
+        "code": "new Map()"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:90:53",
+        "kind": "instantiation",
+        "code": "new Map()"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:91:41",
+        "kind": "instantiation",
+        "code": "new Map()"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/providers/definitionProvider.ts:20:53",
+        "kind": "instantiation",
+        "code": "new Map()"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/strategy/server.ts:45:45",
+        "kind": "instantiation",
+        "code": "new Map()"
       },
       {
         "location": "/code/mnemonica/mnemographica/src/webview/renderer3d.ts:14:48",
@@ -154,118 +243,74 @@
     ],
     "TacticaAdapter": [
       {
-        "location": "/code/mnemonica/mnemographica/src/graph/provider.ts:14:25",
+        "location": "/code/mnemonica/mnemographica/src/graph/provider.ts:49:25",
         "kind": "instantiation",
         "code": "new TacticaAdapter()"
       }
     ],
-    "GraphProvider": [
-      {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:14:18",
-        "kind": "instantiation",
-        "code": "new GraphProvider()"
-      }
-    ],
-    "MnemonicaActivityBarProvider": [
-      {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:17:30",
-        "kind": "instantiation",
-        "code": "new MnemonicaActivityBarProvider(context.extensionUri)"
-      }
-    ],
-    "vscode.StatusBarAlignment.Right": [
-      {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:24:3",
-        "kind": "propertyAccess",
-        "code": "vscode.StatusBarAlignment.Right"
-      }
-    ],
-    "vscode.StatusBarAlignment": [
-      {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:24:3",
-        "kind": "propertyAccess",
-        "code": "vscode.StatusBarAlignment"
-      }
-    ],
-    "vscode.ProgressLocation.Notification": [
-      {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:81:15",
-        "kind": "propertyAccess",
-        "code": "vscode.ProgressLocation.Notification"
-      }
-    ],
-    "vscode.ProgressLocation": [
-      {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:81:15",
-        "kind": "propertyAccess",
-        "code": "vscode.ProgressLocation"
-      }
-    ],
-    "vscode.TreeDataProvider": [
-      {
-        "location": "/code/mnemonica/mnemographica/src/treeProvider.ts:4:47",
-        "kind": "propertyAccess",
-        "code": "vscode.TreeDataProvider"
-      }
-    ],
-    "vscode.EventEmitter": [
-      {
-        "location": "/code/mnemonica/mnemographica/src/treeProvider.ts:5:99",
-        "kind": "instantiation",
-        "code": "new vscode.EventEmitter<MnemonicaTreeItem | undefined | null | void>()"
-      },
-      {
-        "location": "/code/mnemonica/mnemographica/src/treeProvider.ts:5:103",
-        "kind": "propertyAccess",
-        "code": "vscode.EventEmitter"
-      }
-    ],
-    "MnemonicaTreeItem": [
-      {
-        "location": "/code/mnemonica/mnemographica/src/treeProvider.ts:24:18",
-        "kind": "instantiation",
-        "code": "new MnemonicaTreeItem(node)"
-      },
-      {
-        "location": "/code/mnemonica/mnemographica/src/treeProvider.ts:29:32",
-        "kind": "instantiation",
-        "code": "new MnemonicaTreeItem(child)"
-      }
-    ],
     "vscode.TreeItem": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:38:40",
+        "kind": "propertyAccess",
+        "code": "vscode.TreeItem"
+      },
       {
         "location": "/code/mnemonica/mnemographica/src/treeProvider.ts:33:33",
         "kind": "propertyAccess",
         "code": "vscode.TreeItem"
       }
     ],
-    "vscode.TreeItemCollapsibleState.Collapsed": [
+    "vscode.ThemeIcon": [
       {
-        "location": "/code/mnemonica/mnemographica/src/treeProvider.ts:37:29",
-        "kind": "propertyAccess",
-        "code": "vscode.TreeItemCollapsibleState.Collapsed"
-      }
-    ],
-    "vscode.TreeItemCollapsibleState": [
-      {
-        "location": "/code/mnemonica/mnemographica/src/treeProvider.ts:37:29",
-        "kind": "propertyAccess",
-        "code": "vscode.TreeItemCollapsibleState"
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:73:12",
+        "kind": "instantiation",
+        "code": "new vscode.ThemeIcon('folder')"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/treeProvider.ts:37:73",
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:73:16",
         "kind": "propertyAccess",
-        "code": "vscode.TreeItemCollapsibleState"
-      }
-    ],
-    "vscode.TreeItemCollapsibleState.None": [
+        "code": "vscode.ThemeIcon"
+      },
       {
-        "location": "/code/mnemonica/mnemographica/src/treeProvider.ts:37:73",
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:75:12",
+        "kind": "instantiation",
+        "code": "new vscode.ThemeIcon('symbol-class')"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:75:16",
         "kind": "propertyAccess",
-        "code": "vscode.TreeItemCollapsibleState.None"
-      }
-    ],
-    "vscode.ThemeIcon": [
+        "code": "vscode.ThemeIcon"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:77:12",
+        "kind": "instantiation",
+        "code": "new vscode.ThemeIcon('symbol-type-parameter')"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:77:16",
+        "kind": "propertyAccess",
+        "code": "vscode.ThemeIcon"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:79:12",
+        "kind": "instantiation",
+        "code": "new vscode.ThemeIcon('symbol-method')"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:79:16",
+        "kind": "propertyAccess",
+        "code": "vscode.ThemeIcon"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:81:12",
+        "kind": "instantiation",
+        "code": "new vscode.ThemeIcon('symbol-misc')"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:81:16",
+        "kind": "propertyAccess",
+        "code": "vscode.ThemeIcon"
+      },
       {
         "location": "/code/mnemonica/mnemographica/src/treeProvider.ts:46:20",
         "kind": "instantiation",
@@ -285,6 +330,311 @@
         "location": "/code/mnemonica/mnemographica/src/treeProvider.ts:48:24",
         "kind": "propertyAccess",
         "code": "vscode.ThemeIcon"
+      }
+    ],
+    "vscode.TreeDataProvider": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:86:47",
+        "kind": "propertyAccess",
+        "code": "vscode.TreeDataProvider"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/treeProvider.ts:4:47",
+        "kind": "propertyAccess",
+        "code": "vscode.TreeDataProvider"
+      }
+    ],
+    "vscode.EventEmitter": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:87:33",
+        "kind": "instantiation",
+        "code": "new vscode.EventEmitter<MnemonicaTreeItem | undefined | null | void>()"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:87:37",
+        "kind": "propertyAccess",
+        "code": "vscode.EventEmitter"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/treeProvider.ts:5:99",
+        "kind": "instantiation",
+        "code": "new vscode.EventEmitter<MnemonicaTreeItem | undefined | null | void>()"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/treeProvider.ts:5:103",
+        "kind": "propertyAccess",
+        "code": "vscode.EventEmitter"
+      }
+    ],
+    "MnemonicaTreeItem": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:173:5",
+        "kind": "instantiation",
+        "code": "new MnemonicaTreeItem({ label: 'Definitions', type: 'root' }, vscode.TreeItemCollapsibleState.Expand"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:174:5",
+        "kind": "instantiation",
+        "code": "new MnemonicaTreeItem({ label: 'Types', type: 'root' }, vscode.TreeItemCollapsibleState.Collapsed)"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:268:10",
+        "kind": "instantiation",
+        "code": "new MnemonicaTreeItem(\n\t\t\t{\n\t\t\t\tlabel: shortName,\n\t\t\t\ttype: hasChildren ? 'type' : 'definition',\n\t\t\t"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:284:10",
+        "kind": "instantiation",
+        "code": "new MnemonicaTreeItem(\n\t\t\t{ label: type.name, type: hasChildren ? 'type' : 'subtype', isDefinition: "
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/treeProvider.ts:24:18",
+        "kind": "instantiation",
+        "code": "new MnemonicaTreeItem(node)"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/treeProvider.ts:29:32",
+        "kind": "instantiation",
+        "code": "new MnemonicaTreeItem(child)"
+      }
+    ],
+    "vscode.TreeItemCollapsibleState.Expanded": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:173:67",
+        "kind": "propertyAccess",
+        "code": "vscode.TreeItemCollapsibleState.Expanded"
+      }
+    ],
+    "vscode.TreeItemCollapsibleState": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:173:67",
+        "kind": "propertyAccess",
+        "code": "vscode.TreeItemCollapsibleState"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:174:61",
+        "kind": "propertyAccess",
+        "code": "vscode.TreeItemCollapsibleState"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:278:18",
+        "kind": "propertyAccess",
+        "code": "vscode.TreeItemCollapsibleState"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:278:62",
+        "kind": "propertyAccess",
+        "code": "vscode.TreeItemCollapsibleState"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:286:18",
+        "kind": "propertyAccess",
+        "code": "vscode.TreeItemCollapsibleState"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:286:62",
+        "kind": "propertyAccess",
+        "code": "vscode.TreeItemCollapsibleState"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/treeProvider.ts:37:29",
+        "kind": "propertyAccess",
+        "code": "vscode.TreeItemCollapsibleState"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/treeProvider.ts:37:73",
+        "kind": "propertyAccess",
+        "code": "vscode.TreeItemCollapsibleState"
+      }
+    ],
+    "vscode.TreeItemCollapsibleState.Collapsed": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:174:61",
+        "kind": "propertyAccess",
+        "code": "vscode.TreeItemCollapsibleState.Collapsed"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:278:18",
+        "kind": "propertyAccess",
+        "code": "vscode.TreeItemCollapsibleState.Collapsed"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:286:18",
+        "kind": "propertyAccess",
+        "code": "vscode.TreeItemCollapsibleState.Collapsed"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/treeProvider.ts:37:29",
+        "kind": "propertyAccess",
+        "code": "vscode.TreeItemCollapsibleState.Collapsed"
+      }
+    ],
+    "vscode.TreeItemCollapsibleState.None": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:278:62",
+        "kind": "propertyAccess",
+        "code": "vscode.TreeItemCollapsibleState.None"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:286:62",
+        "kind": "propertyAccess",
+        "code": "vscode.TreeItemCollapsibleState.None"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/treeProvider.ts:37:73",
+        "kind": "propertyAccess",
+        "code": "vscode.TreeItemCollapsibleState.None"
+      }
+    ],
+    "vscode.DefinitionProvider": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/providers/definitionProvider.ts:19:53",
+        "kind": "propertyAccess",
+        "code": "vscode.DefinitionProvider"
+      }
+    ],
+    "DefinitionEntry": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/providers/definitionProvider.ts:55:9",
+        "kind": "instantiation",
+        "code": "new DefinitionEntry({\n\t\t\t\t\t\t\t\t\tid: `${typeName}:${info.filePath}:${info.line}`,\n\t\t\t\t\t\t\t\t\tname: typeN"
+      }
+    ],
+    "vscode.Location": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/providers/definitionProvider.ts:119:10",
+        "kind": "instantiation",
+        "code": "new vscode.Location(uri, pos)"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/providers/definitionProvider.ts:119:14",
+        "kind": "propertyAccess",
+        "code": "vscode.Location"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:121:11",
+        "kind": "instantiation",
+        "code": "new vscode.Location(uri, pos)"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:121:15",
+        "kind": "propertyAccess",
+        "code": "vscode.Location"
+      }
+    ],
+    "vscode.ReferenceProvider": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:21:52",
+        "kind": "propertyAccess",
+        "code": "vscode.ReferenceProvider"
+      }
+    ],
+    "Usages": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:28:17",
+        "kind": "instantiation",
+        "code": "new Usages"
+      }
+    ],
+    "usages.UsageEntry": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:58:21",
+        "kind": "instantiation",
+        "code": "new usages.UsageEntry(_usage)"
+      }
+    ],
+    "Usages.UsageEntry": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:58:25",
+        "kind": "propertyAccess",
+        "code": "usages.UsageEntry"
+      }
+    ],
+    "Promise": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/strategy/server.ts:148:10",
+        "kind": "instantiation",
+        "code": "new Promise((resolve, reject) => {\n\t\t\tthis.httpServer = http.createServer((req, res) => {\n\t\t\t\tthis.h"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/strategy/server.ts:169:10",
+        "kind": "instantiation",
+        "code": "new Promise((resolve, reject) => {\n\t\t\tthis.wsServer = new ws.Server({ port: this.wsPort });\n\n\t\t\tthis"
+      }
+    ],
+    "ws.Server": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/strategy/server.ts:170:20",
+        "kind": "instantiation",
+        "code": "new ws.Server({ port: this.wsPort })"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/strategy/server.ts:170:24",
+        "kind": "propertyAccess",
+        "code": "ws.Server"
+      }
+    ],
+    "Error": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/strategy/server.ts:361:11",
+        "kind": "instantiation",
+        "code": "new Error(`Unknown tool: ${name}`)"
+      }
+    ],
+    "GraphProvider": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:27:18",
+        "kind": "instantiation",
+        "code": "new GraphProvider()"
+      }
+    ],
+    "MnemonicaTreeProvider": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:30:17",
+        "kind": "instantiation",
+        "code": "new MnemonicaTreeProvider()"
+      }
+    ],
+    "MnemonicaDefinitionProvider": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:37:23",
+        "kind": "instantiation",
+        "code": "new MnemonicaDefinitionProvider()"
+      }
+    ],
+    "MnemonicaReferenceProvider": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:38:22",
+        "kind": "instantiation",
+        "code": "new MnemonicaReferenceProvider()"
+      }
+    ],
+    "StrategyServer": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:59:19",
+        "kind": "instantiation",
+        "code": "new StrategyServer(9230, 9231)"
+      }
+    ],
+    "MnemonicaActivityBarProvider": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:99:30",
+        "kind": "instantiation",
+        "code": "new MnemonicaActivityBarProvider(context.extensionUri)"
+      }
+    ],
+    "vscode.StatusBarAlignment.Right": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:106:3",
+        "kind": "propertyAccess",
+        "code": "vscode.StatusBarAlignment.Right"
+      }
+    ],
+    "vscode.StatusBarAlignment": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:106:3",
+        "kind": "propertyAccess",
+        "code": "vscode.StatusBarAlignment"
       }
     ],
     "vscode.ThemeColor": [

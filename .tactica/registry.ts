@@ -10,6 +10,8 @@
 //   // instance has full intellisense for Consciousness, Memory, etc.
 
 import type {
+	UsagesInstance,
+	UsageEntryInstance,
 	DefinitionInstance,
 	LinkInstance,
 	LoggerTabInstance,
@@ -34,8 +36,6 @@ import type {
 	ContextMenuInstance,
 	TypesInstance,
 	TypeEntryInstance,
-	UsagesInstance,
-	UsageEntryInstance,
 } from './types';
 
 /**
@@ -46,6 +46,8 @@ import type {
  */
 declare module 'mnemonica' {
 	interface TypeRegistry {
+		'Usages': new (...args: unknown[]) => UsagesInstance;
+		'Usages.UsageEntry': new (...args: unknown[]) => UsageEntryInstance;
 		'Definition': new (...args: unknown[]) => DefinitionInstance;
 		'Definition.Link': new (...args: unknown[]) => LinkInstance;
 		'LoggerTab': new (...args: unknown[]) => LoggerTabInstance;
@@ -70,8 +72,6 @@ declare module 'mnemonica' {
 		'Trie.GraphNodeTrie.ContextMenu': new (...args: unknown[]) => ContextMenuInstance;
 		'Types': new (...args: unknown[]) => TypesInstance;
 		'Types.TypeEntry': new (...args: unknown[]) => TypeEntryInstance;
-		'Usages': new (...args: unknown[]) => UsagesInstance;
-		'Usages.UsageEntry': new (...args: unknown[]) => UsageEntryInstance;
 	}
 }
 

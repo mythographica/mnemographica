@@ -10,6 +10,14 @@ type TypeConstructor<T> = {
 	(...args: unknown[]): T;
 };
 
+export type UsagesInstance = {
+	createdAt: number;
+	UsageEntry: TypeConstructor<UsageEntryInstance>;
+}
+
+export type UsageEntryInstance = UsagesInstance & {
+}
+
 export type DefinitionInstance = {
 	id: string;
 	name: string;
@@ -176,18 +184,4 @@ export type TypeEntryInstance = TypesInstance & {
 	fullPath: string;
 	parent: string;
 	properties: unknown;
-}
-
-export type UsagesInstance = {
-	createdAt: number;
-	UsageEntry: TypeConstructor<UsageEntryInstance>;
-}
-
-export type UsageEntryInstance = UsagesInstance & {
-	id: string;
-	typeName: string;
-	filePath: string;
-	line: number;
-	column: number;
-	context: string;
 }

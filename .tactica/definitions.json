@@ -1,7 +1,23 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-03-10T11:55:09.977Z",
+  "generatedAt": "2026-03-11T21:42:08.616Z",
   "definitions": {
+    "Usages": {
+      "name": "Usages",
+      "location": "/code/mnemonica/mnemographica/src/models/Usages.ts:14:23",
+      "kind": "define",
+      "parent": null,
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Usages.UsageEntry": {
+      "name": "UsageEntry",
+      "location": "/code/mnemonica/mnemographica/src/models/Usages.ts:32:27",
+      "kind": "define",
+      "parent": "Usages",
+      "strictChain": true,
+      "blockErrors": false
+    },
     "Definition": {
       "name": "Definition",
       "location": "/code/mnemonica/mnemographica/src/models/Definition.ts:5:27",
@@ -191,22 +207,6 @@
       "location": "/code/mnemonica/mnemographica/src/models/Types.ts:9:26",
       "kind": "define",
       "parent": "Types",
-      "strictChain": true,
-      "blockErrors": false
-    },
-    "Usages": {
-      "name": "Usages",
-      "location": "/code/mnemonica/mnemographica/src/models/Usages.ts:5:23",
-      "kind": "define",
-      "parent": null,
-      "strictChain": true,
-      "blockErrors": false
-    },
-    "Usages.UsageEntry": {
-      "name": "UsageEntry",
-      "location": "/code/mnemonica/mnemographica/src/models/Usages.ts:9:27",
-      "kind": "define",
-      "parent": "Usages",
       "strictChain": true,
       "blockErrors": false
     }
