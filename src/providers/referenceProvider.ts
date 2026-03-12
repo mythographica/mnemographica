@@ -14,10 +14,7 @@ import { TypeRegistry } from 'mnemonica';
 
 import { lookupTyped } from 'mnemonica';
 
-// TODO: not working as tactica is not returing fields here...
 type usage = InstanceType<TypeRegistry['Usages.UsageEntry']>;
-
-// TODO: not working as tactica is not returing fields here...
 type usages = InstanceType<TypeRegistry['Usages']>
 
 
@@ -29,9 +26,9 @@ export class MnemonicaReferenceProvider implements vscode.ReferenceProvider {
 
 		const Usages = lookupTyped('Usages');
 		const usages = new Usages;
+		usages.createdAt;
 		
-		// typeof _usages.
-		// this.usages = _usages;
+		this.usages = usages;
 
 		const usagesPath = path.join(workspacePath, '.tactica', 'usages.json');
 		if (!fs.existsSync(usagesPath)) {
@@ -54,13 +51,6 @@ export class MnemonicaReferenceProvider implements vscode.ReferenceProvider {
 				for (const _usage of usageList) {
 					if (_usage instanceof Object && 'filePath' in _usage && 'line' in _usage) {
 
-						// TODO: broken, as constructor returns bad intance
-						// const usage = new usages.UsageEntry(_usage);
-						// TODO: broken, as constructor returns bad intance
-						// const usage = apply(usages, usages.UsageEntry, _usage);
-						// TODO: the next line is worst, it returns  [x: string], so SN and etc ...
-						// type ut = typeof usage.createdAt
-						// TODO: unfortunately typesystem is broken, that goes wrong without casting
 						const usage = new usages.UsageEntry(_usage);
 
 						typedUsages.push(usage);
@@ -70,7 +60,7 @@ export class MnemonicaReferenceProvider implements vscode.ReferenceProvider {
 				}
 
 				if (typedUsages.length > 0) {
-					this.usages.map.set(typeName, typedUsages);
+					this.usages.set(typeName, typedUsages);
 				}
 			}
 
@@ -86,7 +76,8 @@ export class MnemonicaReferenceProvider implements vscode.ReferenceProvider {
 		_context: vscode.ReferenceContext,
 		_token: vscode.CancellationToken
 	): vscode.ProviderResult<vscode.Location[]> {
-		if (!(this.usages instanceof Function)) return;
+
+		if (!this.usages) return null;
 
 		const wordRange = document.getWordRangeAtPosition(position);
 		if (!wordRange) return null;
@@ -95,9 +86,10 @@ export class MnemonicaReferenceProvider implements vscode.ReferenceProvider {
 		const logger = getLogger();
 
 		logger.debug(`Looking up references for: ${word}`);
+		
 
 		// Try exact match first
-		let usageList = this.usages.get(word);
+		let usageList = this.usages!.get(word);
 
 		// Try with different prefixes/suffixes for nested types
 		if (!usageList) {

@@ -24,6 +24,7 @@ export type LinkInstance = ProtoFlat<DefinitionInstance, {
 	source: unknown;
 	target: unknown;
 	relation: 'extends' | 'implements' | 'contains';
+	Link: undefined;
 }>;
 
 export type LoggerTabInstance = {
@@ -38,6 +39,7 @@ export type LogEntryInstance = ProtoFlat<LoggerTabInstance, {
 	typeName: string;
 	error: Error;
 	args: Array<unknown>;
+	LogEntry: undefined;
 }>;
 
 export type MainInstance = {
@@ -51,6 +53,7 @@ export type AdapterInstance = ProtoFlat<MainInstance, {
 	domain: string;
 	enabled: boolean;
 	createdAt: number;
+	Adapter: undefined;
 }>;
 
 export type RegistryInstance = {
@@ -64,6 +67,7 @@ export type DefinitionEntryInstance = ProtoFlat<RegistryInstance, {
 	filePath: string;
 	line: number;
 	column: number;
+	DefinitionEntry: undefined;
 }>;
 
 export type Scene2DInstance = {
@@ -76,6 +80,8 @@ export type Camera2DInstance = ProtoFlat<Scene2DInstance, {
 	x: number;
 	y: number;
 	zoom: number;
+	Camera2D: undefined;
+	GraphNode2D: undefined;
 }>;
 
 export type GraphNode2DInstance = ProtoFlat<Scene2DInstance, {
@@ -85,18 +91,26 @@ export type GraphNode2DInstance = ProtoFlat<Scene2DInstance, {
 	y: number;
 	radius: number;
 	color: string;
+	Link2D: TypeConstructor<Link2DInstance>;
+	Tooltip2D: TypeConstructor<Tooltip2DInstance>;
+	GraphNode2D: undefined;
+	Camera2D: undefined;
 }>;
 
 export type Link2DInstance = ProtoFlat<GraphNode2DInstance, {
 	source: unknown;
 	target: unknown;
 	strength: number;
+	Link2D: undefined;
+	Tooltip2D: undefined;
 }>;
 
 export type Tooltip2DInstance = ProtoFlat<GraphNode2DInstance, {
 	targetNode: unknown;
 	content: string;
 	visible: boolean;
+	Tooltip2D: undefined;
+	Link2D: undefined;
 }>;
 
 export type Scene3DInstance = {
@@ -112,6 +126,8 @@ export type Camera3DInstance = ProtoFlat<Scene3DInstance, {
 	zoom: number;
 	rotationX: number;
 	rotationY: number;
+	Camera3D: undefined;
+	GraphNode3D: undefined;
 }>;
 
 export type GraphNode3DInstance = ProtoFlat<Scene3DInstance, {
@@ -122,18 +138,26 @@ export type GraphNode3DInstance = ProtoFlat<Scene3DInstance, {
 	z: number;
 	radius: number;
 	color: string;
+	Link3D: TypeConstructor<Link3DInstance>;
+	Tooltip3D: TypeConstructor<Tooltip3DInstance>;
+	GraphNode3D: undefined;
+	Camera3D: undefined;
 }>;
 
 export type Link3DInstance = ProtoFlat<GraphNode3DInstance, {
 	source: unknown;
 	target: unknown;
 	strength: number;
+	Link3D: undefined;
+	Tooltip3D: undefined;
 }>;
 
 export type Tooltip3DInstance = ProtoFlat<GraphNode3DInstance, {
 	targetNode: unknown;
 	content: string;
 	visible: boolean;
+	Tooltip3D: undefined;
+	Link3D: undefined;
 }>;
 
 export type TrieInstance = {
@@ -147,18 +171,25 @@ export type GraphNodeTrieInstance = ProtoFlat<TrieInstance, {
 	path: string;
 	depth: number;
 	isLeaf: boolean;
+	LinkTrie: TypeConstructor<LinkTrieInstance>;
+	ContextMenu: TypeConstructor<ContextMenuInstance>;
+	GraphNodeTrie: undefined;
 }>;
 
 export type LinkTrieInstance = ProtoFlat<GraphNodeTrieInstance, {
 	parent: unknown;
 	child: unknown;
 	relation: 'subtype' | 'instance';
+	LinkTrie: undefined;
+	ContextMenu: undefined;
 }>;
 
 export type ContextMenuInstance = ProtoFlat<GraphNodeTrieInstance, {
 	targetNode: unknown;
 	items: Array<object>;
 	visible: boolean;
+	ContextMenu: undefined;
+	LinkTrie: undefined;
 }>;
 
 export type TypesInstance = {
@@ -172,10 +203,17 @@ export type TypeEntryInstance = ProtoFlat<TypesInstance, {
 	fullPath: string;
 	parent: string;
 	properties: Map<string, string>;
+	TypeEntry: undefined;
 }>;
 
 export type UsagesInstance = {
 	createdAt: number;
+	readonly size: number;
+	get: (name: string) => Array<UsageEntryInstance>;
+	has: (name: string) => boolean;
+	set: (name: string, entry: Array<UsageEntryInstance>) => void;
+	values: () => MapIterator<Array<UsageEntryInstance>>;
+	clear: () => void;
 	UsageEntry: TypeConstructor<UsageEntryInstance>;
 };
 
@@ -186,4 +224,5 @@ export type UsageEntryInstance = ProtoFlat<UsagesInstance, {
 	line: number;
 	column: number;
 	context: string;
+	UsageEntry: undefined;
 }>;

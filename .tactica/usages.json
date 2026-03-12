@@ -1,20 +1,5 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-03-12T16:54:39.829Z",
-  "usages": {
-    "Usages": [
-      {
-        "location": "/code/mnemonica/mnemographica/src/providers/referenceProvider.bak.ts:28:17",
-        "kind": "instantiation",
-        "code": "new Usages"
-      }
-    ],
-    "Usages.UsageEntry": [
-      {
-        "location": "/code/mnemonica/mnemographica/src/providers/referenceProvider.bak.ts:58:25",
-        "kind": "propertyAccess",
-        "code": "usages.UsageEntry"
-      }
-    ]
-  }
+  "generatedAt": "2026-03-12T21:34:02.425Z",
+  "usages": {}
 }
