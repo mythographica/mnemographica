@@ -13,7 +13,7 @@ let isInitialized = false;
  */
 export function loadModels (extensionPath: string): void {
 	const logger = getLogger();
-	const modelsPath = path.join(extensionPath, 'out', 'models');
+	const modelsPath = path.join(extensionPath, 'out', 'src', 'models');
 
 	logger.info('[Topologica Bootstrap] Loading models from:', modelsPath);
 

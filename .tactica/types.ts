@@ -4,13 +4,7 @@
 /* eslint-disable @typescript-eslint/no-empty-object-type */
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import type { ProtoFlat } from 'mnemonica';
-
-// Helper type for nested type constructors
-type TypeConstructor<T> = {
-	new (...args: unknown[]): T;
-	(...args: unknown[]): T;
-};
+import type { ProtoFlat, TypeConstructor } from 'mnemonica';
 
 export type DefinitionInstance = {
 	id: string;

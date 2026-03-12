@@ -24,9 +24,15 @@
 		"workspaceContains:**/*.ts",
 		"workspaceContains:**/package.json"
 	],
-	"main": "./out/extension.js",
+	"main": "./out/src/extension.js",
 	"contributes": {
 		"commands": [
+			{
+				"command": "mnemographica.showTypeGraph",
+				"title": "Show Type Graph",
+				"category": "Mnemonica",
+				"icon": "$(graph)"
+			},
 			{
 				"command": "mnemographica.refreshGraph",
 				"title": "Refresh Type Graph",
@@ -50,6 +56,12 @@
 				"title": "Show Strategy MCP Status",
 				"category": "Mnemonica",
 				"icon": "$(server-environment)"
+			},
+			{
+				"command": "mnemographica.showLogger",
+				"title": "Show Logger",
+				"category": "Mnemonica",
+				"icon": "$(output)"
 			}
 		],
 		"menus": {
@@ -68,6 +80,9 @@
 				},
 				{
 					"command": "mnemographica.showStrategyStatus"
+				},
+				{
+					"command": "mnemographica.showLogger"
 				}
 			],
 			"editor/title": [
@@ -153,7 +168,7 @@
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
-		"compile": "npm run tactica:generate && rm -rf ./out && tsc -p ./",
+		"compile": "rm -rf ./out && tsc -p ./",
 		"watch": "tsc -watch -p ./",
 		"pretest": "npm run compile && npm run lint",
 		"lint": "eslint src --ext ts",
