@@ -8,24 +8,30 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { getLogger } from '../services/LoggerService';
 
-// import { TypeRegistry } from 'mnemonica';
+import { TypeRegistry } from 'mnemonica';
 // import { modelsLoaded } from '../topologica/bootstrap';
+// import { Usages } from '../models/Usages';
 
-import { Usages, usage } from '../models/Usages';
-
-type usages = InstanceType<typeof Usages>;
+import { lookupTyped } from 'mnemonica';
 
 // TODO: not working as tactica is not returing fields here...
-// type usage = InstanceType<TypeRegistry['Usages.UsageEntry']>;
+type usage = InstanceType<TypeRegistry['Usages.UsageEntry']>;
+
+// TODO: not working as tactica is not returing fields here...
+type usages = InstanceType<TypeRegistry['Usages']>
+
 
 export class MnemonicaReferenceProvider implements vscode.ReferenceProvider {
 	private usages: usages | undefined = undefined;
 	private logger = getLogger();
 
 	async loadUsages(workspacePath: string): Promise<void> {
-		if (!(Usages instanceof Function)) return;
 
-		this.usages = new Usages;
+		const Usages = lookupTyped('Usages');
+		const usages = new Usages;
+		
+		// typeof _usages.
+		// this.usages = _usages;
 
 		const usagesPath = path.join(workspacePath, '.tactica', 'usages.json');
 		if (!fs.existsSync(usagesPath)) {
@@ -54,8 +60,8 @@ export class MnemonicaReferenceProvider implements vscode.ReferenceProvider {
 						// const usage = apply(usages, usages.UsageEntry, _usage);
 						// TODO: the next line is worst, it returns  [x: string], so SN and etc ...
 						// type ut = typeof usage.createdAt
-						
-						const usage = new usages.UsageEntry(_usage) as unknown as usage;
+						// TODO: unfortunately typesystem is broken, that goes wrong without casting
+						const usage = new usages.UsageEntry(_usage);
 
 						typedUsages.push(usage);
 						this.logger.debug('UsageEntry creation for:', typeName);
@@ -64,7 +70,7 @@ export class MnemonicaReferenceProvider implements vscode.ReferenceProvider {
 				}
 
 				if (typedUsages.length > 0) {
-					this.usages.set(typeName, typedUsages);
+					this.usages.map.set(typeName, typedUsages);
 				}
 			}
 

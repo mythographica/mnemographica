@@ -11,29 +11,38 @@ export type usage = {
 	context: string
 };
 
-export const Usages = define('Usages', class extends Map {
+export type usageEntry = InstanceType<typeof UsageEntry>;
+
+export const Usages = define('Usages', class {
 	createdAt: number;
+	private map: Map<string, object[]>;
 	constructor() {
-		super();
 		this.createdAt = Date.now();
+		this.map = new Map();
 	}
-	clear() {
-		super.clear();
+	has (name: string) {
+		return this.map.has(name);
 	}
-	get(name: string): usage[] {
-		return super.get(name);
+	set (name: string, entry: usageEntry[]) {
+		this.map.set(name, entry);
 	}
-	set(name: string, value: usage[]) {
-		super.set(name, value);
-		return this;
+	values () {
+		return this.map.values();
+	}
+	get size () {
+		return this.map.size;
 	}
 });
+
+const setProps = (to: object, from: object) => {
+	Object.defineProperties(to, Object.getOwnPropertyDescriptors(from));
+}
 
 export const UsageEntry = Usages.define('UsageEntry', function (
 	this: usage,
 	data: usage
 ) {
-	Object.defineProperties(this, Object.getOwnPropertyDescriptors(data));
+	setProps(this, data);
 });
 
 export default Usages;
