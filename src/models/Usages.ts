@@ -4,7 +4,6 @@ import { define } from 'mnemonica';
 import { getLogger } from '../services/LoggerService';
 
 export type usage = {
-	id: string;
 	typeName: string;
 	filePath: string;
 	line: number;
@@ -16,17 +15,18 @@ export type usageEntry = InstanceType<typeof UsageEntry>;
 
 export const Usages = define('Usages', class {
 	createdAt: number;
-	private map: Map<string, Array<object>>;
+	private map: Map<string, Array<object>> = new Map();
 	private logger = getLogger()
 	constructor() {
 		this.createdAt = Date.now();
-		this.map = new Map();
 		this.logger.info(`[Usages] : constructed at ${this.createdAt}`);
 	}
 	get size() {
 		return this.map.size;
 	}
 	get(name: string): Array<usageEntry> {
+		this.logger.info('Usages keys: ', ...this.map.keys());
+		this.logger.info('Usages size: ', this.map.size);
 		return this.map.get(name) as unknown as Array<usageEntry>;
 	}
 	has(name: string) {

@@ -1,8 +1,9 @@
 import * as vscode from 'vscode';
+import * as path from 'path';
 import { GraphPanel } from './webview/panel';
 import { GraphProvider } from './graph/provider';
 import { MnemonicaActivityBarProvider } from './activityBar';
-import { MnemonicaTreeProvider } from './views/treeProvider';
+import { MnemonicaTreeProvider, MnemonicaTreeItem } from './views/treeProvider';
 import { MnemonicaDefinitionProvider } from './providers/definitionProvider';
 import { MnemonicaReferenceProvider } from './providers/referenceProvider';
 import { StrategyServer } from './strategy';
@@ -11,12 +12,14 @@ import { loadModels, modelsLoaded } from './topologica/bootstrap';
 
 let graphProvider: GraphProvider;
 let treeProvider: MnemonicaTreeProvider;
+let treeView: vscode.TreeView<MnemonicaTreeItem>;
 let definitionProvider: MnemonicaDefinitionProvider;
 let referenceProvider: MnemonicaReferenceProvider;
 let strategyServer: StrategyServer;
 let statusBarItem: vscode.StatusBarItem;
 
-export function activate (context: vscode.ExtensionContext) {
+
+export function activate(context: vscode.ExtensionContext) {
 	// Initialize logger first so we can capture all subsequent logs
 	const logger = getLogger();
 	logger.initialize(context);
@@ -26,12 +29,56 @@ export function activate (context: vscode.ExtensionContext) {
 	// Initialize graph provider
 	graphProvider = new GraphProvider();
 
-	// Initialize and register tree provider
+	// Initialize tree provider
 	treeProvider = new MnemonicaTreeProvider();
 	logger.info('TreeProvider created');
-	context.subscriptions.push(
-		vscode.window.registerTreeDataProvider('mnemonicaTypes', treeProvider)
-	);
+
+	// Create tree view with explicit TreeView reference for programmatic control
+	treeView = vscode.window.createTreeView('mnemonicaTypes', {
+		treeDataProvider: treeProvider,
+		canSelectMany: false
+	});
+	context.subscriptions.push(treeView);
+
+	// Navigate to definition when item is selected
+	treeView.onDidChangeSelection(async (event) => {
+		const selected = event.selection[0];
+		if (!selected || !selected.data.fullPath) return;
+
+		try {
+			const document = await vscode.workspace.openTextDocument(selected.data.fullPath);
+			const editor = await vscode.window.showTextDocument(document);
+
+			// Navigate to the specific line and column if available
+			if (selected.data.line !== undefined) {
+				let line, column;
+
+				if (selected.data.isDefinition) {
+					line = selected.data.line > 0 ? selected.data.line - 1 : 0;
+					const _column = selected.data.column ?? 0;
+					column = _column > 0 ? _column - 1 : 0;
+				} else {
+					line = selected.data.line;
+					column = selected.data.column ?? 0;
+				}
+
+				const position = new vscode.Position(line, column);
+				editor.selection = new vscode.Selection(position, position);
+				editor.revealRange(new vscode.Range(position, position), vscode.TextEditorRevealType.Default);
+			}
+		} catch (err) {
+			logger.error('Failed to open file:', selected.data.fullPath, err);
+		}
+	});
+
+	// Optional: Log expand/collapse events for debugging
+	treeView.onDidExpandElement((event) => {
+		logger.debug('Tree item expanded:', event.element.data.label);
+	});
+
+	treeView.onDidCollapseElement((event) => {
+		logger.debug('Tree item collapsed:', event.element.data.label);
+	});
 
 	// Initialize and register navigation providers
 	definitionProvider = new MnemonicaDefinitionProvider();
@@ -143,6 +190,87 @@ export function activate (context: vscode.ExtensionContext) {
 	);
 	context.subscriptions.push(refreshTreeCommand);
 
+	// Register open tree item command (for context menu)
+	const openTreeItemCommand = vscode.commands.registerCommand(
+		'mnemographica.openTreeItem',
+		async (item: MnemonicaTreeItem) => {
+			if (item.data.fullPath) {
+				const document = await vscode.workspace.openTextDocument(item.data.fullPath);
+				const editor = await vscode.window.showTextDocument(document);
+				// Navigate to the specific line and column if available
+				if (item.data.line !== undefined) {
+					const line = item.data.line;
+					const column = item.data.column ?? 0;
+					const position = new vscode.Position(line, column);
+					editor.selection = new vscode.Selection(position, position);
+					editor.revealRange(new vscode.Range(position, position), vscode.TextEditorRevealType.InCenter);
+				}
+			}
+		}
+	);
+	context.subscriptions.push(openTreeItemCommand);
+
+	// Register show usages command (for context menu)
+	type UsageQuickPickItem = {
+		label: string;
+		description: string;
+		detail: string;
+		index: number;
+		usage: { filePath: string; line: number; column: number; context?: string };
+	};
+
+	const showUsagesCommand = vscode.commands.registerCommand(
+		'mnemographica.showUsages',
+		async (item: MnemonicaTreeItem) => {
+			if (!item) return;
+
+			// Get the type name to lookup usages
+			const typeName = item.data.fullName || item.data.label;
+			logger.info('Showing usages for:', typeName);
+
+			// Use referenceProvider to get usages
+			const usages = referenceProvider.getUsagesForType(typeName);
+
+			if (!usages || usages.length === 0) {
+				vscode.window.showInformationMessage(`No usages found for ${typeName}`);
+				return;
+			}
+
+			// Create quick pick items from usages
+			const quickPickItems: UsageQuickPickItem[] = usages.map((usage, index) => ({
+				label: `$(file-code) ${path.basename(usage.filePath)}`,
+				description: `${usage.filePath}:${usage.line}:${usage.column}`,
+				detail: usage.context || 'No context available',
+				index,
+				usage
+			}));
+
+			// Show quick pick
+			const selected = await vscode.window.showQuickPick(quickPickItems, {
+				placeHolder: `Select a usage of ${typeName} (${usages.length} found)`,
+				matchOnDescription: true,
+				matchOnDetail: true
+			});
+
+			if (selected) {
+				// Navigate to the selected usage
+				try {
+					const document = await vscode.workspace.openTextDocument(selected.usage.filePath);
+					const editor = await vscode.window.showTextDocument(document);
+
+					const line = selected.usage.line > 0 ? selected.usage.line - 1 : 0;
+					const column = selected.usage.column > 0 ? selected.usage.column - 1 : 0;
+					const position = new vscode.Position(line, column);
+					editor.selection = new vscode.Selection(position, position);
+					editor.revealRange(new vscode.Range(position, position), vscode.TextEditorRevealType.Default);
+				} catch (err) {
+					logger.error('Failed to open usage file:', selected.usage.filePath, err);
+				}
+			}
+		}
+	);
+	context.subscriptions.push(showUsagesCommand);
+
 	// Register show tree view command
 	const showTreeCommand = vscode.commands.registerCommand(
 		'mnemographica.showTreeView',
@@ -198,7 +326,7 @@ export function activate (context: vscode.ExtensionContext) {
 	context.subscriptions.push(tacticaWatcher);
 }
 
-async function showTypeGraph (context: vscode.ExtensionContext) {
+async function showTypeGraph(context: vscode.ExtensionContext) {
 	const logger = getLogger();
 	const workspaceFolders = vscode.workspace.workspaceFolders;
 	if (!workspaceFolders) {
@@ -219,7 +347,7 @@ async function showTypeGraph (context: vscode.ExtensionContext) {
 	}
 }
 
-async function refreshTypeGraph (_context: vscode.ExtensionContext) {
+async function refreshTypeGraph(_context: vscode.ExtensionContext) {
 	const logger = getLogger();
 	const workspaceFolders = vscode.workspace.workspaceFolders;
 	if (!workspaceFolders) {
@@ -253,7 +381,7 @@ async function refreshTypeGraph (_context: vscode.ExtensionContext) {
 
 let debounceTimer: NodeJS.Timeout | null = null;
 
-async function handleFileChange (context: vscode.ExtensionContext) {
+async function handleFileChange(context: vscode.ExtensionContext) {
 	const logger = getLogger();
 	// Debounce the refresh
 	if (debounceTimer) {
@@ -266,7 +394,7 @@ async function handleFileChange (context: vscode.ExtensionContext) {
 	}, 2000);
 }
 
-export function deactivate () {
+export function deactivate() {
 	// Clean up
 	const logger = getLogger();
 	logger.info('Mnemonica Graphica extension deactivated');

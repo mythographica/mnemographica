@@ -33,6 +33,8 @@ type DefinitionData = {
 type TypeData = {
 	name: string;
 	parent?: string;
+	fullPath?: string;
+	line?: number;
 };
 
 export class MnemonicaTreeItem extends vscode.TreeItem {
@@ -44,27 +46,14 @@ export class MnemonicaTreeItem extends vscode.TreeItem {
 		this.iconPath = this.getIconPath(data.type);
 		this.tooltip = `${data.type}: ${data.label}`;
 
-		if (data.type === 'definition' && data.fullPath) {
-			this.command = {
-				command: 'vscode.open',
-				title: 'Open Definition',
-				arguments: [
-					vscode.Uri.file(data.fullPath),
-					{
-						selection: new vscode.Range(
-							data.line ?? 0,
-							data.column ?? 0,
-							data.line ?? 0,
-							data.column ?? 0
-						)
-					}
-				]
-			};
+		// Set contextValue for all navigable items (those with fullPath)
+		// Right-click context menu uses this
+		if (data.fullPath) {
+			this.contextValue = 'navigable';
 		}
 
-		if (data.type === 'subtype') {
-			this.contextValue = 'type';
-		}
+		// Note: Double-click detection is handled in extension.ts via onDidChangeSelection
+		// Single clicks let VS Code handle selection and expand/collapse naturally
 	}
 
 	private getIconPath (type: TreeNodeType): vscode.ThemeIcon {
@@ -144,16 +133,23 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 		const typesPath = path.join(workspacePath, '.tactica', 'types.ts');
 		if (fs.existsSync(typesPath)) {
 			const content = fs.readFileSync(typesPath, 'utf-8');
+			const lines = content.split('\n');
+
 			// Parse: export type TypeName = Parent & { ... }
 			// OR: export type TypeName = ProtoFlat<Parent, { ... }>
-			const typeRegex = /export\s+type\s+(\w+)\s*=\s*(?:(\w+)\s*&|ProtoFlat<(\w+),)?/g;
-			let match;
-			while ((match = typeRegex.exec(content)) !== null) {
-				const parent = match[2] || match[3] || undefined;
-				this.types.set(match[1], {
-					name: match[1],
-					parent
-				});
+			const typeRegex = /export\s+type\s+(\w+)\s*=\s*(?:(\w+)\s*&|ProtoFlat<(\w+),)?/;
+
+			for (let i = 0; i < lines.length; i++) {
+				const match = typeRegex.exec(lines[i]);
+				if (match) {
+					const parent = match[2] || match[3] || undefined;
+					this.types.set(match[1], {
+						name: match[1],
+						parent,
+						fullPath: typesPath,
+						line: i  // 0-based, will be converted to 0-based for vscode Range
+					});
+				}
 			}
 
 			if (this.debug) {
@@ -284,7 +280,14 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 	private createTypeItem (type: TypeData): MnemonicaTreeItem {
 		const hasChildren = this.getChildTypes(type.name).length > 0;
 		return new MnemonicaTreeItem(
-			{ label: type.name, type: hasChildren ? 'type' : 'subtype', isDefinition: false },
+			{
+				label: type.name,
+				type: hasChildren ? 'type' : 'subtype',
+				isDefinition: false,
+				fullPath: type.fullPath,
+				line: type.line,
+				column: 0
+			},
 			hasChildren ? vscode.TreeItemCollapsibleState.Collapsed : vscode.TreeItemCollapsibleState.None
 		);
 	}

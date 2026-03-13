@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-03-13T00:40:54.012Z",
+  "generatedAt": "2026-03-13T16:11:46.219Z",
   "usages": {
     "Registry.DefinitionEntry": [
       {
@@ -11,19 +11,19 @@
     ],
     "Usages": [
       {
-        "location": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:27:18",
+        "location": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:29:18",
         "kind": "lookup",
         "code": "lookupTyped('Usages')"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:28:18",
+        "location": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:32:18",
         "kind": "instantiation",
         "code": "new Usages"
       }
     ],
     "Usages.UsageEntry": [
       {
-        "location": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:54:25",
+        "location": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:58:25",
         "kind": "propertyAccess",
         "code": "usages.UsageEntry"
       }

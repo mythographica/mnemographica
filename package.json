@@ -62,6 +62,18 @@
 				"title": "Show Logger",
 				"category": "Mnemonica",
 				"icon": "$(output)"
+			},
+			{
+				"command": "mnemographica.openTreeItem",
+				"title": "Open Definition",
+				"category": "Mnemonica",
+				"icon": "$(go-to-file)"
+			},
+			{
+				"command": "mnemographica.showUsages",
+				"title": "Show Usages",
+				"category": "Mnemonica",
+				"icon": "$(references)"
 			}
 		],
 		"menus": {
@@ -103,6 +115,18 @@
 				{
 					"command": "mnemographica.showTypeGraph",
 					"group": "navigation"
+				}
+			],
+			"view/item/context": [
+				{
+					"command": "mnemographica.openTreeItem",
+					"when": "view == mnemonicaTypes && viewItem == navigable",
+					"group": "navigation@1"
+				},
+				{
+					"command": "mnemographica.showUsages",
+					"when": "view == mnemonicaTypes && viewItem == navigable",
+					"group": "navigation@2"
 				}
 			],
 			"explorer/context": [

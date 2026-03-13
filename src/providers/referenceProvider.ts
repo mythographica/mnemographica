@@ -45,15 +45,24 @@ export class MnemonicaReferenceProvider implements vscode.ReferenceProvider {
 			const data = JSON.parse(content);
 
 			// Parse usages from JSON
-			const usages = (data.usages || data) as usages;
+			const jsonUsages = data.usages as object[];
 
-			for (const [typeName, usageList] of Object.entries(usages)) {
+			for (const [typeName, usageList] of Object.entries(jsonUsages)) {
 				if (!Array.isArray(usageList)) continue;
 
-				const typedUsages: usage[] = [];
+				this.logger.info('loading usages for', typeName);
+
+				type usage_from_file = {
+					kind: string,
+					code: string,
+					location: string
+				};
+
+				const typedUsages: usage_from_file[] = [];
 
 				for (const _usage of usageList) {
-					if (_usage instanceof Object && 'filePath' in _usage && 'line' in _usage) {
+
+					if (_usage?.location instanceof String) {
 
 						const usage = new usages.UsageEntry(_usage);
 
@@ -145,6 +154,23 @@ export class MnemonicaReferenceProvider implements vscode.ReferenceProvider {
 		}
 
 		return null;
+	}
+
+	getUsagesForType(typeName: string): Array<{ filePath: string; line: number; column: number; context?: string }> {
+		this.logger.info('getUsagesForType: 151')
+		if (!(this.usages?.get instanceof Function)) return [];
+		this.logger.info('getUsagesForType: 153')
+		
+		const usageList = this.usages.get(typeName);
+		this.logger.info('getUsagesForType: 155: ', typeName, Array.isArray(usageList), typeof usageList);
+		if (!usageList) return [];
+
+		return usageList.map(usage => ({
+			filePath: usage.filePath,
+			line: usage.line,
+			column: usage.column,
+			context: usage.context
+		}));
 	}
 
 	clear(): void {
