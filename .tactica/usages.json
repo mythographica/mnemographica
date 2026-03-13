@@ -1,5 +1,32 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-03-12T23:12:36.958Z",
-  "usages": {}
+  "generatedAt": "2026-03-13T00:40:54.012Z",
+  "usages": {
+    "Registry.DefinitionEntry": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/providers/definitionProvider.ts:40:44",
+        "kind": "lookup",
+        "code": "lookupTyped('Registry.DefinitionEntry')"
+      }
+    ],
+    "Usages": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:27:18",
+        "kind": "lookup",
+        "code": "lookupTyped('Usages')"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:28:18",
+        "kind": "instantiation",
+        "code": "new Usages"
+      }
+    ],
+    "Usages.UsageEntry": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:54:25",
+        "kind": "propertyAccess",
+        "code": "usages.UsageEntry"
+      }
+    ]
+  }
 }

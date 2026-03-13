@@ -9,7 +9,7 @@ import * as fs from 'fs';
 import { getLogger } from '../services/LoggerService';
 
 import { TypeRegistry } from 'mnemonica';
-// import { modelsLoaded } from '../topologica/bootstrap';
+import { modelsLoaded } from '../topologica/bootstrap';
 // import { Usages } from '../models/Usages';
 
 import { lookupTyped } from 'mnemonica';
@@ -24,7 +24,11 @@ export class MnemonicaReferenceProvider implements vscode.ReferenceProvider {
 
 	async loadUsages(workspacePath: string): Promise<void> {
 
+        this.logger.info(`[Usages][modelsLoaded] : ${modelsLoaded}`);
+        this.logger.info(`[Usages][lookupTyped] typeof ${lookupTyped}`);
 		const Usages = lookupTyped('Usages');
+        this.logger.info(`[Usages] typeof ${Usages}`);
+
 		const usages = new Usages;
 		usages.createdAt;
 		

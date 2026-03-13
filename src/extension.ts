@@ -7,7 +7,7 @@ import { MnemonicaDefinitionProvider } from './providers/definitionProvider';
 import { MnemonicaReferenceProvider } from './providers/referenceProvider';
 import { StrategyServer } from './strategy';
 import { getLogger } from './services/LoggerService';
-import { loadModels } from './topologica/bootstrap';
+import { loadModels, modelsLoaded } from './topologica/bootstrap';
 
 let graphProvider: GraphProvider;
 let treeProvider: MnemonicaTreeProvider;
@@ -74,9 +74,10 @@ export function activate (context: vscode.ExtensionContext) {
 	loadModels(context.extensionPath);
 	logger.info('Models loaded via topologica bootstrap');
 
+
 	// Load definitions from workspace if available
 	const workspaceFolders = vscode.workspace.workspaceFolders;
-	if (workspaceFolders) {
+	if (workspaceFolders && modelsLoaded) {
 		const workspacePath = workspaceFolders[0].uri.fsPath;
 		logger.info('Loading tree definitions from:', workspacePath);
 		treeProvider.loadDefinitions(workspacePath).catch((err: Error) => {
@@ -89,7 +90,7 @@ export function activate (context: vscode.ExtensionContext) {
 			logger.error('Failed to load definitions:', err);
 		});
 		referenceProvider.loadUsages(workspacePath).catch((err: Error) => {
-			logger.error('Failed to load usages:', err);
+			logger.error('Failed to load usages:', err, err.stack);
 		});
 	} else {
 		logger.warn('No workspace folders found, skipping data load');

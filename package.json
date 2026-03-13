@@ -193,7 +193,6 @@
 		"@mnemonica/topologica": "file:../topologica",
 		"d3-force-3d": "^3.0.6",
 		"mnemonica": "file:../core",
-		"tactica": "file:../tactica",
 		"three": "^0.174.0",
 		"ws": "^8.19.0"
 	}

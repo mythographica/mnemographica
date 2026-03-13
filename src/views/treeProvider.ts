@@ -145,12 +145,14 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 		if (fs.existsSync(typesPath)) {
 			const content = fs.readFileSync(typesPath, 'utf-8');
 			// Parse: export type TypeName = Parent & { ... }
-			const typeRegex = /export\s+type\s+(\w+)\s*=\s*(\w+)?\s*&?\s*\{/g;
+			// OR: export type TypeName = ProtoFlat<Parent, { ... }>
+			const typeRegex = /export\s+type\s+(\w+)\s*=\s*(?:(\w+)\s*&|ProtoFlat<(\w+),)?/g;
 			let match;
 			while ((match = typeRegex.exec(content)) !== null) {
+				const parent = match[2] || match[3] || undefined;
 				this.types.set(match[1], {
 					name: match[1],
-					parent: match[2] || undefined
+					parent
 				});
 			}
 

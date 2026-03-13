@@ -1,6 +1,7 @@
 'use strict';
 
 import { define } from 'mnemonica';
+import { getLogger } from '../services/LoggerService';
 
 export type usage = {
 	id: string;
@@ -16,9 +17,11 @@ export type usageEntry = InstanceType<typeof UsageEntry>;
 export const Usages = define('Usages', class {
 	createdAt: number;
 	private map: Map<string, Array<object>>;
+	private logger = getLogger()
 	constructor() {
 		this.createdAt = Date.now();
 		this.map = new Map();
+		this.logger.info(`[Usages] : constructed at ${this.createdAt}`);
 	}
 	get size() {
 		return this.map.size;

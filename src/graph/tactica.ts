@@ -121,10 +121,17 @@ export class TacticaAdapter {
 				}
 
 				// Check for inheritance: Type = ParentType & { ... }
+				// OR Type = ProtoFlat<ParentType, { ... }>
 				let parentName: string | undefined;
 				const extendsMatch = cleanDef.match(/^(\w+)\s*&/);
 				if (extendsMatch) {
 					parentName = extendsMatch[1];
+				} else {
+					// Check for ProtoFlat pattern
+					const protoFlatMatch = cleanDef.match(/^ProtoFlat<(\w+),/);
+					if (protoFlatMatch) {
+						parentName = protoFlatMatch[1];
+					}
 				}
 
 				// Parse properties from the full definition
