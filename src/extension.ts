@@ -227,9 +227,12 @@ export function activate(context: vscode.ExtensionContext) {
 			// Get the type name to lookup usages
 			const typeName = item.data.fullName || item.data.label;
 			logger.info('Showing usages for:', typeName);
+			
+			const searchName = typeName.replace(/Instance$/, '');
+			logger.info('Showing usages for:', searchName);
 
 			// Use referenceProvider to get usages
-			const usages = referenceProvider.getUsagesForType(typeName);
+			const usages = referenceProvider.getUsagesForType(searchName);
 
 			if (!usages || usages.length === 0) {
 				vscode.window.showInformationMessage(`No usages found for ${typeName}`);

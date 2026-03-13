@@ -32,6 +32,7 @@ type DefinitionData = {
 
 type TypeData = {
 	name: string;
+	fullName: string;  // Full hierarchical name for usage lookup
 	parent?: string;
 	fullPath?: string;
 	line?: number;
@@ -145,6 +146,7 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 					const parent = match[2] || match[3] || undefined;
 					this.types.set(match[1], {
 						name: match[1],
+						fullName: match[1],  // Root types use name as fullName
 						parent,
 						fullPath: typesPath,
 						line: i  // 0-based, will be converted to 0-based for vscode Range
@@ -286,7 +288,8 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 				isDefinition: false,
 				fullPath: type.fullPath,
 				line: type.line,
-				column: 0
+				column: 0,
+				fullName: type.fullName  // Pass fullName for usage lookup
 			},
 			hasChildren ? vscode.TreeItemCollapsibleState.Collapsed : vscode.TreeItemCollapsibleState.None
 		);
