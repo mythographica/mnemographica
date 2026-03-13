@@ -24,14 +24,14 @@ export class MnemonicaReferenceProvider implements vscode.ReferenceProvider {
 
 	async loadUsages(workspacePath: string): Promise<void> {
 
-        this.logger.info(`[Usages][modelsLoaded] : ${modelsLoaded}`);
-        this.logger.info(`[Usages][lookupTyped] typeof ${lookupTyped}`);
+		this.logger.info(`[Usages][modelsLoaded] : ${modelsLoaded}`);
+		this.logger.info(`[Usages][lookupTyped] typeof ${lookupTyped}`);
 		const Usages = lookupTyped('Usages');
-        this.logger.info(`[Usages] typeof ${Usages}`);
+		this.logger.info(`[Usages] typeof ${Usages}`);
 
 		const usages = new Usages;
 		usages.createdAt;
-		
+
 		this.usages = usages;
 
 		const usagesPath = path.join(workspacePath, '.tactica', 'usages.json');
@@ -44,32 +44,33 @@ export class MnemonicaReferenceProvider implements vscode.ReferenceProvider {
 			const content = fs.readFileSync(usagesPath, 'utf-8');
 			const data = JSON.parse(content);
 
-			// Parse usages from JSON
-			const jsonUsages = data.usages as object[];
+			type usage_from_file = {
+				kind: string,
+				code: string,
+				location: string
+			};
 
-			for (const [typeName, usageList] of Object.entries(jsonUsages)) {
+			// Parse usages from JSON
+			const jsonUsages = data.usages as { [key: string]: usage_from_file[] };
+
+
+			const entries = Object.entries(jsonUsages);
+
+			for (const [typeName, usageList] of entries) {
 				if (!Array.isArray(usageList)) continue;
 
 				this.logger.info('loading usages for', typeName);
 
-				type usage_from_file = {
-					kind: string,
-					code: string,
-					location: string
-				};
 
-				const typedUsages: usage_from_file[] = [];
+				const typedUsages: usage[] = [];
 
 				for (const _usage of usageList) {
 
-					if (_usage?.location instanceof String) {
+					const usage = new usages.UsageEntry(_usage);
 
-						const usage = new usages.UsageEntry(_usage);
+					typedUsages.push(usage);
+					this.logger.debug('UsageEntry creation for:', typeName);
 
-						typedUsages.push(usage);
-						this.logger.debug('UsageEntry creation for:', typeName);
-
-					}
 				}
 
 				if (typedUsages.length > 0) {
@@ -99,7 +100,7 @@ export class MnemonicaReferenceProvider implements vscode.ReferenceProvider {
 		const logger = getLogger();
 
 		logger.debug(`Looking up references for: ${word}`);
-		
+
 
 		// Try exact match first
 		let usageList = this.usages!.get(word);
@@ -122,13 +123,13 @@ export class MnemonicaReferenceProvider implements vscode.ReferenceProvider {
 
 		const locations: vscode.Location[] = usageList.map(usage => {
 			// Resolve relative paths
-			let filePath = usage.filePath;
+			const [_filePath, line, column] = usage.location.split(':') as [string, string, string];
+			let filePath = _filePath;
 			if (workspaceFolder && !path.isAbsolute(filePath)) {
 				filePath = path.join(workspaceFolder.uri.fsPath, filePath);
 			}
-
 			const uri = vscode.Uri.file(filePath);
-			const pos = new vscode.Position(usage.line - 1, usage.column);
+			const pos = new vscode.Position(Number(line) - 1, Number(column));
 			return new vscode.Location(uri, pos);
 		});
 
@@ -160,17 +161,21 @@ export class MnemonicaReferenceProvider implements vscode.ReferenceProvider {
 		this.logger.info('getUsagesForType: 151')
 		if (!(this.usages?.get instanceof Function)) return [];
 		this.logger.info('getUsagesForType: 153')
-		
+
 		const usageList = this.usages.get(typeName);
 		this.logger.info('getUsagesForType: 155: ', typeName, Array.isArray(usageList), typeof usageList);
 		if (!usageList) return [];
 
-		return usageList.map(usage => ({
-			filePath: usage.filePath,
-			line: usage.line,
-			column: usage.column,
-			context: usage.context
-		}));
+
+		return usageList.map(usage => {
+			const [filePath, line, column] = usage.location.split(':') as [string, string, string];
+			return {
+				filePath,
+				line: Number(line),
+				column: Number(column),
+				context: usage.typeName
+			}
+		});
 	}
 
 	clear(): void {

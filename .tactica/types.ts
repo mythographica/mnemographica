@@ -212,11 +212,9 @@ export type UsagesInstance = {
 };
 
 export type UsageEntryInstance = ProtoFlat<UsagesInstance, {
-	id: string;
 	typeName: string;
-	filePath: string;
-	line: number;
-	column: number;
-	context: string;
+	kind: string;
+	code: string;
+	location: string;
 	UsageEntry: undefined;
 }>;

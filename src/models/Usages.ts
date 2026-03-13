@@ -5,10 +5,9 @@ import { getLogger } from '../services/LoggerService';
 
 export type usage = {
 	typeName: string;
-	filePath: string;
-	line: number;
-	column: number;
-	context: string
+	kind: string,
+	code: string,
+	location: string
 };
 
 export type usageEntry = InstanceType<typeof UsageEntry>;
