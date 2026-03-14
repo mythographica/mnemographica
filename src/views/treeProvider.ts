@@ -280,10 +280,11 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 	}
 
 	private createTypeItem (type: TypeData): MnemonicaTreeItem {
+		const shortName = type.name.includes('_') ? type.name.split('_').pop()! : type.name;
 		const hasChildren = this.getChildTypes(type.name).length > 0;
 		return new MnemonicaTreeItem(
 			{
-				label: type.name,
+				label: shortName,
 				type: hasChildren ? 'type' : 'subtype',
 				isDefinition: false,
 				fullPath: type.fullPath,
