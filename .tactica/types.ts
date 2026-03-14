@@ -6,27 +6,27 @@
 
 import type { ProtoFlat, TypeConstructor } from 'mnemonica';
 
-export type DefinitionInstance = {
+export type Definition = {
 	id: string;
 	name: string;
 	fullPath: string;
 	properties: Map<string, object>;
-	Link: TypeConstructor<LinkInstance>;
+	Link: TypeConstructor<Definition_Link>;
 };
 
-export type LinkInstance = ProtoFlat<DefinitionInstance, {
+export type Definition_Link = ProtoFlat<Definition, {
 	source: unknown;
 	target: unknown;
 	relation: 'extends' | 'implements' | 'contains';
 	Link: undefined;
 }>;
 
-export type LoggerTabInstance = {
+export type LoggerTab = {
 	createdAt: number;
-	LogEntry: TypeConstructor<LogEntryInstance>;
+	LogEntry: TypeConstructor<LoggerTab_LogEntry>;
 };
 
-export type LogEntryInstance = ProtoFlat<LoggerTabInstance, {
+export type LoggerTab_LogEntry = ProtoFlat<LoggerTab, {
 	level: 'info' | 'warning' | 'error';
 	message: string;
 	timestamp: number;
@@ -36,13 +36,13 @@ export type LogEntryInstance = ProtoFlat<LoggerTabInstance, {
 	LogEntry: undefined;
 }>;
 
-export type MainInstance = {
+export type Main = {
 	extensionVersion: string;
 	createdAt: number;
-	Adapter: TypeConstructor<AdapterInstance>;
+	Adapter: TypeConstructor<Main_Adapter>;
 };
 
-export type AdapterInstance = ProtoFlat<MainInstance, {
+export type Main_Adapter = ProtoFlat<Main, {
 	name: string;
 	domain: string;
 	enabled: boolean;
@@ -50,12 +50,12 @@ export type AdapterInstance = ProtoFlat<MainInstance, {
 	Adapter: undefined;
 }>;
 
-export type RegistryInstance = {
+export type Registry = {
 	createdAt: number;
-	DefinitionEntry: TypeConstructor<DefinitionEntryInstance>;
+	DefinitionEntry: TypeConstructor<Registry_DefinitionEntry>;
 };
 
-export type DefinitionEntryInstance = ProtoFlat<RegistryInstance, {
+export type Registry_DefinitionEntry = ProtoFlat<Registry, {
 	id: string;
 	name: string;
 	filePath: string;
@@ -64,13 +64,13 @@ export type DefinitionEntryInstance = ProtoFlat<RegistryInstance, {
 	DefinitionEntry: undefined;
 }>;
 
-export type Scene2DInstance = {
+export type Scene2D = {
 	createdAt: number;
-	Camera2D: TypeConstructor<Camera2DInstance>;
-	GraphNode2D: TypeConstructor<GraphNode2DInstance>;
+	Camera2D: TypeConstructor<Scene2D_Camera2D>;
+	GraphNode2D: TypeConstructor<Scene2D_GraphNode2D>;
 };
 
-export type Camera2DInstance = ProtoFlat<Scene2DInstance, {
+export type Scene2D_Camera2D = ProtoFlat<Scene2D, {
 	x: number;
 	y: number;
 	zoom: number;
@@ -78,20 +78,20 @@ export type Camera2DInstance = ProtoFlat<Scene2DInstance, {
 	GraphNode2D: undefined;
 }>;
 
-export type GraphNode2DInstance = ProtoFlat<Scene2DInstance, {
+export type Scene2D_GraphNode2D = ProtoFlat<Scene2D, {
 	id: string;
 	label: string;
 	x: number;
 	y: number;
 	radius: number;
 	color: string;
-	Link2D: TypeConstructor<Link2DInstance>;
-	Tooltip2D: TypeConstructor<Tooltip2DInstance>;
+	Link2D: TypeConstructor<Scene2D_GraphNode2D_Link2D>;
+	Tooltip2D: TypeConstructor<Scene2D_GraphNode2D_Tooltip2D>;
 	GraphNode2D: undefined;
 	Camera2D: undefined;
 }>;
 
-export type Link2DInstance = ProtoFlat<GraphNode2DInstance, {
+export type Scene2D_GraphNode2D_Link2D = ProtoFlat<Scene2D_GraphNode2D, {
 	source: unknown;
 	target: unknown;
 	strength: number;
@@ -99,7 +99,7 @@ export type Link2DInstance = ProtoFlat<GraphNode2DInstance, {
 	Tooltip2D: undefined;
 }>;
 
-export type Tooltip2DInstance = ProtoFlat<GraphNode2DInstance, {
+export type Scene2D_GraphNode2D_Tooltip2D = ProtoFlat<Scene2D_GraphNode2D, {
 	targetNode: unknown;
 	content: string;
 	visible: boolean;
@@ -107,13 +107,13 @@ export type Tooltip2DInstance = ProtoFlat<GraphNode2DInstance, {
 	Link2D: undefined;
 }>;
 
-export type Scene3DInstance = {
+export type Scene3D = {
 	createdAt: number;
-	Camera3D: TypeConstructor<Camera3DInstance>;
-	GraphNode3D: TypeConstructor<GraphNode3DInstance>;
+	Camera3D: TypeConstructor<Scene3D_Camera3D>;
+	GraphNode3D: TypeConstructor<Scene3D_GraphNode3D>;
 };
 
-export type Camera3DInstance = ProtoFlat<Scene3DInstance, {
+export type Scene3D_Camera3D = ProtoFlat<Scene3D, {
 	x: number;
 	y: number;
 	z: number;
@@ -124,7 +124,7 @@ export type Camera3DInstance = ProtoFlat<Scene3DInstance, {
 	GraphNode3D: undefined;
 }>;
 
-export type GraphNode3DInstance = ProtoFlat<Scene3DInstance, {
+export type Scene3D_GraphNode3D = ProtoFlat<Scene3D, {
 	id: string;
 	label: string;
 	x: number;
@@ -132,13 +132,13 @@ export type GraphNode3DInstance = ProtoFlat<Scene3DInstance, {
 	z: number;
 	radius: number;
 	color: string;
-	Link3D: TypeConstructor<Link3DInstance>;
-	Tooltip3D: TypeConstructor<Tooltip3DInstance>;
+	Link3D: TypeConstructor<Scene3D_GraphNode3D_Link3D>;
+	Tooltip3D: TypeConstructor<Scene3D_GraphNode3D_Tooltip3D>;
 	GraphNode3D: undefined;
 	Camera3D: undefined;
 }>;
 
-export type Link3DInstance = ProtoFlat<GraphNode3DInstance, {
+export type Scene3D_GraphNode3D_Link3D = ProtoFlat<Scene3D_GraphNode3D, {
 	source: unknown;
 	target: unknown;
 	strength: number;
@@ -146,7 +146,7 @@ export type Link3DInstance = ProtoFlat<GraphNode3DInstance, {
 	Tooltip3D: undefined;
 }>;
 
-export type Tooltip3DInstance = ProtoFlat<GraphNode3DInstance, {
+export type Scene3D_GraphNode3D_Tooltip3D = ProtoFlat<Scene3D_GraphNode3D, {
 	targetNode: unknown;
 	content: string;
 	visible: boolean;
@@ -154,23 +154,23 @@ export type Tooltip3DInstance = ProtoFlat<GraphNode3DInstance, {
 	Link3D: undefined;
 }>;
 
-export type TrieInstance = {
+export type Trie = {
 	createdAt: number;
-	GraphNodeTrie: TypeConstructor<GraphNodeTrieInstance>;
+	GraphNodeTrie: TypeConstructor<Trie_GraphNodeTrie>;
 };
 
-export type GraphNodeTrieInstance = ProtoFlat<TrieInstance, {
+export type Trie_GraphNodeTrie = ProtoFlat<Trie, {
 	id: string;
 	name: string;
 	path: string;
 	depth: number;
 	isLeaf: boolean;
-	LinkTrie: TypeConstructor<LinkTrieInstance>;
-	ContextMenu: TypeConstructor<ContextMenuInstance>;
+	LinkTrie: TypeConstructor<Trie_GraphNodeTrie_LinkTrie>;
+	ContextMenu: TypeConstructor<Trie_GraphNodeTrie_ContextMenu>;
 	GraphNodeTrie: undefined;
 }>;
 
-export type LinkTrieInstance = ProtoFlat<GraphNodeTrieInstance, {
+export type Trie_GraphNodeTrie_LinkTrie = ProtoFlat<Trie_GraphNodeTrie, {
 	parent: unknown;
 	child: unknown;
 	relation: 'subtype' | 'instance';
@@ -178,7 +178,7 @@ export type LinkTrieInstance = ProtoFlat<GraphNodeTrieInstance, {
 	ContextMenu: undefined;
 }>;
 
-export type ContextMenuInstance = ProtoFlat<GraphNodeTrieInstance, {
+export type Trie_GraphNodeTrie_ContextMenu = ProtoFlat<Trie_GraphNodeTrie, {
 	targetNode: unknown;
 	items: Array<object>;
 	visible: boolean;
@@ -186,12 +186,12 @@ export type ContextMenuInstance = ProtoFlat<GraphNodeTrieInstance, {
 	LinkTrie: undefined;
 }>;
 
-export type TypesInstance = {
+export type Types = {
 	createdAt: number;
-	TypeEntry: TypeConstructor<TypeEntryInstance>;
+	TypeEntry: TypeConstructor<Types_TypeEntry>;
 };
 
-export type TypeEntryInstance = ProtoFlat<TypesInstance, {
+export type Types_TypeEntry = ProtoFlat<Types, {
 	id: string;
 	name: string;
 	fullPath: string;
@@ -200,18 +200,19 @@ export type TypeEntryInstance = ProtoFlat<TypesInstance, {
 	TypeEntry: undefined;
 }>;
 
-export type UsagesInstance = {
+export type Usages = {
 	createdAt: number;
 	readonly size: number;
-	get: (name: string) => Array<UsageEntryInstance>;
+	get: (name: string) => Array<Usages_UsageEntry>;
 	has: (name: string) => boolean;
-	set: (name: string, entry: Array<UsageEntryInstance>) => void;
-	values: () => MapIterator<Array<UsageEntryInstance>>;
+	set: (name: string, entry: Array<Usages_UsageEntry>) => void;
+	keys: () => MapIterator<string>;
+	values: () => MapIterator<Array<Usages_UsageEntry>>;
 	clear: () => void;
-	UsageEntry: TypeConstructor<UsageEntryInstance>;
+	UsageEntry: TypeConstructor<Usages_UsageEntry>;
 };
 
-export type UsageEntryInstance = ProtoFlat<UsagesInstance, {
+export type Usages_UsageEntry = ProtoFlat<Usages, {
 	typeName: string;
 	kind: string;
 	code: string;

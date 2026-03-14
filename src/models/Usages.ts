@@ -34,6 +34,9 @@ export const Usages = define('Usages', class {
 	set(name: string, entry: Array<usageEntry>) {
 		this.map.set(name, entry);
 	}
+	keys(): MapIterator<string> {
+		return this.map.keys() as unknown as MapIterator<string>;
+	}
 	values(): MapIterator<Array<usageEntry>> {
 		return this.map.values() as unknown as MapIterator<Array<usageEntry>>;
 	}

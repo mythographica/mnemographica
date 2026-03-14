@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-03-13T21:03:53.427Z",
+  "generatedAt": "2026-03-14T00:28:16.951Z",
   "usages": {
     "Registry.DefinitionEntry": [
       {
@@ -23,7 +23,7 @@
     ],
     "Usages.UsageEntry": [
       {
-        "location": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:69:24",
+        "location": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:73:24",
         "kind": "propertyAccess",
         "code": "usages.UsageEntry"
       }

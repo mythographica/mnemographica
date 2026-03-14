@@ -66,10 +66,14 @@ export class MnemonicaReferenceProvider implements vscode.ReferenceProvider {
 
 				for (const _usage of usageList) {
 
-					const usage = new usages.UsageEntry(_usage);
+					const pushed = Object.assign({
+						typeName
+					}, _usage);
+
+					const usage = new usages.UsageEntry(pushed);
 
 					typedUsages.push(usage);
-					this.logger.debug('UsageEntry creation for:', typeName);
+					this.logger.debug('UsageEntry creation for:', typeName, JSON.stringify(usage));
 
 				}
 
@@ -158,14 +162,14 @@ export class MnemonicaReferenceProvider implements vscode.ReferenceProvider {
 	}
 
 	getUsagesForType(typeName: string): Array<{ filePath: string; line: number; column: number; context?: string }> {
-		this.logger.info('getUsagesForType: 151')
+		this.logger.info('getUsagesForType: 165')
 		if (!(this.usages?.get instanceof Function)) return [];
-		this.logger.info('getUsagesForType: 153')
+		this.logger.info('getUsagesForType: 167')
 
-		const usageList = this.usages.get(typeName);
-		this.logger.info('getUsagesForType: 155: ', typeName, Array.isArray(usageList), typeof usageList);
+		const usageList = this.usages.get(typeName.replace('_', '.'));
+		this.logger.info('getUsagesForType: 170: ', typeName, Array.isArray(usageList), typeof usageList);
 		if (!usageList) return [];
-
+		this.logger.info('getUsagesForType: 172');
 
 		return usageList.map(usage => {
 			const [filePath, line, column] = usage.location.split(':') as [string, string, string];

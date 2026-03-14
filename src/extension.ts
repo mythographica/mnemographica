@@ -226,7 +226,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 			// Get the type name to lookup usages
 			const typeName = item.data.fullName || item.data.label;
-			logger.info('Showing usages for:', typeName);
+			logger.info('Showing usages for:', typeName, JSON.stringify(item.data), '|');
 			
 			const searchName = typeName.replace(/Instance$/, '');
 			logger.info('Showing usages for:', searchName);
