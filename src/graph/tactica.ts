@@ -188,8 +188,8 @@ export class TacticaAdapter {
 				node.parent = parent;
 				parent.children.set(name, node);
 				node.fullPath = parent.fullPath + '.' + name;
-			} else if (name.endsWith('Instance')) {
-				// Root type (ends with Instance, no parent)
+			} else if (!name.includes('_')) {
+				// Root type (no underscore, no parent)
 				rootTypes.push(node);
 			}
 		}

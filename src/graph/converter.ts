@@ -48,9 +48,11 @@ export class GraphConverter {
 		}
 
 		// Create D3 node
+		// Extract short name (last part after underscore) for display
+		const shortName = typeNode.name.includes('_') ? typeNode.name.split('_').pop()! : typeNode.name;
 		const d3Node: D3Node = {
 			id: typeNode.fullPath,
-			name: typeNode.name,
+			name: shortName,
 			depth: depth,
 			isRoot: depth === 0,
 			properties: properties,
