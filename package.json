@@ -207,11 +207,13 @@
 			"mnemonica": [
 				{
 					"id": "mnemonicaUsages",
-					"name": "Usages"
+					"name": "Usages",
+					"icon": "media/psi-icon.svg"
 				},
 				{
 					"id": "mnemonicaTypes",
-					"name": "Types"
+					"name": "Types",
+					"icon": "media/psi-icon.svg"
 				}
 			]
 		},

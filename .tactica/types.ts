@@ -30,9 +30,9 @@ export type LoggerTab_LogEntry = ProtoFlat<LoggerTab, {
 	level: 'info' | 'warning' | 'error';
 	message: string;
 	timestamp: number;
-	typeName: string;
-	error: Error;
-	args: Array<unknown>;
+	typeName?: string;
+	error?: Error;
+	args?: Array<unknown>;
 	LogEntry: undefined;
 }>;
 

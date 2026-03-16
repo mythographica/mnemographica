@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-03-16T11:59:45.582Z",
+  "generatedAt": "2026-03-16T22:25:39.195Z",
   "definitions": {
     "Definition": {
       "name": "Definition",
@@ -20,7 +20,7 @@
     },
     "LoggerTab": {
       "name": "LoggerTab",
-      "location": "/code/mnemonica/mnemographica/src/models/LoggerTab.ts:5:26",
+      "location": "/code/mnemonica/mnemographica/src/models/LoggerTab.ts:16:26",
       "kind": "define",
       "parent": null,
       "strictChain": true,
@@ -28,7 +28,7 @@
     },
     "LoggerTab.LogEntry": {
       "name": "LogEntry",
-      "location": "/code/mnemonica/mnemographica/src/models/LoggerTab.ts:9:25",
+      "location": "/code/mnemonica/mnemographica/src/models/LoggerTab.ts:24:25",
       "kind": "define",
       "parent": "LoggerTab",
       "strictChain": true,

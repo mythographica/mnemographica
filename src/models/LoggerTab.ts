@@ -2,26 +2,30 @@
 
 import { define } from 'mnemonica';
 
-export const LoggerTab = define('LoggerTab', function (this: { createdAt: number }) {
-	this.createdAt = Date.now();
+// LogEntry data structure matching .tactica/types.ts
+export type LogEntryData = {
+	level: 'info' | 'warning' | 'error';
+	message: string;
+	timestamp: number;
+	typeName?: string;
+	error?: Error;
+	args?: Array<unknown>;
+};
+
+// LoggerTab - Root type for log data
+export const LoggerTab = define('LoggerTab', class {
+	createdAt: number;
+	constructor() {
+		this.createdAt = Date.now();
+	}
 });
 
-export const LogEntry = LoggerTab.define('LogEntry', function (
-	this: { level: 'info' | 'warning' | 'error'; message: string; timestamp: number; typeName?: string; error?: Error; args?: unknown[] },
-	data: { level: 'info' | 'warning' | 'error'; message: string; timestamp: number; typeName?: string; error?: Error; args?: unknown[] }
-) {
-	this.level = data.level;
-	this.message = data.message;
-	this.timestamp = data.timestamp;
-	this.typeName = data.typeName;
-	this.error = data.error;
-	this.args = data.args;
+// LogEntry - Individual log entry type (defined AFTER LoggerTab)
+export const LogEntry = LoggerTab.define('LogEntry', function (this: LogEntryData, data: LogEntryData) {
+	Object.assign(this, data);
 });
 
-// Note: creationError hook can be registered via MCP when needed
-// Example:
-// defaultTypes.registerHook('creationError', (hookData) => {
-//   logger.LogEntry({ level: 'error', typeName: hookData.typeName, args: hookData.args });
-// });
+// Type alias for LogEntry instances (must be after LogEntry definition)
+export type LogEntry = InstanceType<typeof LogEntry>;
 
 export default LoggerTab;
