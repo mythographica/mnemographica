@@ -734,16 +734,19 @@ async function selectWorkspace (): Promise<void> {
 
 async function showTypeGraph(context: vscode.ExtensionContext) {
 	const logger = getLogger();
-	const workspaceFolders = vscode.workspace.workspaceFolders;
-	if (!workspaceFolders) {
-		vscode.window.showWarningMessage('No workspace folder open');
+
+	// Use the tree provider's current workspace, or fall back to first workspace folder
+	const workspacePath = treeProvider?.getCurrentWorkspace() || vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
+
+	if (!workspacePath) {
+		vscode.window.showWarningMessage('No workspace selected. Please select a workspace first.');
 		return;
 	}
 
 	try {
-		// Load graph data
-		const graphData = await graphProvider.loadGraph(workspaceFolders[0].uri.fsPath);
-		logger.info(`Loaded graph with ${graphData.nodes.length} nodes and ${graphData.links.length} links`);
+		// Load graph data from the selected workspace
+		const graphData = await graphProvider.loadGraph(workspacePath);
+		logger.info(`Loaded graph with ${graphData.nodes.length} nodes and ${graphData.links.length} links from ${workspacePath}`);
 
 		// Create or show panel
 		GraphPanel.createOrShow(context.extensionUri, graphData);
