@@ -8,13 +8,13 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { getLogger } from '../services/LoggerService';
 
-import { TypeRegistry } from 'mnemonica';
-import { modelsLoaded } from '../topologica/bootstrap';
-
 import { lookupTyped } from 'mnemonica';
+import { modelsLoaded } from '../topologica/bootstrap';
+import type { Usages, Usages_UsageEntry } from '~tactica/types';
 
-type usage = InstanceType<TypeRegistry['Usages.UsageEntry']>;
-type usages = InstanceType<TypeRegistry['Usages']>
+// Type aliases using clean imports from .tactica/types.ts
+type usage = Usages_UsageEntry;
+type usages = Usages;
 
 
 export class MnemonicaReferenceProvider implements vscode.ReferenceProvider {

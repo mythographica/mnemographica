@@ -1,12 +1,12 @@
 'use strict';
 
 import * as vscode from 'vscode';
-import { lookupTyped, TypeRegistry } from 'mnemonica';
+import { lookupTyped } from 'mnemonica';
 import { modelsLoaded } from '../topologica/bootstrap';
+import type { LoggerTab, LoggerTab_LogEntry } from '~tactica/types';
 
-// Type aliases for Mnemonica LoggerTab instances
-type LogEntry = InstanceType<TypeRegistry['LoggerTab.LogEntry']>;
-type LoggerTab = InstanceType<TypeRegistry['LoggerTab']>;
+// Type aliases for cleaner code
+// Using imports from .tactica/types.ts instead of InstanceType<TypeRegistry>
 
 /**
  * LoggerService - Centralized logging service for Mnemonica Graphica
@@ -21,7 +21,7 @@ export class LoggerService {
 
 	// Phase 1: Mnemonica data storage
 	private loggerTab: LoggerTab | undefined;
-	private logEntries: LogEntry[] = [];
+	private logEntries: LoggerTab_LogEntry[] = [];
 
 	private constructor () {
 		// Output channel will be created on first use
@@ -141,7 +141,7 @@ export class LoggerService {
 	 * Get all log entries as Mnemonica instances
 	 * Phase 1: Allows introspection of logged data
 	 */
-	getLogEntries (): LogEntry[] {
+	getLogEntries (): LoggerTab_LogEntry[] {
 		return [...this.logEntries];
 	}
 
@@ -149,7 +149,7 @@ export class LoggerService {
 	 * Get log entries by level
 	 * Phase 1: Filter logs by severity level
 	 */
-	getLogsByLevel (level: 'info' | 'warning' | 'error'): LogEntry[] {
+	getLogsByLevel (level: 'info' | 'warning' | 'error'): LoggerTab_LogEntry[] {
 		return this.logEntries.filter(entry => entry.level === level);
 	}
 

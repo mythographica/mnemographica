@@ -2,7 +2,10 @@
 	"compilerOptions": {
 		"module": "commonjs",
 		"target": "ES2020",
-		"lib": ["ES2020", "DOM"],
+		"lib": [
+			"ES2020",
+			"DOM"
+		],
 		"outDir": "out",
 		"rootDir": ".",
 		"sourceMap": true,
@@ -13,8 +16,20 @@
 		"skipLibCheck": true,
 		"forceConsistentCasingInFileNames": true,
 		"resolveJsonModule": true,
-		"moduleResolution": "node"
+		"moduleResolution": "node",
+		"baseUrl": ".",
+		"paths": {
+			"~tactica/*": [
+				".tactica/*"
+			]
+		},
 	},
-	"exclude": ["node_modules", ".vscode-test"],
-	"include": ["src/**/*", ".tactica/*.ts"]
+	"exclude": [
+		"node_modules",
+		".vscode-test"
+	],
+	"include": [
+		"src/**/*",
+		".tactica/*.ts"
+	]
 }
