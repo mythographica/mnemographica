@@ -1,15 +1,27 @@
 'use strict';
 
 import * as vscode from 'vscode';
+import { lookupTyped, TypeRegistry } from 'mnemonica';
+import { modelsLoaded } from '../topologica/bootstrap';
+
+// Type aliases for Mnemonica LoggerTab instances
+type LogEntry = InstanceType<TypeRegistry['LoggerTab.LogEntry']>;
+type LoggerTab = InstanceType<TypeRegistry['LoggerTab']>;
 
 /**
  * LoggerService - Centralized logging service for Mnemonica Graphica
  * Wraps VS Code OutputChannel to provide consistent logging across the extension
+ *
+ * Phase 1 Self-Referential: Log entries stored as Mnemonica instances
  */
 export class LoggerService {
 	private static instance: LoggerService;
 	private outputChannel: vscode.OutputChannel;
 	private isInitialized = false;
+
+	// Phase 1: Mnemonica data storage
+	private loggerTab: LoggerTab | undefined;
+	private logEntries: LogEntry[] = [];
 
 	private constructor () {
 		// Output channel will be created on first use
@@ -26,6 +38,7 @@ export class LoggerService {
 	/**
 	 * Initialize the output channel
 	 * Must be called from extension activate()
+	 * Phase 1: Also initializes Mnemonica LoggerTab data storage
 	 */
 	initialize (context: vscode.ExtensionContext): void {
 		if (this.isInitialized) {
@@ -34,6 +47,14 @@ export class LoggerService {
 
 		this.outputChannel = vscode.window.createOutputChannel('Mnemonica Logger');
 		context.subscriptions.push(this.outputChannel);
+
+		// Phase 1: Initialize Mnemonica LoggerTab via lookupTyped
+		if (modelsLoaded) {
+			const LoggerTabConstructor = lookupTyped('LoggerTab');
+			if (LoggerTabConstructor) {
+				this.loggerTab = new LoggerTabConstructor();
+			}
+		}
 
 		this.isInitialized = true;
 		this.info('Mnemonica Logger initialized');
@@ -104,16 +125,45 @@ export class LoggerService {
 
 	/**
 	 * Dispose the logger
+	 * Phase 1: Also clears Mnemonica data
 	 */
 	dispose (): void {
 		if (this.outputChannel) {
 			this.outputChannel.dispose();
 		}
 		this.isInitialized = false;
+		// Phase 1: Reset Mnemonica data
+		this.logEntries = [];
+		this.loggerTab = undefined;
+	}
+
+	/**
+	 * Get all log entries as Mnemonica instances
+	 * Phase 1: Allows introspection of logged data
+	 */
+	getLogEntries (): LogEntry[] {
+		return [...this.logEntries];
+	}
+
+	/**
+	 * Get log entries by level
+	 * Phase 1: Filter logs by severity level
+	 */
+	getLogsByLevel (level: 'info' | 'warning' | 'error'): LogEntry[] {
+		return this.logEntries.filter(entry => entry.level === level);
+	}
+
+	/**
+	 * Get count of stored log entries
+	 * Phase 1: Statistics for the Mnemonica data
+	 */
+	getLogCount (): number {
+		return this.logEntries.length;
 	}
 
 	/**
 	 * Write a log message with timestamp and level
+	 * Phase 1: Also stores as Mnemonica LogEntry instance
 	 */
 	private write (level: string, message: string, args: unknown[]): void {
 		const timestamp = new Date().toISOString();
@@ -126,6 +176,17 @@ export class LoggerService {
 		}
 
 		const logline = `${prefix} ${formattedMessage}`;
+
+		// Phase 1: Create Mnemonica LogEntry instance for data storage
+		if (this.loggerTab) {
+			const entry = new this.loggerTab.LogEntry({
+				level: level.toLowerCase() as 'info' | 'warning' | 'error',
+				message: formattedMessage,
+				timestamp: Date.now(),
+				args: args.length > 0 ? args : undefined
+			});
+			this.logEntries.push(entry);
+		}
 
 		// Write to output channel if initialized, otherwise log to console
 		if (this.isInitialized && this.outputChannel) {

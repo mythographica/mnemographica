@@ -1,7 +1,21 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-03-16T22:25:39.196Z",
+  "generatedAt": "2026-03-16T22:45:46.102Z",
   "usages": {
+    "LoggerTab": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:53:33",
+        "kind": "lookup",
+        "code": "lookupTyped('LoggerTab')"
+      }
+    ],
+    "LoggerTab.LogEntry": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:182:22",
+        "kind": "propertyAccess",
+        "code": "this.loggerTab.LogEntry"
+      }
+    ],
     "Registry.DefinitionEntry": [
       {
         "location": "/code/mnemonica/mnemographica/src/providers/definitionProvider.ts:40:44",
@@ -11,19 +25,19 @@
     ],
     "Usages": [
       {
-        "location": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:29:18",
+        "location": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:28:18",
         "kind": "lookup",
         "code": "lookupTyped('Usages')"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:32:18",
+        "location": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:31:18",
         "kind": "instantiation",
         "code": "new Usages"
       }
     ],
     "Usages.UsageEntry": [
       {
-        "location": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:73:24",
+        "location": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:72:24",
         "kind": "propertyAccess",
         "code": "usages.UsageEntry"
       }

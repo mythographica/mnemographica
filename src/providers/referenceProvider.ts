@@ -10,7 +10,6 @@ import { getLogger } from '../services/LoggerService';
 
 import { TypeRegistry } from 'mnemonica';
 import { modelsLoaded } from '../topologica/bootstrap';
-// import { Usages } from '../models/Usages';
 
 import { lookupTyped } from 'mnemonica';
 
