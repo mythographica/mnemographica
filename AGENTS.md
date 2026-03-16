@@ -68,10 +68,10 @@ The visualization helps AI agents:
 
 The parser must handle multiline type definitions like:
 ```typescript
-export type UserEntityInstance = {
+export type UserEntity = {
 	id: string;
 	email: string;
-	UserResponse: TypeConstructor<UserResponseInstance>;
+	UserResponse: new (data: { status: number; body: string }) => UserEntity_UserResponse;
 }
 ```
 

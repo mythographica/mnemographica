@@ -93,7 +93,7 @@ export class MnemonicaActivityBarProvider implements vscode.WebviewViewProvider 
 			Show type graphs in 2D or 3D.
 		</p>
 		<button class="button" id="showGraphBtn">
-			<span class="icon">&#x1F4CA;</span> Show Type Graph
+			<span class="icon">Ψ</span> Show Type Graph 3
 		</button>
 	</div>
 	<script>

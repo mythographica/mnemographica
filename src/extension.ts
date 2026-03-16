@@ -1,18 +1,29 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
+import * as fs from 'fs';
 import { GraphPanel } from './webview/panel';
 import { GraphProvider } from './graph/provider';
 import { MnemonicaActivityBarProvider } from './activityBar';
 import { MnemonicaTreeProvider, MnemonicaTreeItem } from './views/treeProvider';
+import { UsagesTreeProvider, UsageTreeItem } from './views/usagesTreeProvider';
 import { MnemonicaDefinitionProvider } from './providers/definitionProvider';
 import { MnemonicaReferenceProvider } from './providers/referenceProvider';
 import { StrategyServer } from './strategy';
 import { getLogger } from './services/LoggerService';
 import { loadModels, modelsLoaded } from './topologica/bootstrap';
 
+type WorkspaceQuickPickItem = {
+	label: string;
+	description: string;
+	detail: string;
+	workspacePath: string;
+};
+
 let graphProvider: GraphProvider;
 let treeProvider: MnemonicaTreeProvider;
 let treeView: vscode.TreeView<MnemonicaTreeItem>;
+let usagesProvider: UsagesTreeProvider;
+let usagesTreeView: vscode.TreeView<UsageTreeItem>;
 let definitionProvider: MnemonicaDefinitionProvider;
 let referenceProvider: MnemonicaReferenceProvider;
 let strategyServer: StrategyServer;
@@ -40,10 +51,68 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 	context.subscriptions.push(treeView);
 
-	// Navigate to definition when item is selected
+	// Initialize usages tree provider
+	usagesProvider = new UsagesTreeProvider();
+	logger.info('UsagesTreeProvider created');
+
+	// Create usages tree view positioned above main tree
+	usagesTreeView = vscode.window.createTreeView('mnemonicaUsages', {
+		treeDataProvider: usagesProvider,
+		canSelectMany: false
+	});
+	context.subscriptions.push(usagesTreeView);
+
+	// Register navigate to usage command
+	const navigateToUsageCommand = vscode.commands.registerCommand(
+		'mnemographica.navigateToUsage',
+		async (usageData: { filePath: string; line: number; column: number }) => {
+			try {
+				const document = await vscode.workspace.openTextDocument(usageData.filePath);
+				const editor = await vscode.window.showTextDocument(document);
+
+				const line = usageData.line > 0 ? usageData.line - 1 : 0;
+				const column = usageData.column > 0 ? usageData.column - 1 : 0;
+				const position = new vscode.Position(line, column);
+				editor.selection = new vscode.Selection(position, position);
+				editor.revealRange(new vscode.Range(position, position), vscode.TextEditorRevealType.Default);
+			} catch (err) {
+				logger.error('Failed to navigate to usage:', usageData.filePath, err);
+			}
+		}
+	);
+	context.subscriptions.push(navigateToUsageCommand);
+
+	// Navigate to definition when item is selected and update usages view
 	treeView.onDidChangeSelection(async (event) => {
 		const selected = event.selection[0];
-		if (!selected || !selected.data.fullPath) return;
+		if (!selected || !selected.data.fullPath) {
+			// Clear usages when nothing is selected
+			usagesProvider.clear();
+			return;
+		}
+
+		// Update usages view with usages for the selected type
+		const typeName = selected.data.fullName || selected.data.label;
+		const searchName = typeName.replace(/Instance$/, '').replace(/_/g, '.');
+		logger.info(`[Extension] Selection changed to: ${typeName}, searching usages for: ${searchName}`);
+
+		// Get usages from reference provider
+		const usages = referenceProvider.getUsagesForType(searchName);
+		if (usages && usages.length > 0) {
+			// Convert to UsageItemData format
+			const usageItems = usages.map(u => ({
+				filePath: u.filePath,
+				line: u.line,
+				column: u.column,
+				context: u.context || '',
+				kind: 'reference' // Default kind, can be enhanced later
+			}));
+			usagesProvider.setType(typeName, usageItems);
+			logger.info(`[Extension] Loaded ${usageItems.length} usages for ${typeName}`);
+		} else {
+			usagesProvider.clear();
+			logger.info(`[Extension] No usages found for ${typeName}`);
+		}
 
 		try {
 			const document = await vscode.workspace.openTextDocument(selected.data.fullPath);
@@ -284,6 +353,15 @@ export function activate(context: vscode.ExtensionContext) {
 	);
 	context.subscriptions.push(showTreeCommand);
 
+	// Register select workspace command
+	const selectWorkspaceCommand = vscode.commands.registerCommand(
+		'mnemographica.selectWorkspace',
+		async () => {
+			await selectWorkspace();
+		}
+	);
+	context.subscriptions.push(selectWorkspaceCommand);
+
 	// Register show logger command
 	const showLoggerCommand = vscode.commands.registerCommand(
 		'mnemographica.showLogger',
@@ -292,6 +370,187 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 	);
 	context.subscriptions.push(showLoggerCommand);
+
+	// Register open usage command (used by usage tree items)
+	const openUsageCommand = vscode.commands.registerCommand(
+		'mnemographica.openUsage',
+		async (usageData: { filePath: string; line: number; column: number }) => {
+			try {
+				const document = await vscode.workspace.openTextDocument(usageData.filePath);
+				const editor = await vscode.window.showTextDocument(document);
+
+				const line = usageData.line > 0 ? usageData.line - 1 : 0;
+				const column = usageData.column > 0 ? usageData.column - 1 : 0;
+				const position = new vscode.Position(line, column);
+				editor.selection = new vscode.Selection(position, position);
+				editor.revealRange(new vscode.Range(position, position), vscode.TextEditorRevealType.Default);
+			} catch (err) {
+				logger.error('Failed to open usage:', usageData.filePath, err);
+			}
+		}
+	);
+	context.subscriptions.push(openUsageCommand);
+
+	// Register reveal in explorer command
+	const revealInExplorerCommand = vscode.commands.registerCommand(
+		'mnemographica.revealInExplorer',
+		async (item: UsageTreeItem) => {
+			if (item?.usage?.filePath) {
+				const uri = vscode.Uri.file(item.usage.filePath);
+				await vscode.commands.executeCommand('revealInExplorer', uri);
+			}
+		}
+	);
+	context.subscriptions.push(revealInExplorerCommand);
+
+	// Register go to usage command
+	const goToUsageCommand = vscode.commands.registerCommand(
+		'mnemographica.goToUsage',
+		async (item: UsageTreeItem) => {
+			if (item?.usage) {
+				try {
+					const document = await vscode.workspace.openTextDocument(item.usage.filePath);
+					const editor = await vscode.window.showTextDocument(document);
+
+					const line = item.usage.line > 0 ? item.usage.line - 1 : 0;
+					const column = item.usage.column > 0 ? item.usage.column - 1 : 0;
+					const position = new vscode.Position(line, column);
+					editor.selection = new vscode.Selection(position, position);
+					editor.revealRange(new vscode.Range(position, position), vscode.TextEditorRevealType.Default);
+				} catch (err) {
+					logger.error('Failed to navigate to usage:', item.usage.filePath, err);
+				}
+			}
+		}
+	);
+	context.subscriptions.push(goToUsageCommand);
+
+	// Register go to type command (navigates to types.ts)
+	const goToTypeCommand = vscode.commands.registerCommand(
+		'mnemographica.goToType',
+		async (item: UsageTreeItem) => {
+			if (!item?.typeName) {
+				logger.warn('No type name available for navigation');
+				return;
+			}
+
+			const workspacePath = item.workspacePath || usagesProvider.getWorkspacePath();
+			if (!workspacePath) {
+				logger.warn('No workspace path available');
+				return;
+			}
+
+			const typesTsPath = path.join(workspacePath, '.tactica', 'types.ts');
+			if (!fs.existsSync(typesTsPath)) {
+				logger.warn('types.ts not found at:', typesTsPath);
+				vscode.window.showWarningMessage('types.ts not found. Run tactica first.');
+				return;
+			}
+
+			try {
+				// Read types.ts to find the type definition line
+				const content = fs.readFileSync(typesTsPath, 'utf-8');
+				const lines = content.split('\n');
+
+				// Look for type export (e.g., "export type TypeName = {" or "export type TypeName = ProtoFlat<...")
+				const typeName = item.typeName.replace(/Instance$/, '');
+				const searchPattern = new RegExp(`export\\s+type\\s+${typeName}\\s*=`);
+
+				let targetLine = 0;
+				for (let i = 0; i < lines.length; i++) {
+					if (searchPattern.test(lines[i])) {
+						targetLine = i;
+						break;
+					}
+				}
+
+				const document = await vscode.workspace.openTextDocument(typesTsPath);
+				const editor = await vscode.window.showTextDocument(document);
+
+				const position = new vscode.Position(targetLine, 0);
+				editor.selection = new vscode.Selection(position, position);
+				editor.revealRange(new vscode.Range(position, position), vscode.TextEditorRevealType.Default);
+			} catch (err) {
+				logger.error('Failed to open types.ts:', typesTsPath, err);
+			}
+		}
+	);
+	context.subscriptions.push(goToTypeCommand);
+
+	// Register go to definition command (navigates to definitions.json location)
+	const goToDefinitionCommand = vscode.commands.registerCommand(
+		'mnemographica.goToDefinition',
+		async (item: UsageTreeItem) => {
+			if (!item?.typeName) {
+				logger.warn('No type name available for navigation');
+				return;
+			}
+
+			const workspacePath = item.workspacePath || usagesProvider.getWorkspacePath();
+			if (!workspacePath) {
+				logger.warn('No workspace path available');
+				return;
+			}
+
+			const definitionsPath = path.join(workspacePath, '.tactica', 'definitions.json');
+			if (!fs.existsSync(definitionsPath)) {
+				logger.warn('definitions.json not found at:', definitionsPath);
+				vscode.window.showWarningMessage('definitions.json not found. Run tactica first.');
+				return;
+			}
+
+			try {
+				// Read definitions.json to find the type definition
+				const content = fs.readFileSync(definitionsPath, 'utf-8');
+				const definitions = JSON.parse(content);
+
+				const typeName = item.typeName.replace(/Instance$/, '');
+
+				// Find the definition - definitions are keyed by type name
+				let definition = definitions[typeName];
+
+				// Also try with Instance suffix
+				if (!definition && definitions[`${typeName}Instance`]) {
+					definition = definitions[`${typeName}Instance`];
+				}
+
+				// Try nested path format (e.g., "Scene2D.GraphNode2D")
+				if (!definition && typeName.includes('.')) {
+					const parts = typeName.split('.');
+					for (let i = 0; i < parts.length; i++) {
+						const candidate = parts.slice(i).join('.');
+						if (definitions[candidate]) {
+							definition = definitions[candidate];
+							break;
+						}
+						// Try with Instance suffix
+						if (definitions[`${candidate}Instance`]) {
+							definition = definitions[`${candidate}Instance`];
+							break;
+						}
+					}
+				}
+
+				if (!definition || !definition.fullPath) {
+					logger.warn('Definition not found for type:', typeName);
+					vscode.window.showWarningMessage(`Definition not found for ${typeName}`);
+					return;
+				}
+
+				const document = await vscode.workspace.openTextDocument(definition.fullPath);
+				const editor = await vscode.window.showTextDocument(document);
+
+				const line = definition.line > 0 ? definition.line - 1 : 0;
+				const column = definition.column > 0 ? definition.column - 1 : 0;
+				const position = new vscode.Position(line, column);
+				editor.selection = new vscode.Selection(position, position);
+				editor.revealRange(new vscode.Range(position, position), vscode.TextEditorRevealType.Default);
+			} catch (err) {
+				logger.error('Failed to navigate to definition:', err);
+			}
+		}
+	);
+	context.subscriptions.push(goToDefinitionCommand);
 
 	// Register show strategy status command
 	const strategyStatusCommand = vscode.commands.registerCommand(
@@ -327,6 +586,150 @@ export function activate(context: vscode.ExtensionContext) {
 		await refreshTypeGraph(context);
 	});
 	context.subscriptions.push(tacticaWatcher);
+}
+
+async function findWorkspacesWithTactica (): Promise<WorkspaceQuickPickItem[]> {
+	const logger = getLogger();
+	const workspaces: WorkspaceQuickPickItem[] = [];
+	const scannedPaths = new Set<string>();
+
+	// Get starting points for scanning
+	const scanRoots: string[] = [];
+
+	// Add current workspace if available
+	const currentWorkspace = treeProvider.getCurrentWorkspace();
+	if (currentWorkspace) {
+		scanRoots.push(path.dirname(currentWorkspace));
+	}
+
+	// Add VS Code workspace folders
+	const workspaceFolders = vscode.workspace.workspaceFolders;
+	if (workspaceFolders) {
+		for (const folder of workspaceFolders) {
+			scanRoots.push(folder.uri.fsPath);
+			// Also scan parent directories
+			scanRoots.push(path.dirname(folder.uri.fsPath));
+		}
+	}
+
+	// Add known workspace locations
+	const knownPaths = [
+		'/code/mnemonica',
+		'/home/went/code/mnemonica',
+		path.join(process.env.HOME || '', 'code', 'mnemonica'),
+		path.join(process.env.HOME || '', 'projects', 'mnemonica')
+	];
+	scanRoots.push(...knownPaths);
+
+	logger.info('[findWorkspaces] Scan roots:', scanRoots);
+
+	for (const scanRoot of scanRoots) {
+		if (!scanRoot || scannedPaths.has(scanRoot)) {
+			continue;
+		}
+		scannedPaths.add(scanRoot);
+
+		try {
+			if (!fs.existsSync(scanRoot)) {
+				continue;
+			}
+
+			const entries = fs.readdirSync(scanRoot, { withFileTypes: true });
+
+			for (const entry of entries) {
+				if (!entry.isDirectory()) {
+					continue;
+				}
+
+				const fullPath = path.join(scanRoot, entry.name);
+				const tacticaPath = path.join(fullPath, '.tactica');
+
+				if (fs.existsSync(tacticaPath)) {
+					// Check if it has the required files
+					const hasTypes = fs.existsSync(path.join(tacticaPath, 'types.ts'));
+					const hasDefinitions = fs.existsSync(path.join(tacticaPath, 'definitions.json'));
+
+					if (hasTypes || hasDefinitions) {
+						workspaces.push({
+							label: entry.name,
+							description: fullPath,
+							detail: hasTypes && hasDefinitions ? 'Types + Definitions' : (hasTypes ? 'Types only' : 'Definitions only'),
+							workspacePath: fullPath
+						});
+						logger.info('[findWorkspaces] Found workspace:', fullPath);
+					}
+				}
+			}
+		} catch (err) {
+			logger.debug('[findWorkspaces] Error scanning:', scanRoot, err);
+		}
+	}
+
+	// Sort by name
+	workspaces.sort((a, b) => a.label.localeCompare(b.label));
+
+	return workspaces;
+}
+
+async function selectWorkspace (): Promise<void> {
+	const logger = getLogger();
+	logger.info('[selectWorkspace] Scanning for workspaces...');
+
+	// Show progress while scanning
+	const workspaces = await vscode.window.withProgress(
+		{
+			location: vscode.ProgressLocation.Notification,
+			title: 'Scanning for Mnemonica workspaces...',
+			cancellable: false
+		},
+		async () => {
+			return await findWorkspacesWithTactica();
+		}
+	);
+
+	if (workspaces.length === 0) {
+		vscode.window.showWarningMessage('No Mnemonica workspaces found with .tactica directories');
+		return;
+	}
+
+	logger.info('[selectWorkspace] Found', workspaces.length, 'workspaces');
+
+	// Show quick pick with found workspaces
+	const selected = await vscode.window.showQuickPick(workspaces, {
+		placeHolder: 'Select a workspace to load',
+		matchOnDescription: true,
+		matchOnDetail: true
+	});
+
+	if (!selected) {
+		logger.info('[selectWorkspace] User cancelled selection');
+		return;
+	}
+
+	logger.info('[selectWorkspace] Selected workspace:', selected.workspacePath);
+
+	try {
+		// Update tree provider
+		treeProvider.setWorkspace(selected.workspacePath);
+		await treeProvider.loadDefinitions(selected.workspacePath);
+		treeProvider.refresh();
+
+		// Update navigation providers
+		if (definitionProvider) {
+			definitionProvider.clear();
+			await definitionProvider.loadDefinitions(selected.workspacePath);
+		}
+		if (referenceProvider) {
+			referenceProvider.clear();
+			await referenceProvider.loadUsages(selected.workspacePath);
+		}
+
+		vscode.window.showInformationMessage(`Loaded workspace: ${selected.label}`);
+		logger.info('[selectWorkspace] Workspace loaded successfully');
+	} catch (err) {
+		logger.error('[selectWorkspace] Failed to load workspace:', err);
+		vscode.window.showErrorMessage(`Failed to load workspace: ${err}`);
+	}
 }
 
 async function showTypeGraph(context: vscode.ExtensionContext) {

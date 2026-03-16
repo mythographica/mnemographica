@@ -29,9 +29,8 @@
 		"commands": [
 			{
 				"command": "mnemographica.showTypeGraph",
-				"title": "Show Type Graph",
-				"category": "Mnemonica",
-				"icon": "$(graph)"
+				"title": "Ψ",
+				"category": "Mnemonica"
 			},
 			{
 				"command": "mnemographica.refreshGraph",
@@ -74,6 +73,36 @@
 				"title": "Show Usages",
 				"category": "Mnemonica",
 				"icon": "$(references)"
+			},
+			{
+				"command": "mnemographica.selectWorkspace",
+				"title": "Select Workspace",
+				"category": "Mnemonica",
+				"icon": "$(folder)"
+			},
+			{
+				"command": "mnemographica.revealInExplorer",
+				"title": "Reveal in Explorer View",
+				"category": "Mnemonica",
+				"icon": "$(folder-opened)"
+			},
+			{
+				"command": "mnemographica.goToUsage",
+				"title": "Go to Usage",
+				"category": "Mnemonica",
+				"icon": "$(go-to-file)"
+			},
+			{
+				"command": "mnemographica.goToType",
+				"title": "Go to Type",
+				"category": "Mnemonica",
+				"icon": "$(symbol-class)"
+			},
+			{
+				"command": "mnemographica.goToDefinition",
+				"title": "Go to Definition",
+				"category": "Mnemonica",
+				"icon": "$(symbol-method)"
 			}
 		],
 		"menus": {
@@ -95,6 +124,9 @@
 				},
 				{
 					"command": "mnemographica.showLogger"
+				},
+				{
+					"command": "mnemographica.selectWorkspace"
 				}
 			],
 			"editor/title": [
@@ -115,6 +147,11 @@
 				{
 					"command": "mnemographica.showTypeGraph",
 					"group": "navigation"
+				},
+				{
+					"command": "mnemographica.selectWorkspace",
+					"when": "view == mnemonicaTypes",
+					"group": "navigation@2"
 				}
 			],
 			"view/item/context": [
@@ -127,6 +164,26 @@
 					"command": "mnemographica.showUsages",
 					"when": "view == mnemonicaTypes && viewItem == navigable",
 					"group": "navigation@2"
+				},
+				{
+					"command": "mnemographica.revealInExplorer",
+					"when": "view == mnemonicaUsages",
+					"group": "navigation@1"
+				},
+				{
+					"command": "mnemographica.goToUsage",
+					"when": "view == mnemonicaUsages",
+					"group": "navigation@2"
+				},
+				{
+					"command": "mnemographica.goToType",
+					"when": "view == mnemonicaUsages",
+					"group": "navigation@3"
+				},
+				{
+					"command": "mnemographica.goToDefinition",
+					"when": "view == mnemonicaUsages",
+					"group": "navigation@4"
 				}
 			],
 			"explorer/context": [
@@ -148,6 +205,10 @@
 		},
 		"views": {
 			"mnemonica": [
+				{
+					"id": "mnemonicaUsages",
+					"name": "Usages"
+				},
 				{
 					"id": "mnemonicaTypes",
 					"name": "Types"

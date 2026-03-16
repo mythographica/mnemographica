@@ -81,12 +81,23 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 	private types: Map<string, TypeData> = new Map();
 	private debug = true; // Enable debug logging
 	private logger = getLogger();
+	private currentWorkspacePath: string | undefined;
 
 	refresh (): void {
 		this._onDidChangeTreeData.fire();
 	}
 
+	setWorkspace (workspacePath: string): void {
+		this.currentWorkspacePath = workspacePath;
+		this.logger.info('[MnemonicaTree] Workspace set to:', workspacePath);
+	}
+
+	getCurrentWorkspace (): string | undefined {
+		return this.currentWorkspacePath;
+	}
+
 	async loadDefinitions (workspacePath: string): Promise<void> {
+		this.currentWorkspacePath = workspacePath;
 		this.definitions.clear();
 		this.types.clear();
 
