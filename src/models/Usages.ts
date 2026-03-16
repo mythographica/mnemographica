@@ -52,9 +52,9 @@ const setProps = (to: object, from: object) => {
 
 export const UsageEntry = Usages.define('UsageEntry', function (
 	this: usage,
-	data: usage
+	usages: usage
 ) {
-	setProps(this, data);
+	setProps(this, usages);
 });
 
 export default Usages;

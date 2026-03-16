@@ -4,14 +4,14 @@
 /* eslint-disable @typescript-eslint/no-empty-object-type */
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import type { ProtoFlat, TypeConstructor } from 'mnemonica';
+import type { ProtoFlat } from 'mnemonica';
 
 export type Definition = {
 	id: string;
 	name: string;
 	fullPath: string;
 	properties: Map<string, object>;
-	Link: TypeConstructor<Definition_Link>;
+	Link: new (data: { source: unknown; target: unknown; relation: 'extends' | 'implements' | 'contains' }) => Definition_Link;
 };
 
 export type Definition_Link = ProtoFlat<Definition, {
@@ -23,7 +23,7 @@ export type Definition_Link = ProtoFlat<Definition, {
 
 export type LoggerTab = {
 	createdAt: number;
-	LogEntry: TypeConstructor<LoggerTab_LogEntry>;
+	LogEntry: new (data: { level: 'info' | 'warning' | 'error'; message: string; timestamp: number; typeName?: string; error?: Error; args?: Array<unknown> }) => LoggerTab_LogEntry;
 };
 
 export type LoggerTab_LogEntry = ProtoFlat<LoggerTab, {
@@ -39,7 +39,7 @@ export type LoggerTab_LogEntry = ProtoFlat<LoggerTab, {
 export type Main = {
 	extensionVersion: string;
 	createdAt: number;
-	Adapter: TypeConstructor<Main_Adapter>;
+	Adapter: new (data: { name: string; domain: string; enabled: boolean }) => Main_Adapter;
 };
 
 export type Main_Adapter = ProtoFlat<Main, {
@@ -52,7 +52,7 @@ export type Main_Adapter = ProtoFlat<Main, {
 
 export type Registry = {
 	createdAt: number;
-	DefinitionEntry: TypeConstructor<Registry_DefinitionEntry>;
+	DefinitionEntry: new (data: { id: string; name: string; filePath: string; line: number; column: number }) => Registry_DefinitionEntry;
 };
 
 export type Registry_DefinitionEntry = ProtoFlat<Registry, {
@@ -66,8 +66,8 @@ export type Registry_DefinitionEntry = ProtoFlat<Registry, {
 
 export type Scene2D = {
 	createdAt: number;
-	Camera2D: TypeConstructor<Scene2D_Camera2D>;
-	GraphNode2D: TypeConstructor<Scene2D_GraphNode2D>;
+	Camera2D: new (data: { x: number; y: number; zoom: number }) => Scene2D_Camera2D;
+	GraphNode2D: new (data: { id: string; label: string; x: number; y: number; radius: number; color: string }) => Scene2D_GraphNode2D;
 };
 
 export type Scene2D_Camera2D = ProtoFlat<Scene2D, {
@@ -85,8 +85,8 @@ export type Scene2D_GraphNode2D = ProtoFlat<Scene2D, {
 	y: number;
 	radius: number;
 	color: string;
-	Link2D: TypeConstructor<Scene2D_GraphNode2D_Link2D>;
-	Tooltip2D: TypeConstructor<Scene2D_GraphNode2D_Tooltip2D>;
+	Link2D: new (data: { source: unknown; target: unknown; strength: number }) => Scene2D_GraphNode2D_Link2D;
+	Tooltip2D: new (data: { targetNode: unknown; content: string; visible: boolean }) => Scene2D_GraphNode2D_Tooltip2D;
 	GraphNode2D: undefined;
 	Camera2D: undefined;
 }>;
@@ -109,8 +109,8 @@ export type Scene2D_GraphNode2D_Tooltip2D = ProtoFlat<Scene2D_GraphNode2D, {
 
 export type Scene3D = {
 	createdAt: number;
-	Camera3D: TypeConstructor<Scene3D_Camera3D>;
-	GraphNode3D: TypeConstructor<Scene3D_GraphNode3D>;
+	Camera3D: new (data: { x: number; y: number; z: number; zoom: number; rotationX: number; rotationY: number }) => Scene3D_Camera3D;
+	GraphNode3D: new (data: { id: string; label: string; x: number; y: number; z: number; radius: number; color: string }) => Scene3D_GraphNode3D;
 };
 
 export type Scene3D_Camera3D = ProtoFlat<Scene3D, {
@@ -132,8 +132,8 @@ export type Scene3D_GraphNode3D = ProtoFlat<Scene3D, {
 	z: number;
 	radius: number;
 	color: string;
-	Link3D: TypeConstructor<Scene3D_GraphNode3D_Link3D>;
-	Tooltip3D: TypeConstructor<Scene3D_GraphNode3D_Tooltip3D>;
+	Link3D: new (data: { source: unknown; target: unknown; strength: number }) => Scene3D_GraphNode3D_Link3D;
+	Tooltip3D: new (data: { targetNode: unknown; content: string; visible: boolean }) => Scene3D_GraphNode3D_Tooltip3D;
 	GraphNode3D: undefined;
 	Camera3D: undefined;
 }>;
@@ -156,7 +156,7 @@ export type Scene3D_GraphNode3D_Tooltip3D = ProtoFlat<Scene3D_GraphNode3D, {
 
 export type Trie = {
 	createdAt: number;
-	GraphNodeTrie: TypeConstructor<Trie_GraphNodeTrie>;
+	GraphNodeTrie: new (data: { id: string; name: string; path: string; depth: number; isLeaf: boolean }) => Trie_GraphNodeTrie;
 };
 
 export type Trie_GraphNodeTrie = ProtoFlat<Trie, {
@@ -165,8 +165,8 @@ export type Trie_GraphNodeTrie = ProtoFlat<Trie, {
 	path: string;
 	depth: number;
 	isLeaf: boolean;
-	LinkTrie: TypeConstructor<Trie_GraphNodeTrie_LinkTrie>;
-	ContextMenu: TypeConstructor<Trie_GraphNodeTrie_ContextMenu>;
+	LinkTrie: new (data: { parent: unknown; child: unknown; relation: 'subtype' | 'instance' }) => Trie_GraphNodeTrie_LinkTrie;
+	ContextMenu: new (data: { targetNode: unknown; items: Array<object>; visible: boolean }) => Trie_GraphNodeTrie_ContextMenu;
 	GraphNodeTrie: undefined;
 }>;
 
@@ -188,15 +188,15 @@ export type Trie_GraphNodeTrie_ContextMenu = ProtoFlat<Trie_GraphNodeTrie, {
 
 export type Types = {
 	createdAt: number;
-	TypeEntry: TypeConstructor<Types_TypeEntry>;
+	TypeEntry: new (data: { id: string; name: string; fullPath: string; properties: Map<string, string>; parent?: string }) => Types_TypeEntry;
 };
 
 export type Types_TypeEntry = ProtoFlat<Types, {
 	id: string;
 	name: string;
 	fullPath: string;
-	parent: string;
 	properties: Map<string, string>;
+	parent: string;
 	TypeEntry: undefined;
 }>;
 
@@ -209,7 +209,7 @@ export type Usages = {
 	keys: () => MapIterator<string>;
 	values: () => MapIterator<Array<Usages_UsageEntry>>;
 	clear: () => void;
-	UsageEntry: TypeConstructor<Usages_UsageEntry>;
+	UsageEntry: new (usages: { typeName: string; kind: string; code: string; location: string }) => Usages_UsageEntry;
 };
 
 export type Usages_UsageEntry = ProtoFlat<Usages, {

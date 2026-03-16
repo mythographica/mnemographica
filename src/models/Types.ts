@@ -7,8 +7,8 @@ export const Types = define('Types', function (this: { createdAt: number }) {
 });
 
 export const TypeEntry = Types.define('TypeEntry', function (
-	this: { id: string; name: string; fullPath: string; parent?: string; properties: Map<string, string> },
-	data: { id: string; name: string; fullPath: string; parent?: string; properties: Map<string, string> }
+	this: { id: string; name: string; fullPath: string; properties: Map<string, string>; parent?: string; },
+	data: { id: string; name: string; fullPath: string; properties: Map<string, string>; parent?: string; }
 ) {
 	this.id = data.id;
 	this.name = data.name;

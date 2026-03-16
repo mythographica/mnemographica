@@ -67,7 +67,7 @@ export class MnemonicaReferenceProvider implements vscode.ReferenceProvider {
 				for (const _usage of usageList) {
 
 					const pushed = Object.assign({
-						typeName
+						typeName,
 					}, _usage);
 
 					const usage = new usages.UsageEntry(pushed);
