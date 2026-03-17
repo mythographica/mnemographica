@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-03-17T21:27:28.952Z",
+  "generatedAt": "2026-03-17T21:54:24.112Z",
   "definitions": {
     "Definitions": {
       "name": "Definitions",
@@ -18,9 +18,25 @@
       "strictChain": true,
       "blockErrors": false
     },
+    "Types": {
+      "name": "Types",
+      "location": "/code/mnemonica/mnemographica/src/models/Types.ts:16:22",
+      "kind": "define",
+      "parent": null,
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Types.TypeEntry": {
+      "name": "TypeEntry",
+      "location": "/code/mnemonica/mnemographica/src/models/Types.ts:66:26",
+      "kind": "define",
+      "parent": "Types",
+      "strictChain": true,
+      "blockErrors": false
+    },
     "Registry": {
       "name": "Registry",
-      "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:19:25",
+      "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:20:25",
       "kind": "define",
       "parent": null,
       "strictChain": true,
@@ -28,7 +44,7 @@
     },
     "Registry.DefinitionEntry": {
       "name": "DefinitionEntry",
-      "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:256:32",
+      "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:296:32",
       "kind": "define",
       "parent": "Registry",
       "strictChain": true,
@@ -175,22 +191,6 @@
       "location": "/code/mnemonica/mnemographica/src/models/Trie.ts:29:28",
       "kind": "define",
       "parent": "Trie.GraphNodeTrie",
-      "strictChain": true,
-      "blockErrors": false
-    },
-    "Types": {
-      "name": "Types",
-      "location": "/code/mnemonica/mnemographica/src/models/Types.ts:16:22",
-      "kind": "define",
-      "parent": null,
-      "strictChain": true,
-      "blockErrors": false
-    },
-    "Types.TypeEntry": {
-      "name": "TypeEntry",
-      "location": "/code/mnemonica/mnemographica/src/models/Types.ts:130:26",
-      "kind": "define",
-      "parent": "Types",
       "strictChain": true,
       "blockErrors": false
     },

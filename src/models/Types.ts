@@ -1,14 +1,14 @@
 'use strict';
 
-import * as fs from 'fs';
 import { define } from 'mnemonica';
 import { getLogger } from '../services/LoggerService';
 
-export type typeEntry = {
+export type rawTypeEntry = {
 	name: string;
 	fullPath: string;
-	properties: Map<string, string>;
 	parent?: string;
+	properties: Map<string, string>;
+	lineNumber: number;
 };
 
 export type TypeEntryInstance = InstanceType<typeof TypeEntry>;
@@ -53,73 +53,9 @@ export const Types = define('Types', class {
 		return this.map.clear();
 	}
 
-	async loadFromFile (filePath: string): Promise<void> {
-		this.logger.info(`[Types] : loading from ${filePath}`);
-		try {
-			const content = fs.readFileSync(filePath, 'utf-8');
-			const lines = content.split('\n');
-			
-			// Parse: export type TypeName = ProtoFlat<Parent, { ... }>
-			// OR: export type TypeName = Parent & { ... }
-			// OR: export type TypeName = { ... } (root types, no parent)
-			const typeRegex = /export\s+type\s+(\w+)\s*=\s*(?:(?:ProtoFlat<(\w+),)|(?:(\w+)\s*&))?[\s\n]*\{/;
-			
-			for (let i = 0; i < lines.length; i++) {
-				const line = lines[i];
-				const match = typeRegex.exec(line);
-				if (match) {
-					const name = match[1];
-					// Check if it's ProtoFlat<Parent, ...> or Parent & { ... } or plain { }
-					let parent: string | undefined;
-					
-					if (match[2]) {
-						// ProtoFlat<Parent, ...> - match[2] is the parent
-						parent = match[2];
-					} else if (match[3]) {
-						// Parent & { ... } - match[3] is the parent
-						parent = match[3];
-					}
-					// If neither match[2] nor match[3], it's a root type (parent stays undefined)
-					// If neither match[2] nor match[3], it's a root type (parent stays undefined)
-					
-					// Validate: if parent equals name, it's self-referential (bug)
-					if (parent === name) {
-						this.logger.warn(`[Types] : Skipping self-referential type ${name} at line ${i + 1}`);
-						continue;
-					}
-					
-					const entry = new (this as unknown as { TypeEntry: typeof TypeEntry }).TypeEntry({
-						name,
-						fullPath: filePath,
-						parent,
-						properties: new Map() // Properties can be added later if needed
-					});
-					this.map.set(name, entry);
-				}
-			}
-			
-			this.logger.info(`[Types] : loaded ${this.map.size} types`);
-		} catch (error) {
-			this.logger.error(`[Types] : failed to load from ${filePath}`, error);
-			throw error;
-		}
-	}
-
 	getLineForType (typeName: string): number | undefined {
 		const entry = this.map.get(typeName);
-		if (!entry) return undefined;
-		
-		// Re-parse to find line number
-		const content = fs.readFileSync(entry.fullPath, 'utf-8');
-		const lines = content.split('\n');
-		const searchPattern = new RegExp(`export\\s+type\\s+${typeName}\\s*=`);
-		
-		for (let i = 0; i < lines.length; i++) {
-			if (searchPattern.test(lines[i])) {
-				return i;
-			}
-		}
-		return undefined;
+		return entry?.lineNumber;
 	}
 });
 
@@ -128,8 +64,8 @@ const setProps = (to: object, from: object) => {
 };
 
 export const TypeEntry = Types.define('TypeEntry', function (
-	this: typeEntry,
-	data: typeEntry
+	this: rawTypeEntry,
+	data: rawTypeEntry
 ) {
 	setProps(this, data);
 });

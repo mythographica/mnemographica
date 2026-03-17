@@ -12,6 +12,8 @@
 import type {
 	Definitions,
 	Definitions_DefinitionEntry,
+	Types,
+	Types_TypeEntry,
 	Registry,
 	Registry_DefinitionEntry,
 	LoggerTab,
@@ -32,8 +34,6 @@ import type {
 	Trie_GraphNodeTrie,
 	Trie_GraphNodeTrie_LinkTrie,
 	Trie_GraphNodeTrie_ContextMenu,
-	Types,
-	Types_TypeEntry,
 	Usages,
 	Usages_UsageEntry,
 } from './types';
@@ -48,6 +48,8 @@ declare module 'mnemonica' {
 	interface TypeRegistry {
 		'Definitions': new () => Definitions;
 		'Definitions.DefinitionEntry': new (data: { name: string; location: string; kind: string; parent: string | unknown; strictChain: boolean; blockErrors: boolean }) => Definitions_DefinitionEntry;
+		'Types': new () => Types;
+		'Types.TypeEntry': new (data: { name: string; fullPath: string; parent?: string; properties: Map<string, string>; lineNumber: number }) => Types_TypeEntry;
 		'Registry': new () => Registry;
 		'Registry.DefinitionEntry': new (data: { id: string; name: string; filePath: string; line: number; column: number }) => Registry_DefinitionEntry;
 		'LoggerTab': new () => LoggerTab;
@@ -68,8 +70,6 @@ declare module 'mnemonica' {
 		'Trie.GraphNodeTrie': new (data: { id: string; name: string; path: string; depth: number; isLeaf: boolean }) => Trie_GraphNodeTrie;
 		'Trie.GraphNodeTrie.LinkTrie': new (data: { parent: unknown; child: unknown; relation: 'subtype' | 'instance' }) => Trie_GraphNodeTrie_LinkTrie;
 		'Trie.GraphNodeTrie.ContextMenu': new (data: { targetNode: unknown; items: Array<object>; visible: boolean }) => Trie_GraphNodeTrie_ContextMenu;
-		'Types': new () => Types;
-		'Types.TypeEntry': new (data: { name: string; fullPath: string; properties: Map<string, string>; parent?: string }) => Types_TypeEntry;
 		'Usages': new () => Usages;
 		'Usages.UsageEntry': new (usages: { typeName: string; kind: string; code: string; location: string }) => Usages_UsageEntry;
 	}

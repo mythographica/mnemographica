@@ -28,6 +28,28 @@ export type Definitions_DefinitionEntry = ProtoFlat<Definitions, {
 	DefinitionEntry: undefined;
 }>;
 
+export type Types = {
+	createdAt: number;
+	readonly size: number;
+	get: (name: string) => Types_TypeEntry | undefined;
+	has: (name: string) => boolean;
+	set: (name: string, entry: Types_TypeEntry) => void;
+	keys: () => MapIterator<string>;
+	values: () => MapIterator<Types_TypeEntry>;
+	clear: () => void;
+	getLineForType: (typeName: string) => number | undefined;
+	TypeEntry: new (data: { name: string; fullPath: string; parent?: string; properties: Map<string, string>; lineNumber: number }) => Types_TypeEntry;
+};
+
+export type Types_TypeEntry = ProtoFlat<Types, {
+	name: string;
+	fullPath: string;
+	parent?: string;
+	properties: Map<string, string>;
+	lineNumber: number;
+	TypeEntry: undefined;
+}>;
+
 export type Registry = {
 	createdAt: number;
 	readonly size: number;
@@ -204,28 +226,6 @@ export type Trie_GraphNodeTrie_ContextMenu = ProtoFlat<Trie_GraphNodeTrie, {
 	visible: boolean;
 	ContextMenu: undefined;
 	LinkTrie: undefined;
-}>;
-
-export type Types = {
-	createdAt: number;
-	readonly size: number;
-	get: (name: string) => Types_TypeEntry | undefined;
-	has: (name: string) => boolean;
-	set: (name: string, entry: Types_TypeEntry) => void;
-	keys: () => MapIterator<string>;
-	values: () => MapIterator<Types_TypeEntry>;
-	clear: () => void;
-	loadFromFile: (filePath: string) => Promise<void>;
-	getLineForType: (typeName: string) => number | undefined;
-	TypeEntry: new (data: { name: string; fullPath: string; properties: Map<string, string>; parent?: string }) => Types_TypeEntry;
-};
-
-export type Types_TypeEntry = ProtoFlat<Types, {
-	name: string;
-	fullPath: string;
-	properties: Map<string, string>;
-	parent?: string;
-	TypeEntry: undefined;
 }>;
 
 export type Usages = {

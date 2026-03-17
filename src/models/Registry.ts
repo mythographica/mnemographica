@@ -7,6 +7,7 @@ import { getLogger } from '../services/LoggerService';
 import type { Definitions, Types, Usages, Trie } from '~tactica/types';
 
 import type { rawDefinitionEntry } from './Definition';
+import type { rawTypeEntry } from './Types';
 
 export type registryEntry = {
 	id: string;
@@ -30,36 +31,36 @@ export const Registry = define('Registry', class {
 	// Workspace path for reload operations
 	private workspacePath: string | undefined;
 
-	constructor () {
+	constructor() {
 		this.createdAt = Date.now();
 		this.logger.info(`[Registry] : constructed at ${this.createdAt}`);
 	}
 
-	get size () {
+	get size() {
 		return this.map.size;
 	}
 
-	get (name: string): object | undefined {
+	get(name: string): object | undefined {
 		return this.map.get(name);
 	}
 
-	has (name: string): boolean {
+	has(name: string): boolean {
 		return this.map.has(name);
 	}
 
-	set (name: string, entry: object): void {
+	set(name: string, entry: object): void {
 		this.map.set(name, entry);
 	}
 
-	keys (): MapIterator<string> {
+	keys(): MapIterator<string> {
 		return this.map.keys() as unknown as MapIterator<string>;
 	}
 
-	values (): MapIterator<object> {
+	values(): MapIterator<object> {
 		return this.map.values() as unknown as MapIterator<object>;
 	}
 
-	clear (): void {
+	clear(): void {
 		this.map.clear();
 		this.definitionsInstance = undefined;
 		this.typesInstance = undefined;
@@ -72,7 +73,7 @@ export const Registry = define('Registry', class {
 	/**
 	 * Load all models from the .tactica/ directory in the workspace
 	 */
-	async loadFromWorkspace (workspacePath: string): Promise<void> {
+	async loadFromWorkspace(workspacePath: string): Promise<void> {
 		this.workspacePath = workspacePath;
 		const tacticaPath = path.join(workspacePath, '.tactica');
 
@@ -108,7 +109,7 @@ export const Registry = define('Registry', class {
 	/**
 	 * Load Definitions from definitions.json using lookupTyped
 	 */
-	private async loadDefinitions (tacticaPath: string): Promise<void> {
+	private async loadDefinitions(tacticaPath: string): Promise<void> {
 		this.logger.info('[Registry] : loading Definitions');
 
 		try {
@@ -118,13 +119,13 @@ export const Registry = define('Registry', class {
 			const definitionsPath = path.join(tacticaPath, 'definitions.json');
 			if (fs.existsSync(definitionsPath)) {
 				const content = fs.readFileSync(definitionsPath, 'utf-8');
-			const data = JSON.parse(content);
-			if (data.definitions) {
-				for (const [key, value] of Object.entries(data.definitions)) {
-					const entry = new this.definitionsInstance.DefinitionEntry(value as rawDefinitionEntry);
-					this.definitionsInstance.set(key, entry);
+				const data = JSON.parse(content);
+				if (data.definitions) {
+					for (const [key, value] of Object.entries(data.definitions)) {
+						const entry = new this.definitionsInstance.DefinitionEntry(value as rawDefinitionEntry);
+						this.definitionsInstance.set(key, entry);
+					}
 				}
-			}
 				this.logger.info(`[Registry] : Definitions loaded with ${this.definitionsInstance.size} entries`);
 			} else {
 				this.logger.warn(`[Registry] : definitions.json not found at ${definitionsPath}`);
@@ -138,7 +139,7 @@ export const Registry = define('Registry', class {
 	/**
 	 * Load Types from types.ts using lookupTyped
 	 */
-	private async loadTypes (tacticaPath: string): Promise<void> {
+	private async loadTypes(tacticaPath: string): Promise<void> {
 		this.logger.info('[Registry] : loading Types');
 
 		try {
@@ -147,7 +148,46 @@ export const Registry = define('Registry', class {
 
 			const typesPath = path.join(tacticaPath, 'types.ts');
 			if (fs.existsSync(typesPath)) {
-				await this.typesInstance.loadFromFile(typesPath);
+				const content = fs.readFileSync(typesPath, 'utf-8');
+				const lines = content.split('\n');
+
+				// Parse: export type TypeName = ProtoFlat<Parent, { ... }>
+				// OR: export type TypeName = Parent & { ... }
+				// OR: export type TypeName = { ... } (root types, no parent)
+				const typeRegex = /export\s+type\s+(\w+)\s*=\s*(?:(?:ProtoFlat<(\w+),)|(?:(\w+)\s*&))?[\s\n]*\{/;
+
+				for (let i = 0; i < lines.length; i++) {
+					const line = lines[i];
+					const match = typeRegex.exec(line);
+					if (match) {
+						const name = match[1];
+						let parent: string | undefined;
+
+						if (match[2]) {
+							// ProtoFlat<Parent, ...> - match[2] is the parent
+							parent = match[2];
+						} else if (match[3]) {
+							// Parent & { ... } - match[3] is the parent
+							parent = match[3];
+						}
+
+						// Validate: if parent equals name, it's self-referential (bug)
+						if (parent === name) {
+							this.logger.warn(`[Registry] : Skipping self-referential type ${name} at line ${i + 1}`);
+							continue;
+						}
+
+						const entry = new this.typesInstance.TypeEntry({
+							name,
+							fullPath: typesPath,
+							parent,
+							properties: new Map(),
+							lineNumber: i
+						} as rawTypeEntry);
+						this.typesInstance.set(name, entry);
+					}
+				}
+
 				this.logger.info(`[Registry] : Types loaded with ${this.typesInstance.size} entries`);
 			} else {
 				this.logger.warn(`[Registry] : types.ts not found at ${typesPath}`);
@@ -161,7 +201,7 @@ export const Registry = define('Registry', class {
 	/**
 	 * Load Usages from usages.json using lookupTyped
 	 */
-	private async loadUsages (tacticaPath: string): Promise<void> {
+	private async loadUsages(tacticaPath: string): Promise<void> {
 		this.logger.info('[Registry] : loading Usages');
 
 		try {
@@ -192,7 +232,7 @@ export const Registry = define('Registry', class {
 	/**
 	 * Initialize Trie using lookupTyped
 	 */
-	private async loadTrie (): Promise<void> {
+	private async loadTrie(): Promise<void> {
 		this.logger.info('[Registry] : loading Trie');
 
 		try {
@@ -208,35 +248,35 @@ export const Registry = define('Registry', class {
 	/**
 	 * Get the Definitions instance
 	 */
-	getDefinitions (): Definitions | undefined {
+	getDefinitions(): Definitions | undefined {
 		return this.definitionsInstance;
 	}
 
 	/**
 	 * Get the Types instance
 	 */
-	getTypes (): Types | undefined {
+	getTypes(): Types | undefined {
 		return this.typesInstance;
 	}
 
 	/**
 	 * Get the Usages instance
 	 */
-	getUsages (): Usages | undefined {
+	getUsages(): Usages | undefined {
 		return this.usagesInstance;
 	}
 
 	/**
 	 * Get the Trie instance
 	 */
-	getTrie (): Trie | undefined {
+	getTrie(): Trie | undefined {
 		return this.trieInstance;
 	}
 
 	/**
 	 * Refresh all models by reloading from workspace
 	 */
-	async refresh (): Promise<void> {
+	async refresh(): Promise<void> {
 		if (!this.workspacePath) {
 			this.logger.warn('[Registry] : cannot refresh, no workspace path set');
 			return;
