@@ -10,8 +10,8 @@
 //   // instance has full intellisense for Consciousness, Memory, etc.
 
 import type {
-	Definition,
-	Definition_Link,
+	Definitions,
+	Definitions_DefinitionEntry,
 	LoggerTab,
 	LoggerTab_LogEntry,
 	Main,
@@ -46,8 +46,8 @@ import type {
  */
 declare module 'mnemonica' {
 	interface TypeRegistry {
-		'Definition': new (data: { id: string; name: string; fullPath: string; properties: Map<string, object> }) => Definition;
-		'Definition.Link': new (data: { source: unknown; target: unknown; relation: 'extends' | 'implements' | 'contains' }) => Definition_Link;
+		'Definitions': new () => Definitions;
+		'Definitions.DefinitionEntry': new (data: { name: string; location: string; kind: string; parent: string | unknown; strictChain: boolean; blockErrors: boolean }) => Definitions_DefinitionEntry;
 		'LoggerTab': new () => LoggerTab;
 		'LoggerTab.LogEntry': new (data: { level: 'info' | 'warning' | 'error'; message: string; timestamp: number; typeName?: string; error?: Error; args?: Array<unknown> }) => LoggerTab_LogEntry;
 		'Main': new (extensionVersion: string) => Main;
@@ -69,7 +69,7 @@ declare module 'mnemonica' {
 		'Trie.GraphNodeTrie.LinkTrie': new (data: { parent: unknown; child: unknown; relation: 'subtype' | 'instance' }) => Trie_GraphNodeTrie_LinkTrie;
 		'Trie.GraphNodeTrie.ContextMenu': new (data: { targetNode: unknown; items: Array<object>; visible: boolean }) => Trie_GraphNodeTrie_ContextMenu;
 		'Types': new () => Types;
-		'Types.TypeEntry': new (data: { id: string; name: string; fullPath: string; properties: Map<string, string>; parent?: string }) => Types_TypeEntry;
+		'Types.TypeEntry': new (data: { name: string; fullPath: string; properties: Map<string, string>; parent?: string }) => Types_TypeEntry;
 		'Usages': new () => Usages;
 		'Usages.UsageEntry': new (usages: { typeName: string; kind: string; code: string; location: string }) => Usages_UsageEntry;
 	}

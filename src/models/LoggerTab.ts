@@ -2,7 +2,6 @@
 
 import { define } from 'mnemonica';
 
-// LogEntry data structure matching .tactica/types.ts
 export type LogEntryData = {
 	level: 'info' | 'warning' | 'error';
 	message: string;

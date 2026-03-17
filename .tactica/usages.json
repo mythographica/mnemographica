@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-03-16T23:14:32.287Z",
+  "generatedAt": "2026-03-17T17:37:50.430Z",
   "usages": {
     "LoggerTab": [
       {
@@ -14,13 +14,6 @@
         "location": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:182:22",
         "kind": "propertyAccess",
         "code": "this.loggerTab.LogEntry"
-      }
-    ],
-    "Registry.DefinitionEntry": [
-      {
-        "location": "/code/mnemonica/mnemographica/src/providers/definitionProvider.ts:40:44",
-        "kind": "lookup",
-        "code": "lookupTyped('Registry.DefinitionEntry')"
       }
     ],
     "Usages": [
@@ -40,6 +33,20 @@
         "location": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:72:24",
         "kind": "propertyAccess",
         "code": "usages.UsageEntry"
+      }
+    ],
+    "Definitions.DefinitionEntry": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/models/Definition.ts:66:24",
+        "kind": "propertyAccess",
+        "code": "(this as unknown as { DefinitionEntry: typeof DefinitionEntry }).DefinitionEntry"
+      }
+    ],
+    "Types.TypeEntry": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/models/Types.ts:91:24",
+        "kind": "propertyAccess",
+        "code": "(this as unknown as { TypeEntry: typeof TypeEntry }).TypeEntry"
       }
     ]
   }

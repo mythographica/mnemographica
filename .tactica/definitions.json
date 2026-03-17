@@ -1,26 +1,26 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-03-16T23:14:32.286Z",
+  "generatedAt": "2026-03-17T17:37:50.429Z",
   "definitions": {
-    "Definition": {
-      "name": "Definition",
-      "location": "/code/mnemonica/mnemographica/src/models/Definition.ts:5:27",
+    "Definitions": {
+      "name": "Definitions",
+      "location": "/code/mnemonica/mnemographica/src/models/Definition.ts:18:28",
       "kind": "define",
       "parent": null,
       "strictChain": true,
       "blockErrors": false
     },
-    "Definition.Link": {
-      "name": "Link",
-      "location": "/code/mnemonica/mnemographica/src/models/Definition.ts:15:21",
+    "Definitions.DefinitionEntry": {
+      "name": "DefinitionEntry",
+      "location": "/code/mnemonica/mnemographica/src/models/Definition.ts:83:32",
       "kind": "define",
-      "parent": "Definition",
+      "parent": "Definitions",
       "strictChain": true,
       "blockErrors": false
     },
     "LoggerTab": {
       "name": "LoggerTab",
-      "location": "/code/mnemonica/mnemographica/src/models/LoggerTab.ts:16:26",
+      "location": "/code/mnemonica/mnemographica/src/models/LoggerTab.ts:15:26",
       "kind": "define",
       "parent": null,
       "strictChain": true,
@@ -28,7 +28,7 @@
     },
     "LoggerTab.LogEntry": {
       "name": "LogEntry",
-      "location": "/code/mnemonica/mnemographica/src/models/LoggerTab.ts:24:25",
+      "location": "/code/mnemonica/mnemographica/src/models/LoggerTab.ts:23:25",
       "kind": "define",
       "parent": "LoggerTab",
       "strictChain": true,
@@ -180,7 +180,7 @@
     },
     "Types": {
       "name": "Types",
-      "location": "/code/mnemonica/mnemographica/src/models/Types.ts:5:22",
+      "location": "/code/mnemonica/mnemographica/src/models/Types.ts:16:22",
       "kind": "define",
       "parent": null,
       "strictChain": true,
@@ -188,7 +188,7 @@
     },
     "Types.TypeEntry": {
       "name": "TypeEntry",
-      "location": "/code/mnemonica/mnemographica/src/models/Types.ts:9:26",
+      "location": "/code/mnemonica/mnemographica/src/models/Types.ts:130:26",
       "kind": "define",
       "parent": "Types",
       "strictChain": true,

@@ -147,13 +147,15 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 			const content = fs.readFileSync(typesPath, 'utf-8');
 			const lines = content.split('\n');
 
-			// Parse: export type TypeName = Parent & { ... }
+			// Parse: export type TypeName = { ... } (root types)
 			// OR: export type TypeName = ProtoFlat<Parent, { ... }>
-			const typeRegex = /export\s+type\s+(\w+)\s*=\s*(?:(\w+)\s*&|ProtoFlat<(\w+),)?/;
+			// OR: export type TypeName = Parent & { ... }
+			const typeRegex = /export\s+type\s+(\w+)\s*=\s*(?:(?:ProtoFlat<(\w+),)|(?:(\w+)\s*&))?[\s\n]*\{/;
 
 			for (let i = 0; i < lines.length; i++) {
 				const match = typeRegex.exec(lines[i]);
 				if (match) {
+					// match[2] = ProtoFlat parent, match[3] = & parent
 					const parent = match[2] || match[3] || undefined;
 					this.types.set(match[1], {
 						name: match[1],
@@ -186,8 +188,8 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 			];
 		}
 
-		// Definitions section root
-		if (element.data.label === 'Definitions') {
+		// Definitions section root - only match if type is 'root'
+		if (element.data.label === 'Definitions' && element.data.type === 'root') {
 			const roots = this.getRootDefinitions();
 			if (this.debug) {
 				this.logger.info(`[MnemonicaTree] Root definitions: ${roots.map(r => r.name).join(', ')}`);
@@ -219,7 +221,9 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 		}
 
 		// For Type items - check using type parent relationships
-		const typeChildren = this.getChildTypes(element.data.label);
+		// Use fullName for lookup (types use full names like Scene2D_GraphNode2D)
+		const lookupName = element.data.fullName || element.data.label;
+		const typeChildren = this.getChildTypes(lookupName);
 		if (typeChildren.length > 0) {
 			return typeChildren.map(type => this.createTypeItem(type));
 		}

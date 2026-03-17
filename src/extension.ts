@@ -6,7 +6,7 @@ import { GraphProvider } from './graph/provider';
 import { MnemonicaActivityBarProvider } from './activityBar';
 import { MnemonicaTreeProvider, MnemonicaTreeItem } from './views/treeProvider';
 import { UsagesTreeProvider, UsageTreeItem } from './views/usagesTreeProvider';
-import { MnemonicaDefinitionProvider } from './providers/definitionProvider';
+// DefinitionProvider removed - will be re-implemented
 import { MnemonicaReferenceProvider } from './providers/referenceProvider';
 import { StrategyServer } from './strategy';
 import { getLogger } from './services/LoggerService';
@@ -24,7 +24,7 @@ let treeProvider: MnemonicaTreeProvider;
 let treeView: vscode.TreeView<MnemonicaTreeItem>;
 let usagesProvider: UsagesTreeProvider;
 let usagesTreeView: vscode.TreeView<UsageTreeItem>;
-let definitionProvider: MnemonicaDefinitionProvider;
+// definitionProvider removed - will be re-implemented
 let referenceProvider: MnemonicaReferenceProvider;
 let strategyServer: StrategyServer;
 let statusBarItem: vscode.StatusBarItem;
@@ -150,16 +150,10 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 
 	// Initialize and register navigation providers
-	definitionProvider = new MnemonicaDefinitionProvider();
+	// definitionProvider removed - will be re-implemented
 	referenceProvider = new MnemonicaReferenceProvider();
 
-	// Register definition provider for TypeScript files
-	context.subscriptions.push(
-		vscode.languages.registerDefinitionProvider(
-			{ scheme: 'file', language: 'typescript' },
-			definitionProvider
-		)
-	);
+	// DefinitionProvider registration removed
 
 	// Register reference provider for TypeScript files
 	context.subscriptions.push(
@@ -202,9 +196,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 		// Load navigation provider data
 		logger.info('Loading navigation providers data...');
-		definitionProvider.loadDefinitions(workspacePath).catch((err: Error) => {
-			logger.error('Failed to load definitions:', err);
-		});
+		// definitionProvider.loadDefinitions removed - will be re-implemented
 		referenceProvider.loadUsages(workspacePath).catch((err: Error) => {
 			logger.error('Failed to load usages:', err, err.stack);
 		});
@@ -715,10 +707,7 @@ async function selectWorkspace (): Promise<void> {
 		treeProvider.refresh();
 
 		// Update navigation providers
-		if (definitionProvider) {
-			definitionProvider.clear();
-			await definitionProvider.loadDefinitions(selected.workspacePath);
-		}
+		// definitionProvider removed - will be re-implemented
 		if (referenceProvider) {
 			referenceProvider.clear();
 			await referenceProvider.loadUsages(selected.workspacePath);
@@ -775,10 +764,7 @@ async function refreshTypeGraph(_context: vscode.ExtensionContext) {
 	}
 
 	// Refresh navigation providers
-	if (definitionProvider) {
-		definitionProvider.clear();
-		definitionProvider.loadDefinitions(workspacePath);
-	}
+	// definitionProvider removed - will be re-implemented
 	if (referenceProvider) {
 		referenceProvider.clear();
 		referenceProvider.loadUsages(workspacePath);

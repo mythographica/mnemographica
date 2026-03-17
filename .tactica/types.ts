@@ -6,19 +6,27 @@
 
 import type { ProtoFlat } from 'mnemonica';
 
-export type Definition = {
-	id: string;
-	name: string;
-	fullPath: string;
-	properties: Map<string, object>;
-	Link: new (data: { source: unknown; target: unknown; relation: 'extends' | 'implements' | 'contains' }) => Definition_Link;
+export type Definitions = {
+	createdAt: number;
+	readonly size: number;
+	get: (name: string) => Definitions_DefinitionEntry | undefined;
+	has: (name: string) => boolean;
+	set: (name: string, entry: Definitions_DefinitionEntry) => void;
+	keys: () => MapIterator<string>;
+	values: () => MapIterator<Definitions_DefinitionEntry>;
+	clear: () => void;
+	loadFromFile: (filePath: string) => Promise<void>;
+	DefinitionEntry: new (data: { name: string; location: string; kind: string; parent: string | unknown; strictChain: boolean; blockErrors: boolean }) => Definitions_DefinitionEntry;
 };
 
-export type Definition_Link = ProtoFlat<Definition, {
-	source: unknown;
-	target: unknown;
-	relation: 'extends' | 'implements' | 'contains';
-	Link: undefined;
+export type Definitions_DefinitionEntry = ProtoFlat<Definitions, {
+	name: string;
+	location: string;
+	kind: string;
+	parent: string | unknown;
+	strictChain: boolean;
+	blockErrors: boolean;
+	DefinitionEntry: undefined;
 }>;
 
 export type LoggerTab = {
@@ -188,15 +196,23 @@ export type Trie_GraphNodeTrie_ContextMenu = ProtoFlat<Trie_GraphNodeTrie, {
 
 export type Types = {
 	createdAt: number;
-	TypeEntry: new (data: { id: string; name: string; fullPath: string; properties: Map<string, string>; parent?: string }) => Types_TypeEntry;
+	readonly size: number;
+	get: (name: string) => Types_TypeEntry | undefined;
+	has: (name: string) => boolean;
+	set: (name: string, entry: Types_TypeEntry) => void;
+	keys: () => MapIterator<string>;
+	values: () => MapIterator<Types_TypeEntry>;
+	clear: () => void;
+	loadFromFile: (filePath: string) => Promise<void>;
+	getLineForType: (typeName: string) => number | undefined;
+	TypeEntry: new (data: { name: string; fullPath: string; properties: Map<string, string>; parent?: string }) => Types_TypeEntry;
 };
 
 export type Types_TypeEntry = ProtoFlat<Types, {
-	id: string;
 	name: string;
 	fullPath: string;
 	properties: Map<string, string>;
-	parent: string;
+	parent?: string;
 	TypeEntry: undefined;
 }>;
 
