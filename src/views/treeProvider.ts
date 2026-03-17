@@ -4,6 +4,7 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 import { getLogger } from '../services/LoggerService';
+import { Registry } from '../models/Registry';
 
 type TreeNodeType = 'root' | 'type' | 'subtype' | 'definition';
 
@@ -82,6 +83,7 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 	private debug = true; // Enable debug logging
 	private logger = getLogger();
 	private currentWorkspacePath: string | undefined;
+	private registry: InstanceType<typeof Registry> | undefined;
 
 	refresh (): void {
 		this._onDidChangeTreeData.fire();
@@ -96,8 +98,98 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 		return this.currentWorkspacePath;
 	}
 
+	setRegistry (registry: InstanceType<typeof Registry>): void {
+		this.registry = registry;
+		this.logger.info('[MnemonicaTree] Registry set');
+	}
+
+	async loadFromRegistry (): Promise<void> {
+		if (!this.registry) {
+			this.logger.warn('[MnemonicaTree] No registry set, cannot load');
+			return;
+		}
+
+		this.definitions.clear();
+		this.types.clear();
+
+		// Load definitions from registry
+		const definitionsModel = this.registry.getDefinitions();
+		if (definitionsModel) {
+			for (const key of definitionsModel.keys()) {
+				const entry = definitionsModel.get(key);
+				if (!entry) continue;
+
+				// Type from .tactica/types.ts: Definitions_DefinitionEntry
+				const info = entry as unknown as {
+					name: string;
+					location: string;
+					parent: string | unknown;
+				};
+
+				// Parse location: "/path/to/file.ts:line:column"
+				const locationMatch = info.location.match(/^(.+):(\d+):(\d+)$/);
+				const filePath = locationMatch ? locationMatch[1] : info.location;
+				const line = locationMatch ? parseInt(locationMatch[2], 10) : 0;
+				const column = locationMatch ? parseInt(locationMatch[3], 10) : 0;
+
+				// Store with the full key as fullName for proper hierarchical lookups
+				this.definitions.set(key, {
+					id: `${key}:${line}:${column}`,
+					name: info.name,
+					fullPath: filePath,
+					parent: typeof info.parent === 'string' ? info.parent : undefined,
+					line,
+					column,
+					fullName: key  // This is the full hierarchical name like "Scene2D.GraphNode2D"
+				});
+			}
+
+			if (this.debug) {
+				this.logger.info(`[MnemonicaTree] Loaded ${this.definitions.size} definitions from registry`);
+			}
+		}
+
+		// Load types from registry
+		const typesModel = this.registry.getTypes();
+		if (typesModel) {
+			for (const key of typesModel.keys()) {
+				const entry = typesModel.get(key);
+				if (!entry) continue;
+
+				// Type from .tactica/types.ts: Types_TypeEntry
+				const info = entry as unknown as {
+					name: string;
+					fullPath: string;
+					parent?: string;
+				};
+
+				this.types.set(key, {
+					name: info.name,
+					fullName: info.name,
+					parent: info.parent,
+					fullPath: info.fullPath,
+					line: 0  // Types don't have line numbers in registry
+				});
+			}
+
+			if (this.debug) {
+				this.logger.info(`[MnemonicaTree] Loaded ${this.types.size} types from registry`);
+			}
+		}
+
+		this.refresh();
+	}
+
 	async loadDefinitions (workspacePath: string): Promise<void> {
 		this.currentWorkspacePath = workspacePath;
+
+		// If registry is set, use registry data
+		if (this.registry) {
+			await this.loadFromRegistry();
+			return;
+		}
+
+		// Fallback to direct file parsing
 		this.definitions.clear();
 		this.types.clear();
 

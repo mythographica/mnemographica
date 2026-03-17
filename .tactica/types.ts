@@ -15,7 +15,6 @@ export type Definitions = {
 	keys: () => MapIterator<string>;
 	values: () => MapIterator<Definitions_DefinitionEntry>;
 	clear: () => void;
-	loadFromFile: (filePath: string) => Promise<void>;
 	DefinitionEntry: new (data: { name: string; location: string; kind: string; parent: string | unknown; strictChain: boolean; blockErrors: boolean }) => Definitions_DefinitionEntry;
 };
 
@@ -26,6 +25,33 @@ export type Definitions_DefinitionEntry = ProtoFlat<Definitions, {
 	parent: string | unknown;
 	strictChain: boolean;
 	blockErrors: boolean;
+	DefinitionEntry: undefined;
+}>;
+
+export type Registry = {
+	createdAt: number;
+	readonly size: number;
+	get: (name: string) => unknown | undefined;
+	has: (name: string) => boolean;
+	set: (name: string, entry: unknown) => void;
+	keys: () => MapIterator<string>;
+	values: () => MapIterator<unknown>;
+	clear: () => void;
+	loadFromWorkspace: (workspacePath: string) => Promise<void>;
+	getDefinitions: () => Definitions | undefined;
+	getTypes: () => Types | undefined;
+	getUsages: () => Usages | undefined;
+	getTrie: () => Trie | undefined;
+	refresh: () => Promise<void>;
+	DefinitionEntry: new (data: { id: string; name: string; filePath: string; line: number; column: number }) => Registry_DefinitionEntry;
+};
+
+export type Registry_DefinitionEntry = ProtoFlat<Registry, {
+	id: string;
+	name: string;
+	filePath: string;
+	line: number;
+	column: number;
 	DefinitionEntry: undefined;
 }>;
 
@@ -56,33 +82,6 @@ export type Main_Adapter = ProtoFlat<Main, {
 	enabled: boolean;
 	createdAt: number;
 	Adapter: undefined;
-}>;
-
-export type Registry = {
-	createdAt: number;
-	readonly size: number;
-	get: (name: string) => unknown | undefined;
-	has: (name: string) => boolean;
-	set: (name: string, entry: unknown) => void;
-	keys: () => MapIterator<string>;
-	values: () => MapIterator<unknown>;
-	clear: () => void;
-	loadFromWorkspace: (workspacePath: string) => Promise<void>;
-	getDefinitions: () => Definitions | undefined;
-	getTypes: () => Types | undefined;
-	getUsages: () => Usages | undefined;
-	getTrie: () => Trie | undefined;
-	refresh: () => Promise<void>;
-	DefinitionEntry: new (data: { id: string; name: string; filePath: string; line: number; column: number }) => Registry_DefinitionEntry;
-};
-
-export type Registry_DefinitionEntry = ProtoFlat<Registry, {
-	id: string;
-	name: string;
-	filePath: string;
-	line: number;
-	column: number;
-	DefinitionEntry: undefined;
 }>;
 
 export type Scene2D = {

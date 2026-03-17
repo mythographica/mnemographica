@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-03-17T18:37:53.608Z",
+  "generatedAt": "2026-03-17T21:27:28.952Z",
   "definitions": {
     "Definitions": {
       "name": "Definitions",
@@ -12,9 +12,25 @@
     },
     "Definitions.DefinitionEntry": {
       "name": "DefinitionEntry",
-      "location": "/code/mnemonica/mnemographica/src/models/Definition.ts:83:32",
+      "location": "/code/mnemonica/mnemographica/src/models/Definition.ts:65:32",
       "kind": "define",
       "parent": "Definitions",
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Registry": {
+      "name": "Registry",
+      "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:19:25",
+      "kind": "define",
+      "parent": null,
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Registry.DefinitionEntry": {
+      "name": "DefinitionEntry",
+      "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:256:32",
+      "kind": "define",
+      "parent": "Registry",
       "strictChain": true,
       "blockErrors": false
     },
@@ -47,22 +63,6 @@
       "location": "/code/mnemonica/mnemographica/src/models/Main.ts:13:24",
       "kind": "define",
       "parent": "Main",
-      "strictChain": true,
-      "blockErrors": false
-    },
-    "Registry": {
-      "name": "Registry",
-      "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:17:25",
-      "kind": "define",
-      "parent": null,
-      "strictChain": true,
-      "blockErrors": false
-    },
-    "Registry.DefinitionEntry": {
-      "name": "DefinitionEntry",
-      "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:247:32",
-      "kind": "define",
-      "parent": "Registry",
       "strictChain": true,
       "blockErrors": false
     },

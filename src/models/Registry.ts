@@ -6,6 +6,8 @@ import { define, lookupTyped } from 'mnemonica';
 import { getLogger } from '../services/LoggerService';
 import type { Definitions, Types, Usages, Trie } from '~tactica/types';
 
+import type { rawDefinitionEntry } from './Definition';
+
 export type registryEntry = {
 	id: string;
 	name: string;
@@ -115,7 +117,14 @@ export const Registry = define('Registry', class {
 
 			const definitionsPath = path.join(tacticaPath, 'definitions.json');
 			if (fs.existsSync(definitionsPath)) {
-				await this.definitionsInstance.loadFromFile(definitionsPath);
+				const content = fs.readFileSync(definitionsPath, 'utf-8');
+			const data = JSON.parse(content);
+			if (data.definitions) {
+				for (const [key, value] of Object.entries(data.definitions)) {
+					const entry = new this.definitionsInstance.DefinitionEntry(value as rawDefinitionEntry);
+					this.definitionsInstance.set(key, entry);
+				}
+			}
 				this.logger.info(`[Registry] : Definitions loaded with ${this.definitionsInstance.size} entries`);
 			} else {
 				this.logger.warn(`[Registry] : definitions.json not found at ${definitionsPath}`);

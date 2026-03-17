@@ -12,12 +12,12 @@
 import type {
 	Definitions,
 	Definitions_DefinitionEntry,
+	Registry,
+	Registry_DefinitionEntry,
 	LoggerTab,
 	LoggerTab_LogEntry,
 	Main,
 	Main_Adapter,
-	Registry,
-	Registry_DefinitionEntry,
 	Scene2D,
 	Scene2D_Camera2D,
 	Scene2D_GraphNode2D,
@@ -48,12 +48,12 @@ declare module 'mnemonica' {
 	interface TypeRegistry {
 		'Definitions': new () => Definitions;
 		'Definitions.DefinitionEntry': new (data: { name: string; location: string; kind: string; parent: string | unknown; strictChain: boolean; blockErrors: boolean }) => Definitions_DefinitionEntry;
+		'Registry': new () => Registry;
+		'Registry.DefinitionEntry': new (data: { id: string; name: string; filePath: string; line: number; column: number }) => Registry_DefinitionEntry;
 		'LoggerTab': new () => LoggerTab;
 		'LoggerTab.LogEntry': new (data: { level: 'info' | 'warning' | 'error'; message: string; timestamp: number; typeName?: string; error?: Error; args?: Array<unknown> }) => LoggerTab_LogEntry;
 		'Main': new (extensionVersion: string) => Main;
 		'Main.Adapter': new (data: { name: string; domain: string; enabled: boolean }) => Main_Adapter;
-		'Registry': new () => Registry;
-		'Registry.DefinitionEntry': new (data: { id: string; name: string; filePath: string; line: number; column: number }) => Registry_DefinitionEntry;
 		'Scene2D': new () => Scene2D;
 		'Scene2D.Camera2D': new (data: { x: number; y: number; zoom: number }) => Scene2D_Camera2D;
 		'Scene2D.GraphNode2D': new (data: { id: string; label: string; x: number; y: number; radius: number; color: string }) => Scene2D_GraphNode2D;

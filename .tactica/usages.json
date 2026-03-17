@@ -1,27 +1,24 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-03-17T18:37:53.609Z",
+  "generatedAt": "2026-03-17T21:27:28.953Z",
   "usages": {
     "Definitions": [
       {
-        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:113:35",
-        "kind": "lookup",
-        "code": "lookupTyped('Definitions')"
-      },
-      {
-        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:113:35",
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:115:35",
         "kind": "lookup",
         "code": "lookupTyped('Definitions')"
       }
     ],
+    "Definitions.DefinitionEntry": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:124:24",
+        "kind": "propertyAccess",
+        "code": "this.definitionsInstance.DefinitionEntry"
+      }
+    ],
     "Registry": [
       {
-        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:255:25",
-        "kind": "instantiation",
-        "code": "new Registry()"
-      },
-      {
-        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:255:25",
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:264:25",
         "kind": "instantiation",
         "code": "new Registry()"
       }
@@ -40,7 +37,19 @@
         "code": "this.loggerTab.LogEntry"
       }
     ],
+    "Types": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:145:29",
+        "kind": "lookup",
+        "code": "lookupTyped('Types')"
+      }
+    ],
     "Usages": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:168:30",
+        "kind": "lookup",
+        "code": "lookupTyped('Usages')"
+      },
       {
         "location": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:28:18",
         "kind": "lookup",
@@ -50,11 +59,13 @@
         "location": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:31:18",
         "kind": "instantiation",
         "code": "new Usages"
-      },
+      }
+    ],
+    "Trie": [
       {
-        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:159:30",
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:199:28",
         "kind": "lookup",
-        "code": "lookupTyped('Usages')"
+        "code": "lookupTyped('Trie')"
       }
     ],
     "Usages.UsageEntry": [
@@ -62,27 +73,6 @@
         "location": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:72:24",
         "kind": "propertyAccess",
         "code": "usages.UsageEntry"
-      }
-    ],
-    "Definitions.DefinitionEntry": [
-      {
-        "location": "/code/mnemonica/mnemographica/src/models/Definition.ts:66:24",
-        "kind": "propertyAccess",
-        "code": "(this as unknown as { DefinitionEntry: typeof DefinitionEntry }).DefinitionEntry"
-      }
-    ],
-    "Types": [
-      {
-        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:136:29",
-        "kind": "lookup",
-        "code": "lookupTyped('Types')"
-      }
-    ],
-    "Trie": [
-      {
-        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:190:28",
-        "kind": "lookup",
-        "code": "lookupTyped('Trie')"
       }
     ],
     "Types.TypeEntry": [

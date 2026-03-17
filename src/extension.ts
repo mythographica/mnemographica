@@ -11,6 +11,7 @@ import { MnemonicaReferenceProvider } from './providers/referenceProvider';
 import { StrategyServer } from './strategy';
 import { getLogger } from './services/LoggerService';
 import { loadModels, modelsLoaded } from './topologica/bootstrap';
+import { registry } from './models/Registry';
 
 type WorkspaceQuickPickItem = {
 	label: string;
@@ -190,8 +191,15 @@ export function activate(context: vscode.ExtensionContext) {
 	if (workspaceFolders && modelsLoaded) {
 		const workspacePath = workspaceFolders[0].uri.fsPath;
 		logger.info('Loading tree definitions from:', workspacePath);
-		treeProvider.loadDefinitions(workspacePath).catch((err: Error) => {
-			logger.error('Failed to load tree definitions:', err);
+
+		// Load all models through registry
+		registry.loadFromWorkspace(workspacePath).then(() => {
+			logger.info('Registry loaded successfully');
+			// Update tree provider with registry data
+			treeProvider.setRegistry(registry);
+			treeProvider.refresh();
+		}).catch((err: Error) => {
+			logger.error('Failed to load registry:', err);
 		});
 
 		// Load navigation provider data
@@ -245,7 +253,8 @@ export function activate(context: vscode.ExtensionContext) {
 		async () => {
 			const workspaceFolders = vscode.workspace.workspaceFolders;
 			if (workspaceFolders) {
-				treeProvider.loadDefinitions(workspaceFolders[0].uri.fsPath);
+				await registry.refresh();
+				treeProvider.refresh();
 			}
 		}
 	);
@@ -703,7 +712,10 @@ async function selectWorkspace (): Promise<void> {
 	try {
 		// Update tree provider
 		treeProvider.setWorkspace(selected.workspacePath);
-		await treeProvider.loadDefinitions(selected.workspacePath);
+
+		// Load all models through registry
+		await registry.loadFromWorkspace(selected.workspacePath);
+		treeProvider.setRegistry(registry);
 		treeProvider.refresh();
 
 		// Update navigation providers
@@ -757,17 +769,17 @@ async function refreshTypeGraph(_context: vscode.ExtensionContext) {
 	// Clear cache and reload
 	graphProvider.clearCache();
 
-	// Refresh tree view as well
+	// Refresh registry and tree view
 	if (treeProvider) {
-		treeProvider.clear();
-		treeProvider.loadDefinitions(workspacePath);
+		await registry.refresh();
+		treeProvider.refresh();
 	}
 
 	// Refresh navigation providers
 	// definitionProvider removed - will be re-implemented
 	if (referenceProvider) {
 		referenceProvider.clear();
-		referenceProvider.loadUsages(workspacePath);
+		await referenceProvider.loadUsages(workspacePath);
 	}
 
 	logger.info('Type graph refreshed');

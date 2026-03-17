@@ -1,10 +1,10 @@
 'use strict';
 
-import * as fs from 'fs';
+
 import { define } from 'mnemonica';
 import { getLogger } from '../services/LoggerService';
 
-export type definitionEntry = {
+export type rawDefinitionEntry = {
 	name: string;
 	location: string;
 	kind: string;
@@ -55,25 +55,7 @@ export const Definitions = define('Definitions', class {
 		return this.map.clear();
 	}
 
-	async loadFromFile (filePath: string): Promise<void> {
-		this.logger.info(`[Definitions] : loading from ${filePath}`);
-		try {
-			const content = fs.readFileSync(filePath, 'utf-8');
-			const data = JSON.parse(content);
-			
-			if (data.definitions) {
-				for (const [key, value] of Object.entries(data.definitions)) {
-					const entry = new (this as unknown as { DefinitionEntry: typeof DefinitionEntry }).DefinitionEntry(value as definitionEntry);
-					this.map.set(key, entry);
-				}
-			}
-			
-			this.logger.info(`[Definitions] : loaded ${this.map.size} definitions`);
-		} catch (error) {
-			this.logger.error(`[Definitions] : failed to load from ${filePath}`, error);
-			throw error;
-		}
-	}
+	// Note: loadFromFile action moved to Registry - Definitions is pure data container
 });
 
 const setProps = (to: object, from: object) => {
@@ -81,8 +63,8 @@ const setProps = (to: object, from: object) => {
 };
 
 export const DefinitionEntry = Definitions.define('DefinitionEntry', function (
-	this: definitionEntry,
-	data: definitionEntry
+	this: rawDefinitionEntry,
+	data: rawDefinitionEntry
 ) {
 	setProps(this, data);
 });
