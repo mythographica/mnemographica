@@ -255,7 +255,7 @@
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
-		"compile": "rm -rf ./out && tsc -p ./",
+		"compile": "npm run tactica:generate && rm -rf ./out && tsc -p ./",
 		"watch": "tsc -watch -p ./",
 		"pretest": "npm run compile && npm run lint",
 		"lint": "eslint src --ext ts",

@@ -60,6 +60,19 @@ export type Main_Adapter = ProtoFlat<Main, {
 
 export type Registry = {
 	createdAt: number;
+	readonly size: number;
+	get: (name: string) => unknown | undefined;
+	has: (name: string) => boolean;
+	set: (name: string, entry: unknown) => void;
+	keys: () => MapIterator<string>;
+	values: () => MapIterator<unknown>;
+	clear: () => void;
+	loadFromWorkspace: (workspacePath: string) => Promise<void>;
+	getDefinitions: () => Definitions | undefined;
+	getTypes: () => Types | undefined;
+	getUsages: () => Usages | undefined;
+	getTrie: () => Trie | undefined;
+	refresh: () => Promise<void>;
 	DefinitionEntry: new (data: { id: string; name: string; filePath: string; line: number; column: number }) => Registry_DefinitionEntry;
 };
 

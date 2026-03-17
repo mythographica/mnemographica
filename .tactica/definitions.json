@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-03-17T17:37:50.429Z",
+  "generatedAt": "2026-03-17T18:37:53.608Z",
   "definitions": {
     "Definitions": {
       "name": "Definitions",
@@ -52,7 +52,7 @@
     },
     "Registry": {
       "name": "Registry",
-      "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:5:25",
+      "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:17:25",
       "kind": "define",
       "parent": null,
       "strictChain": true,
@@ -60,7 +60,7 @@
     },
     "Registry.DefinitionEntry": {
       "name": "DefinitionEntry",
-      "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:9:32",
+      "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:247:32",
       "kind": "define",
       "parent": "Registry",
       "strictChain": true,
