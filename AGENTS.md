@@ -137,3 +137,130 @@ src/
 - `vscode.commands`: Command palette integration
 - `vscode.workspace.fileWatcher`: Auto-refresh on file changes
 - `vscode.window.showTextDocument`: Go-to-definition functionality
+
+## Lessons Learned
+
+### 1. Separation of Concerns: Actions vs Data
+
+**WRONG:** Putting file I/O actions inside model classes
+```typescript
+// Definitions.ts - model
+class Definitions {
+    async loadFromFile(path: string) {  // ❌ Action in data class
+        // file reading logic here
+    }
+}
+```
+
+**RIGHT:** Keep models as pure data containers, actions go in controllers
+```typescript
+// Definitions.ts - pure data
+class Definitions {
+    get(name: string) { return this.map.get(name); }
+    set(name: string, entry: DefinitionEntry) { this.map.set(name, entry); }
+    // Note: loadFromFile action moved to Registry
+}
+
+// Registry.ts - controller with actions
+class Registry {
+    private async loadDefinitions(tacticaPath: string) {
+        const content = fs.readFileSync(definitionsPath, 'utf-8');
+        // ... parse and populate Definitions instance
+    }
+}
+```
+
+### 2. Avoid Inefficient File Operations
+
+**WRONG:** Re-reading files to get data that was already available during parsing
+```typescript
+// Types.ts - wasteful re-reading
+getLineForType(typeName: string): number | undefined {
+    const entry = this.map.get(typeName);
+    if (!entry) return undefined;
+    
+    // ❌ Re-reads the ENTIRE file just to find line number!
+    const content = fs.readFileSync(entry.fullPath, 'utf-8');
+    const lines = content.split('\n');
+    const searchPattern = new RegExp(`export\\s+type\\s+${typeName}\\s*=`);
+    
+    for (let i = 0; i < lines.length; i++) {
+        if (searchPattern.test(lines[i])) {
+            return i;
+        }
+    }
+    return undefined;
+}
+```
+
+**RIGHT:** Store the data when you have it during parsing
+```typescript
+// rawTypeEntry definition
+export type rawTypeEntry = {
+    name: string;
+    fullPath: string;
+    parent?: string;
+    properties: Map<string, string>;
+    lineNumber: number;  // ✅ Store it during parsing
+};
+
+// Registry.ts - during parsing
+for (let i = 0; i < lines.length; i++) {
+    const match = typeRegex.exec(lines[i]);
+    if (match) {
+        const entry = new this.typesInstance.TypeEntry({
+            name,
+            fullPath: typesPath,
+            parent,
+            properties: new Map(),
+            lineNumber: i  // ✅ Store line number when we know it
+        } as rawTypeEntry);
+    }
+}
+
+// Types.ts - simple lookup
+getLineForType(typeName: string): number | undefined {
+    const entry = this.map.get(typeName);
+    return entry?.lineNumber;  // ✅ O(1) lookup, no file I/O
+}
+```
+
+### 3. Naming Convention: Use rawTypeEntry Pattern
+
+**WRONG:** Confusing naming between internal type and data transfer type
+```typescript
+// ❌ Two different types with similar names
+export type typeEntry = { ... };        // Used inside model
+export type TypeEntryData = { ... };    // Used for external data
+```
+
+**RIGHT:** Clear naming: `rawTypeEntry` for data transfer
+```typescript
+// ✅ Single clear type name for external data
+export type rawTypeEntry = {
+    name: string;
+    fullPath: string;
+    parent?: string;
+    properties: Map<string, string>;
+    lineNumber: number;
+};
+
+// Used in Registry.ts when creating instances
+const entry = new this.typesInstance.TypeEntry({
+    name,
+    fullPath: typesPath,
+    parent,
+    properties: new Map(),
+    lineNumber: i
+} as rawTypeEntry);
+```
+
+**Key Principle:** Models define `raw*` types for data transfer. Controllers use these types when populating models.
+
+## Pattern Summary
+
+| Layer | Responsibility | Example |
+|-------|---------------|---------|
+| Model (Definitions, Types, Usages, Trie) | Pure data storage, Map operations | `get()`, `set()`, `has()` |
+| Controller (Registry) | File I/O, parsing, orchestration | `loadDefinitions()`, `loadTypes()` |
+| Data Transfer | `raw*` types for external data | `rawTypeEntry`, `rawDefinitionEntry` |

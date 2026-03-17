@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-03-17T21:54:24.112Z",
+  "generatedAt": "2026-03-17T22:56:08.951Z",
   "definitions": {
     "Definitions": {
       "name": "Definitions",
@@ -44,7 +44,7 @@
     },
     "Registry.DefinitionEntry": {
       "name": "DefinitionEntry",
-      "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:296:32",
+      "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:314:32",
       "kind": "define",
       "parent": "Registry",
       "strictChain": true,

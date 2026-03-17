@@ -31,6 +31,17 @@ export const Registry = define('Registry', class {
 	// Workspace path for reload operations
 	private workspacePath: string | undefined;
 
+	makeProperty(name: string, value: unknown) {
+		Object.defineProperty(this, name, {
+			get() {
+				return value;
+			},
+			configurable: true,
+			enumerable: true 
+		});
+	}
+
+
 	constructor() {
 		this.createdAt = Date.now();
 		this.logger.info(`[Registry] : constructed at ${this.createdAt}`);
@@ -101,7 +112,8 @@ export const Registry = define('Registry', class {
 
 			this.logger.info('[Registry] : all models loaded successfully');
 		} catch (error) {
-			this.logger.error('[Registry] : failed to load models', error);
+			this.logger.error('[Registry] : failed to load models',
+				(error as unknown as InstanceType<typeof Error>).stack);
 			throw error;
 		}
 	}
@@ -114,7 +126,8 @@ export const Registry = define('Registry', class {
 
 		try {
 			const DefinitionsConstructor = lookupTyped('Definitions');
-			this.definitionsInstance = new DefinitionsConstructor();
+			const definitionsInstance = new DefinitionsConstructor();
+			this.makeProperty('definitionsInstance', definitionsInstance);
 
 			const definitionsPath = path.join(tacticaPath, 'definitions.json');
 			if (fs.existsSync(definitionsPath)) {
@@ -122,16 +135,17 @@ export const Registry = define('Registry', class {
 				const data = JSON.parse(content);
 				if (data.definitions) {
 					for (const [key, value] of Object.entries(data.definitions)) {
-						const entry = new this.definitionsInstance.DefinitionEntry(value as rawDefinitionEntry);
-						this.definitionsInstance.set(key, entry);
+						const entry = new definitionsInstance.DefinitionEntry(value as rawDefinitionEntry);
+						definitionsInstance.set(key, entry);
 					}
 				}
-				this.logger.info(`[Registry] : Definitions loaded with ${this.definitionsInstance.size} entries`);
+				this.logger.info(`[Registry] : Definitions loaded with ${definitionsInstance.size} entries`);
 			} else {
 				this.logger.warn(`[Registry] : definitions.json not found at ${definitionsPath}`);
 			}
 		} catch (error) {
-			this.logger.error('[Registry] : failed to load Definitions', error);
+			this.logger.error('[Registry] : failed to load Definitions',
+				(error as unknown as InstanceType<typeof Error>).stack);
 			throw error;
 		}
 	}
@@ -144,7 +158,8 @@ export const Registry = define('Registry', class {
 
 		try {
 			const TypesConstructor = lookupTyped('Types');
-			this.typesInstance = new TypesConstructor();
+			const typesInstance = new TypesConstructor();
+			this.makeProperty('typesInstance', typesInstance);
 
 			const typesPath = path.join(tacticaPath, 'types.ts');
 			if (fs.existsSync(typesPath)) {
@@ -177,23 +192,24 @@ export const Registry = define('Registry', class {
 							continue;
 						}
 
-						const entry = new this.typesInstance.TypeEntry({
+						const entry = new typesInstance.TypeEntry({
 							name,
 							fullPath: typesPath,
 							parent,
 							properties: new Map(),
 							lineNumber: i
 						} as rawTypeEntry);
-						this.typesInstance.set(name, entry);
+						typesInstance.set(name, entry);
 					}
 				}
 
-				this.logger.info(`[Registry] : Types loaded with ${this.typesInstance.size} entries`);
+				this.logger.info(`[Registry] : Types loaded with ${typesInstance.size} entries`);
 			} else {
 				this.logger.warn(`[Registry] : types.ts not found at ${typesPath}`);
 			}
 		} catch (error) {
-			this.logger.error('[Registry] : failed to load Types', error);
+			this.logger.error('[Registry] : failed to load Types',
+				(error as unknown as InstanceType<typeof Error>).stack);
 			throw error;
 		}
 	}
@@ -206,7 +222,8 @@ export const Registry = define('Registry', class {
 
 		try {
 			const UsagesConstructor = lookupTyped('Usages');
-			this.usagesInstance = new UsagesConstructor();
+			const usagesInstance = new UsagesConstructor();
+			this.makeProperty('usagesInstance', usagesInstance);
 
 			// Note: Usages doesn't have loadFromFile, we need to populate it manually
 			const usagesPath = path.join(tacticaPath, 'usages.json');
@@ -216,10 +233,10 @@ export const Registry = define('Registry', class {
 
 				if (data.usages) {
 					for (const [key, value] of Object.entries(data.usages)) {
-						this.usagesInstance.set(key, value as never[]);
+						usagesInstance.set(key, value as never[]);
 					}
 				}
-				this.logger.info(`[Registry] : Usages loaded with ${this.usagesInstance.size} entries`);
+				this.logger.info(`[Registry] : Usages loaded with ${usagesInstance.size} entries`);
 			} else {
 				this.logger.warn(`[Registry] : usages.json not found at ${usagesPath}`);
 			}
@@ -237,7 +254,8 @@ export const Registry = define('Registry', class {
 
 		try {
 			const TrieConstructor = lookupTyped('Trie');
-			this.trieInstance = new TrieConstructor();
+			const trieInstance = new TrieConstructor();
+			this.makeProperty('trieInstance', trieInstance);
 			this.logger.info('[Registry] : Trie initialized');
 		} catch (error) {
 			this.logger.error('[Registry] : failed to load Trie', error);

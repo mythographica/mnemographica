@@ -1,38 +1,38 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-03-17T21:54:24.113Z",
+  "generatedAt": "2026-03-17T22:56:08.951Z",
   "usages": {
     "Definitions": [
       {
-        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:116:35",
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:128:35",
         "kind": "lookup",
         "code": "lookupTyped('Definitions')"
       }
     ],
     "Definitions.DefinitionEntry": [
       {
-        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:125:25",
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:138:25",
         "kind": "propertyAccess",
-        "code": "this.definitionsInstance.DefinitionEntry"
+        "code": "definitionsInstance.DefinitionEntry"
       }
     ],
     "Types": [
       {
-        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:146:29",
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:160:29",
         "kind": "lookup",
         "code": "lookupTyped('Types')"
       }
     ],
     "Types.TypeEntry": [
       {
-        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:180:25",
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:195:25",
         "kind": "propertyAccess",
-        "code": "this.typesInstance.TypeEntry"
+        "code": "typesInstance.TypeEntry"
       }
     ],
     "Registry": [
       {
-        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:304:25",
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:322:25",
         "kind": "instantiation",
         "code": "new Registry()"
       }
@@ -53,7 +53,7 @@
     ],
     "Usages": [
       {
-        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:208:30",
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:224:30",
         "kind": "lookup",
         "code": "lookupTyped('Usages')"
       },
@@ -70,7 +70,7 @@
     ],
     "Trie": [
       {
-        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:239:28",
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:256:28",
         "kind": "lookup",
         "code": "lookupTyped('Trie')"
       }

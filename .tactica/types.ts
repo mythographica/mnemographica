@@ -52,6 +52,7 @@ export type Types_TypeEntry = ProtoFlat<Types, {
 
 export type Registry = {
 	createdAt: number;
+	makeProperty: (name: string, value: unknown) => void;
 	readonly size: number;
 	get: (name: string) => unknown | undefined;
 	has: (name: string) => boolean;
