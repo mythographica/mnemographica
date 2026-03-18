@@ -15,6 +15,8 @@ export type rawDefinitionEntry = {
 
 export type DefinitionEntryInstance = InstanceType<typeof DefinitionEntry>;
 
+const ogp = Object.getPrototypeOf;
+
 export const Definitions = define('Definitions', class {
 	createdAt: number;
 	private map: Map<string, DefinitionEntryInstance> = new Map();
@@ -23,6 +25,17 @@ export const Definitions = define('Definitions', class {
 	constructor () {
 		this.createdAt = Date.now();
 		this.logger.info(`[Definitions] : constructed at ${this.createdAt}`);
+		console.log('definitions instanceof DefinitionEntry', this instanceof Definitions);
+		console.log('Definitions :::', this);
+		console.log('Definitions 0 :::', this.constructor.name, ogp(this));
+		console.log('Definitions 1 :::', ogp(this).constructor.name, ogp(this));
+		console.log('Definitions 2 :::', ogp(ogp(this)).constructor.name, ogp(ogp(this)));
+		console.log('Definitions 3 :::', ogp(ogp(ogp(this))).constructor.name, ogp(ogp(ogp(this))));
+		console.log('Definitions 4 :::', ogp(ogp(ogp(ogp(this)))).constructor.name, ogp(ogp(ogp(ogp(this)))));
+		console.log('Definitions 5 :::', ogp(ogp(ogp(ogp(ogp(this))))).constructor.name, ogp(ogp(ogp(ogp(ogp(this))))));
+		console.log('Definitions 6 :::', ogp(ogp(ogp(ogp(ogp(ogp(this)))))).constructor.name, ogp(ogp(ogp(ogp(ogp(ogp(this)))))));
+		console.log('Definitions 7 :::', ogp(ogp(ogp(ogp(ogp(ogp(ogp(this))))))).constructor.name, ogp(ogp(ogp(ogp(ogp(ogp(ogp(this))))))));
+		console.log('Definitions 8 :::', ogp(ogp(ogp(ogp(ogp(ogp(ogp(ogp(this)))))))));
 	}
 
 	get size () {
@@ -66,7 +79,33 @@ export const DefinitionEntry = Definitions.define('DefinitionEntry', function (
 	this: rawDefinitionEntry,
 	data: rawDefinitionEntry
 ) {
+	console.log('definitionEntry instanceof DefinitionEntry', this instanceof DefinitionEntry);
+	console.log('definitionEntry instanceof Definitions', this instanceof Definitions);
 	setProps(this, data);
+	console.log('definitionEntry instanceof DefinitionEntry', this instanceof DefinitionEntry);
+	console.log('definitionEntry instanceof Definitions', this instanceof Definitions);
+	console.log('DefinitionEntry :::', this);
+	console.log('DefinitionEntry 0 :::', this.constructor.name, ogp(this));
+	console.log('DefinitionEntry 1 :::', ogp(this).constructor.name, ogp(this));
+	console.log('DefinitionEntry 2 :::', ogp(ogp(this)).constructor.name, ogp(ogp(this)));
+	console.log('DefinitionEntry 3 :::', ogp(ogp(ogp(this))).constructor.name, ogp(ogp(ogp(this))));
+	console.log('DefinitionEntry 4 :::', ogp(ogp(ogp(ogp(this)))).constructor.name, ogp(ogp(ogp(ogp(this)))));
+	console.log('DefinitionEntry 5 :::', ogp(ogp(ogp(ogp(ogp(this))))).constructor.name, ogp(ogp(ogp(ogp(ogp(this))))));
+	console.log('DefinitionEntry 6 :::', ogp(ogp(ogp(ogp(ogp(ogp(this)))))).constructor.name, ogp(ogp(ogp(ogp(ogp(ogp(this)))))));
+	console.log('DefinitionEntry 7 :::', ogp(ogp(ogp(ogp(ogp(ogp(ogp(this))))))).constructor.name, ogp(ogp(ogp(ogp(ogp(ogp(ogp(this))))))));
+	console.log('DefinitionEntry 8 :::', ogp(ogp(ogp(ogp(ogp(ogp(ogp(ogp(this)))))))));
+	console.log('DefinitionEntry 9 :::', ogp(ogp(ogp(ogp(ogp(ogp(ogp(ogp(ogp(this))))))))));
+
+	// try {
+		const _stack = {} as InstanceType<typeof Error>;
+		Error.captureStackTrace(_stack);
+	// } catch (error) {
+		// const { stack } = error as InstanceType<typeof Error>;
+		const { stack } = _stack;
+		if (stack?.length) {
+			console.log(stack);
+		}
+	// }
 });
 
 export default Definitions;

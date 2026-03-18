@@ -37,7 +37,7 @@ export const Registry = define('Registry', class {
 				return value;
 			},
 			configurable: true,
-			enumerable: true 
+			enumerable: true
 		});
 	}
 
@@ -135,8 +135,13 @@ export const Registry = define('Registry', class {
 				const data = JSON.parse(content);
 				if (data.definitions) {
 					for (const [key, value] of Object.entries(data.definitions)) {
-						const entry = new definitionsInstance.DefinitionEntry(value as rawDefinitionEntry);
-						definitionsInstance.set(key, entry);
+						try {
+							const entry = new definitionsInstance.DefinitionEntry(value as rawDefinitionEntry);
+							definitionsInstance.set(key, entry);
+						} catch (error) {
+							const { stack } = error as unknown as InstanceType<typeof Error>;
+							this.logger.error(stack as string);
+						}
 					}
 				}
 				this.logger.info(`[Registry] : Definitions loaded with ${definitionsInstance.size} entries`);
@@ -192,14 +197,20 @@ export const Registry = define('Registry', class {
 							continue;
 						}
 
-						const entry = new typesInstance.TypeEntry({
-							name,
-							fullPath: typesPath,
-							parent,
-							properties: new Map(),
-							lineNumber: i
-						} as rawTypeEntry);
-						typesInstance.set(name, entry);
+						try {
+							const entry = new typesInstance.TypeEntry({
+								name,
+								fullPath: typesPath,
+								parent,
+								properties: new Map(),
+								lineNumber: i
+							} as rawTypeEntry);
+							typesInstance.set(name, entry);
+						} catch (error) {
+							const { stack } = error as unknown as InstanceType<typeof Error>;
+							this.logger.error(stack as string);
+						}
+
 					}
 				}
 
@@ -301,7 +312,7 @@ export const Registry = define('Registry', class {
 		}
 
 		this.logger.info('[Registry] : refreshing all models');
-		this.clear();
+		// this.clear();
 		await this.loadFromWorkspace(this.workspacePath);
 		this.logger.info('[Registry] : refresh complete');
 	}
@@ -311,7 +322,7 @@ const setProps = (to: object, from: object) => {
 	Object.defineProperties(to, Object.getOwnPropertyDescriptors(from));
 };
 
-export const DefinitionEntry = Registry.define('DefinitionEntry', function (
+export const RegistryEntry = Registry.define('RegistryEntry', function (
 	this: registryEntry,
 	data: registryEntry
 ) {

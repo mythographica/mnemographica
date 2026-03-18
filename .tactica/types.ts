@@ -66,16 +66,16 @@ export type Registry = {
 	getUsages: () => Usages | undefined;
 	getTrie: () => Trie | undefined;
 	refresh: () => Promise<void>;
-	DefinitionEntry: new (data: { id: string; name: string; filePath: string; line: number; column: number }) => Registry_DefinitionEntry;
+	RegistryEntry: new (data: { id: string; name: string; filePath: string; line: number; column: number }) => Registry_RegistryEntry;
 };
 
-export type Registry_DefinitionEntry = ProtoFlat<Registry, {
+export type Registry_RegistryEntry = ProtoFlat<Registry, {
 	id: string;
 	name: string;
 	filePath: string;
 	line: number;
 	column: number;
-	DefinitionEntry: undefined;
+	RegistryEntry: undefined;
 }>;
 
 export type LoggerTab = {

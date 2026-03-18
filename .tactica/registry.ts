@@ -15,7 +15,7 @@ import type {
 	Types,
 	Types_TypeEntry,
 	Registry,
-	Registry_DefinitionEntry,
+	Registry_RegistryEntry,
 	LoggerTab,
 	LoggerTab_LogEntry,
 	Main,
@@ -51,7 +51,7 @@ declare module 'mnemonica' {
 		'Types': new () => Types;
 		'Types.TypeEntry': new (data: { name: string; fullPath: string; parent?: string; properties: Map<string, string>; lineNumber: number }) => Types_TypeEntry;
 		'Registry': new () => Registry;
-		'Registry.DefinitionEntry': new (data: { id: string; name: string; filePath: string; line: number; column: number }) => Registry_DefinitionEntry;
+		'Registry.RegistryEntry': new (data: { id: string; name: string; filePath: string; line: number; column: number }) => Registry_RegistryEntry;
 		'LoggerTab': new () => LoggerTab;
 		'LoggerTab.LogEntry': new (data: { level: 'info' | 'warning' | 'error'; message: string; timestamp: number; typeName?: string; error?: Error; args?: Array<unknown> }) => LoggerTab_LogEntry;
 		'Main': new (extensionVersion: string) => Main;
