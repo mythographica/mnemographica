@@ -193,10 +193,11 @@ export function activate(context: vscode.ExtensionContext) {
 		logger.info('Loading tree definitions from:', workspacePath);
 
 		// Load all models through registry
-		registry.loadFromWorkspace(workspacePath).then(() => {
+		registry.loadFromWorkspace(workspacePath).then(async () => {
 			logger.info('Registry loaded successfully');
 			// Update tree provider with registry data
 			treeProvider.setRegistry(registry);
+			await treeProvider.loadFromRegistry();
 			treeProvider.refresh();
 		}).catch((err: Error) => {
 			logger.error('Failed to load registry:', err);
@@ -716,6 +717,7 @@ async function selectWorkspace (): Promise<void> {
 		// Load all models through registry
 		await registry.loadFromWorkspace(selected.workspacePath);
 		treeProvider.setRegistry(registry);
+		await treeProvider.loadFromRegistry();
 		treeProvider.refresh();
 
 		// Update navigation providers
