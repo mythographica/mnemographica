@@ -7,12 +7,27 @@
 	// Placeholder for vscode reference (set after acquireVsCodeApi)
 	let vscodeRef = null;
 
-	// Default radii for generations - defined once, used everywhere
-	const DEFAULT_2D_RADII = [80, 160, 240, 320, 400, 480];
-	const DEFAULT_3D_RADII = [105, 180, 245, 310, 375, 440];
+	// Generate radii array for any number of generations
+	// 2D: root=80, each gen adds 80px -> [80, 160, 240, ...]
+	// 3D: root=105, gen1=180 (+75), gen2=245 (+65) -> [105, 180, 245, 310, ...]
+	function get2D_Radii(maxDepth) {
+		const radii = [];
+		for (let i = 0; i <= maxDepth; i++) {
+			radii.push(80 + i * 80);
+		}
+		return radii;
+	}
+	function get3D_Radii(maxDepth) {
+		const radii = [];
+		for (let i = 0; i <= maxDepth; i++) {
+			// First jump is +75, then +65 for each subsequent
+			radii.push(105 + (i === 0 ? 0 : 75 + (i - 1) * 65));
+		}
+		return radii;
+	}
 
 	// Send log message to extension's LoggerService
-	function debugLog (message, type) {
+	function debugLog(message, type) {
 		if (!vscodeRef) return;
 		try {
 			vscodeRef.postMessage({
@@ -48,7 +63,7 @@
 		init();
 	}
 
-	function init () {
+	function init() {
 		debugLog('[Mnemonica] DOM ready, d3 available: ' + (typeof d3 !== 'undefined'), 'log');
 		debugLog('[Mnemonica] THREE available: ' + (typeof THREE !== 'undefined'), 'log');
 		debugLog('[Mnemonica] Requesting data from extension...', 'log');
@@ -56,7 +71,7 @@
 		vscode.postMessage({ command: 'ready' });
 	}
 
-	function setupEventListeners () {
+	function setupEventListeners() {
 		// Control buttons
 		document.getElementById('zoom-in').addEventListener('click', function () {
 			if (is3D && renderer3D) {
@@ -99,7 +114,7 @@
 		});
 	}
 
-	function toggle3DMode () {
+	function toggle3DMode() {
 		// Determine what mode we're LEAVING (before flipping is3D)
 		const was3D = is3D;
 
@@ -219,7 +234,7 @@
 		}
 	});
 
-	function render2DGraph (data) {
+	function render2DGraph(data) {
 		debugLog('[Mnemonica] Rendering 2D graph with ' + data.nodes.length + ' nodes and ' + data.links.length + ' links', 'log');
 
 		if (!data || data.nodes.length === 0) {
@@ -236,12 +251,12 @@
 
 		// Check if we have saved 2D coordinates
 		const hasSaved2D = data.nodes.some(n => n.x2d !== undefined && n.y2d !== undefined);
-		
+
 		if (!hasSaved2D) {
 			// First time in 2D - calculate concentric circle positions
 			calculate2DPositions(data);
 		}
-		
+
 		// Restore 2D coordinates
 		data.nodes.forEach(function (node) {
 			if (node.x2d !== undefined && node.y2d !== undefined) {
@@ -421,9 +436,8 @@
 			node.style('cursor', 'pointer');
 		});
 
-		// Right-click on node - show tooltip
-		node.on('contextmenu', function (event, d) {
-			event.preventDefault();
+		// Single click on node - show tooltip
+		node.on('click', function (event, d) {
 			event.stopPropagation();
 			const tooltip = d3.select('#tooltip');
 			const props = (d.properties || [])
@@ -442,6 +456,8 @@
 		// Double-click on node - go to definition
 		node.on('dblclick', function (event, d) {
 			event.stopPropagation();
+			// Hide tooltip on navigation
+			d3.select('#tooltip').classed('visible', false);
 			if (d.location) {
 				vscode.postMessage({
 					command: 'goToDefinition',
@@ -456,16 +472,15 @@
 			node.style('cursor', 'pointer');
 		});
 
-		// Click on background to close popup and tooltip
+		// Click on background to close tooltip
 		svg.on('click', function (event) {
-			// Close tooltip when clicking anywhere except the tooltip itself
-			const tooltip = d3.select('#tooltip');
-			if (tooltip.classed('visible') && !event.target.closest('#tooltip')) {
-				tooltip.classed('visible', false);
+			// Only close if clicking on the svg background, not a node
+			if (event.target.tagName === 'svg' || event.target.id === 'graph-container') {
+				d3.select('#tooltip').classed('visible', false);
 			}
 		});
 
-		function updateLinks () {
+		function updateLinks() {
 			link
 				.attr('x1', function (d) { return d.source.x; })
 				.attr('y1', function (d) { return d.source.y; })
@@ -494,7 +509,7 @@
 		* Uses space-filling angular sectors based on subtree sizes
 		* Prevents line crossings by allocating exclusive angular wedges
 		*/
-	function calculate2DPositions (data) {
+	function calculate2DPositions(data) {
 		const layoutWidth = 800;
 		const layoutHeight = 600;
 		const centerX = layoutWidth / 2;
@@ -516,10 +531,12 @@
 		});
 
 		// Fixed radii for each generation
-		const depthRadii = new Map(DEFAULT_3D_RADII.map((r, i) => [i, r]));
+		const maxDepth = Math.max(...data.nodes.map(n => n.depth || 0));
+		const radii = get3D_Radii(maxDepth);
+		const depthRadii = new Map(radii.map((r, i) => [i, r]));
 
 		// Calculate subtree sizes (total descendants including self)
-		function calculateSubtreeSize (node) {
+		function calculateSubtreeSize(node) {
 			let size = 1; // Count self
 			if (node.children && node.children.length > 0) {
 				for (const child of node.children) {
@@ -535,7 +552,7 @@
 
 		// Assign angular sectors using space-filling approach
 		// Each node gets [startAngle, endAngle] sector proportional to its subtree size
-		function assignSectors (node, startAngle, endAngle) {
+		function assignSectors(node, startAngle, endAngle) {
 			node.startAngle = startAngle;
 			node.endAngle = endAngle;
 			node.angle2d = (startAngle + endAngle) / 2; // Center angle for positioning
@@ -565,7 +582,6 @@
 		}
 
 		// Position nodes at their center angles
-		const maxDepth = Math.max(...data.nodes.map(n => n.depth || 0));
 		for (let depth = 0; depth <= maxDepth; depth++) {
 			const nodesAtDepth = data.nodes.filter(n => (n.depth || 0) === depth);
 			const radius = depthRadii.get(depth) || (105 + depth * 65);
@@ -578,7 +594,7 @@
 		}
 	}
 
-	function render3DGraph (data, initialCameraState = null) {
+	function render3DGraph(data, initialCameraState = null) {
 		debugLog('[Mnemonica] Rendering 3D graph with', data.nodes.length, 'nodes and', data.links.length, 'links', 'log');
 		debugLog('render3DGraph called with initialCameraState: ' + (initialCameraState ? 'YES' : 'NO'), 'log');
 		if (initialCameraState) {
@@ -643,7 +659,7 @@
 	/**
 		* Create generation distance control panel
 		*/
-	function createGenControls (data, renderer) {
+	function createGenControls(data, renderer) {
 		const container = document.getElementById('gen-controls-list');
 		if (!container) return;
 
@@ -673,7 +689,8 @@
 			} else if (is3D && renderer && renderer.depthRadii) {
 				currentRadius = renderer.depthRadii.get(depth);
 			} else {
-				currentRadius = DEFAULT_2D_RADII[depth] || (80 + depth * 80);
+				const radii2D = get2D_Radii(maxDepth);
+				currentRadius = radii2D[depth] || (80 + depth * 80);
 			}
 			valueDisplay.textContent = Math.round(currentRadius) + 'px';
 			row.appendChild(valueDisplay);
@@ -706,7 +723,7 @@
 	/**
 		* Adjust generation radius and cascade to subsequent generations
 		*/
-	function adjustGenRadius (depth, delta, renderer, display, data) {
+	function adjustGenRadius(depth, delta, renderer, display, data) {
 		// Initialize genRadii if not exists
 		if (!window.genRadii) {
 			window.genRadii = {};
@@ -725,9 +742,10 @@
 					: renderer.depthRadii.get(d);
 			} else {
 				// 2D mode - use stored radii or defaults
+				const radii = get2D_Radii(maxDepth);
 				currentValue = window.genRadii[d] !== undefined
 					? window.genRadii[d]
-					: DEFAULT_2D_RADII[d] || (80 + d * 80);
+					: radii[d] || (80 + d * 80);
 			}
 
 			// Calculate new value (min 10px)
@@ -769,7 +787,7 @@
 		* Calculate 2D positions using stored genRadii
 		* Uses space-filling angular sectors based on subtree sizes
 		*/
-	function calculate2DPositionsWithRadii (data) {
+	function calculate2DPositionsWithRadii(data) {
 		const layoutWidth = 800;
 		const layoutHeight = 600;
 		const centerX = layoutWidth / 2;
@@ -777,7 +795,7 @@
 
 
 		// Calculate subtree sizes (total descendants including self)
-		function calculateSubtreeSize (node) {
+		function calculateSubtreeSize(node) {
 			let size = 1;
 			if (node.children && node.children.length > 0) {
 				for (const child of node.children) {
@@ -792,7 +810,7 @@
 		data.nodes.filter(n => !n.parent).forEach(calculateSubtreeSize);
 
 		// Assign angular sectors
-		function assignSectors (node, startAngle, endAngle) {
+		function assignSectors(node, startAngle, endAngle) {
 			node.startAngle = startAngle;
 			node.endAngle = endAngle;
 			node.angle2d = (startAngle + endAngle) / 2;
@@ -823,11 +841,12 @@
 
 		// Position nodes at their center angles
 		const maxDepth = Math.max(...data.nodes.map(n => n.depth || 0));
+		const radii = get2D_Radii(maxDepth);
 		for (let depth = 0; depth <= maxDepth; depth++) {
 			const nodesAtDepth = data.nodes.filter(n => (n.depth || 0) === depth);
 			const radius = window.genRadii && window.genRadii[depth] !== undefined
 				? window.genRadii[depth]
-				: (DEFAULT_2D_RADII[depth] || 80 + depth * 80);
+				: (radii[depth] || 80 + depth * 80);
 
 			nodesAtDepth.forEach(node => {
 				const angle = node.angle2d || 0;
@@ -839,7 +858,7 @@
 
 	// 3D Renderer Class with human-readable layout
 	class Graph3DRenderer {
-		constructor (container, initialCameraState = null) {
+		constructor(container, initialCameraState = null) {
 			this.container = container;
 			this.nodeMeshes = new Map();
 			this.linkLines = [];
@@ -868,7 +887,7 @@
 			this.init();
 		}
 
-		init () {
+		init() {
 			debugLog('[3D] init() called', 'log');
 			debugLog('[3D] THREE available:', typeof THREE, 'log');
 			debugLog('[3D] Container:', this.container, 'log');
@@ -936,7 +955,7 @@
 			this.animate();
 		}
 
-		setupInteraction () {
+		setupInteraction() {
 			const canvas = this.renderer.domElement;
 
 			// Capture mouse events - prevent VS Code from handling them
@@ -1065,7 +1084,7 @@
 				e.preventDefault();
 				e.stopPropagation();
 				canvas.style.cursor = 'grab';
-
+	
 				if (this.draggedNode) {
 					// Keep node position fixed, don't restart simulation
 					const node = this.draggedNode.userData.node;
@@ -1078,14 +1097,28 @@
 					this.draggedNode = null;
 					// Don't restart simulation - keep it stopped
 				}
-
-				// Only handle click if not dragging
-				if (!this.isDragging) {
-					this.handleNodeClick3D(e);
+	
+				this.isDragging = false;
+			});
+	
+			// Single click on node - show tooltip
+			canvas.addEventListener('click', (e) => {
+				e.preventDefault();
+				e.stopPropagation();
+				const rect = canvas.getBoundingClientRect();
+				this.mouseVector.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+				this.mouseVector.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+				this.raycaster.setFromCamera(this.mouseVector, this.camera);
+				const intersects = this.raycaster.intersectObjects(Array.from(this.nodeMeshes.values()));
+				if (intersects.length > 0) {
+					const node = intersects[0].object.userData.node;
+					if (node) {
+						this.handleNodeClick3D(e, node);
+					}
 				}
 			});
-
-			// Native double-click for navigation
+	
+			// Double-click on node - go to definition
 			canvas.addEventListener('dblclick', (e) => {
 				e.preventDefault();
 				e.stopPropagation();
@@ -1117,7 +1150,7 @@
 			});
 		}
 
-		updateCameraPosition () {
+		updateCameraPosition() {
 			const x = Math.sin(this.cameraRotation.y) * Math.cos(this.cameraRotation.x) * this.zoom + this.panOffset.x;
 			const y = Math.sin(this.cameraRotation.x) * this.zoom + this.panOffset.y;
 			const z = Math.cos(this.cameraRotation.y) * Math.cos(this.cameraRotation.x) * this.zoom;
@@ -1125,7 +1158,7 @@
 			this.camera.lookAt(this.panOffset.x, this.panOffset.y, 0);
 		}
 
-		updateHover (event) {
+		updateHover(event) {
 			const rect = this.renderer.domElement.getBoundingClientRect();
 			this.mouseVector.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
 			this.mouseVector.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
@@ -1153,23 +1186,7 @@
 			}
 		}
 
-		handleNodeClick3D (event) {
-			const rect = this.renderer.domElement.getBoundingClientRect();
-			this.mouseVector.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-			this.mouseVector.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-			this.raycaster.setFromCamera(this.mouseVector, this.camera);
-			const intersects = this.raycaster.intersectObjects(Array.from(this.nodeMeshes.values()));
-
-			if (intersects.length === 0) {
-				// Click on background - close tooltip
-				const tooltip = d3.select('#tooltip');
-				if (tooltip.classed('visible') && !event.target.closest('#tooltip')) {
-					tooltip.classed('visible', false);
-				}
-				return;
-			}
-
-			const node = intersects[0].object.userData.node;
+		handleNodeClick3D(event, node) {
 			if (!node) return;
 
 			// Single click - show/hide tooltip
@@ -1192,7 +1209,7 @@
 			}
 		}
 
-		handleNodeDoubleClick3D (node, _event) {
+		handleNodeDoubleClick3D(node, _event) {
 			// Double click - jump to definition
 			if (node.location && this.onNodeClick) {
 				this.onNodeClick(node);
@@ -1206,7 +1223,7 @@
 		 * 2. Generation gaps are smaller and more consistent
 		 * 3. Center marker at origin
 		 */
-		renderGraph (data) {
+		renderGraph(data) {
 			this.clear();
 
 			// Restore 3D coordinates if they exist
@@ -1262,17 +1279,18 @@
 			});
 
 			// Configuration - TRUE 3D SPHERICAL LAYOUT
-				const nodeRadius = 8;
-	
-				/**
-				 * TRUE 3D SPHERICAL LAYOUT
-				 * Each generation forms a complete spherical shell
-				 * INCREASED distances for better visibility
-				 */
-				// Use instance depthRadii if available (for adjustments), otherwise use defaults
+			const nodeRadius = 8;
+
+			/**
+			 * TRUE 3D SPHERICAL LAYOUT
+			 * Each generation forms a complete spherical shell
+			 * INCREASED distances for better visibility
+			 */
+			// Use instance depthRadii if available (for adjustments), otherwise use defaults
 			// User preference: root ~105px (90-120 range), gen1 ~180px, gen2 ~245px, +65px each
+			const maxDepth = Math.max(...data.nodes.map(n => n.depth || 0));
 			if (!this.depthRadii) {
-				this.depthRadii = new Map(DEFAULT_3D_RADII.map((r, i) => [i, r]));
+				this.depthRadii = new Map(get3D_Radii(maxDepth).map((r, i) => [i, r]));
 			}
 			const depthRadii = this.depthRadii;
 
@@ -1280,19 +1298,19 @@
 			 * Distribute points evenly on a sphere surface
 			 * Uses Fibonacci sphere algorithm for uniform distribution
 			 */
-			function placeOnSphere (radius, index, total) {
+			function placeOnSphere(radius, index, total) {
 				if (total === 1) {
 					return { x: radius, y: 0, z: 0 };
 				}
-				
+
 				// Golden angle for uniform distribution
 				const goldenAngle = Math.PI * (3 - Math.sqrt(5));
-				
+
 				// y goes from 1 to -1 (top to bottom of sphere)
 				const y = 1 - (index / (total - 1)) * 2;
 				const radiusAtY = Math.sqrt(1 - y * y);
 				const theta = goldenAngle * index;
-				
+
 				return {
 					x: radius * radiusAtY * Math.cos(theta),
 					y: radius * y,
@@ -1303,24 +1321,24 @@
 			/**
 			 * Place children in cone from parent direction
 			 */
-			function placeInCone (parentPos, childIndex, childCount, radius, maxAngle) {
-				const parentR = Math.sqrt(parentPos.x**2 + parentPos.y**2 + parentPos.z**2);
-				
+			function placeInCone(parentPos, childIndex, childCount, radius, maxAngle) {
+				const parentR = Math.sqrt(parentPos.x ** 2 + parentPos.y ** 2 + parentPos.z ** 2);
+
 				if (parentR < 0.001) {
 					// Parent at center - distribute evenly on sphere
 					return placeOnSphere(radius, childIndex, childCount);
 				}
-				
+
 				// Parent direction
 				const px = parentPos.x / parentR;
 				const py = parentPos.y / parentR;
 				const pz = parentPos.z / parentR;
-				
+
 				// Even distribution around parent direction
 				const angleStep = (2 * Math.PI) / childCount;
 				const theta = childIndex * angleStep;
 				const deviation = (childIndex / Math.max(childCount - 1, 1)) * maxAngle;
-				
+
 				// Orthonormal basis
 				let ux, uy, uz;
 				if (Math.abs(px) < 0.9) {
@@ -1328,23 +1346,23 @@
 				} else {
 					ux = -pz; uy = 0; uz = px;
 				}
-				const ulen = Math.sqrt(ux*ux + uy*uy + uz*uz);
+				const ulen = Math.sqrt(ux * ux + uy * uy + uz * uz);
 				ux /= ulen; uy /= ulen; uz /= ulen;
-				
+
 				const vx = py * uz - pz * uy;
 				const vy = pz * ux - px * uz;
 				const vz = px * uy - py * ux;
-				
+
 				// Direction
 				const cosD = Math.cos(deviation);
 				const sinD = Math.sin(deviation);
 				const cosT = Math.cos(theta);
 				const sinT = Math.sin(theta);
-				
+
 				const dx = cosD * px + sinD * (cosT * ux + sinT * vx);
 				const dy = cosD * py + sinD * (cosT * uy + sinT * vy);
 				const dz = cosD * pz + sinD * (cosT * uz + sinT * vz);
-				
+
 				return {
 					x: radius * dx,
 					y: radius * dy,
@@ -1356,31 +1374,31 @@
 			 * Calculate 3D position
 			 * Uses saved x3d/y3d/z3d if available, otherwise calculates
 			 */
-			function calculatePosition (node, depth, index, totalAtDepth) {
+			function calculatePosition(node, depth, index, totalAtDepth) {
 				// Check if we have saved 3D coordinates - use them!
 				if (node.x3d !== undefined && node.y3d !== undefined && node.z3d !== undefined) {
 					return { x: node.x3d, y: node.y3d, z: node.z3d };
 				}
-				
+
 				const radius = depthRadii.get(depth) || (105 + depth * 75);
-				
+
 				// ROOTS: distributed on sphere surface (not just a circle!)
 				if (depth === 0) {
 					return placeOnSphere(radius, index, totalAtDepth);
 				}
-				
+
 				// CHILDREN: cone from parent
 				if (!node.parent || node.parent.x === undefined) {
 					return placeOnSphere(radius, index, totalAtDepth);
 				}
-				
+
 				const siblings = node.parent.children;
 				const siblingIndex = siblings.indexOf(node);
 				const siblingCount = siblings.length;
-				
+
 				// 15-degree cone spread (smaller angle = tighter grouping)
 				const maxAngle = Math.PI / 12;
-				
+
 				return placeInCone(node.parent, siblingIndex, siblingCount, radius, maxAngle);
 			}
 
@@ -1465,7 +1483,7 @@
 			this.updateLinkPositions();
 		}
 
-		updateLinkPositions () {
+		updateLinkPositions() {
 			this.linkLines.forEach(({ line, arrow, link }) => {
 				const positions = line.geometry.attributes.position.array;
 				const source = typeof link.source === 'object' ? link.source : null;
@@ -1492,7 +1510,7 @@
 						const dx = tx - sx;
 						const dy = ty - sy;
 						const dz = tz - sz;
-						const len = Math.sqrt(dx*dx + dy*dy + dz*dz);
+						const len = Math.sqrt(dx * dx + dy * dy + dz * dz);
 						const nodeRadius = 12; // Approximate node radius
 
 						if (len > nodeRadius) {
@@ -1512,7 +1530,7 @@
 			});
 		}
 
-		addLabel (mesh, text) {
+		addLabel(mesh, text) {
 			const canvas = document.createElement('canvas');
 			const ctx = canvas.getContext('2d');
 			canvas.width = 1024;
@@ -1548,7 +1566,7 @@
 			this.scene.add(sprite);
 		}
 
-		updateLabelPosition (mesh) {
+		updateLabelPosition(mesh) {
 			if (mesh.userData.label) {
 				const label = mesh.userData.label;
 				label.position.x = mesh.position.x;
@@ -1557,39 +1575,39 @@
 			}
 		}
 
-		zoomIn () {
+		zoomIn() {
 			this.zoom = Math.max(100, this.zoom * 0.7);
 			this.updateCameraPosition();
 		}
 
-		zoomOut () {
+		zoomOut() {
 			this.zoom = Math.min(2500, this.zoom * 1.3);
 			this.updateCameraPosition();
 		}
 
-		reset () {
+		reset() {
 			this.cameraRotation = { x: 0, y: 0 };
 			this.panOffset = { x: 0, y: 0 };
 			this.zoom = 600;
 			this.updateCameraPosition();
 		}
 
-		resize (width, height) {
+		resize(width, height) {
 			this.camera.aspect = width / height;
 			this.camera.updateProjectionMatrix();
 			this.renderer.setSize(width, height);
 		}
 
-		setOnNodeClick (handler) {
+		setOnNodeClick(handler) {
 			this.onNodeClick = handler;
 		}
 
-		animate () {
+		animate() {
 			this.animationId = requestAnimationFrame(() => this.animate());
 			this.renderer.render(this.scene, this.camera);
 		}
 
-		clear () {
+		clear() {
 			this.nodeMeshes.forEach(mesh => {
 				// Remove label if exists
 				if (mesh.userData.label) {
@@ -1620,7 +1638,7 @@
 			}
 		}
 
-		dispose () {
+		dispose() {
 			this.clear();
 			if (this.animationId) {
 				cancelAnimationFrame(this.animationId);
@@ -1635,3 +1653,4 @@
 		}
 	}
 })();
+
