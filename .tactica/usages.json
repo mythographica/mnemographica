@@ -1,12 +1,17 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-03-18T08:43:02.635Z",
+  "generatedAt": "2026-03-27T08:52:31.130Z",
   "usages": {
     "Definitions": [
       {
         "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:128:35",
         "kind": "lookup",
         "code": "lookupTyped('Definitions')"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:129:32",
+        "kind": "instantiation",
+        "code": "new DefinitionsConstructor()"
       }
     ],
     "Definitions.DefinitionEntry": [
@@ -21,6 +26,11 @@
         "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:165:29",
         "kind": "lookup",
         "code": "lookupTyped('Types')"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:166:26",
+        "kind": "instantiation",
+        "code": "new TypesConstructor()"
       }
     ],
     "Types.TypeEntry": [
@@ -42,6 +52,11 @@
         "location": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:53:33",
         "kind": "lookup",
         "code": "lookupTyped('LoggerTab')"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:55:22",
+        "kind": "instantiation",
+        "code": "new LoggerTabConstructor()"
       }
     ],
     "LoggerTab.LogEntry": [
@@ -56,6 +71,11 @@
         "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:235:30",
         "kind": "lookup",
         "code": "lookupTyped('Usages')"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:236:27",
+        "kind": "instantiation",
+        "code": "new UsagesConstructor()"
       },
       {
         "location": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:28:18",
@@ -73,6 +93,11 @@
         "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:267:28",
         "kind": "lookup",
         "code": "lookupTyped('Trie')"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:268:25",
+        "kind": "instantiation",
+        "code": "new TrieConstructor()"
       }
     ],
     "Usages.UsageEntry": [

@@ -6,7 +6,7 @@ import { GraphProvider } from './graph/provider';
 import { MnemonicaActivityBarProvider } from './activityBar';
 import { MnemonicaTreeProvider, MnemonicaTreeItem } from './views/treeProvider';
 import { UsagesTreeProvider, UsageTreeItem } from './views/usagesTreeProvider';
-// DefinitionProvider removed - will be re-implemented
+import { MnemonicaDefinitionProvider } from './providers/definitionProvider';
 import { MnemonicaReferenceProvider } from './providers/referenceProvider';
 import { StrategyServer } from './strategy';
 import { getLogger } from './services/LoggerService';
@@ -25,7 +25,7 @@ let treeProvider: MnemonicaTreeProvider;
 let treeView: vscode.TreeView<MnemonicaTreeItem>;
 let usagesProvider: UsagesTreeProvider;
 let usagesTreeView: vscode.TreeView<UsageTreeItem>;
-// definitionProvider removed - will be re-implemented
+let definitionProvider: MnemonicaDefinitionProvider;
 let referenceProvider: MnemonicaReferenceProvider;
 let strategyServer: StrategyServer;
 let statusBarItem: vscode.StatusBarItem;
@@ -151,10 +151,16 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 
 	// Initialize and register navigation providers
-	// definitionProvider removed - will be re-implemented
+	definitionProvider = new MnemonicaDefinitionProvider();
 	referenceProvider = new MnemonicaReferenceProvider();
 
-	// DefinitionProvider registration removed
+	// Register definition provider for TypeScript files
+	context.subscriptions.push(
+		vscode.languages.registerDefinitionProvider(
+			{ scheme: 'file', language: 'typescript' },
+			definitionProvider
+		)
+	);
 
 	// Register reference provider for TypeScript files
 	context.subscriptions.push(
