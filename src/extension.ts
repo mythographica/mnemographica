@@ -196,6 +196,7 @@ export function activate(context: vscode.ExtensionContext) {
 		registry.loadFromWorkspace(workspacePath).then(async () => {
 			logger.info('Registry loaded successfully');
 			// Update tree provider with registry data
+			treeProvider.setWorkspace(workspacePath);
 			treeProvider.setRegistry(registry);
 			await treeProvider.loadFromRegistry();
 			treeProvider.refresh();
