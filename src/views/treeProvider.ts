@@ -37,6 +37,7 @@ type TypeData = {
 	parent?: string;
 	fullPath?: string;
 	line?: number;
+	column?: number;
 };
 
 export class MnemonicaTreeItem extends vscode.TreeItem {
@@ -51,7 +52,8 @@ export class MnemonicaTreeItem extends vscode.TreeItem {
 		// Set contextValue for all navigable items (those with fullPath)
 		// Right-click context menu uses this
 		if (data.fullPath) {
-			this.contextValue = 'navigable';
+			// Types items use 'navigableType', Definitions use 'navigable'
+			this.contextValue = data.isDefinition ? 'navigable' : 'navigableType';
 		}
 
 		// Note: Double-click detection is handled in extension.ts via onDidChangeSelection
@@ -168,12 +170,39 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 					fullName: info.name,
 					parent: info.parent,
 					fullPath: info.fullPath,
-					line: 0  // Types don't have line numbers in registry
+					line: 0  // Will be populated from types.ts parsing below
 				});
 			}
 
 			if (this.debug) {
 				this.logger.info(`[MnemonicaTree] Loaded ${this.types.size} types from registry`);
+			}
+		}
+
+		// Parse types.ts for line numbers (registry doesn't have them)
+		const typesPath = path.join(this.currentWorkspacePath || '', '.tactica', 'types.ts');
+		if (fs.existsSync(typesPath)) {
+			const content = fs.readFileSync(typesPath, 'utf-8');
+			const lines = content.split('\n');
+
+			// Parse: export type TypeName = { ... }
+			const typeRegex = /export\s+type\s+(\w+)\s*=/;
+
+			for (let i = 0; i < lines.length; i++) {
+				const match = typeRegex.exec(lines[i]);
+				if (match) {
+					const typeName = match[1];
+					// Update existing type entry with line and column numbers
+					const existingType = this.types.get(typeName);
+					if (existingType) {
+						existingType.line = i + 1; // 1-based line number
+						existingType.column = 14;  // Position after "export type "
+					}
+				}
+			}
+
+			if (this.debug) {
+				this.logger.info(`[MnemonicaTree] Parsed line numbers from ${typesPath}`);
 			}
 		}
 
@@ -254,7 +283,7 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 						fullName: match[1],  // Root types use name as fullName
 						parent,
 						fullPath: typesPath,
-						line: i  // 0-based, will be converted to 0-based for vscode Range
+						line: i + 1  // 1-based line number for navigation
 					});
 				}
 			}
@@ -378,7 +407,7 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 				type: hasChildren ? 'type' : 'definition',
 				fullPath: def.fullPath,
 				line: def.line,
-				column: def.column,
+				column: def.column + 9, // define(' === 9
 				isDefinition: true,
 				fullName: def.fullName  // Use fullName (the key) for lookups
 			},
@@ -395,8 +424,8 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 				type: hasChildren ? 'type' : 'subtype',
 				isDefinition: false,
 				fullPath: type.fullPath,
-				line: type.line,
-				column: 0,
+				line: type.line ?? 0,
+				column: type.column ?? 0,
 				fullName: type.fullName  // Pass fullName for usage lookup
 			},
 			hasChildren ? vscode.TreeItemCollapsibleState.Collapsed : vscode.TreeItemCollapsibleState.None
@@ -407,5 +436,13 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 		this.definitions.clear();
 		this.types.clear();
 		this.refresh();
+	}
+
+	/**
+	 * Get a definition by its full name (e.g., "Scene2D.GraphNode2D")
+	 * Used to look up definition locations for Types items
+	 */
+	getDefinition (fullName: string): DefinitionData | undefined {
+		return this.definitions.get(fullName);
 	}
 }

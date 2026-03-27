@@ -120,17 +120,11 @@ export function activate(context: vscode.ExtensionContext) {
 			const editor = await vscode.window.showTextDocument(document);
 
 			// Navigate to the specific line and column if available
-			if (selected.data.line !== undefined) {
-				let line, column;
-
-				if (selected.data.isDefinition) {
-					line = selected.data.line > 0 ? selected.data.line - 1 : 0;
-					const _column = selected.data.column ?? 0;
-					column = _column > 0 ? _column - 1 : 0;
-				} else {
-					line = selected.data.line;
-					column = selected.data.column ?? 0;
-				}
+			if (selected.data.line !== undefined && selected.data.line > 0) {
+				// VS Code uses 0-based line numbers, our data uses 1-based
+				const line = selected.data.line > 0 ? selected.data.line - 1 : 0;
+				const _column = selected.data.column ?? 0;
+				const column = _column > 0 ? _column - 1 : 0;
 
 				const position = new vscode.Position(line, column);
 				editor.selection = new vscode.Selection(position, position);
@@ -275,9 +269,11 @@ export function activate(context: vscode.ExtensionContext) {
 				const document = await vscode.workspace.openTextDocument(item.data.fullPath);
 				const editor = await vscode.window.showTextDocument(document);
 				// Navigate to the specific line and column if available
-				if (item.data.line !== undefined) {
-					const line = item.data.line;
-					const column = item.data.column ?? 0;
+				if (item.data.line !== undefined && item.data.line > 0) {
+					// Convert from 1-based to 0-based line numbers for VS Code API
+					const line = item.data.line > 0 ? item.data.line - 1 : 0;
+					const _column = item.data.column ?? 0;
+					const column = _column > 0 ? _column - 1 : 0;
 					const position = new vscode.Position(line, column);
 					editor.selection = new vscode.Selection(position, position);
 					editor.revealRange(new vscode.Range(position, position), vscode.TextEditorRevealType.InCenter);
@@ -286,6 +282,28 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 	);
 	context.subscriptions.push(openTreeItemCommand);
+
+	// Register open type command (for Types section context menu)
+	const openTypeCommand = vscode.commands.registerCommand(
+		'mnemographica.openType',
+		async (item: MnemonicaTreeItem) => {
+			if (item.data.fullPath) {
+				const document = await vscode.workspace.openTextDocument(item.data.fullPath);
+				const editor = await vscode.window.showTextDocument(document);
+				// Navigate to the specific line and column if available
+				if (item.data.line !== undefined && item.data.line > 0) {
+					// Convert from 1-based to 0-based line numbers for VS Code API
+					const line = item.data.line > 0 ? item.data.line - 1 : 0;
+					const _column = item.data.column ?? 0;
+					const column = _column > 0 ? _column - 1 : 0;
+					const position = new vscode.Position(line, column);
+					editor.selection = new vscode.Selection(position, position);
+					editor.revealRange(new vscode.Range(position, position), vscode.TextEditorRevealType.InCenter);
+				}
+			}
+		}
+	);
+	context.subscriptions.push(openTypeCommand);
 
 	// Register show usages command (for context menu)
 	type UsageQuickPickItem = {

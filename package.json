@@ -103,6 +103,12 @@
 				"title": "Go to Definition",
 				"category": "Mnemonica",
 				"icon": "$(symbol-method)"
+			},
+			{
+				"command": "mnemographica.openType",
+				"title": "Open Type",
+				"category": "Mnemonica",
+				"icon": "$(symbol-class)"
 			}
 		],
 		"menus": {
@@ -161,8 +167,18 @@
 					"group": "navigation@1"
 				},
 				{
+					"command": "mnemographica.openType",
+					"when": "view == mnemonicaTypes && viewItem == navigableType",
+					"group": "navigation@1"
+				},
+				{
 					"command": "mnemographica.showUsages",
 					"when": "view == mnemonicaTypes && viewItem == navigable",
+					"group": "navigation@2"
+				},
+				{
+					"command": "mnemographica.showUsages",
+					"when": "view == mnemonicaTypes && viewItem == navigableType",
 					"group": "navigation@2"
 				},
 				{
