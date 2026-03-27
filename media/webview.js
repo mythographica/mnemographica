@@ -1,6 +1,5 @@
 /* eslint-env browser */
 /* global THREE, d3, acquireVsCodeApi */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 
 (function () {
 	'use strict';
@@ -8,50 +7,22 @@
 	// Placeholder for vscode reference (set after acquireVsCodeApi)
 	let vscodeRef = null;
 
+	// Default radii for generations - defined once, used everywhere
+	const DEFAULT_2D_RADII = [80, 160, 240, 320, 400, 480];
+	const DEFAULT_3D_RADII = [105, 180, 245, 310, 375, 440];
+
 	// Send log message to extension's LoggerService
 	function debugLog (message, type) {
-		if (vscodeRef) {
-
-			try {
-				vscodeRef.postMessage({
-					command: 'log',
-					data: { message: String(message), type: type }
-				});
-			} catch (error) {
-				console.log(type, message);
-				console.error(error);
-			}
+		if (!vscodeRef) return;
+		try {
+			vscodeRef.postMessage({
+				command: 'log',
+				data: { message: String(message), type: type }
+			});
+		} catch (error) {
+			console.log(type, message);
+			console.error(error);
 		}
-	}
-
-	// Test functions
-	async function runAutoToggleTest () {
-		debugLog('Starting auto-toggle test (10 switches)...', 'info');
-		for (let i = 0; i < 10; i++) {
-			debugLog(`Toggle ${i + 1}/10: switching to ${is3D ? '2D' : '3D'}`);
-			toggle3DMode();
-			await sleep(500);
-		}
-		debugLog('Auto-toggle test complete', 'info');
-	}
-
-	function logNodeInfo () {
-		if (!currentData) {
-			debugLog('No graph data available', 'warn');
-			return;
-		}
-		debugLog(`Nodes: ${currentData.nodes.length}, Links: ${currentData.links.length}`, 'info');
-		currentData.nodes.slice(0, 5).forEach(n => {
-			debugLog(`  - ${n.name} (depth: ${n.depth}, root: ${n.isRoot})`);
-		});
-	}
-
-	function logStateInfo () {
-		debugLog(`State: is3D=${is3D}, simulation=${!!simulation}, svg=${!!svg}, renderer3D=${!!renderer3D}`, 'info');
-	}
-
-	function sleep (ms) {
-		return new Promise(resolve => setTimeout(resolve, ms));
 	}
 
 	// ===== Main Application Code =====
@@ -60,8 +31,6 @@
 
 	const vscode = acquireVsCodeApi();
 	vscodeRef = vscode;
-	// eslint-disable-next-line no-undef
-	const showProperties = SHOW_PROPERTIES_PLACEHOLDER;
 	let simulation = null;
 	let svg = null;
 	let g = null;
@@ -69,7 +38,6 @@
 	let currentData = null;
 	let is3D = false;
 	let renderer3D = null;
-	let clickTimeout = null;
 	let resizeHandler3D = null;
 	let saved3DCameraState = null; // Stores camera state when switching to 2D
 
@@ -202,12 +170,6 @@
 			resizeHandler3D = null;
 		}
 
-		// Clear any pending click timeouts
-		if (clickTimeout) {
-			clearTimeout(clickTimeout);
-			clickTimeout = null;
-		}
-
 		// NOW clear the container after cleanup
 		container.innerHTML = '';
 
@@ -310,9 +272,11 @@
 			.style('width', '100%')
 			.style('height', '100%');
 
-		// Center the graph in the viewport
+		// Center the graph in the viewport - store globally for drag calculations
 		const offsetX = (width - 800) / 2;
 		const offsetY = (height - 600) / 2;
+		window.graphOffsetX = offsetX;
+		window.graphOffsetY = offsetY;
 		g = svg.append('g')
 			.attr('transform', 'translate(' + offsetX + ',' + offsetY + ')');
 
@@ -335,6 +299,8 @@
 			// Recenter
 			const newOffsetX = (newWidth - 800) / 2;
 			const newOffsetY = (newHeight - 600) / 2;
+			window.graphOffsetX = newOffsetX;
+			window.graphOffsetY = newOffsetY;
 			g.attr('transform', 'translate(' + newOffsetX + ',' + newOffsetY + ')');
 		});
 
@@ -401,9 +367,9 @@
 		node.filter(function (d) { return d.isRoot; })
 			.classed('root', true);
 
-		// Node circles
+		// Node circles - uniform size
 		node.append('circle')
-			.attr('r', function (d) { return 12 + (d.properties ? d.properties.length : 0); })
+			.attr('r', 15)
 			.attr('fill', function (d) { return colors[d.depth % colors.length]; })
 			.style('cursor', 'pointer');
 
@@ -414,16 +380,11 @@
 			.text(function (d) { return d.name; })
 			.style('pointer-events', 'none');
 
-		// Track drag start position to distinguish click from drag
-		let dragStartPos = null;
-		const CLICK_THRESHOLD = 5; // pixels
-
 		// Add drag behavior using raw mouse events
 		node.on('mousedown', function (event, d) {
 			event.stopPropagation();
 			isDragging2D = true;
 			draggedNode2D = d;
-			dragStartPos = { x: event.clientX, y: event.clientY };
 			d3.select(this).style('cursor', 'move');
 		});
 
@@ -431,8 +392,11 @@
 		svg.on('mousemove', function (event) {
 			if (isDragging2D && draggedNode2D) {
 				const transform = d3.zoomTransform(svg.node());
-				const x = (event.offsetX - transform.x) / transform.k;
-				const y = (event.offsetY - transform.y) / transform.k;
+				// Account for centering offset in drag calculations
+				const offsetX = window.graphOffsetX || 0;
+				const offsetY = window.graphOffsetY || 0;
+				const x = (event.offsetX - offsetX - transform.x) / transform.k;
+				const y = (event.offsetY - offsetY - transform.y) / transform.k;
 
 				draggedNode2D.x = x;
 				draggedNode2D.y = y;
@@ -451,59 +415,39 @@
 			}
 		});
 
-		svg.on('mouseup', function (event) {
-			if (isDragging2D && draggedNode2D) {
-				// Check if it was a click or a drag
-				const dx = event.clientX - dragStartPos.x;
-				const dy = event.clientY - dragStartPos.y;
-				const distance = Math.sqrt(dx * dx + dy * dy);
-
-				if (distance < CLICK_THRESHOLD) {
-					// It was a click, handle click/double-click
-					if (clickTimeout) {
-						clearTimeout(clickTimeout);
-						clickTimeout = null;
-						// Double click - jump to definition
-						if (draggedNode2D.location) {
-							vscode.postMessage({
-								command: 'goToDefinition',
-								data: draggedNode2D.location
-							});
-						}
-					} else {
-						// Single click - toggle tooltip (capture node before timeout)
-						const clickedNode = draggedNode2D;
-						clickTimeout = setTimeout(function () {
-							clickTimeout = null;
-							const tooltip = d3.select('#tooltip');
-							const existingNodeId = tooltip.attr('data-node-id');
-							if (tooltip.classed('visible') && existingNodeId === clickedNode.id) {
-								// Hide if already showing for same node
-								tooltip.classed('visible', false);
-							} else {
-								// Show tooltip for clicked node
-								const d = clickedNode;
-								const props = (d.properties || [])
-									.map(function (p) { return p.name + ': ' + p.type; })
-									.join('<br>');
-
-								tooltip
-									.attr('data-node-id', d.id)
-									.classed('visible', true)
-									.html('<strong>' + d.name + '</strong><br>' +
-										'<em>depth: ' + d.depth + '</em><br>' +
-										(props ? '<hr>' + props : ''))
-									.style('left', (event.pageX + 10) + 'px')
-									.style('top', (event.pageY - 10) + 'px');
-							}
-						}, 250);
-					}
-				}
-			}
-
+		svg.on('mouseup', function () {
 			isDragging2D = false;
 			draggedNode2D = null;
 			node.style('cursor', 'pointer');
+		});
+
+		// Right-click on node - show tooltip
+		node.on('contextmenu', function (event, d) {
+			event.preventDefault();
+			event.stopPropagation();
+			const tooltip = d3.select('#tooltip');
+			const props = (d.properties || [])
+				.map(function (p) { return p.name + ': ' + p.type; })
+				.join('<br>');
+			tooltip
+				.attr('data-node-id', d.id)
+				.classed('visible', true)
+				.html('<strong>' + d.name + '</strong><br>' +
+					'<em>depth: ' + d.depth + '</em><br>' +
+					(props ? '<hr>' + props : ''))
+				.style('left', (event.pageX + 10) + 'px')
+				.style('top', (event.pageY - 10) + 'px');
+		});
+
+		// Double-click on node - go to definition
+		node.on('dblclick', function (event, d) {
+			event.stopPropagation();
+			if (d.location) {
+				vscode.postMessage({
+					command: 'goToDefinition',
+					data: d.location
+				});
+			}
 		});
 
 		svg.on('mouseleave', function () {
@@ -512,10 +456,12 @@
 			node.style('cursor', 'pointer');
 		});
 
-		// Click on background to close popup
+		// Click on background to close popup and tooltip
 		svg.on('click', function (event) {
-			if (event.target.tagName === 'svg') {
-				d3.select('#properties-panel').remove();
+			// Close tooltip when clicking anywhere except the tooltip itself
+			const tooltip = d3.select('#tooltip');
+			if (tooltip.classed('visible') && !event.target.closest('#tooltip')) {
+				tooltip.classed('visible', false);
 			}
 		});
 
@@ -529,31 +475,6 @@
 
 		// Initial draw of links (no simulation, fixed positions)
 		updateLinks();
-
-		// Update 2D coordinates when dragging
-		function updateNodePosition (d) {
-			d.x2d = d.x;
-			d.y2d = d.y;
-		}
-
-		function handleNodeHover (event, d) {
-			const tooltip = d3.select('#tooltip');
-			const props = (d.properties || [])
-				.map(function (p) { return p.name + ': ' + p.type; })
-				.join('<br>');
-
-			tooltip
-				.classed('visible', true)
-				.html('<strong>' + d.name + '</strong><br>' +
-					'<em>depth: ' + d.depth + '</em><br>' +
-					(props ? '<hr>' + props : ''))
-				.style('left', (event.pageX + 10) + 'px')
-				.style('top', (event.pageY - 10) + 'px');
-		}
-
-		function handleNodeLeave () {
-			d3.select('#tooltip').classed('visible', false);
-		}
 
 		// Update status
 		const status = document.getElementById('status');
@@ -595,14 +516,7 @@
 		});
 
 		// Fixed radii for each generation
-		const depthRadii = new Map([
-			[0, 80],   // Roots
-			[1, 160],  // Gen 1
-			[2, 240],  // Gen 2
-			[3, 320],  // Gen 3
-			[4, 400],  // Gen 4
-			[5, 480]   // Gen 5
-		]);
+		const depthRadii = new Map(DEFAULT_3D_RADII.map((r, i) => [i, r]));
 
 		// Calculate subtree sizes (total descendants including self)
 		function calculateSubtreeSize (node) {
@@ -654,7 +568,7 @@
 		const maxDepth = Math.max(...data.nodes.map(n => n.depth || 0));
 		for (let depth = 0; depth <= maxDepth; depth++) {
 			const nodesAtDepth = data.nodes.filter(n => (n.depth || 0) === depth);
-			const radius = depthRadii.get(depth) || (80 + depth * 80);
+			const radius = depthRadii.get(depth) || (105 + depth * 65);
 
 			nodesAtDepth.forEach(node => {
 				const angle = node.angle2d || 0;
@@ -662,115 +576,6 @@
 				node.y2d = centerY + radius * Math.sin(angle);
 			});
 		}
-	}
-
-	// Show properties panel for a node
-	function showPropertiesPanel (d) {
-		// Remove any existing panel
-		d3.select('#properties-panel').remove();
-
-
-		const panel = d3.select('body').append('div')
-			.attr('id', 'properties-panel')
-			.attr('data-node-id', d.id)
-			.style('position', 'absolute')
-			.style('top', '50px')
-			.style('right', '10px')
-			.style('width', '280px')
-			.style('max-height', '400px')
-			.style('overflow-y', 'auto')
-			.style('background', 'var(--vscode-editorHoverWidget-background)')
-			.style('border', '1px solid var(--vscode-editorHoverWidget-border)')
-			.style('border-radius', '4px')
-			.style('padding', '10px')
-			.style('z-index', '1000')
-			.style('box-shadow', '0 4px 12px rgba(0,0,0,0.3)');
-
-		// Header
-		panel.append('div')
-			.style('font-weight', 'bold')
-			.style('font-size', '14px')
-			.style('margin-bottom', '8px')
-			.style('border-bottom', '1px solid var(--vscode-editorHoverWidget-border)')
-			.style('padding-bottom', '5px')
-			.text(d.name);
-
-		// Table
-		const table = panel.append('table')
-			.style('width', '100%')
-			.style('border-collapse', 'collapse')
-			.style('font-size', '11px');
-
-		// Table header
-		const thead = table.append('thead');
-		const headerRow = thead.append('tr');
-		headerRow.append('th')
-			.style('text-align', 'left')
-			.style('padding', '4px')
-			.style('border-bottom', '1px solid var(--vscode-editorHoverWidget-border)')
-			.text('Field');
-		headerRow.append('th')
-			.style('text-align', 'left')
-			.style('padding', '4px')
-			.style('border-bottom', '1px solid var(--vscode-editorHoverWidget-border)')
-			.text('Type');
-
-		// Table body
-		const tbody = table.append('tbody');
-		d.properties.forEach(function (prop) {
-			const row = tbody.append('tr');
-
-			// Field name
-			row.append('td')
-				.style('padding', '4px')
-				.style('vertical-align', 'top')
-				.style('font-family', 'var(--vscode-editor-font-family)')
-				.text(prop.name);
-
-			// Type - truncate if too long
-			let typeText = prop.type || 'unknown';
-			// Check if it's a primitive type
-			const isPrimitive = /^(string|number|boolean|null|undefined|unknown|any|void|never|bigint|symbol)$/.test(typeText);
-			if (!isPrimitive && typeText.length > 25) {
-				typeText = typeText.substring(0, 22) + '...';
-			}
-
-			row.append('td')
-				.style('padding', '4px')
-				.style('vertical-align', 'top')
-				.style('font-family', 'var(--vscode-editor-font-family)')
-				.style('color', isPrimitive ? 'var(--vscode-symbolIcon-colorForeground)' : 'var(--vscode-foreground)')
-				.text(typeText);
-		});
-
-		// Close button
-		panel.append('div')
-			.style('margin-top', '8px')
-			.style('text-align', 'right')
-			.style('border-top', '1px solid var(--vscode-editorHoverWidget-border)')
-			.style('padding-top', '5px')
-			.append('button')
-			.style('padding', '4px 12px')
-			.style('font-size', '11px')
-			.style('background', 'var(--vscode-button-background)')
-			.style('color', 'var(--vscode-button-foreground)')
-			.style('border', 'none')
-			.style('border-radius', '3px')
-			.style('cursor', 'pointer')
-			.text('Close')
-			.on('click', function () {
-				d3.select('#properties-panel').remove();
-			});
-
-		// Also close when clicking outside
-		setTimeout(function () {
-			d3.select('body').on('click.properties-panel', function (e) {
-				if (!e.target.closest('#properties-panel')) {
-					d3.select('#properties-panel').remove();
-					d3.select('body').on('click.properties-panel', null);
-				}
-			});
-		}, 100);
 	}
 
 	function render3DGraph (data, initialCameraState = null) {
@@ -862,15 +667,13 @@
 			// Value display
 			const valueDisplay = document.createElement('span');
 			valueDisplay.className = 'gen-control-value';
-			// Default radii for 2D mode
-			const defaults2D = [80, 160, 240, 320, 400, 480];
 			let currentRadius;
 			if (window.genRadii && window.genRadii[depth] !== undefined) {
 				currentRadius = window.genRadii[depth];
 			} else if (is3D && renderer && renderer.depthRadii) {
 				currentRadius = renderer.depthRadii.get(depth);
 			} else {
-				currentRadius = defaults2D[depth] || (80 + depth * 80);
+				currentRadius = DEFAULT_2D_RADII[depth] || (80 + depth * 80);
 			}
 			valueDisplay.textContent = Math.round(currentRadius) + 'px';
 			row.appendChild(valueDisplay);
@@ -922,10 +725,9 @@
 					: renderer.depthRadii.get(d);
 			} else {
 				// 2D mode - use stored radii or defaults
-				const defaults = [80, 160, 240, 320, 400, 480];
 				currentValue = window.genRadii[d] !== undefined
 					? window.genRadii[d]
-					: defaults[d] || (80 + d * 80);
+					: DEFAULT_2D_RADII[d] || (80 + d * 80);
 			}
 
 			// Calculate new value (min 10px)
@@ -973,8 +775,6 @@
 		const centerX = layoutWidth / 2;
 		const centerY = layoutHeight / 2;
 
-		// Default radii
-		const defaults = [80, 160, 240, 320, 400, 480];
 
 		// Calculate subtree sizes (total descendants including self)
 		function calculateSubtreeSize (node) {
@@ -1027,7 +827,7 @@
 			const nodesAtDepth = data.nodes.filter(n => (n.depth || 0) === depth);
 			const radius = window.genRadii && window.genRadii[depth] !== undefined
 				? window.genRadii[depth]
-				: (defaults[depth] || 80 + depth * 80);
+				: (DEFAULT_2D_RADII[depth] || 80 + depth * 80);
 
 			nodesAtDepth.forEach(node => {
 				const angle = node.angle2d || 0;
@@ -1161,9 +961,21 @@
 				this.raycaster.setFromCamera(this.mouseVector, this.camera);
 				const intersects = this.raycaster.intersectObjects(Array.from(this.nodeMeshes.values()));
 
-				if (intersects.length > 0 && !e.ctrlKey) {
+				if (intersects.length > 0) {
 					this.draggedNode = intersects[0].object;
 					this.draggedNode.userData.isDragging = true;
+					// Store the intersection point offset from node center
+					const intersectPoint = intersects[0].point;
+					this.dragOffset = new THREE.Vector3().subVectors(
+						this.draggedNode.position,
+						intersectPoint
+					);
+					// Store the fixed distance from camera to node for the drag plane
+					const nodePos = this.draggedNode.position;
+					const cameraDirection = new THREE.Vector3();
+					this.camera.getWorldDirection(cameraDirection);
+					const camToNode = new THREE.Vector3().subVectors(nodePos, this.camera.position);
+					this.dragPlaneDistance = camToNode.dot(cameraDirection);
 					if (this.simulation) this.simulation.alphaTarget(0).stop();
 					canvas.style.cursor = 'move';
 				} else {
@@ -1187,47 +999,58 @@
 							this.simulation.stop();
 						}
 
-						// Drag node in 3D space
+						// Get mouse ray
 						const rect = canvas.getBoundingClientRect();
 						this.mouseVector.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
 						this.mouseVector.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
 						this.raycaster.setFromCamera(this.mouseVector, this.camera);
 
-						// Intersect with a plane at the node's current depth
-						const nodeZ = this.draggedNode.position.z;
-						const dragPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), -nodeZ);
+						// Create a plane perpendicular to camera at the FIXED drag distance
+						const cameraDirection = new THREE.Vector3();
+						this.camera.getWorldDirection(cameraDirection);
+						// Use the stored fixed distance from drag start
+						const planePoint = this.camera.position.clone().add(
+							cameraDirection.clone().multiplyScalar(this.dragPlaneDistance)
+						);
+						const dragPlane = new THREE.Plane();
+						dragPlane.setFromNormalAndCoplanarPoint(cameraDirection, planePoint);
+
+						// Find where ray intersects the plane
 						const target = new THREE.Vector3();
 						this.raycaster.ray.intersectPlane(dragPlane, target);
 
 						if (target) {
-							// Move the dragged node
-							this.draggedNode.position.x = target.x;
-							this.draggedNode.position.y = target.y;
+							// Position = intersection point + stored offset
+							const newPos = target.clone().add(this.dragOffset);
 
-							// Update node data and fix position
+							// Move the dragged node
+							this.draggedNode.position.copy(newPos);
+
+							// Update node data
 							const draggedNodeData = this.draggedNode.userData.node;
 							if (draggedNodeData) {
-								draggedNodeData.x = target.x;
-								draggedNodeData.y = target.y;
-								draggedNodeData.fx = target.x;
-								draggedNodeData.fy = target.y;
-								// Also fix Z to prevent drift
-								draggedNodeData.z = nodeZ;
-								draggedNodeData.fz = nodeZ;
+								draggedNodeData.x = newPos.x;
+								draggedNodeData.y = newPos.y;
+								draggedNodeData.z = newPos.z;
+								draggedNodeData.fx = newPos.x;
+								draggedNodeData.fy = newPos.y;
+								draggedNodeData.fz = newPos.z;
 							}
 
 							// Update link positions to follow the node
 							this.updateLinkPositions();
+							// Update label position to match node
+							this.updateLabelPosition(this.draggedNode);
 						}
 					} else if (e.ctrlKey) {
 						// Ctrl+drag: rotate camera around center
-						this.cameraRotation.y += dx * 0.005;
-						this.cameraRotation.x += dy * 0.005;
+						this.cameraRotation.y += dx * 0.002;
+						this.cameraRotation.x += dy * 0.002;
 						this.cameraRotation.x = Math.max(-Math.PI / 2 + 0.1, Math.min(Math.PI / 2 - 0.1, this.cameraRotation.x));
 						this.updateCameraPosition();
 					} else {
-						// Regular drag: pan the view
-						const panSpeed = this.zoom * 0.001;
+						// Regular drag: pan the view (slower speed)
+						const panSpeed = this.zoom * 0.0003;
 						this.panOffset.x -= dx * panSpeed;
 						this.panOffset.y += dy * panSpeed;
 						this.updateCameraPosition();
@@ -1256,8 +1079,26 @@
 					// Don't restart simulation - keep it stopped
 				}
 
+				// Only handle click if not dragging
 				if (!this.isDragging) {
-					this.handleClick(e);
+					this.handleNodeClick3D(e);
+				}
+			});
+
+			// Native double-click for navigation
+			canvas.addEventListener('dblclick', (e) => {
+				e.preventDefault();
+				e.stopPropagation();
+				const rect = canvas.getBoundingClientRect();
+				this.mouseVector.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+				this.mouseVector.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+				this.raycaster.setFromCamera(this.mouseVector, this.camera);
+				const intersects = this.raycaster.intersectObjects(Array.from(this.nodeMeshes.values()));
+				if (intersects.length > 0) {
+					const node = intersects[0].object.userData.node;
+					if (node) {
+						this.handleNodeDoubleClick3D(node, e);
+					}
 				}
 			});
 
@@ -1312,54 +1153,49 @@
 			}
 		}
 
-		handleClick (event) {
+		handleNodeClick3D (event) {
 			const rect = this.renderer.domElement.getBoundingClientRect();
 			this.mouseVector.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
 			this.mouseVector.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-
 			this.raycaster.setFromCamera(this.mouseVector, this.camera);
 			const intersects = this.raycaster.intersectObjects(Array.from(this.nodeMeshes.values()));
 
-			if (intersects.length > 0) {
-				const node = intersects[0].object.userData.node;
-				if (node) {
-					// Use the same click/double-click logic as 2D
-					this.handleNodeClick3D(node, event);
+			if (intersects.length === 0) {
+				// Click on background - close tooltip
+				const tooltip = d3.select('#tooltip');
+				if (tooltip.classed('visible') && !event.target.closest('#tooltip')) {
+					tooltip.classed('visible', false);
 				}
+				return;
+			}
+
+			const node = intersects[0].object.userData.node;
+			if (!node) return;
+
+			// Single click - show/hide tooltip
+			const tooltip = d3.select('#tooltip');
+			const existingNodeId = tooltip.attr('data-node-id');
+			if (tooltip.classed('visible') && existingNodeId === node.id) {
+				tooltip.classed('visible', false);
+			} else {
+				const props = (node.properties || [])
+					.map(p => p.name + ': ' + p.type)
+					.join('<br>');
+				tooltip
+					.attr('data-node-id', node.id)
+					.classed('visible', true)
+					.html('<strong>' + node.name + '</strong><br>' +
+						'<em>depth: ' + node.depth + '</em><br>' +
+						(props ? '<hr>' + props : ''))
+					.style('left', (event.pageX + 10) + 'px')
+					.style('top', (event.pageY - 10) + 'px');
 			}
 		}
 
-		handleNodeClick3D (node, event) {
-			if (!this.clickTimeout) {
-				// First click - wait for potential double click
-				this.clickTimeout = setTimeout(() => {
-					this.clickTimeout = null;
-					// Single click - show tooltip (same style as 2D hover)
-					const tooltip = d3.select('#tooltip');
-					const existingNodeId = tooltip.attr('data-node-id');
-					if (tooltip.classed('visible') && existingNodeId === node.id) {
-						tooltip.classed('visible', false);
-					} else {
-						const props = (node.properties || [])
-							.map(p => p.name + ': ' + p.type)
-							.join('<br>');
-						tooltip
-							.attr('data-node-id', node.id)
-							.classed('visible', true)
-							.html('<strong>' + node.name + '</strong><br>' +
-								'<em>depth: ' + node.depth + '</em><br>' +
-								(props ? '<hr>' + props : ''))
-							.style('left', (event.pageX + 10) + 'px')
-							.style('top', (event.pageY - 10) + 'px');
-					}
-				}, 250);
-			} else {
-				// Double click - clear timeout and jump to definition
-				clearTimeout(this.clickTimeout);
-				this.clickTimeout = null;
-				if (node.location && this.onNodeClick) {
-					this.onNodeClick(node);
-				}
+		handleNodeDoubleClick3D (node, _event) {
+			// Double click - jump to definition
+			if (node.location && this.onNodeClick) {
+				this.onNodeClick(node);
 			}
 		}
 
@@ -1370,7 +1206,7 @@
 		 * 2. Generation gaps are smaller and more consistent
 		 * 3. Center marker at origin
 		 */
-		renderGraph (data, d3) {
+		renderGraph (data) {
 			this.clear();
 
 			// Restore 3D coordinates if they exist
@@ -1426,33 +1262,17 @@
 			});
 
 			// Configuration - TRUE 3D SPHERICAL LAYOUT
-			const nodeRadius = 8;
-			const nodeDiameter = nodeRadius * 2; // 16px
-
-			/**
-			 * TRUE 3D SPHERICAL LAYOUT
-			 * Each generation forms a complete spherical shell
-			 * INCREASED distances for better visibility
-			 */
-			// Calculate root radius based on number of roots to prevent label overlap
-			// Need enough circumference for all root node labels
-			const rootCount = rootNodes.length;
-			const avgLabelWidth = 60; // Average width needed per label (smaller, labels can overlap slightly)
-			const minRootRadius = 60;  // Minimum radius
-			// Use square root scaling for better distribution
-			// More roots = larger radius, but not linearly
-			const calculatedRootRadius = Math.max(minRootRadius, 60 + Math.sqrt(rootCount) * 30);
-			
-			// Use instance depthRadii if available (for adjustments), otherwise use defaults
+				const nodeRadius = 8;
+	
+				/**
+				 * TRUE 3D SPHERICAL LAYOUT
+				 * Each generation forms a complete spherical shell
+				 * INCREASED distances for better visibility
+				 */
+				// Use instance depthRadii if available (for adjustments), otherwise use defaults
+			// User preference: root ~105px (90-120 range), gen1 ~180px, gen2 ~245px, +65px each
 			if (!this.depthRadii) {
-				this.depthRadii = new Map([
-					[0, calculatedRootRadius],   // Roots: dynamic based on count
-					[1, calculatedRootRadius + 60],   // Gen 1: +60px
-					[2, calculatedRootRadius + 110],  // Gen 2: +110px
-					[3, calculatedRootRadius + 160],  // Gen 3: +160px
-					[4, calculatedRootRadius + 210],  // Gen 4: +210px
-					[5, calculatedRootRadius + 260]   // Gen 5: +260px
-				]);
+				this.depthRadii = new Map(DEFAULT_3D_RADII.map((r, i) => [i, r]));
 			}
 			const depthRadii = this.depthRadii;
 
@@ -1542,7 +1362,7 @@
 					return { x: node.x3d, y: node.y3d, z: node.z3d };
 				}
 				
-				const radius = depthRadii.get(depth) || (180 + (depth - 6) * 26);
+				const radius = depthRadii.get(depth) || (105 + depth * 75);
 				
 				// ROOTS: distributed on sphere surface (not just a circle!)
 				if (depth === 0) {
@@ -1719,10 +1539,22 @@
 				alphaTest: 0.5
 			});
 			const sprite = new THREE.Sprite(spriteMaterial);
-			sprite.position.set(0, 35, 0);
+			// Position sprite in world space above the node
+			sprite.position.set(mesh.position.x, mesh.position.y + 35, mesh.position.z);
 			sprite.scale.set(100, 25, 1);
 
-			mesh.add(sprite);
+			// Store sprite reference on mesh for updates
+			mesh.userData.label = sprite;
+			this.scene.add(sprite);
+		}
+
+		updateLabelPosition (mesh) {
+			if (mesh.userData.label) {
+				const label = mesh.userData.label;
+				label.position.x = mesh.position.x;
+				label.position.y = mesh.position.y + 35;
+				label.position.z = mesh.position.z;
+			}
 		}
 
 		zoomIn () {
@@ -1759,6 +1591,12 @@
 
 		clear () {
 			this.nodeMeshes.forEach(mesh => {
+				// Remove label if exists
+				if (mesh.userData.label) {
+					this.scene.remove(mesh.userData.label);
+					mesh.userData.label.material.map.dispose();
+					mesh.userData.label.material.dispose();
+				}
 				this.scene.remove(mesh);
 				mesh.geometry.dispose();
 				mesh.material.dispose();
