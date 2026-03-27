@@ -263,17 +263,35 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(refreshTreeCommand);
 
 	// Register open tree item command (for context menu)
+	// This navigates to the definition location (source file with define())
 	const openTreeItemCommand = vscode.commands.registerCommand(
 		'mnemographica.openTreeItem',
 		async (item: MnemonicaTreeItem) => {
-			if (item.data.fullPath) {
-				const document = await vscode.workspace.openTextDocument(item.data.fullPath);
+			// If this is a Types item, look up the definition location
+			let targetPath = item.data.fullPath;
+			let targetLine = item.data.line;
+			let targetColumn = item.data.column;
+
+			if (!item.data.isDefinition && treeProvider) {
+				// Types item - look up definition location
+				const fullName = item.data.fullName || item.data.label;
+				const definitionName = fullName.replace(/_/g, '.');
+				const definition = treeProvider.getDefinition(definitionName);
+				if (definition) {
+					targetPath = definition.fullPath;
+					targetLine = definition.line;
+					targetColumn = definition.column;
+				}
+			}
+
+			if (targetPath) {
+				const document = await vscode.workspace.openTextDocument(targetPath);
 				const editor = await vscode.window.showTextDocument(document);
 				// Navigate to the specific line and column if available
-				if (item.data.line !== undefined && item.data.line > 0) {
+				if (targetLine !== undefined && targetLine > 0) {
 					// Convert from 1-based to 0-based line numbers for VS Code API
-					const line = item.data.line > 0 ? item.data.line - 1 : 0;
-					const _column = item.data.column ?? 0;
+					const line = targetLine > 0 ? targetLine - 1 : 0;
+					const _column = targetColumn ?? 0;
 					const column = _column > 0 ? _column - 1 : 0;
 					const position = new vscode.Position(line, column);
 					editor.selection = new vscode.Selection(position, position);
@@ -285,17 +303,35 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(openTreeItemCommand);
 
 	// Register open type command (for Types section context menu)
+	// This navigates to the type location (types.ts)
 	const openTypeCommand = vscode.commands.registerCommand(
 		'mnemographica.openType',
 		async (item: MnemonicaTreeItem) => {
-			if (item.data.fullPath) {
-				const document = await vscode.workspace.openTextDocument(item.data.fullPath);
+			// If this is a Definitions item, look up the type location
+			let targetPath = item.data.fullPath;
+			let targetLine = item.data.line;
+			let targetColumn = item.data.column;
+
+			if (item.data.isDefinition && treeProvider) {
+				// Definitions item - look up type location
+				const fullName = item.data.fullName || item.data.label;
+				const typeName = fullName.replace(/\./g, '_');
+				const typeInfo = treeProvider.getType(typeName);
+				if (typeInfo) {
+					targetPath = typeInfo.fullPath;
+					targetLine = typeInfo.line;
+					targetColumn = typeInfo.column;
+				}
+			}
+
+			if (targetPath) {
+				const document = await vscode.workspace.openTextDocument(targetPath);
 				const editor = await vscode.window.showTextDocument(document);
 				// Navigate to the specific line and column if available
-				if (item.data.line !== undefined && item.data.line > 0) {
+				if (targetLine !== undefined && targetLine > 0) {
 					// Convert from 1-based to 0-based line numbers for VS Code API
-					const line = item.data.line > 0 ? item.data.line - 1 : 0;
-					const _column = item.data.column ?? 0;
+					const line = targetLine > 0 ? targetLine - 1 : 0;
+					const _column = targetColumn ?? 0;
 					const column = _column > 0 ? _column - 1 : 0;
 					const position = new vscode.Position(line, column);
 					editor.selection = new vscode.Selection(position, position);

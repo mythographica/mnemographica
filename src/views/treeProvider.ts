@@ -445,4 +445,12 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 	getDefinition (fullName: string): DefinitionData | undefined {
 		return this.definitions.get(fullName);
 	}
+
+	/**
+	 * Get a type by its name (e.g., "Scene2D_GraphNode2D")
+	 * Used to look up type locations for Definitions items
+	 */
+	getType (typeName: string): TypeData | undefined {
+		return this.types.get(typeName);
+	}
 }

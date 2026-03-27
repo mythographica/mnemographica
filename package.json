@@ -168,18 +168,28 @@
 				},
 				{
 					"command": "mnemographica.openType",
-					"when": "view == mnemonicaTypes && viewItem == navigableType",
-					"group": "navigation@1"
-				},
-				{
-					"command": "mnemographica.showUsages",
 					"when": "view == mnemonicaTypes && viewItem == navigable",
 					"group": "navigation@2"
 				},
 				{
 					"command": "mnemographica.showUsages",
+					"when": "view == mnemonicaTypes && viewItem == navigable",
+					"group": "navigation@3"
+				},
+				{
+					"command": "mnemographica.openType",
+					"when": "view == mnemonicaTypes && viewItem == navigableType",
+					"group": "navigation@1"
+				},
+				{
+					"command": "mnemographica.openTreeItem",
 					"when": "view == mnemonicaTypes && viewItem == navigableType",
 					"group": "navigation@2"
+				},
+				{
+					"command": "mnemographica.showUsages",
+					"when": "view == mnemonicaTypes && viewItem == navigableType",
+					"group": "navigation@3"
 				},
 				{
 					"command": "mnemographica.revealInExplorer",
