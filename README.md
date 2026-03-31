@@ -2,6 +2,8 @@
 
 Visualize mnemonica type hierarchies with interactive D3 force-directed graphs in VS Code.
 
+![Mnemonica Graphica Screenshot](img/screen.png)
+
 ## Features
 
 - **Interactive Graph Visualization**: See your mnemonica type inheritance as a force-directed graph

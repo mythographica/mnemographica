@@ -741,15 +741,22 @@ async function selectWorkspace (): Promise<void> {
 		}
 	);
 
-	if (workspaces.length === 0) {
-		vscode.window.showWarningMessage('No Mnemonica workspaces found with .tactica directories');
-		return;
-	}
-
 	logger.info('[selectWorkspace] Found', workspaces.length, 'workspaces');
 
+	// Add "Browse for .tactica directory..." option
+	const browseOption: WorkspaceQuickPickItem = {
+		label: '$(folder-opened) Browse for .tactica directory...',
+		description: 'Select a directory containing .tactica folder',
+		detail: 'Browse',
+		workspacePath: '__browse__'
+	};
+
+	const quickPickItems = workspaces.length > 0
+		? [...workspaces, browseOption]
+		: [browseOption];
+
 	// Show quick pick with found workspaces
-	const selected = await vscode.window.showQuickPick(workspaces, {
+	const selected = await vscode.window.showQuickPick(quickPickItems, {
 		placeHolder: 'Select a workspace to load',
 		matchOnDescription: true,
 		matchOnDetail: true
@@ -757,6 +764,67 @@ async function selectWorkspace (): Promise<void> {
 
 	if (!selected) {
 		logger.info('[selectWorkspace] User cancelled selection');
+		return;
+	}
+
+	// Handle browse option
+	if (selected.workspacePath === '__browse__') {
+		const folderUri = await vscode.window.showOpenDialog({
+			canSelectFiles: false,
+			canSelectFolders: true,
+			canSelectMany: false,
+			openLabel: 'Select .tactica Directory',
+			title: 'Select a directory containing .tactica folder'
+		});
+
+		if (!folderUri || folderUri.length === 0) {
+			logger.info('[selectWorkspace] User cancelled browse dialog');
+			return;
+		}
+
+		let selectedPath = folderUri[0].fsPath;
+		let tacticaPath: string;
+		
+		// Check if user selected the .tactica folder itself or its parent
+		if (path.basename(selectedPath) === '.tactica') {
+			// User selected the .tactica folder directly
+			tacticaPath = selectedPath;
+			selectedPath = path.dirname(selectedPath);
+		} else {
+			// User selected parent folder, check for .tactica subfolder
+			tacticaPath = path.join(selectedPath, '.tactica');
+		}
+		
+		if (!fs.existsSync(tacticaPath)) {
+			vscode.window.showWarningMessage(`No .tactica folder found in ${selectedPath}`);
+			return;
+		}
+
+		// Load the browsed workspace
+		logger.info('[selectWorkspace] Loading browsed workspace:', selectedPath);
+		
+		try {
+			// Update tree provider
+			treeProvider.setWorkspace(selectedPath);
+
+			// Load all models through registry
+			await registry.loadFromWorkspace(selectedPath);
+			treeProvider.setRegistry(registry);
+			await treeProvider.loadFromRegistry();
+			treeProvider.refresh();
+
+			// Update navigation providers
+			if (referenceProvider) {
+				referenceProvider.clear();
+				await referenceProvider.loadUsages(selectedPath);
+			}
+
+			vscode.window.showInformationMessage(`Loaded workspace: ${path.basename(selectedPath)}`);
+			logger.info('[selectWorkspace] Browsed workspace loaded successfully');
+		} catch (err) {
+			logger.error('[selectWorkspace] Failed to load browsed workspace:', err);
+			vscode.window.showErrorMessage(`Failed to load workspace: ${err}`);
+		}
 		return;
 	}
 
