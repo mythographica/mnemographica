@@ -1101,7 +1101,7 @@
 				this.isDragging = false;
 			});
 	
-			// Single click on node - show tooltip
+			// Single click on node - show tooltip, click elsewhere - hide tooltip
 			canvas.addEventListener('click', (e) => {
 				e.preventDefault();
 				e.stopPropagation();
@@ -1115,6 +1115,9 @@
 					if (node) {
 						this.handleNodeClick3D(e, node);
 					}
+				} else {
+					// Click on background - hide tooltip
+					d3.select('#tooltip').classed('visible', false);
 				}
 			});
 	

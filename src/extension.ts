@@ -675,15 +675,6 @@ async function findWorkspacesWithTactica (): Promise<WorkspaceQuickPickItem[]> {
 		}
 	}
 
-	// Add known workspace locations
-	const knownPaths = [
-		'/code/mnemonica',
-		'/home/went/code/mnemonica',
-		path.join(process.env.HOME || '', 'code', 'mnemonica'),
-		path.join(process.env.HOME || '', 'projects', 'mnemonica')
-	];
-	scanRoots.push(...knownPaths);
-
 	logger.info('[findWorkspaces] Scan roots:', scanRoots);
 
 	for (const scanRoot of scanRoots) {
