@@ -16,8 +16,6 @@ import type {
 	Types_TypeEntry,
 	Registry,
 	Registry_RegistryEntry,
-	LoggerTab,
-	LoggerTab_LogEntry,
 	Main,
 	Main_Adapter,
 	Scene2D,
@@ -34,6 +32,8 @@ import type {
 	Trie_GraphNodeTrie,
 	Trie_GraphNodeTrie_LinkTrie,
 	Trie_GraphNodeTrie_ContextMenu,
+	LoggerTab,
+	LoggerTab_LogEntry,
 	Usages,
 	Usages_UsageEntry,
 } from './types';
@@ -47,13 +47,11 @@ import type {
 declare module 'mnemonica' {
 	interface TypeRegistry {
 		'Definitions': new () => Definitions;
-		'Definitions.DefinitionEntry': new (data: { name: string; location: string; kind: string; parent: string | unknown; strictChain: boolean; blockErrors: boolean }) => Definitions_DefinitionEntry;
+		'Definitions.DefinitionEntry': new (data: { name: string; location: string; kind: string; parent: string | null; strictChain: boolean; blockErrors: boolean }) => Definitions_DefinitionEntry;
 		'Types': new () => Types;
 		'Types.TypeEntry': new (data: { name: string; fullPath: string; parent?: string; properties: Map<string, string>; lineNumber: number }) => Types_TypeEntry;
 		'Registry': new () => Registry;
 		'Registry.RegistryEntry': new (data: { id: string; name: string; filePath: string; line: number; column: number }) => Registry_RegistryEntry;
-		'LoggerTab': new () => LoggerTab;
-		'LoggerTab.LogEntry': new (data: { level: 'info' | 'warning' | 'error'; message: string; timestamp: number; typeName?: string; error?: Error; args?: Array<unknown> }) => LoggerTab_LogEntry;
 		'Main': new (extensionVersion: string) => Main;
 		'Main.Adapter': new (data: { name: string; domain: string; enabled: boolean }) => Main_Adapter;
 		'Scene2D': new () => Scene2D;
@@ -69,7 +67,9 @@ declare module 'mnemonica' {
 		'Trie': new () => Trie;
 		'Trie.GraphNodeTrie': new (data: { id: string; name: string; path: string; depth: number; isLeaf: boolean }) => Trie_GraphNodeTrie;
 		'Trie.GraphNodeTrie.LinkTrie': new (data: { parent: unknown; child: unknown; relation: 'subtype' | 'instance' }) => Trie_GraphNodeTrie_LinkTrie;
-		'Trie.GraphNodeTrie.ContextMenu': new (data: { targetNode: unknown; items: Array<object>; visible: boolean }) => Trie_GraphNodeTrie_ContextMenu;
+		'Trie.GraphNodeTrie.ContextMenu': new (data: { targetNode: unknown; items: Array<{ label: string; action: string }>; visible: boolean }) => Trie_GraphNodeTrie_ContextMenu;
+		'LoggerTab': new () => LoggerTab;
+		'LoggerTab.LogEntry': new (data: { level: 'info' | 'warning' | 'error'; message: string; timestamp: number; typeName?: string; error?: Error; args?: Array<unknown> }) => LoggerTab_LogEntry;
 		'Usages': new () => Usages;
 		'Usages.UsageEntry': new (usages: { typeName: string; kind: string; code: string; location: string }) => Usages_UsageEntry;
 	}

@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-03-31T14:05:49.654Z",
+  "generatedAt": "2026-05-10T05:42:50.324Z",
   "usages": {
     "Definitions": [
       {
@@ -47,6 +47,112 @@
         "code": "new Registry()"
       }
     ],
+    "Scene2D": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/Scene2DManager.ts:22:16",
+        "kind": "instantiation",
+        "code": "new Scene2D()"
+      }
+    ],
+    "Scene2D.Camera2D": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/Scene2DManager.ts:31:7",
+        "kind": "propertyAccess",
+        "code": "this.scene.Camera2D"
+      }
+    ],
+    "Scene2D.GraphNode2D": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/Scene2DManager.ts:42:20",
+        "kind": "propertyAccess",
+        "code": "this.scene.GraphNode2D"
+      }
+    ],
+    "Scene2D.GraphNode2D.Link2D": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/Scene2DManager.ts:62:20",
+        "kind": "propertyAccess",
+        "code": "this.scene.Link2D"
+      }
+    ],
+    "Scene3D": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/Scene3DManager.ts:18:16",
+        "kind": "instantiation",
+        "code": "new Scene3D()"
+      }
+    ],
+    "Scene3D.Camera3D": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/Scene3DManager.ts:26:8",
+        "kind": "propertyAccess",
+        "code": "this.scene.Camera3D"
+      }
+    ],
+    "Scene3D.GraphNode3D": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/Scene3DManager.ts:39:20",
+        "kind": "propertyAccess",
+        "code": "this.scene.GraphNode3D"
+      }
+    ],
+    "Scene3D.GraphNode3D.Link3D": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/Scene3DManager.ts:60:20",
+        "kind": "propertyAccess",
+        "code": "this.scene.Link3D"
+      }
+    ],
+    "Trie": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/TrieManager.ts:35:15",
+        "kind": "instantiation",
+        "code": "new Trie()"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:267:28",
+        "kind": "lookup",
+        "code": "lookupTyped('Trie')"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:268:25",
+        "kind": "instantiation",
+        "code": "new TrieConstructor()"
+      }
+    ],
+    "Trie.GraphNodeTrie": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/TrieManager.ts:56:20",
+        "kind": "propertyAccess",
+        "code": "this.trie.GraphNodeTrie"
+      }
+    ],
+    "Trie.GraphNodeTrie.LinkTrie": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/TrieManager.ts:76:20",
+        "kind": "propertyAccess",
+        "code": "this.trie.LinkTrie"
+      }
+    ],
+    "Main": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:25:15",
+        "kind": "instantiation",
+        "code": "new Main(version)"
+      }
+    ],
+    "Main.Adapter": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:28:8",
+        "kind": "propertyAccess",
+        "code": "this.main.Adapter"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:31:8",
+        "kind": "propertyAccess",
+        "code": "this.main.Adapter"
+      }
+    ],
     "LoggerTab": [
       {
         "location": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:53:33",
@@ -86,18 +192,6 @@
         "location": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:31:18",
         "kind": "instantiation",
         "code": "new Usages"
-      }
-    ],
-    "Trie": [
-      {
-        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:267:28",
-        "kind": "lookup",
-        "code": "lookupTyped('Trie')"
-      },
-      {
-        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:268:25",
-        "kind": "instantiation",
-        "code": "new TrieConstructor()"
       }
     ],
     "Usages.UsageEntry": [

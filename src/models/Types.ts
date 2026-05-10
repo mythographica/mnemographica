@@ -49,6 +49,10 @@ export const Types = define('Types', class {
 		return this.map.values() as unknown as MapIterator<TypeEntryInstance>;
 	}
 
+	entries (): MapIterator<[string, TypeEntryInstance]> {
+		return this.map.entries() as unknown as MapIterator<[string, TypeEntryInstance]>;
+	}
+
 	clear (): void {
 		return this.map.clear();
 	}

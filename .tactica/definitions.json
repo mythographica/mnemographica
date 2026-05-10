@@ -1,10 +1,10 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-03-31T14:05:49.653Z",
+  "generatedAt": "2026-05-10T05:42:50.324Z",
   "definitions": {
     "Definitions": {
       "name": "Definitions",
-      "location": "/code/mnemonica/mnemographica/src/models/Definition.ts:20:28",
+      "location": "/code/mnemonica/mnemographica/src/models/Definition.ts:18:28",
       "kind": "define",
       "parent": null,
       "strictChain": true,
@@ -12,7 +12,7 @@
     },
     "Definitions.DefinitionEntry": {
       "name": "DefinitionEntry",
-      "location": "/code/mnemonica/mnemographica/src/models/Definition.ts:78:44",
+      "location": "/code/mnemonica/mnemographica/src/models/Definition.ts:69:44",
       "kind": "define",
       "parent": "Definitions",
       "strictChain": true,
@@ -28,7 +28,7 @@
     },
     "Types.TypeEntry": {
       "name": "TypeEntry",
-      "location": "/code/mnemonica/mnemographica/src/models/Types.ts:66:32",
+      "location": "/code/mnemonica/mnemographica/src/models/Types.ts:70:32",
       "kind": "define",
       "parent": "Types",
       "strictChain": true,
@@ -47,22 +47,6 @@
       "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:325:39",
       "kind": "define",
       "parent": "Registry",
-      "strictChain": true,
-      "blockErrors": false
-    },
-    "LoggerTab": {
-      "name": "LoggerTab",
-      "location": "/code/mnemonica/mnemographica/src/models/LoggerTab.ts:15:26",
-      "kind": "define",
-      "parent": null,
-      "strictChain": true,
-      "blockErrors": false
-    },
-    "LoggerTab.LogEntry": {
-      "name": "LogEntry",
-      "location": "/code/mnemonica/mnemographica/src/models/LoggerTab.ts:23:35",
-      "kind": "define",
-      "parent": "LoggerTab",
       "strictChain": true,
       "blockErrors": false
     },
@@ -194,6 +178,22 @@
       "strictChain": true,
       "blockErrors": false
     },
+    "LoggerTab": {
+      "name": "LoggerTab",
+      "location": "/code/mnemonica/mnemographica/src/models/LoggerTab.ts:15:26",
+      "kind": "define",
+      "parent": null,
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "LoggerTab.LogEntry": {
+      "name": "LogEntry",
+      "location": "/code/mnemonica/mnemographica/src/models/LoggerTab.ts:23:35",
+      "kind": "define",
+      "parent": "LoggerTab",
+      "strictChain": true,
+      "blockErrors": false
+    },
     "Usages": {
       "name": "Usages",
       "location": "/code/mnemonica/mnemographica/src/models/Usages.ts:16:23",
@@ -204,7 +204,7 @@
     },
     "Usages.UsageEntry": {
       "name": "UsageEntry",
-      "location": "/code/mnemonica/mnemographica/src/models/Usages.ts:65:34",
+      "location": "/code/mnemonica/mnemographica/src/models/Usages.ts:59:34",
       "kind": "define",
       "parent": "Usages",
       "strictChain": true,

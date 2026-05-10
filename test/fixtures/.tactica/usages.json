@@ -1,0 +1,34 @@
+{
+  "usages": {
+    "UserEntity": [
+      {
+        "typeName": "UserEntity",
+        "kind": "instantiation",
+        "code": "new UserEntity(data)",
+        "location": "/test/project/src/services/user.ts:45:12"
+      },
+      {
+        "typeName": "UserEntity",
+        "kind": "reference",
+        "code": "const user: UserEntity",
+        "location": "/test/project/src/services/user.ts:50:8"
+      }
+    ],
+    "AdminEntity": [
+      {
+        "typeName": "AdminEntity",
+        "kind": "instantiation",
+        "code": "new AdminEntity(data)",
+        "location": "/test/project/src/services/admin.ts:22:5"
+      }
+    ],
+    "OrderEntity": [
+      {
+        "typeName": "OrderEntity",
+        "kind": "instantiation",
+        "code": "new OrderEntity(data)",
+        "location": "/test/project/src/services/order.ts:30:10"
+      }
+    ]
+  }
+}

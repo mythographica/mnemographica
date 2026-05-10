@@ -14,15 +14,16 @@ export type Definitions = {
 	set: (name: string, entry: Definitions_DefinitionEntry) => void;
 	keys: () => MapIterator<string>;
 	values: () => MapIterator<Definitions_DefinitionEntry>;
+	entries: () => MapIterator<[string, Definitions_DefinitionEntry]>;
 	clear: () => void;
-	DefinitionEntry: new (data: { name: string; location: string; kind: string; parent: string | unknown; strictChain: boolean; blockErrors: boolean }) => Definitions_DefinitionEntry;
+	DefinitionEntry: new (data: { name: string; location: string; kind: string; parent: string | null; strictChain: boolean; blockErrors: boolean }) => Definitions_DefinitionEntry;
 };
 
 export type Definitions_DefinitionEntry = ProtoFlat<Definitions, {
 	name: string;
 	location: string;
 	kind: string;
-	parent: string | unknown;
+	parent: string | null;
 	strictChain: boolean;
 	blockErrors: boolean;
 	DefinitionEntry: undefined;
@@ -36,6 +37,7 @@ export type Types = {
 	set: (name: string, entry: Types_TypeEntry) => void;
 	keys: () => MapIterator<string>;
 	values: () => MapIterator<Types_TypeEntry>;
+	entries: () => MapIterator<[string, Types_TypeEntry]>;
 	clear: () => void;
 	getLineForType: (typeName: string) => number | undefined;
 	TypeEntry: new (data: { name: string; fullPath: string; parent?: string; properties: Map<string, string>; lineNumber: number }) => Types_TypeEntry;
@@ -76,21 +78,6 @@ export type Registry_RegistryEntry = ProtoFlat<Registry, {
 	line: number;
 	column: number;
 	RegistryEntry: undefined;
-}>;
-
-export type LoggerTab = {
-	createdAt: number;
-	LogEntry: new (data: { level: 'info' | 'warning' | 'error'; message: string; timestamp: number; typeName?: string; error?: Error; args?: Array<unknown> }) => LoggerTab_LogEntry;
-};
-
-export type LoggerTab_LogEntry = ProtoFlat<LoggerTab, {
-	level: 'info' | 'warning' | 'error';
-	message: string;
-	timestamp: number;
-	typeName?: string;
-	error?: Error;
-	args?: Array<unknown>;
-	LogEntry: undefined;
 }>;
 
 export type Main = {
@@ -209,7 +196,7 @@ export type Trie_GraphNodeTrie = ProtoFlat<Trie, {
 	depth: number;
 	isLeaf: boolean;
 	LinkTrie: new (data: { parent: unknown; child: unknown; relation: 'subtype' | 'instance' }) => Trie_GraphNodeTrie_LinkTrie;
-	ContextMenu: new (data: { targetNode: unknown; items: Array<object>; visible: boolean }) => Trie_GraphNodeTrie_ContextMenu;
+	ContextMenu: new (data: { targetNode: unknown; items: Array<{ label: string; action: string }>; visible: boolean }) => Trie_GraphNodeTrie_ContextMenu;
 	GraphNodeTrie: undefined;
 }>;
 
@@ -223,10 +210,25 @@ export type Trie_GraphNodeTrie_LinkTrie = ProtoFlat<Trie_GraphNodeTrie, {
 
 export type Trie_GraphNodeTrie_ContextMenu = ProtoFlat<Trie_GraphNodeTrie, {
 	targetNode: unknown;
-	items: Array<object>;
+	items: Array<{ label: string; action: string }>;
 	visible: boolean;
 	ContextMenu: undefined;
 	LinkTrie: undefined;
+}>;
+
+export type LoggerTab = {
+	createdAt: number;
+	LogEntry: new (data: { level: 'info' | 'warning' | 'error'; message: string; timestamp: number; typeName?: string; error?: Error; args?: Array<unknown> }) => LoggerTab_LogEntry;
+};
+
+export type LoggerTab_LogEntry = ProtoFlat<LoggerTab, {
+	level: 'info' | 'warning' | 'error';
+	message: string;
+	timestamp: number;
+	typeName?: string;
+	error?: Error;
+	args?: Array<unknown>;
+	LogEntry: undefined;
 }>;
 
 export type Usages = {
@@ -237,6 +239,7 @@ export type Usages = {
 	set: (name: string, entry: Array<Usages_UsageEntry>) => void;
 	keys: () => MapIterator<string>;
 	values: () => MapIterator<Array<Usages_UsageEntry>>;
+	entries: () => MapIterator<[string, Array<Usages_UsageEntry>]>;
 	clear: () => void;
 	UsageEntry: new (usages: { typeName: string; kind: string; code: string; location: string }) => Usages_UsageEntry;
 };

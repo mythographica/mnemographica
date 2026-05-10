@@ -1,0 +1,28 @@
+{
+  "definitions": {
+    "UserEntity": {
+      "name": "UserEntity",
+      "location": "/test/project/src/models/User.ts:10:5",
+      "kind": "entity",
+      "parent": null,
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "AdminEntity": {
+      "name": "AdminEntity",
+      "location": "/test/project/src/models/Admin.ts:15:3",
+      "kind": "entity",
+      "parent": "UserEntity",
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "OrderEntity": {
+      "name": "OrderEntity",
+      "location": "/test/project/src/models/Order.ts:8:1",
+      "kind": "entity",
+      "parent": null,
+      "strictChain": false,
+      "blockErrors": true
+    }
+  }
+}
