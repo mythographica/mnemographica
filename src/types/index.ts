@@ -40,6 +40,14 @@ export type D3Node = {
 	fx?: number | null;
 	/** Fixed Y position (when dragging) */
 	fy?: number | null;
+	/** EDS status for this node */
+	edsStatus?: 'none' | 'wrap' | 'link' | 'context' | 'hook' | 'error' | 'adapter';
+	/** EDS entries for this node */
+	edsEntries?: Array<{
+		kind: string;
+		location: string;
+		code: string;
+	}>;
 };
 
 /**

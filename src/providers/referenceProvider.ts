@@ -33,6 +33,11 @@ export class MnemonicaReferenceProvider implements vscode.ReferenceProvider {
 
 		this.usages = usages;
 
+		if (!this.usages) {
+			this.logger.error('[Usages] Failed to create Usages instance');
+			return;
+		}
+
 		const usagesPath = path.join(workspacePath, '.tactica', 'usages.json');
 		if (!fs.existsSync(usagesPath)) {
 			this.logger.warn('No usages.json found at:', usagesPath);
@@ -94,7 +99,7 @@ export class MnemonicaReferenceProvider implements vscode.ReferenceProvider {
 		_token: vscode.CancellationToken
 	): vscode.ProviderResult<vscode.Location[]> {
 
-		if (!this.usages) return null;
+		if (!this.usages) { return null; }
 
 		const wordRange = document.getWordRangeAtPosition(position);
 		if (!wordRange) return null;
@@ -142,7 +147,7 @@ export class MnemonicaReferenceProvider implements vscode.ReferenceProvider {
 	}
 
 	private extractTypeFromContext(lineText: string, charPos: number, _word: string): string | null {
-		if (!(this.usages instanceof Function)) return null;
+		if (!this.usages) { return null; }
 
 		// Check for property access pattern (UserType.SubType)
 		const beforeCursor = lineText.substring(0, charPos);
@@ -162,7 +167,7 @@ export class MnemonicaReferenceProvider implements vscode.ReferenceProvider {
 
 	getUsagesForType(typeName: string): Array<{ filePath: string; line: number; column: number; context?: string }> {
 		this.logger.info('getUsagesForType: 165')
-		if (!(this.usages?.get instanceof Function)) return [];
+		if (!this.usages) { return []; }
 		this.logger.info('getUsagesForType: 167')
 
 		const usageList = this.usages.get(typeName.replace('_', '.'));
@@ -182,12 +187,12 @@ export class MnemonicaReferenceProvider implements vscode.ReferenceProvider {
 	}
 
 	clear(): void {
-		if (!(this.usages instanceof Function)) return;
+		if (!this.usages) { return; }
 		this.usages.clear();
 	}
 
 	getStats() {
-		if (!(this.usages instanceof Function)) return;
+		if (!this.usages) { return; }
 		let totalUsages = 0;
 		for (const usageList of this.usages.values()) {
 			totalUsages += usageList.length;

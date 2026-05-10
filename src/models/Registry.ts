@@ -5,9 +5,11 @@ import * as path from 'path';
 import { define, lookupTyped } from 'mnemonica';
 import { getLogger } from '../services/LoggerService';
 import type { Definitions, Types, Usages, Trie } from '~tactica/types';
+import type { EDS } from './EDS';
 
 import type { rawDefinitionEntry } from './Definition';
 import type { rawTypeEntry } from './Types';
+import type { rawEDSEntry } from './EDS';
 
 export type registryEntry = {
 	id: string;
@@ -26,6 +28,7 @@ export const Registry = define('Registry', class {
 	private definitionsInstance: Definitions | undefined;
 	private typesInstance: Types | undefined;
 	private usagesInstance: Usages | undefined;
+	private edsInstance: InstanceType<typeof EDS> | undefined;
 	private trieInstance: Trie | undefined;
 
 	// Workspace path for reload operations
@@ -76,6 +79,7 @@ export const Registry = define('Registry', class {
 		this.definitionsInstance = undefined;
 		this.typesInstance = undefined;
 		this.usagesInstance = undefined;
+		this.edsInstance = undefined;
 		this.trieInstance = undefined;
 		this.workspacePath = undefined;
 		this.logger.info('[Registry] : cleared all data');
@@ -106,6 +110,9 @@ export const Registry = define('Registry', class {
 
 			// Load Usages
 			await this.loadUsages(tacticaPath);
+
+			// Load EDS
+			await this.loadEDS(tacticaPath);
 
 			// Initialize Trie (no file to load, just create instance)
 			await this.loadTrie();
@@ -258,6 +265,40 @@ export const Registry = define('Registry', class {
 	}
 
 	/**
+	 * Load EDS from eds.json using lookupTyped
+	 */
+	private async loadEDS(tacticaPath: string): Promise<void> {
+		this.logger.info('[Registry] : loading EDS');
+
+		try {
+			const EDSConstructor = lookupTyped('EDS');
+			const edsInstance = new EDSConstructor();
+			this.makeProperty('edsInstance', edsInstance);
+
+			const edsPath = path.join(tacticaPath, 'eds.json');
+			if (fs.existsSync(edsPath)) {
+				const content = fs.readFileSync(edsPath, 'utf-8');
+				const data = JSON.parse(content);
+
+				if (data.eds) {
+					for (const [key, value] of Object.entries(data.eds)) {
+						const entries = (value as rawEDSEntry[]).map((e: rawEDSEntry) => {
+							return new edsInstance.EDSEntry(e);
+						});
+						edsInstance.set(key, entries);
+					}
+				}
+				this.logger.info(`[Registry] : EDS loaded with ${edsInstance.size} entries`);
+			} else {
+				this.logger.warn(`[Registry] : eds.json not found at ${edsPath}`);
+			}
+		} catch (error) {
+			this.logger.error('[Registry] : failed to load EDS', error);
+			throw error;
+		}
+	}
+
+	/**
 	 * Initialize Trie using lookupTyped
 	 */
 	private async loadTrie(): Promise<void> {
@@ -293,6 +334,13 @@ export const Registry = define('Registry', class {
 	 */
 	getUsages(): Usages | undefined {
 		return this.usagesInstance;
+	}
+
+	/**
+	 * Get the EDS instance
+	 */
+	getEDS(): InstanceType<typeof EDS> | undefined {
+		return this.edsInstance;
 	}
 
 	/**

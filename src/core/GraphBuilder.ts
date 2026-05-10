@@ -18,15 +18,70 @@ export class GraphBuilder {
 			return { nodes: [], links: [] };
 		}
 
+		// Pass 1: create all TypeNodes
+		const nodeMap = new Map<string, TypeNode>();
 		const typeNodes: TypeNode[] = [];
 		for (const [name, entry] of types.entries()) {
 			const typeNode = this.buildTypeNode(name, entry as unknown as Record<string, unknown>);
 			if (typeNode) {
+				nodeMap.set(name, typeNode);
 				typeNodes.push(typeNode);
 			}
 		}
 
-		return GraphConverter.convert(typeNodes);
+		// Pass 2: wire parent-child relationships
+		for (const [name, entry] of types.entries()) {
+			const node = nodeMap.get(name);
+			if (!node) { continue; }
+
+			const info = entry as unknown as { parent?: string };
+			if (info.parent) {
+				const parentNode = nodeMap.get(info.parent);
+				if (parentNode) {
+					node.parent = parentNode;
+					parentNode.children.set(name, node);
+				}
+			}
+		}
+
+		const graphData = GraphConverter.convert(typeNodes);
+
+		// Enrich nodes with EDS status
+		const eds = registry.getEDS();
+		if (eds) {
+			for (const node of graphData.nodes) {
+				const edsEntries = eds.get(node.id);
+				if (edsEntries && edsEntries.length > 0) {
+					// Determine primary EDS kind (first entry's kind)
+					const primaryKind = edsEntries[0].kind;
+					node.edsStatus = this.mapEDSKind(primaryKind);
+					node.edsEntries = edsEntries.map((e: unknown) => {
+						const entry = e as Record<string, string>;
+						return {
+							kind: entry.kind,
+							location: entry.location,
+							code: entry.code
+						};
+					});
+				} else {
+					node.edsStatus = 'none';
+				}
+			}
+		}
+
+		return graphData;
+	}
+
+	private static mapEDSKind(kind: string): 'wrap' | 'link' | 'context' | 'hook' | 'error' | 'adapter' {
+		switch (kind) {
+			case 'wrap': return 'wrap';
+			case 'link': return 'link';
+			case 'contextConsume': return 'context';
+			case 'hookAttach': return 'hook';
+			case 'errorEnrich': return 'error';
+			case 'adapterUse': return 'adapter';
+			default: return 'wrap';
+		}
 	}
 
 	private static buildTypeNode(name: string, entry: Record<string, unknown>): TypeNode | undefined {
@@ -53,6 +108,7 @@ export class GraphBuilder {
 			fullPath: name,
 			properties,
 			children: new Map(),
+			parent: undefined,
 			sourceFile: String(entry.fullPath || ''),
 			line: Number(entry.lineNumber || 0),
 			column: 0

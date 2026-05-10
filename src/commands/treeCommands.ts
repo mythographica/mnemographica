@@ -4,12 +4,13 @@ import * as vscode from 'vscode';
 import { MnemonicaTreeProvider } from '../views/treeProvider';
 import { UsagesTreeProvider } from '../views/usagesTreeProvider';
 import { MnemonicaReferenceProvider } from '../providers/referenceProvider';
-import { registry } from '../models/Registry';
+import { MainOrchestrator } from '../core/MainOrchestrator';
 
 export function registerTreeCommands(
 	treeProvider: MnemonicaTreeProvider,
 	_usagesProvider: UsagesTreeProvider,
-	referenceProvider: MnemonicaReferenceProvider
+	referenceProvider: MnemonicaReferenceProvider,
+	mainOrchestrator: MainOrchestrator
 ): vscode.Disposable[] {
 	const disposables: vscode.Disposable[] = [];
 
@@ -17,7 +18,7 @@ export function registerTreeCommands(
 		vscode.commands.registerCommand('mnemographica.refreshTree', async () => {
 			const workspaceFolders = vscode.workspace.workspaceFolders;
 			if (workspaceFolders) {
-				await registry.refresh();
+				await mainOrchestrator.refresh();
 				treeProvider.refresh();
 			}
 		})

@@ -6,6 +6,42 @@
 
 import type { ProtoFlat } from 'mnemonica';
 
+export type Main = {
+	extensionVersion: string;
+	createdAt: number;
+	Adapter: new (data: { name: string; domain: string; enabled: boolean }) => Main_Adapter;
+};
+
+export type Main_Adapter = ProtoFlat<Main, {
+	name: string;
+	domain: string;
+	enabled: boolean;
+	createdAt: number;
+	Adapter: undefined;
+}>;
+
+export type EDS = {
+	createdAt: number;
+	readonly size: number;
+	get: (name: string) => Array<EDS_EDSEntry> | undefined;
+	has: (name: string) => boolean;
+	set: (name: string, entry: Array<EDS_EDSEntry>) => void;
+	keys: () => MapIterator<string>;
+	values: () => MapIterator<Array<EDS_EDSEntry>>;
+	entries: () => MapIterator<[string, Array<EDS_EDSEntry>]>;
+	clear: () => void;
+	EDSEntry: new (data: { typeName: string; location: string; kind: string; code: string; targetType?: string }) => EDS_EDSEntry;
+};
+
+export type EDS_EDSEntry = ProtoFlat<EDS, {
+	typeName: string;
+	location: string;
+	kind: string;
+	code: string;
+	targetType?: string;
+	EDSEntry: undefined;
+}>;
+
 export type Definitions = {
 	createdAt: number;
 	readonly size: number;
@@ -66,6 +102,7 @@ export type Registry = {
 	getDefinitions: () => Definitions | undefined;
 	getTypes: () => Types | undefined;
 	getUsages: () => Usages | undefined;
+	getEDS: () => EDS | undefined;
 	getTrie: () => Trie | undefined;
 	refresh: () => Promise<void>;
 	RegistryEntry: new (data: { id: string; name: string; filePath: string; line: number; column: number }) => Registry_RegistryEntry;
@@ -80,24 +117,11 @@ export type Registry_RegistryEntry = ProtoFlat<Registry, {
 	RegistryEntry: undefined;
 }>;
 
-export type Main = {
-	extensionVersion: string;
-	createdAt: number;
-	Adapter: new (data: { name: string; domain: string; enabled: boolean }) => Main_Adapter;
-};
-
-export type Main_Adapter = ProtoFlat<Main, {
-	name: string;
-	domain: string;
-	enabled: boolean;
-	createdAt: number;
-	Adapter: undefined;
-}>;
-
 export type Scene2D = {
 	createdAt: number;
 	Camera2D: new (data: { x: number; y: number; zoom: number }) => Scene2D_Camera2D;
 	GraphNode2D: new (data: { id: string; label: string; x: number; y: number; radius: number; color: string }) => Scene2D_GraphNode2D;
+	Link2D: new (data: { source: unknown; target: unknown; strength: number }) => Scene2D_Link2D;
 };
 
 export type Scene2D_Camera2D = ProtoFlat<Scene2D, {
@@ -106,6 +130,7 @@ export type Scene2D_Camera2D = ProtoFlat<Scene2D, {
 	zoom: number;
 	Camera2D: undefined;
 	GraphNode2D: undefined;
+	Link2D: undefined;
 }>;
 
 export type Scene2D_GraphNode2D = ProtoFlat<Scene2D, {
@@ -115,18 +140,10 @@ export type Scene2D_GraphNode2D = ProtoFlat<Scene2D, {
 	y: number;
 	radius: number;
 	color: string;
-	Link2D: new (data: { source: unknown; target: unknown; strength: number }) => Scene2D_GraphNode2D_Link2D;
 	Tooltip2D: new (data: { targetNode: unknown; content: string; visible: boolean }) => Scene2D_GraphNode2D_Tooltip2D;
 	GraphNode2D: undefined;
 	Camera2D: undefined;
-}>;
-
-export type Scene2D_GraphNode2D_Link2D = ProtoFlat<Scene2D_GraphNode2D, {
-	source: unknown;
-	target: unknown;
-	strength: number;
 	Link2D: undefined;
-	Tooltip2D: undefined;
 }>;
 
 export type Scene2D_GraphNode2D_Tooltip2D = ProtoFlat<Scene2D_GraphNode2D, {
@@ -134,13 +151,22 @@ export type Scene2D_GraphNode2D_Tooltip2D = ProtoFlat<Scene2D_GraphNode2D, {
 	content: string;
 	visible: boolean;
 	Tooltip2D: undefined;
+}>;
+
+export type Scene2D_Link2D = ProtoFlat<Scene2D, {
+	source: unknown;
+	target: unknown;
+	strength: number;
 	Link2D: undefined;
+	Camera2D: undefined;
+	GraphNode2D: undefined;
 }>;
 
 export type Scene3D = {
 	createdAt: number;
 	Camera3D: new (data: { x: number; y: number; z: number; zoom: number; rotationX: number; rotationY: number }) => Scene3D_Camera3D;
 	GraphNode3D: new (data: { id: string; label: string; x: number; y: number; z: number; radius: number; color: string }) => Scene3D_GraphNode3D;
+	Link3D: new (data: { source: unknown; target: unknown; strength: number }) => Scene3D_Link3D;
 };
 
 export type Scene3D_Camera3D = ProtoFlat<Scene3D, {
@@ -152,6 +178,7 @@ export type Scene3D_Camera3D = ProtoFlat<Scene3D, {
 	rotationY: number;
 	Camera3D: undefined;
 	GraphNode3D: undefined;
+	Link3D: undefined;
 }>;
 
 export type Scene3D_GraphNode3D = ProtoFlat<Scene3D, {
@@ -162,18 +189,10 @@ export type Scene3D_GraphNode3D = ProtoFlat<Scene3D, {
 	z: number;
 	radius: number;
 	color: string;
-	Link3D: new (data: { source: unknown; target: unknown; strength: number }) => Scene3D_GraphNode3D_Link3D;
 	Tooltip3D: new (data: { targetNode: unknown; content: string; visible: boolean }) => Scene3D_GraphNode3D_Tooltip3D;
 	GraphNode3D: undefined;
 	Camera3D: undefined;
-}>;
-
-export type Scene3D_GraphNode3D_Link3D = ProtoFlat<Scene3D_GraphNode3D, {
-	source: unknown;
-	target: unknown;
-	strength: number;
 	Link3D: undefined;
-	Tooltip3D: undefined;
 }>;
 
 export type Scene3D_GraphNode3D_Tooltip3D = ProtoFlat<Scene3D_GraphNode3D, {
@@ -181,7 +200,15 @@ export type Scene3D_GraphNode3D_Tooltip3D = ProtoFlat<Scene3D_GraphNode3D, {
 	content: string;
 	visible: boolean;
 	Tooltip3D: undefined;
+}>;
+
+export type Scene3D_Link3D = ProtoFlat<Scene3D, {
+	source: unknown;
+	target: unknown;
+	strength: number;
 	Link3D: undefined;
+	Camera3D: undefined;
+	GraphNode3D: undefined;
 }>;
 
 export type Trie = {

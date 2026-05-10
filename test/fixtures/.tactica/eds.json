@@ -1,0 +1,38 @@
+{
+  "eds": {
+    "UserEntity": [
+      {
+        "typeName": "UserEntity",
+        "location": "/test/project/src/services/user.ts:45:12",
+        "kind": "wrap",
+        "code": "dive.wrap(handler, user)",
+        "targetType": "UserEntity"
+      },
+      {
+        "typeName": "UserEntity",
+        "location": "/test/project/src/services/user.ts:50:8",
+        "kind": "link",
+        "code": "dive.link(user, 'session')",
+        "targetType": "SessionEntity"
+      }
+    ],
+    "AdminEntity": [
+      {
+        "typeName": "AdminEntity",
+        "location": "/test/project/src/services/admin.ts:22:5",
+        "kind": "contextConsume",
+        "code": "dive.getLastContext('admin')",
+        "targetType": "AdminEntity"
+      }
+    ],
+    "OrderEntity": [
+      {
+        "typeName": "OrderEntity",
+        "location": "/test/project/src/services/order.ts:30:10",
+        "kind": "hookAttach",
+        "code": "dive.attachHooks(orderCollection)",
+        "targetType": "OrderEntity"
+      }
+    ]
+  }
+}

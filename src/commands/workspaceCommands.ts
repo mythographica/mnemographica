@@ -5,7 +5,7 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { MnemonicaTreeProvider } from '../views/treeProvider';
 import { MnemonicaReferenceProvider } from '../providers/referenceProvider';
-import { registry } from '../models/Registry';
+import { MainOrchestrator } from '../core/MainOrchestrator';
 import { getLogger } from '../services/LoggerService';
 
 type WorkspaceQuickPickItem = {
@@ -17,13 +17,14 @@ type WorkspaceQuickPickItem = {
 
 export function registerWorkspaceCommands(
 	treeProvider: MnemonicaTreeProvider,
-	referenceProvider: MnemonicaReferenceProvider
+	referenceProvider: MnemonicaReferenceProvider,
+	mainOrchestrator: MainOrchestrator
 ): vscode.Disposable[] {
 	const disposables: vscode.Disposable[] = [];
 
 	disposables.push(
 		vscode.commands.registerCommand('mnemographica.selectWorkspace', async () => {
-			await selectWorkspace(treeProvider, referenceProvider);
+			await selectWorkspace(treeProvider, referenceProvider, mainOrchestrator);
 		})
 	);
 
@@ -32,7 +33,8 @@ export function registerWorkspaceCommands(
 
 async function selectWorkspace(
 	treeProvider: MnemonicaTreeProvider,
-	referenceProvider: MnemonicaReferenceProvider
+	referenceProvider: MnemonicaReferenceProvider,
+	mainOrchestrator: MainOrchestrator
 ): Promise<void> {
 	const workspaces = await vscode.window.withProgress(
 		{
@@ -61,16 +63,17 @@ async function selectWorkspace(
 	if (!selected) { return; }
 
 	if (selected.workspacePath === '__browse__') {
-		await browseForWorkspace(treeProvider, referenceProvider);
+		await browseForWorkspace(treeProvider, referenceProvider, mainOrchestrator);
 		return;
 	}
 
-	await loadWorkspace(selected.workspacePath, selected.label, treeProvider, referenceProvider);
+	await loadWorkspace(selected.workspacePath, selected.label, treeProvider, referenceProvider, mainOrchestrator);
 }
 
 async function browseForWorkspace(
 	treeProvider: MnemonicaTreeProvider,
-	referenceProvider: MnemonicaReferenceProvider
+	referenceProvider: MnemonicaReferenceProvider,
+	mainOrchestrator: MainOrchestrator
 ): Promise<void> {
 	const folderUri = await vscode.window.showOpenDialog({
 		canSelectFiles: false,
@@ -96,21 +99,22 @@ async function browseForWorkspace(
 		return;
 	}
 
-	await loadWorkspace(selectedPath, path.basename(selectedPath), treeProvider, referenceProvider);
+	await loadWorkspace(selectedPath, path.basename(selectedPath), treeProvider, referenceProvider, mainOrchestrator);
 }
 
 async function loadWorkspace(
 	workspacePath: string,
 	label: string,
 	treeProvider: MnemonicaTreeProvider,
-	referenceProvider: MnemonicaReferenceProvider
+	referenceProvider: MnemonicaReferenceProvider,
+	mainOrchestrator: MainOrchestrator
 ): Promise<void> {
 	const logger = getLogger();
 
 	try {
 		treeProvider.setWorkspace(workspacePath);
-		await registry.loadFromWorkspace(workspacePath);
-		treeProvider.setRegistry(registry);
+		await mainOrchestrator.loadWorkspace(workspacePath);
+		treeProvider.setRegistry(mainOrchestrator.getRegistry());
 		await treeProvider.loadFromRegistry();
 		treeProvider.refresh();
 

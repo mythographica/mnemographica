@@ -10,24 +10,26 @@
 //   // instance has full intellisense for Consciousness, Memory, etc.
 
 import type {
+	Main,
+	Main_Adapter,
+	EDS,
+	EDS_EDSEntry,
 	Definitions,
 	Definitions_DefinitionEntry,
 	Types,
 	Types_TypeEntry,
 	Registry,
 	Registry_RegistryEntry,
-	Main,
-	Main_Adapter,
 	Scene2D,
 	Scene2D_Camera2D,
 	Scene2D_GraphNode2D,
-	Scene2D_GraphNode2D_Link2D,
 	Scene2D_GraphNode2D_Tooltip2D,
+	Scene2D_Link2D,
 	Scene3D,
 	Scene3D_Camera3D,
 	Scene3D_GraphNode3D,
-	Scene3D_GraphNode3D_Link3D,
 	Scene3D_GraphNode3D_Tooltip3D,
+	Scene3D_Link3D,
 	Trie,
 	Trie_GraphNodeTrie,
 	Trie_GraphNodeTrie_LinkTrie,
@@ -46,24 +48,26 @@ import type {
  */
 declare module 'mnemonica' {
 	interface TypeRegistry {
+		'Main': new (extensionVersion: string) => Main;
+		'Main.Adapter': new (data: { name: string; domain: string; enabled: boolean }) => Main_Adapter;
+		'EDS': new () => EDS;
+		'EDS.EDSEntry': new (data: { typeName: string; location: string; kind: string; code: string; targetType?: string }) => EDS_EDSEntry;
 		'Definitions': new () => Definitions;
 		'Definitions.DefinitionEntry': new (data: { name: string; location: string; kind: string; parent: string | null; strictChain: boolean; blockErrors: boolean }) => Definitions_DefinitionEntry;
 		'Types': new () => Types;
 		'Types.TypeEntry': new (data: { name: string; fullPath: string; parent?: string; properties: Map<string, string>; lineNumber: number }) => Types_TypeEntry;
 		'Registry': new () => Registry;
 		'Registry.RegistryEntry': new (data: { id: string; name: string; filePath: string; line: number; column: number }) => Registry_RegistryEntry;
-		'Main': new (extensionVersion: string) => Main;
-		'Main.Adapter': new (data: { name: string; domain: string; enabled: boolean }) => Main_Adapter;
 		'Scene2D': new () => Scene2D;
 		'Scene2D.Camera2D': new (data: { x: number; y: number; zoom: number }) => Scene2D_Camera2D;
 		'Scene2D.GraphNode2D': new (data: { id: string; label: string; x: number; y: number; radius: number; color: string }) => Scene2D_GraphNode2D;
-		'Scene2D.GraphNode2D.Link2D': new (data: { source: unknown; target: unknown; strength: number }) => Scene2D_GraphNode2D_Link2D;
 		'Scene2D.GraphNode2D.Tooltip2D': new (data: { targetNode: unknown; content: string; visible: boolean }) => Scene2D_GraphNode2D_Tooltip2D;
+		'Scene2D.Link2D': new (data: { source: unknown; target: unknown; strength: number }) => Scene2D_Link2D;
 		'Scene3D': new () => Scene3D;
 		'Scene3D.Camera3D': new (data: { x: number; y: number; z: number; zoom: number; rotationX: number; rotationY: number }) => Scene3D_Camera3D;
 		'Scene3D.GraphNode3D': new (data: { id: string; label: string; x: number; y: number; z: number; radius: number; color: string }) => Scene3D_GraphNode3D;
-		'Scene3D.GraphNode3D.Link3D': new (data: { source: unknown; target: unknown; strength: number }) => Scene3D_GraphNode3D_Link3D;
 		'Scene3D.GraphNode3D.Tooltip3D': new (data: { targetNode: unknown; content: string; visible: boolean }) => Scene3D_GraphNode3D_Tooltip3D;
+		'Scene3D.Link3D': new (data: { source: unknown; target: unknown; strength: number }) => Scene3D_Link3D;
 		'Trie': new () => Trie;
 		'Trie.GraphNodeTrie': new (data: { id: string; name: string; path: string; depth: number; isLeaf: boolean }) => Trie_GraphNodeTrie;
 		'Trie.GraphNodeTrie.LinkTrie': new (data: { parent: unknown; child: unknown; relation: 'subtype' | 'instance' }) => Trie_GraphNodeTrie_LinkTrie;

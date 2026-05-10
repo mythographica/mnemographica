@@ -163,6 +163,37 @@ async function runTests() {
 	assert.strictEqual(userUsages[0].kind, 'instantiation', 'First usage should be instantiation');
 	console.log('  ✓ Usages methods work correctly\n');
 
+	// Test 13: EDS loaded
+	console.log('Test 13: EDS loaded');
+	const eds = testRegistry.getEDS();
+	assert.ok(eds, 'EDS should be loaded');
+	assert.strictEqual(eds.size, 3, 'Should have 3 EDS entries');
+	console.log(`  ✓ EDS loaded: ${eds.size} entries\n`);
+
+	// Test 14: EDS methods work
+	console.log('Test 14: EDS methods work');
+	assert.strictEqual(eds.has('UserEntity'), true, 'Should have UserEntity EDS');
+	assert.strictEqual(eds.has('AdminEntity'), true, 'Should have AdminEntity EDS');
+	assert.strictEqual(eds.has('OrderEntity'), true, 'Should have OrderEntity EDS');
+	assert.strictEqual(eds.has('NonExistent'), false, 'Should not have NonExistent');
+
+	const userEDS = eds.get('UserEntity');
+	assert.ok(userEDS, 'UserEntity EDS should exist');
+	assert.strictEqual(userEDS.length, 2, 'UserEntity should have 2 EDS entries');
+	assert.strictEqual(userEDS[0].kind, 'wrap', 'First EDS should be wrap');
+	assert.strictEqual(userEDS[0].targetType, 'UserEntity', 'targetType should match');
+	assert.ok(userEDS[0].location, 'EDS entry should have location');
+	console.log('  ✓ EDS methods work correctly\n');
+
+	// Test 15: EDS keys/entries work
+	console.log('Test 15: EDS keys/entries work');
+	const edsKeys = Array.from(eds.keys());
+	assert.strictEqual(edsKeys.length, 3, 'Should have 3 EDS keys');
+
+	const edsEntries = Array.from(eds.entries());
+	assert.strictEqual(edsEntries.length, 3, 'Should have 3 EDS entries');
+	console.log('  ✓ EDS keys/entries work\n');
+
 	console.log('=== All Tests Passed ===');
 }
 

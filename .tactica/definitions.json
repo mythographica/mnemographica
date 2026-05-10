@@ -1,7 +1,39 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-05-10T05:42:50.324Z",
+  "generatedAt": "2026-05-10T08:41:56.444Z",
   "definitions": {
+    "Main": {
+      "name": "Main",
+      "location": "/code/mnemonica/mnemographica/src/models/Main.ts:5:21",
+      "kind": "define",
+      "parent": null,
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Main.Adapter": {
+      "name": "Adapter",
+      "location": "/code/mnemonica/mnemographica/src/models/Main.ts:13:29",
+      "kind": "define",
+      "parent": "Main",
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "EDS": {
+      "name": "EDS",
+      "location": "/code/mnemonica/mnemographica/src/models/EDS.ts:16:20",
+      "kind": "define",
+      "parent": null,
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "EDS.EDSEntry": {
+      "name": "EDSEntry",
+      "location": "/code/mnemonica/mnemographica/src/models/EDS.ts:63:29",
+      "kind": "define",
+      "parent": "EDS",
+      "strictChain": true,
+      "blockErrors": false
+    },
     "Definitions": {
       "name": "Definitions",
       "location": "/code/mnemonica/mnemographica/src/models/Definition.ts:18:28",
@@ -36,7 +68,7 @@
     },
     "Registry": {
       "name": "Registry",
-      "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:20:25",
+      "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:22:25",
       "kind": "define",
       "parent": null,
       "strictChain": true,
@@ -44,25 +76,9 @@
     },
     "Registry.RegistryEntry": {
       "name": "RegistryEntry",
-      "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:325:39",
+      "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:373:39",
       "kind": "define",
       "parent": "Registry",
-      "strictChain": true,
-      "blockErrors": false
-    },
-    "Main": {
-      "name": "Main",
-      "location": "/code/mnemonica/mnemographica/src/models/Main.ts:5:21",
-      "kind": "define",
-      "parent": null,
-      "strictChain": true,
-      "blockErrors": false
-    },
-    "Main.Adapter": {
-      "name": "Adapter",
-      "location": "/code/mnemonica/mnemographica/src/models/Main.ts:13:29",
-      "kind": "define",
-      "parent": "Main",
       "strictChain": true,
       "blockErrors": false
     },
@@ -90,11 +106,11 @@
       "strictChain": true,
       "blockErrors": false
     },
-    "Scene2D.GraphNode2D.Link2D": {
+    "Scene2D.Link2D": {
       "name": "Link2D",
-      "location": "/code/mnemonica/mnemographica/src/models/Scene2D.ts:30:35",
+      "location": "/code/mnemonica/mnemographica/src/models/Scene2D.ts:30:31",
       "kind": "define",
-      "parent": "Scene2D.GraphNode2D",
+      "parent": "Scene2D",
       "strictChain": true,
       "blockErrors": false
     },
@@ -130,11 +146,11 @@
       "strictChain": true,
       "blockErrors": false
     },
-    "Scene3D.GraphNode3D.Link3D": {
+    "Scene3D.Link3D": {
       "name": "Link3D",
-      "location": "/code/mnemonica/mnemographica/src/models/Scene3D.ts:34:35",
+      "location": "/code/mnemonica/mnemographica/src/models/Scene3D.ts:34:31",
       "kind": "define",
-      "parent": "Scene3D.GraphNode3D",
+      "parent": "Scene3D",
       "strictChain": true,
       "blockErrors": false
     },

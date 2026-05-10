@@ -1,6 +1,8 @@
 'use strict';
 
 import * as vscode from 'vscode';
+import * as fs from 'fs';
+import * as path from 'path';
 import { lookupTyped } from 'mnemonica';
 import { modelsLoaded } from '../topologica/bootstrap';
 import type { LoggerTab, LoggerTab_LogEntry } from '~tactica/types';
@@ -11,6 +13,7 @@ import type { LoggerTab, LoggerTab_LogEntry } from '~tactica/types';
 /**
  * LoggerService - Centralized logging service for Mnemonica Graphica
  * Wraps VS Code OutputChannel to provide consistent logging across the extension
+ * Also writes to a file for debugging without user interaction
  *
  * Phase 1 Self-Referential: Log entries stored as Mnemonica instances
  */
@@ -18,6 +21,7 @@ export class LoggerService {
 	private static instance: LoggerService;
 	private outputChannel: vscode.OutputChannel;
 	private isInitialized = false;
+	private logFilePath: string | undefined;
 
 	// Phase 1: Mnemonica data storage
 	private loggerTab: LoggerTab | undefined;
@@ -47,6 +51,13 @@ export class LoggerService {
 
 		this.outputChannel = vscode.window.createOutputChannel('Mnemonica Logger');
 		context.subscriptions.push(this.outputChannel);
+
+		// Set up file logging for self-service debugging
+		const logDir = path.join(context.extensionPath, 'logs');
+		if (!fs.existsSync(logDir)) {
+			fs.mkdirSync(logDir, { recursive: true });
+		}
+		this.logFilePath = path.join(logDir, 'server.log');
 
 		// Phase 1: Initialize Mnemonica LoggerTab via lookupTyped
 		if (modelsLoaded) {
@@ -176,6 +187,15 @@ export class LoggerService {
 		}
 
 		const logline = `${prefix} ${formattedMessage}`;
+
+		// Write to file for self-service debugging
+		if (this.logFilePath) {
+			try {
+				fs.appendFileSync(this.logFilePath, logline + '\n', 'utf-8');
+			} catch {
+				// Silent fail - file logging is best-effort
+			}
+		}
 
 		// Phase 1: Create Mnemonica LogEntry instance for data storage
 		if (this.loggerTab) {

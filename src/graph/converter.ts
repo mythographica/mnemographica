@@ -13,9 +13,12 @@ export class GraphConverter {
 		const links: D3Link[] = [];
 		const visited = new Set<string>();
 
-		// Process each root node
+		// Process only root nodes (those without parents)
+		// Children will be reached recursively via the children map
 		for (const rootNode of typeNodes) {
-			this.processNode(rootNode, 0, nodes, links, visited);
+			if (!rootNode.parent) {
+				this.processNode(rootNode, 0, nodes, links, visited);
+			}
 		}
 
 		return { nodes, links };

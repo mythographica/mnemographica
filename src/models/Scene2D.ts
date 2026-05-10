@@ -27,7 +27,7 @@ export const GraphNode2D = Scene2D.define('GraphNode2D', function (
 	this.color = data.color;
 });
 
-export const Link2D = GraphNode2D.define('Link2D', function (
+export const Link2D = Scene2D.define('Link2D', function (
 	this: { source: unknown; target: unknown; strength: number },
 	data: { source: unknown; target: unknown; strength: number }
 ) {

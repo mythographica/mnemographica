@@ -1,7 +1,4 @@
 import * as vscode from 'vscode';
-import * as path from 'path';
-import * as fs from 'fs';
-import { GraphPanel } from './webview/panel';
 import { GraphProvider } from './graph/provider';
 import { MnemonicaActivityBarProvider } from './activityBar';
 import { MnemonicaTreeProvider, MnemonicaTreeItem } from './views/treeProvider';
@@ -10,15 +7,14 @@ import { MnemonicaDefinitionProvider } from './providers/definitionProvider';
 import { MnemonicaReferenceProvider } from './providers/referenceProvider';
 import { StrategyServer } from './strategy';
 import { getLogger } from './services/LoggerService';
+import { VSCodeNavigation } from './services/NavigationAdapter';
 import { loadModels, modelsLoaded } from './topologica/bootstrap';
-import { registry } from './models/Registry';
-
-type WorkspaceQuickPickItem = {
-	label: string;
-	description: string;
-	detail: string;
-	workspacePath: string;
-};
+import { MainOrchestrator } from './core/MainOrchestrator';
+import { registerGraphCommands } from './commands/graphCommands';
+import { registerNavigationCommands } from './commands/navigationCommands';
+import { registerTreeCommands } from './commands/treeCommands';
+import { registerUtilityCommands } from './commands/utilityCommands';
+import { registerWorkspaceCommands } from './commands/workspaceCommands';
 
 let graphProvider: GraphProvider;
 let treeProvider: MnemonicaTreeProvider;
@@ -29,7 +25,7 @@ let definitionProvider: MnemonicaDefinitionProvider;
 let referenceProvider: MnemonicaReferenceProvider;
 let strategyServer: StrategyServer;
 let statusBarItem: vscode.StatusBarItem;
-
+let mainOrchestrator: MainOrchestrator;
 
 export function activate(context: vscode.ExtensionContext) {
 	// Initialize logger first so we can capture all subsequent logs
@@ -37,9 +33,6 @@ export function activate(context: vscode.ExtensionContext) {
 	logger.initialize(context);
 
 	logger.info('Mnemonica Graphica extension activated');
-
-	// Initialize graph provider
-	graphProvider = new GraphProvider();
 
 	// Initialize tree provider
 	treeProvider = new MnemonicaTreeProvider();
@@ -62,87 +55,6 @@ export function activate(context: vscode.ExtensionContext) {
 		canSelectMany: false
 	});
 	context.subscriptions.push(usagesTreeView);
-
-	// Register navigate to usage command
-	const navigateToUsageCommand = vscode.commands.registerCommand(
-		'mnemographica.navigateToUsage',
-		async (usageData: { filePath: string; line: number; column: number }) => {
-			try {
-				const document = await vscode.workspace.openTextDocument(usageData.filePath);
-				const editor = await vscode.window.showTextDocument(document);
-
-				const line = usageData.line > 0 ? usageData.line - 1 : 0;
-				const column = usageData.column > 0 ? usageData.column - 1 : 0;
-				const position = new vscode.Position(line, column);
-				editor.selection = new vscode.Selection(position, position);
-				editor.revealRange(new vscode.Range(position, position), vscode.TextEditorRevealType.Default);
-			} catch (err) {
-				logger.error('Failed to navigate to usage:', usageData.filePath, err);
-			}
-		}
-	);
-	context.subscriptions.push(navigateToUsageCommand);
-
-	// Navigate to definition when item is selected and update usages view
-	treeView.onDidChangeSelection(async (event) => {
-		const selected = event.selection[0];
-		if (!selected || !selected.data.fullPath) {
-			// Clear usages when nothing is selected
-			usagesProvider.clear();
-			return;
-		}
-
-		// Update usages view with usages for the selected type
-		const typeName = selected.data.fullName || selected.data.label;
-		const searchName = typeName.replace(/Instance$/, '').replace(/_/g, '.');
-		logger.info(`[Extension] Selection changed to: ${typeName}, searching usages for: ${searchName}`);
-
-		// Get usages from reference provider
-		const usages = referenceProvider.getUsagesForType(searchName);
-		if (usages && usages.length > 0) {
-			// Convert to UsageItemData format
-			const usageItems = usages.map(u => ({
-				filePath: u.filePath,
-				line: u.line,
-				column: u.column,
-				context: u.context || '',
-				kind: 'reference' // Default kind, can be enhanced later
-			}));
-			usagesProvider.setType(typeName, usageItems);
-			logger.info(`[Extension] Loaded ${usageItems.length} usages for ${typeName}`);
-		} else {
-			usagesProvider.clear();
-			logger.info(`[Extension] No usages found for ${typeName}`);
-		}
-
-		try {
-			const document = await vscode.workspace.openTextDocument(selected.data.fullPath);
-			const editor = await vscode.window.showTextDocument(document);
-
-			// Navigate to the specific line and column if available
-			if (selected.data.line !== undefined && selected.data.line > 0) {
-				// VS Code uses 0-based line numbers, our data uses 1-based
-				const line = selected.data.line > 0 ? selected.data.line - 1 : 0;
-				const _column = selected.data.column ?? 0;
-				const column = _column > 0 ? _column - 1 : 0;
-
-				const position = new vscode.Position(line, column);
-				editor.selection = new vscode.Selection(position, position);
-				editor.revealRange(new vscode.Range(position, position), vscode.TextEditorRevealType.Default);
-			}
-		} catch (err) {
-			logger.error('Failed to open file:', selected.data.fullPath, err);
-		}
-	});
-
-	// Optional: Log expand/collapse events for debugging
-	treeView.onDidExpandElement((event) => {
-		logger.debug('Tree item expanded:', event.element.data.label);
-	});
-
-	treeView.onDidCollapseElement((event) => {
-		logger.debug('Tree item collapsed:', event.element.data.label);
-	});
 
 	// Initialize and register navigation providers
 	definitionProvider = new MnemonicaDefinitionProvider();
@@ -185,6 +97,80 @@ export function activate(context: vscode.ExtensionContext) {
 	loadModels(context.extensionPath);
 	logger.info('Models loaded via topologica bootstrap');
 
+	// Create main orchestrator
+	mainOrchestrator = new MainOrchestrator(context.extension.packageJSON.version || '0.1.0');
+	logger.info('MainOrchestrator created');
+
+	// Initialize graph provider (needs mainOrchestrator)
+	graphProvider = new GraphProvider(mainOrchestrator);
+
+	// Register commands from command files (all deps now initialized)
+	const graphCommands = registerGraphCommands(context, graphProvider, treeProvider);
+	const navigationCommands = registerNavigationCommands(treeProvider, usagesProvider);
+	const treeCommands = registerTreeCommands(treeProvider, usagesProvider, referenceProvider, mainOrchestrator);
+	const utilityCommands = registerUtilityCommands(strategyServer);
+	const workspaceCommands = registerWorkspaceCommands(treeProvider, referenceProvider, mainOrchestrator);
+
+	graphCommands.forEach(cmd => context.subscriptions.push(cmd));
+	navigationCommands.forEach(cmd => context.subscriptions.push(cmd));
+	treeCommands.forEach(cmd => context.subscriptions.push(cmd));
+	utilityCommands.forEach(cmd => context.subscriptions.push(cmd));
+	workspaceCommands.forEach(cmd => context.subscriptions.push(cmd));
+
+	// Navigate to definition when item is selected and update usages view
+	treeView.onDidChangeSelection(async (event) => {
+		const selected = event.selection[0];
+		if (!selected || !selected.data.fullPath) {
+			// Clear usages when nothing is selected
+			usagesProvider.clear();
+			return;
+		}
+
+		// Update usages view with usages for the selected type
+		const typeName = selected.data.fullName || selected.data.label;
+		const searchName = typeName.replace(/Instance$/, '').replace(/_/g, '.');
+		logger.info(`[Extension] Selection changed to: ${typeName}, searching usages for: ${searchName}`);
+
+		// Get usages from reference provider
+		const usages = referenceProvider.getUsagesForType(searchName);
+		if (usages && usages.length > 0) {
+			// Convert to UsageItemData format
+			const usageItems = usages.map(u => ({
+				filePath: u.filePath,
+				line: u.line,
+				column: u.column,
+				context: u.context || '',
+				kind: 'reference' // Default kind, can be enhanced later
+			}));
+			usagesProvider.setType(typeName, usageItems);
+			logger.info(`[Extension] Loaded ${usageItems.length} usages for ${typeName}`);
+		} else {
+			usagesProvider.clear();
+			logger.info(`[Extension] No usages found for ${typeName}`);
+		}
+
+		// Navigate to the selected item
+		if (selected.data.fullPath) {
+			try {
+				await VSCodeNavigation.goTo(
+					selected.data.fullPath,
+					selected.data.line ?? 0,
+					selected.data.column ?? 0
+				);
+			} catch (err) {
+				logger.error('Failed to navigate to:', selected.data.fullPath, err);
+			}
+		}
+	});
+
+	// Optional: Log expand/collapse events for debugging
+	treeView.onDidExpandElement((event) => {
+		logger.debug('Tree item expanded:', event.element.data.label);
+	});
+
+	treeView.onDidCollapseElement((event) => {
+		logger.debug('Tree item collapsed:', event.element.data.label);
+	});
 
 	// Load definitions from workspace if available
 	const workspaceFolders = vscode.workspace.workspaceFolders;
@@ -192,16 +178,16 @@ export function activate(context: vscode.ExtensionContext) {
 		const workspacePath = workspaceFolders[0].uri.fsPath;
 		logger.info('Loading tree definitions from:', workspacePath);
 
-		// Load all models through registry
-		registry.loadFromWorkspace(workspacePath).then(async () => {
-			logger.info('Registry loaded successfully');
+		// Load all models through MainOrchestrator
+		mainOrchestrator.loadWorkspace(workspacePath).then(async () => {
+			logger.info('Workspace loaded successfully via MainOrchestrator');
 			// Update tree provider with registry data
 			treeProvider.setWorkspace(workspacePath);
-			treeProvider.setRegistry(registry);
+			treeProvider.setRegistry(mainOrchestrator.getRegistry());
 			await treeProvider.loadFromRegistry();
 			treeProvider.refresh();
 		}).catch((err: Error) => {
-			logger.error('Failed to load registry:', err);
+			logger.error('Failed to load workspace:', err);
 		});
 
 		// Load navigation provider data
@@ -231,403 +217,6 @@ export function activate(context: vscode.ExtensionContext) {
 	statusBarItem.show();
 	context.subscriptions.push(statusBarItem);
 
-	// Register show graph command
-	const showGraphCommand = vscode.commands.registerCommand(
-		'mnemographica.showTypeGraph',
-		async () => {
-			await showTypeGraph(context);
-		}
-	);
-	context.subscriptions.push(showGraphCommand);
-
-	// Register refresh graph command
-	const refreshCommand = vscode.commands.registerCommand(
-		'mnemographica.refreshGraph',
-		async () => {
-			await refreshTypeGraph(context);
-		}
-	);
-	context.subscriptions.push(refreshCommand);
-
-	// Register refresh tree command
-	const refreshTreeCommand = vscode.commands.registerCommand(
-		'mnemographica.refreshTree',
-		async () => {
-			const workspaceFolders = vscode.workspace.workspaceFolders;
-			if (workspaceFolders) {
-				await registry.refresh();
-				treeProvider.refresh();
-			}
-		}
-	);
-	context.subscriptions.push(refreshTreeCommand);
-
-	// Register open tree item command (for context menu)
-	// This navigates to the definition location (source file with define())
-	const openTreeItemCommand = vscode.commands.registerCommand(
-		'mnemographica.openTreeItem',
-		async (item: MnemonicaTreeItem) => {
-			// If this is a Types item, look up the definition location
-			let targetPath = item.data.fullPath;
-			let targetLine = item.data.line;
-			let targetColumn = item.data.column;
-
-			if (!item.data.isDefinition && treeProvider) {
-				// Types item - look up definition location
-				const fullName = item.data.fullName || item.data.label;
-				const definitionName = fullName.replace(/_/g, '.');
-				const definition = treeProvider.getDefinition(definitionName);
-				if (definition) {
-					targetPath = definition.fullPath;
-					targetLine = definition.line;
-					targetColumn = definition.column;
-				}
-			}
-
-			if (targetPath) {
-				const document = await vscode.workspace.openTextDocument(targetPath);
-				const editor = await vscode.window.showTextDocument(document);
-				// Navigate to the specific line and column if available
-				if (targetLine !== undefined && targetLine > 0) {
-					// Convert from 1-based to 0-based line numbers for VS Code API
-					const line = targetLine > 0 ? targetLine - 1 : 0;
-					const _column = targetColumn ?? 0;
-					const column = _column > 0 ? _column - 1 : 0;
-					const position = new vscode.Position(line, column);
-					editor.selection = new vscode.Selection(position, position);
-					editor.revealRange(new vscode.Range(position, position), vscode.TextEditorRevealType.InCenter);
-				}
-			}
-		}
-	);
-	context.subscriptions.push(openTreeItemCommand);
-
-	// Register open type command (for Types section context menu)
-	// This navigates to the type location (types.ts)
-	const openTypeCommand = vscode.commands.registerCommand(
-		'mnemographica.openType',
-		async (item: MnemonicaTreeItem) => {
-			// If this is a Definitions item, look up the type location
-			let targetPath = item.data.fullPath;
-			let targetLine = item.data.line;
-			let targetColumn = item.data.column;
-
-			if (item.data.isDefinition && treeProvider) {
-				// Definitions item - look up type location
-				const fullName = item.data.fullName || item.data.label;
-				const typeName = fullName.replace(/\./g, '_');
-				const typeInfo = treeProvider.getType(typeName);
-				if (typeInfo) {
-					targetPath = typeInfo.fullPath;
-					targetLine = typeInfo.line;
-					targetColumn = typeInfo.column;
-				}
-			}
-
-			if (targetPath) {
-				const document = await vscode.workspace.openTextDocument(targetPath);
-				const editor = await vscode.window.showTextDocument(document);
-				// Navigate to the specific line and column if available
-				if (targetLine !== undefined && targetLine > 0) {
-					// Convert from 1-based to 0-based line numbers for VS Code API
-					const line = targetLine > 0 ? targetLine - 1 : 0;
-					const _column = targetColumn ?? 0;
-					const column = _column > 0 ? _column - 1 : 0;
-					const position = new vscode.Position(line, column);
-					editor.selection = new vscode.Selection(position, position);
-					editor.revealRange(new vscode.Range(position, position), vscode.TextEditorRevealType.InCenter);
-				}
-			}
-		}
-	);
-	context.subscriptions.push(openTypeCommand);
-
-	// Register show usages command (for context menu)
-	type UsageQuickPickItem = {
-		label: string;
-		description: string;
-		detail: string;
-		index: number;
-		usage: { filePath: string; line: number; column: number; context?: string };
-	};
-
-	const showUsagesCommand = vscode.commands.registerCommand(
-		'mnemographica.showUsages',
-		async (item: MnemonicaTreeItem) => {
-			if (!item) return;
-
-			// Get the type name to lookup usages
-			const typeName = item.data.fullName || item.data.label;
-			logger.info('Showing usages for:', typeName, JSON.stringify(item.data), '|');
-			
-			const searchName = typeName.replace(/Instance$/, '');
-			logger.info('Showing usages for:', searchName);
-
-			// Use referenceProvider to get usages
-			const usages = referenceProvider.getUsagesForType(searchName);
-
-			if (!usages || usages.length === 0) {
-				vscode.window.showInformationMessage(`No usages found for ${typeName}`);
-				return;
-			}
-
-			// Create quick pick items from usages
-			const quickPickItems: UsageQuickPickItem[] = usages.map((usage, index) => ({
-				label: `$(file-code) ${path.basename(usage.filePath)}`,
-				description: `${usage.filePath}:${usage.line}:${usage.column}`,
-				detail: usage.context || 'No context available',
-				index,
-				usage
-			}));
-
-			// Show quick pick
-			const selected = await vscode.window.showQuickPick(quickPickItems, {
-				placeHolder: `Select a usage of ${typeName} (${usages.length} found)`,
-				matchOnDescription: true,
-				matchOnDetail: true
-			});
-
-			if (selected) {
-				// Navigate to the selected usage
-				try {
-					const document = await vscode.workspace.openTextDocument(selected.usage.filePath);
-					const editor = await vscode.window.showTextDocument(document);
-
-					const line = selected.usage.line > 0 ? selected.usage.line - 1 : 0;
-					const column = selected.usage.column > 0 ? selected.usage.column - 1 : 0;
-					const position = new vscode.Position(line, column);
-					editor.selection = new vscode.Selection(position, position);
-					editor.revealRange(new vscode.Range(position, position), vscode.TextEditorRevealType.Default);
-				} catch (err) {
-					logger.error('Failed to open usage file:', selected.usage.filePath, err);
-				}
-			}
-		}
-	);
-	context.subscriptions.push(showUsagesCommand);
-
-	// Register show tree view command
-	const showTreeCommand = vscode.commands.registerCommand(
-		'mnemographica.showTreeView',
-		async () => {
-			await vscode.commands.executeCommand('workbench.view.explorer');
-			await vscode.commands.executeCommand('mnemonicaTypes.focus');
-		}
-	);
-	context.subscriptions.push(showTreeCommand);
-
-	// Register select workspace command
-	const selectWorkspaceCommand = vscode.commands.registerCommand(
-		'mnemographica.selectWorkspace',
-		async () => {
-			await selectWorkspace();
-		}
-	);
-	context.subscriptions.push(selectWorkspaceCommand);
-
-	// Register show logger command
-	const showLoggerCommand = vscode.commands.registerCommand(
-		'mnemographica.showLogger',
-		async () => {
-			logger.show();
-		}
-	);
-	context.subscriptions.push(showLoggerCommand);
-
-	// Register open usage command (used by usage tree items)
-	const openUsageCommand = vscode.commands.registerCommand(
-		'mnemographica.openUsage',
-		async (usageData: { filePath: string; line: number; column: number }) => {
-			try {
-				const document = await vscode.workspace.openTextDocument(usageData.filePath);
-				const editor = await vscode.window.showTextDocument(document);
-
-				const line = usageData.line > 0 ? usageData.line - 1 : 0;
-				const column = usageData.column > 0 ? usageData.column - 1 : 0;
-				const position = new vscode.Position(line, column);
-				editor.selection = new vscode.Selection(position, position);
-				editor.revealRange(new vscode.Range(position, position), vscode.TextEditorRevealType.Default);
-			} catch (err) {
-				logger.error('Failed to open usage:', usageData.filePath, err);
-			}
-		}
-	);
-	context.subscriptions.push(openUsageCommand);
-
-	// Register reveal in explorer command
-	const revealInExplorerCommand = vscode.commands.registerCommand(
-		'mnemographica.revealInExplorer',
-		async (item: UsageTreeItem) => {
-			if (item?.usage?.filePath) {
-				const uri = vscode.Uri.file(item.usage.filePath);
-				await vscode.commands.executeCommand('revealInExplorer', uri);
-			}
-		}
-	);
-	context.subscriptions.push(revealInExplorerCommand);
-
-	// Register go to usage command
-	const goToUsageCommand = vscode.commands.registerCommand(
-		'mnemographica.goToUsage',
-		async (item: UsageTreeItem) => {
-			if (item?.usage) {
-				try {
-					const document = await vscode.workspace.openTextDocument(item.usage.filePath);
-					const editor = await vscode.window.showTextDocument(document);
-
-					const line = item.usage.line > 0 ? item.usage.line - 1 : 0;
-					const column = item.usage.column > 0 ? item.usage.column - 1 : 0;
-					const position = new vscode.Position(line, column);
-					editor.selection = new vscode.Selection(position, position);
-					editor.revealRange(new vscode.Range(position, position), vscode.TextEditorRevealType.Default);
-				} catch (err) {
-					logger.error('Failed to navigate to usage:', item.usage.filePath, err);
-				}
-			}
-		}
-	);
-	context.subscriptions.push(goToUsageCommand);
-
-	// Register go to type command (navigates to types.ts)
-	const goToTypeCommand = vscode.commands.registerCommand(
-		'mnemographica.goToType',
-		async (item: UsageTreeItem) => {
-			if (!item?.typeName) {
-				logger.warn('No type name available for navigation');
-				return;
-			}
-
-			const workspacePath = item.workspacePath || usagesProvider.getWorkspacePath();
-			if (!workspacePath) {
-				logger.warn('No workspace path available');
-				return;
-			}
-
-			const typesTsPath = path.join(workspacePath, '.tactica', 'types.ts');
-			if (!fs.existsSync(typesTsPath)) {
-				logger.warn('types.ts not found at:', typesTsPath);
-				vscode.window.showWarningMessage('types.ts not found. Run tactica first.');
-				return;
-			}
-
-			try {
-				// Read types.ts to find the type definition line
-				const content = fs.readFileSync(typesTsPath, 'utf-8');
-				const lines = content.split('\n');
-
-				// Look for type export (e.g., "export type TypeName = {" or "export type TypeName = ProtoFlat<...")
-				const typeName = item.typeName.replace(/Instance$/, '');
-				const searchPattern = new RegExp(`export\\s+type\\s+${typeName}\\s*=`);
-
-				let targetLine = 0;
-				for (let i = 0; i < lines.length; i++) {
-					if (searchPattern.test(lines[i])) {
-						targetLine = i;
-						break;
-					}
-				}
-
-				const document = await vscode.workspace.openTextDocument(typesTsPath);
-				const editor = await vscode.window.showTextDocument(document);
-
-				const position = new vscode.Position(targetLine, 0);
-				editor.selection = new vscode.Selection(position, position);
-				editor.revealRange(new vscode.Range(position, position), vscode.TextEditorRevealType.Default);
-			} catch (err) {
-				logger.error('Failed to open types.ts:', typesTsPath, err);
-			}
-		}
-	);
-	context.subscriptions.push(goToTypeCommand);
-
-	// Register go to definition command (navigates to definitions.json location)
-	const goToDefinitionCommand = vscode.commands.registerCommand(
-		'mnemographica.goToDefinition',
-		async (item: UsageTreeItem) => {
-			if (!item?.typeName) {
-				logger.warn('No type name available for navigation');
-				return;
-			}
-
-			const workspacePath = item.workspacePath || usagesProvider.getWorkspacePath();
-			if (!workspacePath) {
-				logger.warn('No workspace path available');
-				return;
-			}
-
-			const definitionsPath = path.join(workspacePath, '.tactica', 'definitions.json');
-			if (!fs.existsSync(definitionsPath)) {
-				logger.warn('definitions.json not found at:', definitionsPath);
-				vscode.window.showWarningMessage('definitions.json not found. Run tactica first.');
-				return;
-			}
-
-			try {
-				// Read definitions.json to find the type definition
-				const content = fs.readFileSync(definitionsPath, 'utf-8');
-				const definitions = JSON.parse(content);
-
-				const typeName = item.typeName.replace(/Instance$/, '');
-
-				// Find the definition - definitions are keyed by type name
-				let definition = definitions[typeName];
-
-				// Also try with Instance suffix
-				if (!definition && definitions[`${typeName}Instance`]) {
-					definition = definitions[`${typeName}Instance`];
-				}
-
-				// Try nested path format (e.g., "Scene2D.GraphNode2D")
-				if (!definition && typeName.includes('.')) {
-					const parts = typeName.split('.');
-					for (let i = 0; i < parts.length; i++) {
-						const candidate = parts.slice(i).join('.');
-						if (definitions[candidate]) {
-							definition = definitions[candidate];
-							break;
-						}
-						// Try with Instance suffix
-						if (definitions[`${candidate}Instance`]) {
-							definition = definitions[`${candidate}Instance`];
-							break;
-						}
-					}
-				}
-
-				if (!definition || !definition.fullPath) {
-					logger.warn('Definition not found for type:', typeName);
-					vscode.window.showWarningMessage(`Definition not found for ${typeName}`);
-					return;
-				}
-
-				const document = await vscode.workspace.openTextDocument(definition.fullPath);
-				const editor = await vscode.window.showTextDocument(document);
-
-				const line = definition.line > 0 ? definition.line - 1 : 0;
-				const column = definition.column > 0 ? definition.column - 1 : 0;
-				const position = new vscode.Position(line, column);
-				editor.selection = new vscode.Selection(position, position);
-				editor.revealRange(new vscode.Range(position, position), vscode.TextEditorRevealType.Default);
-			} catch (err) {
-				logger.error('Failed to navigate to definition:', err);
-			}
-		}
-	);
-	context.subscriptions.push(goToDefinitionCommand);
-
-	// Register show strategy status command
-	const strategyStatusCommand = vscode.commands.registerCommand(
-		'mnemographica.showStrategyStatus',
-		async () => {
-			const status = strategyServer.getStatus();
-			logger.info('Strategy server status:', status);
-			vscode.window.showInformationMessage(
-				`Strategy MCP: ${status.running ? 'Running' : 'Stopped'} (HTTP: ${status.httpPort}, WS: ${status.wsPort})`
-			);
-		}
-	);
-	context.subscriptions.push(strategyStatusCommand);
-
 	// Set up file watcher for .ts files
 	const watcher = vscode.workspace.createFileSystemWatcher('**/*.ts');
 	watcher.onDidChange(async () => {
@@ -651,234 +240,6 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(tacticaWatcher);
 }
 
-async function findWorkspacesWithTactica (): Promise<WorkspaceQuickPickItem[]> {
-	const logger = getLogger();
-	const workspaces: WorkspaceQuickPickItem[] = [];
-	const scannedPaths = new Set<string>();
-
-	// Get starting points for scanning
-	const scanRoots: string[] = [];
-
-	// Add current workspace if available
-	const currentWorkspace = treeProvider.getCurrentWorkspace();
-	if (currentWorkspace) {
-		scanRoots.push(path.dirname(currentWorkspace));
-	}
-
-	// Add VS Code workspace folders
-	const workspaceFolders = vscode.workspace.workspaceFolders;
-	if (workspaceFolders) {
-		for (const folder of workspaceFolders) {
-			scanRoots.push(folder.uri.fsPath);
-			// Also scan parent directories
-			scanRoots.push(path.dirname(folder.uri.fsPath));
-		}
-	}
-
-	logger.info('[findWorkspaces] Scan roots:', scanRoots);
-
-	for (const scanRoot of scanRoots) {
-		if (!scanRoot || scannedPaths.has(scanRoot)) {
-			continue;
-		}
-		scannedPaths.add(scanRoot);
-
-		try {
-			if (!fs.existsSync(scanRoot)) {
-				continue;
-			}
-
-			const entries = fs.readdirSync(scanRoot, { withFileTypes: true });
-
-			for (const entry of entries) {
-				if (!entry.isDirectory()) {
-					continue;
-				}
-
-				const fullPath = path.join(scanRoot, entry.name);
-				const tacticaPath = path.join(fullPath, '.tactica');
-
-				if (fs.existsSync(tacticaPath)) {
-					// Check if it has the required files
-					const hasTypes = fs.existsSync(path.join(tacticaPath, 'types.ts'));
-					const hasDefinitions = fs.existsSync(path.join(tacticaPath, 'definitions.json'));
-
-					if (hasTypes || hasDefinitions) {
-						workspaces.push({
-							label: entry.name,
-							description: fullPath,
-							detail: hasTypes && hasDefinitions ? 'Types + Definitions' : (hasTypes ? 'Types only' : 'Definitions only'),
-							workspacePath: fullPath
-						});
-						logger.info('[findWorkspaces] Found workspace:', fullPath);
-					}
-				}
-			}
-		} catch (err) {
-			logger.debug('[findWorkspaces] Error scanning:', scanRoot, err);
-		}
-	}
-
-	// Sort by name
-	workspaces.sort((a, b) => a.label.localeCompare(b.label));
-
-	return workspaces;
-}
-
-async function selectWorkspace (): Promise<void> {
-	const logger = getLogger();
-	logger.info('[selectWorkspace] Scanning for workspaces...');
-
-	// Show progress while scanning
-	const workspaces = await vscode.window.withProgress(
-		{
-			location: vscode.ProgressLocation.Notification,
-			title: 'Scanning for Mnemonica workspaces...',
-			cancellable: false
-		},
-		async () => {
-			return await findWorkspacesWithTactica();
-		}
-	);
-
-	logger.info('[selectWorkspace] Found', workspaces.length, 'workspaces');
-
-	// Add "Browse for .tactica directory..." option
-	const browseOption: WorkspaceQuickPickItem = {
-		label: '$(folder-opened) Browse for .tactica directory...',
-		description: 'Select a directory containing .tactica folder',
-		detail: 'Browse',
-		workspacePath: '__browse__'
-	};
-
-	const quickPickItems = workspaces.length > 0
-		? [...workspaces, browseOption]
-		: [browseOption];
-
-	// Show quick pick with found workspaces
-	const selected = await vscode.window.showQuickPick(quickPickItems, {
-		placeHolder: 'Select a workspace to load',
-		matchOnDescription: true,
-		matchOnDetail: true
-	});
-
-	if (!selected) {
-		logger.info('[selectWorkspace] User cancelled selection');
-		return;
-	}
-
-	// Handle browse option
-	if (selected.workspacePath === '__browse__') {
-		const folderUri = await vscode.window.showOpenDialog({
-			canSelectFiles: false,
-			canSelectFolders: true,
-			canSelectMany: false,
-			openLabel: 'Select .tactica Directory',
-			title: 'Select a directory containing .tactica folder'
-		});
-
-		if (!folderUri || folderUri.length === 0) {
-			logger.info('[selectWorkspace] User cancelled browse dialog');
-			return;
-		}
-
-		let selectedPath = folderUri[0].fsPath;
-		let tacticaPath: string;
-		
-		// Check if user selected the .tactica folder itself or its parent
-		if (path.basename(selectedPath) === '.tactica') {
-			// User selected the .tactica folder directly
-			tacticaPath = selectedPath;
-			selectedPath = path.dirname(selectedPath);
-		} else {
-			// User selected parent folder, check for .tactica subfolder
-			tacticaPath = path.join(selectedPath, '.tactica');
-		}
-		
-		if (!fs.existsSync(tacticaPath)) {
-			vscode.window.showWarningMessage(`No .tactica folder found in ${selectedPath}`);
-			return;
-		}
-
-		// Load the browsed workspace
-		logger.info('[selectWorkspace] Loading browsed workspace:', selectedPath);
-		
-		try {
-			// Update tree provider
-			treeProvider.setWorkspace(selectedPath);
-
-			// Load all models through registry
-			await registry.loadFromWorkspace(selectedPath);
-			treeProvider.setRegistry(registry);
-			await treeProvider.loadFromRegistry();
-			treeProvider.refresh();
-
-			// Update navigation providers
-			if (referenceProvider) {
-				referenceProvider.clear();
-				await referenceProvider.loadUsages(selectedPath);
-			}
-
-			vscode.window.showInformationMessage(`Loaded workspace: ${path.basename(selectedPath)}`);
-			logger.info('[selectWorkspace] Browsed workspace loaded successfully');
-		} catch (err) {
-			logger.error('[selectWorkspace] Failed to load browsed workspace:', err);
-			vscode.window.showErrorMessage(`Failed to load workspace: ${err}`);
-		}
-		return;
-	}
-
-	logger.info('[selectWorkspace] Selected workspace:', selected.workspacePath);
-
-	try {
-		// Update tree provider
-		treeProvider.setWorkspace(selected.workspacePath);
-
-		// Load all models through registry
-		await registry.loadFromWorkspace(selected.workspacePath);
-		treeProvider.setRegistry(registry);
-		await treeProvider.loadFromRegistry();
-		treeProvider.refresh();
-
-		// Update navigation providers
-		// definitionProvider removed - will be re-implemented
-		if (referenceProvider) {
-			referenceProvider.clear();
-			await referenceProvider.loadUsages(selected.workspacePath);
-		}
-
-		vscode.window.showInformationMessage(`Loaded workspace: ${selected.label}`);
-		logger.info('[selectWorkspace] Workspace loaded successfully');
-	} catch (err) {
-		logger.error('[selectWorkspace] Failed to load workspace:', err);
-		vscode.window.showErrorMessage(`Failed to load workspace: ${err}`);
-	}
-}
-
-async function showTypeGraph(context: vscode.ExtensionContext) {
-	const logger = getLogger();
-
-	// Use the tree provider's current workspace, or fall back to first workspace folder
-	const workspacePath = treeProvider?.getCurrentWorkspace() || vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
-
-	if (!workspacePath) {
-		vscode.window.showWarningMessage('No workspace selected. Please select a workspace first.');
-		return;
-	}
-
-	try {
-		// Load graph data from the selected workspace
-		const graphData = await graphProvider.loadGraph(workspacePath);
-		logger.info(`Loaded graph with ${graphData.nodes.length} nodes and ${graphData.links.length} links from ${workspacePath}`);
-
-		// Create or show panel
-		GraphPanel.createOrShow(context.extensionUri, graphData);
-	} catch (error) {
-		logger.error('Failed to load type graph:', error);
-		vscode.window.showErrorMessage('Failed to load type graph. Make sure tactica has generated types.');
-	}
-}
-
 async function refreshTypeGraph(_context: vscode.ExtensionContext) {
 	const logger = getLogger();
 	const workspaceFolders = vscode.workspace.workspaceFolders;
@@ -892,13 +253,12 @@ async function refreshTypeGraph(_context: vscode.ExtensionContext) {
 	graphProvider.clearCache();
 
 	// Refresh registry and tree view
-	if (treeProvider) {
-		await registry.refresh();
+	if (treeProvider && mainOrchestrator) {
+		await mainOrchestrator.refresh();
 		treeProvider.refresh();
 	}
 
 	// Refresh navigation providers
-	// definitionProvider removed - will be re-implemented
 	if (referenceProvider) {
 		referenceProvider.clear();
 		await referenceProvider.loadUsages(workspacePath);

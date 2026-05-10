@@ -31,7 +31,7 @@ export const GraphNode3D = Scene3D.define('GraphNode3D', function (
 	this.color = data.color;
 });
 
-export const Link3D = GraphNode3D.define('Link3D', function (
+export const Link3D = Scene3D.define('Link3D', function (
 	this: { source: unknown; target: unknown; strength: number },
 	data: { source: unknown; target: unknown; strength: number }
 ) {
