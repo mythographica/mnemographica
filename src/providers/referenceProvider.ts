@@ -9,7 +9,6 @@ import * as fs from 'fs';
 import { getLogger } from '../services/LoggerService';
 
 import { lookupTyped } from 'mnemonica';
-import { modelsLoaded } from '../topologica/bootstrap';
 import type { Usages, Usages_UsageEntry } from '~tactica/types';
 
 // Type aliases using clean imports from .tactica/types.ts
@@ -23,13 +22,8 @@ export class MnemonicaReferenceProvider implements vscode.ReferenceProvider {
 
 	async loadUsages(workspacePath: string): Promise<void> {
 
-		this.logger.info(`[Usages][modelsLoaded] : ${modelsLoaded}`);
-		this.logger.info(`[Usages][lookupTyped] typeof ${lookupTyped}`);
 		const Usages = lookupTyped('Usages');
-		this.logger.info(`[Usages] typeof ${Usages}`);
-
 		const usages = new Usages;
-		usages.createdAt;
 
 		this.usages = usages;
 
@@ -166,14 +160,10 @@ export class MnemonicaReferenceProvider implements vscode.ReferenceProvider {
 	}
 
 	getUsagesForType(typeName: string): Array<{ filePath: string; line: number; column: number; context?: string }> {
-		this.logger.info('getUsagesForType: 165')
 		if (!this.usages) { return []; }
-		this.logger.info('getUsagesForType: 167')
 
 		const usageList = this.usages.get(typeName.replace('_', '.'));
-		this.logger.info('getUsagesForType: 170: ', typeName, Array.isArray(usageList), typeof usageList);
-		if (!usageList) return [];
-		this.logger.info('getUsagesForType: 172');
+		if (!usageList) { return []; }
 
 		return usageList.map(usage => {
 			const [filePath, line, column] = usage.location.split(':') as [string, string, string];

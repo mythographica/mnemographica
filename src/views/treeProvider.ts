@@ -117,10 +117,7 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 		// Load definitions from registry
 		const definitionsModel = this.registry.getDefinitions();
 		if (definitionsModel) {
-			for (const key of definitionsModel.keys()) {
-				const entry = definitionsModel.get(key);
-				if (!entry) continue;
-
+			for (const [key, entry] of definitionsModel.entries()) {
 				// Type from .tactica/types.ts: Definitions_DefinitionEntry
 				const info = entry as unknown as {
 					name: string;
@@ -154,10 +151,7 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 		// Load types from registry
 		const typesModel = this.registry.getTypes();
 		if (typesModel) {
-			for (const key of typesModel.keys()) {
-				const entry = typesModel.get(key);
-				if (!entry) continue;
-
+			for (const [key, entry] of typesModel.entries()) {
 				// Type from .tactica/types.ts: Types_TypeEntry
 				const info = entry as unknown as {
 					name: string;
