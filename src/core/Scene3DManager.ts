@@ -1,21 +1,17 @@
 'use strict';
 
-import { Scene3D, GraphNode3D, Link3D } from '../models/Scene3D';
+import { lookupTyped } from 'mnemonica';
+import type { Scene3D as Scene3DType, Scene3D_GraphNode3D, Scene3D_Link3D } from '../../.tactica/types';
 import { GraphData, D3Node, D3Link } from '../types';
 
-type Scene3DInstance = InstanceType<typeof Scene3D> & {
-	Camera3D: unknown;
-	GraphNode3D: typeof GraphNode3D;
-	Link3D: typeof Link3D;
-};
-
 export class Scene3DManager {
-	private scene: Scene3DInstance;
-	private nodeMap: Map<string, InstanceType<typeof GraphNode3D>> = new Map();
-	private linkMap: Map<string, InstanceType<typeof Link3D>> = new Map();
+	private scene: Scene3DType;
+	private nodeMap: Map<string, Scene3D_GraphNode3D> = new Map();
+	private linkMap: Map<string, Scene3D_Link3D> = new Map();
 
 	constructor(graphData?: GraphData) {
-		this.scene = new Scene3D() as Scene3DInstance;
+		const Scene3D = lookupTyped('Scene3D');
+		this.scene = new Scene3D();
 		if (graphData) {
 			this.loadGraph(graphData);
 		}
@@ -23,7 +19,7 @@ export class Scene3DManager {
 
 	loadGraph(graphData: GraphData): void {
 		this.clear();
-		new (this.scene.Camera3D as new (data: unknown) => unknown)({
+		new this.scene.Camera3D({
 			x: 0, y: 0, z: 500, zoom: 1, rotationX: 0, rotationY: 0
 		});
 
@@ -35,7 +31,7 @@ export class Scene3DManager {
 		}
 	}
 
-	createNode(data: D3Node): InstanceType<typeof GraphNode3D> {
+	createNode(data: D3Node): Scene3D_GraphNode3D {
 		const node = new this.scene.GraphNode3D({
 			id: data.id,
 			label: data.name || data.id,
@@ -49,7 +45,7 @@ export class Scene3DManager {
 		return node;
 	}
 
-	createLink(data: D3Link): InstanceType<typeof Link3D> | undefined {
+	createLink(data: D3Link): Scene3D_Link3D | undefined {
 		const sourceId = typeof data.source === 'string' ? data.source : data.source.id;
 		const targetId = typeof data.target === 'string' ? data.target : data.target.id;
 
@@ -62,11 +58,11 @@ export class Scene3DManager {
 		return link;
 	}
 
-	getNode(id: string): InstanceType<typeof GraphNode3D> | undefined {
+	getNode(id: string): Scene3D_GraphNode3D | undefined {
 		return this.nodeMap.get(id);
 	}
 
-	getNodes(): InstanceType<typeof GraphNode3D>[] {
+	getNodes(): Scene3D_GraphNode3D[] {
 		return Array.from(this.nodeMap.values());
 	}
 
@@ -79,7 +75,7 @@ export class Scene3DManager {
 		}
 	}
 
-	getScene(): Scene3DInstance {
+	getScene(): Scene3DType {
 		return this.scene;
 	}
 

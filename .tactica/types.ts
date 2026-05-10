@@ -6,18 +6,27 @@
 
 import type { ProtoFlat } from 'mnemonica';
 
-export type Main = {
-	extensionVersion: string;
+export type Definitions = {
 	createdAt: number;
-	Adapter: new (data: { name: string; domain: string; enabled: boolean }) => Main_Adapter;
+	readonly size: number;
+	get: (name: string) => Definitions_DefinitionEntry | undefined;
+	has: (name: string) => boolean;
+	set: (name: string, entry: Definitions_DefinitionEntry) => void;
+	keys: () => MapIterator<string>;
+	values: () => MapIterator<Definitions_DefinitionEntry>;
+	entries: () => MapIterator<[string, Definitions_DefinitionEntry]>;
+	clear: () => void;
+	DefinitionEntry: new (data: { name: string; location: string; kind: string; parent: string | null; strictChain: boolean; blockErrors: boolean }) => Definitions_DefinitionEntry;
 };
 
-export type Main_Adapter = ProtoFlat<Main, {
+export type Definitions_DefinitionEntry = ProtoFlat<Definitions, {
 	name: string;
-	domain: string;
-	enabled: boolean;
-	createdAt: number;
-	Adapter: undefined;
+	location: string;
+	kind: string;
+	parent: string | null;
+	strictChain: boolean;
+	blockErrors: boolean;
+	DefinitionEntry: undefined;
 }>;
 
 export type EDS = {
@@ -42,27 +51,56 @@ export type EDS_EDSEntry = ProtoFlat<EDS, {
 	EDSEntry: undefined;
 }>;
 
-export type Definitions = {
+export type Flow = {
 	createdAt: number;
 	readonly size: number;
-	get: (name: string) => Definitions_DefinitionEntry | undefined;
+	get: (name: string) => Array<Flow_FlowEntry> | undefined;
 	has: (name: string) => boolean;
-	set: (name: string, entry: Definitions_DefinitionEntry) => void;
+	set: (name: string, entry: Array<Flow_FlowEntry>) => void;
 	keys: () => MapIterator<string>;
-	values: () => MapIterator<Definitions_DefinitionEntry>;
-	entries: () => MapIterator<[string, Definitions_DefinitionEntry]>;
+	values: () => MapIterator<Array<Flow_FlowEntry>>;
+	entries: () => MapIterator<[string, Array<Flow_FlowEntry>]>;
 	clear: () => void;
-	DefinitionEntry: new (data: { name: string; location: string; kind: string; parent: string | null; strictChain: boolean; blockErrors: boolean }) => Definitions_DefinitionEntry;
+	FlowEntry: new (data: { typeName: string; kind: string; code: string; location: string; propertyName?: string; context?: string }) => Flow_FlowEntry;
 };
 
-export type Definitions_DefinitionEntry = ProtoFlat<Definitions, {
-	name: string;
-	location: string;
+export type Flow_FlowEntry = ProtoFlat<Flow, {
+	typeName: string;
 	kind: string;
-	parent: string | null;
-	strictChain: boolean;
-	blockErrors: boolean;
-	DefinitionEntry: undefined;
+	code: string;
+	location: string;
+	propertyName?: string;
+	context?: string;
+	FlowEntry: undefined;
+}>;
+
+export type LoggerTab = {
+	createdAt: number;
+	LogEntry: new (data: { level: 'info' | 'warning' | 'error'; message: string; timestamp: number; typeName?: string; error?: Error; args?: Array<unknown> }) => LoggerTab_LogEntry;
+};
+
+export type LoggerTab_LogEntry = ProtoFlat<LoggerTab, {
+	level: 'info' | 'warning' | 'error';
+	message: string;
+	timestamp: number;
+	typeName?: string;
+	error?: Error;
+	args?: Array<unknown>;
+	LogEntry: undefined;
+}>;
+
+export type Main = {
+	extensionVersion: string;
+	createdAt: number;
+	Adapter: new (data: { name: string; domain: string; enabled: boolean }) => Main_Adapter;
+};
+
+export type Main_Adapter = ProtoFlat<Main, {
+	name: string;
+	domain: string;
+	enabled: boolean;
+	createdAt: number;
+	Adapter: undefined;
 }>;
 
 export type Types = {
@@ -103,6 +141,7 @@ export type Registry = {
 	getTypes: () => Types | undefined;
 	getUsages: () => Usages | undefined;
 	getEDS: () => EDS | undefined;
+	getFlow: () => Flow | undefined;
 	getTrie: () => Trie | undefined;
 	refresh: () => Promise<void>;
 	RegistryEntry: new (data: { id: string; name: string; filePath: string; line: number; column: number }) => Registry_RegistryEntry;
@@ -241,21 +280,6 @@ export type Trie_GraphNodeTrie_ContextMenu = ProtoFlat<Trie_GraphNodeTrie, {
 	visible: boolean;
 	ContextMenu: undefined;
 	LinkTrie: undefined;
-}>;
-
-export type LoggerTab = {
-	createdAt: number;
-	LogEntry: new (data: { level: 'info' | 'warning' | 'error'; message: string; timestamp: number; typeName?: string; error?: Error; args?: Array<unknown> }) => LoggerTab_LogEntry;
-};
-
-export type LoggerTab_LogEntry = ProtoFlat<LoggerTab, {
-	level: 'info' | 'warning' | 'error';
-	message: string;
-	timestamp: number;
-	typeName?: string;
-	error?: Error;
-	args?: Array<unknown>;
-	LogEntry: undefined;
 }>;
 
 export type Usages = {

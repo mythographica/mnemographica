@@ -109,6 +109,24 @@
 				"title": "Open Type",
 				"category": "Mnemonica",
 				"icon": "$(symbol-class)"
+			},
+			{
+				"command": "mnemographica.navigateToLocation",
+				"title": "Go to Location",
+				"category": "Mnemonica",
+				"icon": "$(go-to-file)"
+			},
+			{
+				"command": "mnemographica.showFlows",
+				"title": "Show Flows",
+				"category": "Mnemonica",
+				"icon": "$(debug-alt)"
+			},
+			{
+				"command": "mnemographica.clearFlowFilter",
+				"title": "Show All Flows",
+				"category": "Mnemonica",
+				"icon": "$(clear-all)"
 			}
 		],
 		"menus": {
@@ -158,7 +176,12 @@
 					"command": "mnemographica.selectWorkspace",
 					"when": "view == mnemonicaTypes",
 					"group": "navigation@2"
-				}
+				},
+			{
+				"command": "mnemographica.clearFlowFilter",
+				"when": "view == mnemonicaFlow",
+				"group": "navigation@1"
+			}
 			],
 			"view/item/context": [
 				{
@@ -171,26 +194,36 @@
 					"when": "view == mnemonicaTypes && viewItem == navigable",
 					"group": "navigation@2"
 				},
-				{
-					"command": "mnemographica.showUsages",
-					"when": "view == mnemonicaTypes && viewItem == navigable",
-					"group": "navigation@3"
-				},
-				{
-					"command": "mnemographica.openType",
-					"when": "view == mnemonicaTypes && viewItem == navigableType",
-					"group": "navigation@1"
-				},
-				{
-					"command": "mnemographica.openTreeItem",
-					"when": "view == mnemonicaTypes && viewItem == navigableType",
-					"group": "navigation@2"
-				},
-				{
-					"command": "mnemographica.showUsages",
-					"when": "view == mnemonicaTypes && viewItem == navigableType",
-					"group": "navigation@3"
-				},
+			{
+				"command": "mnemographica.showUsages",
+				"when": "view == mnemonicaTypes && viewItem == navigable",
+				"group": "navigation@3"
+			},
+			{
+				"command": "mnemographica.showFlows",
+				"when": "view == mnemonicaTypes && viewItem == navigable",
+				"group": "navigation@4"
+			},
+			{
+				"command": "mnemographica.openType",
+				"when": "view == mnemonicaTypes && viewItem == navigableType",
+				"group": "navigation@1"
+			},
+			{
+				"command": "mnemographica.openTreeItem",
+				"when": "view == mnemonicaTypes && viewItem == navigableType",
+				"group": "navigation@2"
+			},
+			{
+				"command": "mnemographica.showUsages",
+				"when": "view == mnemonicaTypes && viewItem == navigableType",
+				"group": "navigation@3"
+			},
+			{
+				"command": "mnemographica.showFlows",
+				"when": "view == mnemonicaTypes && viewItem == navigableType",
+				"group": "navigation@4"
+			},
 				{
 					"command": "mnemographica.revealInExplorer",
 					"when": "view == mnemonicaUsages",
@@ -239,6 +272,11 @@
 				{
 					"id": "mnemonicaTypes",
 					"name": "Types",
+					"icon": "media/psi-icon.svg"
+				},
+				{
+					"id": "mnemonicaFlow",
+					"name": "Flow",
 					"icon": "media/psi-icon.svg"
 				}
 			]

@@ -3,7 +3,7 @@
 import { GraphData } from '../types';
 import { GraphConverter } from '../graph/converter';
 import { TypeNode } from '../types/tactica-types';
-import type { Registry } from '../models/Registry';
+import type { Registry } from '../../.tactica/types';
 
 /**
  * Pure graph builder - constructs graph data from registry without VS Code dependencies
@@ -12,7 +12,7 @@ export class GraphBuilder {
 	/**
 	 * Build graph data from registry's type definitions
 	 */
-	static buildFromRegistry(registry: InstanceType<typeof Registry>): GraphData {
+	static buildFromRegistry(registry: Registry): GraphData {
 		const types = registry.getTypes();
 		if (!types) {
 			return { nodes: [], links: [] };

@@ -4,12 +4,12 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { define, lookupTyped } from 'mnemonica';
 import { getLogger } from '../services/LoggerService';
-import type { Definitions, Types, Usages, Trie } from '~tactica/types';
-import type { EDS } from './EDS';
+import type { Definitions, Types, Usages, Trie, EDS, Flow } from '~tactica/types';
 
 import type { rawDefinitionEntry } from './Definition';
 import type { rawTypeEntry } from './Types';
 import type { rawEDSEntry } from './EDS';
+import type { rawFlowEntry } from './Flow';
 
 export type registryEntry = {
 	id: string;
@@ -28,7 +28,8 @@ export const Registry = define('Registry', class {
 	private definitionsInstance: Definitions | undefined;
 	private typesInstance: Types | undefined;
 	private usagesInstance: Usages | undefined;
-	private edsInstance: InstanceType<typeof EDS> | undefined;
+	private edsInstance: EDS | undefined;
+	private flowInstance: Flow | undefined;
 	private trieInstance: Trie | undefined;
 
 	// Workspace path for reload operations
@@ -80,6 +81,7 @@ export const Registry = define('Registry', class {
 		this.typesInstance = undefined;
 		this.usagesInstance = undefined;
 		this.edsInstance = undefined;
+		this.flowInstance = undefined;
 		this.trieInstance = undefined;
 		this.workspacePath = undefined;
 		this.logger.info('[Registry] : cleared all data');
@@ -114,13 +116,16 @@ export const Registry = define('Registry', class {
 			// Load EDS
 			await this.loadEDS(tacticaPath);
 
+			// Load Flow
+			await this.loadFlow(tacticaPath);
+
 			// Initialize Trie (no file to load, just create instance)
 			await this.loadTrie();
 
 			this.logger.info('[Registry] : all models loaded successfully');
 		} catch (error) {
 			this.logger.error('[Registry] : failed to load models',
-				(error as unknown as InstanceType<typeof Error>).stack);
+				(error as Error).stack);
 			throw error;
 		}
 	}
@@ -146,7 +151,7 @@ export const Registry = define('Registry', class {
 							const entry = new definitionsInstance.DefinitionEntry(value as rawDefinitionEntry);
 							definitionsInstance.set(key, entry);
 						} catch (error) {
-							const { stack } = error as unknown as InstanceType<typeof Error>;
+							const { stack } = error as Error;
 							this.logger.error(stack as string);
 						}
 					}
@@ -157,7 +162,7 @@ export const Registry = define('Registry', class {
 			}
 		} catch (error) {
 			this.logger.error('[Registry] : failed to load Definitions',
-				(error as unknown as InstanceType<typeof Error>).stack);
+				(error as Error).stack);
 			throw error;
 		}
 	}
@@ -214,7 +219,7 @@ export const Registry = define('Registry', class {
 							} as rawTypeEntry);
 							typesInstance.set(name, entry);
 						} catch (error) {
-							const { stack } = error as unknown as InstanceType<typeof Error>;
+							const { stack } = error as Error;
 							this.logger.error(stack as string);
 						}
 
@@ -227,7 +232,7 @@ export const Registry = define('Registry', class {
 			}
 		} catch (error) {
 			this.logger.error('[Registry] : failed to load Types',
-				(error as unknown as InstanceType<typeof Error>).stack);
+				(error as Error).stack);
 			throw error;
 		}
 	}
@@ -299,6 +304,40 @@ export const Registry = define('Registry', class {
 	}
 
 	/**
+	 * Load Flow from flow.json using lookupTyped
+	 */
+	private async loadFlow(tacticaPath: string): Promise<void> {
+		this.logger.info('[Registry] : loading Flow');
+
+		try {
+			const FlowConstructor = lookupTyped('Flow');
+			const flowInstance = new FlowConstructor();
+			this.makeProperty('flowInstance', flowInstance);
+
+			const flowPath = path.join(tacticaPath, 'flow.json');
+			if (fs.existsSync(flowPath)) {
+				const content = fs.readFileSync(flowPath, 'utf-8');
+				const data = JSON.parse(content);
+
+				if (data.flow) {
+					for (const [key, value] of Object.entries(data.flow)) {
+						const entries = (value as rawFlowEntry[]).map((e: rawFlowEntry) => {
+							return new flowInstance.FlowEntry(e);
+						});
+						flowInstance.set(key, entries);
+					}
+				}
+				this.logger.info(`[Registry] : Flow loaded with ${flowInstance.size} entries`);
+			} else {
+				this.logger.warn(`[Registry] : flow.json not found at ${flowPath}`);
+			}
+		} catch (error) {
+			this.logger.error('[Registry] : failed to load Flow', error);
+			throw error;
+		}
+	}
+
+	/**
 	 * Initialize Trie using lookupTyped
 	 */
 	private async loadTrie(): Promise<void> {
@@ -339,8 +378,15 @@ export const Registry = define('Registry', class {
 	/**
 	 * Get the EDS instance
 	 */
-	getEDS(): InstanceType<typeof EDS> | undefined {
+	getEDS(): EDS | undefined {
 		return this.edsInstance;
+	}
+
+	/**
+	 * Get the Flow instance
+	 */
+	getFlow(): Flow | undefined {
+		return this.flowInstance;
 	}
 
 	/**

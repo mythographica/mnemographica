@@ -1,7 +1,7 @@
 'use strict';
 
-import { Main } from '../models/Main';
-import { registry } from '../models/Registry';
+import { lookupTyped } from 'mnemonica';
+import type { Main as MainType, Registry } from '../../.tactica/types';
 import { StateManager } from './StateManager';
 import { GraphBuilder } from './GraphBuilder';
 import { Scene2DManager } from './Scene2DManager';
@@ -9,26 +9,26 @@ import { Scene3DManager } from './Scene3DManager';
 import { TrieManager } from './TrieManager';
 import { GraphData } from '../types';
 
-type MainInstance = InstanceType<typeof Main> & {
-	Adapter: unknown;
-};
-
 export class MainOrchestrator {
-	private main: MainInstance;
+	private main: MainType;
 	private stateManager: StateManager;
+	private registry: Registry;
 	private scene2d: Scene2DManager | undefined;
 	private scene3d: Scene3DManager | undefined;
 	private trie: TrieManager | undefined;
 	private currentGraphData: GraphData | undefined;
 
 	constructor(version: string) {
-		this.main = new Main(version) as MainInstance;
+		const Main = lookupTyped('Main');
+		this.main = new Main(version);
 		this.stateManager = new StateManager();
+		const Registry = lookupTyped('Registry');
+		this.registry = new Registry();
 
-		new (this.main.Adapter as new (data: unknown) => unknown)({
+		new this.main.Adapter({
 			name: 'mcp', domain: 'strategy', enabled: true
 		});
-		new (this.main.Adapter as new (data: unknown) => unknown)({
+		new this.main.Adapter({
 			name: 'vscode', domain: 'ui', enabled: true
 		});
 	}
@@ -38,7 +38,7 @@ export class MainOrchestrator {
 	}
 
 	getRegistry() {
-		return registry;
+		return this.registry;
 	}
 
 	async loadWorkspace(workspacePath: string): Promise<void> {
@@ -47,9 +47,9 @@ export class MainOrchestrator {
 
 		try {
 			this.stateManager.setWorkspacePath(workspacePath);
-			await registry.loadFromWorkspace(workspacePath);
+			await this.registry.loadFromWorkspace(workspacePath);
 
-			this.currentGraphData = GraphBuilder.buildFromRegistry(registry);
+			this.currentGraphData = GraphBuilder.buildFromRegistry(this.registry);
 			this.scene2d = new Scene2DManager(this.currentGraphData);
 			this.scene3d = new Scene3DManager(this.currentGraphData);
 			this.trie = new TrieManager();
@@ -66,7 +66,7 @@ export class MainOrchestrator {
 	async refresh(): Promise<void> {
 		const workspacePath = this.stateManager.getState().workspacePath;
 		if (!workspacePath) { return; }
-		registry.clear();
+		this.registry.clear();
 		await this.loadWorkspace(workspacePath);
 	}
 
@@ -91,7 +91,7 @@ export class MainOrchestrator {
 		return GraphBuilder.getStats(this.currentGraphData);
 	}
 
-	getMain(): MainInstance {
+	getMain(): MainType {
 		return this.main;
 	}
 
@@ -100,6 +100,6 @@ export class MainOrchestrator {
 		this.scene3d = undefined;
 		this.trie = undefined;
 		this.currentGraphData = undefined;
-		registry.clear();
+		this.registry.clear();
 	}
 }

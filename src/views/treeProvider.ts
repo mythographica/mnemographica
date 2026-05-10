@@ -4,7 +4,7 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 import { getLogger } from '../services/LoggerService';
-import { Registry } from '../models/Registry';
+import type { Registry } from '../../.tactica/types';
 
 type TreeNodeType = 'root' | 'type' | 'subtype' | 'definition';
 
@@ -85,7 +85,7 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 	private debug = true; // Enable debug logging
 	private logger = getLogger();
 	private currentWorkspacePath: string | undefined;
-	private registry: InstanceType<typeof Registry> | undefined;
+	private registry: Registry | undefined;
 
 	refresh (): void {
 		this._onDidChangeTreeData.fire();
@@ -100,7 +100,7 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 		return this.currentWorkspacePath;
 	}
 
-	setRegistry (registry: InstanceType<typeof Registry>): void {
+	setRegistry (registry: Registry): void {
 		this.registry = registry;
 		this.logger.info('[MnemonicaTree] Registry set');
 	}

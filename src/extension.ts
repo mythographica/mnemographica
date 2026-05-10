@@ -3,6 +3,7 @@ import { GraphProvider } from './graph/provider';
 import { MnemonicaActivityBarProvider } from './activityBar';
 import { MnemonicaTreeProvider, MnemonicaTreeItem } from './views/treeProvider';
 import { UsagesTreeProvider, UsageTreeItem } from './views/usagesTreeProvider';
+import { FlowTreeProvider, FlowTreeItem } from './views/flowTreeProvider';
 import { MnemonicaDefinitionProvider } from './providers/definitionProvider';
 import { MnemonicaReferenceProvider } from './providers/referenceProvider';
 import { StrategyServer } from './strategy';
@@ -21,6 +22,8 @@ let treeProvider: MnemonicaTreeProvider;
 let treeView: vscode.TreeView<MnemonicaTreeItem>;
 let usagesProvider: UsagesTreeProvider;
 let usagesTreeView: vscode.TreeView<UsageTreeItem>;
+let flowProvider: FlowTreeProvider;
+let flowTreeView: vscode.TreeView<FlowTreeItem>;
 let definitionProvider: MnemonicaDefinitionProvider;
 let referenceProvider: MnemonicaReferenceProvider;
 let strategyServer: StrategyServer;
@@ -55,6 +58,49 @@ export function activate(context: vscode.ExtensionContext) {
 		canSelectMany: false
 	});
 	context.subscriptions.push(usagesTreeView);
+
+	// Initialize flow tree provider
+	flowProvider = new FlowTreeProvider();
+	logger.info('FlowTreeProvider created');
+
+	// Create flow tree view
+	flowTreeView = vscode.window.createTreeView('mnemonicaFlow', {
+		treeDataProvider: flowProvider,
+		canSelectMany: false
+	});
+	context.subscriptions.push(flowTreeView);
+
+	// Register navigation command for flow entries
+	context.subscriptions.push(
+		vscode.commands.registerCommand('mnemographica.navigateToLocation', async (location: { filePath: string; line: number; column: number }) => {
+			try {
+				await VSCodeNavigation.goTo(location.filePath, location.line - 1, location.column - 1);
+			} catch (err) {
+				logger.error('Failed to navigate to:', location.filePath, err);
+			}
+		})
+	);
+
+	// Register show flows command (right-click on type/definition)
+	context.subscriptions.push(
+		vscode.commands.registerCommand('mnemographica.showFlows', (item: { data: { fullName?: string; label: string } }) => {
+			if (!item || !item.data) { return; }
+			const typeName = item.data.fullName || item.data.label;
+			const searchName = typeName.replace(/Instance$/, '').replace(/_/g, '.');
+			flowProvider.setFilterType(searchName);
+			// Focus the Flow panel
+			vscode.commands.executeCommand('mnemonicaFlow.focus');
+			logger.info(`[Extension] Show flows for: ${searchName}`);
+		})
+	);
+
+	// Register clear flow filter command (toolbar button in Flow panel)
+	context.subscriptions.push(
+		vscode.commands.registerCommand('mnemographica.clearFlowFilter', () => {
+			flowProvider.clearFilter();
+			logger.info('[Extension] Flow filter cleared');
+		})
+	);
 
 	// Initialize and register navigation providers
 	definitionProvider = new MnemonicaDefinitionProvider();
@@ -109,7 +155,7 @@ export function activate(context: vscode.ExtensionContext) {
 	const navigationCommands = registerNavigationCommands(treeProvider, usagesProvider);
 	const treeCommands = registerTreeCommands(treeProvider, usagesProvider, referenceProvider, mainOrchestrator);
 	const utilityCommands = registerUtilityCommands(strategyServer);
-	const workspaceCommands = registerWorkspaceCommands(treeProvider, referenceProvider, mainOrchestrator);
+	const workspaceCommands = registerWorkspaceCommands(treeProvider, referenceProvider, flowProvider, mainOrchestrator);
 
 	graphCommands.forEach(cmd => context.subscriptions.push(cmd));
 	navigationCommands.forEach(cmd => context.subscriptions.push(cmd));
@@ -186,6 +232,8 @@ export function activate(context: vscode.ExtensionContext) {
 			treeProvider.setRegistry(mainOrchestrator.getRegistry());
 			await treeProvider.loadFromRegistry();
 			treeProvider.refresh();
+			// Update flow provider
+			flowProvider.setRegistry(mainOrchestrator.getRegistry());
 		}).catch((err: Error) => {
 			logger.error('Failed to load workspace:', err);
 		});

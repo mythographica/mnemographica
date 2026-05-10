@@ -1,26 +1,17 @@
 'use strict';
 
-import { Scene2D, GraphNode2D, Link2D } from '../models/Scene2D';
+import { lookupTyped } from 'mnemonica';
+import type { Scene2D as Scene2DType, Scene2D_GraphNode2D, Scene2D_Link2D } from '../../.tactica/types';
 import { GraphData, D3Node, D3Link } from '../types';
 
-// Type for Scene2D instance with nested constructors
-type Scene2DInstance = InstanceType<typeof Scene2D> & {
-	Camera2D: typeof GraphNode2D; // Actually Camera2D constructor
-	GraphNode2D: typeof GraphNode2D;
-	Link2D: typeof Link2D;
-};
-
-/**
- * Scene2D Manager - wraps Scene2D mnemonica model and provides graph operations
- */
 export class Scene2DManager {
-	private scene: Scene2DInstance;
-	private nodeMap: Map<string, InstanceType<typeof GraphNode2D>> = new Map();
-	private linkMap: Map<string, InstanceType<typeof Link2D>> = new Map();
+	private scene: Scene2DType;
+	private nodeMap: Map<string, Scene2D_GraphNode2D> = new Map();
+	private linkMap: Map<string, Scene2D_Link2D> = new Map();
 
 	constructor(graphData?: GraphData) {
-		this.scene = new Scene2D() as Scene2DInstance;
-
+		const Scene2D = lookupTyped('Scene2D');
+		this.scene = new Scene2D();
 		if (graphData) {
 			this.loadGraph(graphData);
 		}
@@ -38,7 +29,7 @@ export class Scene2DManager {
 		}
 	}
 
-	createNode(data: D3Node): InstanceType<typeof GraphNode2D> {
+	createNode(data: D3Node): Scene2D_GraphNode2D {
 		const node = new this.scene.GraphNode2D({
 			id: data.id,
 			label: data.name || data.id,
@@ -51,7 +42,7 @@ export class Scene2DManager {
 		return node;
 	}
 
-	createLink(data: D3Link): InstanceType<typeof Link2D> | undefined {
+	createLink(data: D3Link): Scene2D_Link2D | undefined {
 		const sourceId = typeof data.source === 'string' ? data.source : data.source.id;
 		const targetId = typeof data.target === 'string' ? data.target : data.target.id;
 
@@ -64,16 +55,12 @@ export class Scene2DManager {
 		return link;
 	}
 
-	getNode(id: string): InstanceType<typeof GraphNode2D> | undefined {
+	getNode(id: string): Scene2D_GraphNode2D | undefined {
 		return this.nodeMap.get(id);
 	}
 
-	getNodes(): InstanceType<typeof GraphNode2D>[] {
+	getNodes(): Scene2D_GraphNode2D[] {
 		return Array.from(this.nodeMap.values());
-	}
-
-	getLinks(): InstanceType<typeof Link2D>[] {
-		return Array.from(this.linkMap.values());
 	}
 
 	updateNodePosition(id: string, x: number, y: number): void {
@@ -84,7 +71,7 @@ export class Scene2DManager {
 		}
 	}
 
-	getScene(): Scene2DInstance {
+	getScene(): Scene2DType {
 		return this.scene;
 	}
 

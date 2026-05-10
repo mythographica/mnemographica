@@ -1,6 +1,7 @@
 'use strict';
 
-import { Trie, GraphNodeTrie, LinkTrie } from '../models/Trie';
+import { lookupTyped } from 'mnemonica';
+import type { Trie, Trie_GraphNodeTrie, Trie_GraphNodeTrie_LinkTrie } from '../../.tactica/types';
 import { TypeNode } from '../types/tactica-types';
 
 export type TreeItemData = {
@@ -17,22 +18,15 @@ export type TreeItemData = {
 	};
 };
 
-type TrieInstance = InstanceType<typeof Trie> & {
-	GraphNodeTrie: typeof GraphNodeTrie;
-	LinkTrie: typeof LinkTrie;
-};
-
-type GraphNodeTrieInstance = InstanceType<typeof GraphNodeTrie>;
-type LinkTrieInstance = InstanceType<typeof LinkTrie>;
-
 export class TrieManager {
-	private trie: TrieInstance;
-	private nodeMap: Map<string, GraphNodeTrieInstance> = new Map();
-	private rootNodes: GraphNodeTrieInstance[] = [];
-	private links: LinkTrieInstance[] = [];
+	private trie: Trie;
+	private nodeMap: Map<string, Trie_GraphNodeTrie> = new Map();
+	private rootNodes: Trie_GraphNodeTrie[] = [];
+	private links: Trie_GraphNodeTrie_LinkTrie[] = [];
 
 	constructor() {
-		this.trie = new Trie() as TrieInstance;
+		const TrieConstructor = lookupTyped('Trie');
+		this.trie = new TrieConstructor();
 	}
 
 	buildFromTypes(typeNodes: TypeNode[]): void {
@@ -52,7 +46,7 @@ export class TrieManager {
 		}
 	}
 
-	createNode(typeNode: TypeNode, depth: number): GraphNodeTrieInstance {
+	createNode(typeNode: TypeNode, depth: number): Trie_GraphNodeTrie {
 		const node = new this.trie.GraphNodeTrie({
 			id: typeNode.fullPath,
 			name: typeNode.name,
@@ -68,12 +62,13 @@ export class TrieManager {
 		return node;
 	}
 
-	createLink(parentId: string, childId: string, relation: 'subtype' | 'instance'): LinkTrieInstance | undefined {
+	createLink(parentId: string, childId: string, relation: 'subtype' | 'instance'): Trie_GraphNodeTrie_LinkTrie | undefined {
 		const parent = this.nodeMap.get(parentId);
 		const child = this.nodeMap.get(childId);
 		if (!parent || !child) { return undefined; }
 
-		const link = new this.trie.LinkTrie({ parent, child, relation });
+		const LinkTrie = lookupTyped('Trie.GraphNodeTrie.LinkTrie');
+		const link = new LinkTrie({ parent, child, relation });
 		this.links.push(link);
 		return link;
 	}
@@ -82,12 +77,13 @@ export class TrieManager {
 		return this.rootNodes.map(node => this.toTreeItemData(node));
 	}
 
-	private toTreeItemData(node: GraphNodeTrieInstance): TreeItemData {
+	private toTreeItemData(node: Trie_GraphNodeTrie): TreeItemData {
 		const children: TreeItemData[] = [];
 		for (const link of this.links) {
-			const linkChild = link.child as unknown as GraphNodeTrieInstance;
-			if ((link.parent as unknown as GraphNodeTrieInstance).id === node.id && linkChild) {
-				children.push(this.toTreeItemData(linkChild));
+			const parent = link.parent as Trie_GraphNodeTrie;
+			const child = link.child as Trie_GraphNodeTrie;
+			if (parent.id === node.id) {
+				children.push(this.toTreeItemData(child));
 			}
 		}
 
@@ -111,11 +107,11 @@ export class TrieManager {
 		return depth;
 	}
 
-	getNode(id: string): GraphNodeTrieInstance | undefined {
+	getNode(id: string): Trie_GraphNodeTrie | undefined {
 		return this.nodeMap.get(id);
 	}
 
-	getTrie(): TrieInstance {
+	getTrie(): Trie {
 		return this.trie;
 	}
 

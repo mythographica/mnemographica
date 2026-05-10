@@ -5,6 +5,7 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { MnemonicaTreeProvider } from '../views/treeProvider';
 import { MnemonicaReferenceProvider } from '../providers/referenceProvider';
+import { FlowTreeProvider } from '../views/flowTreeProvider';
 import { MainOrchestrator } from '../core/MainOrchestrator';
 import { getLogger } from '../services/LoggerService';
 
@@ -18,13 +19,14 @@ type WorkspaceQuickPickItem = {
 export function registerWorkspaceCommands(
 	treeProvider: MnemonicaTreeProvider,
 	referenceProvider: MnemonicaReferenceProvider,
+	flowProvider: FlowTreeProvider,
 	mainOrchestrator: MainOrchestrator
 ): vscode.Disposable[] {
 	const disposables: vscode.Disposable[] = [];
 
 	disposables.push(
 		vscode.commands.registerCommand('mnemographica.selectWorkspace', async () => {
-			await selectWorkspace(treeProvider, referenceProvider, mainOrchestrator);
+			await selectWorkspace(treeProvider, referenceProvider, flowProvider, mainOrchestrator);
 		})
 	);
 
@@ -34,6 +36,7 @@ export function registerWorkspaceCommands(
 async function selectWorkspace(
 	treeProvider: MnemonicaTreeProvider,
 	referenceProvider: MnemonicaReferenceProvider,
+	flowProvider: FlowTreeProvider,
 	mainOrchestrator: MainOrchestrator
 ): Promise<void> {
 	const workspaces = await vscode.window.withProgress(
@@ -63,16 +66,17 @@ async function selectWorkspace(
 	if (!selected) { return; }
 
 	if (selected.workspacePath === '__browse__') {
-		await browseForWorkspace(treeProvider, referenceProvider, mainOrchestrator);
+		await browseForWorkspace(treeProvider, referenceProvider, flowProvider, mainOrchestrator);
 		return;
 	}
 
-	await loadWorkspace(selected.workspacePath, selected.label, treeProvider, referenceProvider, mainOrchestrator);
+	await loadWorkspace(selected.workspacePath, selected.label, treeProvider, referenceProvider, flowProvider, mainOrchestrator);
 }
 
 async function browseForWorkspace(
 	treeProvider: MnemonicaTreeProvider,
 	referenceProvider: MnemonicaReferenceProvider,
+	flowProvider: FlowTreeProvider,
 	mainOrchestrator: MainOrchestrator
 ): Promise<void> {
 	const folderUri = await vscode.window.showOpenDialog({
@@ -99,7 +103,7 @@ async function browseForWorkspace(
 		return;
 	}
 
-	await loadWorkspace(selectedPath, path.basename(selectedPath), treeProvider, referenceProvider, mainOrchestrator);
+	await loadWorkspace(selectedPath, path.basename(selectedPath), treeProvider, referenceProvider, flowProvider, mainOrchestrator);
 }
 
 async function loadWorkspace(
@@ -107,6 +111,7 @@ async function loadWorkspace(
 	label: string,
 	treeProvider: MnemonicaTreeProvider,
 	referenceProvider: MnemonicaReferenceProvider,
+	flowProvider: FlowTreeProvider,
 	mainOrchestrator: MainOrchestrator
 ): Promise<void> {
 	const logger = getLogger();
@@ -117,6 +122,9 @@ async function loadWorkspace(
 		treeProvider.setRegistry(mainOrchestrator.getRegistry());
 		await treeProvider.loadFromRegistry();
 		treeProvider.refresh();
+
+		// Update flow provider
+		flowProvider.setRegistry(mainOrchestrator.getRegistry());
 
 		if (referenceProvider) {
 			referenceProvider.clear();
