@@ -1,6 +1,6 @@
 'use strict';
 
-import { lookupTyped } from 'mnemonica';
+import { lookup } from 'mnemonica';
 import type { Trie, Trie_GraphNodeTrie, Trie_GraphNodeTrie_LinkTrie } from '../../.tactica/types';
 import { TypeNode } from '../types/tactica-types';
 
@@ -25,7 +25,7 @@ export class TrieManager {
 	private links: Trie_GraphNodeTrie_LinkTrie[] = [];
 
 	constructor() {
-		const TrieConstructor = lookupTyped('Trie');
+		const TrieConstructor = lookup('Trie');
 		this.trie = new TrieConstructor();
 	}
 
@@ -67,7 +67,7 @@ export class TrieManager {
 		const child = this.nodeMap.get(childId);
 		if (!parent || !child) { return undefined; }
 
-		const LinkTrie = lookupTyped('Trie.GraphNodeTrie.LinkTrie');
+		const LinkTrie = lookup('Trie.GraphNodeTrie.LinkTrie');
 		const link = new LinkTrie({ parent, child, relation });
 		this.links.push(link);
 		return link;

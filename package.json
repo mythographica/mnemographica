@@ -20,16 +20,22 @@
 		"visualization"
 	],
 	"activationEvents": [
-		"onCommand:mnemographica.showTypeGraph",
-		"workspaceContains:**/*.ts",
-		"workspaceContains:**/package.json"
+			"onCommand:mnemographica.showTypeGraph",
+			"onCommand:mnemographica.showTypeGraph25D",
+			"workspaceContains:**/*.ts",
+			"workspaceContains:**/package.json"
 	],
 	"main": "./out/src/extension.js",
 	"contributes": {
 		"commands": [
 			{
 				"command": "mnemographica.showTypeGraph",
-				"title": "Ψ",
+				"title": "Ψ 2D/3D",
+				"category": "Mnemonica"
+			},
+			{
+				"command": "mnemographica.showTypeGraph25D",
+				"title": "Ψ 2.5D",
 				"category": "Mnemonica"
 			},
 			{
@@ -127,12 +133,21 @@
 				"title": "Show All Flows",
 				"category": "Mnemonica",
 				"icon": "$(clear-all)"
+			},
+			{
+				"command": "mnemographica.refreshGenTree",
+				"title": "Refresh By Generation",
+				"category": "Mnemonica",
+				"icon": "$(refresh)"
 			}
 		],
 		"menus": {
 			"commandPalette": [
 				{
 					"command": "mnemographica.showTypeGraph"
+				},
+				{
+					"command": "mnemographica.showTypeGraph25D"
 				},
 				{
 					"command": "mnemographica.refreshGraph"
@@ -151,6 +166,9 @@
 				},
 				{
 					"command": "mnemographica.selectWorkspace"
+				},
+				{
+					"command": "mnemographica.refreshGenTree"
 				}
 			],
 			"editor/title": [
@@ -165,11 +183,20 @@
 					"command": "mnemographica.showTypeGraph",
 					"when": "activePanel == mnemonicaGraph",
 					"group": "navigation"
+				},
+				{
+					"command": "mnemographica.showTypeGraph25D",
+					"when": "activePanel == mnemonicaGraph25D",
+					"group": "navigation"
 				}
 			],
 			"view/title": [
 				{
 					"command": "mnemographica.showTypeGraph",
+					"group": "navigation"
+				},
+				{
+					"command": "mnemographica.showTypeGraph25D",
 					"group": "navigation"
 				},
 				{
@@ -180,6 +207,11 @@
 			{
 				"command": "mnemographica.clearFlowFilter",
 				"when": "view == mnemonicaFlow",
+				"group": "navigation@1"
+			},
+			{
+				"command": "mnemographica.refreshGenTree",
+				"when": "view == mnemonicaGen",
 				"group": "navigation@1"
 			}
 			],
@@ -250,6 +282,11 @@
 					"command": "mnemographica.showTypeGraph",
 					"when": "resourceExtname == .ts",
 					"group": "mnemonica@1"
+				},
+				{
+					"command": "mnemographica.showTypeGraph25D",
+					"when": "resourceExtname == .ts",
+					"group": "mnemonica@2"
 				}
 			]
 		},
@@ -277,6 +314,11 @@
 				{
 					"id": "mnemonicaFlow",
 					"name": "Flow",
+					"icon": "media/psi-icon.svg"
+				},
+				{
+					"id": "mnemonicaGen",
+					"name": "By Generation",
 					"icon": "media/psi-icon.svg"
 				}
 			]

@@ -4,6 +4,7 @@ import { MnemonicaActivityBarProvider } from './activityBar';
 import { MnemonicaTreeProvider, MnemonicaTreeItem } from './views/treeProvider';
 import { UsagesTreeProvider, UsageTreeItem } from './views/usagesTreeProvider';
 import { FlowTreeProvider, FlowTreeItem } from './views/flowTreeProvider';
+import { GenTreeProvider, GenTreeItem } from './views/genTreeProvider';
 import { MnemonicaDefinitionProvider } from './providers/definitionProvider';
 import { MnemonicaReferenceProvider } from './providers/referenceProvider';
 import { StrategyServer } from './strategy';
@@ -11,11 +12,13 @@ import { getLogger } from './services/LoggerService';
 import { VSCodeNavigation } from './services/NavigationAdapter';
 import { loadModels, modelsLoaded } from './topologica/bootstrap';
 import { MainOrchestrator } from './core/MainOrchestrator';
+import { GraphBuilder } from './core/GraphBuilder';
 import { registerGraphCommands } from './commands/graphCommands';
 import { registerNavigationCommands } from './commands/navigationCommands';
 import { registerTreeCommands } from './commands/treeCommands';
 import { registerUtilityCommands } from './commands/utilityCommands';
 import { registerWorkspaceCommands } from './commands/workspaceCommands';
+import { GraphPanel25D } from './webview/panel25d';
 
 let graphProvider: GraphProvider;
 let treeProvider: MnemonicaTreeProvider;
@@ -24,6 +27,8 @@ let usagesProvider: UsagesTreeProvider;
 let usagesTreeView: vscode.TreeView<UsageTreeItem>;
 let flowProvider: FlowTreeProvider;
 let flowTreeView: vscode.TreeView<FlowTreeItem>;
+let genProvider: GenTreeProvider;
+let genTreeView: vscode.TreeView<GenTreeItem>;
 let definitionProvider: MnemonicaDefinitionProvider;
 let referenceProvider: MnemonicaReferenceProvider;
 let strategyServer: StrategyServer;
@@ -69,6 +74,17 @@ export function activate(context: vscode.ExtensionContext) {
 		canSelectMany: false
 	});
 	context.subscriptions.push(flowTreeView);
+
+	// Initialize generation tree provider
+	genProvider = new GenTreeProvider();
+	logger.info('GenTreeProvider created');
+
+	// Create generation tree view
+	genTreeView = vscode.window.createTreeView('mnemonicaGen', {
+		treeDataProvider: genProvider,
+		canSelectMany: false
+	});
+	context.subscriptions.push(genTreeView);
 
 	// Register navigation command for flow entries
 	context.subscriptions.push(
@@ -151,7 +167,7 @@ export function activate(context: vscode.ExtensionContext) {
 	graphProvider = new GraphProvider(mainOrchestrator);
 
 	// Register commands from command files (all deps now initialized)
-	const graphCommands = registerGraphCommands(context, graphProvider, treeProvider);
+	const graphCommands = registerGraphCommands(context, graphProvider, treeProvider, genProvider);
 	const navigationCommands = registerNavigationCommands(treeProvider, usagesProvider);
 	const treeCommands = registerTreeCommands(treeProvider, usagesProvider, referenceProvider, mainOrchestrator);
 	const utilityCommands = registerUtilityCommands(strategyServer);
@@ -234,6 +250,18 @@ export function activate(context: vscode.ExtensionContext) {
 			treeProvider.refresh();
 			// Update flow provider
 			flowProvider.setRegistry(mainOrchestrator.getRegistry());
+			// Load graph data through GraphProvider (same path as manual refresh)
+			try {
+				const graphData = await graphProvider.loadGraph(workspacePath);
+				logger.info(`[Extension] Graph data: ${graphData.nodes.length} nodes, ${graphData.links.length} links`);
+				genProvider.setGraphData(graphData);
+				GraphPanel25D.updateGraph(graphData);
+			} catch (err) {
+				logger.warn('[Extension] GraphProvider failed, falling back:', err);
+				const rebuilt = GraphBuilder.buildFromRegistry(mainOrchestrator.getRegistry());
+				genProvider.setGraphData(rebuilt);
+				GraphPanel25D.updateGraph(rebuilt);
+			}
 		}).catch((err: Error) => {
 			logger.error('Failed to load workspace:', err);
 		});
@@ -304,6 +332,17 @@ async function refreshTypeGraph(_context: vscode.ExtensionContext) {
 	if (treeProvider && mainOrchestrator) {
 		await mainOrchestrator.refresh();
 		treeProvider.refresh();
+		// Load graph data through GraphProvider (same path as manual refresh)
+		try {
+			const graphData = await graphProvider.loadGraph(workspacePath);
+			genProvider.setGraphData(graphData);
+			GraphPanel25D.updateGraph(graphData);
+		} catch (err) {
+			logger.warn('[Extension] refresh: GraphProvider failed, falling back:', err);
+			const rebuilt = GraphBuilder.buildFromRegistry(mainOrchestrator.getRegistry());
+			genProvider.setGraphData(rebuilt);
+			GraphPanel25D.updateGraph(rebuilt);
+		}
 	}
 
 	// Refresh navigation providers

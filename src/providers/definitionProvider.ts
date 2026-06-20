@@ -30,7 +30,7 @@ function findTacticaDir(startPath: string): string | undefined {
 /**
  * VS Code DefinitionProvider for mnemonica types
  * Enables Go to Definition (Ctrl+Click/F12) on:
- * 1. Type paths in lookupTyped('TypeName') calls
+ * 1. Type paths in lookup('TypeName') calls
  * 2. Type references that would navigate to generated .tactica/types.ts
  */
 export class MnemonicaDefinitionProvider implements vscode.DefinitionProvider {
@@ -111,10 +111,10 @@ export class MnemonicaDefinitionProvider implements vscode.DefinitionProvider {
 	): vscode.ProviderResult<vscode.Definition | vscode.LocationLink[]> {
 		logger.info(`[DefinitionProvider] Called at ${document.fileName}:${position.line}:${position.character}`);
 
-		// Case 1: Check if this is inside a lookupTyped('TypeName') call
-		const lookupTypedResult = this.handleLookupTyped(document, position);
-		if (lookupTypedResult) {
-			return lookupTypedResult;
+		// Case 1: Check if this is inside a lookup('TypeName') call
+		const lookupResult = this.handleLookup(document, position);
+		if (lookupResult) {
+			return lookupResult;
 		}
 
 		// Case 2: Check if this is a type reference in .tactica/types.ts
@@ -135,9 +135,9 @@ export class MnemonicaDefinitionProvider implements vscode.DefinitionProvider {
 	}
 
 	/**
-	 * Handle lookupTyped('TypeName') calls
+	 * Handle lookup('TypeName') calls
 	 */
-	private handleLookupTyped(
+	private handleLookup(
 		document: vscode.TextDocument,
 		position: vscode.Position
 	): vscode.Location | null {
@@ -151,12 +151,12 @@ export class MnemonicaDefinitionProvider implements vscode.DefinitionProvider {
 		const text = document.getText(wordRange);
 		const typePath = text.slice(1, -1); // Remove quotes
 
-		// Check if this is inside a lookupTyped call
-		if (!this.isInsideLookupTyped(document, position)) {
+		// Check if this is inside a lookup call
+		if (!this.isInsideLookup(document, position)) {
 			return null;
 		}
 
-		logger.info(`[DefinitionProvider] lookupTyped: ${typePath}`);
+		logger.info(`[DefinitionProvider] lookup: ${typePath}`);
 
 		// Load definitions for this file
 		const definitionsMap = this.loadDefinitionsForFile(document.fileName);
@@ -270,21 +270,21 @@ export class MnemonicaDefinitionProvider implements vscode.DefinitionProvider {
 	}
 
 	/**
-	 * Check if the position is inside a lookupTyped() call
+	 * Check if the position is inside a lookup() call
 	 */
-	private isInsideLookupTyped(document: vscode.TextDocument, position: vscode.Position): boolean {
+	private isInsideLookup(document: vscode.TextDocument, position: vscode.Position): boolean {
 		// Get the line text up to the cursor position
 		const lineText = document.lineAt(position.line).text;
 		const textBeforeCursor = lineText.substring(0, position.character);
 
-		// Simple heuristic: check if lookupTyped( appears before the cursor
-		const lookupTypedIndex = textBeforeCursor.lastIndexOf('lookupTyped');
-		if (lookupTypedIndex === -1) {
+		// Simple heuristic: check if lookup( appears before the cursor
+		const lookupIndex = textBeforeCursor.lastIndexOf('lookup');
+		if (lookupIndex === -1) {
 			return false;
 		}
 
-		// Check if there's an opening paren after lookupTyped
-		const afterLookupTyped = textBeforeCursor.substring(lookupTypedIndex + 'lookupTyped'.length);
+		// Check if there's an opening paren after lookup
+		const afterLookupTyped = textBeforeCursor.substring(lookupIndex + 'lookup'.length);
 		return afterLookupTyped.trim().startsWith('(');
 	}
 

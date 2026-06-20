@@ -3,7 +3,7 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
-import { lookupTyped } from 'mnemonica';
+import { lookup } from 'mnemonica';
 import { modelsLoaded } from '../topologica/bootstrap';
 import type { LoggerTab, LoggerTab_LogEntry } from '~tactica/types';
 
@@ -59,9 +59,9 @@ export class LoggerService {
 		}
 		this.logFilePath = path.join(logDir, 'server.log');
 
-		// Phase 1: Initialize Mnemonica LoggerTab via lookupTyped
+		// Phase 1: Initialize Mnemonica LoggerTab via lookup
 		if (modelsLoaded) {
-			const LoggerTabConstructor = lookupTyped('LoggerTab');
+			const LoggerTabConstructor = lookup('LoggerTab');
 			if (LoggerTabConstructor) {
 				this.loggerTab = new LoggerTabConstructor();
 			}

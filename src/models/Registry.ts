@@ -2,7 +2,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { define, lookupTyped } from 'mnemonica';
+import { define, lookup } from 'mnemonica';
 import { getLogger } from '../services/LoggerService';
 import type { Definitions, Types, Usages, Trie, EDS, Flow } from '~tactica/types';
 
@@ -131,13 +131,13 @@ export const Registry = define('Registry', class {
 	}
 
 	/**
-	 * Load Definitions from definitions.json using lookupTyped
+	 * Load Definitions from definitions.json using lookup
 	 */
 	private async loadDefinitions(tacticaPath: string): Promise<void> {
 		this.logger.info('[Registry] : loading Definitions');
 
 		try {
-			const DefinitionsConstructor = lookupTyped('Definitions');
+			const DefinitionsConstructor = lookup('Definitions');
 			const definitionsInstance = new DefinitionsConstructor();
 			this.makeProperty('definitionsInstance', definitionsInstance);
 
@@ -168,13 +168,13 @@ export const Registry = define('Registry', class {
 	}
 
 	/**
-	 * Load Types from types.ts using lookupTyped
+	 * Load Types from types.ts using lookup
 	 */
 	private async loadTypes(tacticaPath: string): Promise<void> {
 		this.logger.info('[Registry] : loading Types');
 
 		try {
-			const TypesConstructor = lookupTyped('Types');
+			const TypesConstructor = lookup('Types');
 			const typesInstance = new TypesConstructor();
 			this.makeProperty('typesInstance', typesInstance);
 
@@ -238,13 +238,13 @@ export const Registry = define('Registry', class {
 	}
 
 	/**
-	 * Load Usages from usages.json using lookupTyped
+	 * Load Usages from usages.json using lookup
 	 */
 	private async loadUsages(tacticaPath: string): Promise<void> {
 		this.logger.info('[Registry] : loading Usages');
 
 		try {
-			const UsagesConstructor = lookupTyped('Usages');
+			const UsagesConstructor = lookup('Usages');
 			const usagesInstance = new UsagesConstructor();
 			this.makeProperty('usagesInstance', usagesInstance);
 
@@ -270,13 +270,13 @@ export const Registry = define('Registry', class {
 	}
 
 	/**
-	 * Load EDS from eds.json using lookupTyped
+	 * Load EDS from eds.json using lookup
 	 */
 	private async loadEDS(tacticaPath: string): Promise<void> {
 		this.logger.info('[Registry] : loading EDS');
 
 		try {
-			const EDSConstructor = lookupTyped('EDS');
+			const EDSConstructor = lookup('EDS');
 			const edsInstance = new EDSConstructor();
 			this.makeProperty('edsInstance', edsInstance);
 
@@ -304,13 +304,13 @@ export const Registry = define('Registry', class {
 	}
 
 	/**
-	 * Load Flow from flow.json using lookupTyped
+	 * Load Flow from flow.json using lookup
 	 */
 	private async loadFlow(tacticaPath: string): Promise<void> {
 		this.logger.info('[Registry] : loading Flow');
 
 		try {
-			const FlowConstructor = lookupTyped('Flow');
+			const FlowConstructor = lookup('Flow');
 			const flowInstance = new FlowConstructor();
 			this.makeProperty('flowInstance', flowInstance);
 
@@ -338,13 +338,13 @@ export const Registry = define('Registry', class {
 	}
 
 	/**
-	 * Initialize Trie using lookupTyped
+	 * Initialize Trie using lookup
 	 */
 	private async loadTrie(): Promise<void> {
 		this.logger.info('[Registry] : loading Trie');
 
 		try {
-			const TrieConstructor = lookupTyped('Trie');
+			const TrieConstructor = lookup('Trie');
 			const trieInstance = new TrieConstructor();
 			this.makeProperty('trieInstance', trieInstance);
 			this.logger.info('[Registry] : Trie initialized');

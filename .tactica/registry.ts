@@ -1,10 +1,10 @@
-// Generated TypeRegistry for type-safe mnemonica.lookupTyped<TypeRegistry>()
-// Import this interface and use with lookupTyped from mnemonica
+// Generated TypeRegistry for type-safe mnemonica.lookup()
+// This file augments mnemonica's TypeRegistry via declaration merging.
 //
 // Usage:
-//   import { lookupTyped } from 'mnemonica';
-//   import { TypeRegistry } from './.tactica/registry';
-//   const Sentience = lookupTyped<TypeRegistry>('Sentience');
+//   import { lookup } from 'mnemonica';
+//   import './.tactica/registry';  // applies the augmentation
+//   const Sentience = lookup('Sentience');
 //   // TypeScript knows: Sentience is a constructor for SentienceInstance
 //   const instance = new Sentience({ purpose: 'AI' });
 //   // instance has full intellisense for Consciousness, Memory, etc.
@@ -44,9 +44,9 @@ import type {
 
 /**
  * Type registry augmenting mnemonica's TypeRegistry interface
- * This enables type-safe lookupTyped() without explicit type arguments
+ * This enables type-safe lookup() without explicit type arguments
  *
- * Usage: const SomeType = lookupTyped('SomeType'); // Fully typed!
+ * Usage: const SomeType = lookup('SomeType'); // Fully typed!
  */
 declare module 'mnemonica' {
 	interface TypeRegistry {

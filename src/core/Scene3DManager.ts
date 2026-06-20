@@ -1,6 +1,6 @@
 'use strict';
 
-import { lookupTyped } from 'mnemonica';
+import { lookup } from 'mnemonica';
 import type { Scene3D as Scene3DType, Scene3D_GraphNode3D, Scene3D_Link3D } from '../../.tactica/types';
 import { GraphData, D3Node, D3Link } from '../types';
 
@@ -10,7 +10,7 @@ export class Scene3DManager {
 	private linkMap: Map<string, Scene3D_Link3D> = new Map();
 
 	constructor(graphData?: GraphData) {
-		const Scene3D = lookupTyped('Scene3D');
+		const Scene3D = lookup('Scene3D');
 		this.scene = new Scene3D();
 		if (graphData) {
 			this.loadGraph(graphData);

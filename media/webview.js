@@ -109,12 +109,16 @@
 			}
 		});
 
-		document.getElementById('toggle-3d').addEventListener('click', function () {
-			toggle3DMode();
+		document.getElementById('mode-2d').addEventListener('click', function () {
+			if (is3D) { set3DMode(false); }
+		});
+		document.getElementById('mode-3d').addEventListener('click', function () {
+			if (!is3D) { set3DMode(true); }
 		});
 	}
 
-	function toggle3DMode() {
+	function set3DMode(target3D) {
+		if (is3D === target3D) return;
 		// Determine what mode we're LEAVING (before flipping is3D)
 		const was3D = is3D;
 
@@ -147,10 +151,14 @@
 		}
 
 		// NOW flip the mode
-		is3D = !is3D;
-		const btn = document.getElementById('toggle-3d');
-		btn.textContent = is3D ? '3D' : '2D';
-		btn.classList.toggle('active', is3D);
+		is3D = target3D;
+		const btn2d = document.getElementById('mode-2d');
+		const btn3d = document.getElementById('mode-3d');
+		if (btn2d) btn2d.classList.toggle('active', !is3D);
+		if (btn3d) btn3d.classList.toggle('active', is3D);
+
+		// Notify extension of mode change
+		vscode.postMessage({ command: 'modeChanged', data: { mode: is3D ? '3D' : '2D' } });
 
 		// Hide any visible tooltip
 		d3.select('#tooltip').classed('visible', false);
@@ -443,25 +451,31 @@
 			const props = (d.properties || [])
 				.map(function (p) { return p.name + ': ' + p.type; })
 				.join('<br>');
+			const genLabel = d.depth === 0 ? 'Root' : 'Gen ' + d.depth;
+			const edsLabel = d.edsStatus && d.edsStatus !== 'none' ? ' · ' + d.edsStatus : '';
+			const loc = d.definitionLocation || d.location;
+			const fileHint = loc ? '<br><span style="opacity:0.6;font-size:11px">' + loc.fileName.split('/').pop() + ':' + loc.line + '</span>' : '';
 			tooltip
 				.attr('data-node-id', d.id)
 				.classed('visible', true)
-				.html('<strong>' + d.name + '</strong><br>' +
-					'<em>depth: ' + d.depth + '</em><br>' +
-					(props ? '<hr>' + props : ''))
+				.html('<strong>' + d.name + '</strong><span style="float:right;opacity:0.5">' + genLabel + edsLabel + '</span>' +
+					fileHint +
+					(props ? '<hr>' + props : '') +
+					'<br><span style="opacity:0.5;font-size:11px">Double-click to go to definition</span>')
 				.style('left', (event.pageX + 10) + 'px')
 				.style('top', (event.pageY - 10) + 'px');
 		});
 
-		// Double-click on node - go to definition
+		// Double-click on node - go to definition (prefer actual define() site)
 		node.on('dblclick', function (event, d) {
 			event.stopPropagation();
 			// Hide tooltip on navigation
 			d3.select('#tooltip').classed('visible', false);
-			if (d.location) {
+			const loc = d.definitionLocation || d.location;
+			if (loc) {
 				vscode.postMessage({
 					command: 'goToDefinition',
-					data: d.location
+					data: loc
 				});
 			}
 		});
@@ -625,10 +639,11 @@
 		renderer3D = new Graph3DRenderer(container, initialCameraState);
 		renderer3D.setOnNodeClick(function (node) {
 			debugLog('[Mnemonica] 3D Node clicked:', node.name, 'log');
-			if (node.location) {
+			const loc = node.definitionLocation || node.location;
+			if (loc) {
 				vscode.postMessage({
 					command: 'goToDefinition',
-					data: node.location
+					data: loc
 				});
 			}
 		});

@@ -2,11 +2,10 @@ import * as vscode from 'vscode';
 import type { GraphData, WebviewMessage } from '../types/index.js';
 import { getLogger } from '../services/LoggerService';
 
-// Get logger instance once at module level
 const logger = getLogger();
 
-export class GraphPanel {
-	public static currentPanel: GraphPanel | undefined;
+export class GraphPanel25D {
+	public static currentPanel: GraphPanel25D | undefined;
 	private readonly panel: vscode.WebviewPanel;
 	private readonly disposables: vscode.Disposable[] = [];
 
@@ -15,17 +14,17 @@ export class GraphPanel {
 			? vscode.window.activeTextEditor.viewColumn
 			: undefined;
 
-		if (GraphPanel.currentPanel) {
-			GraphPanel.currentPanel.panel.reveal(column);
+		if (GraphPanel25D.currentPanel) {
+			GraphPanel25D.currentPanel.panel.reveal(column);
 			if (graphData) {
-				GraphPanel.currentPanel.updateGraph(graphData);
+				GraphPanel25D.currentPanel.updateGraph(graphData);
 			}
 			return;
 		}
 
 		const panel = vscode.window.createWebviewPanel(
-			'mnemonicaGraph',
-			'Mnemonica Graph',
+			'mnemonicaGraph25D',
+			'Mnemonica Graph 2.5D',
 			column || vscode.ViewColumn.One,
 			{
 				enableScripts: true,
@@ -36,12 +35,12 @@ export class GraphPanel {
 			}
 		);
 
-		GraphPanel.currentPanel = new GraphPanel(panel, extensionUri, graphData);
+		GraphPanel25D.currentPanel = new GraphPanel25D(panel, extensionUri, graphData);
 	}
 
 	public static updateGraph (graphData: GraphData | null) {
-		if (GraphPanel.currentPanel && graphData) {
-			GraphPanel.currentPanel.updateGraph(graphData);
+		if (GraphPanel25D.currentPanel && graphData) {
+			GraphPanel25D.currentPanel.updateGraph(graphData);
 		}
 	}
 
@@ -51,12 +50,8 @@ export class GraphPanel {
 		graphData: GraphData | null
 	) {
 		this.panel = panel;
-
-		// Set initial content
-		this.panel.title = 'Mnemonica Graph 2D';
 		this.panel.webview.html = this.getWebviewContent(graphData, extensionUri);
 
-		// Handle messages from webview
 		this.panel.webview.onDidReceiveMessage(
 			async (message: WebviewMessage) => {
 				switch (message.command) {
@@ -64,8 +59,7 @@ export class GraphPanel {
 					if (message.data &&
 						typeof message.data === 'object' &&
 						'fileName' in message.data &&
-						'line' in message.data &&
-						'column' in message.data) {
+						'line' in message.data) {
 						await this.handleGoToDefinition(message.data as {
 							fileName: string;
 							line: number;
@@ -74,31 +68,23 @@ export class GraphPanel {
 					}
 					break;
 				case 'ready':
-					// Webview is ready, send data if we have it
 					if (graphData) {
 						this.updateGraph(graphData);
 					}
 					break;
 				case 'log':
-					// Forward webview logs to LoggerService
 					if (message.data &&
 						typeof message.data === 'object' &&
 						'message' in message.data) {
 						const logType = 'type' in message.data ? String(message.data.type) : 'info';
 						const logMsg = String(message.data.message);
 						if (logType === 'error') {
-							logger.error('[Webview]', logMsg);
+							logger.error('[Webview25D]', logMsg);
 						} else if (logType === 'warn') {
-							logger.warn('[Webview]', logMsg);
+							logger.warn('[Webview25D]', logMsg);
 						} else {
-							logger.info('[Webview]', logMsg);
+							logger.info('[Webview25D]', logMsg);
 						}
-					}
-					break;
-				case 'modeChanged':
-					if (message.data && typeof message.data === 'object' && 'mode' in message.data) {
-						const mode = String(message.data.mode);
-						this.panel.title = mode === '3D' ? 'Mnemonica Graph 3D' : 'Mnemonica Graph 2D';
 					}
 					break;
 				}
@@ -134,67 +120,81 @@ export class GraphPanel {
 	}
 
 	private getWebviewContent (_graphData: GraphData | null, extensionUri: vscode.Uri): string {
-		const config = vscode.workspace.getConfiguration('mnemographica');
-		const showProperties = config.get<boolean>('showProperties', true);
-
-		// Get URIs for local resources
 		const styleUri = this.panel.webview.asWebviewUri(
-			vscode.Uri.joinPath(extensionUri, 'media', 'webview.css')
+			vscode.Uri.joinPath(extensionUri, 'media', 'webview-25d.css')
 		);
 		const scriptUri = this.panel.webview.asWebviewUri(
-			vscode.Uri.joinPath(extensionUri, 'media', 'webview.js')
+			vscode.Uri.joinPath(extensionUri, 'media', 'webview-25d.js')
 		);
 
-		// D3.js CDN
-		const d3Uri = 'https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js';
-		// Three.js CDN
-		const threeUri = 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js';
-
 		return `<!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Mnemonica Graph</title>
+	<title>Mnemonica Graph 2.5D</title>
 	<link rel="stylesheet" href="${String(styleUri)}">
-	<script src="${d3Uri}"></script>
-	<script src="${threeUri}"></script>
 </head>
 <body>
-	<div id="controls">
-		<button id="zoom-in" title="Zoom In">+</button>
-		<button id="zoom-out" title="Zoom Out">−</button>
-		<button id="reset" title="Reset View">⟲</button>
-		<button id="mode-2d" class="mode-btn active" title="2D Mode">2D</button>
-		<button id="mode-3d" class="mode-btn" title="3D Mode">3D</button>
-	</div>
-	<div id="gen-controls" style="display: none;">
-		<div class="gen-controls-header">Generation Distances</div>
-		<div id="gen-controls-list"></div>
-	</div>
-	<div id="graph"></div>
-	<div id="tooltip"></div>
-	<div id="status"></div>
+	<div id="graph-container">
+		<canvas id="scene"></canvas>
 
-	<script>
-		// Pass configuration to the webview script
-		const SHOW_PROPERTIES_PLACEHOLDER = ${showProperties};
-	</script>
+		<div class="toolbar-overlay">
+			<div class="brand">
+				<div class="glyph"></div>
+				<span class="name">Mnemonica Graphica</span>
+			</div>
+			<div class="spacer"></div>
+			<div class="btn-row">
+				<button id="dim-2d" class="tbtn">2D</button>
+				<button id="dim-3d" class="tbtn active">3D</button>
+			</div>
+			<button id="zoom-out" class="tbtn" title="Zoom Out">−</button>
+			<button id="zoom-in" class="tbtn" title="Zoom In">+</button>
+			<button id="theme-btn" class="tbtn">Dark</button>
+			<button id="reset-btn" class="tbtn" title="Reset View">Reset</button>
+		</div>
+
+		<div class="controls-panel">
+			<div class="ctrl-row">
+				<span class="ctrl-label">2D → 3D</span>
+				<input type="range" id="r-mode" min="0" max="100" value="100">
+				<span class="ctrl-val" id="v-mode">3D</span>
+			</div>
+			<div class="ctrl-row">
+				<span class="ctrl-label">Angular</span>
+				<input type="range" id="r-spread" min="50" max="200" value="100">
+				<span class="ctrl-val" id="v-spread">1.0x</span>
+			</div>
+			<div class="ctrl-row">
+				<span class="ctrl-label">Spacing</span>
+				<input type="range" id="r-spacing" min="50" max="200" value="100">
+				<span class="ctrl-val" id="v-spacing">1.0x</span>
+			</div>
+			<div class="ctrl-row">
+				<span class="ctrl-label">3D depth</span>
+				<input type="range" id="r-depth" min="50" max="400" value="165">
+				<span class="ctrl-val" id="v-depth">165</span>
+			</div>
+		</div>
+
+		<div class="status-bar">
+			<span id="status">Loading...</span>
+			<span>Drag to orbit / pan · Scroll to zoom · Click node to go to definition</span>
+		</div>
+	</div>
+
 	<script src="${String(scriptUri)}"></script>
 </body>
 </html>`;
 	}
 
 	public dispose () {
-		GraphPanel.currentPanel = undefined;
-
+		GraphPanel25D.currentPanel = undefined;
 		this.panel.dispose();
-
 		while (this.disposables.length) {
 			const x = this.disposables.pop();
-			if (x) {
-				x.dispose();
-			}
+			if (x) { x.dispose(); }
 		}
 	}
 }

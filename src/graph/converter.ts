@@ -21,7 +21,7 @@ export class GraphConverter {
 			}
 		}
 
-		return { nodes, links };
+		return { nodes, links, execflow: [] };
 	}
 
 	/**

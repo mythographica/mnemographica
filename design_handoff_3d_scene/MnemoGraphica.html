@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mnemonica Graphica — redesign proposal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --rail: 48px; --explorer: 236px; --inspector: 318px;
+  --font-ui: 'Hanken Grotesk', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+html[data-theme="dark"] {
+  --bg: #0d1014; --stage: #0d1014; --panel: #14181e; --panel-2: #11151b;
+  --elev: #1b212a; --border: #232a33; --border-soft: #1c222b;
+  --text: #d3dae3; --dim: #828d9c; --faint: #5a6473;
+  --ring: rgba(214,224,235,0.55);
+  --accent: #7cf0d2; --accent-dim: rgba(124,240,210,0.14);
+  --hover: rgba(255,255,255,0.04); --sel: rgba(124,240,210,0.10);
+  --shadow: 0 8px 30px rgba(0,0,0,0.5);
+}
+html[data-theme="light"] {
+  --bg: #f4f2ec; --stage: #f4f2ec; --panel: #ece9e0; --panel-2: #f0ede5;
+  --elev: #e3dfd4; --border: #d7d2c5; --border-soft: #e0dccf;
+  --text: #23272e; --dim: #6b7280; --faint: #9aa1ab;
+  --ring: rgba(30,36,46,0.5);
+  --accent: #0f9c86; --accent-dim: rgba(15,156,134,0.12);
+  --hover: rgba(0,0,0,0.035); --sel: rgba(15,156,134,0.10);
+  --shadow: 0 8px 30px rgba(60,55,45,0.18);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  font-family: var(--font-ui); background: var(--bg); color: var(--text);
+  overflow: hidden; -webkit-font-smoothing: antialiased; font-size: 13px;
+}
+.app {
+  height: 100vh; display: grid;
+  grid-template-columns: var(--rail) var(--explorer) 1fr var(--inspector);
+  grid-template-rows: 46px 1fr 26px;
+  grid-template-areas: "toolbar toolbar toolbar toolbar" "rail explorer stage inspector" "status status status status";
+}
+
+/* ---------- toolbar ---------- */
+.toolbar {
+  grid-area: toolbar; display: flex; align-items: center; gap: 16px;
+  padding: 0 14px; background: var(--panel); border-bottom: 1px solid var(--border);
+}
+.brand { display: flex; align-items: center; gap: 9px; min-width: 230px; }
+.brand .glyph {
+  width: 22px; height: 22px; border-radius: 6px; flex: none;
+  background: conic-gradient(from 200deg, #f2c14e, #e8688e, #b07cd6, #5b9bd6, #4fc4b0, #f2c14e);
+  -webkit-mask: radial-gradient(circle at 50% 50%, transparent 4px, #000 5px); mask: radial-gradient(circle at 50% 50%, transparent 4px, #000 5px);
+}
+.brand .name { font-weight: 600; letter-spacing: -0.01em; }
+.brand .branch { font-family: var(--font-mono); font-size: 11px; color: var(--faint); }
+.toolbar .spacer { flex: 1; }
+.seg { display: flex; background: var(--panel-2); border: 1px solid var(--border); border-radius: 8px; padding: 2px; gap: 2px; }
+.seg button {
+  font-family: var(--font-ui); font-size: 12px; font-weight: 500; color: var(--dim);
+  background: transparent; border: 0; border-radius: 6px; padding: 5px 11px; cursor: pointer;
+  display: flex; align-items: center; gap: 6px; transition: .12s;
+}
+.seg button:hover { color: var(--text); }
+.seg button[data-on="1"] { background: var(--elev); color: var(--text); box-shadow: 0 1px 2px rgba(0,0,0,0.2); }
+.seg button .dot { width: 7px; height: 7px; border-radius: 50%; }
+.tbtn {
+  font-family: var(--font-ui); font-size: 12px; color: var(--dim); background: var(--panel-2);
+  border: 1px solid var(--border); border-radius: 7px; padding: 6px 10px; cursor: pointer; transition: .12s;
+}
+.tbtn:hover { color: var(--text); border-color: var(--faint); }
+
+/* ---------- activity rail ---------- */
+.rail {
+  grid-area: rail; background: var(--panel-2); border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; align-items: center; padding-top: 8px; gap: 4px;
+}
+.rail .ic {
+  width: 36px; height: 36px; border-radius: 8px; display: grid; place-items: center; cursor: pointer;
+  color: var(--faint); position: relative;
+}
+.rail .ic:hover { color: var(--text); background: var(--hover); }
+.rail .ic[data-on="1"] { color: var(--accent); }
+.rail .ic[data-on="1"]::before { content: ""; position: absolute; left: -8px; top: 7px; bottom: 7px; width: 2px; border-radius: 2px; background: var(--accent); }
+.rail svg { width: 19px; height: 19px; }
+
+/* ---------- explorer ---------- */
+.explorer { grid-area: explorer; background: var(--panel); border-right: 1px solid var(--border); overflow-y: auto; }
+.sect-h {
+  font-size: 10.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--dim);
+  padding: 11px 12px 6px; display: flex; align-items: center; justify-content: space-between;
+}
+.sect-h .count { color: var(--faint); font-family: var(--font-mono); font-weight: 500; }
+.gen-group { margin-bottom: 2px; }
+.gen-label {
+  display: flex; align-items: center; gap: 8px; padding: 4px 12px; font-size: 11px; color: var(--faint);
+  font-family: var(--font-mono);
+}
+.gen-label .sw { width: 9px; height: 9px; border-radius: 3px; }
+.tree-row {
+  display: flex; align-items: center; gap: 8px; padding: 4px 12px 4px 30px; cursor: pointer; font-size: 12.5px;
+  color: var(--text); border-left: 2px solid transparent;
+}
+.tree-row:hover { background: var(--hover); }
+.tree-row.sel { background: var(--sel); border-left-color: var(--accent); }
+.tree-row .nm { font-family: var(--font-mono); font-size: 12px; }
+.tree-row .eds { margin-left: auto; font-size: 9px; color: var(--faint); font-family: var(--font-mono); }
+
+/* ---------- stage ---------- */
+.stage { grid-area: stage; position: relative; background: var(--stage); overflow: hidden; }
+#scene { width: 100%; height: 100%; display: block; cursor: grab; }
+#scene:active { cursor: grabbing; }
+.stage-tab {
+  position: absolute; top: 0; left: 0; display: flex; align-items: center; gap: 8px;
+  background: var(--panel); border: 1px solid var(--border); border-top: 0; border-left: 0;
+  border-radius: 0 0 8px 0; padding: 6px 14px 6px 12px; font-size: 12px; color: var(--text); z-index: 5;
+}
+.stage-tab .x { color: var(--faint); }
+.hud {
+  position: absolute; bottom: 12px; left: 12px; display: flex; gap: 8px; z-index: 5; flex-wrap: wrap; max-width: 60%;
+}
+.chip {
+  display: flex; align-items: center; gap: 7px; background: color-mix(in srgb, var(--panel) 82%, transparent);
+  border: 1px solid var(--border); border-radius: 20px; padding: 5px 11px; font-size: 11px; color: var(--dim);
+  backdrop-filter: blur(6px); cursor: default;
+}
+.chip .ln { width: 16px; height: 0; border-top-width: 2px; border-top-style: solid; }
+.chip .sw { width: 10px; height: 10px; border-radius: 3px; }
+.viewcube {
+  position: absolute; top: 12px; right: 12px; z-index: 5; display: flex; gap: 6px; align-items: center;
+}
+.legend-fab {
+  position: absolute; bottom: 12px; right: 12px; z-index: 6;
+}
+
+/* ---------- inspector ---------- */
+.inspector { grid-area: inspector; background: var(--panel); border-left: 1px solid var(--border); overflow-y: auto; }
+.panel { border-bottom: 1px solid var(--border-soft); padding: 13px 14px; }
+.panel h3 {
+  font-size: 10.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--dim);
+  margin-bottom: 11px; display: flex; align-items: center; justify-content: space-between;
+}
+.flow-row { display: flex; align-items: center; gap: 9px; padding: 5px 0; cursor: pointer; }
+.flow-row .key { display: flex; align-items: center; gap: 7px; width: 116px; font-size: 12px; }
+.flow-row .key .sw { width: 9px; height: 9px; border-radius: 50%; flex: none; }
+.flow-row .bar { flex: 1; height: 5px; border-radius: 3px; background: var(--elev); overflow: hidden; }
+.flow-row .bar i { display: block; height: 100%; border-radius: 3px; }
+.flow-row .n { font-family: var(--font-mono); font-size: 11px; color: var(--dim); width: 30px; text-align: right; }
+.flow-row.off { opacity: .38; }
+.flow-row.solo { background: var(--sel); margin: 0 -6px; padding: 5px 6px; border-radius: 6px; }
+
+.toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 7px 0; font-size: 12.5px; gap: 10px; }
+.toggle-row .lbl { display: flex; align-items: center; gap: 9px; min-width: 0; }
+.toggle-row .lbl .txt { min-width: 0; line-height: 1.25; }
+.toggle-row .lbl .txt .t { color: var(--text); white-space: nowrap; }
+.toggle-row .lbl .txt .s { font-size: 10px; color: var(--faint); white-space: nowrap; }
+.toggle-row .lbl .swatch { width: 16px; height: 0; border-top-width: 2px; border-top-style: solid; flex: none; }
+.sw-toggle { width: 34px; height: 19px; border-radius: 11px; background: var(--elev); position: relative; cursor: pointer; transition: .15s; border: 1px solid var(--border); }
+.sw-toggle::after { content: ""; position: absolute; top: 2px; left: 2px; width: 13px; height: 13px; border-radius: 50%; background: var(--dim); transition: .15s; }
+.sw-toggle[data-on="1"] { background: var(--accent-dim); border-color: var(--accent); }
+.sw-toggle[data-on="1"]::after { left: 17px; background: var(--accent); }
+
+.ctrl { margin: 11px 0; }
+.ctrl .top { display: flex; justify-content: space-between; font-size: 11.5px; color: var(--dim); margin-bottom: 7px; }
+.ctrl .top b { color: var(--text); font-family: var(--font-mono); font-weight: 500; }
+input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 4px; border-radius: 2px; background: var(--elev); outline: none; }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: var(--accent); cursor: pointer; border: 2px solid var(--panel); }
+input[type=range]::-moz-range-thumb { width: 14px; height: 14px; border-radius: 50%; background: var(--accent); cursor: pointer; border: 2px solid var(--panel); }
+
+.eds-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px 10px; margin-top: 4px; }
+.eds-item { display: flex; align-items: center; gap: 8px; font-size: 10.5px; color: var(--dim); font-family: var(--font-mono); }
+.eds-item .gl { width: 16px; height: 16px; flex: none; }
+
+/* selection inspector */
+.sel-empty { color: var(--faint); font-size: 12px; line-height: 1.6; }
+.sel-name { font-family: var(--font-mono); font-size: 15px; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 9px; }
+.sel-name .dot { width: 11px; height: 11px; border-radius: 50%; }
+.sel-meta { display: flex; gap: 6px; flex-wrap: wrap; margin: 10px 0; }
+.tag { font-family: var(--font-mono); font-size: 10px; padding: 3px 7px; border-radius: 5px; background: var(--elev); color: var(--dim); }
+.tag.eds { color: var(--accent); background: var(--accent-dim); }
+.sel-blurb { font-size: 12px; color: var(--dim); line-height: 1.55; margin-bottom: 12px; }
+.edge-list { font-size: 11px; }
+.edge-list .eh { color: var(--faint); text-transform: uppercase; letter-spacing: .06em; font-size: 9.5px; margin: 9px 0 5px; }
+.edge-list .er { display: flex; align-items: center; gap: 7px; padding: 2px 0; font-family: var(--font-mono); font-size: 11px; color: var(--text); cursor: pointer; }
+.edge-list .er:hover { color: var(--accent); }
+.edge-list .er .k { width: 7px; height: 7px; border-radius: 50%; flex: none; }
+.edge-list .er .ar { color: var(--faint); }
+
+/* ---------- status ---------- */
+.status {
+  grid-area: status; background: var(--accent); color: #07120f; display: flex; align-items: center;
+  gap: 16px; padding: 0 12px; font-size: 11px; font-family: var(--font-mono);
+}
+html[data-theme="light"] .status { color: #fff; }
+.status .s { display: flex; align-items: center; gap: 6px; }
+.status .right { margin-left: auto; opacity: .85; }
+
+/* note banner */
+.note {
+  position: absolute; top: 12px; left: 50%; transform: translateX(-50%); z-index: 7;
+  background: color-mix(in srgb, var(--panel) 92%, transparent); border: 1px solid var(--border);
+  border-radius: 10px; padding: 9px 15px; font-size: 11.5px; color: var(--dim); box-shadow: var(--shadow);
+  display: flex; align-items: center; gap: 10px; backdrop-filter: blur(8px); max-width: 560px;
+}
+.note b { color: var(--text); font-weight: 600; }
+.note .close { cursor: pointer; color: var(--faint); margin-left: 4px; }
+::-webkit-scrollbar { width: 9px; height: 9px; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: var(--faint); }
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- TOOLBAR -->
+  <div class="toolbar">
+    <div class="brand">
+      <div class="glyph"></div>
+      <span class="name">Mnemonica Graphica</span>
+      <span class="branch">re-factoring</span>
+    </div>
+    <div class="seg" id="collab">
+      <button data-mode="solo"><span class="dot" style="background:var(--faint)"></span>Solo</button>
+      <button data-mode="pairing" data-on="1"><span class="dot" style="background:#7cf0d2"></span>AI Pairing</button>
+      <button data-mode="autonomous"><span class="dot" style="background:#ffd166"></span>AI Autonomous</button>
+    </div>
+    <div class="spacer"></div>
+    <div class="seg" id="dim-toggle">
+      <button data-dim="2">2D</button>
+      <button data-dim="3" data-on="1">3D</button>
+    </div>
+    <button class="tbtn" id="theme-btn">☾ Dark</button>
+    <button class="tbtn" id="reset-btn">⟲ Reset view</button>
+  </div>
+
+  <!-- ACTIVITY RAIL -->
+  <div class="rail">
+    <div class="ic" title="Explorer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 12l9 4 9-4M3 17l9 4 9-4"/></svg></div>
+    <div class="ic" data-on="1" title="Type Graph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="6" cy="6" r="2.4"/><circle cx="18" cy="7" r="2.4"/><circle cx="12" cy="17" r="2.4"/><path d="M7.6 7.4l3 8M16.4 9l-3 6.4M8 6.4l8 .4"/></svg></div>
+    <div class="ic" title="Flow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12h6m0 0l-2-2m2 2l-2 2M14 7h6m0 0l-2-2m2 2l-2 2M14 17h6m0 0l-2-2m2 2l-2 2"/></svg></div>
+    <div class="ic" title="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4-4"/></svg></div>
+  </div>
+
+  <!-- EXPLORER -->
+  <div class="explorer">
+    <div class="sect-h">Models <span class="count" id="model-count"></span></div>
+    <div id="model-tree"></div>
+  </div>
+
+  <!-- STAGE -->
+  <div class="stage">
+    <div class="stage-tab">◈ Type Graph <span class="x">— drawing its own registry</span></div>
+    <canvas id="scene"></canvas>
+    <div class="note" id="note">
+      <span>This is a <b>design proposal</b> for the 3D scene — data&nbsp;flow (skeleton) + execution&nbsp;flow (muscle), the connection that's currently undone. Drag to orbit · scroll to zoom · click a node.</span>
+      <span class="close" id="note-x">✕</span>
+    </div>
+    <div class="hud" id="hud"></div>
+  </div>
+
+  <!-- INSPECTOR -->
+  <div class="inspector">
+    <div class="panel">
+      <h3>Flow <span id="flow-total" style="color:var(--faint);font-family:var(--font-mono)"></span></h3>
+      <div id="flow-rows"></div>
+      <div style="font-size:10.5px;color:var(--faint);margin-top:8px;line-height:1.5">Click a kind to isolate it on the graph.</div>
+    </div>
+    <div class="panel">
+      <h3>Layers</h3>
+      <div id="layer-toggles"></div>
+    </div>
+    <div class="panel">
+      <h3>Layout</h3>
+      <div class="ctrl"><div class="top"><span>2D → 3D depth</span><b id="v-mode">3D</b></div><input type="range" id="r-mode" min="0" max="100" value="100"/></div>
+      <div class="ctrl"><div class="top"><span>Force / spread</span><b id="v-spread">1.0×</b></div><input type="range" id="r-spread" min="40" max="220" value="100"/></div>
+      <div class="ctrl"><div class="top"><span>Spacing</span><b id="v-spacing">1.0×</b></div><input type="range" id="r-spacing" min="55" max="180" value="100"/></div>
+      <div class="ctrl"><div class="top"><span>Generation depth</span><b id="v-depth">165</b></div><input type="range" id="r-depth" min="60" max="280" value="165"/></div>
+    </div>
+    <div class="panel" id="selection-panel">
+      <h3>Selection</h3>
+      <div id="sel-body"><div class="sel-empty">Click any node to inspect its lineage and the invocations that touch it.</div></div>
+    </div>
+    <div class="panel">
+      <h3>EDS decoration</h3>
+      <div class="eds-grid" id="eds-legend"></div>
+    </div>
+  </div>
+
+  <!-- STATUS -->
+  <div class="status">
+    <span class="s" id="st-types"></span>
+    <span class="s" id="st-flows"></span>
+    <span class="s" id="st-mode"></span>
+    <span class="right" id="st-hint">structure as skeleton · flow as muscle</span>
+  </div>
+</div>
+
+<script src="mg-data.js"></script>
+<script src="mg-engine.js"></script>
+<script src="mg-scene.js"></script>
+<script src="mg-ui.js"></script>
+</body>
+</html>

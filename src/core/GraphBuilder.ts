@@ -4,6 +4,7 @@ import { GraphData } from '../types';
 import { GraphConverter } from '../graph/converter';
 import { TypeNode } from '../types/tactica-types';
 import type { Registry } from '../../.tactica/types';
+import { getLogger } from '../services/LoggerService';
 
 /**
  * Pure graph builder - constructs graph data from registry without VS Code dependencies
@@ -13,10 +14,21 @@ export class GraphBuilder {
 	 * Build graph data from registry's type definitions
 	 */
 	static buildFromRegistry(registry: Registry): GraphData {
+		const logger = getLogger();
 		const types = registry.getTypes();
 		if (!types) {
-			return { nodes: [], links: [] };
+			logger.warn('[GraphBuilder] registry.getTypes() returned undefined');
+			return { nodes: [], links: [], execflow: [] };
 		}
+
+		let typeCount = 0;
+		try {
+			// eslint-disable-next-line @typescript-eslint/no-unused-vars
+			for (const _entry of types.entries()) { typeCount++; }
+		} catch {
+			// some mnemonica entries() may not be iterable directly
+		}
+		logger.info(`[GraphBuilder] types.entries() count: ${typeCount}, types.size: ${(types as unknown as { size?: number }).size ?? 'unknown'}`);
 
 		// Pass 1: create all TypeNodes
 		const nodeMap = new Map<string, TypeNode>();
@@ -28,6 +40,7 @@ export class GraphBuilder {
 				typeNodes.push(typeNode);
 			}
 		}
+		logger.info(`[GraphBuilder] built ${typeNodes.length} typeNodes`);
 
 		// Pass 2: wire parent-child relationships
 		for (const [name, entry] of types.entries()) {
@@ -69,7 +82,37 @@ export class GraphBuilder {
 			}
 		}
 
+		// Enrich nodes with definition location (actual define() site)
+		const defs = registry.getDefinitions();
+		if (defs) {
+			for (const node of graphData.nodes) {
+				// Definition keys use dots (e.g. "Scene2D.GraphNode2D")
+				// Node ids use underscores (e.g. "Scene2D_GraphNode2D")
+				const defKey = node.id.replace(/_/g, '.');
+				const def = defs.get(defKey);
+				if (def) {
+					const info = def as unknown as { location?: string };
+					if (info.location) {
+						const parsed = this.parseLocation(info.location);
+						if (parsed) {
+							node.definitionLocation = parsed;
+						}
+					}
+				}
+			}
+		}
+
 		return graphData;
+	}
+
+	private static parseLocation(location: string): { fileName: string; line: number; column: number } | undefined {
+		const match = location.match(/^(.+):(\d+):(\d+)$/);
+		if (!match) { return undefined; }
+		return {
+			fileName: match[1],
+			line: parseInt(match[2], 10),
+			column: parseInt(match[3], 10)
+		};
 	}
 
 	private static mapEDSKind(kind: string): 'wrap' | 'link' | 'context' | 'hook' | 'error' | 'adapter' {

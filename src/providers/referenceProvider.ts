@@ -8,7 +8,7 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { getLogger } from '../services/LoggerService';
 
-import { lookupTyped } from 'mnemonica';
+import { lookup } from 'mnemonica';
 import type { Usages, Usages_UsageEntry } from '~tactica/types';
 
 // Type aliases using clean imports from .tactica/types.ts
@@ -22,7 +22,7 @@ export class MnemonicaReferenceProvider implements vscode.ReferenceProvider {
 
 	async loadUsages(workspacePath: string): Promise<void> {
 
-		const Usages = lookupTyped('Usages');
+		const Usages = lookup('Usages');
 		const usages = new Usages;
 
 		this.usages = usages;

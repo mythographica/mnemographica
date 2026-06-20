@@ -1,12 +1,12 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-05-10T15:32:42.947Z",
+  "generatedAt": "2026-06-20T17:34:10.395Z",
   "usages": {
     "LoggerTab": [
       {
         "location": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:64:33",
         "kind": "lookup",
-        "code": "lookupTyped('LoggerTab')"
+        "code": "lookup('LoggerTab')"
       },
       {
         "location": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:66:22",
@@ -30,7 +30,7 @@
       {
         "location": "/code/mnemonica/mnemographica/src/core/Scene2DManager.ts:13:19",
         "kind": "lookup",
-        "code": "lookupTyped('Scene2D')"
+        "code": "lookup('Scene2D')"
       },
       {
         "location": "/code/mnemonica/mnemographica/src/core/Scene2DManager.ts:14:16",
@@ -78,7 +78,7 @@
       {
         "location": "/code/mnemonica/mnemographica/src/core/Scene3DManager.ts:13:19",
         "kind": "lookup",
-        "code": "lookupTyped('Scene3D')"
+        "code": "lookup('Scene3D')"
       },
       {
         "location": "/code/mnemonica/mnemographica/src/core/Scene3DManager.ts:14:16",
@@ -126,7 +126,7 @@
       {
         "location": "/code/mnemonica/mnemographica/src/core/TrieManager.ts:28:27",
         "kind": "lookup",
-        "code": "lookupTyped('Trie')"
+        "code": "lookup('Trie')"
       },
       {
         "location": "/code/mnemonica/mnemographica/src/core/TrieManager.ts:29:15",
@@ -136,7 +136,7 @@
       {
         "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:347:28",
         "kind": "lookup",
-        "code": "lookupTyped('Trie')"
+        "code": "lookup('Trie')"
       },
       {
         "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:348:25",
@@ -160,7 +160,7 @@
       {
         "location": "/code/mnemonica/mnemographica/src/core/TrieManager.ts:70:20",
         "kind": "lookup",
-        "code": "lookupTyped('Trie.GraphNodeTrie.LinkTrie')"
+        "code": "lookup('Trie.GraphNodeTrie.LinkTrie')"
       },
       {
         "location": "/code/mnemonica/mnemographica/src/core/TrieManager.ts:71:16",
@@ -172,7 +172,7 @@
       {
         "location": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:22:16",
         "kind": "lookup",
-        "code": "lookupTyped('Main')"
+        "code": "lookup('Main')"
       },
       {
         "location": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:23:15",
@@ -184,7 +184,7 @@
       {
         "location": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:25:20",
         "kind": "lookup",
-        "code": "lookupTyped('Registry')"
+        "code": "lookup('Registry')"
       },
       {
         "location": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:26:19",
@@ -218,7 +218,7 @@
       {
         "location": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:25:18",
         "kind": "lookup",
-        "code": "lookupTyped('Usages')"
+        "code": "lookup('Usages')"
       },
       {
         "location": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:26:18",
@@ -228,7 +228,7 @@
       {
         "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:247:30",
         "kind": "lookup",
-        "code": "lookupTyped('Usages')"
+        "code": "lookup('Usages')"
       },
       {
         "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:248:27",
@@ -252,7 +252,7 @@
       {
         "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:140:35",
         "kind": "lookup",
-        "code": "lookupTyped('Definitions')"
+        "code": "lookup('Definitions')"
       },
       {
         "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:141:32",
@@ -276,7 +276,7 @@
       {
         "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:177:29",
         "kind": "lookup",
-        "code": "lookupTyped('Types')"
+        "code": "lookup('Types')"
       },
       {
         "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:178:26",
@@ -300,7 +300,7 @@
       {
         "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:279:27",
         "kind": "lookup",
-        "code": "lookupTyped('EDS')"
+        "code": "lookup('EDS')"
       },
       {
         "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:280:24",
@@ -324,7 +324,7 @@
       {
         "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:313:28",
         "kind": "lookup",
-        "code": "lookupTyped('Flow')"
+        "code": "lookup('Flow')"
       },
       {
         "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:314:25",

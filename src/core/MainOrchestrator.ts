@@ -1,6 +1,6 @@
 'use strict';
 
-import { lookupTyped } from 'mnemonica';
+import { lookup } from 'mnemonica';
 import type { Main as MainType, Registry } from '../../.tactica/types';
 import { StateManager } from './StateManager';
 import { GraphBuilder } from './GraphBuilder';
@@ -19,10 +19,10 @@ export class MainOrchestrator {
 	private currentGraphData: GraphData | undefined;
 
 	constructor(version: string) {
-		const Main = lookupTyped('Main');
+		const Main = lookup('Main');
 		this.main = new Main(version);
 		this.stateManager = new StateManager();
-		const Registry = lookupTyped('Registry');
+		const Registry = lookup('Registry');
 		this.registry = new Registry();
 
 		new this.main.Adapter({

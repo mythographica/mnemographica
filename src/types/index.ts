@@ -48,6 +48,12 @@ export type D3Node = {
 		location: string;
 		code: string;
 	}>;
+	/** Source location of the actual define() constructor (from definitions.json) */
+	definitionLocation?: {
+		fileName: string;
+		line: number;
+		column: number;
+	};
 };
 
 /**
@@ -61,13 +67,31 @@ export type D3Link = {
 };
 
 /**
+ * Execution-flow link (the "muscle" layer)
+ */
+export type D3ExecLink = {
+	/** Source node ID or reference */
+	source: string | D3Node;
+	/** Target node ID or reference */
+	target: string | D3Node;
+	/** Invocation kind */
+	kind: string;
+	/** Call-site location */
+	location?: string;
+	/** Source snippet */
+	code?: string;
+};
+
+/**
  * Complete graph data for D3
  */
 export type GraphData = {
 	/** Array of nodes */
 	nodes: D3Node[];
-	/** Array of links */
+	/** Inheritance links (skeleton) */
 	links: D3Link[];
+	/** Execution-flow links (muscle) */
+	execflow: D3ExecLink[];
 };
 
 /**
@@ -75,7 +99,7 @@ export type GraphData = {
  */
 export type WebviewMessage = {
 	/** Command type */
-	command: 'goToDefinition' | 'nodeHover' | 'ready' | 'refresh' | 'log';
+	command: 'goToDefinition' | 'nodeHover' | 'ready' | 'refresh' | 'log' | 'modeChanged';
 	/** Optional payload */
 	data?: unknown;
 };
