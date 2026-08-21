@@ -3,7 +3,6 @@ import * as vscode from 'vscode';
 export class MnemonicaActivityBarProvider implements vscode.WebviewViewProvider {
 	public static readonly viewType = 'mnemonicaWelcome';
 
-	// eslint-disable-next-line no-unused-private-class-members
 	private _view?: vscode.WebviewView;
 
 	constructor(private readonly _extensionUri: vscode.Uri) {}

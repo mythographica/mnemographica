@@ -225,7 +225,6 @@ export class LoggerService {
 			this.outputChannel.appendLine(logline);
 		} else {
 			// Fallback to console when output channel not ready
-			// eslint-disable-next-line no-console
 			console.log(logline);
 		}
 	}
