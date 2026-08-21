@@ -1,9 +1,17 @@
 {
 	"name": "mnemographica",
 	"displayName": "Mnemonica Graphica",
-	"description": "Visualize mnemonica type hierarchies with interactive D3 force-directed graphs",
+	"description": "Explore mnemonica type hierarchies: definitions, types, usages, execution flow and generations, with go-to-definition navigation",
 	"version": "0.1.0",
 	"publisher": "mnemonica",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/mythographica/mnemographica.git"
+	},
+	"bugs": {
+		"url": "https://github.com/mythographica/mnemographica/issues"
+	},
+	"homepage": "https://github.com/mythographica/mnemographica#readme",
 	"icon": "media/icon.png",
 	"engines": {
 		"vscode": "^1.74.0"
@@ -20,22 +28,20 @@
 		"visualization"
 	],
 	"activationEvents": [
-			"onCommand:mnemographica.showTypeGraph",
-			"onCommand:mnemographica.showTypeGraph25D",
-			"workspaceContains:**/*.ts",
-			"workspaceContains:**/package.json"
+		"workspaceContains:**/*.ts",
+		"workspaceContains:**/package.json",
+		"onView:mnemonicaWelcome",
+		"onView:mnemonicaUsages",
+		"onView:mnemonicaTypes",
+		"onView:mnemonicaFlow",
+		"onView:mnemonicaGen"
 	],
 	"main": "./out/src/extension.js",
 	"contributes": {
 		"commands": [
 			{
 				"command": "mnemographica.showTypeGraph",
-				"title": "Ψ 2D/3D",
-				"category": "Mnemonica"
-			},
-			{
-				"command": "mnemographica.showTypeGraph25D",
-				"title": "Ψ 2.5D",
+				"title": "Ψ 3D",
 				"category": "Mnemonica"
 			},
 			{
@@ -79,6 +85,18 @@
 				"title": "Show Usages",
 				"category": "Mnemonica",
 				"icon": "$(references)"
+			},
+			{
+				"command": "mnemographica.openUsage",
+				"title": "Open Usage",
+				"category": "Mnemonica",
+				"icon": "$(go-to-file)"
+			},
+			{
+				"command": "mnemographica.navigateToUsage",
+				"title": "Navigate to Usage",
+				"category": "Mnemonica",
+				"icon": "$(go-to-file)"
 			},
 			{
 				"command": "mnemographica.selectWorkspace",
@@ -147,9 +165,6 @@
 					"command": "mnemographica.showTypeGraph"
 				},
 				{
-					"command": "mnemographica.showTypeGraph25D"
-				},
-				{
 					"command": "mnemographica.refreshGraph"
 				},
 				{
@@ -171,49 +186,27 @@
 					"command": "mnemographica.refreshGenTree"
 				}
 			],
-			"editor/title": [
-				{
-					"command": "mnemographica.showTypeGraph",
-					"when": "resourceExtname == .ts",
-					"group": "navigation"
-				}
-			],
-			"panel/title": [
-				{
-					"command": "mnemographica.showTypeGraph",
-					"when": "activePanel == mnemonicaGraph",
-					"group": "navigation"
-				},
-				{
-					"command": "mnemographica.showTypeGraph25D",
-					"when": "activePanel == mnemonicaGraph25D",
-					"group": "navigation"
-				}
-			],
 			"view/title": [
 				{
 					"command": "mnemographica.showTypeGraph",
-					"group": "navigation"
-				},
-				{
-					"command": "mnemographica.showTypeGraph25D",
-					"group": "navigation"
+					"when": "view == mnemonicaTypes",
+					"group": "navigation@1"
 				},
 				{
 					"command": "mnemographica.selectWorkspace",
 					"when": "view == mnemonicaTypes",
 					"group": "navigation@2"
 				},
-			{
-				"command": "mnemographica.clearFlowFilter",
-				"when": "view == mnemonicaFlow",
-				"group": "navigation@1"
-			},
-			{
-				"command": "mnemographica.refreshGenTree",
-				"when": "view == mnemonicaGen",
-				"group": "navigation@1"
-			}
+				{
+					"command": "mnemographica.clearFlowFilter",
+					"when": "view == mnemonicaFlow",
+					"group": "navigation@1"
+				},
+				{
+					"command": "mnemographica.refreshGenTree",
+					"when": "view == mnemonicaGen",
+					"group": "navigation@1"
+				}
 			],
 			"view/item/context": [
 				{
@@ -226,36 +219,36 @@
 					"when": "view == mnemonicaTypes && viewItem == navigable",
 					"group": "navigation@2"
 				},
-			{
-				"command": "mnemographica.showUsages",
-				"when": "view == mnemonicaTypes && viewItem == navigable",
-				"group": "navigation@3"
-			},
-			{
-				"command": "mnemographica.showFlows",
-				"when": "view == mnemonicaTypes && viewItem == navigable",
-				"group": "navigation@4"
-			},
-			{
-				"command": "mnemographica.openType",
-				"when": "view == mnemonicaTypes && viewItem == navigableType",
-				"group": "navigation@1"
-			},
-			{
-				"command": "mnemographica.openTreeItem",
-				"when": "view == mnemonicaTypes && viewItem == navigableType",
-				"group": "navigation@2"
-			},
-			{
-				"command": "mnemographica.showUsages",
-				"when": "view == mnemonicaTypes && viewItem == navigableType",
-				"group": "navigation@3"
-			},
-			{
-				"command": "mnemographica.showFlows",
-				"when": "view == mnemonicaTypes && viewItem == navigableType",
-				"group": "navigation@4"
-			},
+				{
+					"command": "mnemographica.showUsages",
+					"when": "view == mnemonicaTypes && viewItem == navigable",
+					"group": "navigation@3"
+				},
+				{
+					"command": "mnemographica.showFlows",
+					"when": "view == mnemonicaTypes && viewItem == navigable",
+					"group": "navigation@4"
+				},
+				{
+					"command": "mnemographica.openType",
+					"when": "view == mnemonicaTypes && viewItem == navigableType",
+					"group": "navigation@1"
+				},
+				{
+					"command": "mnemographica.openTreeItem",
+					"when": "view == mnemonicaTypes && viewItem == navigableType",
+					"group": "navigation@2"
+				},
+				{
+					"command": "mnemographica.showUsages",
+					"when": "view == mnemonicaTypes && viewItem == navigableType",
+					"group": "navigation@3"
+				},
+				{
+					"command": "mnemographica.showFlows",
+					"when": "view == mnemonicaTypes && viewItem == navigableType",
+					"group": "navigation@4"
+				},
 				{
 					"command": "mnemographica.revealInExplorer",
 					"when": "view == mnemonicaUsages",
@@ -276,18 +269,6 @@
 					"when": "view == mnemonicaUsages",
 					"group": "navigation@4"
 				}
-			],
-			"explorer/context": [
-				{
-					"command": "mnemographica.showTypeGraph",
-					"when": "resourceExtname == .ts",
-					"group": "mnemonica@1"
-				},
-				{
-					"command": "mnemographica.showTypeGraph25D",
-					"when": "resourceExtname == .ts",
-					"group": "mnemonica@2"
-				}
 			]
 		},
 		"viewsContainers": {
@@ -301,6 +282,11 @@
 		},
 		"views": {
 			"mnemonica": [
+				{
+					"id": "mnemonicaWelcome",
+					"name": "Welcome",
+					"icon": "media/psi-icon.svg"
+				},
 				{
 					"id": "mnemonicaUsages",
 					"name": "Usages",
@@ -323,35 +309,6 @@
 				}
 			]
 		},
-		"configuration": {
-			"title": "Mnemonica Graphica",
-			"properties": {
-				"mnemographica.layout": {
-					"type": "string",
-					"enum": [
-						"force",
-						"tree",
-						"cluster"
-					],
-					"default": "force",
-					"description": "Graph layout algorithm"
-				},
-				"mnemographica.nodeSize": {
-					"type": "string",
-					"enum": [
-						"propertyCount",
-						"uniform"
-					],
-					"default": "propertyCount",
-					"description": "How to size nodes"
-				},
-				"mnemographica.showProperties": {
-					"type": "boolean",
-					"default": true,
-					"description": "Show properties on hover"
-				}
-			}
-		},
 		"outputChannels": [
 			{
 				"id": "mnemonicaLogger",
@@ -365,28 +322,24 @@
 		"watch": "tsc -watch -p ./",
 		"pretest": "npm run compile && npm run lint",
 		"lint": "eslint src --ext ts",
-		"test": "node ./out/test/runTest.js",
+		"test": "node test/registry-loading.test.js && node test/types-model.test.js && node test/types-parser.test.js",
 		"package": "vsce package",
-		"tactica:generate": "tactica --generate",
+		"tactica:generate": "tactica --generate --verbose",
 		"tactica:watch": "tactica --watch"
 	},
 	"devDependencies": {
 		"@types/node": "^20.0.0",
-		"@types/three": "^0.183.1",
 		"@types/vscode": "^1.74.0",
 		"@types/ws": "^8.5.10",
 		"@typescript-eslint/eslint-plugin": "^6.7.0",
 		"@typescript-eslint/parser": "^6.7.0",
-		"@vscode/test-electron": "^2.3.0",
 		"eslint": "^8.50.0",
-		"typescript": "^5.2.0"
+		"typescript": "^6.0.3"
 	},
 	"dependencies": {
-		"@mnemonica/tactica": "file:../tactica",
+		"@mnemonica/tactica": "^0.1.7",
 		"@mnemonica/topologica": "file:../topologica",
-		"d3-force-3d": "^3.0.6",
-		"mnemonica": "file:../core",
-		"three": "^0.174.0",
+		"mnemonica": "^1.2.5",
 		"ws": "^8.19.0"
 	}
 }

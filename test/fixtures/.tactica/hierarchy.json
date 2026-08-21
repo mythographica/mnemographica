@@ -1,0 +1,32 @@
+{
+  "version": "1.0",
+  "generatedAt": "2026-08-21T00:00:00.000Z",
+  "roots": [
+    {
+      "name": "UserEntity",
+      "fullPath": "UserEntity",
+      "location": "/test/project/src/models/User.ts:10:5",
+      "children": [
+        {
+          "name": "AdminEntity",
+          "fullPath": "UserEntity.AdminEntity",
+          "location": "/test/project/src/models/Admin.ts:15:3",
+          "children": []
+        }
+      ]
+    },
+    {
+      "name": "OrderEntity",
+      "fullPath": "OrderEntity",
+      "location": "/test/project/src/models/Order.ts:8:1",
+      "children": [
+        {
+          "name": "OrderItem",
+          "fullPath": "OrderEntity.OrderItem",
+          "location": "/test/project/src/models/OrderItem.ts:12:7",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

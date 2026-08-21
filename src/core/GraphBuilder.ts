@@ -82,14 +82,13 @@ export class GraphBuilder {
 			}
 		}
 
-		// Enrich nodes with definition location (actual define() site)
+		// Enrich nodes with definition location (actual define() site).
+		// definitions.json keys and node ids are both dot-joined full
+		// paths, so no normalization is needed here anymore (audit B9).
 		const defs = registry.getDefinitions();
 		if (defs) {
 			for (const node of graphData.nodes) {
-				// Definition keys use dots (e.g. "Scene2D.GraphNode2D")
-				// Node ids use underscores (e.g. "Scene2D_GraphNode2D")
-				const defKey = node.id.replace(/_/g, '.');
-				const def = defs.get(defKey);
+				const def = defs.get(node.id);
 				if (def) {
 					const info = def as unknown as { location?: string };
 					if (info.location) {
@@ -98,6 +97,29 @@ export class GraphBuilder {
 							node.definitionLocation = parsed;
 						}
 					}
+				}
+			}
+		}
+
+		// Populate the execflow ("muscle") layer from flow.json — edges
+		// between known mnemonica types only. Flow keys or targetTypes
+		// that do not resolve to graph nodes (natives like Date, or
+		// classes outside the type system) are skipped (audit B3/B7).
+		const flow = registry.getFlow();
+		if (flow) {
+			for (const [typeName, entries] of flow.entries()) {
+				if (!nodeMap.has(typeName)) { continue; }
+				for (const flowEntry of entries) {
+					const info = flowEntry as unknown as Record<string, string | undefined>;
+					const target = info.targetType;
+					if (!target || !nodeMap.has(target)) { continue; }
+					graphData.execflow.push({
+						source: typeName,
+						target,
+						kind: String(info.kind || 'unknown'),
+						location: info.location,
+						code: info.code
+					});
 				}
 			}
 		}
@@ -146,15 +168,19 @@ export class GraphBuilder {
 			}
 		}
 
+		// entry.location (from hierarchy.json) points at the real
+		// define() site, 1-based
+		const location = this.parseLocation(String(entry.location || ''));
+
 		return {
 			name: String(entry.name || name),
 			fullPath: name,
 			properties,
 			children: new Map(),
 			parent: undefined,
-			sourceFile: String(entry.fullPath || ''),
-			line: Number(entry.lineNumber || 0),
-			column: 0
+			sourceFile: location ? location.fileName : '',
+			line: location ? location.line : Number(entry.lineNumber || 0),
+			column: location ? location.column : 0
 		} as TypeNode;
 	}
 

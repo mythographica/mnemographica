@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-06-20T17:34:10.394Z",
+  "generatedAt": "2026-08-21T13:00:47.388Z",
   "definitions": {
     "Definitions": {
       "name": "Definitions",
@@ -36,7 +36,7 @@
     },
     "Flow": {
       "name": "Flow",
-      "location": "/code/mnemonica/mnemographica/src/models/Flow.ts:17:21",
+      "location": "/code/mnemonica/mnemographica/src/models/Flow.ts:18:21",
       "kind": "define",
       "parent": null,
       "strictChain": true,
@@ -44,7 +44,7 @@
     },
     "Flow.FlowEntry": {
       "name": "FlowEntry",
-      "location": "/code/mnemonica/mnemographica/src/models/Flow.ts:64:31",
+      "location": "/code/mnemonica/mnemographica/src/models/Flow.ts:65:31",
       "kind": "define",
       "parent": "Flow",
       "strictChain": true,
@@ -84,7 +84,7 @@
     },
     "Types": {
       "name": "Types",
-      "location": "/code/mnemonica/mnemographica/src/models/Types.ts:16:22",
+      "location": "/code/mnemonica/mnemographica/src/models/Types.ts:21:22",
       "kind": "define",
       "parent": null,
       "strictChain": true,
@@ -92,15 +92,31 @@
     },
     "Types.TypeEntry": {
       "name": "TypeEntry",
-      "location": "/code/mnemonica/mnemographica/src/models/Types.ts:70:32",
+      "location": "/code/mnemonica/mnemographica/src/models/Types.ts:75:32",
       "kind": "define",
       "parent": "Types",
       "strictChain": true,
       "blockErrors": false
     },
+    "Usages": {
+      "name": "Usages",
+      "location": "/code/mnemonica/mnemographica/src/models/Usages.ts:16:23",
+      "kind": "define",
+      "parent": null,
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Usages.UsageEntry": {
+      "name": "UsageEntry",
+      "location": "/code/mnemonica/mnemographica/src/models/Usages.ts:59:34",
+      "kind": "define",
+      "parent": "Usages",
+      "strictChain": true,
+      "blockErrors": false
+    },
     "Registry": {
       "name": "Registry",
-      "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:22:25",
+      "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:42:25",
       "kind": "define",
       "parent": null,
       "strictChain": true,
@@ -108,49 +124,9 @@
     },
     "Registry.RegistryEntry": {
       "name": "RegistryEntry",
-      "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:419:39",
+      "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:518:39",
       "kind": "define",
       "parent": "Registry",
-      "strictChain": true,
-      "blockErrors": false
-    },
-    "Scene2D": {
-      "name": "Scene2D",
-      "location": "/code/mnemonica/mnemographica/src/models/Scene2D.ts:5:24",
-      "kind": "define",
-      "parent": null,
-      "strictChain": true,
-      "blockErrors": false
-    },
-    "Scene2D.Camera2D": {
-      "name": "Camera2D",
-      "location": "/code/mnemonica/mnemographica/src/models/Scene2D.ts:9:33",
-      "kind": "define",
-      "parent": "Scene2D",
-      "strictChain": true,
-      "blockErrors": false
-    },
-    "Scene2D.GraphNode2D": {
-      "name": "GraphNode2D",
-      "location": "/code/mnemonica/mnemographica/src/models/Scene2D.ts:18:36",
-      "kind": "define",
-      "parent": "Scene2D",
-      "strictChain": true,
-      "blockErrors": false
-    },
-    "Scene2D.Link2D": {
-      "name": "Link2D",
-      "location": "/code/mnemonica/mnemographica/src/models/Scene2D.ts:30:31",
-      "kind": "define",
-      "parent": "Scene2D",
-      "strictChain": true,
-      "blockErrors": false
-    },
-    "Scene2D.GraphNode2D.Tooltip2D": {
-      "name": "Tooltip2D",
-      "location": "/code/mnemonica/mnemographica/src/models/Scene2D.ts:39:38",
-      "kind": "define",
-      "parent": "Scene2D.GraphNode2D",
       "strictChain": true,
       "blockErrors": false
     },
@@ -223,22 +199,6 @@
       "location": "/code/mnemonica/mnemographica/src/models/Trie.ts:29:42",
       "kind": "define",
       "parent": "Trie.GraphNodeTrie",
-      "strictChain": true,
-      "blockErrors": false
-    },
-    "Usages": {
-      "name": "Usages",
-      "location": "/code/mnemonica/mnemographica/src/models/Usages.ts:16:23",
-      "kind": "define",
-      "parent": null,
-      "strictChain": true,
-      "blockErrors": false
-    },
-    "Usages.UsageEntry": {
-      "name": "UsageEntry",
-      "location": "/code/mnemonica/mnemographica/src/models/Usages.ts:59:34",
-      "kind": "define",
-      "parent": "Usages",
       "strictChain": true,
       "blockErrors": false
     }

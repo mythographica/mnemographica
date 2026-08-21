@@ -99,9 +99,9 @@ async function runTests() {
 	// Test 7: Types methods work
 	console.log('Test 7: Types methods work');
 	assert.strictEqual(types.has('UserEntity'), true, 'Should have UserEntity');
-	assert.strictEqual(types.has('AdminEntity'), true, 'Should have AdminEntity');
+	assert.strictEqual(types.has('UserEntity.AdminEntity'), true, 'Should have UserEntity.AdminEntity');
 	assert.strictEqual(types.has('OrderEntity'), true, 'Should have OrderEntity');
-	assert.strictEqual(types.has('OrderEntity_OrderItem'), true, 'Should have OrderEntity_OrderItem');
+	assert.strictEqual(types.has('OrderEntity.OrderItem'), true, 'Should have OrderEntity.OrderItem');
 
 	const userType = types.get('UserEntity');
 	assert.ok(userType, 'UserEntity type should exist');
@@ -110,12 +110,17 @@ async function runTests() {
 	assert.strictEqual(typeof userType.lineNumber, 'number', 'lineNumber should be a number');
 	assert.ok(userType.lineNumber >= 0, 'lineNumber should be >= 0');
 
-	const adminType = types.get('AdminEntity');
-	assert.ok(adminType, 'AdminEntity type should exist');
+	// Properties are parsed from the generated types.ts bodies (audit B2)
+	assert.ok(userType.properties instanceof Map, 'properties should be a Map');
+	assert.strictEqual(userType.properties.size, 3, 'UserEntity should have 3 properties');
+	assert.strictEqual(userType.properties.get('id').type, 'string', 'id should be a string');
+
+	const adminType = types.get('UserEntity.AdminEntity');
+	assert.ok(adminType, 'UserEntity.AdminEntity type should exist');
 	assert.strictEqual(adminType.parent, 'UserEntity', 'AdminEntity parent should be UserEntity');
 
-	const orderItemType = types.get('OrderEntity_OrderItem');
-	assert.ok(orderItemType, 'OrderEntity_OrderItem type should exist');
+	const orderItemType = types.get('OrderEntity.OrderItem');
+	assert.ok(orderItemType, 'OrderEntity.OrderItem type should exist');
 	assert.strictEqual(orderItemType.parent, 'OrderEntity', 'OrderItem parent should be OrderEntity');
 	console.log('  ✓ Types methods work correctly\n');
 
@@ -193,6 +198,22 @@ async function runTests() {
 	const edsEntries = Array.from(eds.entries());
 	assert.strictEqual(edsEntries.length, 3, 'Should have 3 EDS entries');
 	console.log('  ✓ EDS keys/entries work\n');
+
+	// Test 16: clear() must not throw after a successful load
+	// (regression: getter-only instance properties used to make clear()
+	// throw a TypeError, which killed every refresh — audit B1)
+	console.log('Test 16: clear() works after load');
+	testRegistry.clear();
+	assert.strictEqual(testRegistry.getTypes(), undefined, 'Types should be cleared');
+	console.log('  ✓ clear() succeeded\n');
+
+	// Test 17: reload after clear — the actual refresh path
+	console.log('Test 17: reload after clear');
+	await testRegistry.loadFromWorkspace(fixturesPath);
+	const reloadedTypes = testRegistry.getTypes();
+	assert.ok(reloadedTypes, 'Types should reload after clear');
+	assert.strictEqual(reloadedTypes.size, 4, 'Should have 4 types after reload');
+	console.log('  ✓ Reload after clear works\n');
 
 	console.log('=== All Tests Passed ===');
 }

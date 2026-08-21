@@ -51,7 +51,10 @@
 	let g = null;
 	let zoom = null;
 	let currentData = null;
-	let is3D = false;
+	// 3D-only mode (2026-08, owner decision): the 2D view is retired.
+	// The 2D renderer code remains below but is never entered — is3D
+	// starts true and no UI flips it.
+	let is3D = true;
 	let renderer3D = null;
 	let resizeHandler3D = null;
 	let saved3DCameraState = null; // Stores camera state when switching to 2D
@@ -109,12 +112,7 @@
 			}
 		});
 
-		document.getElementById('mode-2d').addEventListener('click', function () {
-			if (is3D) { set3DMode(false); }
-		});
-		document.getElementById('mode-3d').addEventListener('click', function () {
-			if (!is3D) { set3DMode(true); }
-		});
+		// 3D-only: the mode toggle buttons no longer exist in the DOM.
 	}
 
 	function set3DMode(target3D) {

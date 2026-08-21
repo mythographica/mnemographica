@@ -5,11 +5,7 @@
 // Local tactica type definitions
 export type {
 	TypeNode,
-	PropertyInfo,
-	TypeGraph,
-	AnalyzeResult,
-	AnalyzeError,
-	GeneratedTypes
+	PropertyInfo
 } from './tactica-types';
 
 /**
@@ -83,6 +79,16 @@ export type D3ExecLink = {
 };
 
 /**
+ * Messages passed between the 2D/3D graph webview and the extension
+ */
+export type WebviewMessage = {
+	/** Command type */
+	command: 'goToDefinition' | 'nodeHover' | 'ready' | 'refresh' | 'log' | 'modeChanged';
+	/** Optional payload */
+	data?: unknown;
+};
+
+/**
  * Complete graph data for D3
  */
 export type GraphData = {
@@ -94,26 +100,3 @@ export type GraphData = {
 	execflow: D3ExecLink[];
 };
 
-/**
- * Messages passed between webview and extension
- */
-export type WebviewMessage = {
-	/** Command type */
-	command: 'goToDefinition' | 'nodeHover' | 'ready' | 'refresh' | 'log' | 'modeChanged';
-	/** Optional payload */
-	data?: unknown;
-};
-
-/**
- * Extension configuration from settings
- */
-export type ExtensionConfiguration = {
-	/** Graph layout algorithm */
-	layout: 'force' | 'tree' | 'cluster';
-	/** How to size nodes */
-	nodeSize: 'propertyCount' | 'uniform';
-	/** Show properties on hover */
-	showProperties: boolean;
-	/** Auto-refresh on file changes */
-	autoRefresh: boolean;
-};

@@ -1,0 +1,168 @@
+{
+  "version": "1.0",
+  "generatedAt": "2026-08-21T13:00:47.389Z",
+  "roots": [
+    {
+      "name": "Definitions",
+      "fullPath": "Definitions",
+      "location": "/code/mnemonica/mnemographica/src/models/Definition.ts:18:28",
+      "children": [
+        {
+          "name": "DefinitionEntry",
+          "fullPath": "Definitions.DefinitionEntry",
+          "location": "/code/mnemonica/mnemographica/src/models/Definition.ts:69:44",
+          "children": []
+        }
+      ]
+    },
+    {
+      "name": "EDS",
+      "fullPath": "EDS",
+      "location": "/code/mnemonica/mnemographica/src/models/EDS.ts:16:20",
+      "children": [
+        {
+          "name": "EDSEntry",
+          "fullPath": "EDS.EDSEntry",
+          "location": "/code/mnemonica/mnemographica/src/models/EDS.ts:63:29",
+          "children": []
+        }
+      ]
+    },
+    {
+      "name": "Flow",
+      "fullPath": "Flow",
+      "location": "/code/mnemonica/mnemographica/src/models/Flow.ts:18:21",
+      "children": [
+        {
+          "name": "FlowEntry",
+          "fullPath": "Flow.FlowEntry",
+          "location": "/code/mnemonica/mnemographica/src/models/Flow.ts:65:31",
+          "children": []
+        }
+      ]
+    },
+    {
+      "name": "LoggerTab",
+      "fullPath": "LoggerTab",
+      "location": "/code/mnemonica/mnemographica/src/models/LoggerTab.ts:15:26",
+      "children": [
+        {
+          "name": "LogEntry",
+          "fullPath": "LoggerTab.LogEntry",
+          "location": "/code/mnemonica/mnemographica/src/models/LoggerTab.ts:23:35",
+          "children": []
+        }
+      ]
+    },
+    {
+      "name": "Main",
+      "fullPath": "Main",
+      "location": "/code/mnemonica/mnemographica/src/models/Main.ts:5:21",
+      "children": [
+        {
+          "name": "Adapter",
+          "fullPath": "Main.Adapter",
+          "location": "/code/mnemonica/mnemographica/src/models/Main.ts:13:29",
+          "children": []
+        }
+      ]
+    },
+    {
+      "name": "Types",
+      "fullPath": "Types",
+      "location": "/code/mnemonica/mnemographica/src/models/Types.ts:21:22",
+      "children": [
+        {
+          "name": "TypeEntry",
+          "fullPath": "Types.TypeEntry",
+          "location": "/code/mnemonica/mnemographica/src/models/Types.ts:75:32",
+          "children": []
+        }
+      ]
+    },
+    {
+      "name": "Usages",
+      "fullPath": "Usages",
+      "location": "/code/mnemonica/mnemographica/src/models/Usages.ts:16:23",
+      "children": [
+        {
+          "name": "UsageEntry",
+          "fullPath": "Usages.UsageEntry",
+          "location": "/code/mnemonica/mnemographica/src/models/Usages.ts:59:34",
+          "children": []
+        }
+      ]
+    },
+    {
+      "name": "Registry",
+      "fullPath": "Registry",
+      "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:42:25",
+      "children": [
+        {
+          "name": "RegistryEntry",
+          "fullPath": "Registry.RegistryEntry",
+          "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:518:39",
+          "children": []
+        }
+      ]
+    },
+    {
+      "name": "Scene3D",
+      "fullPath": "Scene3D",
+      "location": "/code/mnemonica/mnemographica/src/models/Scene3D.ts:5:24",
+      "children": [
+        {
+          "name": "Camera3D",
+          "fullPath": "Scene3D.Camera3D",
+          "location": "/code/mnemonica/mnemographica/src/models/Scene3D.ts:9:33",
+          "children": []
+        },
+        {
+          "name": "GraphNode3D",
+          "fullPath": "Scene3D.GraphNode3D",
+          "location": "/code/mnemonica/mnemographica/src/models/Scene3D.ts:21:36",
+          "children": [
+            {
+              "name": "Tooltip3D",
+              "fullPath": "Scene3D.GraphNode3D.Tooltip3D",
+              "location": "/code/mnemonica/mnemographica/src/models/Scene3D.ts:43:38",
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "Link3D",
+          "fullPath": "Scene3D.Link3D",
+          "location": "/code/mnemonica/mnemographica/src/models/Scene3D.ts:34:31",
+          "children": []
+        }
+      ]
+    },
+    {
+      "name": "Trie",
+      "fullPath": "Trie",
+      "location": "/code/mnemonica/mnemographica/src/models/Trie.ts:5:21",
+      "children": [
+        {
+          "name": "GraphNodeTrie",
+          "fullPath": "Trie.GraphNodeTrie",
+          "location": "/code/mnemonica/mnemographica/src/models/Trie.ts:9:35",
+          "children": [
+            {
+              "name": "LinkTrie",
+              "fullPath": "Trie.GraphNodeTrie.LinkTrie",
+              "location": "/code/mnemonica/mnemographica/src/models/Trie.ts:20:39",
+              "children": []
+            },
+            {
+              "name": "ContextMenu",
+              "fullPath": "Trie.GraphNodeTrie.ContextMenu",
+              "location": "/code/mnemonica/mnemographica/src/models/Trie.ts:29:42",
+              "children": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

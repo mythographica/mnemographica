@@ -150,7 +150,10 @@ export class StrategyServer {
 				this.handleHTTPRequest(req, res);
 			});
 
-			this.httpServer.listen(this.port, () => {
+			// Loopback only: there is no auth on this server, so
+			// listening on 0.0.0.0 exposed every command to the LAN
+			// (audit B17)
+			this.httpServer.listen(this.port, '127.0.0.1', () => {
 				this.logger.info(`HTTP server listening on port ${this.port}`);
 				resolve();
 			});
@@ -167,7 +170,8 @@ export class StrategyServer {
 	 */
 	private async startWebSocketServer (): Promise<void> {
 		return new Promise((resolve, reject) => {
-			this.wsServer = new ws.Server({ port: this.wsPort });
+			// Loopback only, same as the HTTP server (audit B17)
+			this.wsServer = new ws.Server({ port: this.wsPort, host: '127.0.0.1' });
 
 			this.wsServer.on('connection', (client: WebSocket) => {
 				this.logger.debug('WebSocket client connected');

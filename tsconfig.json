@@ -17,6 +17,11 @@
 		"forceConsistentCasingInFileNames": true,
 		"resolveJsonModule": true,
 		"moduleResolution": "node",
+		// TS 6.x flags moduleResolution=node10 and baseUrl as deprecated
+		// (removal planned for TS 7.0). Silence until the real migration
+		// (moduleResolution: bundler/node16 + baseUrl-free paths) is decided —
+		// that change alters import semantics and is not a drive-by edit.
+		"ignoreDeprecations": "6.0",
 		"baseUrl": ".",
 		"paths": {
 			"~tactica/*": [

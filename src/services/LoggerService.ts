@@ -59,16 +59,25 @@ export class LoggerService {
 		}
 		this.logFilePath = path.join(logDir, 'server.log');
 
-		// Phase 1: Initialize Mnemonica LoggerTab via lookup
-		if (modelsLoaded) {
-			const LoggerTabConstructor = lookup('LoggerTab');
-			if (LoggerTabConstructor) {
-				this.loggerTab = new LoggerTabConstructor();
-			}
-		}
-
+		// Phase 1 storage starts lazily on first write() — models are
+		// not loaded yet at this point (see ensureLoggerTab)
 		this.isInitialized = true;
 		this.info('Mnemonica Logger initialized');
+	}
+
+	/**
+	 * Lazily resolve the LoggerTab mnemonica type on first write.
+	 * initialize() is called before loadModels(), so the lookup must
+	 * happen here, once models actually exist.
+	 */
+	private ensureLoggerTab (): void {
+		if (this.loggerTab || !modelsLoaded) {
+			return;
+		}
+		const LoggerTabConstructor = lookup('LoggerTab');
+		if (LoggerTabConstructor) {
+			this.loggerTab = new LoggerTabConstructor();
+		}
 	}
 
 	/**
@@ -197,7 +206,10 @@ export class LoggerService {
 			}
 		}
 
-		// Phase 1: Create Mnemonica LogEntry instance for data storage
+		// Phase 1: Create Mnemonica LogEntry instance for data storage.
+		// loggerTab is resolved lazily here: initialize() runs before
+		// loadModels(), so the eager lookup there always failed (audit B6).
+		this.ensureLoggerTab();
 		if (this.loggerTab) {
 			const entry = new this.loggerTab.LogEntry({
 				level: level.toLowerCase() as 'info' | 'warning' | 'error',

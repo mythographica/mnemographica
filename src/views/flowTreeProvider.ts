@@ -20,7 +20,7 @@ const kindIcons: Record<string, string> = {
 	instantiation: 'debug-start'
 };
 
-type FlowTreeNodeType = 'root' | 'kind' | 'type' | 'entry';
+type FlowTreeNodeType = 'kind' | 'type' | 'entry';
 
 interface FlowEntryData {
 	typeName: string;
@@ -49,7 +49,7 @@ export class FlowTreeItem extends vscode.TreeItem {
 		public readonly collapsibleState: vscode.TreeItemCollapsibleState
 	) {
 		super(data.label, collapsibleState);
-		this.iconPath = this.getIcon(data.type, data.label);
+		this.iconPath = this.getIcon(data.type, data.kind || data.label);
 		this.tooltip = this.buildTooltip();
 		this.contextValue = data.type === 'entry' ? 'navigable' : 'flowGroup';
 
@@ -71,9 +71,6 @@ export class FlowTreeItem extends vscode.TreeItem {
 	}
 
 	private getIcon(nodeType: FlowTreeNodeType, label: string): vscode.ThemeIcon {
-		if (nodeType === 'root') {
-			return new vscode.ThemeIcon('debug-alt');
-		}
 		if (nodeType === 'kind') {
 			const icon = kindIcons[label] || 'symbol-misc';
 			return new vscode.ThemeIcon(icon);
@@ -176,9 +173,9 @@ export class FlowTreeProvider implements vscode.TreeDataProvider<FlowTreeItem> {
 			return this.getRootKinds();
 		}
 
-		if (element.data.type === 'root') {
-			// Root is a kind node — show types under this kind
-			return this.getTypesForKind(element.data.label);
+		if (element.data.type === 'kind') {
+			// Kind node — show types under this kind
+			return this.getTypesForKind(element.data.kind!);
 		}
 
 		if (element.data.type === 'type') {
@@ -219,7 +216,7 @@ export class FlowTreeProvider implements vscode.TreeDataProvider<FlowTreeItem> {
 		const items: FlowTreeItem[] = [];
 		for (const [kind, count] of kindCounts) {
 			items.push(new FlowTreeItem(
-				{ label: `${kind} (${count})`, type: 'root' },
+				{ label: `${kind} (${count})`, type: 'kind', kind },
 				vscode.TreeItemCollapsibleState.Collapsed
 			));
 		}
@@ -227,10 +224,8 @@ export class FlowTreeProvider implements vscode.TreeDataProvider<FlowTreeItem> {
 		return items.sort((a, b) => a.data.label.localeCompare(b.data.label));
 	}
 
-	private getTypesForKind(kindLabel: string): FlowTreeItem[] {
+	private getTypesForKind(kind: string): FlowTreeItem[] {
 		const activeData = this.getActiveFlowData();
-		// Extract kind from "kind (count)"
-		const kind = kindLabel.replace(/\s*\(\d+\)$/, '');
 
 		// Find all types that have this kind
 		const typeCounts = new Map<string, number>();

@@ -1,15 +1,27 @@
+# Sources and dev-time files — the vsix ships only what the extension needs at runtime
 .vscode/**
-.vscode-test/**
 src/**
-.gitignore
-.yarnrc
-webpack.config.js
-vsc-extension-quickstart.md
-**/tsconfig.json
-**/.eslintrc.json
+test/**
+.tactica/**
+out/src/test/**
 **/*.map
-**/*.ts
-out/test/**
+**/.eslintrc*
+**/tsconfig.json
+**/*.tsbuildinfo
 
-# Include media files
-!media/**
+# Repo meta
+.git*
+.gitignore
+.husky/**
+reports/**
+plans/**
+logs/**
+design_handoff_3d_scene/**
+MnemoGraphica design.zip
+*.vsix
+node_modules/.package-lock.json
+
+# Docs that are for contributors, not extension users
+AGENTS.md
+CHANGELOG.md
+INSTALL.md

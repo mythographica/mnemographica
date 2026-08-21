@@ -1,4 +1,4 @@
 'use strict';
 
-// DefinitionProvider removed - will be re-implemented
+export { MnemonicaDefinitionProvider } from './definitionProvider';
 export { MnemonicaReferenceProvider } from './referenceProvider';

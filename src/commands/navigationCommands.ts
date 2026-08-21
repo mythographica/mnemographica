@@ -46,8 +46,8 @@ export function registerNavigationCommands(
 
 			if (item.data.isDefinition && treeProvider) {
 				const fullName = item.data.fullName || item.data.label;
-				const typeName = fullName.replace(/\./g, '_');
-				const typeInfo = treeProvider.getType(typeName);
+				// types are keyed by dot-joined full path, same as definitions
+				const typeInfo = treeProvider.getType(fullName);
 				if (typeInfo) {
 					targetPath = typeInfo.fullPath;
 					targetLine = typeInfo.line;

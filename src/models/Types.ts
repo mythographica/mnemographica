@@ -5,10 +5,15 @@ import { getLogger } from '../services/LoggerService';
 
 export type rawTypeEntry = {
 	name: string;
+	/** Dot-joined full path ("Scene2D.GraphNode2D") — the join key with definitions/usages/flow */
 	fullPath: string;
+	/** Dot-joined full path of the parent type */
 	parent?: string;
-	properties: Map<string, string>;
+	properties: Map<string, { name: string; type: string; optional: boolean }>;
+	/** 1-based line of the define() site */
 	lineNumber: number;
+	/** define() site as "file:line:column" (from hierarchy.json) */
+	location?: string;
 };
 
 export type TypeEntryInstance = InstanceType<typeof TypeEntry>;

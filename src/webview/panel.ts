@@ -53,7 +53,7 @@ export class GraphPanel {
 		this.panel = panel;
 
 		// Set initial content
-		this.panel.title = 'Mnemonica Graph 2D';
+		this.panel.title = 'Mnemonica Graph 3D';
 		this.panel.webview.html = this.getWebviewContent(graphData, extensionUri);
 
 		// Handle messages from webview
@@ -165,10 +165,8 @@ export class GraphPanel {
 		<button id="zoom-in" title="Zoom In">+</button>
 		<button id="zoom-out" title="Zoom Out">−</button>
 		<button id="reset" title="Reset View">⟲</button>
-		<button id="mode-2d" class="mode-btn active" title="2D Mode">2D</button>
-		<button id="mode-3d" class="mode-btn" title="3D Mode">3D</button>
 	</div>
-	<div id="gen-controls" style="display: none;">
+	<div id="gen-controls" style="display: block;">
 		<div class="gen-controls-header">Generation Distances</div>
 		<div id="gen-controls-list"></div>
 	</div>

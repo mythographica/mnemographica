@@ -148,7 +148,7 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 			}
 		}
 
-		// Load types from registry
+		// Load types from registry (keyed by dot-joined full path)
 		const typesModel = this.registry.getTypes();
 		if (typesModel) {
 			for (const [key, entry] of typesModel.entries()) {
@@ -161,9 +161,12 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 
 				this.types.set(key, {
 					name: info.name,
-					fullName: info.name,
+					fullName: key,  // Dot-joined full path, same convention as definitions/usages/flow
 					parent: info.parent,
-					fullPath: info.fullPath,
+					// Types section items navigate to the generated alias
+					// in types.ts; the define() site is one cross-click away
+					// via the Definitions section
+					fullPath: path.join(this.currentWorkspacePath || '', '.tactica', 'types.ts'),
 					line: 0  // Will be populated from types.ts parsing below
 				});
 			}
@@ -173,7 +176,9 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 			}
 		}
 
-		// Parse types.ts for line numbers (registry doesn't have them)
+		// Parse types.ts for line numbers of the generated aliases.
+		// Registry keys are dot-joined full paths; aliases in types.ts
+		// are underscore-joined — normalize when joining the two.
 		const typesPath = path.join(this.currentWorkspacePath || '', '.tactica', 'types.ts');
 		if (fs.existsSync(typesPath)) {
 			const content = fs.readFileSync(typesPath, 'utf-8');
@@ -185,9 +190,9 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 			for (let i = 0; i < lines.length; i++) {
 				const match = typeRegex.exec(lines[i]);
 				if (match) {
-					const typeName = match[1];
+					const aliasName = match[1];
 					// Update existing type entry with line and column numbers
-					const existingType = this.types.get(typeName);
+					const existingType = this.types.get(aliasName) || this.types.get(aliasName.replace(/_/g, '.'));
 					if (existingType) {
 						existingType.line = i + 1; // 1-based line number
 						existingType.column = 14;  // Position after "export type "
@@ -410,8 +415,12 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 	}
 
 	private createTypeItem (type: TypeData): MnemonicaTreeItem {
-		const shortName = type.name.includes('_') ? type.name.split('_').pop()! : type.name;
-		const hasChildren = this.getChildTypes(type.name).length > 0;
+		// name is the simple name on the registry path; the direct-file
+		// fallback still stores the underscore-joined alias
+		const shortName = type.name.includes('_')
+			? type.name.split('_').pop()!
+			: (type.name.includes('.') ? type.name.split('.').pop()! : type.name);
+		const hasChildren = this.getChildTypes(type.fullName).length > 0;
 		return new MnemonicaTreeItem(
 			{
 				label: shortName,

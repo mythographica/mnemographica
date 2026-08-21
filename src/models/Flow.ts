@@ -10,6 +10,7 @@ export type rawFlowEntry = {
 	location: string;
 	propertyName?: string;
 	context?: string;
+	targetType?: string;
 };
 
 export type FlowEntryInstance = InstanceType<typeof FlowEntry>;

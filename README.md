@@ -1,60 +1,48 @@
 # Mnemonica Graphica
 
-Visualize mnemonica type hierarchies with interactive D3 force-directed graphs in VS Code.
-
-![Mnemonica Graphica Screenshot](img/screen.png)
+Explore mnemonica type hierarchies in VS Code: definitions, generated types, usages, execution flow and inheritance depth — with go-to-definition navigation throughout.
 
 ## Features
 
-- **Interactive Graph Visualization**: See your mnemonica type inheritance as a force-directed graph
-- **2D/3D Toggle**: Switch between 2D force-directed layout and 3D WebGL visualization
-- **Click to Definition**: Single-click any node to view its properties, double-click to jump to source definition
-- **Hover for Details**: View type properties on hover (name, depth, property list with types)
-- **Real-time Updates**: Automatically refreshes when you modify source files
-- **Zoom & Pan**: Navigate large type hierarchies easily
-- **Draggable Nodes**: Drag nodes in 2D mode to rearrange the layout
+- **Types Tree**: The full inheritance hierarchy — Definitions (actual `define()` sites) and Types (generated aliases in `.tactica/types.ts`), cross-linked
+- **Usages View**: Every place the selected type is referenced, one click to jump
+- **Flow View**: Execution flow from `flow.json`, grouped by kind (instantiation, property access, pass-as-arg, …) → type → entry
+- **By Generation View**: All types grouped by inheritance depth
+- **3D Graph**: The whole hierarchy as an interactive Three.js scene (`Mnemonica: Ψ 3D`)
+- **Code Navigation**: Ctrl+Click (Go to Definition) and Shift+F12 (Find References) for your mnemonica types
+- **Real-time Updates**: Views refresh automatically when source files or `.tactica` output change
 
 ## Requirements
 
 - VS Code 1.74.0 or higher
-- A TypeScript project using [mnemonica](https://github.com/mythographica/mnemonica)
-- Optionally: [@mnemonica/tactica](https://github.com/mythographica/mnemonica/tree/master/tactica) for enhanced type analysis
+- A TypeScript project using [mnemonica](https://www.npmjs.com/package/mnemonica)
+- [@mnemonica/tactica](https://www.npmjs.com/package/@mnemonica/tactica) run on that project, producing a `.tactica/` directory (`hierarchy.json`, `definitions.json`, `usages.json`, `eds.json`, `flow.json`, `types.ts`)
 
 ## Usage
 
-1. Open a project with mnemonica types
-2. Run `Mnemonica: Show Type Graph` from the command palette
-3. Or right-click any `.ts` file and select `Show Type Graph`
+1. Open a project with a `.tactica/` directory
+2. Open the Mnemonica activity bar container (Ψ)
+3. Browse the Welcome, Usages, Types, Flow, and By Generation views
+4. Run `Mnemonica: Ψ 3D` for the interactive 3D type graph (needs network access — the panel loads d3/three from CDN)
 
-The graph will display:
-- **Nodes**: Each mnemonica type defined in your project
-- **Links**: Inheritance relationships (parent → child)
-- **Node Size**: Based on number of properties
-- **Node Color**: Based on depth in the inheritance tree
+Navigation conventions:
+- **Definitions** items jump to the original `define()` call
+- **Types** items jump to the generated alias in `.tactica/types.ts`
+- Right-click any item for cross-navigation: Open Definition / Open Type / Show Usages / Show Flows
+- **Flow** entries and **By Generation** nodes jump to their call/define site on click
 
 ## Commands
 
 | Command | Description |
 |---------|-------------|
-| `Mnemonica: Show Type Graph` | Open the type hierarchy visualization |
-| `Mnemonica: Refresh Type Graph` | Manually refresh the graph |
-| `Toggle 2D/3D` | Switch between 2D and 3D visualization modes |
-
-## Interaction
-
-### 2D Mode
-- **Hover**: View type properties tooltip
-- **Single Click**: Pin tooltip with full property details
-- **Double Click**: Jump to source definition
-- **Drag**: Rearrange node positions
-- **Scroll**: Zoom in/out
-- **Right-click drag**: Pan the view
-
-### 3D Mode
-- **Click**: Select node and view properties
-- **Double Click**: Jump to source definition
-- **Drag**: Rotate the 3D view
-- **Scroll**: Zoom in/out
+| `Mnemonica: Ψ 3D` | Open the interactive 3D type graph |
+| `Mnemonica: Refresh Type Graph` | Reload all `.tactica` data and refresh every view |
+| `Mnemonica: Refresh Tree View` | Reload the Definitions/Types tree |
+| `Mnemonica: Refresh By Generation` | Rebuild the By Generation view |
+| `Mnemonica: Show Tree View` | Focus the Types view |
+| `Mnemonica: Select Workspace` | Load a different workspace containing `.tactica/` |
+| `Mnemonica: Show Logger` | Open the Mnemonica Logger output channel |
+| `Mnemonica: Show Strategy MCP Status` | Show the experimental Strategy server status |
 
 ## Code Navigation (Go to Definition)
 
@@ -106,25 +94,18 @@ This creates a **bidirectional navigation** system:
 - Type Reference → Source (via definitions.json)
 - Generated Types → Original Code (via DefinitionProvider)
 
-## Configuration
-
-```json
-{
-  "mnemographica.layout": "force",
-  "mnemographica.nodeSize": "propertyCount",
-  "mnemographica.showProperties": true
-}
-```
-
 ## How It Works
 
-Mnemonica Graphica parses your TypeScript files to find `define()` calls and builds a visual representation of the instance inheritance trie - the "family tree" of types created through mnemonica's prototype chain inheritance pattern.
+Mnemonica Graphica loads your project's `.tactica/` artifacts (generated by tactica) into mnemonica model instances via a Registry controller: hierarchy and structure from `hierarchy.json`, properties from the generated `types.ts`, plus definitions, usages, EDS and flow data. Tree views and navigation providers read from those models, and everything refreshes when the underlying files change.
+
+All type identity is keyed by dot-joined full path (e.g. `Scene2D.GraphNode2D`), which is what makes the views join cleanly with definitions, usages, and flow data.
 
 ## Development
 
 ```bash
 npm install
-npm run compile
+npm run compile   # tactica:generate + tsc
+npm test          # compile + lint + node test suites
 # Press F5 to launch extension host
 ```
 

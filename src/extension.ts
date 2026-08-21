@@ -1,5 +1,4 @@
 import * as vscode from 'vscode';
-import { GraphProvider } from './graph/provider';
 import { MnemonicaActivityBarProvider } from './activityBar';
 import { MnemonicaTreeProvider, MnemonicaTreeItem } from './views/treeProvider';
 import { UsagesTreeProvider, UsageTreeItem } from './views/usagesTreeProvider';
@@ -12,15 +11,12 @@ import { getLogger } from './services/LoggerService';
 import { VSCodeNavigation } from './services/NavigationAdapter';
 import { loadModels, modelsLoaded } from './topologica/bootstrap';
 import { MainOrchestrator } from './core/MainOrchestrator';
-import { GraphBuilder } from './core/GraphBuilder';
-import { registerGraphCommands } from './commands/graphCommands';
+import { GraphPanel } from './webview/panel';
 import { registerNavigationCommands } from './commands/navigationCommands';
 import { registerTreeCommands } from './commands/treeCommands';
 import { registerUtilityCommands } from './commands/utilityCommands';
 import { registerWorkspaceCommands } from './commands/workspaceCommands';
-import { GraphPanel25D } from './webview/panel25d';
 
-let graphProvider: GraphProvider;
 let treeProvider: MnemonicaTreeProvider;
 let treeView: vscode.TreeView<MnemonicaTreeItem>;
 let usagesProvider: UsagesTreeProvider;
@@ -87,10 +83,12 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(genTreeView);
 
 	// Register navigation command for flow entries
+	// NOTE: VSCodeNavigation.goTo converts 1-based locations to 0-based
+	// internally — pass the raw 1-based line/column from flow.json through.
 	context.subscriptions.push(
 		vscode.commands.registerCommand('mnemographica.navigateToLocation', async (location: { filePath: string; line: number; column: number }) => {
 			try {
-				await VSCodeNavigation.goTo(location.filePath, location.line - 1, location.column - 1);
+				await VSCodeNavigation.goTo(location.filePath, location.line, location.column);
 			} catch (err) {
 				logger.error('Failed to navigate to:', location.filePath, err);
 			}
@@ -163,21 +161,53 @@ export function activate(context: vscode.ExtensionContext) {
 	mainOrchestrator = new MainOrchestrator(context.extension.packageJSON.version || '0.1.0');
 	logger.info('MainOrchestrator created');
 
-	// Initialize graph provider (needs mainOrchestrator)
-	graphProvider = new GraphProvider(mainOrchestrator);
-
 	// Register commands from command files (all deps now initialized)
-	const graphCommands = registerGraphCommands(context, graphProvider, treeProvider, genProvider);
 	const navigationCommands = registerNavigationCommands(treeProvider, usagesProvider);
 	const treeCommands = registerTreeCommands(treeProvider, usagesProvider, referenceProvider, mainOrchestrator);
 	const utilityCommands = registerUtilityCommands(strategyServer);
 	const workspaceCommands = registerWorkspaceCommands(treeProvider, referenceProvider, flowProvider, mainOrchestrator);
 
-	graphCommands.forEach(cmd => context.subscriptions.push(cmd));
 	navigationCommands.forEach(cmd => context.subscriptions.push(cmd));
 	treeCommands.forEach(cmd => context.subscriptions.push(cmd));
 	utilityCommands.forEach(cmd => context.subscriptions.push(cmd));
 	workspaceCommands.forEach(cmd => context.subscriptions.push(cmd));
+
+	// Graph commands (formerly commands/graphCommands.ts). The 2.5D panel
+	// was retired by owner decision; the 2D/3D webview panel remains and
+	// feeds straight from the orchestrator, same as the generation view.
+	context.subscriptions.push(
+		vscode.commands.registerCommand('mnemographica.showTypeGraph', async () => {
+			const workspacePath = treeProvider?.getCurrentWorkspace() || vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
+			if (!workspacePath) {
+				vscode.window.showWarningMessage('No workspace selected. Please select a workspace first.');
+				return;
+			}
+			const graphData = mainOrchestrator.getGraphData();
+			if (!graphData) {
+				vscode.window.showErrorMessage('No graph data available. Load a workspace first.');
+				return;
+			}
+			logger.info(`Loaded graph with ${graphData.nodes.length} nodes and ${graphData.links.length} links`);
+			GraphPanel.createOrShow(context.extensionUri, graphData);
+		})
+	);
+	context.subscriptions.push(
+		vscode.commands.registerCommand('mnemographica.refreshGraph', async () => {
+			await refreshTypeGraph(context);
+		})
+	);
+	context.subscriptions.push(
+		vscode.commands.registerCommand('mnemographica.refreshGenTree', async () => {
+			const graphData = mainOrchestrator.getGraphData();
+			if (!graphData) {
+				vscode.window.showWarningMessage('No graph data available. Load a workspace first.');
+				return;
+			}
+			genProvider.setGraphData(graphData);
+			logger.info(`[GenTree] Refreshed with ${graphData.nodes.length} nodes`);
+			vscode.window.showInformationMessage(`By Generation: ${graphData.nodes.length} types loaded`);
+		})
+	);
 
 	// Navigate to definition when item is selected and update usages view
 	treeView.onDidChangeSelection(async (event) => {
@@ -250,17 +280,12 @@ export function activate(context: vscode.ExtensionContext) {
 			treeProvider.refresh();
 			// Update flow provider
 			flowProvider.setRegistry(mainOrchestrator.getRegistry());
-			// Load graph data through GraphProvider (same path as manual refresh)
-			try {
-				const graphData = await graphProvider.loadGraph(workspacePath);
-				logger.info(`[Extension] Graph data: ${graphData.nodes.length} nodes, ${graphData.links.length} links`);
+			// Feed the generation tree view and the graph panel (if open)
+			const graphData = mainOrchestrator.getGraphData();
+			if (graphData) {
+				logger.info(`[Extension] Graph data: ${graphData.nodes.length} nodes, ${graphData.links.length} links, ${graphData.execflow.length} exec links`);
 				genProvider.setGraphData(graphData);
-				GraphPanel25D.updateGraph(graphData);
-			} catch (err) {
-				logger.warn('[Extension] GraphProvider failed, falling back:', err);
-				const rebuilt = GraphBuilder.buildFromRegistry(mainOrchestrator.getRegistry());
-				genProvider.setGraphData(rebuilt);
-				GraphPanel25D.updateGraph(rebuilt);
+				GraphPanel.updateGraph(graphData);
 			}
 		}).catch((err: Error) => {
 			logger.error('Failed to load workspace:', err);
@@ -268,7 +293,6 @@ export function activate(context: vscode.ExtensionContext) {
 
 		// Load navigation provider data
 		logger.info('Loading navigation providers data...');
-		// definitionProvider.loadDefinitions removed - will be re-implemented
 		referenceProvider.loadUsages(workspacePath).catch((err: Error) => {
 			logger.error('Failed to load usages:', err, err.stack);
 		});
@@ -288,8 +312,8 @@ export function activate(context: vscode.ExtensionContext) {
 		100
 	);
 	statusBarItem.text = 'Ψ';
-	statusBarItem.tooltip = 'Show Mnemonica Type Graph';
-	statusBarItem.command = 'mnemographica.showTypeGraph';
+	statusBarItem.tooltip = 'Show Mnemonica Types';
+	statusBarItem.command = 'mnemonicaTypes.focus';
 	statusBarItem.show();
 	context.subscriptions.push(statusBarItem);
 
@@ -325,27 +349,23 @@ async function refreshTypeGraph(_context: vscode.ExtensionContext) {
 
 	const workspacePath = workspaceFolders[0].uri.fsPath;
 
-	// Clear cache and reload
-	graphProvider.clearCache();
-
 	// Refresh registry and tree view
 	if (treeProvider && mainOrchestrator) {
 		await mainOrchestrator.refresh();
 		treeProvider.refresh();
-		// Load graph data through GraphProvider (same path as manual refresh)
-		try {
-			const graphData = await graphProvider.loadGraph(workspacePath);
+		const graphData = mainOrchestrator.getGraphData();
+		if (graphData) {
 			genProvider.setGraphData(graphData);
-			GraphPanel25D.updateGraph(graphData);
-		} catch (err) {
-			logger.warn('[Extension] refresh: GraphProvider failed, falling back:', err);
-			const rebuilt = GraphBuilder.buildFromRegistry(mainOrchestrator.getRegistry());
-			genProvider.setGraphData(rebuilt);
-			GraphPanel25D.updateGraph(rebuilt);
+			GraphPanel.updateGraph(graphData);
 		}
 	}
 
-	// Refresh navigation providers
+	// Refresh navigation providers. Both caches must go: the definition
+	// cache used to survive tactica regeneration, so Ctrl+Click resolved
+	// against stale locations until window reload (audit B5).
+	if (definitionProvider) {
+		definitionProvider.clearCache();
+	}
 	if (referenceProvider) {
 		referenceProvider.clear();
 		await referenceProvider.loadUsages(workspacePath);

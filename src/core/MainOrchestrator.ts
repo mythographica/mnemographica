@@ -4,18 +4,12 @@ import { lookup } from 'mnemonica';
 import type { Main as MainType, Registry } from '../../.tactica/types';
 import { StateManager } from './StateManager';
 import { GraphBuilder } from './GraphBuilder';
-import { Scene2DManager } from './Scene2DManager';
-import { Scene3DManager } from './Scene3DManager';
-import { TrieManager } from './TrieManager';
 import { GraphData } from '../types';
 
 export class MainOrchestrator {
 	private main: MainType;
 	private stateManager: StateManager;
 	private registry: Registry;
-	private scene2d: Scene2DManager | undefined;
-	private scene3d: Scene3DManager | undefined;
-	private trie: TrieManager | undefined;
 	private currentGraphData: GraphData | undefined;
 
 	constructor(version: string) {
@@ -24,13 +18,6 @@ export class MainOrchestrator {
 		this.stateManager = new StateManager();
 		const Registry = lookup('Registry');
 		this.registry = new Registry();
-
-		new this.main.Adapter({
-			name: 'mcp', domain: 'strategy', enabled: true
-		});
-		new this.main.Adapter({
-			name: 'vscode', domain: 'ui', enabled: true
-		});
 	}
 
 	getStateManager(): StateManager {
@@ -50,9 +37,6 @@ export class MainOrchestrator {
 			await this.registry.loadFromWorkspace(workspacePath);
 
 			this.currentGraphData = GraphBuilder.buildFromRegistry(this.registry);
-			this.scene2d = new Scene2DManager(this.currentGraphData);
-			this.scene3d = new Scene3DManager(this.currentGraphData);
-			this.trie = new TrieManager();
 
 			this.stateManager.setLoading(false);
 		} catch (error) {
@@ -70,18 +54,6 @@ export class MainOrchestrator {
 		await this.loadWorkspace(workspacePath);
 	}
 
-	getScene2D(): Scene2DManager | undefined {
-		return this.scene2d;
-	}
-
-	getScene3D(): Scene3DManager | undefined {
-		return this.scene3d;
-	}
-
-	getTrie(): TrieManager | undefined {
-		return this.trie;
-	}
-
 	getGraphData(): GraphData | undefined {
 		return this.currentGraphData;
 	}
@@ -96,9 +68,6 @@ export class MainOrchestrator {
 	}
 
 	dispose(): void {
-		this.scene2d = undefined;
-		this.scene3d = undefined;
-		this.trie = undefined;
 		this.currentGraphData = undefined;
 		this.registry.clear();
 	}

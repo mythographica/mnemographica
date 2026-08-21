@@ -26,8 +26,8 @@ export class MnemonicaActivityBarProvider implements vscode.WebviewViewProvider 
 
 		webviewView.webview.onDidReceiveMessage(message => {
 			switch (message.command) {
-			case 'showGraph':
-				vscode.commands.executeCommand('mnemographica.showTypeGraph');
+			case 'showTypes':
+				vscode.commands.executeCommand('mnemonicaTypes.focus');
 				return;
 			}
 		});
@@ -38,6 +38,7 @@ export class MnemonicaActivityBarProvider implements vscode.WebviewViewProvider 
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+	<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Mnemonica</title>
 	<style>
@@ -89,17 +90,17 @@ export class MnemonicaActivityBarProvider implements vscode.WebviewViewProvider 
 		<div class="logo">&#x1F332;</div>
 		<h1>Mnemonica</h1>
 		<p class="description">
-			Visualize your instance inheritance hierarchy.<br>
-			Show type graphs in 2D or 3D.
+			Explore your instance inheritance hierarchy.<br>
+			Definitions, types, usages, flow and generations.
 		</p>
-		<button class="button" id="showGraphBtn">
-			<span class="icon">Ψ</span> Show Type Graph 3
+		<button class="button" id="showTypesBtn">
+			<span class="icon">Ψ</span> Show Types
 		</button>
 	</div>
 	<script>
 		const vscode = acquireVsCodeApi();
-		document.getElementById('showGraphBtn').addEventListener('click', () => {
-			vscode.postMessage({ command: 'showGraph' });
+		document.getElementById('showTypesBtn').addEventListener('click', () => {
+			vscode.postMessage({ command: 'showTypes' });
 		});
 	</script>
 </body>

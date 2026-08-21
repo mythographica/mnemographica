@@ -61,7 +61,7 @@ export type Flow = {
 	values: () => MapIterator<Array<Flow_FlowEntry>>;
 	entries: () => MapIterator<[string, Array<Flow_FlowEntry>]>;
 	clear: () => void;
-	FlowEntry: new (data: { typeName: string; kind: string; code: string; location: string; propertyName?: string; context?: string }) => Flow_FlowEntry;
+	FlowEntry: new (data: { typeName: string; kind: string; code: string; location: string; propertyName?: string; context?: string; targetType?: string }) => Flow_FlowEntry;
 };
 
 export type Flow_FlowEntry = ProtoFlat<Flow, {
@@ -71,6 +71,7 @@ export type Flow_FlowEntry = ProtoFlat<Flow, {
 	location: string;
 	propertyName?: string;
 	context?: string;
+	targetType?: string;
 	FlowEntry: undefined;
 }>;
 
@@ -114,21 +115,42 @@ export type Types = {
 	entries: () => MapIterator<[string, Types_TypeEntry]>;
 	clear: () => void;
 	getLineForType: (typeName: string) => number | undefined;
-	TypeEntry: new (data: { name: string; fullPath: string; parent?: string; properties: Map<string, string>; lineNumber: number }) => Types_TypeEntry;
+	TypeEntry: new (data: { name: string; fullPath: string; parent?: string; properties: Map<string, { name: string; type: string; optional: boolean }>; lineNumber: number; location?: string }) => Types_TypeEntry;
 };
 
 export type Types_TypeEntry = ProtoFlat<Types, {
 	name: string;
 	fullPath: string;
 	parent?: string;
-	properties: Map<string, string>;
+	properties: Map<string, { name: string; type: string; optional: boolean }>;
 	lineNumber: number;
+	location?: string;
 	TypeEntry: undefined;
+}>;
+
+export type Usages = {
+	createdAt: number;
+	readonly size: number;
+	get: (name: string) => Array<Usages_UsageEntry>;
+	has: (name: string) => boolean;
+	set: (name: string, entry: Array<Usages_UsageEntry>) => void;
+	keys: () => MapIterator<string>;
+	values: () => MapIterator<Array<Usages_UsageEntry>>;
+	entries: () => MapIterator<[string, Array<Usages_UsageEntry>]>;
+	clear: () => void;
+	UsageEntry: new (usages: { typeName: string; kind: string; code: string; location: string }) => Usages_UsageEntry;
+};
+
+export type Usages_UsageEntry = ProtoFlat<Usages, {
+	typeName: string;
+	kind: string;
+	code: string;
+	location: string;
+	UsageEntry: undefined;
 }>;
 
 export type Registry = {
 	createdAt: number;
-	makeProperty: (name: string, value: unknown) => void;
 	readonly size: number;
 	get: (name: string) => unknown | undefined;
 	has: (name: string) => boolean;
@@ -154,51 +176,6 @@ export type Registry_RegistryEntry = ProtoFlat<Registry, {
 	line: number;
 	column: number;
 	RegistryEntry: undefined;
-}>;
-
-export type Scene2D = {
-	createdAt: number;
-	Camera2D: new (data: { x: number; y: number; zoom: number }) => Scene2D_Camera2D;
-	GraphNode2D: new (data: { id: string; label: string; x: number; y: number; radius: number; color: string }) => Scene2D_GraphNode2D;
-	Link2D: new (data: { source: unknown; target: unknown; strength: number }) => Scene2D_Link2D;
-};
-
-export type Scene2D_Camera2D = ProtoFlat<Scene2D, {
-	x: number;
-	y: number;
-	zoom: number;
-	Camera2D: undefined;
-	GraphNode2D: undefined;
-	Link2D: undefined;
-}>;
-
-export type Scene2D_GraphNode2D = ProtoFlat<Scene2D, {
-	id: string;
-	label: string;
-	x: number;
-	y: number;
-	radius: number;
-	color: string;
-	Tooltip2D: new (data: { targetNode: unknown; content: string; visible: boolean }) => Scene2D_GraphNode2D_Tooltip2D;
-	GraphNode2D: undefined;
-	Camera2D: undefined;
-	Link2D: undefined;
-}>;
-
-export type Scene2D_GraphNode2D_Tooltip2D = ProtoFlat<Scene2D_GraphNode2D, {
-	targetNode: unknown;
-	content: string;
-	visible: boolean;
-	Tooltip2D: undefined;
-}>;
-
-export type Scene2D_Link2D = ProtoFlat<Scene2D, {
-	source: unknown;
-	target: unknown;
-	strength: number;
-	Link2D: undefined;
-	Camera2D: undefined;
-	GraphNode2D: undefined;
 }>;
 
 export type Scene3D = {
@@ -280,25 +257,4 @@ export type Trie_GraphNodeTrie_ContextMenu = ProtoFlat<Trie_GraphNodeTrie, {
 	visible: boolean;
 	ContextMenu: undefined;
 	LinkTrie: undefined;
-}>;
-
-export type Usages = {
-	createdAt: number;
-	readonly size: number;
-	get: (name: string) => Array<Usages_UsageEntry>;
-	has: (name: string) => boolean;
-	set: (name: string, entry: Array<Usages_UsageEntry>) => void;
-	keys: () => MapIterator<string>;
-	values: () => MapIterator<Array<Usages_UsageEntry>>;
-	entries: () => MapIterator<[string, Array<Usages_UsageEntry>]>;
-	clear: () => void;
-	UsageEntry: new (usages: { typeName: string; kind: string; code: string; location: string }) => Usages_UsageEntry;
-};
-
-export type Usages_UsageEntry = ProtoFlat<Usages, {
-	typeName: string;
-	kind: string;
-	code: string;
-	location: string;
-	UsageEntry: undefined;
 }>;
