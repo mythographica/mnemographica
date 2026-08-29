@@ -15,14 +15,18 @@ export class GenTreeItem extends vscode.TreeItem {
 		super(label, collapsibleState);
 		this.tooltip = `${id} (gen ${gen})`;
 		this.iconPath = new vscode.ThemeIcon(this.getIconForGen(gen));
-		if (nodeData?.location) {
+		if (nodeData) {
+			// Click rotates the 3D graph to the node when the graph is on
+			// screen; falls back to file jump when it is not
 			this.command = {
-				command: 'mnemographica.navigateToLocation',
-				title: 'Go to Definition',
+				command: 'mnemographica.focusOrNavigate',
+				title: 'Focus in 3D or Go to Definition',
 				arguments: [{
-					filePath: nodeData.location.fileName,
-					line: nodeData.location.line,
-					column: nodeData.location.column
+					id: nodeData.id,
+					name: nodeData.name,
+					filePath: nodeData.location?.fileName,
+					line: nodeData.location?.line,
+					column: nodeData.location?.column
 				}]
 			};
 		}

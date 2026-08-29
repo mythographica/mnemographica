@@ -44,6 +44,14 @@
 	debugLog('[Mnemonica] Script starting...', 'log');
 	debugLog('[Mnemonica] THREE available: ' + typeof THREE, 'log');
 
+	// Focus-animation helpers (rotate-then-zoom on sidebar click)
+	function lerp(a, b, t) {
+		return a + (b - a) * t;
+	}
+	function easeInOutCubic(t) {
+		return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+	}
+
 	const vscode = acquireVsCodeApi();
 	vscodeRef = vscode;
 	let simulation = null;
@@ -236,6 +244,14 @@
 				render3DGraph(message.data);
 			} else {
 				render2DGraph(message.data);
+			}
+		}
+
+		if (message.command === 'focusNode') {
+			// Sidebar click → rotate the 3D camera onto the node instead
+			// of jumping to the file (extension gates on 3D being visible)
+			if (is3D && renderer3D && message.data) {
+				renderer3D.focusNode(message.data.id, message.data.name);
 			}
 		}
 	});
@@ -635,6 +651,9 @@
 
 		// Create 3D renderer
 		renderer3D = new Graph3DRenderer(container, initialCameraState);
+		// Debug handle: agent automation (Strategy/CDP) reads camera and
+		// scene state through this
+		window.__mnemographica3D = renderer3D;
 		renderer3D.setOnNodeClick(function (node) {
 			debugLog('[Mnemonica] 3D Node clicked:', node.name, 'log');
 			const loc = node.definitionLocation || node.location;
@@ -893,9 +912,12 @@
 				debugLog('No saved camera state, using defaults', 'log');
 				this.cameraRotation = { x: 0, y: 0 };
 				this.zoom = 500;
-				this.panOffset = { x: 0, y: 0 };
+				this.panOffset = { x: 0, y: 0, z: 0 };
 			}
 			this.depthRadii = null; // Will be initialized in renderGraph
+			// Focus animation state (sidebar click → rotate/zoom to node)
+			this.focusAnim = null;
+			this.focusedMesh = null;
 
 			this.init();
 		}
@@ -922,7 +944,7 @@
 			this.camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 5000);
 			// Use existing zoom/panOffset if they were restored, otherwise set defaults
 			if (this.zoom === undefined) this.zoom = 600;
-			if (this.panOffset === undefined) this.panOffset = { x: 0, y: 0 };
+			if (this.panOffset === undefined) this.panOffset = { x: 0, y: 0, z: 0 };
 			this.isPanning = false;
 			this.draggedNode = null;
 			// Apply the camera position based on restored/default values
@@ -982,6 +1004,8 @@
 			canvas.addEventListener('mousedown', (e) => {
 				e.preventDefault();
 				e.stopPropagation();
+				// User grabbed the scene — cancel any running focus animation
+				this.focusAnim = null;
 				this.isDragging = false;
 				this.isPanning = e.ctrlKey;
 				this.previousMousePosition = { x: e.clientX, y: e.clientY };
@@ -1129,8 +1153,9 @@
 						this.handleNodeClick3D(e, node);
 					}
 				} else {
-					// Click on background - hide tooltip
+					// Click on background - hide tooltip, drop focus glow
 					d3.select('#tooltip').classed('visible', false);
+					this.setFocusedMesh(null);
 				}
 			});
 	
@@ -1154,6 +1179,8 @@
 			canvas.addEventListener('wheel', (e) => {
 				e.preventDefault();
 				e.stopPropagation();
+				// Manual zoom cancels the focus animation
+				this.focusAnim = null;
 				this.zoom += e.deltaY * 0.5;
 				this.zoom = Math.max(50, Math.min(2500, this.zoom));
 				this.updateCameraPosition();
@@ -1167,11 +1194,391 @@
 		}
 
 		updateCameraPosition() {
+			// panOffset.z is optional: saved camera states from before the
+			// z-aware orbit center do not carry it
+			const panZ = this.panOffset.z || 0;
 			const x = Math.sin(this.cameraRotation.y) * Math.cos(this.cameraRotation.x) * this.zoom + this.panOffset.x;
 			const y = Math.sin(this.cameraRotation.x) * this.zoom + this.panOffset.y;
-			const z = Math.cos(this.cameraRotation.y) * Math.cos(this.cameraRotation.x) * this.zoom;
+			const z = Math.cos(this.cameraRotation.y) * Math.cos(this.cameraRotation.x) * this.zoom + panZ;
 			this.camera.position.set(x, y, z);
-			this.camera.lookAt(this.panOffset.x, this.panOffset.y, 0);
+			this.camera.lookAt(this.panOffset.x, this.panOffset.y, panZ);
+		}
+
+		focusNode(id, name) {
+			let mesh = this.nodeMeshes.get(id);
+			if (!mesh && name) {
+				// Fallback: match by short display name
+				for (const candidate of this.nodeMeshes.values()) {
+					const candidateNode = candidate.userData.node;
+					if (candidateNode && candidateNode.name === name) {
+						mesh = candidate;
+						break;
+					}
+				}
+			}
+			if (!mesh) return;
+
+			const node = mesh.userData.node;
+			const pos = mesh.position;
+
+			// Rotation target: align the view with the chain direction
+			// (parent → node) so the arrow-sphere line faces the viewer.
+			// Roots keep the current rotation — nothing to align to.
+			let targetRotX = this.cameraRotation.x;
+			let targetRotY = this.cameraRotation.y;
+			const parentMesh = node && node.parent ? this.nodeMeshes.get(node.parent.id) : null;
+			if (parentMesh) {
+				const pp = parentMesh.position;
+				const dx = pos.x - pp.x;
+				const dy = pos.y - pp.y;
+				const dz = pos.z - pp.z;
+				const len = Math.sqrt(dx * dx + dy * dy + dz * dz);
+				if (len > 0.0001) {
+					const dirX = dx / len;
+					const dirY = dy / len;
+					const dirZ = dz / len;
+					// Do NOT look straight down the chain axis: the branch
+					// nodes stack one behind another and the zoomed sphere
+					// occludes its parent. Rotate the view ~80° off-axis
+					// (Rodrigues around the chain's perpendicular) so the
+					// branch spreads across the frame instead.
+					const up = Math.abs(dirY) > 0.95
+						? { x: 1, y: 0, z: 0 }
+						: { x: 0, y: 1, z: 0 };
+					// axis = normalize(cross(dir, up))
+					let axisX = dirY * up.z - dirZ * up.y;
+					let axisY = dirZ * up.x - dirX * up.z;
+					let axisZ = dirX * up.y - dirY * up.x;
+					const axisLen = Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
+					axisX /= axisLen;
+					axisY /= axisLen;
+					axisZ /= axisLen;
+					const theta = 80 * Math.PI / 180;
+					const cosT = Math.cos(theta);
+					const sinT = Math.sin(theta);
+					// cross(axis, dir) for the Rodrigues rotation
+					const crossX = axisY * dirZ - axisZ * dirY;
+					const crossY = axisZ * dirX - axisX * dirZ;
+					const crossZ = axisX * dirY - axisY * dirX;
+					const viewX = dirX * cosT + crossX * sinT;
+					const viewY = dirY * cosT + crossY * sinT;
+					const viewZ = dirZ * cosT + crossZ * sinT;
+					// camera sits at node − view·zoom, looking along view
+					targetRotX = Math.asin(Math.max(-1, Math.min(1, -viewY)));
+					targetRotY = Math.atan2(-viewX, -viewZ);
+					// Same clamp as the ctrl+drag rotation
+					targetRotX = Math.max(-Math.PI / 2 + 0.1, Math.min(Math.PI / 2 - 0.1, targetRotX));
+				}
+			}
+
+			// Adaptive zoom: fit the node's neighborhood (parent,
+			// siblings, children) into the frame so a focus never ends
+			// as a lone sphere with no context. Truly isolated nodes
+			// (single-constructor project) fall back to the minimum.
+			const neighborhood = [pos];
+			if (parentMesh) {
+				neighborhood.push(parentMesh.position);
+				const siblings = node.parent.children || [];
+				for (const sibling of siblings) {
+					const siblingMesh = this.nodeMeshes.get(sibling.id);
+					if (siblingMesh) {
+						neighborhood.push(siblingMesh.position);
+					}
+				}
+			}
+			const childNodes = (node && node.children) || [];
+			for (const child of childNodes) {
+				const childMesh = this.nodeMeshes.get(child.id);
+				if (childMesh) {
+					neighborhood.push(childMesh.position);
+				}
+			}
+			let neighborhoodRadius = 0;
+			for (const point of neighborhood) {
+				const distance = pos.distanceTo(point);
+				if (distance > neighborhoodRadius) {
+					neighborhoodRadius = distance;
+				}
+			}
+			// Frustum fit: use the narrower of the vertical/horizontal
+			// half-angles (the pane is often taller than wide); the 1.4
+			// margin keeps the label sprites inside the frame
+			const vHalf = (this.camera.fov * Math.PI / 180) / 2;
+			const hHalf = Math.atan(Math.tan(vHalf) * this.camera.aspect);
+			const fitHalf = Math.min(vHalf, hHalf);
+			const fitZoom = neighborhoodRadius > 0.0001
+				? (neighborhoodRadius / Math.tan(fitHalf)) * 1.4
+				: 250;
+			const targetZoom = Math.max(250, Math.min(800, fitZoom));
+
+			// Already-visible fast path, owner rule: when the node is on
+			// screen and unoccluded from the CURRENT camera, switching
+			// between tree items must keep the orientation — rotation
+			// there is unnecessary and only hides details. Highlight
+			// (glow) plus a gentle re-fit zoom/pan is enough. Rotation
+			// is reserved for nodes that are off-screen or hidden.
+			const alreadyVisible = this.isNodeInCurrentView(mesh);
+			if (alreadyVisible) {
+				let stayZoom = targetZoom;
+				if (!this.isViewClear(this.cameraRotation.x, this.cameraRotation.y, stayZoom, pos, mesh)) {
+					// Re-fit would push an occluder in front of the
+					// node — keep the current distance instead
+					stayZoom = this.zoom;
+				}
+				this.focusAnim = {
+					start : performance.now(),
+					duration : 900,
+					from : {
+						rotX : this.cameraRotation.x,
+						rotY : this.cameraRotation.y,
+						zoom : this.zoom,
+						pan  : { x: this.panOffset.x, y: this.panOffset.y, z: this.panOffset.z || 0 }
+					},
+					to : {
+						rotX : this.cameraRotation.x,
+						rotY : this.cameraRotation.y,
+						zoom : stayZoom,
+						pan  : { x: pos.x, y: pos.y, z: pos.z }
+					}
+				};
+				this.setFocusedMesh(mesh);
+				debugLog('[focusNode] ' + id + ' already visible -> highlight only (zoom ' + Math.round(stayZoom) + ')', 'log');
+				return;
+			}
+
+			// De-occlusion: whatever base view we picked (chain off-axis
+			// or the current rotation for roots), another sphere may sit
+			// between the camera and the focused node. Rotate the view
+			// around the world Y in 20° steps until the target is
+			// actually visible — owner rule: smaller spheres are OK,
+			// a hidden focused sphere is not.
+			const clearView = this.pickClearView(targetRotX, targetRotY, targetZoom, pos, mesh);
+			targetRotX = clearView.rotX;
+			targetRotY = clearView.rotY;
+
+			// Two-phase animation, owner's order: rotate the chain into
+			// view first (0–55% of the timeline), zoom in second
+			// (45–100%), phases overlap slightly for a natural feel
+			this.focusAnim = {
+				start : performance.now(),
+				duration : 900,
+				from : {
+					rotX : this.cameraRotation.x,
+					rotY : this.cameraRotation.y,
+					zoom : this.zoom,
+					pan  : { x: this.panOffset.x, y: this.panOffset.y, z: this.panOffset.z || 0 }
+				},
+				to : {
+					rotX : targetRotX,
+					rotY : targetRotY,
+					zoom : targetZoom,
+					pan  : { x: pos.x, y: pos.y, z: pos.z }
+				}
+			};
+			this.setFocusedMesh(mesh);
+			debugLog('[focusNode] ' + id + ' -> anim ' + JSON.stringify(this.focusAnim.to), 'log');
+		}
+
+		setFocusedMesh(mesh) {
+			if (this.focusedMesh && this.focusedMesh !== mesh) {
+				this.restoreFocusGlow(this.focusedMesh);
+			}
+			this.focusedMesh = mesh || null;
+		}
+
+		restoreFocusGlow(mesh) {
+			const node = mesh.userData.node;
+			if (node && node.isRoot) {
+				// Root baseline glow (set at mesh creation)
+				mesh.material.emissiveIntensity = 0.3;
+			} else {
+				mesh.material.emissive = new THREE.Color(0x000000);
+				mesh.material.emissiveIntensity = 0;
+			}
+		}
+
+		updateFocusAnimation() {
+			if (!this.focusAnim) return;
+			const anim = this.focusAnim;
+			const t = Math.min((performance.now() - anim.start) / anim.duration, 1);
+			const rotT = easeInOutCubic(Math.min(t / 0.55, 1));
+			const zoomT = easeInOutCubic(Math.max(0, (t - 0.45) / 0.55));
+
+			// Shortest path for the yaw angle (wraps across ±π)
+			let rotYDelta = anim.to.rotY - anim.from.rotY;
+			while (rotYDelta > Math.PI) rotYDelta -= 2 * Math.PI;
+			while (rotYDelta < -Math.PI) rotYDelta += 2 * Math.PI;
+
+			this.cameraRotation.x = lerp(anim.from.rotX, anim.to.rotX, rotT);
+			this.cameraRotation.y = anim.from.rotY + rotYDelta * rotT;
+			this.panOffset.x = lerp(anim.from.pan.x, anim.to.pan.x, rotT);
+			this.panOffset.y = lerp(anim.from.pan.y, anim.to.pan.y, rotT);
+			this.panOffset.z = lerp(anim.from.pan.z, anim.to.pan.z, rotT);
+			this.zoom = lerp(anim.from.zoom, anim.to.zoom, zoomT);
+			this.updateCameraPosition();
+
+			if (t >= 1) {
+				this.focusAnim = null;
+				if (this.focusedMesh) {
+					// Self-check the landed view: is the focused sphere
+					// actually unoccluded from the final camera?
+					const landed = this.isViewClear(
+						this.cameraRotation.x, this.cameraRotation.y,
+						this.zoom, this.focusedMesh.position, this.focusedMesh
+					);
+					debugLog('[focusNode] final view clear: ' + landed, landed ? 'log' : 'warn');
+				}
+			}
+		}
+
+		updateFocusPulse() {
+			const mesh = this.focusedMesh;
+			if (!mesh) return;
+			const node = mesh.userData.node;
+			const base = node && node.isRoot ? 0.3 : 0;
+			if (!node || !node.isRoot) {
+				// Non-root materials are created without an emissive
+				// color — give the focused one a gold glow
+				mesh.material.emissive = new THREE.Color(0xffc040);
+			}
+			mesh.material.emissiveIntensity = base + 0.5 + 0.35 * Math.sin(performance.now() * 0.006);
+		}
+
+		// Unit view direction (camera → orbit center) for given angles,
+		// inverse of the updateCameraPosition spherical placement
+		viewFromAngles(rotX, rotY) {
+			const result = {
+				x : -Math.sin(rotY) * Math.cos(rotX),
+				y : -Math.sin(rotX),
+				z : -Math.cos(rotY) * Math.cos(rotX)
+			};
+			return result;
+		}
+
+		// True when the node is inside the current frame (with margin
+		// for its label) and unoccluded from the live camera — the
+		// condition for the highlight-only fast path in focusNode
+		isNodeInCurrentView(mesh) {
+			const projected = mesh.position.clone().project(this.camera);
+			if (projected.z > 1 || projected.z < -1) {
+				const offscreen = false;
+				return offscreen;
+			}
+			if (Math.abs(projected.x) > 0.85 || Math.abs(projected.y) > 0.85) {
+				const offscreen = false;
+				return offscreen;
+			}
+			const clear = this.isViewClearFrom(this.camera.position, mesh.position, mesh);
+			return clear;
+		}
+
+		// True when no other sphere blocks the focused node from the
+		// camera position implied by these angles and zoom
+		isViewClear(rotX, rotY, zoom, nodePos, focusedMesh) {
+			const view = this.viewFromAngles(rotX, rotY);
+			const camPos = {
+				x : nodePos.x - view.x * zoom,
+				y : nodePos.y - view.y * zoom,
+				z : nodePos.z - view.z * zoom
+			};
+			const result = this.isViewClearFrom(camPos, nodePos, focusedMesh);
+			return result;
+		}
+
+		// Occlusion test from an explicit camera position — shared by
+		// the hypothetical-camera sweep (isViewClear) and the
+		// live-camera visibility check (isNodeInCurrentView)
+		isViewClearFrom(camPos, nodePos, focusedMesh) {
+			const nx = nodePos.x - camPos.x;
+			const ny = nodePos.y - camPos.y;
+			const nz = nodePos.z - camPos.z;
+			const nodeDist = Math.sqrt(nx * nx + ny * ny + nz * nz);
+			if (nodeDist < 0.0001) {
+				const atop = true;
+				return atop;
+			}
+			const dirX = nx / nodeDist;
+			const dirY = ny / nodeDist;
+			const dirZ = nz / nodeDist;
+			for (const other of this.nodeMeshes.values()) {
+				if (other === focusedMesh) { continue; }
+				const ox = other.position.x - camPos.x;
+				const oy = other.position.y - camPos.y;
+				const oz = other.position.z - camPos.z;
+				const dist = Math.sqrt(ox * ox + oy * oy + oz * oz);
+				// Only spheres meaningfully closer than the target can occlude it
+				if (dist >= nodeDist - 12) { continue; }
+				// Behind the camera never occludes
+				const toward = (ox * dirX + oy * dirY + oz * dirZ) / dist;
+				if (toward <= 0) { continue; }
+				// Angular radius of a sphere (diameter ~16) at that distance
+				const threshold = Math.cos(Math.atan(16 / dist));
+				if (toward > threshold) {
+					const blocked = false;
+					return blocked;
+				}
+			}
+			const clear = true;
+			return clear;
+		}
+
+		// Distance from a camera position to the closest sphere OTHER
+		// than the focused one — used to prefer views where the
+		// selected element is also the nearest, so its caption reads
+		// as the biggest in frame
+		nearestOtherDistance(camPos, focusedMesh) {
+			let nearest = Infinity;
+			for (const other of this.nodeMeshes.values()) {
+				if (other === focusedMesh) { continue; }
+				const ox = other.position.x - camPos.x;
+				const oy = other.position.y - camPos.y;
+				const oz = other.position.z - camPos.z;
+				const dist = Math.sqrt(ox * ox + oy * oy + oz * oz);
+				if (dist < nearest) {
+					nearest = dist;
+				}
+			}
+			return nearest;
+		}
+
+		// Rotate the view around world Y in 20° steps until the focused
+		// node is unoccluded; falls back to the original angles with a
+		// warning when nothing clears (dense ball of nodes).
+		// Two passes, owner's caption rule: the biggest caption in
+		// frame should belong to the selected element, so pass 1 only
+		// accepts angles where the focused sphere is ALSO the nearest
+		// one to the camera; pass 2 falls back to merely unoccluded
+		// (dense branches where a child legitimately sits closer)
+		pickClearView(rotX, rotY, zoom, nodePos, focusedMesh) {
+			const steps = [0, 20, -20, 40, -40, 60, -60, 80, -80, 100, -100, 120, -120, 140, -140, 160, -160, 180];
+			const base = this.viewFromAngles(rotX, rotY);
+			for (const preferClosest of [true, false]) {
+				for (const stepDeg of steps) {
+					const step = stepDeg * Math.PI / 180;
+					const cosS = Math.cos(step);
+					const sinS = Math.sin(step);
+					const viewX = base.x * cosS + base.z * sinS;
+					const viewZ = -base.x * sinS + base.z * cosS;
+					const viewY = base.y;
+					const candRotX = Math.asin(Math.max(-1, Math.min(1, -viewY)));
+					const candRotY = Math.atan2(-viewX, -viewZ);
+					if (!this.isViewClear(candRotX, candRotY, zoom, nodePos, focusedMesh)) { continue; }
+					if (preferClosest) {
+						const camPos = {
+							x : nodePos.x - viewX * zoom,
+							y : nodePos.y - viewY * zoom,
+							z : nodePos.z - viewZ * zoom
+						};
+						const nearest = this.nearestOtherDistance(camPos, focusedMesh);
+						if (nearest < zoom - 12) { continue; }
+					}
+					const result = { rotX: candRotX, rotY: candRotY };
+					return result;
+				}
+			}
+			debugLog('[focusNode] no occlusion-free angle found, keeping base view', 'warn');
+			const fallback = { rotX, rotY };
+			return fallback;
 		}
 
 		updateHover(event) {
@@ -1182,8 +1589,10 @@
 			this.raycaster.setFromCamera(this.mouseVector, this.camera);
 			const intersects = this.raycaster.intersectObjects(Array.from(this.nodeMeshes.values()));
 
-			// Reset all emissive
+			// Reset all emissive (except the focused node — its pulse
+			// is driven by updateFocusPulse)
 			this.nodeMeshes.forEach(mesh => {
+				if (mesh === this.focusedMesh) return;
 				const material = mesh.material;
 				if (mesh.userData.node.isRoot) {
 					material.emissiveIntensity = 0.3;
@@ -1570,9 +1979,17 @@
 			const spriteMaterial = new THREE.SpriteMaterial({
 				map: texture,
 				transparent: true,
-				alphaTest: 0.5
+				alphaTest: 0.5,
+				// Signs must never be hidden by spheres — owner rule,
+				// holds on manual rotations too since it needs no
+				// per-frame work (sprites are billboards: they always
+				// face the camera; only depth testing could hide them)
+				depthTest: false,
+				depthWrite: false
 			});
 			const sprite = new THREE.Sprite(spriteMaterial);
+			// Drawn after every sphere
+			sprite.renderOrder = 999;
 			// Position sprite in world space above the node
 			sprite.position.set(mesh.position.x, mesh.position.y + 35, mesh.position.z);
 			sprite.scale.set(100, 25, 1);
@@ -1603,7 +2020,7 @@
 
 		reset() {
 			this.cameraRotation = { x: 0, y: 0 };
-			this.panOffset = { x: 0, y: 0 };
+			this.panOffset = { x: 0, y: 0, z: 0 };
 			this.zoom = 600;
 			this.updateCameraPosition();
 		}
@@ -1620,10 +2037,14 @@
 
 		animate() {
 			this.animationId = requestAnimationFrame(() => this.animate());
+			this.updateFocusAnimation();
+			this.updateFocusPulse();
 			this.renderer.render(this.scene, this.camera);
 		}
 
 		clear() {
+			this.focusAnim = null;
+			this.focusedMesh = null;
 			this.nodeMeshes.forEach(mesh => {
 				// Remove label if exists
 				if (mesh.userData.label) {

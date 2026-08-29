@@ -95,6 +95,29 @@ export function activate(context: vscode.ExtensionContext) {
 		})
 	);
 
+	// Register focus-or-navigate command (By Generation panel clicks):
+	// rotate the 3D graph when it is on screen, jump to file otherwise
+	context.subscriptions.push(
+		vscode.commands.registerCommand('mnemographica.focusOrNavigate', async (target: {
+			id: string;
+			name: string;
+			filePath?: string;
+			line?: number;
+			column?: number;
+		}) => {
+			if (!target) { return; }
+			const rotated = GraphPanel.focusNode({ id: target.id, name: target.name });
+			if (rotated) { return; }
+			if (target.filePath) {
+				try {
+					await VSCodeNavigation.goTo(target.filePath, target.line ?? 0, target.column ?? 0);
+				} catch (err) {
+					logger.error('Failed to navigate to:', target.filePath, err);
+				}
+			}
+		})
+	);
+
 	// Register show flows command (right-click on type/definition)
 	context.subscriptions.push(
 		vscode.commands.registerCommand('mnemographica.showFlows', (item: { data: { fullName?: string; label: string } }) => {
@@ -241,8 +264,16 @@ export function activate(context: vscode.ExtensionContext) {
 			logger.info(`[Extension] No usages found for ${typeName}`);
 		}
 
-		// Navigate to the selected item
+		// Navigate to the selected item — unless the 3D graph is on screen,
+		// in which case rotate the graph to the node instead of stealing
+		// the editor (owner decision 2026-08-29: rotate when 3D open,
+		// jump to file when it is closed/hidden)
 		if (selected.data.fullPath) {
+			const nodeId = selected.data.fullName || selected.data.label;
+			const rotated = GraphPanel.focusNode({ id: nodeId, name: selected.data.label });
+			if (rotated) {
+				return;
+			}
 			try {
 				await VSCodeNavigation.goTo(
 					selected.data.fullPath,
@@ -338,6 +369,21 @@ export function activate(context: vscode.ExtensionContext) {
 		await refreshTypeGraph(context);
 	});
 	context.subscriptions.push(tacticaWatcher);
+
+	// Debug handle for agent-driven automation (Strategy/CDP channel).
+	// Deliberately global: the extension host exposes no other
+	// reachable entrypoint for external tooling.
+	const debugHandle = {
+		version : context.extension.packageJSON.version as string,
+		treeProvider,
+		treeView,
+		usagesProvider,
+		flowProvider,
+		genProvider,
+		mainOrchestrator,
+		strategyServer
+	};
+	(globalThis as { __mnemographica?: unknown }).__mnemographica = debugHandle;
 }
 
 async function refreshTypeGraph(_context: vscode.ExtensionContext) {

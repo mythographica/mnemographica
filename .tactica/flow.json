@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-08-21T18:59:51.630Z",
+  "generatedAt": "2026-08-29T22:07:42.092Z",
   "flow": {
     "LoggerService": [
       {
@@ -287,31 +287,31 @@
     ],
     "vscode.ThemeIcon": [
       {
-        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:66:12",
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:72:12",
         "kind": "instantiation",
         "code": "new vscode.ThemeIcon('folder')",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:68:12",
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:74:12",
         "kind": "instantiation",
         "code": "new vscode.ThemeIcon('symbol-class')",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:70:12",
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:76:12",
         "kind": "instantiation",
         "code": "new vscode.ThemeIcon('symbol-type-parameter')",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:72:12",
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:78:12",
         "kind": "instantiation",
         "code": "new vscode.ThemeIcon('symbol-method')",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:74:12",
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:80:12",
         "kind": "instantiation",
         "code": "new vscode.ThemeIcon('symbol-misc')",
         "context": "new expression"
@@ -349,7 +349,7 @@
     ],
     "vscode.EventEmitter": [
       {
-        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:80:33",
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:86:33",
         "kind": "instantiation",
         "code": "new vscode.EventEmitter<MnemonicaTreeItem | undefined | null | void>()",
         "context": "new expression"
@@ -367,7 +367,7 @@
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/genTreeProvider.ts:42:33",
+        "location": "/code/mnemonica/mnemographica/src/views/genTreeProvider.ts:46:33",
         "kind": "instantiation",
         "code": "new vscode.EventEmitter<GenTreeItem | undefined | null | void>()",
         "context": "new expression"
@@ -375,13 +375,13 @@
     ],
     "Map": [
       {
-        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:83:53",
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:89:53",
         "kind": "instantiation",
         "code": "new Map()",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:84:41",
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:90:41",
         "kind": "instantiation",
         "code": "new Map()",
         "context": "new expression"
@@ -838,25 +838,49 @@
     ],
     "MnemonicaTreeItem": [
       {
-        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:306:5",
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:323:21",
         "kind": "instantiation",
         "code": "new MnemonicaTreeItem({ label: 'Definitions', type: 'root' }, vscode.TreeItemCollapsibleState.Expand",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:307:5",
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:324:4",
+        "kind": "return",
+        "code": "return rootItem;",
+        "targetType": "MnemonicaTreeItem"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:334:20",
         "kind": "instantiation",
         "code": "new MnemonicaTreeItem({ label: 'Types', type: 'root' }, vscode.TreeItemCollapsibleState.Collapsed)",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:403:10",
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:335:3",
+        "kind": "return",
+        "code": "return rootItem;",
+        "targetType": "MnemonicaTreeItem"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:342:5",
+        "kind": "instantiation",
+        "code": "new MnemonicaTreeItem({ label: 'Definitions', type: 'root' }, vscode.TreeItemCollapsibleState.Expand",
+        "context": "new expression"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:343:5",
+        "kind": "instantiation",
+        "code": "new MnemonicaTreeItem({ label: 'Types', type: 'root' }, vscode.TreeItemCollapsibleState.Collapsed)",
+        "context": "new expression"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:439:10",
         "kind": "instantiation",
         "code": "new MnemonicaTreeItem(\n\t\t\t{\n\t\t\t\tlabel: shortName,\n\t\t\t\ttype: hasChildren ? 'type' : 'definition',\n\t\t\t",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:424:10",
+        "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:460:10",
         "kind": "instantiation",
         "code": "new MnemonicaTreeItem(\n\t\t\t{\n\t\t\t\tlabel: shortName,\n\t\t\t\ttype: hasChildren ? 'type' : 'subtype',\n\t\t\t\tis",
         "context": "new expression"
@@ -914,25 +938,25 @@
     ],
     "GenTreeItem": [
       {
-        "location": "/code/mnemonica/mnemographica/src/views/genTreeProvider.ts:65:5",
+        "location": "/code/mnemonica/mnemographica/src/views/genTreeProvider.ts:69:5",
         "kind": "instantiation",
         "code": "new GenTreeItem('loading', 'Loading graph data...', -1, undefined, vscode.TreeItemCollapsibleState.N",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/genTreeProvider.ts:71:5",
+        "location": "/code/mnemonica/mnemographica/src/views/genTreeProvider.ts:75:5",
         "kind": "instantiation",
         "code": "new GenTreeItem('empty', 'No types found', -1, undefined, vscode.TreeItemCollapsibleState.None)",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/genTreeProvider.ts:83:16",
+        "location": "/code/mnemonica/mnemographica/src/views/genTreeProvider.ts:87:16",
         "kind": "instantiation",
         "code": "new GenTreeItem(\n\t\t\t\t\t`gen-${g}`,\n\t\t\t\t\tlabel,\n\t\t\t\t\tg,\n\t\t\t\t\tundefined,\n\t\t\t\t\tnodesAtGen.length > 0 ? v",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/genTreeProvider.ts:100:31",
+        "location": "/code/mnemonica/mnemographica/src/views/genTreeProvider.ts:104:31",
         "kind": "instantiation",
         "code": "new GenTreeItem(\n\t\t\t\tn.id,\n\t\t\t\tn.name,\n\t\t\t\tgen,\n\t\t\t\tn\n\t\t\t)",
         "context": "new expression"
@@ -982,7 +1006,7 @@
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:128:21",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:149:21",
         "kind": "instantiation",
         "code": "new vscode.Position(location.line - 1, location.column - 1)",
         "context": "new expression"
@@ -1076,21 +1100,21 @@
         "targetType": "Usages"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:228:17",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:251:17",
         "kind": "propertyRead",
         "code": "usages.length",
         "propertyName": "length",
         "targetType": "Usages"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:230:23",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:253:23",
         "kind": "methodCall",
         "code": "usages.map(u => ({\n\t\t\t\tfilePath: u.filePath,\n\t\t\t\tline: u.line,\n\t\t\t\tcolumn: u.column,\n\t\t\t\tcontext: u.",
         "propertyName": "map",
         "targetType": "Usages"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:230:23",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:253:23",
         "kind": "propertyRead",
         "code": "usages.map",
         "propertyName": "map",
@@ -1322,7 +1346,7 @@
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:129:23",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:150:23",
         "kind": "instantiation",
         "code": "new vscode.Selection(position, position)",
         "context": "new expression"
@@ -1342,7 +1366,7 @@
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:130:23",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:151:23",
         "kind": "instantiation",
         "code": "new vscode.Range(position, position)",
         "context": "new expression"
@@ -1464,7 +1488,7 @@
     ],
     "GraphPanel": [
       {
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:29",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:29",
         "kind": "instantiation",
         "code": "new GraphPanel(panel, extensionUri, graphData)",
         "context": "new expression"
@@ -1526,7 +1550,7 @@
     ],
     "MnemonicaDefinitionProvider": [
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:120:23",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:143:23",
         "kind": "instantiation",
         "code": "new MnemonicaDefinitionProvider()",
         "context": "new expression"
@@ -1534,7 +1558,7 @@
     ],
     "MnemonicaReferenceProvider": [
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:121:22",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:144:22",
         "kind": "instantiation",
         "code": "new MnemonicaReferenceProvider()",
         "context": "new expression"
@@ -1542,7 +1566,7 @@
     ],
     "StrategyServer": [
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:142:19",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:165:19",
         "kind": "instantiation",
         "code": "new StrategyServer(9230, 9231)",
         "context": "new expression"
@@ -1550,7 +1574,7 @@
     ],
     "MainOrchestrator": [
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:161:21",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:184:21",
         "kind": "instantiation",
         "code": "new MainOrchestrator(context.extension.packageJSON.version || '0.1.0')",
         "context": "new expression"
@@ -1558,13 +1582,13 @@
     ],
     "MnemonicaActivityBarProvider": [
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:304:30",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:335:30",
         "kind": "instantiation",
         "code": "new MnemonicaActivityBarProvider(context.extensionUri)",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:306:3",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:337:3",
         "kind": "passAsArg",
         "code": "vscode.window.registerWebviewViewProvider(MnemonicaActivityBarProvider.viewType, activityBarProvider",
         "targetType": "MnemonicaActivityBarProvider",

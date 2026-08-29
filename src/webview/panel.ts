@@ -9,6 +9,9 @@ export class GraphPanel {
 	public static currentPanel: GraphPanel | undefined;
 	private readonly panel: vscode.WebviewPanel;
 	private readonly disposables: vscode.Disposable[] = [];
+	// Mirrors the webview's render mode ('modeChanged' messages); the
+	// webview starts in 3D
+	private currentMode: '2D' | '3D' = '3D';
 
 	public static createOrShow (extensionUri: vscode.Uri, graphData: GraphData | null) {
 		const column = vscode.window.activeTextEditor
@@ -43,6 +46,23 @@ export class GraphPanel {
 		if (GraphPanel.currentPanel && graphData) {
 			GraphPanel.currentPanel.updateGraph(graphData);
 		}
+	}
+
+	/**
+	 * Focus the 3D camera on a graph node (sidebar click → rotate, not
+	 * file jump). Returns true when the panel is open, visible, and in
+	 * 3D mode — callers fall back to file navigation on false.
+	 */
+	public static focusNode (data: { id: string; name: string }): boolean {
+		const current = GraphPanel.currentPanel;
+		if (!current || !current.panel.visible || current.currentMode !== '3D') {
+			return false;
+		}
+		void current.panel.webview.postMessage({
+			command : 'focusNode',
+			data
+		});
+		return true;
 	}
 
 	private constructor (
@@ -98,6 +118,7 @@ export class GraphPanel {
 				case 'modeChanged':
 					if (message.data && typeof message.data === 'object' && 'mode' in message.data) {
 						const mode = String(message.data.mode);
+						this.currentMode = mode === '3D' ? '3D' : '2D';
 						this.panel.title = mode === '3D' ? 'Mnemonica Graph 3D' : 'Mnemonica Graph 2D';
 					}
 					break;

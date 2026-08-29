@@ -49,6 +49,12 @@ export class MnemonicaTreeItem extends vscode.TreeItem {
 		this.iconPath = this.getIconPath(data.type);
 		this.tooltip = `${data.type}: ${data.label}`;
 
+		// Stable id: TreeView.reveal (used by agent automation via the
+		// debug handle) resolves items by identity
+		this.id = data.type === 'root'
+			? `root:${data.label}`
+			: `${data.isDefinition ? 'def' : 'type'}:${data.fullName || data.label}`;
+
 		// Set contextValue for all navigable items (those with fullPath)
 		// Right-click context menu uses this
 		if (data.fullPath) {
@@ -297,6 +303,36 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 
 	getTreeItem (element: MnemonicaTreeItem): vscode.TreeItem {
 		return element;
+	}
+
+	// Required for TreeView.reveal — walks the same parent links the
+	// children lookups use
+	async getParent (element: MnemonicaTreeItem): Promise<MnemonicaTreeItem | undefined> {
+		if (element.data.type === 'root') {
+			return undefined;
+		}
+		if (element.data.isDefinition) {
+			const def = this.definitions.get(element.data.fullName || element.data.label);
+			if (def && def.parent) {
+				const parentDef = this.definitions.get(def.parent);
+				if (parentDef) {
+					const parentItem = this.createDefinitionItem(parentDef);
+					return parentItem;
+				}
+			}
+			const rootItem = new MnemonicaTreeItem({ label: 'Definitions', type: 'root' }, vscode.TreeItemCollapsibleState.Expanded);
+			return rootItem;
+		}
+		const type = this.types.get(element.data.fullName || element.data.label);
+		if (type && type.parent) {
+			const parentType = this.types.get(type.parent);
+			if (parentType) {
+				const parentItem = this.createTypeItem(parentType);
+				return parentItem;
+			}
+		}
+		const rootItem = new MnemonicaTreeItem({ label: 'Types', type: 'root' }, vscode.TreeItemCollapsibleState.Collapsed);
+		return rootItem;
 	}
 
 	async getChildren (element?: MnemonicaTreeItem): Promise<MnemonicaTreeItem[]> {
