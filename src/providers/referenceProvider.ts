@@ -59,10 +59,10 @@ export class MnemonicaReferenceProvider implements vscode.ReferenceProvider {
 		if (!wordRange) return null;
 
 		const word = document.getText(wordRange);
-		const logger = getLogger();
 
-		logger.debug(`Looking up references for: ${word}`);
-
+		// No per-request logging here (2026-08-30): reference lookups fire
+		// per editor request; LoggerService.debug has no level gating, so
+		// these were plain noise. Reach via the inspector when needed.
 
 		// Try exact match first
 		let usageList = this.usages!.get(word);
@@ -77,7 +77,6 @@ export class MnemonicaReferenceProvider implements vscode.ReferenceProvider {
 		}
 
 		if (!usageList || usageList.length === 0) {
-			logger.debug(`No references found for: ${word}`);
 			return null;
 		}
 
@@ -94,8 +93,6 @@ export class MnemonicaReferenceProvider implements vscode.ReferenceProvider {
 			const pos = new vscode.Position(Number(line) - 1, Number(column));
 			return new vscode.Location(uri, pos);
 		});
-
-		logger.debug(`Found ${locations.length} references for: ${word}`);
 
 		return locations;
 	}

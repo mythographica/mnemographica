@@ -1,27 +1,27 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-08-29T22:40:43.041Z",
+  "generatedAt": "2026-08-30T13:16:02.211Z",
   "usages": {
     "LoggerTab": [
       {
-        "location": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:77:32",
+        "location": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:83:32",
         "kind": "lookup",
         "code": "lookup('LoggerTab')"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:79:21",
+        "location": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:85:21",
         "kind": "instantiation",
         "code": "new LoggerTabConstructor()"
       }
     ],
     "LoggerTab.LogEntry": [
       {
-        "location": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:214:18",
+        "location": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:243:18",
         "kind": "instantiation",
         "code": "new this.loggerTab.LogEntry({\n\t\t\t\tlevel: level.toLowerCase() as 'info' | 'warning' | 'error',\n\t\t\t\tme"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:214:22",
+        "location": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:243:22",
         "kind": "propertyAccess",
         "code": "this.loggerTab.LogEntry"
       }

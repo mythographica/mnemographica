@@ -97,21 +97,23 @@ export class MainOrchestrator {
 	 * and are dropped. A source RESTART resets its ids — that needs a
 	 * fresh session, a documented B1 limitation.
 	 */
-	ingestTrace(edges: unknown): { accepted: number; lastId: number; buffered: number } {
+	ingestTrace(edges: unknown): { accepted: number; lastId: number; buffered: number; edges: traceEdge[] } {
 		const main = this.main;
 		const buffer = main.traceBuffer as unknown as traceEdge[];
-		let accepted = 0;
+		const acceptedEdges: traceEdge[] = [];
 		if (Array.isArray(edges)) {
 			for (const edge of edges) {
 				if (!edge || typeof edge !== 'object') { continue; }
 				const candidate = edge as { id?: unknown };
 				if (typeof candidate.id !== 'number') { continue; }
 				if (candidate.id <= main.traceLastId) { continue; }
-				buffer.push(edge as traceEdge);
+				const landed = edge as traceEdge;
+				buffer.push(landed);
+				acceptedEdges.push(landed);
 				main.traceLastId = candidate.id;
-				accepted++;
 			}
 		}
+		const accepted = acceptedEdges.length;
 		main.traceReceivedTotal += accepted;
 		if (buffer.length > MainOrchestrator.TRACE_BUFFER_LIMIT) {
 			buffer.splice(0, buffer.length - MainOrchestrator.TRACE_BUFFER_LIMIT);
@@ -119,7 +121,10 @@ export class MainOrchestrator {
 		const result = {
 			accepted,
 			lastId   : main.traceLastId,
-			buffered : buffer.length
+			buffered : buffer.length,
+			// The freshly-landed edges, so the WS layer can forward
+			// exactly these to an open panel (B1.5 live illumination)
+			edges    : acceptedEdges
 		};
 		return result;
 	}
@@ -145,6 +150,88 @@ export class MainOrchestrator {
 			latest
 		};
 		return result;
+	}
+
+	/**
+	 * trace/reset (2026-08-30): wipe the trace buffer and the id
+	 * watermark. The ingest dedup is monotonic per source process (ids at
+	 * or below traceLastId are dropped as replays), so a RESTARTED source
+	 * — ids from 1 again — is silently dropped without this. Resetting is
+	 * the supported way to begin a fresh trace session against a new
+	 * target process.
+	 */
+	resetTrace(): { reset: true; dropped: number } {
+		const main = this.main;
+		const buffer = main.traceBuffer as unknown as traceEdge[];
+		const dropped = buffer.length;
+		buffer.length = 0;
+		main.traceLastId = 0;
+		main.traceReceivedTotal = 0;
+		const result = { reset: true as const, dropped };
+		return result;
+	}
+
+	/**
+	 * Names-first trace resolution (trace mode, 2026-08-30): the latest
+	 * edge carrying this type name, its ancestor chain (root →
+	 * selected), and any descendants already in the ring. Returns null
+	 * when the name never traced. Parentage is dive's data-flow
+	 * lineage; ids evicted from the ring simply truncate the walk.
+	 */
+	getTraceLineage(name: string): { selectedId: number; edges: traceEdge[] } | null {
+		const main = this.main;
+		const buffer = main.traceBuffer as unknown as traceEdge[];
+		let selected: traceEdge | undefined;
+		for (let i = buffer.length - 1; i >= 0; i--) {
+			const edge = buffer[i];
+			if (edge.instanceType === name || edge.name === name) {
+				selected = edge;
+				break;
+			}
+		}
+		if (!selected) { return null; }
+		const byId = new Map<number, traceEdge>();
+		for (const edge of buffer) { byId.set(edge.id, edge); }
+		const ancestors: traceEdge[] = [];
+		let cursor: traceEdge | undefined = selected;
+		while (cursor) {
+			ancestors.unshift(cursor);
+			cursor = cursor.parentId !== null ? byId.get(cursor.parentId) : undefined;
+		}
+		const selectedId = selected.id;
+		const descendants = buffer.filter(edge => {
+			const isDescendant = edge.id > selectedId && this.hasAncestor(edge, selectedId, byId);
+			return isDescendant;
+		});
+		const result = { selectedId, edges: ancestors.concat(descendants) };
+		return result;
+	}
+
+	/**
+	 * Mid-flight continuation: from a freshly-accepted batch, the edges
+	 * whose lineage passes through rootId — those extend the open trace.
+	 * Call AFTER the batch landed in the ring (the walk resolves
+	 * parents against the buffer).
+	 */
+	getTraceContinuation(rootId: number, newEdges: traceEdge[]): traceEdge[] {
+		const main = this.main;
+		const buffer = main.traceBuffer as unknown as traceEdge[];
+		const byId = new Map<number, traceEdge>();
+		for (const edge of buffer) { byId.set(edge.id, edge); }
+		const result = newEdges.filter(edge => {
+			const belongs = this.hasAncestor(edge, rootId, byId);
+			return belongs;
+		});
+		return result;
+	}
+
+	private hasAncestor(edge: traceEdge, rootId: number, byId: Map<number, traceEdge>): boolean {
+		let cursor: traceEdge | undefined = edge;
+		while (cursor) {
+			if (cursor.id === rootId) { return true; }
+			cursor = cursor.parentId !== null ? byId.get(cursor.parentId) : undefined;
+		}
+		return false;
 	}
 
 	/**

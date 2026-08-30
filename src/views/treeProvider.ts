@@ -88,7 +88,10 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 
 	private definitions: Map<string, DefinitionData> = new Map();
 	private types: Map<string, TypeData> = new Map();
-	private debug = true; // Enable debug logging
+	// Off by default (2026-08-30): the gated per-item/per-expansion logs
+	// below were debug-era noise (hundreds of lines per boot). Flip to
+	// true when working on the tree itself.
+	private debug = false;
 	private logger = getLogger();
 	private currentWorkspacePath: string | undefined;
 	private registry: Registry | undefined;

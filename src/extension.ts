@@ -10,7 +10,7 @@ import { StrategyServer } from './strategy';
 import { getLogger } from './services/LoggerService';
 import { VSCodeNavigation } from './services/NavigationAdapter';
 import { loadModels, modelsLoaded } from './topologica/bootstrap';
-import { MainOrchestrator } from './core/MainOrchestrator';
+import { MainOrchestrator, traceEdge } from './core/MainOrchestrator';
 import { GraphPanel } from './webview/panel';
 import { registerNavigationCommands } from './commands/navigationCommands';
 import { registerTreeCommands } from './commands/treeCommands';
@@ -184,6 +184,15 @@ export function activate(context: vscode.ExtensionContext) {
 	mainOrchestrator = new MainOrchestrator(context.extension.packageJSON.version || '0.1.0');
 	// The strategy server's trace-ingest/state-query read through it
 	strategyServer.setOrchestrator(mainOrchestrator);
+	// Trace mode (names-first tracing): the panel resolves lineages and
+	// mid-flight continuations through the orchestrator's ring
+	GraphPanel.setTraceResolver({
+		resolve  : (name: string) => mainOrchestrator.getTraceLineage(name),
+		continue : (rootId: number, edges: traceEdge[]) => {
+			const continuation = mainOrchestrator.getTraceContinuation(rootId, edges);
+			return continuation;
+		}
+	});
 	// Reference provider reads usages from the orchestrator's Registry —
 	// no private disk copy (single load path, model audit)
 	referenceProvider.setOrchestrator(mainOrchestrator);

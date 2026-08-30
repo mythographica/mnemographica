@@ -67,6 +67,43 @@
 	let resizeHandler3D = null;
 	let saved3DCameraState = null; // Stores camera state when switching to 2D
 
+	// Live trace stream state (B1.5): strategy pushes dive-trace deltas
+	// as 'traceEvent' messages; the counter/last-name feed the status
+	// line, and matching spheres flash in 3D
+	let liveTraceCount = 0;
+	let liveTraceLast = null;
+	let lastStatusBase = '';
+	// Names that traced this session — a single click on such a sphere
+	// opens trace mode (names-first tracing, 2026-08-30)
+	const liveTraceNames = new Set();
+
+	// The status line is base text ("N types | M relationships") plus,
+	// once the live stream flows, a "· ⟁ live N (last: X)" suffix —
+	// replaced by the isolated path while trace mode is open
+	function updateStatusLine() {
+		const status = document.getElementById('status');
+		if (!status) return;
+		let text = lastStatusBase;
+		const traceNames = renderer3D && renderer3D.traceMode ? renderer3D.traceMode.names : null;
+		if (traceNames) {
+			const shown = traceNames.length > 4
+				? traceNames[0] + ' → … → ' + traceNames.slice(-2).join(' → ')
+				: traceNames.join(' → ');
+			text += ' · ⟁ TRACE ' + shown;
+		} else if (liveTraceCount > 0) {
+			text += ' · ⟁ live ' + liveTraceCount;
+			if (liveTraceLast) {
+				text += ' (last: ' + liveTraceLast + ')';
+			}
+		}
+		status.textContent = text;
+	}
+
+	function setStatusBase(text) {
+		lastStatusBase = text;
+		updateStatusLine();
+	}
+
 	// Initialize when DOM is ready
 	if (document.readyState === 'loading') {
 		document.addEventListener('DOMContentLoaded', init);
@@ -255,6 +292,48 @@
 			}
 		}
 
+		if (message.command === 'traceEvent') {
+			// B1.5 live illumination: strategy pushed dive-trace deltas —
+			// advance the status counter and flash matching spheres
+			const edges = message.data && message.data.edges;
+			if (Array.isArray(edges)) {
+				liveTraceCount += edges.length;
+				for (const edge of edges) {
+					if (!edge || typeof edge !== 'object') continue;
+					const targetName = edge.instanceType ||
+						(typeof edge.name === 'string' ? edge.name : null);
+					if (targetName) {
+						liveTraceLast = targetName;
+						liveTraceNames.add(targetName);
+						if (is3D && renderer3D) {
+							renderer3D.flashTraceNode(targetName);
+						}
+					}
+				}
+				updateStatusLine();
+			}
+		}
+
+		if (message.command === 'traceModeEnter') {
+			// Trace mode (names-first tracing): isolate the resolved
+			// lineage — green path, everything else dimmed
+			const data = message.data || {};
+			if (is3D && renderer3D && Array.isArray(data.edges)) {
+				renderer3D.enterTraceMode(data.edges, data.name);
+				updateStatusLine();
+			}
+		}
+
+		if (message.command === 'traceModeExtend') {
+			// Mid-flight continuation: the open trace is still running
+			// and these fresh edges belong to it
+			const data = message.data || {};
+			if (is3D && renderer3D && renderer3D.traceMode && Array.isArray(data.edges)) {
+				renderer3D.extendTraceMode(data.edges);
+				updateStatusLine();
+			}
+		}
+
 		if (message.command === 'queryViewState') {
 			// Strategy state-query readback (B1.3): report the live
 			// camera + focus so view control can read the scene before
@@ -288,6 +367,17 @@
 				}
 			}
 			vscode.postMessage({ command: 'viewState', data: state });
+		}
+	});
+
+	// Escape leaves trace mode (names-first tracing)
+	window.addEventListener('keydown', function (event) {
+		if (event.key === 'Escape' && renderer3D && renderer3D.traceMode) {
+			renderer3D.exitTraceMode();
+			updateStatusLine();
+			if (vscodeRef) {
+				vscodeRef.postMessage({ command: 'traceModeExit' });
+			}
 		}
 	});
 
@@ -555,11 +645,8 @@
 		updateLinks();
 
 		// Update status
-		const status = document.getElementById('status');
-		if (status) {
-			status.textContent = data.nodes.length + ' types | ' +
-				data.links.length + ' relationships';
-		}
+		setStatusBase(data.nodes.length + ' types | ' +
+			data.links.length + ' relationships');
 
 		// Create generation distance controls for 2D too
 		createGenControls(data, null);
@@ -711,11 +798,8 @@
 		window.addEventListener('resize', resizeHandler3D);
 
 		// Update status
-		const status = document.getElementById('status');
-		if (status) {
-			status.textContent = data.nodes.length + ' types | ' +
-				data.links.length + ' relationships (3D)';
-		}
+		setStatusBase(data.nodes.length + ' types | ' +
+			data.links.length + ' relationships (3D)');
 
 		// Create generation distance controls
 		createGenControls(data, renderer3D);
@@ -953,6 +1037,14 @@
 			// Focus animation state (sidebar click → rotate/zoom to node)
 			this.focusAnim = null;
 			this.focusedMesh = null;
+			// Live trace flashes (B1.5): mesh → expiry timestamp for the
+			// cyan pulse fired when a dive-trace edge names this node
+			this.traceFlashes = new Map();
+			// Trace mode (names-first tracing, 2026-08-30): while set,
+			// the isolated lineage stays green, everything else dimmed,
+			// ambient flashes suppressed. { names, meshes, links,
+			// dimmed } — dimmed holds the shared materials to restore
+			this.traceMode = null;
 
 			this.init();
 		}
@@ -1185,12 +1277,26 @@
 				if (intersects.length > 0) {
 					const node = intersects[0].object.userData.node;
 					if (node) {
-						this.handleNodeClick3D(e, node);
+						if (liveTraceNames.has(node.name) && vscodeRef) {
+							// Sphere with live trace activity: single click
+							// picks the trace instead of showing the tooltip
+							vscodeRef.postMessage({ command: 'pickTrace', data: { name: node.name } });
+						} else {
+							this.handleNodeClick3D(e, node);
+						}
 					}
 				} else {
-					// Click on background - hide tooltip, drop focus glow
+					// Click on background - hide tooltip, drop focus glow,
+					// leave trace mode
 					d3.select('#tooltip').classed('visible', false);
 					this.setFocusedMesh(null);
+					if (this.traceMode) {
+						this.exitTraceMode();
+						updateStatusLine();
+						if (vscodeRef) {
+							vscodeRef.postMessage({ command: 'traceModeExit' });
+						}
+					}
 				}
 			});
 	
@@ -1477,6 +1583,235 @@
 				mesh.material.emissive = new THREE.Color(0xffc040);
 			}
 			mesh.material.emissiveIntensity = base + 0.5 + 0.35 * Math.sin(performance.now() * 0.006);
+		}
+
+		// Node ids are not type names — the name match scan both the
+		// trace flash and trace mode use (same fallback focusNode uses)
+		findMeshByName(name) {
+			let target = this.nodeMeshes.get(name);
+			if (!target) {
+				for (const candidate of this.nodeMeshes.values()) {
+					if (candidate.userData.node && candidate.userData.node.name === name) {
+						target = candidate;
+						break;
+					}
+				}
+			}
+			return target || null;
+		}
+
+		// Live trace illumination (B1.5): flash the sphere whose node
+		// name matches a dive-trace edge's instanceType. This is the
+		// ambient "the server is alive" signal — parsing the stream
+		// into structure is a future design session, not B1.
+		flashTraceNode(name) {
+			const target = this.findMeshByName(name);
+			if (!target) return;
+			this.traceFlashes.set(target, performance.now() + 1200);
+		}
+
+		updateTraceFlashes() {
+			if (this.traceMode) {
+				// Ambient flashes are monitoring noise; trace mode
+				// isolates ONE trace, so the pulses go quiet
+				this.traceFlashes.clear();
+				return;
+			}
+			if (this.traceFlashes.size === 0) return;
+			const now = performance.now();
+			this.traceFlashes.forEach((expiry, mesh) => {
+				if (mesh === this.focusedMesh) {
+					// The focus pulse owns this mesh's emissive
+					this.traceFlashes.delete(mesh);
+					return;
+				}
+				const node = mesh.userData.node;
+				const base = node && node.isRoot ? 0.3 : 0;
+				const remaining = expiry - now;
+				if (remaining <= 0) {
+					// Roots carry a dark-red emissive by default — the
+					// flash overwrote the color, so restore it here
+					if (node && node.isRoot) {
+						mesh.material.emissive = new THREE.Color(0x8B0000);
+					}
+					mesh.material.emissiveIntensity = base;
+					this.traceFlashes.delete(mesh);
+					return;
+				}
+				mesh.material.emissive = new THREE.Color(0x40c0ff);
+				mesh.material.emissiveIntensity = base + 0.9 * (remaining / 1200);
+			});
+		}
+
+		// Green for the isolated trace path; distinct from the cyan
+		// ambient flash and the gold focus pulse
+		static get TRACE_COLOR() { return 0x40ff80; }
+
+		// Enter trace mode: isolate the resolved lineage — path spheres
+		// green, links between consecutive path nodes green, everything
+		// else dimmed. edges = lineage (root → … → descendants).
+		enterTraceMode(edges, selectedName) {
+			this.exitTraceMode();
+			this.traceFlashes.clear();
+			this.setFocusedMesh(null);
+			const namesInOrder = [];
+			const seen = new Set();
+			for (const edge of edges) {
+				if (!edge || typeof edge !== 'object') continue;
+				const nm = edge.instanceType || (typeof edge.name === 'string' ? edge.name : null);
+				if (nm && !seen.has(nm)) {
+					seen.add(nm);
+					namesInOrder.push(nm);
+				}
+			}
+			const meshes = [];
+			for (const nm of namesInOrder) {
+				const mesh = this.findMeshByName(nm);
+				if (mesh) meshes.push(mesh);
+			}
+			const inPath = new Set(meshes);
+			const dimmed = { line: null, arrow: null };
+			this.nodeMeshes.forEach(mesh => {
+				const m = mesh.material;
+				if (inPath.has(mesh)) {
+					m.emissive = new THREE.Color(Graph3DRenderer.TRACE_COLOR);
+					m.emissiveIntensity = 0.9;
+				} else {
+					m.transparent = true;
+					m.opacity = 0.25;
+					m.emissiveIntensity = 0;
+					if (mesh.userData.label) {
+						mesh.userData.label.material.opacity = 0.25;
+					}
+				}
+				m.needsUpdate = true;
+			});
+			// Dim the SHARED link materials (all non-path links ride
+			// them); path links get cloned materials so the shared ones
+			// stay dimmed underneath
+			if (this.linkLines.length > 0) {
+				dimmed.line = this.linkLines[0].line.material;
+				dimmed.arrow = this.linkLines[0].arrow.material;
+				dimmed.line.opacity = 0.15;
+				dimmed.arrow.transparent = true;
+				dimmed.arrow.opacity = 0.15;
+				dimmed.arrow.needsUpdate = true;
+			}
+			const links = [];
+			for (let i = 0; i < namesInOrder.length - 1; i++) {
+				this.highlightLinkBetween(namesInOrder[i], namesInOrder[i + 1], links);
+			}
+			this.traceMode = {
+				names  : namesInOrder,
+				meshes : meshes,
+				links  : links,
+				dimmed : dimmed,
+				selectedName : selectedName || null
+			};
+		}
+
+		// Clone-and-green the graph link connecting two names, if one
+		// exists (either direction — AOT link direction need not match
+		// runtime lineage). Originals are stashed for exitTraceMode.
+		highlightLinkBetween(nameA, nameB, collector) {
+			for (const entry of this.linkLines) {
+				const s = entry.link.source && entry.link.source.name;
+				const t = entry.link.target && entry.link.target.name;
+				const match = (s === nameA && t === nameB) || (s === nameB && t === nameA);
+				if (!match) continue;
+				if (!entry.origLineMaterial) {
+					entry.origLineMaterial = entry.line.material;
+					entry.origArrowMaterial = entry.arrow.material;
+					entry.line.material = entry.line.material.clone();
+					entry.arrow.material = entry.arrow.material.clone();
+				}
+				entry.line.material.color = new THREE.Color(Graph3DRenderer.TRACE_COLOR);
+				entry.line.material.opacity = 1;
+				entry.arrow.material.color = new THREE.Color(Graph3DRenderer.TRACE_COLOR);
+				entry.arrow.material.opacity = 1;
+				collector.push(entry);
+			}
+		}
+
+		// Mid-flight: fresh edges of the open trace arrived — undim and
+		// green their nodes, extend the link chain from the current leaf
+		extendTraceMode(edges) {
+			const mode = this.traceMode;
+			if (!mode) return;
+			const newNames = [];
+			for (const edge of edges) {
+				if (!edge || typeof edge !== 'object') continue;
+				const nm = edge.instanceType || (typeof edge.name === 'string' ? edge.name : null);
+				if (nm && mode.names.indexOf(nm) === -1 && newNames.indexOf(nm) === -1) {
+					newNames.push(nm);
+				}
+			}
+			let previous = mode.names[mode.names.length - 1];
+			for (const nm of newNames) {
+				const mesh = this.findMeshByName(nm);
+				if (mesh) {
+					const m = mesh.material;
+					m.transparent = false;
+					m.opacity = 1;
+					m.emissive = new THREE.Color(Graph3DRenderer.TRACE_COLOR);
+					m.emissiveIntensity = 0.9;
+					m.needsUpdate = true;
+					if (mesh.userData.label) {
+						mesh.userData.label.material.opacity = 1;
+					}
+					mode.meshes.push(mesh);
+				}
+				if (previous) {
+					this.highlightLinkBetween(previous, nm, mode.links);
+				}
+				mode.names.push(nm);
+				previous = nm;
+			}
+		}
+
+		// Leave trace mode: restore dimmed spheres/links and the shared
+		// materials; focus pulse and ambient flashes resume
+		exitTraceMode() {
+			const mode = this.traceMode;
+			if (!mode) return;
+			const inPath = new Set(mode.meshes);
+			this.nodeMeshes.forEach(mesh => {
+				const m = mesh.material;
+				const node = mesh.userData.node;
+				const isRoot = node && node.isRoot;
+				if (node && isRoot) {
+					m.emissive = new THREE.Color(0x8B0000);
+				}
+				m.emissiveIntensity = isRoot ? 0.3 : 0;
+				if (!inPath.has(mesh)) {
+					m.opacity = 1;
+					m.transparent = false;
+					if (mesh.userData.label) {
+						mesh.userData.label.material.opacity = 1;
+					}
+				}
+				m.needsUpdate = true;
+			});
+			for (const entry of mode.links) {
+				if (entry.origLineMaterial) {
+					entry.line.material.dispose();
+					entry.arrow.material.dispose();
+					entry.line.material = entry.origLineMaterial;
+					entry.arrow.material = entry.origArrowMaterial;
+					entry.origLineMaterial = null;
+					entry.origArrowMaterial = null;
+				}
+			}
+			if (mode.dimmed.line) {
+				mode.dimmed.line.opacity = 0.8;
+				mode.dimmed.line.needsUpdate = true;
+			}
+			if (mode.dimmed.arrow) {
+				mode.dimmed.arrow.transparent = false;
+				mode.dimmed.arrow.opacity = 1;
+				mode.dimmed.arrow.needsUpdate = true;
+			}
+			this.traceMode = null;
 		}
 
 		// Unit view direction (camera → orbit center) for given angles,
@@ -2074,12 +2409,17 @@
 			this.animationId = requestAnimationFrame(() => this.animate());
 			this.updateFocusAnimation();
 			this.updateFocusPulse();
+			this.updateTraceFlashes();
 			this.renderer.render(this.scene, this.camera);
 		}
 
 		clear() {
 			this.focusAnim = null;
 			this.focusedMesh = null;
+			// Flashes and the trace path point at meshes about to be
+			// disposed — no restore needed, renderGraph rebuilds all
+			this.traceFlashes.clear();
+			this.traceMode = null;
 			this.nodeMeshes.forEach(mesh => {
 				// Remove label if exists
 				if (mesh.userData.label) {

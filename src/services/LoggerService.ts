@@ -27,6 +27,12 @@ export class LoggerService {
 	private loggerTab: LoggerTab | undefined;
 	private logEntries: LoggerTab_LogEntry[] = [];
 
+	// Bounded ring (2026-08-30): entries lived unbounded until the
+	// strategy fetch channel existed; now that logs are queryable the
+	// in-memory copy only needs a recent window. The file log keeps
+	// the full history.
+	private static readonly LOG_ENTRIES_LIMIT = 2000;
+
 	private constructor () {
 		// Output channel will be created on first use
 		this.outputChannel = null as unknown as vscode.OutputChannel;
@@ -182,6 +188,29 @@ export class LoggerService {
 	}
 
 	/**
+	 * Recent entries as plain JSON-safe objects (level, message,
+	 * timestamp) — the shape the strategy WS channel (state/query
+	 * 'logs') can serialize. Mnemonica instances themselves do not
+	 * cross the wire. Optional level filter matches the stored
+	 * lowercase level ('log' | 'info' | 'warn' | 'error' | 'debug').
+	 */
+	getRecentLogs (sample = 50, level?: string): Array<{ level: string; message: string; timestamp: number }> {
+		const source = level
+			? this.logEntries.filter(entry => entry.level === level)
+			: this.logEntries;
+		const recent = source.slice(-sample);
+		const result = recent.map(entry => {
+			const plain = {
+				level     : String(entry.level),
+				message   : String(entry.message),
+				timestamp : Number(entry.timestamp)
+			};
+			return plain;
+		});
+		return result;
+	}
+
+	/**
 	 * Write a log message with timestamp and level
 	 * Phase 1: Also stores as Mnemonica LogEntry instance
 	 */
@@ -218,6 +247,9 @@ export class LoggerService {
 				args: args.length > 0 ? args : undefined
 			});
 			this.logEntries.push(entry);
+			if (this.logEntries.length > LoggerService.LOG_ENTRIES_LIMIT) {
+				this.logEntries.splice(0, this.logEntries.length - LoggerService.LOG_ENTRIES_LIMIT);
+			}
 		}
 
 		// Write to output channel if initialized, otherwise log to console

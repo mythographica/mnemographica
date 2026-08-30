@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import type { GraphData, WebviewMessage } from '../types/index.js';
+import type { traceEdge } from '../core/MainOrchestrator';
 import { getLogger } from '../services/LoggerService';
 
 // Get logger instance once at module level
@@ -62,6 +63,52 @@ export class GraphPanel {
 			command : 'focusNode',
 			data
 		});
+		return true;
+	}
+
+	// Trace mode state (names-first tracing, 2026-08-30): which dive
+	// trace edge the open panel is isolating, plus the resolver hooks
+	// into the orchestrator's ring (wired from extension.ts — the panel
+	// has no orchestrator of its own)
+	private static traceResolver: {
+		resolve: (name: string) => { selectedId: number; edges: traceEdge[] } | null;
+		continue: (rootId: number, edges: traceEdge[]) => traceEdge[];
+	} | null = null;
+	private static traceMode: { edgeId: number; name: string } | null = null;
+
+	public static setTraceResolver (resolver: {
+		resolve: (name: string) => { selectedId: number; edges: traceEdge[] } | null;
+		continue: (rootId: number, edges: traceEdge[]) => traceEdge[];
+	}): void {
+		GraphPanel.traceResolver = resolver;
+	}
+
+	/**
+	 * Forward freshly-ingested trace edges into the open panel (B1.5
+	 * live illumination). Posted in both modes — the webview flashes
+	 * matching spheres in 3D and otherwise just advances its live
+	 * counter. Returns false when no panel exists. While trace mode is
+	 * open, batch members belonging to the isolated trace are also
+	 * pushed as traceModeExtend (mid-flight continuation).
+	 */
+	public static pushTraceEdges (edges: traceEdge[]): boolean {
+		const current = GraphPanel.currentPanel;
+		if (!current || edges.length === 0) {
+			return false;
+		}
+		void current.panel.webview.postMessage({
+			command : 'traceEvent',
+			data    : { edges }
+		});
+		if (GraphPanel.traceMode && GraphPanel.traceResolver) {
+			const continuation = GraphPanel.traceResolver.continue(GraphPanel.traceMode.edgeId, edges);
+			if (continuation.length > 0) {
+				void current.panel.webview.postMessage({
+					command : 'traceModeExtend',
+					data    : { edges: continuation }
+				});
+			}
+		}
 		return true;
 	}
 
@@ -182,6 +229,26 @@ export class GraphPanel {
 						}
 					}
 					break;
+				case 'pickTrace': {
+					// Trace mode (2026-08-30): user clicked a sphere with
+					// live trace activity — resolve the lineage and open
+					// the isolated path view in the webview
+					if (message.data && typeof message.data === 'object' && 'name' in message.data) {
+						const name = String(message.data.name);
+						const resolved = GraphPanel.traceResolver ? GraphPanel.traceResolver.resolve(name) : null;
+						if (resolved) {
+							GraphPanel.traceMode = { edgeId: resolved.selectedId, name };
+							void this.panel.webview.postMessage({
+								command : 'traceModeEnter',
+								data    : { edges: resolved.edges, name }
+							});
+						}
+					}
+					break;
+				}
+				case 'traceModeExit':
+					GraphPanel.traceMode = null;
+					break;
 				}
 			},
 			null,
@@ -266,6 +333,7 @@ export class GraphPanel {
 
 	public dispose () {
 		GraphPanel.currentPanel = undefined;
+		GraphPanel.traceMode = null;
 
 		this.panel.dispose();
 

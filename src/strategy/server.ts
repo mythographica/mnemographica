@@ -342,6 +342,13 @@ export class StrategyServer {
 						result  : await this.handleTraceIngest(params)
 					};
 
+				case 'trace/reset':
+					return {
+						jsonrpc : '2.0',
+						id,
+						result  : await this.handleTraceReset()
+					};
+
 				case 'state/query':
 					return {
 						jsonrpc : '2.0',
@@ -487,9 +494,27 @@ export class StrategyServer {
 		}
 		const p = (params || {}) as { edges?: unknown; source?: unknown };
 		const result = this.orchestrator.ingestTrace(p.edges);
-		if (typeof p.source === 'string') {
-			this.logger.debug(`[trace/ingest] ${result.accepted} edges from ${p.source}`);
+		// No per-batch logging here (2026-08-30): at stream rates it was
+		// the log flood; state/query 'trace' counters are the
+		// observability for this channel now.
+		// B1.5: illuminate the open panel with the live stream — flash
+		// matching spheres in 3D, advance the status counter elsewhere
+		GraphPanel.pushTraceEdges(result.edges);
+		return result;
+	}
+
+	/**
+	 * trace/reset (2026-08-30): begin a fresh trace session — the source
+	 * process was restarted and its edge ids restarted with it, so the
+	 * monotonic dedup in ingestTrace would drop everything until reset.
+	 * The panel keeps its own ambient counter (cosmetic); name-based
+	 * flashing is unaffected.
+	 */
+	private async handleTraceReset (): Promise<unknown> {
+		if (!this.orchestrator) {
+			return { error: 'orchestrator not wired yet' };
 		}
+		const result = this.orchestrator.resetTrace();
 		return result;
 	}
 
@@ -497,7 +522,8 @@ export class StrategyServer {
 	 * state/query (B1.3): current-state readback — the bidirectional
 	 * half of the strategy envelope. View control (B2) reads the scene
 	 * before rotating it. Params: { subject?: 'server' | 'graph' |
-	 * 'trace' | 'view', sample?: number } (default subject 'server').
+	 * 'trace' | 'view' | 'logs', sample?: number, level?: string }
+	 * (default subject 'server').
 	 */
 	private async handleStateQuery (params: unknown): Promise<unknown> {
 		const p = (params || {}) as { subject?: unknown; sample?: unknown };
@@ -540,8 +566,25 @@ export class StrategyServer {
 				return result;
 			}
 
+			case 'logs': {
+				// Agent log access (2026-08-30): pull the LoggerService
+				// ring over the wire instead of parsing logs/server.log.
+				// Params: sample (default 50), level (optional lowercase
+				// filter: log | info | warn | error | debug)
+				const sample = typeof p.sample === 'number' ? p.sample : 50;
+				const level = typeof (p as { level?: unknown }).level === 'string'
+					? (p as { level?: string }).level
+					: undefined;
+				const logService = getLogger();
+				const result = {
+					count  : logService.getLogCount(),
+					latest : logService.getRecentLogs(sample, level)
+				};
+				return result;
+			}
+
 			default: {
-				const unknown = { error: `unknown subject: ${subject}`, subjects: ['server', 'graph', 'trace', 'view'] };
+				const unknown = { error: `unknown subject: ${subject}`, subjects: ['server', 'graph', 'trace', 'view', 'logs'] };
 				return unknown;
 			}
 		}

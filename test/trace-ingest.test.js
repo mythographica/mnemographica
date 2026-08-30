@@ -102,4 +102,63 @@ console.log('Test 4: graph summary without a loaded workspace');
 	console.log('  ✓ empty graph summary is well-formed');
 }
 
+console.log('Test 5: result carries the freshly-accepted edges (B1.5 panel push)');
+{
+	const orchestrator = new MainOrchestrator('0.0.0-test');
+	const first = orchestrator.ingestTrace([edge(1), edge(2)]);
+	assert.strictEqual(first.edges.length, 2, 'accepted edges returned for forwarding');
+	assert.strictEqual(first.edges[1].id, 2);
+	// Replays are deduped out of the forwarded set too
+	const second = orchestrator.ingestTrace([edge(2), edge(3)]);
+	assert.strictEqual(second.edges.length, 1, 'replays are not forwarded');
+	assert.strictEqual(second.edges[0].id, 3);
+	const empty = orchestrator.ingestTrace(undefined);
+	assert.deepStrictEqual(empty.edges, [], 'malformed input forwards nothing');
+	console.log('  ✓ accepted edges ride the result');
+}
+
+console.log('Test 6: trace mode lineage + mid-flight continuation');
+{
+	// edge() parents each id on id-1, so 1→2→3→4→5 is one chain
+	const orchestrator = new MainOrchestrator('0.0.0-test');
+	orchestrator.ingestTrace([edge(1), edge(2), edge(3), edge(4), edge(5)]);
+
+	const lineage = orchestrator.getTraceLineage('edge-4');
+	assert.ok(lineage, 'name resolves');
+	assert.strictEqual(lineage.selectedId, 4);
+	// ancestors root→selected plus the descendant already in the ring
+	assert.deepStrictEqual(lineage.edges.map(e => e.id), [1, 2, 3, 4, 5]);
+
+	const none = orchestrator.getTraceLineage('never-traced');
+	assert.strictEqual(none, null, 'unknown name resolves to null');
+
+	const orphan = Object.assign(edge(9), { parentId: null });
+	const cont = orchestrator.getTraceContinuation(3, [edge(6), orphan]);
+	assert.strictEqual(cont.length, 1, 'only the batch member whose chain passes 3 continues');
+	assert.strictEqual(cont[0].id, 6);
+	console.log('  ✓ lineage root→leaf + continuation filter');
+}
+
+console.log('Test 7: trace/reset wipes buffer and watermark (source restart)');
+{
+	const orchestrator = new MainOrchestrator('0.0.0-test');
+	orchestrator.ingestTrace([edge(1), edge(2), edge(3)]);
+
+	// a restarted source resends from id 1 — dropped as replay
+	const dropped = orchestrator.ingestTrace([edge(1), edge(2)]);
+	assert.strictEqual(dropped.accepted, 0, 'restarted ids are deduped before reset');
+
+	const reset = orchestrator.resetTrace();
+	assert.strictEqual(reset.reset, true);
+	assert.strictEqual(reset.dropped, 3, 'reports the wiped buffer size');
+	const state = orchestrator.getTraceState();
+	assert.strictEqual(state.buffered, 0);
+	assert.strictEqual(state.lastId, 0);
+	assert.strictEqual(state.receivedTotal, 0);
+
+	const fresh = orchestrator.ingestTrace([edge(1), edge(2)]);
+	assert.strictEqual(fresh.accepted, 2, 'the restarted source lands after reset');
+	console.log('  ✓ reset re-opens the channel for a restarted source');
+}
+
 console.log('\n=== All Tests Passed ===');

@@ -109,7 +109,9 @@ export class MnemonicaDefinitionProvider implements vscode.DefinitionProvider {
 		position: vscode.Position,
 		_token: vscode.CancellationToken
 	): vscode.ProviderResult<vscode.Definition | vscode.LocationLink[]> {
-		logger.info(`[DefinitionProvider] Called at ${document.fileName}:${position.line}:${position.character}`);
+		// No per-request logging here (2026-08-30): VS Code calls this on
+		// every Ctrl+hover — it was the classic "no CDP access" debug
+		// noise. Per-request detail is reachable via the inspector now.
 
 		// Case 1: Check if this is inside a lookup('TypeName') call
 		const lookupResult = this.handleLookup(document, position);
@@ -156,19 +158,14 @@ export class MnemonicaDefinitionProvider implements vscode.DefinitionProvider {
 			return null;
 		}
 
-		logger.info(`[DefinitionProvider] lookup: ${typePath}`);
-
 		// Load definitions for this file
 		const definitionsMap = this.loadDefinitionsForFile(document.fileName);
 
 		// Look up the definition
 		const definition = definitionsMap.get(typePath);
 		if (!definition) {
-			logger.info(`[DefinitionProvider] No definition for ${typePath}`);
 			return null;
 		}
-
-		logger.info(`[DefinitionProvider] Found: ${definition.filePath}:${definition.line}:${definition.column}`);
 
 		// Create location
 		const uri = vscode.Uri.file(definition.filePath);
@@ -191,7 +188,6 @@ export class MnemonicaDefinitionProvider implements vscode.DefinitionProvider {
 		}
 
 		const typeName = document.getText(wordRange);
-		logger.info(`[DefinitionProvider] Type reference in types.ts: ${typeName}`);
 
 		// Convert instance type name to full path
 		const typePath = this.instanceTypeNameToPath(typeName);
@@ -205,11 +201,8 @@ export class MnemonicaDefinitionProvider implements vscode.DefinitionProvider {
 		// Try to find the definition
 		const definition = definitionsMap.get(typePath);
 		if (!definition) {
-			logger.info(`[DefinitionProvider] No definition for ${typePath}`);
 			return null;
 		}
-
-		logger.info(`[DefinitionProvider] Redirecting to: ${definition.filePath}:${definition.line}:${definition.column}`);
 
 		// Create location
 		const uri = vscode.Uri.file(definition.filePath);
@@ -231,7 +224,6 @@ export class MnemonicaDefinitionProvider implements vscode.DefinitionProvider {
 		}
 
 		const typeName = document.getText(wordRange);
-		logger.info(`[DefinitionProvider] Checking word: ${typeName}`);
 
 		// Load definitions
 		const definitionsMap = this.loadDefinitionsForFile(document.fileName);
@@ -246,7 +238,6 @@ export class MnemonicaDefinitionProvider implements vscode.DefinitionProvider {
 			if (typePath) {
 				const definition = definitionsMap.get(typePath);
 				if (definition) {
-					logger.info(`[DefinitionProvider] Found instance type: ${typePath}`);
 					const uri = vscode.Uri.file(definition.filePath);
 					const pos = new vscode.Position(definition.line - 1, definition.column - 1);
 					return new vscode.Location(uri, pos);
@@ -259,7 +250,6 @@ export class MnemonicaDefinitionProvider implements vscode.DefinitionProvider {
 		for (const [typePath, definition] of definitionsMap) {
 			// Check if the typePath ends with the typeName
 			if (typePath.endsWith(`.${typeName}`) || typePath === typeName) {
-				logger.info(`[DefinitionProvider] Found nested type: ${typePath}`);
 				const uri = vscode.Uri.file(definition.filePath);
 				const pos = new vscode.Position(definition.line - 1, definition.column - 1);
 				return new vscode.Location(uri, pos);
