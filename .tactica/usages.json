@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-08-29T22:07:42.091Z",
+  "generatedAt": "2026-08-29T22:40:43.041Z",
   "usages": {
     "LoggerTab": [
       {
@@ -26,70 +26,26 @@
         "code": "this.loggerTab.LogEntry"
       }
     ],
-    "Usages": [
-      {
-        "location": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:25:18",
-        "kind": "lookup",
-        "code": "lookup('Usages')"
-      },
-      {
-        "location": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:26:18",
-        "kind": "instantiation",
-        "code": "new Usages"
-      },
-      {
-        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:316:30",
-        "kind": "lookup",
-        "code": "lookup('Usages')"
-      },
-      {
-        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:317:27",
-        "kind": "instantiation",
-        "code": "new UsagesConstructor()"
-      }
-    ],
-    "Usages.UsageEntry": [
-      {
-        "location": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:71:20",
-        "kind": "instantiation",
-        "code": "new usages.UsageEntry(pushed)"
-      },
-      {
-        "location": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:71:24",
-        "kind": "propertyAccess",
-        "code": "usages.UsageEntry"
-      },
-      {
-        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:333:15",
-        "kind": "instantiation",
-        "code": "new usagesInstance.UsageEntry(stamped)"
-      },
-      {
-        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:333:19",
-        "kind": "propertyAccess",
-        "code": "usagesInstance.UsageEntry"
-      }
-    ],
     "Main": [
       {
-        "location": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:16:16",
+        "location": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:33:16",
         "kind": "lookup",
         "code": "lookup('Main')"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:17:15",
+        "location": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:34:15",
         "kind": "instantiation",
         "code": "new Main(version)"
       }
     ],
     "Registry": [
       {
-        "location": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:19:20",
+        "location": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:36:20",
         "kind": "lookup",
         "code": "lookup('Registry')"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:20:19",
+        "location": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:37:19",
         "kind": "instantiation",
         "code": "new Registry()"
       }
@@ -140,6 +96,30 @@
         "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:221:24",
         "kind": "propertyAccess",
         "code": "typesInstance.TypeEntry"
+      }
+    ],
+    "Usages": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:316:30",
+        "kind": "lookup",
+        "code": "lookup('Usages')"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:317:27",
+        "kind": "instantiation",
+        "code": "new UsagesConstructor()"
+      }
+    ],
+    "Usages.UsageEntry": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:333:15",
+        "kind": "instantiation",
+        "code": "new usagesInstance.UsageEntry(stamped)"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:333:19",
+        "kind": "propertyAccess",
+        "code": "usagesInstance.UsageEntry"
       }
     ],
     "EDS": [

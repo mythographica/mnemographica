@@ -5,85 +5,45 @@
 
 import * as vscode from 'vscode';
 import * as path from 'path';
-import * as fs from 'fs';
 import { getLogger } from '../services/LoggerService';
 
-import { lookup } from 'mnemonica';
-import type { Usages, Usages_UsageEntry } from '~tactica/types';
+import type { Usages } from '~tactica/types';
+import type { MainOrchestrator } from '../core/MainOrchestrator';
 
-// Type aliases using clean imports from .tactica/types.ts
-type usage = Usages_UsageEntry;
+// Type alias using a clean import from .tactica/types.ts
 type usages = Usages;
 
 
 export class MnemonicaReferenceProvider implements vscode.ReferenceProvider {
 	private usages: usages | undefined = undefined;
 	private logger = getLogger();
+	// Single load path (model audit): usages live in the orchestrator's
+	// Registry; this provider READS that instance instead of keeping a
+	// private copy parsed from disk
+	private orchestrator: MainOrchestrator | undefined;
 
-	async loadUsages(workspacePath: string): Promise<void> {
+	setOrchestrator(orchestrator: MainOrchestrator): void {
+		this.orchestrator = orchestrator;
+	}
 
-		const Usages = lookup('Usages');
-		const usages = new Usages;
-
-		this.usages = usages;
-
-		if (!this.usages) {
-			this.logger.error('[Usages] Failed to create Usages instance');
+	/**
+	 * Re-point the provider at the Registry's Usages instance. Call
+	 * only AFTER the orchestrator finished loading the workspace —
+	 * before that the instance does not exist.
+	 */
+	async loadUsages(): Promise<void> {
+		if (!this.orchestrator) {
+			this.logger.error('[Usages] orchestrator not wired — cannot load usages');
 			return;
 		}
-
-		const usagesPath = path.join(workspacePath, '.tactica', 'usages.json');
-		if (!fs.existsSync(usagesPath)) {
-			this.logger.warn('No usages.json found at:', usagesPath);
+		const registry = this.orchestrator.getRegistry();
+		const loaded = registry.getUsages();
+		if (!loaded) {
+			this.logger.warn('[Usages] Registry has no Usages instance yet');
 			return;
 		}
-
-		try {
-			const content = fs.readFileSync(usagesPath, 'utf-8');
-			const data = JSON.parse(content);
-
-			type usage_from_file = {
-				kind: string,
-				code: string,
-				location: string
-			};
-
-			// Parse usages from JSON
-			const jsonUsages = data.usages as { [key: string]: usage_from_file[] };
-
-
-			const entries = Object.entries(jsonUsages);
-
-			for (const [typeName, usageList] of entries) {
-				if (!Array.isArray(usageList)) continue;
-
-				this.logger.info('loading usages for', typeName);
-
-
-				const typedUsages: usage[] = [];
-
-				for (const _usage of usageList) {
-
-					const pushed = Object.assign({
-						typeName,
-					}, _usage);
-
-					const usage = new usages.UsageEntry(pushed);
-
-					typedUsages.push(usage);
-					this.logger.debug('UsageEntry creation for:', typeName, JSON.stringify(usage));
-
-				}
-
-				if (typedUsages.length > 0) {
-					this.usages.set(typeName, typedUsages);
-				}
-			}
-
-			this.logger.info(`Loaded usages for ${this.usages.size} types`);
-		} catch (error) {
-			this.logger.error('Failed to load usages:', error);
-		}
+		this.usages = loaded;
+		this.logger.info(`Loaded usages for ${this.usages.size} types (from Registry)`);
 	}
 
 	provideReferences(
@@ -177,8 +137,9 @@ export class MnemonicaReferenceProvider implements vscode.ReferenceProvider {
 	}
 
 	clear(): void {
-		if (!this.usages) { return; }
-		this.usages.clear();
+		// Drop the reference only — the Usages instance belongs to the
+		// Registry, which clears itself on reload
+		this.usages = undefined;
 	}
 
 	getStats() {

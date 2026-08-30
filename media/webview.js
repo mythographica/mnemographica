@@ -254,6 +254,41 @@
 				renderer3D.focusNode(message.data.id, message.data.name);
 			}
 		}
+
+		if (message.command === 'queryViewState') {
+			// Strategy state-query readback (B1.3): report the live
+			// camera + focus so view control can read the scene before
+			// rotating it
+			const requestId = message.data && message.data.requestId;
+			const state = {
+				requestId   : requestId,
+				mode        : is3D ? '3D' : '2D',
+				focusedNode : null,
+				camera      : null,
+				nodeCount   : 0
+			};
+			if (renderer3D) {
+				state.camera = {
+					rotX : renderer3D.cameraRotation.x,
+					rotY : renderer3D.cameraRotation.y,
+					zoom : renderer3D.zoom,
+					pan  : {
+						x : renderer3D.panOffset.x,
+						y : renderer3D.panOffset.y,
+						z : renderer3D.panOffset.z || 0
+					}
+				};
+				state.nodeCount = renderer3D.nodeMeshes.size;
+				const focused = renderer3D.focusedMesh;
+				if (focused && focused.userData.node) {
+					state.focusedNode = {
+						id   : focused.userData.node.id,
+						name : focused.userData.node.name
+					};
+				}
+			}
+			vscode.postMessage({ command: 'viewState', data: state });
+		}
 	});
 
 	function render2DGraph(data) {

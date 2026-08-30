@@ -65,6 +65,53 @@ export class GraphPanel {
 		return true;
 	}
 
+	// Pending view-state roundtrips (state/query 'view'): the camera
+	// lives in the webview, so a query posts 'queryViewState' and waits
+	// for the matching 'viewState' response (resolved in the message
+	// handler above).
+	private static viewStateRequests = new Map<number, {
+		resolve: (data: unknown) => void;
+		timer: ReturnType<typeof setTimeout>;
+	}>();
+	private static viewStateRequestSeq = 0;
+
+	/**
+	 * Read back the live 3D view state (camera rotation/zoom/pan,
+	 * focused node) for strategy's state-query. Returns { open: false }
+	 * when the panel does not exist; on a webview timeout the panel
+	 * facts still answer, with `view: null`.
+	 */
+	public static async queryViewState (): Promise<unknown> {
+		const current = GraphPanel.currentPanel;
+		if (!current) {
+			const closed = { open: false };
+			return closed;
+		}
+		const facts = {
+			open    : true,
+			visible : current.panel.visible,
+			mode    : current.currentMode
+		};
+		if (!current.panel.visible || current.currentMode !== '3D') {
+			const noView = Object.assign({ view: null }, facts);
+			return noView;
+		}
+		const requestId = ++GraphPanel.viewStateRequestSeq;
+		const view = await new Promise<unknown>((resolve) => {
+			const timer = setTimeout(() => {
+				GraphPanel.viewStateRequests.delete(requestId);
+				resolve(null);
+			}, 2000);
+			GraphPanel.viewStateRequests.set(requestId, { resolve, timer });
+			void current.panel.webview.postMessage({
+				command : 'queryViewState',
+				data    : { requestId }
+			});
+		});
+		const result = Object.assign({ view }, facts);
+		return result;
+	}
+
 	private constructor (
 		panel: vscode.WebviewPanel,
 		extensionUri: vscode.Uri,
@@ -120,6 +167,19 @@ export class GraphPanel {
 						const mode = String(message.data.mode);
 						this.currentMode = mode === '3D' ? '3D' : '2D';
 						this.panel.title = mode === '3D' ? 'Mnemonica Graph 3D' : 'Mnemonica Graph 2D';
+					}
+					break;
+				case 'viewState':
+					// Response to a queryViewState roundtrip (B1.3 state
+					// readback) — resolve the pending request by id
+					if (message.data && typeof message.data === 'object' && 'requestId' in message.data) {
+						const requestId = Number(message.data.requestId);
+						const pending = GraphPanel.viewStateRequests.get(requestId);
+						if (pending) {
+							GraphPanel.viewStateRequests.delete(requestId);
+							clearTimeout(pending.timer);
+							pending.resolve(message.data);
+						}
 					}
 					break;
 				}

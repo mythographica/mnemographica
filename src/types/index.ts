@@ -83,7 +83,7 @@ export type D3ExecLink = {
  */
 export type WebviewMessage = {
 	/** Command type */
-	command: 'goToDefinition' | 'nodeHover' | 'ready' | 'refresh' | 'log' | 'modeChanged' | 'focusNode';
+	command: 'goToDefinition' | 'nodeHover' | 'ready' | 'refresh' | 'log' | 'modeChanged' | 'focusNode' | 'viewState';
 	/** Optional payload */
 	data?: unknown;
 };

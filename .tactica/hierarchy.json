@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-08-29T22:07:42.094Z",
+  "generatedAt": "2026-08-29T22:40:43.044Z",
   "roots": [
     {
       "name": "Definitions",
@@ -62,7 +62,7 @@
         {
           "name": "Adapter",
           "fullPath": "Main.Adapter",
-          "location": "/code/mnemonica/mnemographica/src/models/Main.ts:13:29",
+          "location": "/code/mnemonica/mnemographica/src/models/Main.ts:37:29",
           "children": []
         }
       ]

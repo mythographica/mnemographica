@@ -93,6 +93,9 @@ export type LoggerTab_LogEntry = ProtoFlat<LoggerTab, {
 export type Main = {
 	extensionVersion: string;
 	createdAt: number;
+	traceBuffer: Array<unknown>;
+	traceLastId: number;
+	traceReceivedTotal: number;
 	Adapter: new (data: { name: string; domain: string; enabled: boolean }) => Main_Adapter;
 };
 

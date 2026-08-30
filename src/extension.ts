@@ -182,6 +182,11 @@ export function activate(context: vscode.ExtensionContext) {
 
 	// Create main orchestrator
 	mainOrchestrator = new MainOrchestrator(context.extension.packageJSON.version || '0.1.0');
+	// The strategy server's trace-ingest/state-query read through it
+	strategyServer.setOrchestrator(mainOrchestrator);
+	// Reference provider reads usages from the orchestrator's Registry —
+	// no private disk copy (single load path, model audit)
+	referenceProvider.setOrchestrator(mainOrchestrator);
 	logger.info('MainOrchestrator created');
 
 	// Register commands from command files (all deps now initialized)
@@ -304,6 +309,13 @@ export function activate(context: vscode.ExtensionContext) {
 		// Load all models through MainOrchestrator
 		mainOrchestrator.loadWorkspace(workspacePath).then(async () => {
 			logger.info('Workspace loaded successfully via MainOrchestrator');
+			// Load navigation provider data — MUST run after the
+			// orchestrator load: the reference provider no longer reads
+			// usages.json itself, it reads the Registry's Usages
+			// instance (single load path)
+			logger.info('Loading navigation providers data...');
+			referenceProvider.loadUsages();
+
 			// Update tree provider with registry data
 			treeProvider.setWorkspace(workspacePath);
 			treeProvider.setRegistry(mainOrchestrator.getRegistry());
@@ -320,12 +332,6 @@ export function activate(context: vscode.ExtensionContext) {
 			}
 		}).catch((err: Error) => {
 			logger.error('Failed to load workspace:', err);
-		});
-
-		// Load navigation provider data
-		logger.info('Loading navigation providers data...');
-		referenceProvider.loadUsages(workspacePath).catch((err: Error) => {
-			logger.error('Failed to load usages:', err, err.stack);
 		});
 	} else {
 		logger.warn('No workspace folders found, skipping data load');
@@ -393,8 +399,6 @@ async function refreshTypeGraph(_context: vscode.ExtensionContext) {
 		return;
 	}
 
-	const workspacePath = workspaceFolders[0].uri.fsPath;
-
 	// Refresh registry and tree view
 	if (treeProvider && mainOrchestrator) {
 		await mainOrchestrator.refresh();
@@ -414,7 +418,7 @@ async function refreshTypeGraph(_context: vscode.ExtensionContext) {
 	}
 	if (referenceProvider) {
 		referenceProvider.clear();
-		await referenceProvider.loadUsages(workspacePath);
+		await referenceProvider.loadUsages();
 	}
 
 	logger.info('Type graph refreshed');

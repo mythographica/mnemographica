@@ -76,7 +76,14 @@ The extension helps AI agents:
 
 7. **Strategy server** (`src/strategy/server.ts`)
    - MCP-shaped JSON-RPC over HTTP (9230) and WebSocket (9231)
-   - Experimental, no consumer yet. **Bound to 127.0.0.1** — there is no auth,
+   - Beyond the MCP tools, the WS channel carries two first-class
+     methods (B1.3 bidirectional envelope): `trace/ingest`
+     (`{ edges, source? }` — dive-trace deltas land on the `Main`
+     instance via the orchestrator, deduped and ring-bounded at 5000)
+     and `state/query` (`{ subject, sample? }` — subjects `server`,
+     `graph`, `trace`, `view`; `view` roundtrips into the 3D webview
+     for the live camera + focused node)
+   - **Bound to 127.0.0.1** — there is no auth,
      so it must never listen on a LAN interface
 
 8. **Topologica bootstrap** (`src/topologica/bootstrap.ts`)

@@ -4,6 +4,8 @@ import * as http from 'http';
 import * as ws from 'ws';
 import * as vscode from 'vscode';
 import { getLogger } from '../services/LoggerService';
+import { GraphPanel } from '../webview/panel';
+import type { MainOrchestrator } from '../core/MainOrchestrator';
 
 // WebSocket types from ws package
 import type { WebSocket } from 'ws';
@@ -43,11 +45,20 @@ export class StrategyServer {
 	private wsPort: number;
 	private logger = getLogger();
 	private tools: Map<string, StrategyTool> = new Map();
+	// Wired after construction (extension.ts creates the orchestrator
+	// after the server) — trace-ingest/state-query need it
+	private orchestrator: MainOrchestrator | undefined;
+	private startedAt = 0;
+	private wsClients = 0;
 
 	constructor (port = 9230, wsPort = 9231) {
 		this.port = port;
 		this.wsPort = wsPort;
 		this.registerDefaultTools();
+	}
+
+	setOrchestrator (orchestrator: MainOrchestrator): void {
+		this.orchestrator = orchestrator;
 	}
 
 	/**
@@ -123,6 +134,7 @@ export class StrategyServer {
 	async start (): Promise<void> {
 		await this.startHTTPServer();
 		await this.startWebSocketServer();
+		this.startedAt = Date.now();
 		this.logger.info(`Strategy MCP servers started on ports ${this.port} (HTTP) and ${this.wsPort} (WebSocket)`);
 	}
 
@@ -174,6 +186,7 @@ export class StrategyServer {
 			this.wsServer = new ws.Server({ port: this.wsPort, host: '127.0.0.1' });
 
 			this.wsServer.on('connection', (client: WebSocket) => {
+				this.wsClients++;
 				this.logger.debug('WebSocket client connected');
 
 				client.on('message', (data: ws.RawData) => {
@@ -194,6 +207,7 @@ export class StrategyServer {
 				});
 
 				client.on('close', () => {
+					this.wsClients--;
 					this.logger.debug('WebSocket client disconnected');
 				});
 			});
@@ -321,6 +335,20 @@ export class StrategyServer {
 						}
 					};
 
+				case 'trace/ingest':
+					return {
+						jsonrpc : '2.0',
+						id,
+						result  : await this.handleTraceIngest(params)
+					};
+
+				case 'state/query':
+					return {
+						jsonrpc : '2.0',
+						id,
+						result  : await this.handleStateQuery(params)
+					};
+
 				default:
 					return {
 						jsonrpc: '2.0',
@@ -445,6 +473,78 @@ export class StrategyServer {
 			path: workspacePath || vscode.workspace.workspaceFolders?.[0]?.uri.fsPath,
 			timestamp: Date.now()
 		};
+	}
+
+	/**
+	 * trace/ingest (B1.3): strategy pushes dive-trace deltas here.
+	 * Params: { edges: traceEdge[], source?: string }. The edges land
+	 * on the Main instance (root data holder) via the orchestrator;
+	 * parsing the stream into structure is a future design session.
+	 */
+	private async handleTraceIngest (params: unknown): Promise<unknown> {
+		if (!this.orchestrator) {
+			return { error: 'orchestrator not wired yet' };
+		}
+		const p = (params || {}) as { edges?: unknown; source?: unknown };
+		const result = this.orchestrator.ingestTrace(p.edges);
+		if (typeof p.source === 'string') {
+			this.logger.debug(`[trace/ingest] ${result.accepted} edges from ${p.source}`);
+		}
+		return result;
+	}
+
+	/**
+	 * state/query (B1.3): current-state readback — the bidirectional
+	 * half of the strategy envelope. View control (B2) reads the scene
+	 * before rotating it. Params: { subject?: 'server' | 'graph' |
+	 * 'trace' | 'view', sample?: number } (default subject 'server').
+	 */
+	private async handleStateQuery (params: unknown): Promise<unknown> {
+		const p = (params || {}) as { subject?: unknown; sample?: unknown };
+		const subject = typeof p.subject === 'string' ? p.subject : 'server';
+
+		switch (subject) {
+			case 'server': {
+				const result = {
+					httpPort  : this.port,
+					wsPort    : this.wsPort,
+					running   : this.isRunning(),
+					uptimeMs  : this.startedAt ? Date.now() - this.startedAt : 0,
+					wsClients : this.wsClients
+				};
+				return result;
+			}
+
+			case 'graph': {
+				if (!this.orchestrator) {
+					return { error: 'orchestrator not wired yet' };
+				}
+				const result = this.orchestrator.getGraphSummary();
+				return result;
+			}
+
+			case 'trace': {
+				if (!this.orchestrator) {
+					return { error: 'orchestrator not wired yet' };
+				}
+				const sample = typeof p.sample === 'number' ? p.sample : 5;
+				const result = this.orchestrator.getTraceState(sample);
+				return result;
+			}
+
+			case 'view': {
+				// Roundtrip into the 3D webview (camera + focus live
+				// there); GraphPanel answers panel facts itself when the
+				// panel is closed, hidden, or in 2D mode
+				const result = await GraphPanel.queryViewState();
+				return result;
+			}
+
+			default: {
+				const unknown = { error: `unknown subject: ${subject}`, subjects: ['server', 'graph', 'trace', 'view'] };
+				return unknown;
+			}
+		}
 	}
 
 	/**

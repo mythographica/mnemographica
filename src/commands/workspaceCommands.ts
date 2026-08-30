@@ -128,7 +128,7 @@ async function loadWorkspace(
 
 		if (referenceProvider) {
 			referenceProvider.clear();
-			await referenceProvider.loadUsages(workspacePath);
+			await referenceProvider.loadUsages();
 		}
 
 		vscode.window.showInformationMessage(`Loaded workspace: ${label}`);
