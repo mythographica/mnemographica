@@ -174,8 +174,12 @@ export class LoggerService {
 	/**
 	 * Get log entries by level
 	 * Phase 1: Filter logs by severity level
+	 * Levels are the CONSOLE names (log|info|warn|error|debug) — that
+	 * design is not ours, entries store them lowercased (2026-08-30:
+	 * the union used to say 'warning', which never matched a stored
+	 * 'warn' entry).
 	 */
-	getLogsByLevel (level: 'info' | 'warning' | 'error'): LoggerTab_LogEntry[] {
+	getLogsByLevel (level: 'log' | 'info' | 'warn' | 'error' | 'debug'): LoggerTab_LogEntry[] {
 		return this.logEntries.filter(entry => entry.level === level);
 	}
 

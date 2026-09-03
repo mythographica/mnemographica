@@ -72,15 +72,74 @@ export class GraphPanel {
 	// has no orchestrator of its own)
 	private static traceResolver: {
 		resolve: (name: string) => { selectedId: number; edges: traceEdge[] } | null;
+		resolveByRoot?: (rootId: number) => { selectedId: number; edges: traceEdge[] } | null;
 		continue: (rootId: number, edges: traceEdge[]) => traceEdge[];
 	} | null = null;
 	private static traceMode: { edgeId: number; name: string } | null = null;
 
 	public static setTraceResolver (resolver: {
 		resolve: (name: string) => { selectedId: number; edges: traceEdge[] } | null;
+		resolveByRoot?: (rootId: number) => { selectedId: number; edges: traceEdge[] } | null;
 		continue: (rootId: number, edges: traceEdge[]) => traceEdge[];
 	}): void {
 		GraphPanel.traceResolver = resolver;
+	}
+
+	/**
+	 * Open trace mode from OUTSIDE the webview (Live Trace sidebar,
+	 * 2026-09-01): same resolution path as the webview's pickTrace, but
+	 * invoked by command. When the caller carries the trace's rootId the
+	 * by-root resolver wins — name resolution can bind to a DIFFERENT
+	 * trace that happens to end on the same type name. Returns false
+	 * when no panel is open or the trace is no longer in the ring — the
+	 * caller decides whether to open the panel first.
+	 */
+	public static openTraceMode (name: string, rootId?: number): boolean {
+		const current = GraphPanel.currentPanel;
+		if (!current || !GraphPanel.traceResolver) {
+			return false;
+		}
+		const resolved = (typeof rootId === 'number' && GraphPanel.traceResolver.resolveByRoot)
+			? GraphPanel.traceResolver.resolveByRoot(rootId)
+			: GraphPanel.traceResolver.resolve(name);
+		if (!resolved) {
+			return false;
+		}
+		GraphPanel.traceMode = { edgeId: resolved.selectedId, name };
+		// The sidebar click is a request to SEE the trace — surface the
+		// panel tab when it sits behind other editors (Wanted #3)
+		current.panel.reveal();
+		void current.panel.webview.postMessage({
+			command : 'traceModeEnter',
+			data    : { edges: resolved.edges, name }
+		});
+		return true;
+	}
+
+	/**
+	 * Replay a stored trace at human speed (Wanted #5, 2026-09-01):
+	 * isolate the lineage, then the webview re-walks its spheres one
+	 * flash per edge (~650ms apart). Resolution matches openTraceMode —
+	 * by rootId when the caller carries it.
+	 */
+	public static replayTrace (name: string, rootId?: number): boolean {
+		const current = GraphPanel.currentPanel;
+		if (!current || !GraphPanel.traceResolver) {
+			return false;
+		}
+		const resolved = (typeof rootId === 'number' && GraphPanel.traceResolver.resolveByRoot)
+			? GraphPanel.traceResolver.resolveByRoot(rootId)
+			: GraphPanel.traceResolver.resolve(name);
+		if (!resolved) {
+			return false;
+		}
+		GraphPanel.traceMode = { edgeId: resolved.selectedId, name };
+		current.panel.reveal();
+		void current.panel.webview.postMessage({
+			command : 'traceReplay',
+			data    : { edges: resolved.edges, name }
+		});
+		return true;
 	}
 
 	/**
@@ -317,6 +376,8 @@ export class GraphPanel {
 	<div id="gen-controls" style="display: block;">
 		<div class="gen-controls-header">Generation Distances</div>
 		<div id="gen-controls-list"></div>
+		<div class="gen-controls-header">Layers</div>
+		<div id="layer-controls-list"></div>
 	</div>
 	<div id="graph"></div>
 	<div id="tooltip"></div>

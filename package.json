@@ -2,7 +2,7 @@
 	"name": "mnemographica",
 	"displayName": "Mnemonica Graphica",
 	"description": "Explore mnemonica type hierarchies: definitions, types, usages, execution flow and generations, with go-to-definition navigation",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"publisher": "mnemonica",
 	"repository": {
 		"type": "git",
@@ -30,7 +30,7 @@
 	"activationEvents": [
 		"workspaceContains:**/*.ts",
 		"workspaceContains:**/package.json",
-		"onView:mnemonicaWelcome",
+		"onView:mnemonicaLiveTrace",
 		"onView:mnemonicaUsages",
 		"onView:mnemonicaTypes",
 		"onView:mnemonicaFlow",
@@ -67,6 +67,18 @@
 				"title": "Show Strategy MCP Status",
 				"category": "Mnemonica",
 				"icon": "$(server-environment)"
+			},
+			{
+				"command": "mnemographica.openStrategyTab",
+				"title": "Ψ Strategy MCP",
+				"category": "Mnemonica",
+				"icon": "$(server-process)"
+			},
+			{
+				"command": "mnemographica.openAppChannelTab",
+				"title": "Ψ App Channel",
+				"category": "Mnemonica",
+				"icon": "$(plug)"
 			},
 			{
 				"command": "mnemographica.showLogger",
@@ -157,6 +169,18 @@
 				"title": "Refresh By Generation",
 				"category": "Mnemonica",
 				"icon": "$(refresh)"
+			},
+			{
+				"command": "mnemographica.replayTrace",
+				"title": "Replay Trace",
+				"category": "Mnemonica",
+				"icon": "$(run)"
+			},
+			{
+				"command": "mnemographica.openJaegerTrace",
+				"title": "Open in Jaeger",
+				"category": "Mnemonica",
+				"icon": "$(link-external)"
 			}
 		],
 		"menus": {
@@ -187,6 +211,11 @@
 				}
 			],
 			"view/title": [
+				{
+					"command": "mnemographica.openAppChannelTab",
+					"when": "view == mnemonicaLiveTrace",
+					"group": "navigation@1"
+				},
 				{
 					"command": "mnemographica.showTypeGraph",
 					"when": "view == mnemonicaTypes",
@@ -268,6 +297,16 @@
 					"command": "mnemographica.goToDefinition",
 					"when": "view == mnemonicaUsages",
 					"group": "navigation@4"
+				},
+				{
+					"command": "mnemographica.replayTrace",
+					"when": "view == mnemonicaLiveTrace && viewItem =~ /^mnemTrace/",
+					"group": "navigation@1"
+				},
+				{
+					"command": "mnemographica.openJaegerTrace",
+					"when": "view == mnemonicaLiveTrace && viewItem == mnemTraceJaeger",
+					"group": "navigation@2"
 				}
 			]
 		},
@@ -283,8 +322,8 @@
 		"views": {
 			"mnemonica": [
 				{
-					"id": "mnemonicaWelcome",
-					"name": "Welcome",
+					"id": "mnemonicaLiveTrace",
+					"name": "Live Trace",
 					"icon": "media/psi-icon.svg"
 				},
 				{
@@ -314,7 +353,22 @@
 				"id": "mnemonicaLogger",
 				"name": "Mnemonica Logger"
 			}
-		]
+		],
+		"configuration": {
+			"title": "Mnemonica Graphica",
+			"properties": {
+				"mnemographica.strategyLogPort": {
+					"type": "number",
+					"default": 9250,
+					"description": "TCP port the spawned Strategy MCP child mirrors its logs to (STRATEGY_LOG_PORT; the Strategy tab reads it)"
+				},
+				"mnemographica.appChannelDiscoveryUrl": {
+					"type": "string",
+					"default": "http://127.0.0.1:3000/strategy/channel",
+					"description": "Default discovery URL for the App Channel tab — an app's self-hosted strategy WS channel (startStrategyClient)"
+				}
+			}
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
@@ -328,7 +382,7 @@
 		"tactica:watch": "tactica --watch"
 	},
 	"devDependencies": {
-		"@mnemonica/tactica": "^0.1.7",
+		"@mnemonica/tactica": "^0.1.14",
 		"@types/node": "^20.0.0",
 		"@types/vscode": "^1.74.0",
 		"@types/ws": "^8.5.10",
@@ -337,6 +391,7 @@
 		"typescript-eslint": "^8.67.0"
 	},
 	"dependencies": {
+		"@mnemonica/strategy": "^0.5.1",
 		"@mnemonica/topologica": "^0.0.8",
 		"mnemonica": "^1.2.5",
 		"ws": "^8.19.0"

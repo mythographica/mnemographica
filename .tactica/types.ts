@@ -39,7 +39,7 @@ export type EDS = {
 	values: () => MapIterator<Array<EDS_EDSEntry>>;
 	entries: () => MapIterator<[string, Array<EDS_EDSEntry>]>;
 	clear: () => void;
-	EDSEntry: new (data: { typeName: string; location: string; kind: string; code: string; targetType?: string }) => EDS_EDSEntry;
+	EDSEntry: new (data: { typeName: string; location: string; kind: string; code: string; targetType?: string; scope?: string; via?: string; createsTypes?: Array<string> }) => EDS_EDSEntry;
 };
 
 export type EDS_EDSEntry = ProtoFlat<EDS, {
@@ -48,6 +48,9 @@ export type EDS_EDSEntry = ProtoFlat<EDS, {
 	kind: string;
 	code: string;
 	targetType?: string;
+	scope?: string;
+	via?: string;
+	createsTypes?: Array<string>;
 	EDSEntry: undefined;
 }>;
 
@@ -75,6 +78,25 @@ export type Flow_FlowEntry = ProtoFlat<Flow, {
 	FlowEntry: undefined;
 }>;
 
+export type Instrumentation = {
+	createdAt: number;
+	readonly size: void;
+	all: () => Array<Instrumentation_InstrumentationPoint>;
+	set: (points: Array<Instrumentation_InstrumentationPoint>) => void;
+	clear: () => void;
+	InstrumentationPoint: new (data: { kind: string; className: string; location: string; code: string; scope: string; targets?: Array<string> }) => Instrumentation_InstrumentationPoint;
+};
+
+export type Instrumentation_InstrumentationPoint = ProtoFlat<Instrumentation, {
+	kind: string;
+	className: string;
+	location: string;
+	code: string;
+	scope: string;
+	targets?: Array<string>;
+	InstrumentationPoint: undefined;
+}>;
+
 export type LoggerTab = {
 	createdAt: number;
 	LogEntry: new (data: { level: 'info' | 'warning' | 'error'; message: string; timestamp: number; typeName?: string; error?: Error; args?: Array<unknown> }) => LoggerTab_LogEntry;
@@ -93,9 +115,10 @@ export type LoggerTab_LogEntry = ProtoFlat<LoggerTab, {
 export type Main = {
 	extensionVersion: string;
 	createdAt: number;
-	traceBuffer: Array<unknown>;
+	traceBuffer: Array<{ id: number; parentId: number | null; name: string; kind: string; status: string; duration: number | null; ts: number; instanceType: string | null; instanceSource?: 'explicit' | 'ambient' | null }>;
 	traceLastId: number;
 	traceReceivedTotal: number;
+	traceSession: string | undefined;
 	Adapter: new (data: { name: string; domain: string; enabled: boolean }) => Main_Adapter;
 };
 
@@ -167,6 +190,7 @@ export type Registry = {
 	getUsages: () => Usages | undefined;
 	getEDS: () => EDS | undefined;
 	getFlow: () => Flow | undefined;
+	getInstrumentation: () => Instrumentation | undefined;
 	getTrie: () => Trie | undefined;
 	refresh: () => Promise<void>;
 	RegistryEntry: new (data: { id: string; name: string; filePath: string; line: number; column: number }) => Registry_RegistryEntry;

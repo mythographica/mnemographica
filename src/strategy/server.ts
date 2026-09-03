@@ -5,6 +5,7 @@ import * as ws from 'ws';
 import * as vscode from 'vscode';
 import { getLogger } from '../services/LoggerService';
 import { GraphPanel } from '../webview/panel';
+import { LiveTraceTreeProvider } from '../views/liveTraceTreeProvider';
 import type { MainOrchestrator } from '../core/MainOrchestrator';
 
 // WebSocket types from ws package
@@ -492,14 +493,21 @@ export class StrategyServer {
 		if (!this.orchestrator) {
 			return { error: 'orchestrator not wired yet' };
 		}
-		const p = (params || {}) as { edges?: unknown; source?: unknown };
-		const result = this.orchestrator.ingestTrace(p.edges);
+		const p = (params || {}) as { edges?: unknown; source?: unknown; session?: unknown };
+		const result = this.orchestrator.ingestTrace(p.edges, p.session);
+		if (result.sessionReset) {
+			// One line per source restart, not per batch: the VACUUM
+			// fired, the previous trace session is gone by design.
+			this.logger.info(`trace session changed (${String(p.session)}) — buffer auto-wiped, ${result.dropped} edges dropped`);
+		}
 		// No per-batch logging here (2026-08-30): at stream rates it was
 		// the log flood; state/query 'trace' counters are the
 		// observability for this channel now.
 		// B1.5: illuminate the open panel with the live stream — flash
 		// matching spheres in 3D, advance the status counter elsewhere
 		GraphPanel.pushTraceEdges(result.edges);
+		// Live Trace sidebar: the same batch collected as human-speed rows
+		LiveTraceTreeProvider.noteIngest();
 		return result;
 	}
 
@@ -515,6 +523,8 @@ export class StrategyServer {
 			return { error: 'orchestrator not wired yet' };
 		}
 		const result = this.orchestrator.resetTrace();
+		// The buffer is gone — the Live Trace sidebar must drop its rows
+		LiveTraceTreeProvider.noteIngest();
 		return result;
 	}
 

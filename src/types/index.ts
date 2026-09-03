@@ -43,12 +43,32 @@ export type D3Node = {
 		kind: string;
 		location: string;
 		code: string;
+		/** Scope key from eds.json when it is NOT this node (external wrap site) */
+		scope?: string;
+		parsedLocation?: {
+			fileName: string;
+			line: number;
+			column: number;
+		};
 	}>;
 	/** Source location of the actual define() constructor (from definitions.json) */
 	definitionLocation?: {
 		fileName: string;
 		line: number;
 		column: number;
+	};
+	/** Node class discriminator — spheres are types; 'instrumentation' is the
+	 * reserved slot for the upcoming EDS/instrumentation layer (no current
+	 * producer — the v1 diamond emission was reverted 2026-09-03) */
+	nodeClass?: 'type' | 'instrumentation';
+	/** Instrumentation point payload (from instrumentation.json; consumed by
+	 * the upcoming layer, nothing emits it today) */
+	instrumentation?: {
+		kind: string;
+		className: string;
+		scope: string;
+		code: string;
+		targets?: string[];
 	};
 };
 

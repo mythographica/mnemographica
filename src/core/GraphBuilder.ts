@@ -62,6 +62,9 @@ export class GraphBuilder {
 		// Enrich nodes with EDS status
 		const eds = registry.getEDS();
 		if (eds) {
+			// Dedupe path-hit edges: several wrap entries on one node may
+			// construct the same type
+			const pathHitSeen = new Set<string>();
 			for (const node of graphData.nodes) {
 				const edsEntries = eds.get(node.id);
 				if (edsEntries && edsEntries.length > 0) {
@@ -73,11 +76,71 @@ export class GraphBuilder {
 						return {
 							kind: entry.kind,
 							location: entry.location,
-							code: entry.code
+							code: entry.code,
+							parsedLocation: this.parseLocation(entry.location)
 						};
 					});
+					// Guaranteed path hits (tactica createsTypes): types this
+					// node's wrapped scopes provably construct at runtime —
+					// muscle-layer edges, rendered as the path-hit overlay
+					for (const e of edsEntries) {
+						const info = e as unknown as Record<string, unknown>;
+						const creates = info.createsTypes;
+						if (!Array.isArray(creates)) { continue; }
+						for (const target of creates) {
+							if (typeof target !== 'string' || !nodeMap.has(target)) { continue; }
+							const dedupeKey = `${node.id}→${target}`;
+							if (pathHitSeen.has(dedupeKey)) { continue; }
+							pathHitSeen.add(dedupeKey);
+							graphData.execflow.push({
+								source: node.id,
+								target,
+								kind: 'edsPathHit',
+								location: info.location as string | undefined,
+								code: info.code as string | undefined
+							});
+						}
+					}
 				} else {
 					node.edsStatus = 'none';
+				}
+			}
+
+			// Second pass: wrap entries whose scope is NOT a graph node
+			// (module scope, non-mnemonica classes — tactica keys them
+			// 'unknown' or by a foreign class name). Their createsTypes
+			// knowledge is still guaranteed, but there is no source node
+			// to draw a path-hit edge FROM — surface them on the CREATED
+			// type's tooltip instead of dropping them silently.
+			const d3ById = new Map(graphData.nodes.map((n) => [n.id, n]));
+			const externalSeen = new Set<string>();
+			for (const [scope, scopeEntries] of eds.entries()) {
+				if (nodeMap.has(scope)) { continue; }
+				for (const e of scopeEntries) {
+					const info = e as unknown as Record<string, unknown>;
+					const creates = info.createsTypes;
+					if (!Array.isArray(creates)) { continue; }
+					for (const target of creates) {
+						if (typeof target !== 'string') { continue; }
+						const targetNode = d3ById.get(target);
+						if (!targetNode) { continue; }
+						const location = info.location as string | undefined;
+						const dedupeKey = `${target}←${scope}@${location ?? ''}`;
+						if (externalSeen.has(dedupeKey)) { continue; }
+						externalSeen.add(dedupeKey);
+						const row = {
+							kind     : (info.kind as string) ?? 'wrap',
+							location : location ?? '',
+							code     : (info.code as string) ?? '',
+							scope,
+							parsedLocation : location ? this.parseLocation(location) : undefined
+						};
+						targetNode.edsEntries = targetNode.edsEntries ?? [];
+						targetNode.edsEntries.push(row);
+						if (!targetNode.edsStatus || targetNode.edsStatus === 'none') {
+							targetNode.edsStatus = this.mapEDSKind(row.kind);
+						}
+					}
 				}
 			}
 		}

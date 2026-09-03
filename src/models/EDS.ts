@@ -9,6 +9,9 @@ export type rawEDSEntry = {
 	kind: string;
 	code: string;
 	targetType?: string;
+	scope?: string;
+	via?: string;
+	createsTypes?: string[];
 };
 
 export type EDSEntryInstance = InstanceType<typeof EDSEntry>;

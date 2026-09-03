@@ -108,13 +108,21 @@ console.log('Test 5: result carries the freshly-accepted edges (B1.5 panel push)
 	const first = orchestrator.ingestTrace([edge(1), edge(2)]);
 	assert.strictEqual(first.edges.length, 2, 'accepted edges returned for forwarding');
 	assert.strictEqual(first.edges[1].id, 2);
-	// Replays are deduped out of the forwarded set too
-	const second = orchestrator.ingestTrace([edge(2), edge(3)]);
-	assert.strictEqual(second.edges.length, 1, 'replays are not forwarded');
-	assert.strictEqual(second.edges[0].id, 3);
+	// Re-published ids still in the ring are lifecycle completions
+	// (leave/settle, 2026-09-01): upserted in place AND forwarded, so the
+	// panel and the Live Trace tree see the completion, not just arrivals
+	const completion = Object.assign(edge(2), { status: 'ok', duration: 5 });
+	const second = orchestrator.ingestTrace([completion, edge(3)]);
+	assert.strictEqual(second.accepted, 1, 'only the genuinely new edge is new');
+	assert.strictEqual(second.updated, 1, 'the re-published id merged');
+	assert.strictEqual(second.edges.length, 2, 'completions forward alongside arrivals');
+	assert.strictEqual(second.edges[0].id, 2, 'the merged edge rides first');
+	const state = orchestrator.getTraceState(3);
+	const merged = state.latest.find(e => e.id === 2);
+	assert.strictEqual(merged.duration, 5, 'buffered copy carries the completion');
 	const empty = orchestrator.ingestTrace(undefined);
 	assert.deepStrictEqual(empty.edges, [], 'malformed input forwards nothing');
-	console.log('  ✓ accepted edges ride the result');
+	console.log('  ✓ accepted + completed edges ride the result');
 }
 
 console.log('Test 6: trace mode lineage + mid-flight continuation');
@@ -159,6 +167,48 @@ console.log('Test 7: trace/reset wipes buffer and watermark (source restart)');
 	const fresh = orchestrator.ingestTrace([edge(1), edge(2)]);
 	assert.strictEqual(fresh.accepted, 2, 'the restarted source lands after reset');
 	console.log('  ✓ reset re-opens the channel for a restarted source');
+}
+
+console.log('Test 8: session tag auto-wipes on source restart (VACUUM rule)');
+{
+	const orchestrator = new MainOrchestrator('0.0.0-test');
+	orchestrator.ingestTrace([edge(1), edge(2), edge(3)], 'pid-100');
+
+	// same session: dedup only, never a wipe
+	const same = orchestrator.ingestTrace([edge(2), edge(4)], 'pid-100');
+	assert.strictEqual(same.sessionReset, false);
+	assert.strictEqual(same.accepted, 1, 'only the genuinely new edge lands');
+
+	// a NEW session marker: the source process restarted, its ids
+	// restarted from 1 — wipe first, then land them
+	const restarted = orchestrator.ingestTrace([edge(1), edge(2)], 'pid-200');
+	assert.strictEqual(restarted.sessionReset, true);
+	assert.strictEqual(restarted.dropped, 4, 'the wipe reports what it dropped');
+	assert.strictEqual(restarted.accepted, 2, 'restarted ids land immediately');
+
+	// untagged batches keep the old explicit-reset behavior
+	const untagged = orchestrator.ingestTrace([edge(3)]);
+	assert.strictEqual(untagged.sessionReset, false);
+	assert.strictEqual(untagged.accepted, 1);
+	console.log('  ✓ session change auto-wipes; same/untagged sessions do not');
+}
+
+console.log('Test 9: by-root lineage isolates exactly one trace');
+{
+	const orchestrator = new MainOrchestrator('0.0.0-test');
+	orchestrator.ingestTrace([edge(1), edge(2), edge(3)]);
+	const root2 = Object.assign(edge(10), { parentId: null, instanceType: 'Other' });
+	const child2 = Object.assign(edge(11), { parentId: 10, instanceType: 'Other' });
+	orchestrator.ingestTrace([root2, child2]);
+
+	const byRoot = orchestrator.getTraceLineageByRoot(10);
+	assert.ok(byRoot, 'root resolves');
+	assert.strictEqual(byRoot.selectedId, 10);
+	assert.deepStrictEqual(byRoot.edges.map(e => e.id), [10, 11], 'only this trace — no cross-contamination from the 1→3 chain');
+
+	const missing = orchestrator.getTraceLineageByRoot(999);
+	assert.strictEqual(missing, null, 'unknown root resolves to null');
+	console.log('  ✓ by-root lineage is exact');
 }
 
 console.log('\n=== All Tests Passed ===');

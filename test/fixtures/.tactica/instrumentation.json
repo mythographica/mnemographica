@@ -1,0 +1,30 @@
+{
+	"version": 1,
+	"generatedAt": "2026-09-03T00:00:00.000Z",
+	"points": [
+		{
+			"kind": "pipe",
+			"className": "ValidationPipe",
+			"location": "/fixture/src/user.controller.ts:49:2",
+			"code": "@UsePipes(new ValidationPipe({ transform: true }))",
+			"scope": "method:UserController.createUser",
+			"targets": ["UserController"]
+		},
+		{
+			"kind": "interceptor",
+			"className": "MarkInterceptor",
+			"location": "/fixture/src/mark.interceptor.ts:18:14",
+			"code": "@Injectable()",
+			"scope": "global",
+			"targets": []
+		},
+		{
+			"kind": "middleware",
+			"className": "CornerCutMiddleware",
+			"location": "/fixture/src/corner-cut.middleware.ts:16:14",
+			"code": "@Injectable()",
+			"scope": "module",
+			"targets": ["chaos/corner_cut"]
+		}
+	]
+}

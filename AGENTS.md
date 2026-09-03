@@ -31,12 +31,21 @@ The extension helps AI agents:
    - Creates the four tree views, registers commands and file watchers
    - Starts the Strategy server, loads models via topologica
    - Owns `refreshTypeGraph()` — the single refresh path all watchers funnel into
+   - Registers a URI handler: `vscode://mnemonica.mnemographica/trace?root=N`
+     (exact dive root edge) or `?jaeger=<traceId>` (matches any ring edge's
+     OTEL traceId — robust when the true root predates the push window).
+     Jaeger's linkPatterns (strategy/tools/jaeger-ui.json) generate these
+     links from span tags, closing the Jaeger → Live Trace → 3D loop.
 
 2. **Registry** (`src/models/Registry.ts`) — the controller
    - The only model doing file I/O: `loadFromWorkspace()` reads `.tactica/*`
    - Types are loaded from `hierarchy.json` (structure, dot-joined fullPaths,
      1-based define()-site locations); property signatures are parsed from the
      generated `types.ts` bodies, the only place they exist
+   - `instrumentation.json` (NestJS lifecycle crossroads) loads through the
+     same stale guard as `eds.json` — a file older than `definitions.json`
+     is skipped. The `Instrumentation` model holds a FLAT points list
+     (`all()`), not a per-type Map
    - Other models (`Definitions`, `Types`, `Usages`, `EDS`, `Flow`, `Trie`) are
      pure data containers (`Map` wrappers with a nested `*Entry` subtype)
 
@@ -50,6 +59,30 @@ The extension helps AI agents:
      are skipped)
 
 4. **Tree view providers** (`src/views/`)
+   - `liveTraceTreeProvider.ts` — Live Trace: the trace ring grouped into
+     recent traces, FULLY MERGED by root name (2026-09-02): one
+     `[2][×49] name` group row (2 edges per trace, 49 such traces in the
+     ring) expanding to individual traces (`[2] #rootId` — exact-pick
+     while they're in the ring, fan-out capped at 100 with a "more in
+     Jaeger" overflow row), each expanding to per-edge code jumps;
+     click isolates the trace in the 3D panel AND reveals its tab.
+     Sort is tiered: UNKNOWN ERROR (errored trace with no create edge —
+     nothing to pin the failure to) > ERROR > healthy, newest-first
+     inside a tier. Single-trace names render directly, no nesting.
+     Identical sibling edges merge into one `label ×N` row (a request
+     loop chains the same callsite N times — N lines are noise). Errored
+     traces and edges render red (`errorForeground`); edges whose
+     `instanceSource` is `ambient` (dive's lastContext fallback) get a
+     `question` icon and a tooltip warning — the instance may belong to a
+     different flow. Row click isolates by rootId — name resolution can
+     bind to a DIFFERENT trace ending on the same type name. Context menu: "Replay Trace" (human-speed
+     re-walk of the lineage in 3D, ~650ms per edge, errored steps flash
+     red) and "Open in Jaeger" (rows whose edges carry an OTEL `traceId`
+     forwarded by strategy's push mapper; base URL overridable via
+     MNEMOGRAPHICA_JAEGER_URL). Replaced the Welcome placeholder
+     2026-09-01 — humans can't track a millisecond event stream, so the
+     sidebar collects it. Traces that aged out of the ring are Jaeger's
+     job — the ring is "now"
    - `treeProvider.ts` — Definitions section (define() sites) and Types section
      (generated aliases in types.ts)
    - `usagesTreeProvider.ts` — usages per selected type
@@ -62,6 +95,16 @@ The extension helps AI agents:
      retired 2026-08; the dormant 2D renderer remains in webview.js but is
      never entered). Loads d3/three from CDN, so it needs network access.
      The 2.5D Canvas panel was fully removed.
+   - **Two layer groups, one scene** (2026-09-03): type spheres live in
+     `typesGroup`; `instrumentationGroup` is the RESERVED slot for the
+     upcoming EDS/instrumentation layer (empty until tactica's walker
+     lands — the NestJS-heritage diamond graph built on the static
+     instrumentation.json v1 was reverted same day as unusable; see
+     `plans/graph-paradigm-shift-2026-09-03.md`). The "Layers" checkboxes
+     (Generation Distances panel) flip each group's `.visible`
+     independently — purely local, nothing posted to the host. THREE's
+     Raycaster does not skip invisible objects, so all four raycast sites
+     go through `firstVisibleIntersect()`.
 
 5. **Navigation providers** (`src/providers/`)
    - `definitionProvider.ts` — Ctrl+Click for `lookup('X')` and type identifiers;
@@ -77,14 +120,46 @@ The extension helps AI agents:
 7. **Strategy server** (`src/strategy/server.ts`)
    - MCP-shaped JSON-RPC over HTTP (9230) and WebSocket (9231)
    - Beyond the MCP tools, the WS channel carries two first-class
-     methods (B1.3 bidirectional envelope): `trace/ingest`
-     (`{ edges, source? }` — dive-trace deltas land on the `Main`
-     instance via the orchestrator, deduped and ring-bounded at 5000)
-     and `state/query` (`{ subject, sample? }` — subjects `server`,
-     `graph`, `trace`, `view`; `view` roundtrips into the 3D webview
-     for the live camera + focused node)
+     methods (B1.3 bidirectional envelope): `trace/ingest` and
+     `state/query`. `trace/ingest` (`{ edges, source? }` — dive-trace
+     deltas land on the `Main` instance via the orchestrator,
+     ring-bounded at 5000): dedup is monotonic per source process
+     EXCEPT lifecycle completions — `leave`/`settle` re-publish an edge
+     id already ingested via `enter`, and those are upserted in place
+     (status/duration/ts merge, counted as `updated`, still forwarded
+     to the panel and the Live Trace tree); without the upsert every
+     call edge would stay `running` forever. Trace mode resolution is
+     by rootId (`getTraceLineageByRoot`); the older name resolver
+     remains for the webview's own pick flow. In 3D trace mode, edges
+     whose status is `error` paint their sphere red (0xff2020) instead
+     of green, and the ambient flash lasts 5s (raised from 4s for human
+     perception). Live-flash distrust: edges whose `instanceSource` is
+     `ambient` advance the status counter but never flash a bulb —
+     attribution must be true or absent, never guessed. `state/query` (`{ subject, sample? }` — subjects
+     `server`, `graph`, `trace`, `view`; `view` roundtrips into the 3D
+     webview for the live camera + focused node)
    - **Bound to 127.0.0.1** — there is no auth,
      so it must never listen on a LAN interface
+
+7b. **Strategy tabs** (`src/webview/strategyPanel.ts`,
+   `src/webview/appChannelPanel.ts`, `src/strategy/processManager.ts`,
+   `src/strategy/appChannelClient.ts`)
+   - `mnemographica.openStrategyTab` ("Ψ Strategy MCP") spawns the
+     @mnemonica/strategy MCP server as a child process with
+     `STRATEGY_LOG_PORT` (default 9250, setting
+     `mnemographica.strategyLogPort`) and tees its stderr-mirrored log
+     socket into the panel; the child is disposed on deactivate.
+   - `mnemographica.openAppChannelTab` ("Ψ App Channel") connects
+     DIRECTLY to an app's embedded strategy WS channel: discovery via
+     `GET <mnemographica.appChannelDiscoveryUrl>` (default
+     `http://127.0.0.1:3000/strategy/channel`) or manual host/port/token,
+     then `trace/subscribe`; edges land on the orchestrator as source
+     `app-channel:<pid>`. No CDP anywhere on this path.
+   - `WSSession` is loaded by **absolute path** from the resolved
+     package root, not via the package root export — that would pull the
+     MCP SDK into the extension host. (In the `file:`-dep era the symlink
+     realpath also escaped the extension's module root; the dep is a
+     registry install now.)
 
 8. **Topologica bootstrap** (`src/topologica/bootstrap.ts`)
    - Loads compiled models from `out/src/models`, self-defining all mnemonica types
@@ -162,6 +237,7 @@ npm test           # pretest (compile + lint) + node test/*.test.js
 Automated (plain node, no VS Code host):
 - `test/registry-loading.test.js` — Registry + fixtures, incl. the
   `clear()`/reload regression (getter-only properties used to break refresh)
+  and the instrumentation.json load/clear pins (Tests 18–19)
 - `test/types-model.test.js` — Types model as pure data container
 - `test/types-parser.test.js` — types.ts alias/parent regex against the repo's
   own `.tactica/types.ts`
@@ -172,7 +248,7 @@ The fixtures live in `test/fixtures/.tactica/` and mirror real tactica output
 Manual testing:
 1. Press `F5` to launch extension host
 2. Open a project with `.tactica/` generated by a current tactica
-3. Explore the Mnemonica activity bar views (Welcome, Usages, Types, Flow, By Generation)
+3. Explore the Mnemonica activity bar views (Live Trace, Usages, Types, Flow, By Generation)
 
 ## Agent Automation (CDP)
 
@@ -212,14 +288,18 @@ Notes, all hard-won:
   implements `getParent` and items carry stable `id`s.
 - Kill the instance when a debugging bout ends — a parked VS Code burns
   CPU and the laptop fan (owner's hardware-conservation rule).
+- SIGKILLed VS Code leaves orphaned `dconf watch /system/proxy/` children
+  holding the devtools ports via fd inheritance — sweep with
+  `pkill -f "dconf watc[h] /system/proxy"` (bracket pattern avoids
+  self-matching).
 
 ## File Structure
 
 ```
 src/
 ├── extension.ts          # Main extension entry
-├── activityBar.ts        # Welcome webview view (inline HTML, CSP'd)
 ├── webview/panel.ts      # 3D graph panel (renderer: media/webview.js, CDN libs)
+├── webview/              # + strategyPanel.ts / appChannelPanel.ts — the two Ψ tabs
 ├── commands/             # Command registrations (navigation, tree, utility, workspace)
 ├── core/
 │   ├── MainOrchestrator.ts  # Owns Registry instance + StateManager + GraphData
@@ -230,7 +310,9 @@ src/
 ├── models/               # Pure mnemonica data types (Registry is the controller)
 ├── providers/            # Definition (Ctrl+Click) and Reference (Shift+F12)
 ├── services/             # LoggerService, NavigationAdapter
-├── strategy/             # Experimental MCP-shaped server (127.0.0.1 only)
+├── strategy/             # MCP-shaped server (127.0.0.1 only), processManager
+│                         # (spawn strategy child + log socket), appChannelClient
+│                         # (direct WS to an app's embedded strategy channel)
 ├── topologica/           # Model bootstrap loader
 ├── types/
 │   ├── index.ts          # GraphData/D3Node/D3Link/D3ExecLink
@@ -244,6 +326,11 @@ src/
 - **@mnemonica/topologica**: Module loader that self-defines model types
 - **@mnemonica/tactica**: Type analysis (dev-time `.tactica` generation)
 - **ws**: Strategy server WebSocket transport
+- **@mnemonica/strategy**: registry dep (`^0.5.1`); provides `WSSession`
+  for the App Channel tab and the server binary spawned by the Strategy
+  tab. (Was `file:../strategy` until strategy 0.5.1 shipped — `vsce
+  package` does not follow `file:` symlinks, so a `.vsix` needs the
+  registry dep it now has.)
 
 ## VS Code API Usage
 

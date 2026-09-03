@@ -1,9 +1,9 @@
 import * as vscode from 'vscode';
-import { MnemonicaActivityBarProvider } from './activityBar';
 import { MnemonicaTreeProvider, MnemonicaTreeItem } from './views/treeProvider';
 import { UsagesTreeProvider, UsageTreeItem } from './views/usagesTreeProvider';
 import { FlowTreeProvider, FlowTreeItem } from './views/flowTreeProvider';
 import { GenTreeProvider, GenTreeItem } from './views/genTreeProvider';
+import { LiveTraceTreeProvider } from './views/liveTraceTreeProvider';
 import { MnemonicaDefinitionProvider } from './providers/definitionProvider';
 import { MnemonicaReferenceProvider } from './providers/referenceProvider';
 import { StrategyServer } from './strategy';
@@ -12,6 +12,9 @@ import { VSCodeNavigation } from './services/NavigationAdapter';
 import { loadModels, modelsLoaded } from './topologica/bootstrap';
 import { MainOrchestrator, traceEdge } from './core/MainOrchestrator';
 import { GraphPanel } from './webview/panel';
+import { StrategyPanel } from './webview/strategyPanel';
+import { AppChannelPanel } from './webview/appChannelPanel';
+import { stopStrategyProcess } from './strategy/processManager';
 import { registerNavigationCommands } from './commands/navigationCommands';
 import { registerTreeCommands } from './commands/treeCommands';
 import { registerUtilityCommands } from './commands/utilityCommands';
@@ -30,6 +33,7 @@ let referenceProvider: MnemonicaReferenceProvider;
 let strategyServer: StrategyServer;
 let statusBarItem: vscode.StatusBarItem;
 let mainOrchestrator: MainOrchestrator;
+let liveTraceProvider: LiveTraceTreeProvider;
 
 export function activate(context: vscode.ExtensionContext) {
 	// Initialize logger first so we can capture all subsequent logs
@@ -162,7 +166,12 @@ export function activate(context: vscode.ExtensionContext) {
 	logger.info('Navigation providers registered');
 
 	// Initialize and start Strategy MCP server
-	strategyServer = new StrategyServer(9230, 9231);
+	// Ports are env-overridable so a dev-host instance (headless verify,
+	// live demo) can run alongside a real window that already owns the
+	// defaults — EADDRINUSE here would silently disable trace ingestion.
+	const strategyPort = Number(process.env.MNEMOGRAPHICA_STRATEGY_PORT) || 9230;
+	const strategyWsPort = Number(process.env.MNEMOGRAPHICA_WS_PORT) || 9231;
+	strategyServer = new StrategyServer(strategyPort, strategyWsPort);
 	strategyServer.start().catch((err: Error) => {
 		logger.error('Failed to start Strategy server:', err);
 	});
@@ -184,15 +193,141 @@ export function activate(context: vscode.ExtensionContext) {
 	mainOrchestrator = new MainOrchestrator(context.extension.packageJSON.version || '0.1.0');
 	// The strategy server's trace-ingest/state-query read through it
 	strategyServer.setOrchestrator(mainOrchestrator);
+	// The App Channel tab's direct connection lands its edges the same way
+	AppChannelPanel.setOrchestrator(mainOrchestrator);
+	// The two reframe tabs: run/watch Strategy MCP, and connect directly to
+	// an app's self-hosted WS channel (no CDP, no strategy in the middle)
+	context.subscriptions.push(
+		vscode.commands.registerCommand('mnemographica.openStrategyTab', () => {
+			StrategyPanel.createOrShow();
+		}),
+		vscode.commands.registerCommand('mnemographica.openAppChannelTab', () => {
+			AppChannelPanel.createOrShow();
+		}),
+		{ dispose: () => stopStrategyProcess() }
+	);
 	// Trace mode (names-first tracing): the panel resolves lineages and
 	// mid-flight continuations through the orchestrator's ring
 	GraphPanel.setTraceResolver({
 		resolve  : (name: string) => mainOrchestrator.getTraceLineage(name),
+		resolveByRoot : (rootId: number) => mainOrchestrator.getTraceLineageByRoot(rootId),
 		continue : (rootId: number, edges: traceEdge[]) => {
 			const continuation = mainOrchestrator.getTraceContinuation(rootId, edges);
 			return continuation;
 		}
 	});
+
+	// Live Trace sidebar (2026-09-01, replaces the Welcome placeholder):
+	// the machine-speed stream collected into human-speed rows — one per
+	// recent trace, edge count up front, expandable to per-edge code jumps
+	liveTraceProvider = new LiveTraceTreeProvider(mainOrchestrator);
+	context.subscriptions.push(
+		vscode.window.createTreeView('mnemonicaLiveTrace', {
+			treeDataProvider: liveTraceProvider,
+			canSelectMany: false
+		})
+	);
+	context.subscriptions.push(
+		vscode.commands.registerCommand('mnemographica.showTrace', (data: { name: string; rootId?: number }) => {
+			// Isolate the trace in the 3D panel; open the panel first when
+			// it is not on screen yet
+			if (!GraphPanel.currentPanel) {
+				const graphData = mainOrchestrator.getGraphData();
+				if (graphData) {
+					GraphPanel.createOrShow(context.extensionUri, graphData);
+				}
+			}
+			// The panel's webview needs a tick to be message-ready after
+			// creation; the resolver read is instant, so defer the post
+			setTimeout(() => {
+				const opened = GraphPanel.openTraceMode(data.name, data.rootId);
+				if (!opened) {
+					logger.warn(`[LiveTrace] no trace lineage for '${data.name}'`);
+				}
+			}, 300);
+		}),
+		vscode.commands.registerCommand('mnemographica.replayTrace', (arg: { name?: string; rootId?: number; traceData?: { name: string; rootId: number } }) => {
+			// Replay (Wanted #5): same resolution as showTrace, then the
+			// webview re-walks the lineage at human speed. Context-menu
+			// invocations pass the tree ITEM — unwrap its traceData.
+			const data = arg && arg.traceData ? arg.traceData : arg as { name: string; rootId?: number };
+			if (!data || typeof data.name !== 'string') { return; }
+			if (!GraphPanel.currentPanel) {
+				const graphData = mainOrchestrator.getGraphData();
+				if (graphData) {
+					GraphPanel.createOrShow(context.extensionUri, graphData);
+				}
+			}
+			setTimeout(() => {
+				const replaying = GraphPanel.replayTrace(data.name, data.rootId);
+				if (!replaying) {
+					logger.warn(`[LiveTrace] no trace lineage to replay for '${data.name}'`);
+				}
+			}, 300);
+		}),
+		vscode.commands.registerCommand('mnemographica.openJaegerTrace', (arg: { traceId?: string; traceData?: { traceId: string | null } }) => {
+			// Wanted #2: Live Trace → Jaeger. The traceId rides each pushed
+			// edge (adapter records edgeId→traceId in-target)
+			const data = arg && arg.traceData ? arg.traceData : arg as { traceId?: string };
+			if (!data || typeof data.traceId !== 'string' || data.traceId.length === 0) {
+				return;
+			}
+			const base = process.env.MNEMOGRAPHICA_JAEGER_URL || 'http://localhost:16686';
+			void vscode.env.openExternal(vscode.Uri.parse(`${base}/trace/${data.traceId}`));
+		}),
+		vscode.commands.registerCommand('mnemographica.gotoTraceEdge', async (location: { filePath: string; line: number; column: number }) => {
+			// Locations are 1-based (tactica/dive callsite format) —
+			// VSCodeNavigation.goTo converts internally, never pre-decrement
+			try {
+				await VSCodeNavigation.goTo(location.filePath, location.line, location.column);
+			} catch (err) {
+				logger.error('Failed to navigate to:', location.filePath, err);
+			}
+		})
+	);
+	// Wanted #1: Jaeger → VS Code. Jaeger UI link patterns turn span tags
+	// into `vscode://mnemonica.mnemographica/trace?root=N` links; landing
+	// here focuses the Live Trace sidebar and isolates that trace in 3D.
+	context.subscriptions.push(vscode.window.registerUriHandler({
+		handleUri: (uri: vscode.Uri) => {
+			if (uri.path !== '/trace') {
+				return;
+			}
+			const params = new URLSearchParams(uri.query);
+			const groups = mainOrchestrator.getTraceGroups(50, 5000);
+			// Two jump styles: ?root=N (exact dive root edge) or
+			// ?jaeger=<traceId> (match any edge's OTEL traceId — robust
+			// when the true root predates the push subscription window)
+			type traceGroup = (typeof groups)[number];
+			let found: traceGroup | undefined;
+			const rootParam = Number(params.get('root'));
+			if (Number.isFinite(rootParam) && rootParam > 0) {
+				found = groups.find(g => g.rootId === rootParam);
+			}
+			const jaegerId = params.get('jaeger');
+			if (!found && jaegerId) {
+				found = groups.find(g => g.edges.some(e => e.traceId === jaegerId));
+			}
+			if (!found) {
+				logger.warn(`[LiveTrace] URI jump: no trace in the ring for ${uri.query}`);
+				return;
+			}
+			const group = found;
+			void vscode.commands.executeCommand('mnemonicaLiveTrace.focus');
+			if (!GraphPanel.currentPanel) {
+				const graphData = mainOrchestrator.getGraphData();
+				if (graphData) {
+					GraphPanel.createOrShow(context.extensionUri, graphData);
+				}
+			}
+			setTimeout(() => {
+				const opened = GraphPanel.openTraceMode(group.name, group.rootId);
+				if (!opened) {
+					logger.warn(`[LiveTrace] URI jump: no lineage for root #${group.rootId}`);
+				}
+			}, 300);
+		}
+	}));
 	// Reference provider reads usages from the orchestrator's Registry —
 	// no private disk copy (single load path, model audit)
 	referenceProvider.setOrchestrator(mainOrchestrator);
@@ -346,12 +481,6 @@ export function activate(context: vscode.ExtensionContext) {
 		logger.warn('No workspace folders found, skipping data load');
 	}
 
-	// Register Activity Bar webview provider
-	const activityBarProvider = new MnemonicaActivityBarProvider(context.extensionUri);
-	context.subscriptions.push(
-		vscode.window.registerWebviewViewProvider(MnemonicaActivityBarProvider.viewType, activityBarProvider)
-	);
-
 	// Create status bar item
 	statusBarItem = vscode.window.createStatusBarItem(
 		vscode.StatusBarAlignment.Right,
@@ -395,6 +524,7 @@ export function activate(context: vscode.ExtensionContext) {
 		usagesProvider,
 		flowProvider,
 		genProvider,
+		liveTraceProvider,
 		mainOrchestrator,
 		strategyServer
 	};

@@ -215,6 +215,25 @@ async function runTests() {
 	assert.strictEqual(reloadedTypes.size, 4, 'Should have 4 types after reload');
 	console.log('  ✓ Reload after clear works\n');
 
+	// Test 18: Instrumentation loaded (instrumentation.json, flat points list)
+	console.log('Test 18: Instrumentation loaded');
+	const instrumentation = testRegistry.getInstrumentation();
+	assert.ok(instrumentation, 'Instrumentation should be loaded');
+	assert.strictEqual(instrumentation.size, 3, 'Should have 3 instrumentation points');
+	const points = instrumentation.all();
+	assert.strictEqual(points[0].kind, 'pipe', 'First point should be a pipe');
+	assert.strictEqual(points[0].className, 'ValidationPipe', 'className should match');
+	assert.strictEqual(points[0].scope, 'method:UserController.createUser', 'scope should match');
+	assert.deepStrictEqual(points[1].targets, [], 'global interceptor has no targets');
+	console.log(`  ✓ Instrumentation loaded: ${instrumentation.size} points\n`);
+
+	// Test 19: clear() also drops instrumentation (the field must reset,
+	// or a refresh keeps stale points from the previous workspace)
+	console.log('Test 19: clear() resets instrumentation');
+	testRegistry.clear();
+	assert.strictEqual(testRegistry.getInstrumentation(), undefined, 'Instrumentation should be cleared');
+	console.log('  ✓ clear() resets instrumentation\n');
+
 	console.log('=== All Tests Passed ===');
 }
 

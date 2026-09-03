@@ -5,6 +5,8 @@ Type Hierarchy (Trie):
 │   └── EDS_EDSEntry
 ├── Flow
 │   └── Flow_FlowEntry
+├── Instrumentation
+│   └── Instrumentation_InstrumentationPoint
 ├── LoggerTab
 │   └── LoggerTab_LogEntry
 ├── Main

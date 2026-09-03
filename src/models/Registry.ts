@@ -4,13 +4,14 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { define, lookup } from 'mnemonica';
 import { getLogger } from '../services/LoggerService';
-import type { Definitions, Types, Usages, Trie, EDS, Flow } from '~tactica/types';
+import type { Definitions, Types, Usages, Trie, EDS, Flow, Instrumentation } from '~tactica/types';
 
 import type { rawDefinitionEntry } from './Definition';
 import type { rawTypeEntry } from './Types';
 import type { usage } from './Usages';
 import type { rawEDSEntry } from './EDS';
 import type { rawFlowEntry } from './Flow';
+import type { rawInstrumentationPoint } from './Instrumentation';
 
 export type registryEntry = {
 	id: string;
@@ -53,6 +54,7 @@ export const Registry = define('Registry', class {
 	private usagesInstance: Usages | undefined;
 	private edsInstance: EDS | undefined;
 	private flowInstance: Flow | undefined;
+	private instrumentationInstance: Instrumentation | undefined;
 	private trieInstance: Trie | undefined;
 
 	// Workspace path for reload operations
@@ -94,6 +96,7 @@ export const Registry = define('Registry', class {
 		this.usagesInstance = undefined;
 		this.edsInstance = undefined;
 		this.flowInstance = undefined;
+		this.instrumentationInstance = undefined;
 		this.trieInstance = undefined;
 		this.workspacePath = undefined;
 		this.logger.info('[Registry] : cleared all data');
@@ -130,6 +133,9 @@ export const Registry = define('Registry', class {
 
 			// Load Flow
 			await this.loadFlow(tacticaPath);
+
+			// Load Instrumentation (NestJS lifecycle crossroads, diamond graph)
+			await this.loadInstrumentation(tacticaPath);
 
 			// Initialize Trie (no file to load, just create instance)
 			await this.loadTrie();
@@ -437,6 +443,51 @@ export const Registry = define('Registry', class {
 	}
 
 	/**
+	 * Load Instrumentation from instrumentation.json using lookup
+	 */
+	private async loadInstrumentation(tacticaPath: string): Promise<void> {
+		this.logger.info('[Registry] : loading Instrumentation');
+
+		try {
+			const InstrumentationConstructor = lookup('Instrumentation');
+			const instrumentationInstance = new InstrumentationConstructor();
+			this.instrumentationInstance = instrumentationInstance;
+
+			const instrumentationPath = path.join(tacticaPath, 'instrumentation.json');
+			if (fs.existsSync(instrumentationPath)) {
+				const content = fs.readFileSync(instrumentationPath, 'utf-8');
+				const data = JSON.parse(content);
+
+				// Same stale guard as eds.json: a file older than
+				// definitions.json belongs to a previous analysis pass.
+				if (data.generatedAt) {
+					const definitionsPath = path.join(tacticaPath, 'definitions.json');
+					if (fs.existsSync(definitionsPath)) {
+						const definitionsData = JSON.parse(fs.readFileSync(definitionsPath, 'utf-8'));
+						if (definitionsData.generatedAt && data.generatedAt < definitionsData.generatedAt) {
+							this.logger.warn('[Registry] : instrumentation.json is older than definitions.json — skipping as stale');
+							return;
+						}
+					}
+				}
+
+				if (Array.isArray(data.points)) {
+					const entries = (data.points as rawInstrumentationPoint[]).map((p: rawInstrumentationPoint) => {
+						return new instrumentationInstance.InstrumentationPoint(p);
+					});
+					instrumentationInstance.set(entries);
+				}
+				this.logger.info(`[Registry] : Instrumentation loaded with ${instrumentationInstance.size} points`);
+			} else {
+				this.logger.warn(`[Registry] : instrumentation.json not found at ${instrumentationPath}`);
+			}
+		} catch (error) {
+			this.logger.error('[Registry] : failed to load Instrumentation', error);
+			throw error;
+		}
+	}
+
+	/**
 	 * Initialize Trie using lookup
 	 */
 	private async loadTrie(): Promise<void> {
@@ -486,6 +537,13 @@ export const Registry = define('Registry', class {
 	 */
 	getFlow(): Flow | undefined {
 		return this.flowInstance;
+	}
+
+	/**
+	 * Get the Instrumentation instance
+	 */
+	getInstrumentation(): Instrumentation | undefined {
+		return this.instrumentationInstance;
 	}
 
 	/**

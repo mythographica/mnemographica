@@ -21,9 +21,16 @@ export const Main = define('Main', function (
 			duration: number | null;
 			ts: number;
 			instanceType: string | null;
+			instanceSource?: 'explicit' | 'ambient' | null;
 		}>;
 		traceLastId: number;
 		traceReceivedTotal: number;
+		// Source session marker (2026-08-30): pushers tag each ingest
+		// batch with the target's identity (pid). A CHANGED marker means
+		// the source process restarted — its edge ids restart from 1 and
+		// the monotonic dedup would drop them all, so ingestTrace
+		// auto-wipes first (VACUUM rule, Viktor 2026-08-30).
+		traceSession: string | undefined;
 	},
 	extensionVersion: string
 ) {
@@ -32,6 +39,7 @@ export const Main = define('Main', function (
 	this.traceBuffer = [];
 	this.traceLastId = 0;
 	this.traceReceivedTotal = 0;
+	this.traceSession = undefined;
 });
 
 export const Adapter = Main.define('Adapter', function (

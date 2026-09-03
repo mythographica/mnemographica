@@ -52,6 +52,24 @@
 		return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 	}
 
+	// THREE's Raycaster does not skip invisible objects — walk the parent
+	// chain so meshes inside a hidden layer group stop taking clicks
+	function firstVisibleIntersect(intersects) {
+		for (const hit of intersects) {
+			let obj = hit.object;
+			let visible = true;
+			while (obj) {
+				if (obj.visible === false) {
+					visible = false;
+					break;
+				}
+				obj = obj.parent;
+			}
+			if (visible) return hit;
+		}
+		return null;
+	}
+
 	const vscode = acquireVsCodeApi();
 	vscodeRef = vscode;
 	let simulation = null;
@@ -305,7 +323,13 @@
 					if (targetName) {
 						liveTraceLast = targetName;
 						liveTraceNames.add(targetName);
-						if (is3D && renderer3D) {
+						// dive >= 0.8.3: 'ambient' attribution is the
+						// newest-wins lastContext fallback — possibly a
+						// FOREIGN flow's instance. Count it (the stream is
+						// alive) but never light a bulb on ambient alone:
+						// attribution must be true or absent, never guessed.
+						const ambient = edge.instanceSource === 'ambient';
+						if (!ambient && is3D && renderer3D) {
 							renderer3D.flashTraceNode(targetName);
 						}
 					}
@@ -330,6 +354,17 @@
 			const data = message.data || {};
 			if (is3D && renderer3D && renderer3D.traceMode && Array.isArray(data.edges)) {
 				renderer3D.extendTraceMode(data.edges);
+				updateStatusLine();
+			}
+		}
+
+		if (message.command === 'traceReplay') {
+			// Replay (Wanted #5): isolate the trace, then re-walk its
+			// spheres at human speed
+			const data = message.data || {};
+			if (is3D && renderer3D && Array.isArray(data.edges)) {
+				renderer3D.enterTraceMode(data.edges, data.name);
+				renderer3D.replayTrace(data.edges);
 				updateStatusLine();
 			}
 		}
@@ -592,6 +627,17 @@
 				.join('<br>');
 			const genLabel = d.depth === 0 ? 'Root' : 'Gen ' + d.depth;
 			const edsLabel = d.edsStatus && d.edsStatus !== 'none' ? ' · ' + d.edsStatus : '';
+			const edsEntries = d.edsEntries || [];
+			const edsRows = edsEntries.map(function (e, i) {
+				const site = e.parsedLocation;
+				const siteHint = site ? ' ' + site.fileName.split('/').pop() + ':' + site.line : '';
+				// External scope = the wrap site lives outside the type graph
+				// (module scope or a non-mnemonica class); 'unknown' is
+				// tactica's module-scope key.
+				const scopeHint = e.scope ? ' [' + (e.scope === 'unknown' ? 'module' : e.scope) + ']' : '';
+				return '<span class="eds-entry" data-eds-index="' + i + '" style="cursor:pointer;text-decoration:underline">' +
+					e.kind + siteHint + scopeHint + '</span>';
+			}).join('<br>');
 			const loc = d.definitionLocation || d.location;
 			const fileHint = loc ? '<br><span style="opacity:0.6;font-size:11px">' + loc.fileName.split('/').pop() + ':' + loc.line + '</span>' : '';
 			tooltip
@@ -600,9 +646,23 @@
 				.html('<strong>' + d.name + '</strong><span style="float:right;opacity:0.5">' + genLabel + edsLabel + '</span>' +
 					fileHint +
 					(props ? '<hr>' + props : '') +
+					(edsRows ? '<hr>' + edsRows : '') +
 					'<br><span style="opacity:0.5;font-size:11px">Double-click to go to definition</span>')
 				.style('left', (event.pageX + 10) + 'px')
 				.style('top', (event.pageY - 10) + 'px');
+
+			// Jump to the EDS (wrap/consume/hook) site on entry click
+			tooltip.selectAll('.eds-entry').on('click', function (event) {
+				event.stopPropagation();
+				const entry = edsEntries[+this.getAttribute('data-eds-index')];
+				if (entry && entry.parsedLocation) {
+					d3.select('#tooltip').classed('visible', false);
+					vscode.postMessage({
+						command: 'goToDefinition',
+						data: entry.parsedLocation
+					});
+				}
+			});
 		});
 
 		// Double-click on node - go to definition (prefer actual define() site)
@@ -803,8 +863,45 @@
 
 		// Create generation distance controls
 		createGenControls(data, renderer3D);
+		createLayerControls(renderer3D);
 
 		debugLog('[Mnemonica] 3D Graph rendered successfully', 'log');
+	}
+
+	/**
+		* Create the layer toggles — types (spheres) and the reserved
+		* instrumentation slot switch on/off independently, purely local
+		* to the webview (nothing posted to the extension host)
+		*/
+	function createLayerControls(renderer) {
+		const container = document.getElementById('layer-controls-list');
+		if (!container || !renderer) return;
+		container.innerHTML = '';
+
+		const layers = [
+			{ key: 'types', label: 'types', getGroup: () => renderer.typesGroup },
+			{ key: 'instrumentation', label: 'instrumentation ◆', getGroup: () => renderer.instrumentationGroup }
+		];
+		layers.forEach(layer => {
+			const row = document.createElement('div');
+			row.className = 'gen-control-row';
+
+			const label = document.createElement('label');
+			label.className = 'gen-control-label';
+			const checkbox = document.createElement('input');
+			checkbox.type = 'checkbox';
+			checkbox.checked = true;
+			checkbox.onchange = function () {
+				const group = layer.getGroup();
+				if (group) {
+					group.visible = checkbox.checked;
+				}
+			};
+			label.appendChild(checkbox);
+			label.appendChild(document.createTextNode(' ' + layer.label));
+			row.appendChild(label);
+			container.appendChild(row);
+		});
 	}
 
 	/**
@@ -1013,6 +1110,15 @@
 			this.container = container;
 			this.nodeMeshes = new Map();
 			this.linkLines = [];
+			// EDS path-hit overlay (createsTypes): guaranteed runtime paths
+			// from a wrapped scope to the types it constructs
+			this.pathHitLines = [];
+			// Layer groups for the two toggles — visibility is read by
+			// the raycast filter too, so hidden layers are not clickable.
+			// instrumentationGroup is the reserved slot for the upcoming
+			// EDS/instrumentation layer (empty until that lands)
+			this.typesGroup = null;
+			this.instrumentationGroup = null;
 			this.animationId = null;
 			this.onNodeClick = null;
 			this.mouse = { x: 0, y: 0 };
@@ -1037,9 +1143,20 @@
 			// Focus animation state (sidebar click → rotate/zoom to node)
 			this.focusAnim = null;
 			this.focusedMesh = null;
-			// Live trace flashes (B1.5): mesh → expiry timestamp for the
-			// cyan pulse fired when a dive-trace edge names this node
+			// Live trace flashes (B1.5, retuned 2026-09-01 for human
+			// perception): mesh → expiry timestamp for the fire-red pulse
+			// fired when a dive-trace edge names this node. 4s decay +
+			// scale kick — a 1.2s cyan tint was below the threshold a
+			// human can notice (Viktor: sub-250ms events are invisible,
+			// small hue shifts don't register; shape change does)
 			this.traceFlashes = new Map();
+			// Replay (2026-09-01, Wanted #5): a stored trace re-walked at
+			// human speed — one flash per edge, ~650ms apart, green for ok
+			// and red for errored steps. Unlike ambient flashes these stay
+			// VISIBLE in trace mode: the replay runs against the isolated
+			// lineage. { mesh → { expiry, color } }
+			this.replayFlashes = new Map();
+			this.replayTimer = null;
 			// Trace mode (names-first tracing, 2026-08-30): while set,
 			// the isolated lineage stays green, everything else dimmed,
 			// ambient flashes suppressed. { names, meshes, links,
@@ -1144,11 +1261,12 @@
 				this.raycaster.setFromCamera(this.mouseVector, this.camera);
 				const intersects = this.raycaster.intersectObjects(Array.from(this.nodeMeshes.values()));
 
-				if (intersects.length > 0) {
-					this.draggedNode = intersects[0].object;
+				const dragHit = firstVisibleIntersect(intersects);
+				if (dragHit) {
+					this.draggedNode = dragHit.object;
 					this.draggedNode.userData.isDragging = true;
 					// Store the intersection point offset from node center
-					const intersectPoint = intersects[0].point;
+					const intersectPoint = dragHit.point;
 					this.dragOffset = new THREE.Vector3().subVectors(
 						this.draggedNode.position,
 						intersectPoint
@@ -1274,8 +1392,9 @@
 				this.mouseVector.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
 				this.raycaster.setFromCamera(this.mouseVector, this.camera);
 				const intersects = this.raycaster.intersectObjects(Array.from(this.nodeMeshes.values()));
-				if (intersects.length > 0) {
-					const node = intersects[0].object.userData.node;
+				const clickHit = firstVisibleIntersect(intersects);
+				if (clickHit) {
+					const node = clickHit.object.userData.node;
 					if (node) {
 						if (liveTraceNames.has(node.name) && vscodeRef) {
 							// Sphere with live trace activity: single click
@@ -1309,8 +1428,9 @@
 				this.mouseVector.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
 				this.raycaster.setFromCamera(this.mouseVector, this.camera);
 				const intersects = this.raycaster.intersectObjects(Array.from(this.nodeMeshes.values()));
-				if (intersects.length > 0) {
-					const node = intersects[0].object.userData.node;
+				const dblHit = firstVisibleIntersect(intersects);
+				if (dblHit) {
+					const node = dblHit.object.userData.node;
 					if (node) {
 						this.handleNodeDoubleClick3D(node, e);
 					}
@@ -1607,58 +1727,148 @@
 		flashTraceNode(name) {
 			const target = this.findMeshByName(name);
 			if (!target) return;
-			this.traceFlashes.set(target, performance.now() + 1200);
+			this.traceFlashes.set(target, performance.now() + Graph3DRenderer.FLASH_MS);
 		}
+
+		// Fire-red, well above the cyan/calm palette of the rest of the
+		// scene, and long enough to catch a human eye
+		static get FLASH_COLOR() { return 0xff3300; }
+		static get FLASH_MS() { return 5000; }
 
 		updateTraceFlashes() {
 			if (this.traceMode) {
 				// Ambient flashes are monitoring noise; trace mode
-				// isolates ONE trace, so the pulses go quiet
+				// isolates ONE trace, so the pulses go quiet. REPLAY
+				// flashes are the point of the mode — they keep running.
+				this.traceFlashes.forEach((expiry, mesh) => {
+					mesh.scale.setScalar(1);
+				});
 				this.traceFlashes.clear();
-				return;
+			} else {
+				this.decayFlashes(this.traceFlashes, false);
 			}
-			if (this.traceFlashes.size === 0) return;
+			this.decayFlashes(this.replayFlashes, true);
+		}
+
+		// Shared flash decay: ambient entries are plain expiries, replay
+		// entries are { expiry, color }. On expiry a mesh inside the open
+		// trace restores its TRACE color (the path stays lit), everything
+		// else returns to its base state.
+		decayFlashes(map, isReplay) {
+			if (map.size === 0) return;
 			const now = performance.now();
-			this.traceFlashes.forEach((expiry, mesh) => {
+			map.forEach((entry, mesh) => {
 				if (mesh === this.focusedMesh) {
 					// The focus pulse owns this mesh's emissive
-					this.traceFlashes.delete(mesh);
+					mesh.scale.setScalar(1);
+					map.delete(mesh);
 					return;
 				}
 				const node = mesh.userData.node;
 				const base = node && node.isRoot ? 0.3 : 0;
+				const expiry = isReplay ? entry.expiry : entry;
+				const color = isReplay ? entry.color : Graph3DRenderer.FLASH_COLOR;
 				const remaining = expiry - now;
 				if (remaining <= 0) {
+					const mode = this.traceMode;
+					if (mode && mode.meshes.indexOf(mesh) !== -1) {
+						const nodeName = node && node.name;
+						const errored = mode.erroredNames && nodeName && mode.erroredNames.has(nodeName);
+						mesh.material.emissive = new THREE.Color(errored
+							? Graph3DRenderer.TRACE_ERROR_COLOR
+							: Graph3DRenderer.TRACE_COLOR);
+						mesh.material.emissiveIntensity = 0.9;
+						mesh.scale.setScalar(1);
+						map.delete(mesh);
+						return;
+					}
 					// Roots carry a dark-red emissive by default — the
 					// flash overwrote the color, so restore it here
 					if (node && node.isRoot) {
 						mesh.material.emissive = new THREE.Color(0x8B0000);
 					}
 					mesh.material.emissiveIntensity = base;
-					this.traceFlashes.delete(mesh);
+					mesh.scale.setScalar(1);
+					map.delete(mesh);
 					return;
 				}
-				mesh.material.emissive = new THREE.Color(0x40c0ff);
-				mesh.material.emissiveIntensity = base + 0.9 * (remaining / 1200);
+				const life = remaining / Graph3DRenderer.FLASH_MS;
+				mesh.material.emissive = new THREE.Color(color);
+				mesh.material.emissiveIntensity = base + 1.4 * life;
+				// Shape change, not just light: the sphere swells up to
+				// +40% at the hit and shrinks back as the flash decays
+				mesh.scale.setScalar(1 + 0.4 * life);
 			});
 		}
 
-		// Green for the isolated trace path; distinct from the cyan
-		// ambient flash and the gold focus pulse
+		// Replay a stored trace at human speed (Wanted #5): walk the
+		// lineage in ring (= chronological) order, one flash per edge,
+		// ~650ms apart — the original events run at machine speed, which
+		// no human can follow. Errored steps flash red. Callers usually
+		// enter trace mode first so the replay walks the isolated path.
+		replayTrace(edges) {
+			this.cancelReplay();
+			const steps = [];
+			for (const edge of edges) {
+				if (!edge || typeof edge !== 'object') continue;
+				const nm = edge.instanceType || (typeof edge.name === 'string' ? edge.name : null);
+				if (!nm) continue;
+				steps.push({ name: nm, error: edge.status === 'error' });
+			}
+			let i = 0;
+			const step = () => {
+				if (i >= steps.length) {
+					this.replayTimer = null;
+					return;
+				}
+				const s = steps[i++];
+				const mesh = this.findMeshByName(s.name);
+				if (mesh) {
+					this.replayFlashes.set(mesh, {
+						expiry : performance.now() + Graph3DRenderer.FLASH_MS,
+						color  : s.error ? Graph3DRenderer.TRACE_ERROR_COLOR : Graph3DRenderer.TRACE_COLOR,
+					});
+				}
+				this.replayTimer = setTimeout(step, 650);
+			};
+			step();
+		}
+
+		cancelReplay() {
+			if (this.replayTimer) {
+				clearTimeout(this.replayTimer);
+				this.replayTimer = null;
+			}
+			this.replayFlashes.forEach((entry, mesh) => {
+				mesh.scale.setScalar(1);
+			});
+			this.replayFlashes.clear();
+		}
+
+		// Green for the isolated trace path; distinct from the fire-red
+		// ambient flash and the gold focus pulse. Edges that dive pinned
+		// with an error go red instead — the failure must be visible at
+		// a glance, not discoverable only by expanding the tree.
 		static get TRACE_COLOR() { return 0x40ff80; }
+		static get TRACE_ERROR_COLOR() { return 0xff2020; }
 
 		// Enter trace mode: isolate the resolved lineage — path spheres
-		// green, links between consecutive path nodes green, everything
-		// else dimmed. edges = lineage (root → … → descendants).
+		// green (red where an edge errored), links between consecutive
+		// path nodes green, everything else dimmed.
+		// edges = lineage (root → … → descendants).
 		enterTraceMode(edges, selectedName) {
 			this.exitTraceMode();
 			this.traceFlashes.clear();
 			this.setFocusedMesh(null);
 			const namesInOrder = [];
 			const seen = new Set();
+			const erroredNames = new Set();
 			for (const edge of edges) {
 				if (!edge || typeof edge !== 'object') continue;
 				const nm = edge.instanceType || (typeof edge.name === 'string' ? edge.name : null);
+				if (nm && edge.status === 'error') {
+					erroredNames.add(nm);
+				}
 				if (nm && !seen.has(nm)) {
 					seen.add(nm);
 					namesInOrder.push(nm);
@@ -1674,7 +1884,11 @@
 			this.nodeMeshes.forEach(mesh => {
 				const m = mesh.material;
 				if (inPath.has(mesh)) {
-					m.emissive = new THREE.Color(Graph3DRenderer.TRACE_COLOR);
+					const nodeName = mesh.userData.node && mesh.userData.node.name;
+					const errored = nodeName !== null && erroredNames.has(nodeName);
+					m.emissive = new THREE.Color(errored
+						? Graph3DRenderer.TRACE_ERROR_COLOR
+						: Graph3DRenderer.TRACE_COLOR);
 					m.emissiveIntensity = 0.9;
 				} else {
 					m.transparent = true;
@@ -1697,6 +1911,12 @@
 				dimmed.arrow.opacity = 0.15;
 				dimmed.arrow.needsUpdate = true;
 			}
+			// Path-hit overlay dims with the skeleton (shared material)
+			if (this.pathHitLines.length > 0) {
+				dimmed.pathHit = this.pathHitLines[0].line.material;
+				dimmed.pathHit.opacity = 0.1;
+				dimmed.pathHit.needsUpdate = true;
+			}
 			const links = [];
 			for (let i = 0; i < namesInOrder.length - 1; i++) {
 				this.highlightLinkBetween(namesInOrder[i], namesInOrder[i + 1], links);
@@ -1706,6 +1926,7 @@
 				meshes : meshes,
 				links  : links,
 				dimmed : dimmed,
+				erroredNames : erroredNames,
 				selectedName : selectedName || null
 			};
 		}
@@ -1738,6 +1959,23 @@
 		extendTraceMode(edges) {
 			const mode = this.traceMode;
 			if (!mode) return;
+			if (!mode.erroredNames) {
+				mode.erroredNames = new Set();
+			}
+			// Late completions: an edge entered green via 'enter' and now
+			// arrives errored via 'settle' — recolor the sphere it owns
+			for (const edge of edges) {
+				if (!edge || typeof edge !== 'object') continue;
+				if (edge.status !== 'error') continue;
+				const nm = edge.instanceType || (typeof edge.name === 'string' ? edge.name : null);
+				if (!nm || mode.erroredNames.has(nm)) continue;
+				mode.erroredNames.add(nm);
+				const mesh = this.findMeshByName(nm);
+				if (mesh) {
+					mesh.material.emissive = new THREE.Color(Graph3DRenderer.TRACE_ERROR_COLOR);
+					mesh.material.needsUpdate = true;
+				}
+			}
 			const newNames = [];
 			for (const edge of edges) {
 				if (!edge || typeof edge !== 'object') continue;
@@ -1753,7 +1991,9 @@
 					const m = mesh.material;
 					m.transparent = false;
 					m.opacity = 1;
-					m.emissive = new THREE.Color(Graph3DRenderer.TRACE_COLOR);
+					m.emissive = new THREE.Color(mode.erroredNames.has(nm)
+						? Graph3DRenderer.TRACE_ERROR_COLOR
+						: Graph3DRenderer.TRACE_COLOR);
 					m.emissiveIntensity = 0.9;
 					m.needsUpdate = true;
 					if (mesh.userData.label) {
@@ -1774,6 +2014,7 @@
 		exitTraceMode() {
 			const mode = this.traceMode;
 			if (!mode) return;
+			this.cancelReplay();
 			const inPath = new Set(mode.meshes);
 			this.nodeMeshes.forEach(mesh => {
 				const m = mesh.material;
@@ -1810,6 +2051,10 @@
 				mode.dimmed.arrow.transparent = false;
 				mode.dimmed.arrow.opacity = 1;
 				mode.dimmed.arrow.needsUpdate = true;
+			}
+			if (mode.dimmed.pathHit) {
+				mode.dimmed.pathHit.opacity = 0.5;
+				mode.dimmed.pathHit.needsUpdate = true;
 			}
 			this.traceMode = null;
 		}
@@ -1972,8 +2217,9 @@
 			});
 
 			// Highlight hovered only (no tooltip)
-			if (intersects.length > 0) {
-				const mesh = intersects[0].object;
+			const hoverHit = firstVisibleIntersect(intersects);
+			if (hoverHit) {
+				const mesh = hoverHit.object;
 				mesh.material.emissiveIntensity = 0.5;
 				this.container.style.cursor = 'pointer';
 			} else {
@@ -1993,20 +2239,43 @@
 				const props = (node.properties || [])
 					.map(p => p.name + ': ' + p.type)
 					.join('<br>');
+				const edsEntries = node.edsEntries || [];
+				const edsRows = edsEntries.map((e, i) => {
+					const site = e.parsedLocation;
+					const siteHint = site ? ' ' + site.fileName.split('/').pop() + ':' + site.line : '';
+					// Same external-scope marker as the 2D tooltip above.
+					const scopeHint = e.scope ? ' [' + (e.scope === 'unknown' ? 'module' : e.scope) + ']' : '';
+					return '<span class="eds-entry" data-eds-index="' + i + '" style="cursor:pointer;text-decoration:underline">' +
+						e.kind + siteHint + scopeHint + '</span>';
+				}).join('<br>');
 				tooltip
 					.attr('data-node-id', node.id)
 					.classed('visible', true)
 					.html('<strong>' + node.name + '</strong><br>' +
 						'<em>depth: ' + node.depth + '</em><br>' +
-						(props ? '<hr>' + props : ''))
+						(props ? '<hr>' + props : '') +
+						(edsRows ? '<hr>' + edsRows : ''))
 					.style('left', (event.pageX + 10) + 'px')
 					.style('top', (event.pageY - 10) + 'px');
+
+				// Jump to the EDS (wrap/consume/hook) site on entry click
+				tooltip.selectAll('.eds-entry').on('click', (event) => {
+					event.stopPropagation();
+					const entry = edsEntries[+event.currentTarget.getAttribute('data-eds-index')];
+					if (entry && entry.parsedLocation) {
+						d3.select('#tooltip').classed('visible', false);
+						vscode.postMessage({
+							command: 'goToDefinition',
+							data: entry.parsedLocation
+						});
+					}
+				});
 			}
 		}
 
 		handleNodeDoubleClick3D(node, _event) {
 			// Double click - jump to definition
-			if (node.location && this.onNodeClick) {
+			if ((node.location || node.definitionLocation) && this.onNodeClick) {
 				this.onNodeClick(node);
 			}
 		}
@@ -2020,6 +2289,13 @@
 		 */
 		renderGraph(data) {
 			this.clear();
+
+			// Layer groups — the two "Layers" checkboxes flip their
+			// .visible; one scene, one camera, both rotate together
+			this.typesGroup = new THREE.Group();
+			this.instrumentationGroup = new THREE.Group();
+			this.scene.add(this.typesGroup);
+			this.scene.add(this.instrumentationGroup);
 
 			// Restore 3D coordinates if they exist
 			data.nodes.forEach(node => {
@@ -2221,7 +2497,7 @@
 				});
 			});
 
-			// Create node spheres
+			// Create node meshes — one sphere per type node
 			const sphereGeometry = new THREE.SphereGeometry(nodeRadius, 32, 32);
 
 			data.nodes.forEach(node => {
@@ -2237,14 +2513,19 @@
 					material.emissiveIntensity = 0.3;
 				}
 
-				const sphere = new THREE.Mesh(sphereGeometry, material);
-				sphere.position.set(node.x, node.y, node.z);
-				sphere.userData = { node };
+				const mesh = new THREE.Mesh(sphereGeometry, material);
+				mesh.position.set(node.x, node.y, node.z);
+				mesh.userData = { node };
 
-				this.addLabel(sphere, node.name);
+				this.addLabel(mesh, node.name);
 
-				this.scene.add(sphere);
-				this.nodeMeshes.set(node.id, sphere);
+				// addLabel attaches the sprite to the scene — re-parent it
+				// into the layer group so the toggle hides labels too
+				if (mesh.userData.label) {
+					this.typesGroup.add(mesh.userData.label);
+				}
+				this.typesGroup.add(mesh);
+				this.nodeMeshes.set(node.id, mesh);
 			});
 
 			// Create link lines - more visible
@@ -2265,13 +2546,34 @@
 				const positions = new Float32Array([0, 0, 0, 0, 0, 0]);
 				geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 				const line = new THREE.Line(geometry, lineMaterial);
-				this.scene.add(line);
+				this.typesGroup.add(line);
 
 				// Add arrowhead
 				const arrow = new THREE.Mesh(arrowGeometry, arrowMaterial);
-				this.scene.add(arrow);
+				this.typesGroup.add(arrow);
 
 				this.linkLines.push({ line, arrow, link });
+			});
+
+			// EDS path-hit edges (createsTypes): guaranteed runtime paths from
+			// a wrapped scope to the types it constructs. Thin cyan lines, no
+			// arrowheads — visually distinct from the inheritance skeleton.
+			const pathHitMaterial = new THREE.LineBasicMaterial({
+				color: 0x66ccff,
+				transparent: true,
+				opacity: 0.5
+			});
+			(data.execflow || []).forEach(edge => {
+				if (edge.kind !== 'edsPathHit') return;
+				const source = nodeMap.get(edge.source);
+				const target = nodeMap.get(edge.target);
+				if (!source || !target) return;
+				const geometry = new THREE.BufferGeometry();
+				const positions = new Float32Array([0, 0, 0, 0, 0, 0]);
+				geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+				const line = new THREE.Line(geometry, pathHitMaterial);
+				this.typesGroup.add(line);
+				this.pathHitLines.push({ line, source, target });
 			});
 
 			// Update link positions
@@ -2279,6 +2581,16 @@
 		}
 
 		updateLinkPositions() {
+			this.pathHitLines.forEach(({ line, source, target }) => {
+				const positions = line.geometry.attributes.position.array;
+				positions[0] = source.x || 0;
+				positions[1] = source.y || 0;
+				positions[2] = source.z || 0;
+				positions[3] = target.x || 0;
+				positions[4] = target.y || 0;
+				positions[5] = target.z || 0;
+				line.geometry.attributes.position.needsUpdate = true;
+			});
 			this.linkLines.forEach(({ line, arrow, link }) => {
 				const positions = line.geometry.attributes.position.array;
 				const source = typeof link.source === 'object' ? link.source : null;
@@ -2421,28 +2733,58 @@
 			this.traceFlashes.clear();
 			this.traceMode = null;
 			this.nodeMeshes.forEach(mesh => {
-				// Remove label if exists
+				// Remove label if exists — meshes and labels live inside
+				// the layer groups now, so remove from the ACTUAL parent
+				// (scene.remove is a no-op for non-direct children)
 				if (mesh.userData.label) {
-					this.scene.remove(mesh.userData.label);
-					mesh.userData.label.material.map.dispose();
-					mesh.userData.label.material.dispose();
+					const label = mesh.userData.label;
+					if (label.parent) {
+						label.parent.remove(label);
+					}
+					label.material.map.dispose();
+					label.material.dispose();
 				}
-				this.scene.remove(mesh);
+				if (mesh.parent) {
+					mesh.parent.remove(mesh);
+				}
 				mesh.geometry.dispose();
 				mesh.material.dispose();
 			});
 			this.nodeMeshes.clear();
 
 			this.linkLines.forEach(({ line, arrow }) => {
-				this.scene.remove(line);
+				if (line.parent) {
+					line.parent.remove(line);
+				}
 				line.geometry.dispose();
 				if (arrow) {
-					this.scene.remove(arrow);
+					if (arrow.parent) {
+						arrow.parent.remove(arrow);
+					}
 					arrow.geometry.dispose();
 					arrow.material.dispose();
 				}
 			});
 			this.linkLines = [];
+
+			this.pathHitLines.forEach(({ line }) => {
+				if (line.parent) {
+					line.parent.remove(line);
+				}
+				line.geometry.dispose();
+				line.material.dispose();
+			});
+			this.pathHitLines = [];
+
+			// Layer groups are rebuilt by renderGraph
+			if (this.typesGroup) {
+				this.scene.remove(this.typesGroup);
+				this.typesGroup = null;
+			}
+			if (this.instrumentationGroup) {
+				this.scene.remove(this.instrumentationGroup);
+				this.instrumentationGroup = null;
+			}
 
 			if (this.simulation) {
 				this.simulation.stop();
