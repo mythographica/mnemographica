@@ -6,6 +6,28 @@
 
 import type { ProtoFlat } from 'mnemonica';
 
+export type Instrumentation = {
+	createdAt: number;
+	readonly size: void;
+	all: () => Array<Instrumentation_InstrumentationPoint>;
+	set: (points: Array<Instrumentation_InstrumentationPoint>) => void;
+	setCreationGraph: (graph: { nodes: Array<{ scopeId: string; name: string; kind: 'module' | 'function' | 'method' | 'arrow'; filePath: string; location: string; starter: boolean }>; edges: Array<{ caller: string; callee: string }>; anchors: Array<{ location: string; holderScopeId: string; typePath: string; constructorText?: string; rooted?: boolean; variable?: string; terminatedAt?: string }> }) => void;
+	getCreationGraph: () => { nodes: Array<{ scopeId: string; name: string; kind: 'module' | 'function' | 'method' | 'arrow'; filePath: string; location: string; starter: boolean }>; edges: Array<{ caller: string; callee: string }>; anchors: Array<{ location: string; holderScopeId: string; typePath: string; constructorText?: string; rooted?: boolean; variable?: string; terminatedAt?: string }> } | undefined;
+	hasCreationGraph: () => boolean;
+	clear: () => void;
+	InstrumentationPoint: new (data: { kind: string; className: string; location: string; code: string; scope: string; targets?: Array<string> }) => Instrumentation_InstrumentationPoint;
+};
+
+export type Instrumentation_InstrumentationPoint = ProtoFlat<Instrumentation, {
+	kind: string;
+	className: string;
+	location: string;
+	code: string;
+	scope: string;
+	targets?: Array<string>;
+	InstrumentationPoint: undefined;
+}>;
+
 export type Definitions = {
 	createdAt: number;
 	readonly size: number;
@@ -39,7 +61,7 @@ export type EDS = {
 	values: () => MapIterator<Array<EDS_EDSEntry>>;
 	entries: () => MapIterator<[string, Array<EDS_EDSEntry>]>;
 	clear: () => void;
-	EDSEntry: new (data: { typeName: string; location: string; kind: string; code: string; targetType?: string; scope?: string; via?: string; createsTypes?: Array<string> }) => EDS_EDSEntry;
+	EDSEntry: new (data: { typeName: string; location: string; kind: string; code: string; targetType?: string; scope?: string; via?: string; createsTypes?: Array<string>; label?: string; callbackScopeId?: string; instanceArg?: string; scopeId?: string; wrapsTypePath?: string }) => EDS_EDSEntry;
 };
 
 export type EDS_EDSEntry = ProtoFlat<EDS, {
@@ -51,6 +73,11 @@ export type EDS_EDSEntry = ProtoFlat<EDS, {
 	scope?: string;
 	via?: string;
 	createsTypes?: Array<string>;
+	label?: string;
+	callbackScopeId?: string;
+	instanceArg?: string;
+	scopeId?: string;
+	wrapsTypePath?: string;
 	EDSEntry: undefined;
 }>;
 
@@ -76,25 +103,6 @@ export type Flow_FlowEntry = ProtoFlat<Flow, {
 	context?: string;
 	targetType?: string;
 	FlowEntry: undefined;
-}>;
-
-export type Instrumentation = {
-	createdAt: number;
-	readonly size: void;
-	all: () => Array<Instrumentation_InstrumentationPoint>;
-	set: (points: Array<Instrumentation_InstrumentationPoint>) => void;
-	clear: () => void;
-	InstrumentationPoint: new (data: { kind: string; className: string; location: string; code: string; scope: string; targets?: Array<string> }) => Instrumentation_InstrumentationPoint;
-};
-
-export type Instrumentation_InstrumentationPoint = ProtoFlat<Instrumentation, {
-	kind: string;
-	className: string;
-	location: string;
-	code: string;
-	scope: string;
-	targets?: Array<string>;
-	InstrumentationPoint: undefined;
 }>;
 
 export type LoggerTab = {

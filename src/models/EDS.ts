@@ -12,6 +12,16 @@ export type rawEDSEntry = {
 	scope?: string;
 	via?: string;
 	createsTypes?: string[];
+	/** Label string literal of wrap(fn, …, 'label') when statically visible */
+	label?: string;
+	/** scopeId (scopes.json) of the wrapped callback's own scope */
+	callbackScopeId?: string;
+	/** Identifier passed as the instance/context argument */
+	instanceArg?: string;
+	/** scopeId of the scope holding the wrap call site */
+	scopeId?: string;
+	/** Mnemonica fullPath of the wrapped instance argument */
+	wrapsTypePath?: string;
 };
 
 export type EDSEntryInstance = InstanceType<typeof EDSEntry>;

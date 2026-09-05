@@ -1,0 +1,158 @@
+{
+  "version": "1.0",
+  "generatedAt": "2026-09-04T11:10:24.722Z",
+  "definitions": {
+    "Sentience": {
+      "name": "Sentience",
+      "location": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/index.ts:21:1",
+      "kind": "define",
+      "parent": null,
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Sentience.Consciousness": {
+      "name": "Consciousness",
+      "location": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/index.ts:20:1",
+      "kind": "define",
+      "parent": "Sentience",
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Sentience.Memory": {
+      "name": "Memory",
+      "location": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Memory/index.ts:23:1",
+      "kind": "define",
+      "parent": "Sentience",
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Sentience.Consciousness.Curiosity": {
+      "name": "Curiosity",
+      "location": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/Curiosity/index.ts:21:1",
+      "kind": "define",
+      "parent": "Sentience.Consciousness",
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Sentience.Consciousness.Empathy": {
+      "name": "Empathy",
+      "location": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/Empathy/index.ts:21:1",
+      "kind": "define",
+      "parent": "Sentience.Consciousness",
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Sentience.Consciousness.Sympathy": {
+      "name": "Sympathy",
+      "location": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/Sympathy/index.ts:21:1",
+      "kind": "define",
+      "parent": "Sentience.Consciousness",
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Sentience.Consciousness.Empathy.Gratitude": {
+      "name": "Gratitude",
+      "location": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/Empathy/Gratitude/index.ts:21:1",
+      "kind": "define",
+      "parent": "Sentience.Consciousness.Empathy",
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "UserEntity": {
+      "name": "UserEntity",
+      "location": "/code/mnemonica/tactica-nestjs/src/entities/user.entity.ts:15:14",
+      "kind": "define",
+      "parent": null,
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "UserEntity.UserResponse": {
+      "name": "UserResponse",
+      "location": "/code/mnemonica/tactica-nestjs/src/entities/user.entity.ts:31:6",
+      "kind": "define",
+      "parent": "UserEntity",
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "UserEntity.AdminEntity": {
+      "name": "AdminEntity",
+      "location": "/code/mnemonica/tactica-nestjs/src/entities/user.entity.ts:52:20",
+      "kind": "define",
+      "parent": "UserEntity",
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "UserEntity.AdminEntity.AdminResponse": {
+      "name": "AdminResponse",
+      "location": "/code/mnemonica/tactica-nestjs/src/entities/user.entity.ts:65:7",
+      "kind": "define",
+      "parent": "UserEntity.AdminEntity",
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "UserEntity.AdminEntity.SuperAdminEntity": {
+      "name": "SuperAdminEntity",
+      "location": "/code/mnemonica/tactica-nestjs/src/entities/user.entity.ts:82:26",
+      "kind": "define",
+      "parent": "UserEntity.AdminEntity",
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "UserEntity.AdminEntity.SuperAdminEntity.SuperAdminResponse": {
+      "name": "SuperAdminResponse",
+      "location": "/code/mnemonica/tactica-nestjs/src/entities/user.entity.ts:96:12",
+      "kind": "define",
+      "parent": "UserEntity.AdminEntity.SuperAdminEntity",
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "RootAsync": {
+      "name": "RootAsync",
+      "location": "/code/mnemonica/tactica-nestjs/src/entities/async.entity.ts:17:1",
+      "kind": "define",
+      "parent": null,
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "RootAsync.ResultFromDecorate": {
+      "name": "ResultFromDecorate",
+      "location": "/code/mnemonica/tactica-nestjs/src/entities/async.entity.ts:23:2",
+      "kind": "define",
+      "parent": "RootAsync",
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "SyncBase": {
+      "name": "SyncBase",
+      "location": "/code/mnemonica/tactica-nestjs/src/entities/async.entity.ts:34:1",
+      "kind": "define",
+      "parent": null,
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "SyncBase.SubAsync": {
+      "name": "SubAsync",
+      "location": "/code/mnemonica/tactica-nestjs/src/entities/async.entity.ts:38:2",
+      "kind": "define",
+      "parent": "SyncBase",
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "SyncBase.SubAsync.SubDecorate": {
+      "name": "SubDecorate",
+      "location": "/code/mnemonica/tactica-nestjs/src/entities/async.entity.ts:46:2",
+      "kind": "define",
+      "parent": "SyncBase.SubAsync",
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "EdsProbe": {
+      "name": "EdsProbe",
+      "location": "/code/mnemonica/tactica-nestjs/src/entities/eds-probe.entity.ts:16:18",
+      "kind": "define",
+      "parent": null,
+      "strictChain": true,
+      "blockErrors": false
+    }
+  }
+}

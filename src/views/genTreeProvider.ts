@@ -13,9 +13,22 @@ export class GenTreeItem extends vscode.TreeItem {
 		collapsibleState: vscode.TreeItemCollapsibleState = vscode.TreeItemCollapsibleState.None
 	) {
 		super(label, collapsibleState);
-		this.tooltip = `${id} (gen ${gen})`;
 		this.iconPath = new vscode.ThemeIcon(this.getIconForGen(gen));
 		if (nodeData) {
+			// Node row. The dot-joined id IS the define() chain — the
+			// parent path is the prefix. The immediate parent rides the
+			// row as description so "AdminEntity ← UserEntity" reads at
+			// a glance.
+			const parentPath = nodeData.id.includes('.')
+				? nodeData.id.slice(0, nodeData.id.lastIndexOf('.'))
+				: undefined;
+			const parentName = parentPath ? parentPath.split('.').pop() : undefined;
+			if (parentName) {
+				this.description = `← ${parentName}`;
+			}
+			this.tooltip = gen === 0 || !parentPath
+				? `${nodeData.id}\nRoot type — define() called directly on a types collection`
+				: `${nodeData.id}\nGeneration ${gen} — defined on ${parentPath}\n(define()-chain depth ${gen} from a root)`;
 			// Click rotates the 3D graph to the node when the graph is on
 			// screen; falls back to file jump when it is not
 			this.command = {
@@ -29,6 +42,14 @@ export class GenTreeItem extends vscode.TreeItem {
 					column: nodeData.location?.column
 				}]
 			};
+		} else if (id.startsWith('gen-')) {
+			// Group row: explain what a generation IS — the count alone
+			// ("Gen 2 (14)") says nothing about the grouping rule
+			this.tooltip = gen === 0
+				? 'Root types — define() called directly on a types collection, no parent type'
+				: `Generation ${gen} — types defined ${gen} define() step${gen === 1 ? '' : 's'} below a root (constructed from a Gen ${gen - 1} instance)`;
+		} else {
+			this.tooltip = `${id} (gen ${gen})`;
 		}
 	}
 

@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-09-03T12:16:17.194Z",
+  "generatedAt": "2026-09-05T01:20:24.296Z",
   "flow": {
     "LoggerService": [
       {
@@ -41,196 +41,286 @@
         "context": "arg 0 to push"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:211:19",
+        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:216:19",
         "kind": "passAsArg",
         "code": "kindCounts.get(entry.kind)",
         "targetType": "LoggerTab.LogEntry",
         "context": "arg 0 to get"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:211:34",
+        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:216:34",
         "kind": "propertyRead",
         "code": "entry.kind",
         "propertyName": "kind",
         "targetType": "LoggerTab.LogEntry"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:212:5",
+        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:217:5",
         "kind": "passAsArg",
         "code": "kindCounts.set(entry.kind, count + 1)",
         "targetType": "LoggerTab.LogEntry",
         "context": "arg 0 to set"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:212:20",
+        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:217:20",
         "kind": "propertyRead",
         "code": "entry.kind",
         "propertyName": "kind",
         "targetType": "LoggerTab.LogEntry"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:263:18",
+        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:268:18",
         "kind": "propertyRead",
         "code": "entry.propertyName",
         "propertyName": "propertyName",
         "targetType": "LoggerTab.LogEntry"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:264:11",
+        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:269:11",
         "kind": "propertyRead",
         "code": "entry.propertyName",
         "propertyName": "propertyName",
         "targetType": "LoggerTab.LogEntry"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:265:8",
+        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:270:8",
         "kind": "propertyRead",
         "code": "entry.context",
         "propertyName": "context",
         "targetType": "LoggerTab.LogEntry"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:265:25",
+        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:270:25",
         "kind": "methodCall",
         "code": "entry.code.slice(0, 40)",
         "propertyName": "slice",
         "targetType": "LoggerTab.LogEntry"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:265:25",
+        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:270:25",
         "kind": "propertyRead",
         "code": "entry.code.slice",
         "propertyName": "slice",
         "targetType": "LoggerTab.LogEntry"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:265:25",
+        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:270:25",
         "kind": "propertyRead",
         "code": "entry.code",
         "propertyName": "code",
         "targetType": "LoggerTab.LogEntry"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:271:16",
+        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:276:16",
         "kind": "propertyRead",
         "code": "entry.location",
         "propertyName": "location",
         "targetType": "LoggerTab.LogEntry"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:272:12",
+        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:277:12",
         "kind": "propertyRead",
         "code": "entry.code",
         "propertyName": "code",
         "targetType": "LoggerTab.LogEntry"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:77:14",
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:156:9",
         "kind": "propertyRead",
         "code": "entry.kind",
         "propertyName": "kind",
         "targetType": "LoggerTab.LogEntry"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:78:18",
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:160:16",
         "kind": "propertyRead",
         "code": "entry.location",
         "propertyName": "location",
         "targetType": "LoggerTab.LogEntry"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:79:14",
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:161:12",
+        "kind": "propertyRead",
+        "code": "entry.kind",
+        "propertyName": "kind",
+        "targetType": "LoggerTab.LogEntry"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:162:12",
         "kind": "propertyRead",
         "code": "entry.code",
         "propertyName": "code",
         "targetType": "LoggerTab.LogEntry"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:80:24",
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:163:13",
+        "kind": "propertyRead",
+        "code": "entry.label",
+        "propertyName": "label",
+        "targetType": "LoggerTab.LogEntry"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:164:11",
+        "kind": "propertyRead",
+        "code": "entry.via",
+        "propertyName": "via",
+        "targetType": "LoggerTab.LogEntry"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:165:20",
+        "kind": "propertyRead",
+        "code": "entry.createsTypes",
+        "propertyName": "createsTypes",
+        "targetType": "LoggerTab.LogEntry"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:165:42",
+        "kind": "spread",
+        "code": "...entry.createsTypes",
+        "targetType": "LoggerTab.LogEntry"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:165:45",
+        "kind": "propertyRead",
+        "code": "entry.createsTypes",
+        "propertyName": "createsTypes",
+        "targetType": "LoggerTab.LogEntry"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:166:23",
+        "kind": "propertyRead",
+        "code": "entry.callbackScopeId",
+        "propertyName": "callbackScopeId",
+        "targetType": "LoggerTab.LogEntry"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:167:15",
+        "kind": "propertyRead",
+        "code": "entry.scopeId",
+        "propertyName": "scopeId",
+        "targetType": "LoggerTab.LogEntry"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:168:19",
+        "kind": "propertyRead",
+        "code": "entry.instanceArg",
+        "propertyName": "instanceArg",
+        "targetType": "LoggerTab.LogEntry"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:169:21",
+        "kind": "propertyRead",
+        "code": "entry.wrapsTypePath",
+        "propertyName": "wrapsTypePath",
+        "targetType": "LoggerTab.LogEntry"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:100:14",
+        "kind": "propertyRead",
+        "code": "entry.kind",
+        "propertyName": "kind",
+        "targetType": "LoggerTab.LogEntry"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:101:18",
+        "kind": "propertyRead",
+        "code": "entry.location",
+        "propertyName": "location",
+        "targetType": "LoggerTab.LogEntry"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:102:14",
+        "kind": "propertyRead",
+        "code": "entry.code",
+        "propertyName": "code",
+        "targetType": "LoggerTab.LogEntry"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:103:24",
         "kind": "passAsArg",
         "code": "this.parseLocation(entry.location)",
         "targetType": "LoggerTab.LogEntry",
         "context": "arg 0 to parseLocation"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:80:43",
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:103:43",
         "kind": "propertyRead",
         "code": "entry.location",
         "propertyName": "location",
         "targetType": "LoggerTab.LogEntry"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:221:7",
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:503:7",
         "kind": "propertyRead",
         "code": "entry.properties",
         "propertyName": "properties",
         "targetType": "LoggerTab.LogEntry"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:222:40",
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:504:40",
         "kind": "methodCall",
         "code": "entry.properties.entries()",
         "propertyName": "entries",
         "targetType": "LoggerTab.LogEntry"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:222:40",
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:504:40",
         "kind": "propertyRead",
         "code": "entry.properties.entries",
         "propertyName": "entries",
         "targetType": "LoggerTab.LogEntry"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:222:40",
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:504:40",
         "kind": "propertyRead",
         "code": "entry.properties",
         "propertyName": "properties",
         "targetType": "LoggerTab.LogEntry"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:236:46",
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:518:46",
         "kind": "propertyRead",
         "code": "entry.location",
         "propertyName": "location",
         "targetType": "LoggerTab.LogEntry"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:239:17",
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:521:17",
         "kind": "propertyRead",
         "code": "entry.name",
         "propertyName": "name",
         "targetType": "LoggerTab.LogEntry"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:245:44",
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:527:44",
         "kind": "propertyRead",
         "code": "entry.lineNumber",
         "propertyName": "lineNumber",
         "targetType": "LoggerTab.LogEntry"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:123:38",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:127:38",
         "kind": "passAsArg",
         "code": "this.edgeItem(entry.edge, entry.count, entry.hasError)",
         "targetType": "LoggerTab.LogEntry",
         "context": "arg 0 to edgeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:123:52",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:127:52",
         "kind": "propertyRead",
         "code": "entry.edge",
         "propertyName": "edge",
         "targetType": "LoggerTab.LogEntry"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:123:64",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:127:64",
         "kind": "propertyRead",
         "code": "entry.count",
         "propertyName": "count",
         "targetType": "LoggerTab.LogEntry"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:123:77",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:127:77",
         "kind": "propertyRead",
         "code": "entry.hasError",
         "propertyName": "hasError",
@@ -279,7 +369,7 @@
         "context": "arg 1 to set"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/models/EDS.ts:42:3",
+        "location": "/code/mnemonica/mnemographica/src/models/EDS.ts:52:3",
         "kind": "passAsArg",
         "code": "this.map.set(name, entry)",
         "targetType": "LoggerTab.LogEntry",
@@ -365,85 +455,121 @@
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:76:11",
+        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:81:11",
         "kind": "instantiation",
         "code": "new vscode.ThemeIcon(icon)",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:79:11",
+        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:84:11",
         "kind": "instantiation",
         "code": "new vscode.ThemeIcon('symbol-class')",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:82:10",
+        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:87:10",
         "kind": "instantiation",
         "code": "new vscode.ThemeIcon('circle-outline')",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/genTreeProvider.ts:17:19",
+        "location": "/code/mnemonica/mnemographica/src/views/genTreeProvider.ts:16:19",
         "kind": "instantiation",
         "code": "new vscode.ThemeIcon(this.getIconForGen(gen))",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:97:22",
+        "location": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts:73:20",
+        "kind": "instantiation",
+        "code": "new vscode.ThemeIcon('symbol-class')",
+        "context": "new expression"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts:89:20",
+        "kind": "instantiation",
+        "code": "new vscode.ThemeIcon(iconName)",
+        "context": "new expression"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts:112:19",
         "kind": "instantiation",
         "code": "new vscode.ThemeIcon('info')",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:184:6",
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:66:20",
+        "kind": "instantiation",
+        "code": "new vscode.ThemeIcon('symbol-class')",
+        "context": "new expression"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:78:20",
+        "kind": "instantiation",
+        "code": "new vscode.ThemeIcon('circle-outline')",
+        "context": "new expression"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:106:19",
+        "kind": "instantiation",
+        "code": "new vscode.ThemeIcon('info')",
+        "context": "new expression"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:101:22",
+        "kind": "instantiation",
+        "code": "new vscode.ThemeIcon('info')",
+        "context": "new expression"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:229:6",
         "kind": "instantiation",
         "code": "new vscode.ThemeIcon('warning', new vscode.ThemeColor('errorForeground'))",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:186:7",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:231:7",
         "kind": "instantiation",
         "code": "new vscode.ThemeIcon('pulse', new vscode.ThemeColor('errorForeground'))",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:187:7",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:232:7",
         "kind": "instantiation",
         "code": "new vscode.ThemeIcon('pulse')",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:216:6",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:263:6",
         "kind": "instantiation",
         "code": "new vscode.ThemeIcon('warning', new vscode.ThemeColor('errorForeground'))",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:218:7",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:265:7",
         "kind": "instantiation",
         "code": "new vscode.ThemeIcon('pulse', new vscode.ThemeColor('errorForeground'))",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:219:7",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:266:7",
         "kind": "instantiation",
         "code": "new vscode.ThemeIcon('pulse')",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:250:6",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:297:6",
         "kind": "instantiation",
         "code": "new vscode.ThemeIcon(this.iconForKind(edge.kind), new vscode.ThemeColor('errorForeground'))",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:252:7",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:299:7",
         "kind": "instantiation",
         "code": "new vscode.ThemeIcon('question')",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:253:7",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:300:7",
         "kind": "instantiation",
         "code": "new vscode.ThemeIcon(this.iconForKind(edge.kind))",
         "context": "new expression"
@@ -463,19 +589,31 @@
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:94:33",
+        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:99:33",
         "kind": "instantiation",
         "code": "new vscode.EventEmitter<FlowTreeItem | undefined | null | void>()",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/genTreeProvider.ts:46:33",
+        "location": "/code/mnemonica/mnemographica/src/views/genTreeProvider.ts:67:33",
         "kind": "instantiation",
         "code": "new vscode.EventEmitter<GenTreeItem | undefined | null | void>()",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:48:33",
+        "location": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts:118:33",
+        "kind": "instantiation",
+        "code": "new vscode.EventEmitter<DiamondsTreeItem | undefined | null | void>()",
+        "context": "new expression"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:112:33",
+        "kind": "instantiation",
+        "code": "new vscode.EventEmitter<BagelsTreeItem | undefined | null | void>()",
+        "context": "new expression"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:52:33",
         "kind": "instantiation",
         "code": "new vscode.EventEmitter<LiveTraceTreeItem | undefined | null | void>()",
         "context": "new expression"
@@ -495,89 +633,537 @@
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:97:51",
+        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:102:51",
         "kind": "instantiation",
         "code": "new Map()",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:195:20",
+        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:200:20",
         "kind": "instantiation",
         "code": "new Map<string, FlowEntryData[]>()",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:198:5",
+        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:203:5",
         "kind": "methodCall",
         "code": "filtered.set(typeName, entries)",
         "propertyName": "set",
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:198:5",
+        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:203:5",
         "kind": "propertyRead",
         "code": "filtered.set",
         "propertyName": "set",
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:201:3",
+        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:206:3",
         "kind": "return",
         "code": "return filtered;",
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:208:22",
+        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:213:22",
         "kind": "instantiation",
         "code": "new Map<string, number>()",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:211:19",
+        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:216:19",
         "kind": "methodCall",
         "code": "kindCounts.get(entry.kind)",
         "propertyName": "get",
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:211:19",
+        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:216:19",
         "kind": "propertyRead",
         "code": "kindCounts.get",
         "propertyName": "get",
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:212:5",
+        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:217:5",
         "kind": "methodCall",
         "code": "kindCounts.set(entry.kind, count + 1)",
         "propertyName": "set",
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:212:5",
+        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:217:5",
         "kind": "propertyRead",
         "code": "kindCounts.set",
         "propertyName": "set",
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:231:22",
+        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:236:22",
         "kind": "instantiation",
         "code": "new Map<string, number>()",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:235:5",
+        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:240:5",
         "kind": "methodCall",
         "code": "typeCounts.set(typeName, matching.length)",
         "propertyName": "set",
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:235:5",
+        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:240:5",
         "kind": "propertyRead",
         "code": "typeCounts.set",
         "propertyName": "set",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts:122:55",
+        "kind": "instantiation",
+        "code": "new Map()",
+        "context": "new expression"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts:137:57",
+        "kind": "instantiation",
+        "code": "new Map()",
+        "context": "new expression"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts:138:3",
+        "kind": "return",
+        "code": "return node;",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts:186:16",
+        "kind": "methodCall",
+        "code": "node.children.get(segment)",
+        "propertyName": "get",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts:186:16",
+        "kind": "propertyRead",
+        "code": "node.children.get",
+        "propertyName": "get",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts:186:16",
+        "kind": "propertyRead",
+        "code": "node.children",
+        "propertyName": "children",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts:189:5",
+        "kind": "methodCall",
+        "code": "node.children.set(segment, child)",
+        "propertyName": "set",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts:189:5",
+        "kind": "propertyRead",
+        "code": "node.children.set",
+        "propertyName": "set",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts:189:5",
+        "kind": "propertyRead",
+        "code": "node.children",
+        "propertyName": "children",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts:191:4",
+        "kind": "reassignment",
+        "code": "node = child",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts:193:3",
+        "kind": "methodCall",
+        "code": "node.anchors.push(anchor)",
+        "propertyName": "push",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts:193:3",
+        "kind": "propertyRead",
+        "code": "node.anchors.push",
+        "propertyName": "push",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts:193:3",
+        "kind": "propertyRead",
+        "code": "node.anchors",
+        "propertyName": "anchors",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts:197:15",
+        "kind": "propertyRead",
+        "code": "node.anchors.length",
+        "propertyName": "length",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts:197:15",
+        "kind": "propertyRead",
+        "code": "node.anchors",
+        "propertyName": "anchors",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts:198:23",
+        "kind": "methodCall",
+        "code": "node.children.values()",
+        "propertyName": "values",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts:198:23",
+        "kind": "propertyRead",
+        "code": "node.children.values",
+        "propertyName": "values",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts:198:23",
+        "kind": "propertyRead",
+        "code": "node.children",
+        "propertyName": "children",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts:206:23",
+        "kind": "methodCall",
+        "code": "node.children.values()",
+        "propertyName": "values",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts:206:23",
+        "kind": "propertyRead",
+        "code": "node.children.values",
+        "propertyName": "values",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts:206:23",
+        "kind": "propertyRead",
+        "code": "node.children",
+        "propertyName": "children",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts:224:18",
+        "kind": "methodCall",
+        "code": "node.children.get(segment)",
+        "propertyName": "get",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts:224:18",
+        "kind": "propertyRead",
+        "code": "node.children.get",
+        "propertyName": "get",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts:224:18",
+        "kind": "propertyRead",
+        "code": "node.children",
+        "propertyName": "children",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts:226:4",
+        "kind": "reassignment",
+        "code": "node = child",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts:228:3",
+        "kind": "return",
+        "code": "return node;",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts:264:17",
+        "kind": "passAsArg",
+        "code": "this.segmentItems(node)",
+        "targetType": "Map",
+        "context": "arg 0 to segmentItems"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts:265:24",
+        "kind": "propertyRead",
+        "code": "node.anchors",
+        "propertyName": "anchors",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:116:45",
+        "kind": "instantiation",
+        "code": "new Map()",
+        "context": "new expression"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:131:57",
+        "kind": "instantiation",
+        "code": "new Map()",
+        "context": "new expression"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:132:3",
+        "kind": "return",
+        "code": "return node;",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:183:16",
+        "kind": "instantiation",
+        "code": "new Map<string, WrapEntryData>()",
+        "context": "new expression"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:185:9",
+        "kind": "methodCall",
+        "code": "byId.has(wrap.location)",
+        "propertyName": "has",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:185:9",
+        "kind": "propertyRead",
+        "code": "byId.has",
+        "propertyName": "has",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:186:5",
+        "kind": "methodCall",
+        "code": "byId.set(wrap.location, wrap)",
+        "propertyName": "set",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:186:5",
+        "kind": "propertyRead",
+        "code": "byId.set",
+        "propertyName": "set",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:194:17",
+        "kind": "methodCall",
+        "code": "byId.get(id)",
+        "propertyName": "get",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:194:17",
+        "kind": "propertyRead",
+        "code": "byId.get",
+        "propertyName": "get",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:196:42",
+        "kind": "methodCall",
+        "code": "byId.has(wrap.via)",
+        "propertyName": "has",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:196:42",
+        "kind": "propertyRead",
+        "code": "byId.has",
+        "propertyName": "has",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:231:16",
+        "kind": "methodCall",
+        "code": "node.children.get(segment)",
+        "propertyName": "get",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:231:16",
+        "kind": "propertyRead",
+        "code": "node.children.get",
+        "propertyName": "get",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:231:16",
+        "kind": "propertyRead",
+        "code": "node.children",
+        "propertyName": "children",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:234:5",
+        "kind": "methodCall",
+        "code": "node.children.set(segment, child)",
+        "propertyName": "set",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:234:5",
+        "kind": "propertyRead",
+        "code": "node.children.set",
+        "propertyName": "set",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:234:5",
+        "kind": "propertyRead",
+        "code": "node.children",
+        "propertyName": "children",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:236:4",
+        "kind": "reassignment",
+        "code": "node = child",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:238:3",
+        "kind": "methodCall",
+        "code": "node.wraps.push(wrap)",
+        "propertyName": "push",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:238:3",
+        "kind": "propertyRead",
+        "code": "node.wraps.push",
+        "propertyName": "push",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:238:3",
+        "kind": "propertyRead",
+        "code": "node.wraps",
+        "propertyName": "wraps",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:242:15",
+        "kind": "propertyRead",
+        "code": "node.wraps.length",
+        "propertyName": "length",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:242:15",
+        "kind": "propertyRead",
+        "code": "node.wraps",
+        "propertyName": "wraps",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:243:23",
+        "kind": "methodCall",
+        "code": "node.children.values()",
+        "propertyName": "values",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:243:23",
+        "kind": "propertyRead",
+        "code": "node.children.values",
+        "propertyName": "values",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:243:23",
+        "kind": "propertyRead",
+        "code": "node.children",
+        "propertyName": "children",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:251:23",
+        "kind": "methodCall",
+        "code": "node.children.values()",
+        "propertyName": "values",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:251:23",
+        "kind": "propertyRead",
+        "code": "node.children.values",
+        "propertyName": "values",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:251:23",
+        "kind": "propertyRead",
+        "code": "node.children",
+        "propertyName": "children",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:269:18",
+        "kind": "methodCall",
+        "code": "node.children.get(segment)",
+        "propertyName": "get",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:269:18",
+        "kind": "propertyRead",
+        "code": "node.children.get",
+        "propertyName": "get",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:269:18",
+        "kind": "propertyRead",
+        "code": "node.children",
+        "propertyName": "children",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:271:4",
+        "kind": "reassignment",
+        "code": "node = child",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:273:3",
+        "kind": "return",
+        "code": "return node;",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:309:17",
+        "kind": "passAsArg",
+        "code": "this.segmentItems(node)",
+        "targetType": "Map",
+        "context": "arg 0 to segmentItems"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:310:24",
+        "kind": "spread",
+        "code": "...node.wraps",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:310:27",
+        "kind": "propertyRead",
+        "code": "node.wraps",
+        "propertyName": "wraps",
         "targetType": "Map"
       },
       {
@@ -595,9 +1181,23 @@
       },
       {
         "location": "/code/mnemonica/mnemographica/src/graph/converter.ts:100:18",
+        "kind": "passAsArg",
+        "code": "typeCountByDepth.get(node.depth)",
+        "targetType": "Map",
+        "context": "arg 0 to get"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/graph/converter.ts:100:18",
         "kind": "propertyRead",
         "code": "typeCountByDepth.get",
         "propertyName": "get",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/graph/converter.ts:100:39",
+        "kind": "propertyRead",
+        "code": "node.depth",
+        "propertyName": "depth",
         "targetType": "Map"
       },
       {
@@ -609,157 +1209,1033 @@
       },
       {
         "location": "/code/mnemonica/mnemographica/src/graph/converter.ts:101:4",
+        "kind": "passAsArg",
+        "code": "typeCountByDepth.set(node.depth, count + 1)",
+        "targetType": "Map",
+        "context": "arg 0 to set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/graph/converter.ts:101:4",
         "kind": "propertyRead",
         "code": "typeCountByDepth.set",
         "propertyName": "set",
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:34:19",
+        "location": "/code/mnemonica/mnemographica/src/graph/converter.ts:101:25",
+        "kind": "propertyRead",
+        "code": "node.depth",
+        "propertyName": "depth",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/graph/converter.ts:111:44",
+        "kind": "propertyRead",
+        "code": "node.properties.length",
+        "propertyName": "length",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/graph/converter.ts:111:44",
+        "kind": "propertyRead",
+        "code": "node.properties",
+        "propertyName": "properties",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:36:19",
         "kind": "instantiation",
         "code": "new Map<string, TypeNode>()",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:39:5",
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:41:5",
         "kind": "methodCall",
         "code": "nodeMap.set(name, typeNode)",
         "propertyName": "set",
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:39:5",
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:41:5",
         "kind": "propertyRead",
         "code": "nodeMap.set",
         "propertyName": "set",
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:47:17",
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:49:17",
         "kind": "methodCall",
         "code": "nodeMap.get(name)",
         "propertyName": "get",
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:47:17",
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:49:17",
         "kind": "propertyRead",
         "code": "nodeMap.get",
         "propertyName": "get",
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:52:24",
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:54:24",
         "kind": "methodCall",
         "code": "nodeMap.get(info.parent)",
         "propertyName": "get",
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:52:24",
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:54:24",
         "kind": "propertyRead",
         "code": "nodeMap.get",
         "propertyName": "get",
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:91:43",
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:56:6",
+        "kind": "propertyWrite",
+        "code": "node.parent = parentNode",
+        "propertyName": "parent",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:56:6",
+        "kind": "propertyRead",
+        "code": "node.parent",
+        "propertyName": "parent",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:57:6",
+        "kind": "passAsArg",
+        "code": "parentNode.children.set(name, node)",
+        "targetType": "Map",
+        "context": "arg 1 to set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:79:10",
+        "kind": "passAsArg",
+        "code": "instantiated.has(node.id)",
+        "targetType": "Map",
+        "context": "arg 0 to has"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:79:27",
+        "kind": "propertyRead",
+        "code": "node.id",
+        "propertyName": "id",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:80:6",
+        "kind": "propertyWrite",
+        "code": "node.neverCreated = true",
+        "propertyName": "neverCreated",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:80:6",
+        "kind": "propertyRead",
+        "code": "node.neverCreated",
+        "propertyName": "neverCreated",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:92:24",
+        "kind": "passAsArg",
+        "code": "eds.get(node.id)",
+        "targetType": "Map",
+        "context": "arg 0 to get"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:92:32",
+        "kind": "propertyRead",
+        "code": "node.id",
+        "propertyName": "id",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:96:6",
+        "kind": "propertyWrite",
+        "code": "node.edsStatus = this.mapEDSKind(primaryKind)",
+        "propertyName": "edsStatus",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:96:6",
+        "kind": "propertyRead",
+        "code": "node.edsStatus",
+        "propertyName": "edsStatus",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:97:6",
+        "kind": "propertyWrite",
+        "code": "node.edsEntries = edsEntries.map((e: unknown) => {\n\t\t\t\t\t\tconst entry = e as Record<string, string>;\n",
+        "propertyName": "edsEntries",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:97:6",
+        "kind": "propertyRead",
+        "code": "node.edsEntries",
+        "propertyName": "edsEntries",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:114:43",
         "kind": "methodCall",
         "code": "nodeMap.has(target)",
         "propertyName": "has",
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:91:43",
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:114:43",
         "kind": "propertyRead",
         "code": "nodeMap.has",
         "propertyName": "has",
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:115:19",
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:115:29",
+        "kind": "propertyRead",
+        "code": "node.id",
+        "propertyName": "id",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:119:17",
+        "kind": "propertyRead",
+        "code": "node.id",
+        "propertyName": "id",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:124:31",
+        "kind": "passAsArg",
+        "code": "instantiated.has(node.id)",
+        "targetType": "Map",
+        "context": "arg 0 to has"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:124:48",
+        "kind": "propertyRead",
+        "code": "node.id",
+        "propertyName": "id",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:130:6",
+        "kind": "propertyWrite",
+        "code": "node.edsStatus = 'none'",
+        "propertyName": "edsStatus",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:130:6",
+        "kind": "propertyRead",
+        "code": "node.edsStatus",
+        "propertyName": "edsStatus",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:140:19",
         "kind": "instantiation",
         "code": "new Map(graphData.nodes.map((n) => [n.id, n]))",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:118:9",
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:143:9",
         "kind": "methodCall",
         "code": "nodeMap.has(scope)",
         "propertyName": "has",
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:118:9",
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:143:9",
         "kind": "propertyRead",
         "code": "nodeMap.has",
         "propertyName": "has",
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:125:26",
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:150:26",
         "kind": "methodCall",
         "code": "d3ById.get(target)",
         "propertyName": "get",
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:125:26",
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:150:26",
         "kind": "propertyRead",
         "code": "d3ById.get",
         "propertyName": "get",
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:174:10",
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:179:17",
+        "kind": "passAsArg",
+        "code": "defs.get(node.id)",
+        "targetType": "Map",
+        "context": "arg 0 to get"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:179:26",
+        "kind": "propertyRead",
+        "code": "node.id",
+        "propertyName": "id",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:185:8",
+        "kind": "propertyWrite",
+        "code": "node.definitionLocation = parsed",
+        "propertyName": "definitionLocation",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:185:8",
+        "kind": "propertyRead",
+        "code": "node.definitionLocation",
+        "propertyName": "definitionLocation",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:199:10",
         "kind": "methodCall",
         "code": "nodeMap.has(typeName)",
         "propertyName": "has",
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:174:10",
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:199:10",
         "kind": "propertyRead",
         "code": "nodeMap.has",
         "propertyName": "has",
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:178:22",
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:203:22",
         "kind": "methodCall",
         "code": "nodeMap.has(target)",
         "propertyName": "has",
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:178:22",
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:203:22",
         "kind": "propertyRead",
         "code": "nodeMap.has",
         "propertyName": "has",
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:220:22",
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:222:25",
+        "kind": "passAsArg",
+        "code": "this.buildCreationSection(creationGraph, nodeMap)",
+        "targetType": "Map",
+        "context": "arg 1 to buildCreationSection"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:230:21",
+        "kind": "passAsArg",
+        "code": "this.buildWrappersSection(eds, nodeMap, creationGraph)",
+        "targetType": "Map",
+        "context": "arg 1 to buildWrappersSection"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:238:27",
+        "kind": "passAsArg",
+        "code": "this.buildInternalsSection(nodeMap, usages ? instantiated : undefined)",
+        "targetType": "Map",
+        "context": "arg 0 to buildInternalsSection"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:276:24",
+        "kind": "methodCall",
+        "code": "nodeMap.keys()",
+        "propertyName": "keys",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:276:24",
+        "kind": "propertyRead",
+        "code": "nodeMap.keys",
+        "propertyName": "keys",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:295:27",
+        "kind": "instantiation",
+        "code": "new Map<string, D3CreationNode['creates']>()",
+        "context": "new expression"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:297:9",
+        "kind": "methodCall",
+        "code": "nodeMap.has(anchor.typePath)",
+        "propertyName": "has",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:297:9",
+        "kind": "propertyRead",
+        "code": "nodeMap.has",
+        "propertyName": "has",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:298:15",
+        "kind": "methodCall",
+        "code": "createsByHolder.get(anchor.holderScopeId)",
+        "propertyName": "get",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:298:15",
+        "kind": "propertyRead",
+        "code": "createsByHolder.get",
+        "propertyName": "get",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:301:5",
+        "kind": "methodCall",
+        "code": "createsByHolder.set(anchor.holderScopeId, list)",
+        "propertyName": "set",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:301:5",
+        "kind": "propertyRead",
+        "code": "createsByHolder.set",
+        "propertyName": "set",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:318:21",
+        "kind": "methodCall",
+        "code": "node.filePath.split('/')",
+        "propertyName": "split",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:318:21",
+        "kind": "propertyRead",
+        "code": "node.filePath.split",
+        "propertyName": "split",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:318:21",
+        "kind": "propertyRead",
+        "code": "node.filePath",
+        "propertyName": "filePath",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:318:55",
+        "kind": "propertyRead",
+        "code": "node.name",
+        "propertyName": "name",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:319:15",
+        "kind": "propertyRead",
+        "code": "node.name",
+        "propertyName": "name",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:320:8",
+        "kind": "propertyRead",
+        "code": "node.kind",
+        "propertyName": "kind",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:322:15",
+        "kind": "passAsArg",
+        "code": "name.startsWith(node.filePath)",
+        "targetType": "Map",
+        "context": "arg 0 to startsWith"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:322:31",
+        "kind": "propertyRead",
+        "code": "node.filePath",
+        "propertyName": "filePath",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:323:23",
+        "kind": "passAsArg",
+        "code": "name.slice(node.filePath.length)",
+        "targetType": "Map",
+        "context": "arg 0 to slice"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:323:34",
+        "kind": "propertyRead",
+        "code": "node.filePath.length",
+        "propertyName": "length",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:323:34",
+        "kind": "propertyRead",
+        "code": "node.filePath",
+        "propertyName": "filePath",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:326:16",
+        "kind": "propertyRead",
+        "code": "node.scopeId",
+        "propertyName": "scopeId",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:328:16",
+        "kind": "propertyRead",
+        "code": "node.kind",
+        "propertyName": "kind",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:329:16",
+        "kind": "propertyRead",
+        "code": "node.filePath",
+        "propertyName": "filePath",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:330:16",
+        "kind": "passAsArg",
+        "code": "this.parseLocation(node.location)",
+        "targetType": "Map",
+        "context": "arg 0 to parseLocation"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:330:35",
+        "kind": "propertyRead",
+        "code": "node.location",
+        "propertyName": "location",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:331:16",
+        "kind": "passAsArg",
+        "code": "Boolean(node.starter)",
+        "targetType": "Map",
+        "context": "arg 0 to Boolean"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:331:24",
+        "kind": "propertyRead",
+        "code": "node.starter",
+        "propertyName": "starter",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:332:16",
+        "kind": "methodCall",
+        "code": "createsByHolder.get(node.scopeId)",
+        "propertyName": "get",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:332:16",
+        "kind": "passAsArg",
+        "code": "createsByHolder.get(node.scopeId)",
+        "targetType": "Map",
+        "context": "arg 0 to get"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:332:16",
+        "kind": "propertyRead",
+        "code": "createsByHolder.get",
+        "propertyName": "get",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:332:36",
+        "kind": "propertyRead",
+        "code": "node.scopeId",
+        "propertyName": "scopeId",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:363:47",
+        "kind": "propertyRead",
+        "code": "node.scopeId",
+        "propertyName": "scopeId",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:367:16",
+        "kind": "instantiation",
+        "code": "new Map<string, D3WrapperNode>()",
+        "context": "new expression"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:368:19",
+        "kind": "instantiation",
+        "code": "new Map<string, string>()",
+        "context": "new expression"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:372:21",
+        "kind": "instantiation",
+        "code": "new Map<string, string>()",
+        "context": "new expression"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:373:23",
+        "kind": "instantiation",
+        "code": "new Map<string, string[]>()",
+        "context": "new expression"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:378:9",
+        "kind": "methodCall",
+        "code": "byId.has(info.location)",
+        "propertyName": "has",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:378:9",
+        "kind": "propertyRead",
+        "code": "byId.has",
+        "propertyName": "has",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:394:6",
+        "kind": "propertyWrite",
+        "code": "node.callbackScopeId = callbackScopeId",
+        "propertyName": "callbackScopeId",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:394:6",
+        "kind": "propertyRead",
+        "code": "node.callbackScopeId",
+        "propertyName": "callbackScopeId",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:396:6",
+        "kind": "propertyWrite",
+        "code": "node.holderScopeId = holderScopeId",
+        "propertyName": "holderScopeId",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:396:6",
+        "kind": "propertyRead",
+        "code": "node.holderScopeId",
+        "propertyName": "holderScopeId",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:399:46",
+        "kind": "methodCall",
+        "code": "nodeMap.has(wrapsTypePath)",
+        "propertyName": "has",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:399:46",
+        "kind": "propertyRead",
+        "code": "nodeMap.has",
+        "propertyName": "has",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:400:6",
+        "kind": "propertyWrite",
+        "code": "node.wrapsTypePath = wrapsTypePath",
+        "propertyName": "wrapsTypePath",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:400:6",
+        "kind": "propertyRead",
+        "code": "node.wrapsTypePath",
+        "propertyName": "wrapsTypePath",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:403:6",
+        "kind": "methodCall",
+        "code": "viaById.set(node.id, info.via)",
+        "propertyName": "set",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:403:6",
+        "kind": "passAsArg",
+        "code": "viaById.set(node.id, info.via)",
+        "targetType": "Map",
+        "context": "arg 0 to set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:403:6",
+        "kind": "propertyRead",
+        "code": "viaById.set",
+        "propertyName": "set",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:403:18",
+        "kind": "propertyRead",
+        "code": "node.id",
+        "propertyName": "id",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:405:5",
+        "kind": "methodCall",
+        "code": "scopeById.set(node.id, scopeKey)",
+        "propertyName": "set",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:405:5",
+        "kind": "passAsArg",
+        "code": "scopeById.set(node.id, scopeKey)",
+        "targetType": "Map",
+        "context": "arg 0 to set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:405:5",
+        "kind": "propertyRead",
+        "code": "scopeById.set",
+        "propertyName": "set",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:405:19",
+        "kind": "propertyRead",
+        "code": "node.id",
+        "propertyName": "id",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:409:9",
+        "kind": "methodCall",
+        "code": "nodeMap.has(scopeKey)",
+        "propertyName": "has",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:409:9",
+        "kind": "propertyRead",
+        "code": "nodeMap.has",
+        "propertyName": "has",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:410:6",
+        "kind": "propertyWrite",
+        "code": "node.hostTypePath = scopeKey",
+        "propertyName": "hostTypePath",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:410:6",
+        "kind": "propertyRead",
+        "code": "node.hostTypePath",
+        "propertyName": "hostTypePath",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:415:7",
+        "kind": "methodCall",
+        "code": "createsById.set(node.id, creates)",
+        "propertyName": "set",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:415:7",
+        "kind": "passAsArg",
+        "code": "createsById.set(node.id, creates)",
+        "targetType": "Map",
+        "context": "arg 0 to set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:415:7",
+        "kind": "propertyRead",
+        "code": "createsById.set",
+        "propertyName": "set",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:415:23",
+        "kind": "propertyRead",
+        "code": "node.id",
+        "propertyName": "id",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:418:5",
+        "kind": "methodCall",
+        "code": "byId.set(node.id, node)",
+        "propertyName": "set",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:418:5",
+        "kind": "passAsArg",
+        "code": "byId.set(node.id, node)",
+        "targetType": "Map",
+        "context": "arg 0 to set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:418:5",
+        "kind": "propertyRead",
+        "code": "byId.set",
+        "propertyName": "set",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:418:14",
+        "kind": "propertyRead",
+        "code": "node.id",
+        "propertyName": "id",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:419:5",
+        "kind": "passAsArg",
+        "code": "nodes.push(node)",
+        "targetType": "Map",
+        "context": "arg 0 to push"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:425:27",
+        "kind": "instantiation",
+        "code": "new Map<string, number>()",
+        "context": "new expression"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:427:19",
+        "kind": "methodCall",
+        "code": "generationCache.get(id)",
+        "propertyName": "get",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:427:19",
+        "kind": "propertyRead",
+        "code": "generationCache.get",
+        "propertyName": "get",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:431:16",
+        "kind": "methodCall",
+        "code": "viaById.get(id)",
+        "propertyName": "get",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:431:16",
+        "kind": "propertyRead",
+        "code": "viaById.get",
+        "propertyName": "get",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:433:29",
+        "kind": "methodCall",
+        "code": "byId.has(via)",
+        "propertyName": "has",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:433:29",
+        "kind": "propertyRead",
+        "code": "byId.has",
+        "propertyName": "has",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:436:4",
+        "kind": "methodCall",
+        "code": "generationCache.set(id, generation)",
+        "propertyName": "set",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:436:4",
+        "kind": "propertyRead",
+        "code": "generationCache.set",
+        "propertyName": "set",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:442:4",
+        "kind": "propertyWrite",
+        "code": "node.generation = generationOf(node.id, new Set())",
+        "propertyName": "generation",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:442:4",
+        "kind": "propertyRead",
+        "code": "node.generation",
+        "propertyName": "generation",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:442:22",
+        "kind": "passAsArg",
+        "code": "generationOf(node.id, new Set())",
+        "targetType": "Map",
+        "context": "arg 0 to generationOf"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:442:35",
+        "kind": "propertyRead",
+        "code": "node.id",
+        "propertyName": "id",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:443:16",
+        "kind": "methodCall",
+        "code": "viaById.get(node.id)",
+        "propertyName": "get",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:443:16",
+        "kind": "passAsArg",
+        "code": "viaById.get(node.id)",
+        "targetType": "Map",
+        "context": "arg 0 to get"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:443:16",
+        "kind": "propertyRead",
+        "code": "viaById.get",
+        "propertyName": "get",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:443:28",
+        "kind": "propertyRead",
+        "code": "node.id",
+        "propertyName": "id",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:444:29",
+        "kind": "methodCall",
+        "code": "byId.has(via)",
+        "propertyName": "has",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:444:29",
+        "kind": "propertyRead",
+        "code": "byId.has",
+        "propertyName": "has",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:445:39",
+        "kind": "propertyRead",
+        "code": "node.id",
+        "propertyName": "id",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:457:20",
+        "kind": "methodCall",
+        "code": "createsById.get(node.id)",
+        "propertyName": "get",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:457:20",
+        "kind": "passAsArg",
+        "code": "createsById.get(node.id)",
+        "targetType": "Map",
+        "context": "arg 0 to get"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:457:20",
+        "kind": "propertyRead",
+        "code": "createsById.get",
+        "propertyName": "get",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:457:36",
+        "kind": "propertyRead",
+        "code": "node.id",
+        "propertyName": "id",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:461:23",
+        "kind": "propertyRead",
+        "code": "node.id",
+        "propertyName": "id",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:462:10",
+        "kind": "methodCall",
+        "code": "scopeById.get(child.id)",
+        "propertyName": "get",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:462:10",
+        "kind": "propertyRead",
+        "code": "scopeById.get",
+        "propertyName": "get",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:463:27",
+        "kind": "propertyRead",
+        "code": "node.id",
+        "propertyName": "id",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:466:27",
+        "kind": "propertyRead",
+        "code": "node.id",
+        "propertyName": "id",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:502:22",
         "kind": "instantiation",
         "code": "new Map<string, { name: string; type: string; optional: boolean }>()",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:225:6",
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:507:6",
         "kind": "methodCall",
         "code": "properties.set(propName, {\n\t\t\t\t\t\tname: propName,\n\t\t\t\t\t\ttype: String(pv.type || 'unknown'),\n\t\t\t\t\t\topt",
         "propertyName": "set",
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:225:6",
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:507:6",
         "kind": "propertyRead",
         "code": "properties.set",
         "propertyName": "set",
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:242:14",
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:524:14",
         "kind": "instantiation",
         "code": "new Map()",
         "context": "new expression"
@@ -976,85 +2452,203 @@
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:110:23",
+        "location": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:403:26",
+        "kind": "propertyRead",
+        "code": "node.id",
+        "propertyName": "id",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:403:41",
+        "kind": "propertyRead",
+        "code": "node.name",
+        "propertyName": "name",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:403:60",
+        "kind": "propertyRead",
+        "code": "node.isRoot",
+        "propertyName": "isRoot",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:114:23",
         "kind": "instantiation",
         "code": "new Map<string, number>()",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:113:16",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:117:16",
         "kind": "methodCall",
         "code": "indexByKey.get(key)",
         "propertyName": "get",
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:113:16",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:117:16",
         "kind": "propertyRead",
         "code": "indexByKey.get",
         "propertyName": "get",
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:115:6",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:119:6",
         "kind": "methodCall",
         "code": "indexByKey.set(key, merged.length)",
         "propertyName": "set",
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:115:6",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:119:6",
         "kind": "propertyRead",
         "code": "indexByKey.set",
         "propertyName": "set",
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:134:18",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:159:19",
         "kind": "instantiation",
         "code": "new Map<string, traceGroup[]>()",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:136:19",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:162:19",
         "kind": "methodCall",
-        "code": "byName.get(group.name)",
+        "code": "byShape.get(key)",
         "propertyName": "get",
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:136:19",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:162:19",
         "kind": "propertyRead",
-        "code": "byName.get",
+        "code": "byShape.get",
         "propertyName": "get",
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:140:5",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:166:5",
         "kind": "methodCall",
-        "code": "byName.set(group.name, [group])",
+        "code": "byShape.set(key, [group])",
         "propertyName": "set",
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:140:5",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:166:5",
         "kind": "propertyRead",
-        "code": "byName.set",
+        "code": "byShape.set",
         "propertyName": "set",
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:143:33",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:169:34",
         "kind": "methodCall",
-        "code": "byName.values()",
+        "code": "byShape.values()",
         "propertyName": "values",
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:143:33",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:169:34",
         "kind": "propertyRead",
-        "code": "byName.values",
+        "code": "byShape.values",
         "propertyName": "values",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:173:22",
+        "kind": "instantiation",
+        "code": "new Map<string, number>()",
+        "context": "new expression"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:175:4",
+        "kind": "methodCall",
+        "code": "nameCounts.set(members[0].name, (nameCounts.get(members[0].name) || 0) + 1)",
+        "propertyName": "set",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:175:4",
+        "kind": "propertyRead",
+        "code": "nameCounts.set",
+        "propertyName": "set",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:175:37",
+        "kind": "methodCall",
+        "code": "nameCounts.get(members[0].name)",
+        "propertyName": "get",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:175:37",
+        "kind": "propertyRead",
+        "code": "nameCounts.get",
+        "propertyName": "get",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:178:9",
+        "kind": "methodCall",
+        "code": "nameCounts.get(members[0].name)",
+        "propertyName": "get",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:178:9",
+        "kind": "propertyRead",
+        "code": "nameCounts.get",
+        "propertyName": "get",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:338:8",
+        "kind": "propertyRead",
+        "code": "node?.location",
+        "propertyName": "location",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:340:17",
+        "kind": "propertyRead",
+        "code": "node.location.fileName",
+        "propertyName": "fileName",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:340:17",
+        "kind": "propertyRead",
+        "code": "node.location",
+        "propertyName": "location",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:341:17",
+        "kind": "propertyRead",
+        "code": "node.location.line",
+        "propertyName": "line",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:341:17",
+        "kind": "propertyRead",
+        "code": "node.location",
+        "propertyName": "location",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:342:17",
+        "kind": "propertyRead",
+        "code": "node.location.column",
+        "propertyName": "column",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:342:17",
+        "kind": "propertyRead",
+        "code": "node.location",
+        "propertyName": "location",
         "targetType": "Map"
       },
       {
@@ -1165,7 +2759,7 @@
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:178:37",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:187:37",
         "kind": "instantiation",
         "code": "new Map<number, {\n\t\tresolve: (data: unknown) => void;\n\t\ttimer: ReturnType<typeof setTimeout>;\n\t}>()",
         "context": "new expression"
@@ -1177,28 +2771,28 @@
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:305:13",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:351:13",
         "kind": "methodCall",
         "code": "groups.find(g => g.rootId === rootParam)",
         "propertyName": "find",
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:305:13",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:351:13",
         "kind": "propertyRead",
         "code": "groups.find",
         "propertyName": "find",
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:309:13",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:355:13",
         "kind": "methodCall",
         "code": "groups.find(g => g.edges.some(e => e.traceId === jaegerId))",
         "propertyName": "find",
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:309:13",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:355:13",
         "kind": "propertyRead",
         "code": "groups.find",
         "propertyName": "find",
@@ -1211,7 +2805,7 @@
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/models/EDS.ts:21:49",
+        "location": "/code/mnemonica/mnemographica/src/models/EDS.ts:31:49",
         "kind": "instantiation",
         "code": "new Map()",
         "context": "new expression"
@@ -1241,17 +2835,108 @@
         "context": "new expression"
       },
       {
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:220:9",
+        "kind": "propertyRead",
+        "code": "node.fullPath",
+        "propertyName": "fullPath",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:221:70",
+        "kind": "propertyRead",
+        "code": "node.fullPath",
+        "propertyName": "fullPath",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:225:20",
+        "kind": "passAsArg",
+        "code": "parseLocationString(node.location)",
+        "targetType": "Map",
+        "context": "arg 0 to parseLocationString"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:225:40",
+        "kind": "propertyRead",
+        "code": "node.location",
+        "propertyName": "location",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:228:13",
+        "kind": "propertyRead",
+        "code": "node.name",
+        "propertyName": "name",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:229:17",
+        "kind": "propertyRead",
+        "code": "node.fullPath",
+        "propertyName": "fullPath",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:231:19",
+        "kind": "passAsArg",
+        "code": "propertiesByType.get(node.fullPath)",
+        "targetType": "Map",
+        "context": "arg 0 to get"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:231:40",
+        "kind": "propertyRead",
+        "code": "node.fullPath",
+        "propertyName": "fullPath",
+        "targetType": "Map"
+      },
+      {
         "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:231:58",
         "kind": "instantiation",
         "code": "new Map()",
         "context": "new expression"
       },
       {
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:233:17",
+        "kind": "propertyRead",
+        "code": "node.location",
+        "propertyName": "location",
+        "targetType": "Map"
+      },
+      {
         "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:235:6",
         "kind": "passAsArg",
         "code": "typesInstance.set(node.fullPath, entry)",
         "targetType": "Map",
-        "context": "arg 1 to set"
+        "context": "arg 0 to set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:235:24",
+        "kind": "propertyRead",
+        "code": "node.fullPath",
+        "propertyName": "fullPath",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:241:25",
+        "kind": "propertyRead",
+        "code": "node.children",
+        "propertyName": "children",
+        "targetType": "Map"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:242:6",
+        "kind": "passAsArg",
+        "code": "visit(child, node.fullPath)",
+        "targetType": "Map",
+        "context": "arg 1 to visit"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:242:19",
+        "kind": "propertyRead",
+        "code": "node.fullPath",
+        "propertyName": "fullPath",
+        "targetType": "Map"
       },
       {
         "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:267:18",
@@ -1313,7 +2998,7 @@
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:584:25",
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:609:25",
         "kind": "instantiation",
         "code": "new Registry()",
         "context": "new expression"
@@ -1401,19 +3086,19 @@
     ],
     "FlowTreeItem": [
       {
-        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:218:15",
+        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:223:15",
         "kind": "instantiation",
         "code": "new FlowTreeItem(\n\t\t\t\t{ label: `${kind} (${count})`, type: 'kind', kind },\n\t\t\t\tvscode.TreeItemCollap",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:243:15",
+        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:248:15",
         "kind": "instantiation",
         "code": "new FlowTreeItem(\n\t\t\t\t{\n\t\t\t\t\tlabel: `${shortName} (${count})`,\n\t\t\t\t\ttype: 'type',\n\t\t\t\t\tkind,\n\t\t\t\t\tty",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:267:11",
+        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:272:11",
         "kind": "instantiation",
         "code": "new FlowTreeItem(\n\t\t\t\t{\n\t\t\t\t\tlabel,\n\t\t\t\t\ttype: 'entry',\n\t\t\t\t\tlocation: entry.location,\n\t\t\t\t\tcode: en",
         "context": "new expression"
@@ -1421,31 +3106,69 @@
     ],
     "GenTreeItem": [
       {
-        "location": "/code/mnemonica/mnemographica/src/views/genTreeProvider.ts:69:5",
+        "location": "/code/mnemonica/mnemographica/src/views/genTreeProvider.ts:90:5",
         "kind": "instantiation",
         "code": "new GenTreeItem('loading', 'Loading graph data...', -1, undefined, vscode.TreeItemCollapsibleState.N",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/genTreeProvider.ts:75:5",
+        "location": "/code/mnemonica/mnemographica/src/views/genTreeProvider.ts:96:5",
         "kind": "instantiation",
         "code": "new GenTreeItem('empty', 'No types found', -1, undefined, vscode.TreeItemCollapsibleState.None)",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/genTreeProvider.ts:87:16",
+        "location": "/code/mnemonica/mnemographica/src/views/genTreeProvider.ts:108:16",
         "kind": "instantiation",
         "code": "new GenTreeItem(\n\t\t\t\t\t`gen-${g}`,\n\t\t\t\t\tlabel,\n\t\t\t\t\tg,\n\t\t\t\t\tundefined,\n\t\t\t\t\tnodesAtGen.length > 0 ? v",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/genTreeProvider.ts:104:31",
+        "location": "/code/mnemonica/mnemographica/src/views/genTreeProvider.ts:125:31",
         "kind": "instantiation",
         "code": "new GenTreeItem(\n\t\t\t\tn.id,\n\t\t\t\tn.name,\n\t\t\t\tgen,\n\t\t\t\tn\n\t\t\t)",
         "context": "new expression"
       }
     ],
+    "DiamondsTreeItem": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts:208:15",
+        "kind": "instantiation",
+        "code": "new DiamondsTreeItem(\n\t\t\t\t{\n\t\t\t\t\tlabel: `${child.segment} (${count})`,\n\t\t\t\t\ttype: 'segment',\n\t\t\t\t\tfu",
+        "context": "new expression"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts:238:13",
+        "kind": "instantiation",
+        "code": "new DiamondsTreeItem(\n\t\t\t\t\t{ label: 'No workspace loaded', type: 'info' },\n\t\t\t\t\tvscode.TreeItemColla",
+        "context": "new expression"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts:244:13",
+        "kind": "instantiation",
+        "code": "new DiamondsTreeItem(\n\t\t\t\t\t{ label: 'No creation graph — regenerate .tactica with tactica v2', type:",
+        "context": "new expression"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts:250:13",
+        "kind": "instantiation",
+        "code": "new DiamondsTreeItem(\n\t\t\t\t\t{ label: 'No creation sites found', type: 'info' },\n\t\t\t\t\tvscode.TreeItemC",
+        "context": "new expression"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts:267:15",
+        "kind": "instantiation",
+        "code": "new DiamondsTreeItem(\n\t\t\t\t{\n\t\t\t\t\tlabel: scope ? scope.name : 'unknown scope',\n\t\t\t\t\ttype: 'anchor',\n\t",
+        "context": "new expression"
+      }
+    ],
     "Set": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:204:32",
+        "kind": "instantiation",
+        "code": "new Set()",
+        "context": "new expression"
+      },
       {
         "location": "/code/mnemonica/mnemographica/src/core/StateManager.ts:11:54",
         "kind": "instantiation",
@@ -1501,71 +3224,365 @@
         "context": "arg 4 to processNode"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:67:24",
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:69:24",
         "kind": "instantiation",
         "code": "new Set<string>()",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:93:12",
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:75:6",
+        "kind": "methodCall",
+        "code": "instantiated.add(typeName)",
+        "propertyName": "add",
+        "targetType": "Set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:75:6",
+        "kind": "propertyRead",
+        "code": "instantiated.add",
+        "propertyName": "add",
+        "targetType": "Set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:79:10",
+        "kind": "methodCall",
+        "code": "instantiated.has(node.id)",
+        "propertyName": "has",
+        "targetType": "Set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:79:10",
+        "kind": "propertyRead",
+        "code": "instantiated.has",
+        "propertyName": "has",
+        "targetType": "Set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:90:24",
+        "kind": "instantiation",
+        "code": "new Set<string>()",
+        "context": "new expression"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:116:12",
         "kind": "methodCall",
         "code": "pathHitSeen.has(dedupeKey)",
         "propertyName": "has",
         "targetType": "Set"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:93:12",
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:116:12",
         "kind": "propertyRead",
         "code": "pathHitSeen.has",
         "propertyName": "has",
         "targetType": "Set"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:94:8",
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:117:8",
         "kind": "methodCall",
         "code": "pathHitSeen.add(dedupeKey)",
         "propertyName": "add",
         "targetType": "Set"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:94:8",
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:117:8",
         "kind": "propertyRead",
         "code": "pathHitSeen.add",
         "propertyName": "add",
         "targetType": "Set"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:116:25",
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:124:31",
+        "kind": "methodCall",
+        "code": "instantiated.has(node.id)",
+        "propertyName": "has",
+        "targetType": "Set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:124:31",
+        "kind": "propertyRead",
+        "code": "instantiated.has",
+        "propertyName": "has",
+        "targetType": "Set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:141:25",
         "kind": "instantiation",
         "code": "new Set<string>()",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:129:11",
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:154:11",
         "kind": "methodCall",
         "code": "externalSeen.has(dedupeKey)",
         "propertyName": "has",
         "targetType": "Set"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:129:11",
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:154:11",
         "kind": "propertyRead",
         "code": "externalSeen.has",
         "propertyName": "has",
         "targetType": "Set"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:130:7",
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:155:7",
         "kind": "methodCall",
         "code": "externalSeen.add(dedupeKey)",
         "propertyName": "add",
         "targetType": "Set"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:130:7",
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:155:7",
         "kind": "propertyRead",
         "code": "externalSeen.add",
         "propertyName": "add",
+        "targetType": "Set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:277:25",
+        "kind": "methodCall",
+        "code": "instantiated.has(typeId)",
+        "propertyName": "has",
+        "targetType": "Set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:277:25",
+        "kind": "propertyRead",
+        "code": "instantiated.has",
+        "propertyName": "has",
+        "targetType": "Set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:337:17",
+        "kind": "instantiation",
+        "code": "new Set(nodes.map((n) => n.id))",
+        "context": "new expression"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:340:9",
+        "kind": "methodCall",
+        "code": "known.has(edge.caller)",
+        "propertyName": "has",
+        "targetType": "Set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:340:9",
+        "kind": "propertyRead",
+        "code": "known.has",
+        "propertyName": "has",
+        "targetType": "Set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:340:36",
+        "kind": "methodCall",
+        "code": "known.has(edge.callee)",
+        "propertyName": "has",
+        "targetType": "Set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:340:36",
+        "kind": "propertyRead",
+        "code": "known.has",
+        "propertyName": "has",
+        "targetType": "Set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:362:28",
+        "kind": "instantiation",
+        "code": "new Set<string>(\n\t\t\t(creationGraph?.nodes ?? []).map((node) => node.scopeId)\n\t\t)",
+        "context": "new expression"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:393:48",
+        "kind": "methodCall",
+        "code": "creationScopeIds.has(callbackScopeId)",
+        "propertyName": "has",
+        "targetType": "Set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:393:48",
+        "kind": "propertyRead",
+        "code": "creationScopeIds.has",
+        "propertyName": "has",
+        "targetType": "Set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:395:53",
+        "kind": "methodCall",
+        "code": "creationScopeIds.has(holderScopeId)",
+        "propertyName": "has",
+        "targetType": "Set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:395:53",
+        "kind": "propertyRead",
+        "code": "creationScopeIds.has",
+        "propertyName": "has",
+        "targetType": "Set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:442:44",
+        "kind": "instantiation",
+        "code": "new Set()",
+        "context": "new expression"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:455:20",
+        "kind": "instantiation",
+        "code": "new Set<string>()",
+        "context": "new expression"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:464:10",
+        "kind": "methodCall",
+        "code": "ctorSeen.has(dedupeKey)",
+        "propertyName": "has",
+        "targetType": "Set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:464:10",
+        "kind": "propertyRead",
+        "code": "ctorSeen.has",
+        "propertyName": "has",
+        "targetType": "Set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:465:6",
+        "kind": "methodCall",
+        "code": "ctorSeen.add(dedupeKey)",
+        "propertyName": "add",
+        "targetType": "Set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:465:6",
+        "kind": "propertyRead",
+        "code": "ctorSeen.add",
+        "propertyName": "add",
+        "targetType": "Set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:147:30",
+        "kind": "instantiation",
+        "code": "new Set(parts)",
+        "context": "new expression"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:148:4",
+        "kind": "return",
+        "code": "return result;",
+        "targetType": "Set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:157:4",
+        "kind": "return",
+        "code": "return result;",
+        "targetType": "Set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:182:4",
+        "kind": "return",
+        "code": "return result;",
+        "targetType": "Set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:195:4",
+        "kind": "return",
+        "code": "return result;",
+        "targetType": "Set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:318:4",
+        "kind": "return",
+        "code": "return result;",
+        "targetType": "Set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:331:4",
+        "kind": "return",
+        "code": "return result;",
+        "targetType": "Set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:344:5",
+        "kind": "return",
+        "code": "return result;",
+        "targetType": "Set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:227:3",
+        "kind": "return",
+        "code": "return result;",
+        "targetType": "Set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/strategy/server.ts:498:7",
+        "kind": "propertyRead",
+        "code": "result.sessionReset",
+        "propertyName": "sessionReset",
+        "targetType": "Set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/strategy/server.ts:501:90",
+        "kind": "propertyRead",
+        "code": "result.dropped",
+        "propertyName": "dropped",
+        "targetType": "Set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/strategy/server.ts:508:3",
+        "kind": "passAsArg",
+        "code": "GraphPanel.pushTraceEdges(result.edges)",
+        "targetType": "Set",
+        "context": "arg 0 to pushTraceEdges"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/strategy/server.ts:508:29",
+        "kind": "propertyRead",
+        "code": "result.edges",
+        "propertyName": "edges",
+        "targetType": "Set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/strategy/server.ts:511:3",
+        "kind": "return",
+        "code": "return result;",
+        "targetType": "Set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/strategy/server.ts:528:3",
+        "kind": "return",
+        "code": "return result;",
+        "targetType": "Set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/strategy/server.ts:551:5",
+        "kind": "return",
+        "code": "return result;",
+        "targetType": "Set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/strategy/server.ts:559:5",
+        "kind": "return",
+        "code": "return result;",
+        "targetType": "Set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/strategy/server.ts:568:5",
+        "kind": "return",
+        "code": "return result;",
+        "targetType": "Set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/strategy/server.ts:576:5",
+        "kind": "return",
+        "code": "return result;",
+        "targetType": "Set"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/strategy/server.ts:593:5",
+        "kind": "return",
+        "code": "return result;",
         "targetType": "Set"
       },
       {
@@ -1603,6 +3620,38 @@
         "targetType": "Set"
       }
     ],
+    "BagelsTreeItem": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:253:15",
+        "kind": "instantiation",
+        "code": "new BagelsTreeItem(\n\t\t\t\t{\n\t\t\t\t\tlabel: `${child.segment} (${count})`,\n\t\t\t\t\ttype: 'segment',\n\t\t\t\t\tfull",
+        "context": "new expression"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:283:13",
+        "kind": "instantiation",
+        "code": "new BagelsTreeItem(\n\t\t\t\t\t{ label: 'No workspace loaded', type: 'info' },\n\t\t\t\t\tvscode.TreeItemCollaps",
+        "context": "new expression"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:289:13",
+        "kind": "instantiation",
+        "code": "new BagelsTreeItem(\n\t\t\t\t\t{ label: 'No EDS data in registry', type: 'info' },\n\t\t\t\t\tvscode.TreeItemCol",
+        "context": "new expression"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:295:13",
+        "kind": "instantiation",
+        "code": "new BagelsTreeItem(\n\t\t\t\t\t{ label: 'No wrap sites found (eds.json)', type: 'info' },\n\t\t\t\t\tvscode.Tree",
+        "context": "new expression"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:312:15",
+        "kind": "instantiation",
+        "code": "new BagelsTreeItem(\n\t\t\t\t{\n\t\t\t\t\tlabel: wrap.label || shortLocation(wrap.location),\n\t\t\t\t\ttype: 'wrap',",
+        "context": "new expression"
+      }
+    ],
     "Main": [
       {
         "location": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:44:15",
@@ -1629,288 +3678,288 @@
     ],
     "LiveTraceTreeItem": [
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:93:19",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:97:19",
         "kind": "instantiation",
         "code": "new LiveTraceTreeItem(\n\t\t\t\t\t\t`… ${hidden} more — search Jaeger for the full history`,\n\t\t\t\t\t\tvscode.T",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:97:6",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:101:6",
         "kind": "propertyWrite",
         "code": "more.iconPath = new vscode.ThemeIcon('info')",
         "propertyName": "iconPath",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:97:6",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:101:6",
         "kind": "propertyRead",
         "code": "more.iconPath",
         "propertyName": "iconPath",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:98:6",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:102:6",
         "kind": "passAsArg",
         "code": "rows.push(more)",
         "targetType": "LiveTraceTreeItem",
         "context": "arg 0 to push"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:174:16",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:218:16",
         "kind": "instantiation",
-        "code": "new LiveTraceTreeItem(\n\t\t\t`[${members[0].count}][×${members.length}] ${name}`,\n\t\t\tvscode.TreeItemCol",
+        "code": "new LiveTraceTreeItem(\n\t\t\tlabel,\n\t\t\tvscode.TreeItemCollapsibleState.Collapsed\n\t\t)",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:178:3",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:222:3",
         "kind": "propertyWrite",
-        "code": "item.id = `tracegroup-${name}`",
+        "code": "item.id = `tracegroup-${name}-${groupHash || ''}`",
         "propertyName": "id",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:178:3",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:222:3",
         "kind": "propertyRead",
         "code": "item.id",
         "propertyName": "id",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:180:3",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:224:3",
         "kind": "propertyWrite",
         "code": "item.description = hasUnknown ? `${age} — UNKNOWN ERROR` : hasError ? `${age} — ERROR` : age",
         "propertyName": "description",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:180:3",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:224:3",
         "kind": "propertyRead",
         "code": "item.description",
         "propertyName": "description",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:182:3",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:227:3",
         "kind": "propertyWrite",
-        "code": "item.tooltip = `${members.length} traces in the current window (last 1000 edges)${errorNote} — expan",
+        "code": "item.tooltip = `${members.length} traces in the current window (last 1000 edges)${errorNote}${shapeN",
         "propertyName": "tooltip",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:182:3",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:227:3",
         "kind": "propertyRead",
         "code": "item.tooltip",
         "propertyName": "tooltip",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:183:3",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:228:3",
         "kind": "propertyWrite",
         "code": "item.iconPath = hasUnknown\n\t\t\t? new vscode.ThemeIcon('warning', new vscode.ThemeColor('errorForegrou",
         "propertyName": "iconPath",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:183:3",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:228:3",
         "kind": "propertyRead",
         "code": "item.iconPath",
         "propertyName": "iconPath",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:188:3",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:233:3",
         "kind": "propertyWrite",
         "code": "item.contextValue = 'mnemTraceGroup'",
         "propertyName": "contextValue",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:188:3",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:233:3",
         "kind": "propertyRead",
         "code": "item.contextValue",
         "propertyName": "contextValue",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:190:3",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:235:3",
         "kind": "return",
         "code": "return item;",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:205:16",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:252:16",
         "kind": "instantiation",
         "code": "new LiveTraceTreeItem(\n\t\t\tlabel,\n\t\t\tvscode.TreeItemCollapsibleState.Collapsed\n\t\t)",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:209:3",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:256:3",
         "kind": "propertyWrite",
         "code": "item.id = `trace-${group.rootId}`",
         "propertyName": "id",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:209:3",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:256:3",
         "kind": "propertyRead",
         "code": "item.id",
         "propertyName": "id",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:211:3",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:258:3",
         "kind": "propertyWrite",
         "code": "item.description = unknownError ? `${age} — UNKNOWN ERROR` : hasError ? `${age} — ERROR` : age",
         "propertyName": "description",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:211:3",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:258:3",
         "kind": "propertyRead",
         "code": "item.description",
         "propertyName": "description",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:213:3",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:260:3",
         "kind": "propertyWrite",
         "code": "item.tooltip = `${group.count} edges, root #${group.rootId}${errorNote} — click to isolate in the 3D",
         "propertyName": "tooltip",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:213:3",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:260:3",
         "kind": "propertyRead",
         "code": "item.tooltip",
         "propertyName": "tooltip",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:215:3",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:262:3",
         "kind": "propertyWrite",
         "code": "item.iconPath = unknownError\n\t\t\t? new vscode.ThemeIcon('warning', new vscode.ThemeColor('errorForegr",
         "propertyName": "iconPath",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:215:3",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:262:3",
         "kind": "propertyRead",
         "code": "item.iconPath",
         "propertyName": "iconPath",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:222:3",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:269:3",
         "kind": "propertyWrite",
         "code": "item.contextValue = traceId ? 'mnemTraceJaeger' : 'mnemTrace'",
         "propertyName": "contextValue",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:222:3",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:269:3",
         "kind": "propertyRead",
         "code": "item.contextValue",
         "propertyName": "contextValue",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:223:3",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:270:3",
         "kind": "propertyWrite",
         "code": "item.command = {\n\t\t\tcommand   : 'mnemographica.showTrace',\n\t\t\ttitle     : 'Isolate in 3D panel',\n\t\t\t",
         "propertyName": "command",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:223:3",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:270:3",
         "kind": "propertyRead",
         "code": "item.command",
         "propertyName": "command",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:232:3",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:279:3",
         "kind": "return",
         "code": "return item;",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:238:16",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:285:16",
         "kind": "instantiation",
         "code": "new LiveTraceTreeItem(\n\t\t\t`${edge.kind}: ${shortName}${merged}`,\n\t\t\tvscode.TreeItemCollapsibleState.",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:242:3",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:289:3",
         "kind": "propertyWrite",
         "code": "item.id = `trace-edge-${edge.id}`",
         "propertyName": "id",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:242:3",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:289:3",
         "kind": "propertyRead",
         "code": "item.id",
         "propertyName": "id",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:243:3",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:290:3",
         "kind": "propertyWrite",
         "code": "item.description = edge.duration !== null ? `${edge.duration}ms` : edge.status",
         "propertyName": "description",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:243:3",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:290:3",
         "kind": "propertyRead",
         "code": "item.description",
         "propertyName": "description",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:247:3",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:294:3",
         "kind": "propertyWrite",
         "code": "item.tooltip = `#${edge.id} ${edge.kind}:${edge.name} (${edge.status})${count > 1 ? ` — ${count} inv",
         "propertyName": "tooltip",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:247:3",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:294:3",
         "kind": "propertyRead",
         "code": "item.tooltip",
         "propertyName": "tooltip",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:249:3",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:296:3",
         "kind": "propertyWrite",
         "code": "item.iconPath = errored\n\t\t\t? new vscode.ThemeIcon(this.iconForKind(edge.kind), new vscode.ThemeColor",
         "propertyName": "iconPath",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:249:3",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:296:3",
         "kind": "propertyRead",
         "code": "item.iconPath",
         "propertyName": "iconPath",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:256:4",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:303:4",
         "kind": "propertyWrite",
         "code": "item.command = {\n\t\t\t\tcommand   : 'mnemographica.gotoTraceEdge',\n\t\t\t\ttitle     : 'Go to code',\n\t\t\t\tar",
         "propertyName": "command",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:256:4",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:303:4",
         "kind": "propertyRead",
         "code": "item.command",
         "propertyName": "command",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:262:3",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:309:3",
         "kind": "return",
         "code": "return item;",
         "targetType": "LiveTraceTreeItem"
@@ -2273,35 +4322,70 @@
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:128:18",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:150:18",
         "kind": "propertyRead",
         "code": "item.data",
         "propertyName": "data",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:129:21",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:151:21",
         "kind": "propertyRead",
         "code": "item.data.fullName",
         "propertyName": "fullName",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:129:21",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:151:21",
         "kind": "propertyRead",
         "code": "item.data",
         "propertyName": "data",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:129:43",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:151:43",
         "kind": "propertyRead",
         "code": "item.data.label",
         "propertyName": "label",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:129:43",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:151:43",
+        "kind": "propertyRead",
+        "code": "item.data",
+        "propertyName": "data",
+        "targetType": "LiveTraceTreeItem"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:175:18",
+        "kind": "propertyRead",
+        "code": "item.data",
+        "propertyName": "data",
+        "targetType": "LiveTraceTreeItem"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:176:16",
+        "kind": "propertyRead",
+        "code": "item.data.fullName",
+        "propertyName": "fullName",
+        "targetType": "LiveTraceTreeItem"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:176:16",
+        "kind": "propertyRead",
+        "code": "item.data",
+        "propertyName": "data",
+        "targetType": "LiveTraceTreeItem"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:176:38",
+        "kind": "propertyRead",
+        "code": "item.data.label",
+        "propertyName": "label",
+        "targetType": "LiveTraceTreeItem"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:176:38",
         "kind": "propertyRead",
         "code": "item.data",
         "propertyName": "data",
@@ -2310,31 +4394,31 @@
     ],
     "vscode.ThemeColor": [
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:184:38",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:229:38",
         "kind": "instantiation",
         "code": "new vscode.ThemeColor('errorForeground')",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:186:37",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:231:37",
         "kind": "instantiation",
         "code": "new vscode.ThemeColor('errorForeground')",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:216:38",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:263:38",
         "kind": "instantiation",
         "code": "new vscode.ThemeColor('errorForeground')",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:218:37",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:265:37",
         "kind": "instantiation",
         "code": "new vscode.ThemeColor('errorForeground')",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:250:56",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:297:56",
         "kind": "instantiation",
         "code": "new vscode.ThemeColor('errorForeground')",
         "context": "new expression"
@@ -2372,7 +4456,7 @@
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:335:21",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:354:21",
         "kind": "instantiation",
         "code": "new vscode.Position(location.line - 1, location.column - 1)",
         "context": "new expression"
@@ -2438,7 +4522,7 @@
     ],
     "Promise": [
       {
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:206:22",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:215:22",
         "kind": "instantiation",
         "code": "new Promise<unknown>((resolve) => {\n\t\t\tconst timer = setTimeout(() => {\n\t\t\t\tGraphPanel.viewStateRequ",
         "context": "new expression"
@@ -2464,7 +4548,7 @@
     ],
     "vscode.Selection": [
       {
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:336:23",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:355:23",
         "kind": "instantiation",
         "code": "new vscode.Selection(position, position)",
         "context": "new expression"
@@ -2484,7 +4568,7 @@
     ],
     "vscode.Range": [
       {
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:337:23",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:356:23",
         "kind": "instantiation",
         "code": "new vscode.Range(position, position)",
         "context": "new expression"
@@ -2662,7 +4746,7 @@
     ],
     "MnemonicaTreeProvider": [
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:46:17",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:52:17",
         "kind": "instantiation",
         "code": "new MnemonicaTreeProvider()",
         "context": "new expression"
@@ -2670,7 +4754,7 @@
     ],
     "UsagesTreeProvider": [
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:57:19",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:63:19",
         "kind": "instantiation",
         "code": "new UsagesTreeProvider()",
         "context": "new expression"
@@ -2678,7 +4762,7 @@
     ],
     "FlowTreeProvider": [
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:68:17",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:74:17",
         "kind": "instantiation",
         "code": "new FlowTreeProvider()",
         "context": "new expression"
@@ -2686,15 +4770,31 @@
     ],
     "GenTreeProvider": [
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:79:16",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:85:16",
         "kind": "instantiation",
         "code": "new GenTreeProvider()",
         "context": "new expression"
       }
     ],
+    "DiamondsTreeProvider": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:97:21",
+        "kind": "instantiation",
+        "code": "new DiamondsTreeProvider()",
+        "context": "new expression"
+      }
+    ],
+    "BagelsTreeProvider": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:104:19",
+        "kind": "instantiation",
+        "code": "new BagelsTreeProvider()",
+        "context": "new expression"
+      }
+    ],
     "MnemonicaDefinitionProvider": [
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:147:23",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:193:23",
         "kind": "instantiation",
         "code": "new MnemonicaDefinitionProvider()",
         "context": "new expression"
@@ -2702,7 +4802,7 @@
     ],
     "MnemonicaReferenceProvider": [
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:148:22",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:194:22",
         "kind": "instantiation",
         "code": "new MnemonicaReferenceProvider()",
         "context": "new expression"
@@ -2710,7 +4810,7 @@
     ],
     "StrategyServer": [
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:174:19",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:220:19",
         "kind": "instantiation",
         "code": "new StrategyServer(strategyPort, strategyWsPort)",
         "context": "new expression"
@@ -2718,7 +4818,7 @@
     ],
     "MainOrchestrator": [
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:193:21",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:239:21",
         "kind": "instantiation",
         "code": "new MainOrchestrator(context.extension.packageJSON.version || '0.1.0')",
         "context": "new expression"
@@ -2726,7 +4826,7 @@
     ],
     "LiveTraceTreeProvider": [
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:223:22",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:269:22",
         "kind": "instantiation",
         "code": "new LiveTraceTreeProvider(mainOrchestrator)",
         "context": "new expression"
@@ -2734,34 +4834,34 @@
     ],
     "URLSearchParams": [
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:296:19",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:342:19",
         "kind": "instantiation",
         "code": "new URLSearchParams(uri.query)",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:303:29",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:349:29",
         "kind": "methodCall",
         "code": "params.get('root')",
         "propertyName": "get",
         "targetType": "URLSearchParams"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:303:29",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:349:29",
         "kind": "propertyRead",
         "code": "params.get",
         "propertyName": "get",
         "targetType": "URLSearchParams"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:307:21",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:353:21",
         "kind": "methodCall",
         "code": "params.get('jaeger')",
         "propertyName": "get",
         "targetType": "URLSearchParams"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:307:21",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:353:21",
         "kind": "propertyRead",
         "code": "params.get",
         "propertyName": "get",
@@ -3045,7 +5145,21 @@
         "targetType": "Instrumentation"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:480:66",
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:499:7",
+        "kind": "methodCall",
+        "code": "instrumentationInstance.setCreationGraph(graph)",
+        "propertyName": "setCreationGraph",
+        "targetType": "Instrumentation"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:499:7",
+        "kind": "propertyRead",
+        "code": "instrumentationInstance.setCreationGraph",
+        "propertyName": "setCreationGraph",
+        "targetType": "Instrumentation"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:505:66",
         "kind": "propertyRead",
         "code": "instrumentationInstance.size",
         "propertyName": "size",
@@ -3069,7 +5183,7 @@
     ],
     "Trie": [
       {
-        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:498:25",
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:523:25",
         "kind": "instantiation",
         "code": "new TrieConstructor()",
         "context": "new expression"

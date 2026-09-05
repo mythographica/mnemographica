@@ -1,0 +1,191 @@
+{
+  "version": "1.0",
+  "generatedAt": "2026-09-04T11:10:24.723Z",
+  "eds": {
+    "EdsProbe": [
+      {
+        "location": "/code/mnemonica/tactica-nestjs/src/entities/eds-probe.entity.ts:18:15",
+        "kind": "wrap",
+        "code": "wrap((id: string) => {\n\t\tconst user = new UserEntity({\n\t\t\tid,\n\t\t\temail: `${id}@probe.local`,\n\t\t\tname",
+        "scope": "EdsProbe",
+        "fn": "wrap",
+        "label": "probe:fire",
+        "callbackScopeId": "/code/mnemonica/tactica-nestjs/src/entities/eds-probe.entity.ts:18:20",
+        "createsTypes": [
+          "UserEntity"
+        ],
+        "scopeId": "/code/mnemonica/tactica-nestjs/src/entities/eds-probe.entity.ts:16:37"
+      }
+    ],
+    "unknown": [
+      {
+        "location": "/code/mnemonica/tactica-nestjs/src/trace-exception.filter.ts:110:26",
+        "kind": "contextConsume",
+        "code": "getFlow(error)"
+      },
+      {
+        "location": "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts:107:18",
+        "kind": "wrap",
+        "code": "wrap(() => {\n\t\t\tconst result = user.constructor.name;\n\t\t\treturn result;\n\t\t}, user, 'chaos:ok')",
+        "fn": "wrap",
+        "instanceArg": "user",
+        "label": "chaos:ok",
+        "callbackScopeId": "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts:107:23",
+        "scopeId": "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts:85:2",
+        "wrapsTypePath": "UserEntity"
+      },
+      {
+        "location": "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts:135:19",
+        "kind": "wrap",
+        "code": "wrap(() => {\n\t\t\tthrow new Error(`chaos-crash:${id}:${mark}`);\n\t\t}, user, 'chaos:crash')",
+        "fn": "wrap",
+        "instanceArg": "user",
+        "label": "chaos:crash",
+        "callbackScopeId": "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts:135:24",
+        "scopeId": "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts:117:2",
+        "wrapsTypePath": "UserEntity"
+      },
+      {
+        "location": "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts:160:19",
+        "kind": "wrap",
+        "code": "wrap(() => {\n\t\t\tconst result = Promise.reject(new Error(`chaos-reject:${id}:${mark}`));\n\t\t\treturn re",
+        "fn": "wrap",
+        "instanceArg": "user",
+        "label": "chaos:reject",
+        "callbackScopeId": "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts:160:24",
+        "scopeId": "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts:145:2",
+        "wrapsTypePath": "UserEntity"
+      },
+      {
+        "location": "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts:192:19",
+        "kind": "wrap",
+        "code": "wrap(() => {\n\t\t\tconst disconnected = JSON.parse(JSON.stringify(user));\n\t\t\tif (outcome === 'throw') {",
+        "fn": "wrap",
+        "instanceArg": "user",
+        "callbackScopeId": "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts:192:24",
+        "scopeId": "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts:172:2",
+        "wrapsTypePath": "UserEntity"
+      },
+      {
+        "location": "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts:243:19",
+        "kind": "wrap",
+        "code": "wrap(() => {\n\t\t\tthrow new Error(`chaos-pure:${id}:${mark}`);\n\t\t}, 'chaos:pure-error')",
+        "fn": "wrap",
+        "label": "chaos:pure-error",
+        "callbackScopeId": "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts:243:24",
+        "scopeId": "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts:224:2"
+      },
+      {
+        "location": "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts:272:19",
+        "kind": "wrap",
+        "code": "wrap(() => {\n\t\t\tthrow new Error(`chaos-crash-un:${id}:${mark}`);\n\t\t}, user, 'chaos:crash-un-response",
+        "fn": "wrap",
+        "instanceArg": "user",
+        "label": "chaos:crash-un-response",
+        "callbackScopeId": "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts:272:24",
+        "scopeId": "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts:253:2",
+        "wrapsTypePath": "UserEntity"
+      },
+      {
+        "location": "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts:305:19",
+        "kind": "wrap",
+        "code": "wrap(() => {\n\t\t\tthrow new Error(`chaos-crash-int:${id}:${imark}:${mark}`);\n\t\t}, user, 'chaos:crash-i",
+        "fn": "wrap",
+        "instanceArg": "user",
+        "label": "chaos:crash-int-response",
+        "callbackScopeId": "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts:305:24",
+        "scopeId": "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts:285:2",
+        "wrapsTypePath": "UserEntity"
+      },
+      {
+        "location": "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts:402:24",
+        "kind": "wrap",
+        "code": "wrap((msg: queueMessage) => {\n\t\t\tconst crafted = new user.UserResponse({\n\t\t\t\t...responsePayload,\n\t\t\t",
+        "fn": "wrap",
+        "instanceArg": "user",
+        "label": "chaos:mist-plus-queue-handler",
+        "callbackScopeId": "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts:402:29",
+        "createsTypes": [
+          "UserEntity"
+        ],
+        "scopeId": "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts:354:2",
+        "wrapsTypePath": "UserEntity"
+      },
+      {
+        "location": "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts:417:17",
+        "kind": "contextConsume",
+        "code": "getFlow(error)"
+      },
+      {
+        "location": "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts:490:24",
+        "kind": "wrap",
+        "code": "wrap((msg: queueMessage) => {\n\t\t\tconst crafted = new user.UserResponse({\n\t\t\t\t...responsePayload,\n\t\t\t",
+        "fn": "wrap",
+        "instanceArg": "user",
+        "label": "chaos:unblinding-queue-handler",
+        "callbackScopeId": "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts:490:29",
+        "createsTypes": [
+          "UserEntity"
+        ],
+        "scopeId": "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts:447:2",
+        "wrapsTypePath": "UserEntity"
+      },
+      {
+        "location": "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts:549:17",
+        "kind": "wrap",
+        "code": "wrap((data: { name?: string }) => {\n\t\t\t// data.name is undefined on the malformed payload: the explo",
+        "fn": "wrap",
+        "instanceArg": "user",
+        "label": "chaos:corner-cut-craft",
+        "callbackScopeId": "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts:549:22",
+        "createsTypes": [
+          "UserEntity"
+        ],
+        "scopeId": "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts:505:2",
+        "wrapsTypePath": "UserEntity"
+      },
+      {
+        "location": "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts:587:18",
+        "kind": "wrap",
+        "code": "wrap(() => {\n\t\t\tconst inner = wrap(() => {\n\t\t\t\tconst text = `inner:${user.name}`;\n\t\t\t\treturn text;\n\t",
+        "fn": "wrap",
+        "instanceArg": "user",
+        "label": "chaos:nested:outer",
+        "callbackScopeId": "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts:587:23",
+        "scopeId": "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts:569:2",
+        "wrapsTypePath": "UserEntity"
+      },
+      {
+        "location": "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts:588:18",
+        "kind": "wrap",
+        "code": "wrap(() => {\n\t\t\t\tconst text = `inner:${user.name}`;\n\t\t\t\treturn text;\n\t\t\t}, user, 'chaos:nested:inner",
+        "fn": "wrap",
+        "instanceArg": "user",
+        "label": "chaos:nested:inner",
+        "via": "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts:587:18",
+        "callbackScopeId": "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts:588:23",
+        "scopeId": "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts:587:23",
+        "wrapsTypePath": "UserEntity"
+      },
+      {
+        "location": "/code/mnemonica/tactica-nestjs/src/mid-sleep.middleware.ts:54:20",
+        "kind": "wrap",
+        "code": "wrap(() => {\n\t\t\t\tthrow new Error(`chaos-mid-sleep:${stash.id}:${stash.mark}`);\n\t\t\t}, stash.userRespo",
+        "fn": "wrap",
+        "label": "chaos:mid-sleep-timer",
+        "callbackScopeId": "/code/mnemonica/tactica-nestjs/src/mid-sleep.middleware.ts:54:25",
+        "scopeId": "/code/mnemonica/tactica-nestjs/src/mid-sleep.middleware.ts:43:14"
+      },
+      {
+        "location": "/code/mnemonica/tactica-nestjs/src/main.ts:307:15",
+        "kind": "contextConsume",
+        "code": "getFlow(error)"
+      },
+      {
+        "location": "/code/mnemonica/tactica-nestjs/src/main.ts:308:19",
+        "kind": "contextConsume",
+        "code": "getErrorInstance(error)"
+      }
+    ]
+  }
+}

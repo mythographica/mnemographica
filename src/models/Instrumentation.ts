@@ -15,11 +15,50 @@ export type rawInstrumentationPoint = {
 	targets?: string[];
 };
 
+// instrumentation.json v2 `creationGraph` section — tactica's static
+// extraction of the call chains from each entry point down to every
+// `new SomeType()` site. scopeId identity: the file path for module
+// scopes, "file:line:col" (1-based) for function scopes.
+export type rawCreationGraphNode = {
+	scopeId: string;
+	name: string;
+	kind: 'module' | 'function' | 'method' | 'arrow';
+	filePath: string;
+	location: string;
+	starter: boolean;
+};
+
+// caller → callee; the callee sits one step closer to a creation site
+export type rawCreationGraphEdge = {
+	caller: string;
+	callee: string;
+};
+
+// A `new` site: the holder scope constructs typePath at location
+export type rawCreationGraphAnchor = {
+	location: string;
+	holderScopeId: string;
+	typePath: string;
+	constructorText?: string;
+	rooted?: boolean;
+	variable?: string;
+	terminatedAt?: string;
+};
+
+// Kept as plain transfer data — unlike points the graph is consumed
+// whole (by GraphBuilder), never per-entry, so no *Entry subtype
+export type rawCreationGraph = {
+	nodes: rawCreationGraphNode[];
+	edges: rawCreationGraphEdge[];
+	anchors: rawCreationGraphAnchor[];
+};
+
 export type InstrumentationPointInstance = InstanceType<typeof InstrumentationPoint>;
 
 export const Instrumentation = define('Instrumentation', class {
 	createdAt: number;
 	private points: InstrumentationPointInstance[] = [];
+	private creationGraph: rawCreationGraph | undefined;
 	private logger = getLogger();
 
 	constructor () {
@@ -39,8 +78,21 @@ export const Instrumentation = define('Instrumentation', class {
 		this.points = points;
 	}
 
+	setCreationGraph (graph: rawCreationGraph): void {
+		this.creationGraph = graph;
+	}
+
+	getCreationGraph (): rawCreationGraph | undefined {
+		return this.creationGraph;
+	}
+
+	hasCreationGraph (): boolean {
+		return this.creationGraph !== undefined;
+	}
+
 	clear (): void {
 		this.points = [];
+		this.creationGraph = undefined;
 	}
 });
 

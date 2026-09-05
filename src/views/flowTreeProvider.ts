@@ -57,6 +57,11 @@ export class FlowTreeItem extends vscode.TreeItem {
 			// Parse location: file.ts:line:col
 			const match = data.location.match(/^(.+):(\d+):(\d+)$/);
 			if (match) {
+				// The location tail rides the row as description —
+				// otherwise identical labels (".value" × 8 under one
+				// type) carry no way to tell entries apart
+				const tail = match[1].split('/').pop() || match[1];
+				this.description = `${tail}:${match[2]}`;
 				this.command = {
 					command: 'mnemographica.navigateToLocation',
 					title: 'Go to Flow',

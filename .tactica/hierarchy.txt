@@ -1,12 +1,12 @@
 Type Hierarchy (Trie):
+├── Instrumentation
+│   └── Instrumentation_InstrumentationPoint
 ├── Definitions
 │   └── Definitions_DefinitionEntry
 ├── EDS
 │   └── EDS_EDSEntry
 ├── Flow
 │   └── Flow_FlowEntry
-├── Instrumentation
-│   └── Instrumentation_InstrumentationPoint
 ├── LoggerTab
 │   └── LoggerTab_LogEntry
 ├── Main

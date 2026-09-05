@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-09-03T12:16:17.193Z",
+  "generatedAt": "2026-09-05T01:20:24.296Z",
   "usages": {
     "LoggerTab": [
       {
@@ -196,12 +196,12 @@
     ],
     "Trie": [
       {
-        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:497:28",
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:522:28",
         "kind": "lookup",
         "code": "lookup('Trie')"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:498:25",
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:523:25",
         "kind": "instantiation",
         "code": "new TrieConstructor()"
       }

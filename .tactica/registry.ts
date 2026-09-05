@@ -10,14 +10,14 @@
 //   // instance has full intellisense for the generated type
 
 import type {
+	Instrumentation,
+	Instrumentation_InstrumentationPoint,
 	Definitions,
 	Definitions_DefinitionEntry,
 	EDS,
 	EDS_EDSEntry,
 	Flow,
 	Flow_FlowEntry,
-	Instrumentation,
-	Instrumentation_InstrumentationPoint,
 	LoggerTab,
 	LoggerTab_LogEntry,
 	Main,
@@ -47,14 +47,14 @@ import type {
  */
 declare module 'mnemonica' {
 	interface TypeRegistry {
+		'Instrumentation': new () => Instrumentation;
+		'Instrumentation.InstrumentationPoint': new (data: { kind: string; className: string; location: string; code: string; scope: string; targets?: Array<string> }) => Instrumentation_InstrumentationPoint;
 		'Definitions': new () => Definitions;
 		'Definitions.DefinitionEntry': new (data: { name: string; location: string; kind: string; parent: string | null; strictChain: boolean; blockErrors: boolean }) => Definitions_DefinitionEntry;
 		'EDS': new () => EDS;
-		'EDS.EDSEntry': new (data: { typeName: string; location: string; kind: string; code: string; targetType?: string; scope?: string; via?: string; createsTypes?: Array<string> }) => EDS_EDSEntry;
+		'EDS.EDSEntry': new (data: { typeName: string; location: string; kind: string; code: string; targetType?: string; scope?: string; via?: string; createsTypes?: Array<string>; label?: string; callbackScopeId?: string; instanceArg?: string; scopeId?: string; wrapsTypePath?: string }) => EDS_EDSEntry;
 		'Flow': new () => Flow;
 		'Flow.FlowEntry': new (data: { typeName: string; kind: string; code: string; location: string; propertyName?: string; context?: string; targetType?: string }) => Flow_FlowEntry;
-		'Instrumentation': new () => Instrumentation;
-		'Instrumentation.InstrumentationPoint': new (data: { kind: string; className: string; location: string; code: string; scope: string; targets?: Array<string> }) => Instrumentation_InstrumentationPoint;
 		'LoggerTab': new () => LoggerTab;
 		'LoggerTab.LogEntry': new (data: { level: 'info' | 'warning' | 'error'; message: string; timestamp: number; typeName?: string; error?: Error; args?: Array<unknown> }) => LoggerTab_LogEntry;
 		'Main': new (extensionVersion: string) => Main;

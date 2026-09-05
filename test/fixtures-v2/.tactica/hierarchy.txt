@@ -1,0 +1,20 @@
+Type Hierarchy (Trie):
+├── Sentience
+│   ├── Sentience_Consciousness
+│   │   ├── Sentience_Consciousness_Curiosity
+│   │   ├── Sentience_Consciousness_Empathy
+│   │   │   └── Sentience_Consciousness_Empathy_Gratitude
+│   │   └── Sentience_Consciousness_Sympathy
+│   └── Sentience_Memory
+├── UserEntity
+│   ├── UserEntity_UserResponse
+│   └── UserEntity_AdminEntity
+│       ├── UserEntity_AdminEntity_AdminResponse
+│       └── UserEntity_AdminEntity_SuperAdminEntity
+│           └── UserEntity_AdminEntity_SuperAdminEntity_SuperAdminResponse
+├── RootAsync
+│   └── RootAsync_ResultFromDecorate
+├── SyncBase
+│   └── SyncBase_SubAsync
+│       └── SyncBase_SubAsync_SubDecorate
+└── EdsProbe

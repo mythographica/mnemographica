@@ -53,12 +53,21 @@ export class GraphPanel {
 	 * Focus the 3D camera on a graph node (sidebar click → rotate, not
 	 * file jump). Returns true when the panel is open, visible, and in
 	 * 3D mode — callers fall back to file navigation on false.
+	 *
+	 * The latest request is remembered in pendingFocus: on a freshly
+	 * created panel the webview has not posted 'ready' yet and the
+	 * message can be lost — the 'ready' handler flushes it. Arrivals
+	 * after 'ready' but before the first render are stashed webview-side
+	 * (pendingFocusNode in webview.js).
 	 */
+	private static pendingFocus: { id: string; name: string } | null = null;
+
 	public static focusNode (data: { id: string; name: string }): boolean {
 		const current = GraphPanel.currentPanel;
 		if (!current || !current.panel.visible || current.currentMode !== '3D') {
 			return false;
 		}
+		GraphPanel.pendingFocus = data;
 		void current.panel.webview.postMessage({
 			command : 'focusNode',
 			data
@@ -251,6 +260,16 @@ export class GraphPanel {
 					if (graphData) {
 						this.updateGraph(graphData);
 					}
+					// Flush a focus request that predated the webview load
+					// (Show on Graph opened the panel just now)
+					if (GraphPanel.pendingFocus) {
+						const pending = GraphPanel.pendingFocus;
+						GraphPanel.pendingFocus = null;
+						void this.panel.webview.postMessage({
+							command : 'focusNode',
+							data    : pending
+						});
+					}
 					break;
 				case 'log':
 					// Forward webview logs to LoggerService
@@ -374,10 +393,27 @@ export class GraphPanel {
 		<button id="reset" title="Reset View">⟲</button>
 	</div>
 	<div id="gen-controls" style="display: block;">
-		<div class="gen-controls-header">Generation Distances</div>
-		<div id="gen-controls-list"></div>
-		<div class="gen-controls-header">Layers</div>
+		<div class="gen-controls-header">Layers &amp; Distances</div>
 		<div id="layer-controls-list"></div>
+	</div>
+	<div id="dive-legend">
+		<div class="gen-controls-header" id="dive-legend-header"><span>Legend</span><span id="dive-legend-toggle">▾</span></div>
+		<div class="legend-row"><span class="legend-swatch" style="color:#ef9a9a">●</span> type sphere (color = generation)</div>
+		<div class="legend-row"><span class="legend-swatch legend-dim" style="color:#ef9a9a">●</span> type never created (usages.json)</div>
+		<div class="legend-row"><span class="legend-swatch" style="color:#ce93d8">◆</span> creation scope (instrumentation)</div>
+		<div class="legend-row"><span class="legend-swatch" style="color:#ffb300">◯</span> wrap site (dive) — encircles what it wraps</div>
+		<div class="legend-row"><span class="legend-swatch" style="color:#aaaaaa">→</span> inheritance / invocation</div>
+		<div class="legend-row"><span class="legend-swatch" style="color:#66ccff">─</span> path-hit: AoT-guaranteed construction</div>
+		<div class="legend-row"><span class="legend-swatch legend-dim" style="color:#66ccff">─</span> path-hit never taken at runtime</div>
+		<div class="legend-row"><span class="legend-swatch" style="color:#ffb300">→</span> fiber: wrap → wrap (via)</div>
+		<div class="legend-row"><span class="legend-swatch" style="color:#ffd54f">⇢</span> fiber via construction (T → W2)</div>
+		<div class="legend-row"><span class="legend-swatch" style="color:#f9a825">→</span> wrap produced by type's handler</div>
+		<div class="legend-row"><span class="legend-swatch" style="color:#da70d6">⇢</span> holder diamond creates this type (dashed)</div>
+		<div class="legend-row"><span class="legend-swatch" style="color:#7aa2f7">◎</span> EDS ring (dive storage)</div>
+		<div class="legend-row"><span class="legend-swatch" style="color:#7aa2f7">⬡</span> attachHooks — grafts fire per construction</div>
+		<div class="legend-row"><span class="legend-swatch" style="color:#b48ead">■</span> adapter sink (fiber data leaves)</div>
+		<div class="legend-row"><span class="legend-swatch" style="color:#f0c674">▲</span> Jaeger — outside the system</div>
+		<div class="legend-row"><span class="legend-swatch" style="color:#9aa0a6">╱</span> label leader · drag pins · click info · dblclick jumps to code</div>
 	</div>
 	<div id="graph"></div>
 	<div id="tooltip"></div>

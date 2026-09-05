@@ -1,7 +1,23 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-09-03T12:16:17.192Z",
+  "generatedAt": "2026-09-05T01:20:24.295Z",
   "definitions": {
+    "Instrumentation": {
+      "name": "Instrumentation",
+      "location": "/code/mnemonica/mnemographica/src/models/Instrumentation.ts:58:32",
+      "kind": "define",
+      "parent": null,
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Instrumentation.InstrumentationPoint": {
+      "name": "InstrumentationPoint",
+      "location": "/code/mnemonica/mnemographica/src/models/Instrumentation.ts:103:53",
+      "kind": "define",
+      "parent": "Instrumentation",
+      "strictChain": true,
+      "blockErrors": false
+    },
     "Definitions": {
       "name": "Definitions",
       "location": "/code/mnemonica/mnemographica/src/models/Definition.ts:18:28",
@@ -20,7 +36,7 @@
     },
     "EDS": {
       "name": "EDS",
-      "location": "/code/mnemonica/mnemographica/src/models/EDS.ts:19:20",
+      "location": "/code/mnemonica/mnemographica/src/models/EDS.ts:29:20",
       "kind": "define",
       "parent": null,
       "strictChain": true,
@@ -28,7 +44,7 @@
     },
     "EDS.EDSEntry": {
       "name": "EDSEntry",
-      "location": "/code/mnemonica/mnemographica/src/models/EDS.ts:66:29",
+      "location": "/code/mnemonica/mnemographica/src/models/EDS.ts:76:29",
       "kind": "define",
       "parent": "EDS",
       "strictChain": true,
@@ -47,22 +63,6 @@
       "location": "/code/mnemonica/mnemographica/src/models/Flow.ts:65:31",
       "kind": "define",
       "parent": "Flow",
-      "strictChain": true,
-      "blockErrors": false
-    },
-    "Instrumentation": {
-      "name": "Instrumentation",
-      "location": "/code/mnemonica/mnemographica/src/models/Instrumentation.ts:20:32",
-      "kind": "define",
-      "parent": null,
-      "strictChain": true,
-      "blockErrors": false
-    },
-    "Instrumentation.InstrumentationPoint": {
-      "name": "InstrumentationPoint",
-      "location": "/code/mnemonica/mnemographica/src/models/Instrumentation.ts:51:53",
-      "kind": "define",
-      "parent": "Instrumentation",
       "strictChain": true,
       "blockErrors": false
     },
@@ -140,7 +140,7 @@
     },
     "Registry.RegistryEntry": {
       "name": "RegistryEntry",
-      "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:576:39",
+      "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:601:39",
       "kind": "define",
       "parent": "Registry",
       "strictChain": true,

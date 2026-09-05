@@ -8,9 +8,13 @@ import type { MainOrchestrator, traceEdge } from '../core/MainOrchestrator';
  *
  * The 3D panel's flashes move at machine speed — unobservable for a
  * human. This sidebar collects the stream: traces from the
- * orchestrator's ring, FULLY MERGED by root name (2026-09-02,
- * Viktor's pick) — one `[2][×49] UserEntity` row per name,
- * expanding to the individual traces (exact-pick while they're in
+ * orchestrator's ring, merged by root name AND trace shape
+ * (2026-09-05, Viktor's review — a name alone collides distinct
+ * traces sharing a root; the shape signature is the sorted set of
+ * kind:name edge identities, loop ×N repeats folded out) — one
+ * `[2][×49] UserEntity` row per name+shape, discriminated by the
+ * trace's endpoint (`→ UserResponse`) when several shapes share a
+ * name, expanding to the individual traces (exact-pick while they're in
  * the ring), each expanding to its edges in order. Clicking an edge
  * jumps to its code (callsite for call/method edges, the define()
  * site for create edges); clicking a trace row isolates it in the
@@ -126,21 +130,57 @@ export class LiveTraceTreeProvider implements vscode.TreeDataProvider<LiveTraceT
 		// Fetch the WHOLE window (not the default 50) so the ×N is the true
 		// count of matching traces in the ring, not a slice artifact.
 		const groups = this.orchestrator.getTraceGroups(MAX_GROUP_ROWS * 10, 1000);
-		// Full merge by root name (2026-09-02, Viktor's pick): ONE group row
-		// per name — `[2][×49] UserEntity` — instead of 49 identical rows.
-		// The flat list arrives tier-sorted (unknown > error > newest), so
-		// members keep that order inside their group and the group row
-		// inherits the tier of its worst member.
-		const byName = new Map<string, traceGroup[]>();
+		// Merge by root name AND trace shape (2026-09-05, Viktor's review —
+		// replaces the pure name merge of 2026-09-02): a name alone
+		// collides DIFFERENT traces that merely share a root — a trace
+		// ending at one wrap site is not the same trace as one ending at
+		// another ("UserEntity → UserResponse" is another trace). The
+		// signature is the sorted set of the trace's kind:name edge
+		// identities (the name carries the callsite for call/method edges —
+		// which wrap site fired); multiplicity folds out, so a request
+		// loop's ×N repeats stay in one group. The flat list arrives
+		// tier-sorted (unknown > error > newest), so members keep that
+		// order inside their group and the group row inherits the tier of
+		// its worst member.
+		const signatureOf = (group: traceGroup): string => {
+			const parts = group.edges.map(edge => `${edge.kind}:${edge.name}`);
+			const result = Array.from(new Set(parts)).sort().join('|');
+			return result;
+		};
+		// djb2 — group row ids must not collide when two shapes share a name
+		const hashOf = (text: string): string => {
+			let hash = 5381;
+			for (let i = 0; i < text.length; i++) {
+				hash = ((hash << 5) + hash + text.charCodeAt(i)) >>> 0;
+			}
+			const result = hash.toString(36);
+			return result;
+		};
+		const byShape = new Map<string, traceGroup[]>();
 		for (const group of groups) {
-			const bucket = byName.get(group.name);
+			const key = `${group.name}\n${signatureOf(group)}`;
+			const bucket = byShape.get(key);
 			if (bucket) {
 				bucket.push(group);
 			} else {
-				byName.set(group.name, [group]);
+				byShape.set(key, [group]);
 			}
 		}
-		const nameGroups = Array.from(byName.values());
+		const shapeGroups = Array.from(byShape.values());
+		// When several shapes share one root name the rows must be told
+		// apart — append where the trace ENDS (its chronologically last
+		// edge: "… → UserResponse")
+		const nameCounts = new Map<string, number>();
+		for (const members of shapeGroups) {
+			nameCounts.set(members[0].name, (nameCounts.get(members[0].name) || 0) + 1);
+		}
+		const endpointOf = (members: traceGroup[]): string | undefined => {
+			if ((nameCounts.get(members[0].name) || 0) < 2) { return undefined; }
+			const last = members[0].edges[members[0].edges.length - 1];
+			if (!last) { return undefined; }
+			const result = this.shortName(last);
+			return result;
+		};
 		const tierOf = (members: traceGroup[]): number => {
 			const tier = members.some(member => member.unknownError) ? 0 : members.some(member => member.hasError) ? 1 : 2;
 			return tier;
@@ -149,37 +189,42 @@ export class LiveTraceTreeProvider implements vscode.TreeDataProvider<LiveTraceT
 			const latest = members.reduce((acc, member) => Math.max(acc, member.latest), 0);
 			return latest;
 		};
-		nameGroups.sort((a, b) => {
+		shapeGroups.sort((a, b) => {
 			const tier = tierOf(a) - tierOf(b);
 			const result = tier !== 0 ? tier : latestOf(b) - latestOf(a);
 			return result;
 		});
 		const items: LiveTraceTreeItem[] = [];
-		for (const members of nameGroups) {
+		for (const members of shapeGroups) {
+			const endpoint = endpointOf(members);
+			const groupHash = hashOf(`${members[0].name}\n${signatureOf(members[0])}`);
 			if (members.length === 1) {
 				// Single trace — no pointless nesting, the row IS the trace
-				items.push(this.traceItem(members[0], false));
+				items.push(this.traceItem(members[0], false, endpoint));
 			} else {
-				items.push(this.groupItem(members));
+				items.push(this.groupItem(members, endpoint, groupHash));
 			}
 		}
 		return items;
 	}
 
-	private groupItem(members: traceGroup[]): LiveTraceTreeItem {
+	private groupItem(members: traceGroup[], endpoint?: string, groupHash?: string): LiveTraceTreeItem {
 		const name = members[0].name;
 		const hasUnknown = members.some(member => member.unknownError);
 		const hasError = hasUnknown || members.some(member => member.hasError);
 		const latest = members.reduce((acc, member) => Math.max(acc, member.latest), 0);
+		// Same-name shapes are told apart by where the trace ENDS
+		const label = `[${members[0].count}][×${members.length}] ${name}${endpoint ? ` → ${endpoint}` : ''}`;
 		const item = new LiveTraceTreeItem(
-			`[${members[0].count}][×${members.length}] ${name}`,
+			label,
 			vscode.TreeItemCollapsibleState.Collapsed
 		);
-		item.id = `tracegroup-${name}`;
+		item.id = `tracegroup-${name}-${groupHash || ''}`;
 		const age = this.ageLabel(latest);
 		item.description = hasUnknown ? `${age} — UNKNOWN ERROR` : hasError ? `${age} — ERROR` : age;
 		const errorNote = hasUnknown ? ', has UNKNOWN ERRORS (no mnemonica instance in trace)' : hasError ? ', has errors' : '';
-		item.tooltip = `${members.length} traces in the current window (last 1000 edges)${errorNote} — expand to pick one; older ones live in Jaeger`;
+		const shapeNote = endpoint ? ` — one of several distinct traces rooted at ${name}` : '';
+		item.tooltip = `${members.length} traces in the current window (last 1000 edges)${errorNote}${shapeNote} — expand to pick one; older ones live in Jaeger`;
 		item.iconPath = hasUnknown
 			? new vscode.ThemeIcon('warning', new vscode.ThemeColor('errorForeground'))
 			: hasError
@@ -190,7 +235,7 @@ export class LiveTraceTreeProvider implements vscode.TreeDataProvider<LiveTraceT
 		return item;
 	}
 
-	private traceItem(group: traceGroup, asChild = false): LiveTraceTreeItem {
+	private traceItem(group: traceGroup, asChild = false, endpoint?: string): LiveTraceTreeItem {
 		// Error tiers ride the group's own flags (getTraceGroups sorts
 		// unknown errors above known ones above healthy, 2026-09-02)
 		const hasError = group.hasError;
@@ -200,8 +245,10 @@ export class LiveTraceTreeProvider implements vscode.TreeDataProvider<LiveTraceT
 		const withTrace = group.edges.filter(edge => typeof edge.traceId === 'string' && edge.traceId.length > 0);
 		const traceId = withTrace.length > 0 ? withTrace[withTrace.length - 1].traceId! : null;
 		// Children of a merged group row don't repeat the name — the
-		// parent carries it; the rootId is what makes the row exact
-		const label = asChild ? `[${group.count}] #${group.rootId}` : `[${group.count}] ${group.name}`;
+		// parent carries it; the rootId is what makes the row exact.
+		// A top-level row appends the endpoint when its root name is
+		// shared by another shape
+		const label = asChild ? `[${group.count}] #${group.rootId}` : `[${group.count}] ${group.name}${endpoint ? ` → ${endpoint}` : ''}`;
 		const item = new LiveTraceTreeItem(
 			label,
 			vscode.TreeItemCollapsibleState.Collapsed

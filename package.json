@@ -34,7 +34,9 @@
 		"onView:mnemonicaUsages",
 		"onView:mnemonicaTypes",
 		"onView:mnemonicaFlow",
-		"onView:mnemonicaGen"
+		"onView:mnemonicaGen",
+		"onView:mnemonicaDiamonds",
+		"onView:mnemonicaBagels"
 	],
 	"main": "./out/src/extension.js",
 	"contributes": {
@@ -165,6 +167,12 @@
 				"icon": "$(clear-all)"
 			},
 			{
+				"command": "mnemographica.showOnGraph",
+				"title": "Show on Graph",
+				"category": "Mnemonica",
+				"icon": "$(graph)"
+			},
+			{
 				"command": "mnemographica.refreshGenTree",
 				"title": "Refresh By Generation",
 				"category": "Mnemonica",
@@ -259,6 +267,11 @@
 					"group": "navigation@4"
 				},
 				{
+					"command": "mnemographica.showOnGraph",
+					"when": "view == mnemonicaTypes && viewItem == navigable",
+					"group": "navigation@5"
+				},
+				{
 					"command": "mnemographica.openType",
 					"when": "view == mnemonicaTypes && viewItem == navigableType",
 					"group": "navigation@1"
@@ -277,6 +290,11 @@
 					"command": "mnemographica.showFlows",
 					"when": "view == mnemonicaTypes && viewItem == navigableType",
 					"group": "navigation@4"
+				},
+				{
+					"command": "mnemographica.showOnGraph",
+					"when": "view == mnemonicaTypes && viewItem == navigableType",
+					"group": "navigation@5"
 				},
 				{
 					"command": "mnemographica.revealInExplorer",
@@ -345,6 +363,16 @@
 					"id": "mnemonicaGen",
 					"name": "By Generation",
 					"icon": "media/psi-icon.svg"
+				},
+				{
+					"id": "mnemonicaDiamonds",
+					"name": "Diamonds",
+					"icon": "media/psi-icon.svg"
+				},
+				{
+					"id": "mnemonicaBagels",
+					"name": "Bagels",
+					"icon": "media/psi-icon.svg"
 				}
 			]
 		},
@@ -376,7 +404,7 @@
 		"watch": "tsc -watch -p ./",
 		"pretest": "npm run compile && npm run lint",
 		"lint": "eslint src",
-		"test": "node test/registry-loading.test.js && node test/types-model.test.js && node test/types-parser.test.js && node test/trace-ingest.test.js && node test/logger-channel.test.js",
+		"test": "node test/registry-loading.test.js && node test/types-model.test.js && node test/types-parser.test.js && node test/trace-ingest.test.js && node test/logger-channel.test.js && node test/graph-builder.test.js",
 		"package": "vsce package",
 		"tactica:generate": "tactica --generate --verbose",
 		"tactica:watch": "tactica --watch"

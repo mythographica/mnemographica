@@ -202,6 +202,21 @@ body {
 	font-family: var(--vscode-editor-font-family);
 }
 
+/* Collapsible layer blocks (Layers & Distances panel) */
+.layer-header {
+	font-weight: bold;
+}
+
+.layer-toggle {
+	min-width: 22px;
+	padding: 2px 4px;
+}
+
+.layer-distance-row {
+	padding-left: 16px;
+	margin: 2px 0;
+}
+
 #status {
 	position: absolute;
 	bottom: 10px;
@@ -350,4 +365,59 @@ body {
 
 #debug-toolbar button:hover {
 	background: var(--vscode-button-hoverBackground);
+}
+
+/* Dive graph legend — bottom-left, above the status line */
+#dive-legend {
+	position: absolute;
+	bottom: 34px;
+	left: 10px;
+	max-width: 300px;
+	background: var(--vscode-editorHoverWidget-background);
+	border: 1px solid var(--vscode-editorHoverWidget-border);
+	border-radius: 4px;
+	padding: 10px;
+	font-size: 11px;
+	color: var(--vscode-editorHoverWidget-foreground);
+	z-index: 100;
+}
+
+.legend-row {
+	margin: 2px 0;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.legend-swatch {
+	display: inline-block;
+	width: 16px;
+	text-align: center;
+}
+
+.legend-dim {
+	opacity: 0.3;
+}
+
+/* Legend collapse + drag (2026-09-05 review): the header is both the
+   collapse toggle and the drag handle. Collapsed hides the rows only —
+   the header stays as the affordance to reopen. */
+#dive-legend.collapsed .legend-row {
+	display: none;
+}
+
+#dive-legend .gen-controls-header {
+	cursor: grab;
+	user-select: none;
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 0;
+}
+
+#dive-legend:not(.collapsed) .gen-controls-header {
+	margin-bottom: 8px;
+}
+
+#dive-legend.dragging .gen-controls-header {
+	cursor: grabbing;
 }

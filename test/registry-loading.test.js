@@ -234,6 +234,68 @@ async function runTests() {
 	assert.strictEqual(testRegistry.getInstrumentation(), undefined, 'Instrumentation should be cleared');
 	console.log('  ✓ clear() resets instrumentation\n');
 
+	// Test 20: instrumentation.json v2 — the creationGraph section loads
+	// (fixtures-v2 mirrors real tactica v2 output from tactica-nestjs)
+	console.log('Test 20: creationGraph (instrumentation.json v2) loads');
+	const fixturesV2Path = path.join(__dirname, 'fixtures-v2');
+	const registryV2 = new Registry();
+	await registryV2.loadFromWorkspace(fixturesV2Path);
+	const instrumentationV2 = registryV2.getInstrumentation();
+	assert.ok(instrumentationV2, 'Instrumentation should load from fixtures-v2');
+	assert.strictEqual(instrumentationV2.size, 9, 'Should have 9 instrumentation points');
+	assert.strictEqual(instrumentationV2.hasCreationGraph(), true, 'v2 payload should carry a creationGraph');
+	const creationGraph = instrumentationV2.getCreationGraph();
+	assert.strictEqual(creationGraph.nodes.length, 39, 'creationGraph should have 39 nodes');
+	assert.strictEqual(creationGraph.edges.length, 57, 'creationGraph should have 57 edges');
+	assert.strictEqual(creationGraph.anchors.length, 46, 'creationGraph should have 46 anchors');
+	const starters = creationGraph.nodes.filter(n => n.starter);
+	assert.strictEqual(starters.length, 6, 'Should have 6 starter scopes');
+	const mainStarter = starters.find(n => n.kind === 'module' && n.filePath.endsWith('/main.ts'));
+	assert.ok(mainStarter, 'main.ts module starter should exist');
+	console.log(`  ✓ creationGraph loaded: ${creationGraph.nodes.length} nodes, ${creationGraph.edges.length} edges, ${creationGraph.anchors.length} anchors\n`);
+
+	// Test 21: a v1 payload carries no creationGraph key and loads
+	// exactly as before (backward compatibility)
+	console.log('Test 21: v1 instrumentation.json loads without creationGraph');
+	await testRegistry.loadFromWorkspace(fixturesPath);
+	const instrumentationV1 = testRegistry.getInstrumentation();
+	assert.ok(instrumentationV1, 'Instrumentation should reload');
+	assert.strictEqual(instrumentationV1.size, 3, 'v1 points still load');
+	assert.strictEqual(instrumentationV1.hasCreationGraph(), false, 'v1 payload has no creationGraph');
+	assert.strictEqual(instrumentationV1.getCreationGraph(), undefined, 'getCreationGraph() returns undefined');
+	console.log('  ✓ v1 payload loads exactly as before\n');
+
+	// Test 22: the stale guard covers v2 files too — an
+	// instrumentation.json older than definitions.json is skipped whole
+	console.log('Test 22: stale instrumentation.json is skipped (v2 included)');
+	const os = require('os');
+	const fs = require('fs');
+	const staleDir = fs.mkdtempSync(path.join(os.tmpdir(), 'mnemo-stale-'));
+	const staleTactica = path.join(staleDir, '.tactica');
+	fs.mkdirSync(staleTactica);
+	const staleDefs = JSON.parse(fs.readFileSync(path.join(fixturesV2Path, '.tactica', 'definitions.json'), 'utf-8'));
+	const staleInst = JSON.parse(fs.readFileSync(path.join(fixturesV2Path, '.tactica', 'instrumentation.json'), 'utf-8'));
+	staleDefs.generatedAt = '2999-01-01T00:00:00.000Z';
+	staleInst.generatedAt = '2020-01-01T00:00:00.000Z';
+	fs.writeFileSync(path.join(staleTactica, 'definitions.json'), JSON.stringify(staleDefs));
+	fs.writeFileSync(path.join(staleTactica, 'instrumentation.json'), JSON.stringify(staleInst));
+	const staleRegistry = new Registry();
+	await staleRegistry.loadFromWorkspace(staleDir);
+	const staleInstrumentation = staleRegistry.getInstrumentation();
+	assert.ok(staleInstrumentation, 'Instrumentation instance exists even when stale');
+	assert.strictEqual(staleInstrumentation.size, 0, 'Stale points are skipped');
+	assert.strictEqual(staleInstrumentation.hasCreationGraph(), false, 'Stale creationGraph is skipped');
+	console.log('  ✓ stale instrumentation.json skipped\n');
+
+	// Test 23: Instrumentation.clear() drops the creationGraph together
+	// with the points (the model-level reset behind Registry.clear())
+	console.log('Test 23: Instrumentation.clear() resets points and creationGraph');
+	instrumentationV2.clear();
+	assert.strictEqual(instrumentationV2.size, 0, 'Points should be cleared');
+	assert.strictEqual(instrumentationV2.hasCreationGraph(), false, 'creationGraph should be cleared');
+	registryV2.clear();
+	console.log('  ✓ model clear() resets the creationGraph\n');
+
 	console.log('=== All Tests Passed ===');
 }
 

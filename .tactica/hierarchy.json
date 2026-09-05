@@ -1,7 +1,20 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-09-03T12:16:17.196Z",
+  "generatedAt": "2026-09-05T01:20:24.298Z",
   "roots": [
+    {
+      "name": "Instrumentation",
+      "fullPath": "Instrumentation",
+      "location": "/code/mnemonica/mnemographica/src/models/Instrumentation.ts:58:32",
+      "children": [
+        {
+          "name": "InstrumentationPoint",
+          "fullPath": "Instrumentation.InstrumentationPoint",
+          "location": "/code/mnemonica/mnemographica/src/models/Instrumentation.ts:103:53",
+          "children": []
+        }
+      ]
+    },
     {
       "name": "Definitions",
       "fullPath": "Definitions",
@@ -18,12 +31,12 @@
     {
       "name": "EDS",
       "fullPath": "EDS",
-      "location": "/code/mnemonica/mnemographica/src/models/EDS.ts:19:20",
+      "location": "/code/mnemonica/mnemographica/src/models/EDS.ts:29:20",
       "children": [
         {
           "name": "EDSEntry",
           "fullPath": "EDS.EDSEntry",
-          "location": "/code/mnemonica/mnemographica/src/models/EDS.ts:66:29",
+          "location": "/code/mnemonica/mnemographica/src/models/EDS.ts:76:29",
           "children": []
         }
       ]
@@ -37,19 +50,6 @@
           "name": "FlowEntry",
           "fullPath": "Flow.FlowEntry",
           "location": "/code/mnemonica/mnemographica/src/models/Flow.ts:65:31",
-          "children": []
-        }
-      ]
-    },
-    {
-      "name": "Instrumentation",
-      "fullPath": "Instrumentation",
-      "location": "/code/mnemonica/mnemographica/src/models/Instrumentation.ts:20:32",
-      "children": [
-        {
-          "name": "InstrumentationPoint",
-          "fullPath": "Instrumentation.InstrumentationPoint",
-          "location": "/code/mnemonica/mnemographica/src/models/Instrumentation.ts:51:53",
           "children": []
         }
       ]
@@ -114,7 +114,7 @@
         {
           "name": "RegistryEntry",
           "fullPath": "Registry.RegistryEntry",
-          "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:576:39",
+          "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:601:39",
           "children": []
         }
       ]

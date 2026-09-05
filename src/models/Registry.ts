@@ -11,7 +11,7 @@ import type { rawTypeEntry } from './Types';
 import type { usage } from './Usages';
 import type { rawEDSEntry } from './EDS';
 import type { rawFlowEntry } from './Flow';
-import type { rawInstrumentationPoint } from './Instrumentation';
+import type { rawInstrumentationPoint, rawCreationGraph } from './Instrumentation';
 
 export type registryEntry = {
 	id: string;
@@ -476,6 +476,31 @@ export const Registry = define('Registry', class {
 						return new instrumentationInstance.InstrumentationPoint(p);
 					});
 					instrumentationInstance.set(entries);
+				}
+
+				// v2 creationGraph section: optional — a v1 file has no such
+				// key and loads exactly as before, with no graph attached
+				if (data.creationGraph && typeof data.creationGraph === 'object') {
+					const raw = data.creationGraph as Partial<rawCreationGraph>;
+					if (Array.isArray(raw.nodes) && Array.isArray(raw.edges) && Array.isArray(raw.anchors)) {
+						const graph: rawCreationGraph = {
+							nodes: raw.nodes.filter((n) => {
+								return typeof n.scopeId === 'string' && typeof n.name === 'string' &&
+									typeof n.filePath === 'string' && typeof n.location === 'string';
+							}),
+							edges: raw.edges.filter((e) => {
+								return typeof e.caller === 'string' && typeof e.callee === 'string';
+							}),
+							anchors: raw.anchors.filter((a) => {
+								return typeof a.holderScopeId === 'string' && typeof a.typePath === 'string' &&
+									typeof a.location === 'string';
+							})
+						};
+						instrumentationInstance.setCreationGraph(graph);
+						this.logger.info(`[Registry] : creationGraph loaded with ${graph.nodes.length} nodes, ${graph.edges.length} edges, ${graph.anchors.length} anchors`);
+					} else {
+						this.logger.warn('[Registry] : creationGraph skipped — nodes/edges/anchors must be arrays');
+					}
 				}
 				this.logger.info(`[Registry] : Instrumentation loaded with ${instrumentationInstance.size} points`);
 			} else {

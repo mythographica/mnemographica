@@ -3,6 +3,8 @@ import { MnemonicaTreeProvider, MnemonicaTreeItem } from './views/treeProvider';
 import { UsagesTreeProvider, UsageTreeItem } from './views/usagesTreeProvider';
 import { FlowTreeProvider, FlowTreeItem } from './views/flowTreeProvider';
 import { GenTreeProvider, GenTreeItem } from './views/genTreeProvider';
+import { DiamondsTreeProvider, DiamondsTreeItem } from './views/diamondsTreeProvider';
+import { BagelsTreeProvider, BagelsTreeItem } from './views/bagelsTreeProvider';
 import { LiveTraceTreeProvider } from './views/liveTraceTreeProvider';
 import { MnemonicaDefinitionProvider } from './providers/definitionProvider';
 import { MnemonicaReferenceProvider } from './providers/referenceProvider';
@@ -28,6 +30,10 @@ let flowProvider: FlowTreeProvider;
 let flowTreeView: vscode.TreeView<FlowTreeItem>;
 let genProvider: GenTreeProvider;
 let genTreeView: vscode.TreeView<GenTreeItem>;
+let diamondsProvider: DiamondsTreeProvider;
+let diamondsTreeView: vscode.TreeView<DiamondsTreeItem>;
+let bagelsProvider: BagelsTreeProvider;
+let bagelsTreeView: vscode.TreeView<BagelsTreeItem>;
 let definitionProvider: MnemonicaDefinitionProvider;
 let referenceProvider: MnemonicaReferenceProvider;
 let strategyServer: StrategyServer;
@@ -86,6 +92,22 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 	context.subscriptions.push(genTreeView);
 
+	// Initialize creation-scope (diamonds) and wrap-site (bagels) tries —
+	// the 3D panel's instrumentation/dive layers as sidebar trees
+	diamondsProvider = new DiamondsTreeProvider();
+	diamondsTreeView = vscode.window.createTreeView('mnemonicaDiamonds', {
+		treeDataProvider: diamondsProvider,
+		canSelectMany: false
+	});
+	context.subscriptions.push(diamondsTreeView);
+
+	bagelsProvider = new BagelsTreeProvider();
+	bagelsTreeView = vscode.window.createTreeView('mnemonicaBagels', {
+		treeDataProvider: bagelsProvider,
+		canSelectMany: false
+	});
+	context.subscriptions.push(bagelsTreeView);
+
 	// Register navigation command for flow entries
 	// NOTE: VSCodeNavigation.goTo converts 1-based locations to 0-based
 	// internally — pass the raw 1-based line/column from flow.json through.
@@ -140,6 +162,30 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.commands.registerCommand('mnemographica.clearFlowFilter', () => {
 			flowProvider.clearFilter();
 			logger.info('[Extension] Flow filter cleared');
+		})
+	);
+
+	// Register show-on-graph command (right-click on type/definition):
+	// open the 3D panel when closed, then rotate onto the node. The
+	// focusNode request rides the two-level queue (panel.pendingFocus
+	// flushed on 'ready', webview stash flushed after first render), so
+	// it survives the freshly-created panel's load window.
+	context.subscriptions.push(
+		vscode.commands.registerCommand('mnemographica.showOnGraph', (item: { data: { fullName?: string; label: string } }) => {
+			if (!item || !item.data) { return; }
+			const raw = item.data.fullName || item.data.label;
+			// Types-section rows may carry the types.ts alias spelling
+			// (underscore-joined); graph node ids are dot-joined fullPaths
+			const id = raw.includes('.') ? raw : raw.replace(/_/g, '.');
+			const name = id.split('.').pop() || id;
+			const graphData = mainOrchestrator.getGraphData();
+			if (!graphData) {
+				logger.warn('[Extension] Show on Graph: no graph data loaded yet');
+				return;
+			}
+			GraphPanel.createOrShow(context.extensionUri, graphData);
+			GraphPanel.focusNode({ id, name });
+			logger.info(`[Extension] Show on Graph: ${id}`);
 		})
 	);
 
@@ -467,6 +513,9 @@ export function activate(context: vscode.ExtensionContext) {
 			treeProvider.refresh();
 			// Update flow provider
 			flowProvider.setRegistry(mainOrchestrator.getRegistry());
+			// Update the creation-scope and wrap-site tries
+			diamondsProvider.setRegistry(mainOrchestrator.getRegistry());
+			bagelsProvider.setRegistry(mainOrchestrator.getRegistry());
 			// Feed the generation tree view and the graph panel (if open)
 			const graphData = mainOrchestrator.getGraphData();
 			if (graphData) {
@@ -524,6 +573,8 @@ export function activate(context: vscode.ExtensionContext) {
 		usagesProvider,
 		flowProvider,
 		genProvider,
+		diamondsProvider,
+		bagelsProvider,
 		liveTraceProvider,
 		mainOrchestrator,
 		strategyServer
@@ -542,6 +593,12 @@ async function refreshTypeGraph(_context: vscode.ExtensionContext) {
 	if (treeProvider && mainOrchestrator) {
 		await mainOrchestrator.refresh();
 		treeProvider.refresh();
+		// MainOrchestrator.refresh() clears and reloads the SAME Registry
+		// instance — provider caches are stale afterwards, reload them
+		// (flowProvider included: it used to keep pre-refresh flow data)
+		flowProvider.setRegistry(mainOrchestrator.getRegistry());
+		diamondsProvider.setRegistry(mainOrchestrator.getRegistry());
+		bagelsProvider.setRegistry(mainOrchestrator.getRegistry());
 		const graphData = mainOrchestrator.getGraphData();
 		if (graphData) {
 			genProvider.setGraphData(graphData);
