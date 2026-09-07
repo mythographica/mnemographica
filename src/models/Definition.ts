@@ -21,6 +21,7 @@ export const Definitions = define('Definitions', class {
 	private logger = getLogger();
 
 	constructor () {
+		// test
 		this.createdAt = Date.now();
 		this.logger.info(`[Definitions] : constructed at ${this.createdAt}`);
 	}

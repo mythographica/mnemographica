@@ -1,0 +1,26 @@
+{
+  "version": "1.0",
+  "generatedAt": "2026-09-06T22:32:51.399Z",
+  "eds": {
+    "unknown": [
+      {
+        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:127:21",
+        "kind": "contextConsume",
+        "code": "this.registry.getFlow()"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:196:16",
+        "kind": "contextConsume",
+        "code": "registry.getFlow()"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:145:18",
+        "kind": "wrap",
+        "code": "dive.wrap(fn as (...args: unknown[]) => unknown, context, label)",
+        "fn": "wrap",
+        "instanceArg": "context",
+        "scopeId": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:140:1"
+      }
+    ]
+  }
+}

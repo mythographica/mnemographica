@@ -410,7 +410,7 @@
 		"tactica:watch": "tactica --watch"
 	},
 	"devDependencies": {
-		"@mnemonica/tactica": "^0.1.14",
+		"@mnemonica/tactica": "^0.2.0",
 		"@types/node": "^20.0.0",
 		"@types/vscode": "^1.74.0",
 		"@types/ws": "^8.5.10",
@@ -419,6 +419,7 @@
 		"typescript-eslint": "^8.67.0"
 	},
 	"dependencies": {
+		"@mnemonica/dive": "^0.8.5",
 		"@mnemonica/strategy": "^0.5.1",
 		"@mnemonica/topologica": "^0.0.8",
 		"mnemonica": "^1.2.5",

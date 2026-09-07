@@ -42,7 +42,7 @@ The extension helps AI agents:
    - Types are loaded from `hierarchy.json` (structure, dot-joined fullPaths,
      1-based define()-site locations); property signatures are parsed from the
      generated `types.ts` bodies, the only place they exist
-   - `instrumentation.json` (NestJS lifecycle crossroads) loads through the
+   - `instrumentation.json` (framework lifecycle crossroads) loads through the
      same stale guard as `eds.json` — a file older than `definitions.json`
      is skipped. The `Instrumentation` model holds a FLAT points list
      (`all()`), not a per-type Map. v2 payloads also carry `creationGraph`
@@ -180,13 +180,18 @@ The extension helps AI agents:
      shells follow dragged type spheres
      and `adjustGenRadius` (which re-runs `renderGraph`) re-lays the whole
      layer out. The holder-shell factor is a panel knob
-     (`layerDistances.creation.holderShell`). The NestJS-heritage diamond graph built on static
-     instrumentation.json v1 was reverted 2026-09-03 as unusable — the
+     (`layerDistances.creation.holderShell`). The static-instrumentation
+     diamond graph built on instrumentation.json v1 was reverted 2026-09-03 as unusable — the
      v1-points diamond rendering stays gone; diamonds returned with
      creation semantics. The "Layers & Distances" panel (merged
      2026-09-05 from the separate Generation Distances + Layers
      sections) gives each layer a COLLAPSIBLE header row — visibility
-     checkbox (reads the LIVE `group.visible`, a rebuild never lies) +
+     checkbox (reads the LIVE `group.visible`, a rebuild never lies;
+     the flags SURVIVE the rebuild — renderGraph snapshots them before
+     clear() disposes the groups and re-applies them to the fresh ones,
+     so a knob adjust no longer re-shows hidden layers — and the
+     checkbox blurs itself after every click, 2026-09-05 review: a
+     focused checkbox re-toggles on Space) +
      ▸/▾ toggle — with that layer's own distance knobs inside: the
      generation radii under `types` (±15, cascading outward so shells
      never cross), `Holder ring` under `instrumentation ◆`, and
@@ -288,6 +293,28 @@ The extension helps AI agents:
      the angle wraps into [−π, π] to keep the numbers small.
      Programmatic focus (`focusNode`) still clamps its targets into the
      upright band — a focus always lands right-side up.
+   - **Grab-the-world pan** (2026-09-05 owner review: "when I drag left
+     it should drag the central sphere to the left the same distance"):
+     plain drag translates the orbit center along the camera's OWN
+     right/up axes by cursor-delta × world-units-per-pixel at the target
+     distance (`2·zoom·tan(fov/2) / canvasHeight`), so content follows
+     the cursor 1:1 — including under rotation. The old axis-aligned pan
+     (zoom×0.0003) ran at ~¼ grab speed and went wrong-directioned once
+     the camera was rotated. Ctrl+drag still rotates.
+   - **Save button** (2026-09-06 owner request): the `#controls` Save
+     button persists the current arrangement to
+     `<workspace>/.mnemographica/layout.json` — user-placed sphere
+     positions (nodes with x3d set), pinned non-spheres (the same snap
+     shape renderGraph's pinnedSnapshot uses, keyed by node id), and
+     the camera (the constructor's initialCameraState shape). The
+     webview cannot write files: it posts `saveLayout` and panel.ts
+     persists it (reply `layoutSaved` → status line). panel.ts reads
+     the file on EVERY updateGraph and rides it along; render3DGraph
+     applies it around renderGraph — positions before (calculatePosition
+     honors x3d, relaxTypeShells skips), pins after (`applySavedPins`,
+     relative pins re-resolve through resolvePinAnchor), camera via the
+     constructor (a live mode-switch camera still wins). Untouched
+     nodes are NOT saved — the deterministic layout reproduces them.
    - **Render-on-demand** (2026-09-04): `animate()` keeps its rAF loop
      but calls `renderer.render` only when `needsRender` is set (every
      mutation site flags it — `updateCameraPosition`,
@@ -380,14 +407,34 @@ The extension helps AI agents:
      by rootId (`getTraceLineageByRoot`); the older name resolver
      remains for the webview's own pick flow. In 3D trace mode, edges
      whose status is `error` paint their sphere red (0xff2020) instead
-     of green, and the ambient flash lasts 5s (raised from 4s for human
-     perception). Live-flash distrust: edges whose `instanceSource` is
-     `ambient` advance the status counter but never flash a bulb —
-     attribution must be true or absent, never guessed. `state/query` (`{ subject, sample? }` — subjects
+     of green. The live flash (lineage-wide since 2026-09-07, owner
+     review "highlight full trace with the same acid-green colour"):
+     the webview keeps a ring-bounded edge index and each incoming
+     edge walks its parentId chain, lighting the WHOLE lineage in the
+     trace-mode acid-green (0x40ff80) — errored members flash red
+     (0xff2020) and are never downgraded — with a 5s decay. Live-flash
+     distrust: edges whose `instanceSource` is `ambient` still feed
+     the chain walk and the click-to-pick set but never flash a bulb
+     themselves — attribution must be true or absent, never guessed. `state/query` (`{ subject, sample? }` — subjects
      `server`, `graph`, `trace`, `view`; `view` roundtrips into the 3D
      webview for the live camera + focused node)
    - **Bound to 127.0.0.1** — there is no auth,
      so it must never listen on a LAN interface
+   - **Self-trace** (`src/strategy/selfTrace.ts`, 2026-09-06 owner
+     request "instrument MnemoGraphica itself"): dive runs IN the
+     extension host — `startSelfTrace` attaches dive's edge hooks
+     (enter/create/leave/settle, 250ms buffered flush) and lands the
+     mapped edges on the SAME `ingestTrace` + downstream
+     (`pushTraceEdges`, `noteIngest`) as the WS trace/ingest, tagged
+     session `self:<pid>`; `stopSelfTrace` runs from deactivate.
+     `refreshTypeGraph` is wrapped (the Registry mnemonica instance as
+     context — its TypeName resolves via getProps at runtime), so every
+     refresh flows as a `call` edge. dive loads via guarded dynamic
+     import — a load failure disables self-tracing, never activation —
+     which is also why the static wrap site lands in eds.json's
+     `unknown` bucket (no static import for tactica to bind). The ring
+     stays single-source: an app-channel session alternating with
+     `self:<pid>` VACUUMs per the existing rule.
 
 7b. **Strategy tabs** (`src/webview/strategyPanel.ts`,
    `src/webview/appChannelPanel.ts`, `src/strategy/processManager.ts`,
@@ -479,6 +526,17 @@ npm run watch      # Watch mode for development
 npm run lint       # Run ESLint
 npm test           # pretest (compile + lint) + node test/*.test.js
 ```
+
+**Open version gap:** the published `@mnemonica/tactica` 0.1.14 does NOT
+emit `instrumentation.json` / `modules.json` / `scopes.json` — only the
+local 0.1.15 build does. So every `npm run compile` rewrites
+`definitions.json` while leaving `instrumentation.json` behind, and the
+Registry stale guard (`generatedAt` compare) then skips it: no creation
+section, no diamonds. Until 0.1.15 is published and the devDependency
+bumped, regenerate with the sibling repo's build instead:
+`node ../tactica/lib/cli.js` from this repo's root (generation is the
+default action), then rebuild with `npx tsc -p ./` rather than
+`npm run compile`.
 
 ## Testing
 
@@ -576,7 +634,8 @@ src/
 ├── services/             # LoggerService, NavigationAdapter
 ├── strategy/             # MCP-shaped server (127.0.0.1 only), processManager
 │                         # (spawn strategy child + log socket), appChannelClient
-│                         # (direct WS to an app's embedded strategy channel)
+│                         # (direct WS to an app's embedded strategy channel),
+│                         # selfTrace (in-host dive → ingestTrace bridge)
 ├── topologica/           # Model bootstrap loader
 ├── types/
 │   ├── index.ts          # GraphData/D3Node/D3Link/D3ExecLink
@@ -596,6 +655,10 @@ src/
   tab. (Was `file:../strategy` until strategy 0.5.1 shipped — `vsce
   package` does not follow `file:` symlinks, so a `.vsix` needs the
   registry dep it now has.)
+- **@mnemonica/dive**: registry dep (`^0.8.5`) — the self-trace runtime
+  (loaded via guarded dynamic import in `selfTrace.ts`); its presence in
+  `dependencies` also auto-enables tactica's EDS pass, so mnemographica's
+  own `.tactica/` gains `eds.json`
 
 ## VS Code API Usage
 

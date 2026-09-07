@@ -87,13 +87,20 @@
 
 	// Live trace stream state (B1.5): strategy pushes dive-trace deltas
 	// as 'traceEvent' messages; the counter/last-name feed the status
-	// line, and matching spheres flash in 3D
+	// line, and the edge's WHOLE lineage flashes acid-green in 3D
 	let liveTraceCount = 0;
 	let liveTraceLast = null;
 	let lastStatusBase = '';
 	// Names that traced this session — a single click on such a sphere
 	// opens trace mode (names-first tracing, 2026-08-30)
 	const liveTraceNames = new Set();
+	// Recent edges by id (ring-bounded, insertion-order eviction): an
+	// incoming edge walks its parentId chain through here so the FULL
+	// trace lights as one acid-green body instead of one sphere at a
+	// time (2026-09-07 owner review — "highlight full trace with the
+	// same acid-green colour"; the same green trace mode uses)
+	const liveEdgeIndex = new Map();
+	const LIVE_EDGE_INDEX_MAX = 5000;
 
 	// The status line is base text ("N types | M relationships") plus,
 	// once the live stream flows, a "· ⟁ live N (last: X)" suffix —
@@ -142,6 +149,12 @@
 	// panel — 'ready' fired but render3DGraph has not run yet) are stashed
 	// here and flushed at the end of render3DGraph
 	let pendingFocusNode = null;
+
+	// The saved layout (.mnemographica/layout.json, 2026-09-06 owner
+	// request — the Save button): host reads the file and rides it along
+	// with every updateGraph; render3DGraph applies it around renderGraph.
+	// null = no save ever loaded
+	let savedLayout = null;
 
 	// Legend panel interactivity (2026-09-05 review): the header is the
 	// drag handle AND the collapse toggle. A press that moves < 4px counts
@@ -246,6 +259,22 @@
 				}
 			}
 		});
+
+		// Save button (2026-09-06 owner request): persist the current
+		// arrangement — user-placed spheres, pinned elements, camera — to
+		// .mnemographica/layout.json via the host (the webview cannot
+		// write files itself)
+		const saveButton = document.getElementById('save-layout');
+		if (saveButton) {
+			saveButton.addEventListener('click', function () {
+				if (!is3D || !renderer3D || !currentData) { return; }
+				const layout = renderer3D.collectLayout(currentData);
+				vscode.postMessage({ command: 'saveLayout', data: layout });
+				// Same focus rule as the layer checkboxes — a focused
+				// button re-fires on Space
+				saveButton.blur();
+			});
+		}
 
 		// 3D-only: the mode toggle buttons no longer exist in the DOM.
 	}
@@ -367,11 +396,23 @@
 
 		if (message.command === 'updateGraph') {
 			currentData = message.data;
+			// The host reads .mnemographica/layout.json and rides it along
+			// (2026-09-06 Save button). null means "no save yet" — keep a
+			// layout we already hold in that case
+			if (message.layout) {
+				savedLayout = message.layout;
+			}
 			if (is3D) {
 				render3DGraph(message.data);
 			} else {
 				render2DGraph(message.data);
 			}
+		}
+
+		if (message.command === 'layoutSaved') {
+			// Save-button confirmation from the host
+			const savedPath = message.data && message.data.path;
+			setStatusBase('Layout saved → ' + (savedPath || '.mnemographica/layout.json'));
 		}
 
 		if (message.command === 'focusNode') {
@@ -388,26 +429,57 @@
 
 		if (message.command === 'traceEvent') {
 			// B1.5 live illumination: strategy pushed dive-trace deltas —
-			// advance the status counter and flash matching spheres
+			// advance the status counter and light each edge's FULL
+			// lineage acid-green (2026-09-07 owner review): the whole
+			// trace glows as one body, not one sphere at a time
 			const edges = message.data && message.data.edges;
 			if (Array.isArray(edges)) {
 				liveTraceCount += edges.length;
 				for (const edge of edges) {
 					if (!edge || typeof edge !== 'object') continue;
-					const targetName = edge.instanceType ||
-						(typeof edge.name === 'string' ? edge.name : null);
-					if (targetName) {
-						liveTraceLast = targetName;
-						liveTraceNames.add(targetName);
-						// dive >= 0.8.3: 'ambient' attribution is the
-						// newest-wins lastContext fallback — possibly a
-						// FOREIGN flow's instance. Count it (the stream is
-						// alive) but never light a bulb on ambient alone:
-						// attribution must be true or absent, never guessed.
-						const ambient = edge.instanceSource === 'ambient';
-						if (!ambient && is3D && renderer3D) {
-							renderer3D.flashTraceNode(targetName);
+					if (typeof edge.id === 'number') {
+						liveEdgeIndex.set(edge.id, edge);
+						while (liveEdgeIndex.size > LIVE_EDGE_INDEX_MAX) {
+							// Maps iterate in insertion order — evict oldest
+							const oldest = liveEdgeIndex.keys().next();
+							liveEdgeIndex.delete(oldest.value);
 						}
+					}
+					const ownName = edge.instanceType ||
+						(typeof edge.name === 'string' ? edge.name : null);
+					if (ownName) {
+						liveTraceLast = ownName;
+					}
+					// Walk the parentId chain: every ancestor sphere joins
+					// the flash. Ancestors not yet evicted from the index
+					// resolve; the walk simply stops at the oldest known
+					const lineageNames = [];
+					const erroredNames = new Set();
+					const walked = new Set();
+					let cursor = edge;
+					while (cursor && typeof cursor === 'object' && !walked.has(cursor.id)) {
+						walked.add(cursor.id);
+						const nm = cursor.instanceType ||
+							(typeof cursor.name === 'string' ? cursor.name : null);
+						if (nm) {
+							liveTraceNames.add(nm);
+							// dive >= 0.8.3: 'ambient' attribution is the
+							// newest-wins lastContext fallback — possibly a
+							// FOREIGN flow's instance. It still feeds the
+							// chain walk and the click-to-pick set, but its
+							// bulb never lights on ambient alone:
+							// attribution must be true or absent, never guessed.
+							if (cursor.instanceSource !== 'ambient' && lineageNames.indexOf(nm) === -1) {
+								lineageNames.push(nm);
+							}
+							if (cursor.status === 'error') {
+								erroredNames.add(nm);
+							}
+						}
+						cursor = liveEdgeIndex.get(cursor.parentId);
+					}
+					if (lineageNames.length > 0 && is3D && renderer3D) {
+						renderer3D.flashTraceLineage(lineageNames, erroredNames);
 					}
 				}
 				updateStatusLine();
@@ -907,8 +979,25 @@
 
 		container.innerHTML = '';
 
+		// Saved layout application (2026-09-06 Save button): user-placed
+		// sphere positions apply BEFORE the render — calculatePosition
+		// honors x3d/y3d/z3d and relaxTypeShells skips them; pins apply
+		// after the builders (their meshes must exist); the camera rides
+		// the constructor's initialCameraState (a live camera from a mode
+		// switch still wins over the saved one)
+		if (savedLayout && savedLayout.nodes) {
+			data.nodes.forEach(function (node) {
+				const saved = savedLayout.nodes[node.id];
+				if (!saved) { return; }
+				node.x3d = saved.x;
+				node.y3d = saved.y;
+				node.z3d = saved.z;
+			});
+		}
+
 		// Create 3D renderer
-		renderer3D = new Graph3DRenderer(container, initialCameraState);
+		renderer3D = new Graph3DRenderer(container,
+			initialCameraState || (savedLayout && savedLayout.camera) || null);
 		// Debug handle: agent automation (Strategy/CDP) reads camera and
 		// scene state through this
 		window.__mnemographica3D = renderer3D;
@@ -923,6 +1012,11 @@
 			}
 		});
 		renderer3D.renderGraph(data, d3);
+
+		// Saved pins land after the builders — their meshes must exist
+		if (savedLayout && savedLayout.pins) {
+			renderer3D.applySavedPins(savedLayout.pins);
+		}
 
 		// Handle resize
 		resizeHandler3D = function () {
@@ -1148,6 +1242,10 @@
 				}
 				renderer.updateCenterMarkerVisibility();
 				renderer.needsRender = true;
+				// Never keep focus after a click (2026-09-05 owner review)
+				// — a focused checkbox re-toggles on Space and shows a
+				// stale focus ring
+				checkbox.blur();
 			};
 			label.appendChild(checkbox);
 			label.appendChild(document.createTextNode(' ' + layer.label));
@@ -1518,8 +1616,10 @@
 			this.focusAnim = null;
 			this.focusedMesh = null;
 			// Live trace flashes (B1.5, retuned 2026-09-01 for human
-			// perception): mesh → expiry timestamp for the fire-red pulse
-			// fired when a dive-trace edge names this node. 4s decay +
+			// perception; lineage-wide since 2026-09-07): mesh →
+			// { expiry, color } — acid-green (TRACE_COLOR) for the whole
+			// lineage of each incoming dive-trace edge, red
+			// (TRACE_ERROR_COLOR) where a member errored. 5s decay +
 			// scale kick — a 1.2s cyan tint was below the threshold a
 			// human can notice (Viktor: sub-250ms events are invisible,
 			// small hue shifts don't register; shape change does)
@@ -1773,10 +1873,25 @@
 						this.cameraRotation.x = ((this.cameraRotation.x + Math.PI) % TWO_PI + TWO_PI) % TWO_PI - Math.PI;
 						this.updateCameraPosition();
 					} else {
-						// Regular drag: pan the view (slower speed)
-						const panSpeed = this.zoom * 0.0003;
-						this.panOffset.x -= dx * panSpeed;
-						this.panOffset.y += dy * panSpeed;
+						// Regular drag: grab-the-world pan (2026-09-05 owner
+						// review: "when I drag left it should drag the central
+						// sphere to the left the same distance"). The point
+						// under the cursor stays under the cursor: translate
+						// the orbit center along the camera's OWN right/up
+						// axes by cursor-delta × world-units-per-pixel at the
+						// target distance (camera↔lookAt = this.zoom). The old
+						// axis-aligned pan (zoom×0.0003) was ~¼ grab speed and
+						// went wrong-directioned under rotation
+						this.camera.updateMatrixWorld();
+						const rect = canvas.getBoundingClientRect();
+						const wpp = 2 * this.zoom
+							* Math.tan(THREE.MathUtils.degToRad(this.camera.fov * 0.5))
+							/ rect.height;
+						const right = new THREE.Vector3().setFromMatrixColumn(this.camera.matrix, 0);
+						const up = new THREE.Vector3().setFromMatrixColumn(this.camera.matrix, 1);
+						this.panOffset.x += (-dx * right.x + dy * up.x) * wpp;
+						this.panOffset.y += (-dx * right.y + dy * up.y) * wpp;
+						this.panOffset.z = (this.panOffset.z || 0) + (-dx * right.z + dy * up.z) * wpp;
 						this.updateCameraPosition();
 					}
 				}
@@ -2217,19 +2332,28 @@
 			return target || null;
 		}
 
-		// Live trace illumination (B1.5): flash the sphere whose node
-		// name matches a dive-trace edge's instanceType. This is the
-		// ambient "the server is alive" signal — parsing the stream
-		// into structure is a future design session, not B1.
-		flashTraceNode(name) {
-			const target = this.findMeshByName(name);
-			if (!target) return;
-			this.traceFlashes.set(target, performance.now() + Graph3DRenderer.FLASH_MS);
+		// Live trace illumination (B1.5; lineage-wide since 2026-09-07,
+		// owner review "highlight full trace with the same acid-green
+		// colour"): light EVERY sphere the incoming edge's lineage
+		// touches, in the trace-mode acid-green — the full trace glows
+		// as one body. Errored members go red and are never downgraded
+		// back to green by a later healthy relative.
+		flashTraceLineage(names, erroredNames) {
+			const expiry = performance.now() + Graph3DRenderer.FLASH_MS;
+			for (const name of names) {
+				const mesh = this.findMeshByName(name);
+				if (!mesh) continue;
+				const existing = this.traceFlashes.get(mesh);
+				const red = (erroredNames && erroredNames.has(name)) ||
+					(existing !== undefined && existing.color === Graph3DRenderer.TRACE_ERROR_COLOR);
+				const color = red
+					? Graph3DRenderer.TRACE_ERROR_COLOR
+					: Graph3DRenderer.TRACE_COLOR;
+				this.traceFlashes.set(mesh, { expiry, color });
+			}
 		}
 
-		// Fire-red, well above the cyan/calm palette of the rest of the
-		// scene, and long enough to catch a human eye
-		static get FLASH_COLOR() { return 0xff3300; }
+		// Long enough to catch a human eye
 		static get FLASH_MS() { return 5000; }
 
 		updateTraceFlashes() {
@@ -2237,21 +2361,21 @@
 				// Ambient flashes are monitoring noise; trace mode
 				// isolates ONE trace, so the pulses go quiet. REPLAY
 				// flashes are the point of the mode — they keep running.
-				this.traceFlashes.forEach((expiry, mesh) => {
+				this.traceFlashes.forEach((entry, mesh) => {
 					mesh.scale.setScalar(1);
 				});
 				this.traceFlashes.clear();
 			} else {
-				this.decayFlashes(this.traceFlashes, false);
+				this.decayFlashes(this.traceFlashes);
 			}
-			this.decayFlashes(this.replayFlashes, true);
+			this.decayFlashes(this.replayFlashes);
 		}
 
-		// Shared flash decay: ambient entries are plain expiries, replay
-		// entries are { expiry, color }. On expiry a mesh inside the open
+		// Shared flash decay for both flash maps: entries are
+		// { expiry, color }. On expiry a mesh inside the open
 		// trace restores its TRACE color (the path stays lit), everything
 		// else returns to its base state.
-		decayFlashes(map, isReplay) {
+		decayFlashes(map) {
 			if (map.size === 0) return;
 			const now = performance.now();
 			map.forEach((entry, mesh) => {
@@ -2263,8 +2387,8 @@
 				}
 				const node = mesh.userData.node;
 				const base = node && node.isRoot ? 0.3 : 0;
-				const expiry = isReplay ? entry.expiry : entry;
-				const color = isReplay ? entry.color : Graph3DRenderer.FLASH_COLOR;
+				const expiry = entry.expiry;
+				const color = entry.color;
 				const remaining = expiry - now;
 				if (remaining <= 0) {
 					const mode = this.traceMode;
@@ -2928,6 +3052,18 @@
 			this.wrapperMeshes.forEach(m => snapMesh(m, m.userData.wrapperNode && m.userData.wrapperNode.id));
 			this.internalsMeshes.forEach(m => snapMesh(m, m.userData.internalNode && m.userData.internalNode.id));
 
+			// Layer visibility survives the rebuild: the checkboxes flip
+			// .visible on the LIVE groups, and clear() disposes them — a
+			// fresh Group defaults to visible, so a knob-driven rebuild
+			// silently re-showed every layer the user had hidden
+			// (2026-09-05 owner review). Snapshot before clear(), re-apply
+			// to the fresh groups below
+			const layerVisibility = {
+				types           : this.typesGroup ? this.typesGroup.visible : true,
+				instrumentation : this.instrumentationGroup ? this.instrumentationGroup.visible : true,
+				dive            : this.diveGroup ? this.diveGroup.visible : true
+			};
+
 			this.clear();
 
 			// Layer groups — the "Layers" checkboxes flip their
@@ -2937,6 +3073,9 @@
 			this.typesGroup = new THREE.Group();
 			this.instrumentationGroup = new THREE.Group();
 			this.diveGroup = new THREE.Group();
+			this.typesGroup.visible = layerVisibility.types;
+			this.instrumentationGroup.visible = layerVisibility.instrumentation;
+			this.diveGroup.visible = layerVisibility.dive;
 			this.scene.add(this.typesGroup);
 			this.scene.add(this.instrumentationGroup);
 			this.scene.add(this.diveGroup);
@@ -3333,6 +3472,78 @@
 			];
 
 			// Update link positions
+			this.updateLinkPositions();
+		}
+
+		/**
+		 * Collect the savable layout (Save button → host writes
+		 * .mnemographica/layout.json, 2026-09-06 owner request).
+		 * User-placed spheres only — untouched nodes reproduce from the
+		 * deterministic layout anyway. Pins ride the same snap shape
+		 * renderGraph's pinnedSnapshot uses, keyed by node id. Camera
+		 * matches the constructor's initialCameraState shape
+		 */
+		collectLayout(data) {
+			const nodes = {};
+			data.nodes.forEach(node => {
+				if (node.x3d === undefined) { return; }
+				nodes[node.id] = { x: node.x3d, y: node.y3d, z: node.z3d };
+			});
+			const pins = {};
+			const snapMesh = (mesh, key) => {
+				if (!key || !mesh.userData.pinned) { return; }
+				pins[key] = {
+					hasAnchor : !!mesh.userData.pinAnchor,
+					offset    : mesh.userData.pinOffset
+						? { x: mesh.userData.pinOffset.x, y: mesh.userData.pinOffset.y, z: mesh.userData.pinOffset.z }
+						: null,
+					position  : { x: mesh.position.x, y: mesh.position.y, z: mesh.position.z }
+				};
+			};
+			this.creationMeshes.forEach(m => snapMesh(m, m.userData.creationNode && m.userData.creationNode.id));
+			this.wrapperMeshes.forEach(m => snapMesh(m, m.userData.wrapperNode && m.userData.wrapperNode.id));
+			this.internalsMeshes.forEach(m => snapMesh(m, m.userData.internalNode && m.userData.internalNode.id));
+			const layout = {
+				version : 1,
+				savedAt : new Date().toISOString(),
+				nodes   : nodes,
+				pins    : pins,
+				camera  : {
+					cameraRotation : { ...this.cameraRotation },
+					zoom           : this.zoom,
+					panOffset      : { ...this.panOffset }
+				}
+			};
+			return layout;
+		}
+
+		/**
+		 * Re-apply the saved pins after a fresh render — mirrors the
+		 * pinnedSnapshot restoreMesh inside renderGraph: relative pins
+		 * re-resolve their anchor mesh and keep the offset, absolute pins
+		 * land on their stored spot. Ends with updateLinkPositions so the
+		 * dynamics chain sees the restored spots
+		 */
+		applySavedPins(pins) {
+			if (!pins) { return; }
+			const applyMesh = (mesh, key) => {
+				const snap = key ? pins[key] : undefined;
+				if (!snap) { return; }
+				mesh.userData.pinned = true;
+				if (snap.hasAnchor && snap.offset) {
+					const anchor = this.resolvePinAnchor(mesh);
+					if (anchor) {
+						mesh.userData.pinAnchor = anchor;
+						mesh.userData.pinOffset = new THREE.Vector3(snap.offset.x, snap.offset.y, snap.offset.z);
+						mesh.position.copy(anchor.position).add(mesh.userData.pinOffset);
+						return;
+					}
+				}
+				mesh.position.set(snap.position.x, snap.position.y, snap.position.z);
+			};
+			this.creationMeshes.forEach(m => applyMesh(m, m.userData.creationNode && m.userData.creationNode.id));
+			this.wrapperMeshes.forEach(m => applyMesh(m, m.userData.wrapperNode && m.userData.wrapperNode.id));
+			this.internalsMeshes.forEach(m => applyMesh(m, m.userData.internalNode && m.userData.internalNode.id));
 			this.updateLinkPositions();
 		}
 

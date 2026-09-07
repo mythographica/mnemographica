@@ -1,4 +1,6 @@
 import * as vscode from 'vscode';
+import * as fs from 'fs';
+import * as path from 'path';
 import type { GraphData, WebviewMessage } from '../types/index.js';
 import type { traceEdge } from '../core/MainOrchestrator';
 import { getLogger } from '../services/LoggerService';
@@ -324,6 +326,12 @@ export class GraphPanel {
 					}
 					break;
 				}
+				case 'saveLayout':
+					// The Save button (2026-09-06 owner request): the
+					// webview cannot write files — it posts the collected
+					// layout here and the host persists it
+					await this.handleSaveLayout(message.data);
+					break;
 				case 'traceModeExit':
 					GraphPanel.traceMode = null;
 					break;
@@ -338,9 +346,55 @@ export class GraphPanel {
 
 	private updateGraph (graphData: GraphData) {
 		void this.panel.webview.postMessage({
-			command: 'updateGraph',
-			data: graphData
+			command : 'updateGraph',
+			data    : graphData,
+			// The saved layout rides along so render3DGraph can apply it
+			// around renderGraph; null when no save exists yet
+			layout  : this.readSavedLayout()
 		});
+	}
+
+	// The Save button's backing file (2026-09-06 owner request):
+	// <workspace root>/.mnemographica/layout.json
+	private static getLayoutFilePath (): string | null {
+		const folder = vscode.workspace.workspaceFolders?.[0];
+		if (!folder) {
+			return null;
+		}
+		const filePath = path.join(folder.uri.fsPath, '.mnemographica', 'layout.json');
+		return filePath;
+	}
+
+	private readSavedLayout (): unknown {
+		const filePath = GraphPanel.getLayoutFilePath();
+		if (!filePath || !fs.existsSync(filePath)) {
+			return null;
+		}
+		try {
+			const parsed = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+			return parsed;
+		} catch (error) {
+			logger.warn('[GraphPanel] Failed to read saved layout:', String(error));
+			return null;
+		}
+	}
+
+	private async handleSaveLayout (data: unknown) {
+		const filePath = GraphPanel.getLayoutFilePath();
+		if (!filePath) {
+			void vscode.window.showWarningMessage('Save layout: no workspace folder is open');
+			return;
+		}
+		try {
+			fs.mkdirSync(path.dirname(filePath), { recursive: true });
+			fs.writeFileSync(filePath, JSON.stringify(data, null, '\t'));
+			void this.panel.webview.postMessage({
+				command : 'layoutSaved',
+				data    : { path: filePath }
+			});
+		} catch (error) {
+			void vscode.window.showErrorMessage(`Failed to save layout: ${String(error)}`);
+		}
 	}
 
 	private async handleGoToDefinition (location: {
@@ -391,6 +445,7 @@ export class GraphPanel {
 		<button id="zoom-in" title="Zoom In">+</button>
 		<button id="zoom-out" title="Zoom Out">−</button>
 		<button id="reset" title="Reset View">⟲</button>
+		<button id="save-layout" title="Save layout to .mnemographica/layout.json">Save</button>
 	</div>
 	<div id="gen-controls" style="display: block;">
 		<div class="gen-controls-header">Layers &amp; Distances</div>

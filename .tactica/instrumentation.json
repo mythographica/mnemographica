@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-09-03T23:47:10.869Z",
+  "generatedAt": "2026-09-06T22:32:51.461Z",
   "points": [],
   "creationGraph": {
     "nodes": [
@@ -109,11 +109,11 @@
         "starter": false
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:38:1",
+        "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
         "name": "activate",
         "kind": "function",
         "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:38:1",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
         "starter": true
       },
       {
@@ -173,6 +173,14 @@
         "starter": false
       },
       {
+        "scopeId": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:77:1",
+        "name": "startSelfTrace",
+        "kind": "function",
+        "filePath": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts",
+        "location": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:77:1",
+        "starter": false
+      },
+      {
         "scopeId": "/code/mnemonica/mnemographica/src/webview/appChannelPanel.ts:37:2",
         "name": "AppChannelPanel.setOrchestrator",
         "kind": "method",
@@ -181,11 +189,11 @@
         "starter": false
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:204:70",
-        "name": "/code/mnemonica/mnemographica/src/extension.ts:204",
+        "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:262:70",
+        "name": "/code/mnemonica/mnemographica/src/extension.ts:262",
         "kind": "arrow",
         "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:204:70",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:262:70",
         "starter": true
       },
       {
@@ -218,7 +226,7 @@
         "kind": "module",
         "filePath": "/code/mnemonica/mnemographica/src/webview/appChannelPanel.ts",
         "location": "/code/mnemonica/mnemographica/src/webview/appChannelPanel.ts:1:1",
-        "starter": true
+        "starter": false
       },
       {
         "scopeId": "/code/mnemonica/mnemographica/src/strategy/server.ts:61:2",
@@ -242,6 +250,22 @@
         "kind": "module",
         "filePath": "/code/mnemonica/mnemographica/src/strategy/server.ts",
         "location": "/code/mnemonica/mnemographica/src/strategy/server.ts:1:1",
+        "starter": false
+      },
+      {
+        "scopeId": "/code/mnemonica/mnemographica/src/commands/utilityCommands.ts",
+        "name": "/code/mnemonica/mnemographica/src/commands/utilityCommands.ts",
+        "kind": "module",
+        "filePath": "/code/mnemonica/mnemographica/src/commands/utilityCommands.ts",
+        "location": "/code/mnemonica/mnemographica/src/commands/utilityCommands.ts:1:1",
+        "starter": false
+      },
+      {
+        "scopeId": "/code/mnemonica/mnemographica/src/strategy/index.ts",
+        "name": "/code/mnemonica/mnemographica/src/strategy/index.ts",
+        "kind": "module",
+        "filePath": "/code/mnemonica/mnemographica/src/strategy/index.ts",
+        "location": "/code/mnemonica/mnemographica/src/strategy/index.ts:1:1",
         "starter": true
       },
       {
@@ -258,15 +282,47 @@
         "kind": "module",
         "filePath": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts",
         "location": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:1:1",
+        "starter": false
+      },
+      {
+        "scopeId": "/code/mnemonica/mnemographica/src/providers/index.ts",
+        "name": "/code/mnemonica/mnemographica/src/providers/index.ts",
+        "kind": "module",
+        "filePath": "/code/mnemonica/mnemographica/src/providers/index.ts",
+        "location": "/code/mnemonica/mnemographica/src/providers/index.ts:1:1",
         "starter": true
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:54:2",
+        "scopeId": "/code/mnemonica/mnemographica/src/commands/workspaceCommands.ts",
+        "name": "/code/mnemonica/mnemographica/src/commands/workspaceCommands.ts",
+        "kind": "module",
+        "filePath": "/code/mnemonica/mnemographica/src/commands/workspaceCommands.ts",
+        "location": "/code/mnemonica/mnemographica/src/commands/workspaceCommands.ts:1:1",
+        "starter": false
+      },
+      {
+        "scopeId": "/code/mnemonica/mnemographica/src/commands/treeCommands.ts",
+        "name": "/code/mnemonica/mnemographica/src/commands/treeCommands.ts",
+        "kind": "module",
+        "filePath": "/code/mnemonica/mnemographica/src/commands/treeCommands.ts",
+        "location": "/code/mnemonica/mnemographica/src/commands/treeCommands.ts:1:1",
+        "starter": false
+      },
+      {
+        "scopeId": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:58:2",
         "name": "LiveTraceTreeProvider.constructor",
         "kind": "method",
         "filePath": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts",
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:54:2",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:58:2",
         "starter": false
+      },
+      {
+        "scopeId": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:120:27",
+        "name": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:120",
+        "kind": "arrow",
+        "filePath": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts",
+        "location": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:120:27",
+        "starter": true
       },
       {
         "scopeId": "/code/mnemonica/mnemographica/src/strategy/server.ts:521:2",
@@ -285,19 +341,19 @@
         "starter": false
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:67:51",
-        "name": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:67",
+        "scopeId": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:71:51",
+        "name": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:71",
         "kind": "arrow",
         "filePath": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts",
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:67:51",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:71:51",
         "starter": true
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:63:2",
+        "scopeId": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:67:2",
         "name": "LiveTraceTreeProvider.noteIngest",
         "kind": "method",
         "filePath": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts",
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:63:2",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:67:2",
         "starter": false
       },
       {
@@ -306,7 +362,15 @@
         "kind": "module",
         "filePath": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts",
         "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:1:1",
-        "starter": true
+        "starter": false
+      },
+      {
+        "scopeId": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts",
+        "name": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts",
+        "kind": "module",
+        "filePath": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts",
+        "location": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:1:1",
+        "starter": false
       },
       {
         "scopeId": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:121:2",
@@ -346,7 +410,7 @@
         "kind": "module",
         "filePath": "/code/mnemonica/mnemographica/src/models/Usages.ts",
         "location": "/code/mnemonica/mnemographica/src/models/Usages.ts:1:1",
-        "starter": true
+        "starter": false
       },
       {
         "scopeId": "/code/mnemonica/mnemographica/src/models/Types.ts",
@@ -354,7 +418,7 @@
         "kind": "module",
         "filePath": "/code/mnemonica/mnemographica/src/models/Types.ts",
         "location": "/code/mnemonica/mnemographica/src/models/Types.ts:1:1",
-        "starter": true
+        "starter": false
       },
       {
         "scopeId": "/code/mnemonica/mnemographica/src/models/Flow.ts",
@@ -362,7 +426,7 @@
         "kind": "module",
         "filePath": "/code/mnemonica/mnemographica/src/models/Flow.ts",
         "location": "/code/mnemonica/mnemographica/src/models/Flow.ts:1:1",
-        "starter": true
+        "starter": false
       },
       {
         "scopeId": "/code/mnemonica/mnemographica/src/models/EDS.ts",
@@ -370,7 +434,7 @@
         "kind": "module",
         "filePath": "/code/mnemonica/mnemographica/src/models/EDS.ts",
         "location": "/code/mnemonica/mnemographica/src/models/EDS.ts:1:1",
-        "starter": true
+        "starter": false
       },
       {
         "scopeId": "/code/mnemonica/mnemographica/src/models/Definition.ts",
@@ -378,78 +442,54 @@
         "kind": "module",
         "filePath": "/code/mnemonica/mnemographica/src/models/Definition.ts",
         "location": "/code/mnemonica/mnemographica/src/models/Definition.ts:1:1",
-        "starter": true
+        "starter": false
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:582:1",
+        "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:651:1",
         "name": "deactivate",
         "kind": "function",
         "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:582:1",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:651:1",
         "starter": true
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:569:1",
+        "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:638:1",
         "name": "handleFileChange",
         "kind": "function",
         "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:569:1",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:638:1",
         "starter": false
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:500:22",
-        "name": "/code/mnemonica/mnemographica/src/extension.ts:500",
+        "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:561:22",
+        "name": "/code/mnemonica/mnemographica/src/extension.ts:561",
         "kind": "arrow",
         "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:500:22",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:561:22",
         "starter": true
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:497:22",
-        "name": "/code/mnemonica/mnemographica/src/extension.ts:497",
+        "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:558:22",
+        "name": "/code/mnemonica/mnemographica/src/extension.ts:558",
         "kind": "arrow",
         "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:497:22",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:558:22",
         "starter": true
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:534:1",
+        "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:597:1",
         "name": "refreshTypeGraph",
         "kind": "function",
         "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:534:1",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:597:1",
         "starter": false
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:577:29",
-        "name": "/code/mnemonica/mnemographica/src/extension.ts:577",
+        "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:253:45",
+        "name": "/code/mnemonica/mnemographica/src/extension.ts:253",
         "kind": "arrow",
         "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:577:29",
-        "starter": true
-      },
-      {
-        "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:511:29",
-        "name": "/code/mnemonica/mnemographica/src/extension.ts:511",
-        "kind": "arrow",
-        "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:511:29",
-        "starter": true
-      },
-      {
-        "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:507:29",
-        "name": "/code/mnemonica/mnemographica/src/extension.ts:507",
-        "kind": "arrow",
-        "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:507:29",
-        "starter": true
-      },
-      {
-        "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:367:65",
-        "name": "/code/mnemonica/mnemographica/src/extension.ts:367",
-        "kind": "arrow",
-        "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:367:65",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:253:45",
         "starter": true
       },
       {
@@ -490,7 +530,7 @@
         "kind": "module",
         "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
         "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:1:1",
-        "starter": true
+        "starter": false
       },
       {
         "scopeId": "/code/mnemonica/mnemographica/src/providers/definitionProvider.ts",
@@ -498,14 +538,14 @@
         "kind": "module",
         "filePath": "/code/mnemonica/mnemographica/src/providers/definitionProvider.ts",
         "location": "/code/mnemonica/mnemographica/src/providers/definitionProvider.ts:1:1",
-        "starter": true
+        "starter": false
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:17:2",
+        "scopeId": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:18:2",
         "name": "GraphBuilder.buildFromRegistry",
         "kind": "method",
         "filePath": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts",
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:17:2",
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:18:2",
         "starter": false
       },
       {
@@ -530,7 +570,39 @@
         "kind": "module",
         "filePath": "/code/mnemonica/mnemographica/src/models/Instrumentation.ts",
         "location": "/code/mnemonica/mnemographica/src/models/Instrumentation.ts:1:1",
-        "starter": true
+        "starter": false
+      },
+      {
+        "scopeId": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts",
+        "name": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts",
+        "kind": "module",
+        "filePath": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts",
+        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:1:1",
+        "starter": false
+      },
+      {
+        "scopeId": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts",
+        "name": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts",
+        "kind": "module",
+        "filePath": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts",
+        "location": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:1:1",
+        "starter": false
+      },
+      {
+        "scopeId": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts",
+        "name": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts",
+        "kind": "module",
+        "filePath": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts",
+        "location": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts:1:1",
+        "starter": false
+      },
+      {
+        "scopeId": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts",
+        "name": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts",
+        "kind": "module",
+        "filePath": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts",
+        "location": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts:1:1",
+        "starter": false
       },
       {
         "scopeId": "/code/mnemonica/mnemographica/src/views/genTreeProvider.ts",
@@ -538,7 +610,7 @@
         "kind": "module",
         "filePath": "/code/mnemonica/mnemographica/src/views/genTreeProvider.ts",
         "location": "/code/mnemonica/mnemographica/src/views/genTreeProvider.ts:1:1",
-        "starter": true
+        "starter": false
       },
       {
         "scopeId": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts",
@@ -546,7 +618,7 @@
         "kind": "module",
         "filePath": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts",
         "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:1:1",
-        "starter": true
+        "starter": false
       },
       {
         "scopeId": "/code/mnemonica/mnemographica/src/views/treeProvider.ts",
@@ -554,7 +626,15 @@
         "kind": "module",
         "filePath": "/code/mnemonica/mnemographica/src/views/treeProvider.ts",
         "location": "/code/mnemonica/mnemographica/src/views/treeProvider.ts:1:1",
-        "starter": true
+        "starter": false
+      },
+      {
+        "scopeId": "/code/mnemonica/mnemographica/src/commands/navigationCommands.ts",
+        "name": "/code/mnemonica/mnemographica/src/commands/navigationCommands.ts",
+        "kind": "module",
+        "filePath": "/code/mnemonica/mnemographica/src/commands/navigationCommands.ts",
+        "location": "/code/mnemonica/mnemographica/src/commands/navigationCommands.ts:1:1",
+        "starter": false
       },
       {
         "scopeId": "/code/mnemonica/mnemographica/src/topologica/bootstrap.ts:14:1",
@@ -578,7 +658,15 @@
         "kind": "module",
         "filePath": "/code/mnemonica/mnemographica/src/services/LoggerService.ts",
         "location": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:1:1",
-        "starter": true
+        "starter": false
+      },
+      {
+        "scopeId": "/code/mnemonica/mnemographica/src/topologica/bootstrap.ts",
+        "name": "/code/mnemonica/mnemographica/src/topologica/bootstrap.ts",
+        "kind": "module",
+        "filePath": "/code/mnemonica/mnemographica/src/topologica/bootstrap.ts",
+        "location": "/code/mnemonica/mnemographica/src/topologica/bootstrap.ts:1:1",
+        "starter": false
       },
       {
         "scopeId": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:79:2",
@@ -599,7 +687,7 @@
         "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:42:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:54:2",
+        "caller": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:58:2",
         "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:42:2"
       },
       {
@@ -627,6 +715,10 @@
         "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:42:2"
       },
       {
+        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:77:1",
+        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:42:2"
+      },
+      {
         "caller": "/code/mnemonica/mnemographica/src/commands/treeCommands.ts:9:1",
         "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:42:2"
       },
@@ -651,7 +743,7 @@
         "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:42:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:38:1",
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
         "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:42:2"
       },
       {
@@ -671,12 +763,16 @@
         "callee": "/code/mnemonica/mnemographica/src/commands/workspaceCommands.ts:36:1"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:38:1",
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
         "callee": "/code/mnemonica/mnemographica/src/commands/workspaceCommands.ts:19:1"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:38:1",
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
         "callee": "/code/mnemonica/mnemographica/src/commands/treeCommands.ts:9:1"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
+        "callee": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:77:1"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/webview/appChannelPanel.ts",
@@ -695,11 +791,11 @@
         "callee": "/code/mnemonica/mnemographica/src/webview/appChannelPanel.ts:37:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:38:1",
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
         "callee": "/code/mnemonica/mnemographica/src/webview/appChannelPanel.ts:37:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:204:70",
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:262:70",
         "callee": "/code/mnemonica/mnemographica/src/webview/appChannelPanel.ts:37:2"
       },
       {
@@ -719,12 +815,16 @@
         "callee": "/code/mnemonica/mnemographica/src/webview/appChannelPanel.ts:41:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:38:1",
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
         "callee": "/code/mnemonica/mnemographica/src/webview/appChannelPanel.ts:41:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:204:70",
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:262:70",
         "callee": "/code/mnemonica/mnemographica/src/webview/appChannelPanel.ts:41:2"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts",
+        "callee": "/code/mnemonica/mnemographica/src/webview/appChannelPanel.ts"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/commands/utilityCommands.ts:7:1",
@@ -735,12 +835,28 @@
         "callee": "/code/mnemonica/mnemographica/src/strategy/server.ts:61:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:38:1",
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
         "callee": "/code/mnemonica/mnemographica/src/strategy/server.ts:61:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:38:1",
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
         "callee": "/code/mnemonica/mnemographica/src/commands/utilityCommands.ts:7:1"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/strategy/index.ts",
+        "callee": "/code/mnemonica/mnemographica/src/strategy/server.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/commands/utilityCommands.ts",
+        "callee": "/code/mnemonica/mnemographica/src/strategy/server.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts",
+        "callee": "/code/mnemonica/mnemographica/src/strategy/server.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts",
+        "callee": "/code/mnemonica/mnemographica/src/commands/utilityCommands.ts"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/commands/treeCommands.ts:9:1",
@@ -767,40 +883,68 @@
         "callee": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:25:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:38:1",
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
         "callee": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:25:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts",
-        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:54:2"
+        "caller": "/code/mnemonica/mnemographica/src/commands/treeCommands.ts",
+        "callee": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:63:2",
-        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:54:2"
-      },
-      {
-        "caller": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:67:51",
-        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:54:2"
-      },
-      {
-        "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts:492:2",
-        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:54:2"
-      },
-      {
-        "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts:521:2",
-        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:54:2"
-      },
-      {
-        "caller": "/code/mnemonica/mnemographica/src/webview/appChannelPanel.ts:59:13",
-        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:54:2"
+        "caller": "/code/mnemonica/mnemographica/src/commands/workspaceCommands.ts",
+        "callee": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts",
-        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:54:2"
+        "callee": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:38:1",
-        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:54:2"
+        "caller": "/code/mnemonica/mnemographica/src/providers/index.ts",
+        "callee": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts",
+        "callee": "/code/mnemonica/mnemographica/src/commands/workspaceCommands.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts",
+        "callee": "/code/mnemonica/mnemographica/src/commands/treeCommands.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts",
+        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:58:2"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:67:2",
+        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:58:2"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:71:51",
+        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:58:2"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts:492:2",
+        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:58:2"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts:521:2",
+        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:58:2"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/webview/appChannelPanel.ts:59:13",
+        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:58:2"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:120:27",
+        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:58:2"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts",
+        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:58:2"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
+        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:58:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/commands/utilityCommands.ts:7:1",
@@ -811,7 +955,7 @@
         "callee": "/code/mnemonica/mnemographica/src/strategy/server.ts:521:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:38:1",
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
         "callee": "/code/mnemonica/mnemographica/src/strategy/server.ts:521:2"
       },
       {
@@ -823,43 +967,67 @@
         "callee": "/code/mnemonica/mnemographica/src/strategy/server.ts:492:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:38:1",
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
         "callee": "/code/mnemonica/mnemographica/src/strategy/server.ts:492:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts",
-        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:63:2"
+        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:67:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:54:2",
-        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:63:2"
+        "caller": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:58:2",
+        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:67:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:67:51",
-        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:63:2"
+        "caller": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:71:51",
+        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:67:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts:492:2",
-        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:63:2"
+        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:67:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts:521:2",
-        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:63:2"
+        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:67:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/webview/appChannelPanel.ts:59:13",
-        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:63:2"
+        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:67:2"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:120:27",
+        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:67:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts",
-        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:63:2"
+        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:67:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:38:1",
-        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:63:2"
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
+        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:67:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:54:2",
+        "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts",
+        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/webview/appChannelPanel.ts",
+        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts",
+        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts",
+        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts",
+        "callee": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:58:2",
         "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:121:2"
       },
       {
@@ -887,6 +1055,10 @@
         "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:121:2"
       },
       {
+        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:77:1",
+        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:121:2"
+      },
+      {
         "caller": "/code/mnemonica/mnemographica/src/commands/treeCommands.ts:9:1",
         "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:121:2"
       },
@@ -911,7 +1083,7 @@
         "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:121:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:38:1",
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
         "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:121:2"
       },
       {
@@ -943,11 +1115,19 @@
         "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1"
       },
       {
+        "caller": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts",
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts",
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1"
+      },
+      {
         "caller": "/code/mnemonica/mnemographica/src/models/Instrumentation.ts",
         "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:17:2",
+        "caller": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:18:2",
         "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1"
       },
       {
@@ -971,6 +1151,10 @@
         "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1"
       },
       {
+        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:77:1",
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1"
+      },
+      {
         "caller": "/code/mnemonica/mnemographica/src/commands/navigationCommands.ts:11:1",
         "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1"
       },
@@ -987,19 +1171,19 @@
         "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:38:1",
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
         "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:534:1",
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:597:1",
         "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:569:1",
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:638:1",
         "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:582:1",
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:651:1",
         "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1"
       },
       {
@@ -1027,35 +1211,47 @@
         "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:497:22",
-        "callee": "/code/mnemonica/mnemographica/src/extension.ts:569:1"
+        "caller": "/code/mnemonica/mnemographica/src/models/Registry.ts",
+        "callee": "/code/mnemonica/mnemographica/src/models/Usages.ts"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:500:22",
-        "callee": "/code/mnemonica/mnemographica/src/extension.ts:569:1"
+        "caller": "/code/mnemonica/mnemographica/src/models/Registry.ts",
+        "callee": "/code/mnemonica/mnemographica/src/models/Types.ts"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:367:65",
-        "callee": "/code/mnemonica/mnemographica/src/extension.ts:534:1"
+        "caller": "/code/mnemonica/mnemographica/src/models/Registry.ts",
+        "callee": "/code/mnemonica/mnemographica/src/models/Flow.ts"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:507:29",
-        "callee": "/code/mnemonica/mnemographica/src/extension.ts:534:1"
+        "caller": "/code/mnemonica/mnemographica/src/models/Registry.ts",
+        "callee": "/code/mnemonica/mnemographica/src/models/EDS.ts"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:511:29",
-        "callee": "/code/mnemonica/mnemographica/src/extension.ts:534:1"
+        "caller": "/code/mnemonica/mnemographica/src/models/Registry.ts",
+        "callee": "/code/mnemonica/mnemographica/src/models/Definition.ts"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:577:29",
-        "callee": "/code/mnemonica/mnemographica/src/extension.ts:534:1"
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:558:22",
+        "callee": "/code/mnemonica/mnemographica/src/extension.ts:638:1"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:561:22",
+        "callee": "/code/mnemonica/mnemographica/src/extension.ts:638:1"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts",
+        "callee": "/code/mnemonica/mnemographica/src/extension.ts:597:1"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:253:45",
+        "callee": "/code/mnemonica/mnemographica/src/extension.ts:597:1"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/commands/workspaceCommands.ts:48:3",
         "callee": "/code/mnemonica/mnemographica/src/commands/workspaceCommands.ts:142:1"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:38:1",
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
         "callee": "/code/mnemonica/mnemographica/src/commands/navigationCommands.ts:11:1"
       },
       {
@@ -1067,23 +1263,47 @@
         "callee": "/code/mnemonica/mnemographica/src/strategy/server.ts:538:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:38:1",
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
         "callee": "/code/mnemonica/mnemographica/src/strategy/server.ts:538:2"
       },
       {
+        "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/webview/appChannelPanel.ts",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts",
+        "callee": "/code/mnemonica/mnemographica/src/providers/definitionProvider.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/providers/index.ts",
+        "callee": "/code/mnemonica/mnemographica/src/providers/definitionProvider.ts"
+      },
+      {
         "caller": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:58:2",
-        "callee": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:17:2"
+        "callee": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:18:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:88:2",
-        "callee": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:17:2"
+        "callee": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:18:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:121:2",
         "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:88:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:54:2",
+        "caller": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:58:2",
         "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:88:2"
       },
       {
@@ -1111,6 +1331,10 @@
         "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:88:2"
       },
       {
+        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:77:1",
+        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:88:2"
+      },
+      {
         "caller": "/code/mnemonica/mnemographica/src/commands/treeCommands.ts:9:1",
         "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:88:2"
       },
@@ -1135,7 +1359,7 @@
         "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:88:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:38:1",
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
         "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:88:2"
       },
       {
@@ -1143,7 +1367,7 @@
         "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:58:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:54:2",
+        "caller": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:58:2",
         "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:58:2"
       },
       {
@@ -1171,6 +1395,10 @@
         "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:58:2"
       },
       {
+        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:77:1",
+        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:58:2"
+      },
+      {
         "caller": "/code/mnemonica/mnemographica/src/commands/treeCommands.ts:9:1",
         "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:58:2"
       },
@@ -1195,11 +1423,99 @@
         "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:58:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:38:1",
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
         "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:58:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:38:1",
+        "caller": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts",
+        "callee": "/code/mnemonica/mnemographica/src/models/Instrumentation.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/models/Registry.ts",
+        "callee": "/code/mnemonica/mnemographica/src/models/Instrumentation.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts",
+        "callee": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts",
+        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts",
+        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts",
+        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts",
+        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/webview/appChannelPanel.ts",
+        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts",
+        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/commands/treeCommands.ts",
+        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/commands/workspaceCommands.ts",
+        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts",
+        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts",
+        "callee": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts",
+        "callee": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts",
+        "callee": "/code/mnemonica/mnemographica/src/views/genTreeProvider.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/commands/workspaceCommands.ts",
+        "callee": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts",
+        "callee": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/commands/navigationCommands.ts",
+        "callee": "/code/mnemonica/mnemographica/src/views/treeProvider.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/commands/treeCommands.ts",
+        "callee": "/code/mnemonica/mnemographica/src/views/treeProvider.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/commands/workspaceCommands.ts",
+        "callee": "/code/mnemonica/mnemographica/src/views/treeProvider.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts",
+        "callee": "/code/mnemonica/mnemographica/src/views/treeProvider.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts",
+        "callee": "/code/mnemonica/mnemographica/src/commands/navigationCommands.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
         "callee": "/code/mnemonica/mnemographica/src/topologica/bootstrap.ts:14:1"
       },
       {
@@ -1213,6 +1529,102 @@
       {
         "caller": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1",
         "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:41:2"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/topologica/bootstrap.ts",
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/views/treeProvider.ts",
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts",
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/views/genTreeProvider.ts",
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts",
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts",
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/models/Instrumentation.ts",
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts",
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/providers/definitionProvider.ts",
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts",
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts",
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts",
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts",
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/commands/navigationCommands.ts",
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/commands/utilityCommands.ts",
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/commands/workspaceCommands.ts",
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts",
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/models/Definition.ts",
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/models/EDS.ts",
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/models/Flow.ts",
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/models/Types.ts",
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/models/Usages.ts",
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/models/Registry.ts",
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts"
+      },
+      {
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts",
+        "callee": "/code/mnemonica/mnemographica/src/topologica/bootstrap.ts"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/services/LoggerService.ts",

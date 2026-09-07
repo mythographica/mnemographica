@@ -4,10 +4,10 @@
  *
  * Why declared, not discovered: eds.json/instrumentation.json only see
  * the analyzed workspace. The calls that complete the fiber chain live
- * INSIDE @mnemonica/dive and @mnemonica/nestjs (attachHooks calls
+ * INSIDE @mnemonica/dive and @mnemonica/otel (attachHooks calls
  * enterContext/recordCreation/…, the OTEL provider subscribes via
  * registerHook) — no analyzer over the consumer's sources can ever
- * surface them. We own both packages, so the truthful source is a
+ * surface them. We own those packages, so the truthful source is a
  * hand-declared manifest with a source citation per knot.
  *
  * Shape (Viktor's structure review, plans/graph-structure-review-2026-09-04.md):
@@ -57,7 +57,7 @@ export type rawInternalEdge = {
  */
 const CORE_KNOTS: rawInternalKnot[] = [
 	{ id: 'dive:edsRing',        name: 'Dive: EDS ring',        role: 'ring' },
-	{ id: 'adapter:attachHooks', name: 'Adapter: attachHooks',  role: 'hub', citation: 'nestjs-adapter/src/hooks/attach-hooks.ts' },
+	{ id: 'adapter:attachHooks', name: 'Adapter: attachHooks',  role: 'hub', citation: 'otel/src/hooks/attach-hooks.ts' },
 ];
 
 /**
@@ -68,8 +68,8 @@ const CORE_KNOTS: rawInternalKnot[] = [
  * its own span. Jaeger is outside the system — the only true terminal.
  */
 const SINK_KNOTS: rawInternalKnot[] = [
-	{ id: 'adapter:asyncFlow',       name: 'Adapter: AsyncFlowProvider (ALS)', role: 'sink', citation: 'nestjs-adapter/src/providers/async-flow.provider.ts' },
-	{ id: 'adapter:otel',            name: 'Adapter: DiveOtelProvider',        role: 'sink', citation: 'nestjs-adapter/src/providers/dive-otel.provider.ts' },
+	{ id: 'adapter:asyncFlow',       name: 'Adapter: AsyncFlowProvider (ALS)', role: 'sink', citation: 'otel/src/providers/async-flow.provider.ts' },
+	{ id: 'adapter:otel',            name: 'Adapter: DiveOtelProvider',        role: 'sink', citation: 'otel/src/providers/dive-otel.provider.ts' },
 	{ id: 'adapter:exceptionFilter', name: 'Adapter: TraceExceptionFilter',    role: 'sink', citation: 'nestjs-adapter/src/filters/mnemonica-exception.filter.ts' },
 	{ id: 'adapter:jaeger',          name: 'Jaeger (OTEL)',                    role: 'external' },
 ];

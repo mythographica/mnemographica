@@ -3,7 +3,7 @@
 import { define } from 'mnemonica';
 import { getLogger } from '../services/LoggerService';
 
-// One entry of tactica's instrumentation.json (NestJS lifecycle
+// One entry of tactica's instrumentation.json (framework lifecycle
 // crossroads, detected syntactically — see tactica AGENTS.md output
 // contract). Unlike EDS/Flow, points are a FLAT list, not keyed by type.
 export type rawInstrumentationPoint = {

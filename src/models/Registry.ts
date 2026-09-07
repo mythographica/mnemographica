@@ -134,7 +134,7 @@ export const Registry = define('Registry', class {
 			// Load Flow
 			await this.loadFlow(tacticaPath);
 
-			// Load Instrumentation (NestJS lifecycle crossroads, diamond graph)
+			// Load Instrumentation (framework lifecycle crossroads, diamond graph)
 			await this.loadInstrumentation(tacticaPath);
 
 			// Initialize Trie (no file to load, just create instance)

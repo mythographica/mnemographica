@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-09-05T01:20:24.296Z",
+  "generatedAt": "2026-09-06T22:32:51.400Z",
   "flow": {
     "LoggerService": [
       {
@@ -2759,7 +2759,7 @@
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:187:37",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:189:37",
         "kind": "instantiation",
         "code": "new Map<number, {\n\t\tresolve: (data: unknown) => void;\n\t\ttimer: ReturnType<typeof setTimeout>;\n\t}>()",
         "context": "new expression"
@@ -2771,28 +2771,28 @@
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:351:13",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:363:13",
         "kind": "methodCall",
         "code": "groups.find(g => g.rootId === rootParam)",
         "propertyName": "find",
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:351:13",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:363:13",
         "kind": "propertyRead",
         "code": "groups.find",
         "propertyName": "find",
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:355:13",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:367:13",
         "kind": "methodCall",
         "code": "groups.find(g => g.edges.some(e => e.traceId === jaegerId))",
         "propertyName": "find",
         "targetType": "Map"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:355:13",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:367:13",
         "kind": "propertyRead",
         "code": "groups.find",
         "propertyName": "find",
@@ -3510,7 +3510,7 @@
         "targetType": "Set"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:227:3",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:229:3",
         "kind": "return",
         "code": "return result;",
         "targetType": "Set"
@@ -4322,70 +4322,70 @@
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:150:18",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:154:18",
         "kind": "propertyRead",
         "code": "item.data",
         "propertyName": "data",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:151:21",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:155:21",
         "kind": "propertyRead",
         "code": "item.data.fullName",
         "propertyName": "fullName",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:151:21",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:155:21",
         "kind": "propertyRead",
         "code": "item.data",
         "propertyName": "data",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:151:43",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:155:43",
         "kind": "propertyRead",
         "code": "item.data.label",
         "propertyName": "label",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:151:43",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:155:43",
         "kind": "propertyRead",
         "code": "item.data",
         "propertyName": "data",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:175:18",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:179:18",
         "kind": "propertyRead",
         "code": "item.data",
         "propertyName": "data",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:176:16",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:180:16",
         "kind": "propertyRead",
         "code": "item.data.fullName",
         "propertyName": "fullName",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:176:16",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:180:16",
         "kind": "propertyRead",
         "code": "item.data",
         "propertyName": "data",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:176:38",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:180:38",
         "kind": "propertyRead",
         "code": "item.data.label",
         "propertyName": "label",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:176:38",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:180:38",
         "kind": "propertyRead",
         "code": "item.data",
         "propertyName": "data",
@@ -4456,7 +4456,7 @@
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:354:21",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:408:21",
         "kind": "instantiation",
         "code": "new vscode.Position(location.line - 1, location.column - 1)",
         "context": "new expression"
@@ -4514,7 +4514,7 @@
     ],
     "GraphPanel": [
       {
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:43:29",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:45:29",
         "kind": "instantiation",
         "code": "new GraphPanel(panel, extensionUri, graphData)",
         "context": "new expression"
@@ -4522,7 +4522,7 @@
     ],
     "Promise": [
       {
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:215:22",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:217:22",
         "kind": "instantiation",
         "code": "new Promise<unknown>((resolve) => {\n\t\t\tconst timer = setTimeout(() => {\n\t\t\t\tGraphPanel.viewStateRequ",
         "context": "new expression"
@@ -4548,7 +4548,7 @@
     ],
     "vscode.Selection": [
       {
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:355:23",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:409:23",
         "kind": "instantiation",
         "code": "new vscode.Selection(position, position)",
         "context": "new expression"
@@ -4568,7 +4568,7 @@
     ],
     "vscode.Range": [
       {
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:356:23",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:410:23",
         "kind": "instantiation",
         "code": "new vscode.Range(position, position)",
         "context": "new expression"
@@ -4674,6 +4674,20 @@
         "code": "result.edges",
         "propertyName": "edges",
         "targetType": "Error"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:129:3",
+        "kind": "passAsArg",
+        "code": "GraphPanel.pushTraceEdges(result.edges)",
+        "targetType": "Error",
+        "context": "arg 0 to pushTraceEdges"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:129:29",
+        "kind": "propertyRead",
+        "code": "result.edges",
+        "propertyName": "edges",
+        "targetType": "Error"
       }
     ],
     "StrategyPanel": [
@@ -4746,7 +4760,7 @@
     ],
     "MnemonicaTreeProvider": [
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:52:17",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:56:17",
         "kind": "instantiation",
         "code": "new MnemonicaTreeProvider()",
         "context": "new expression"
@@ -4754,7 +4768,7 @@
     ],
     "UsagesTreeProvider": [
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:63:19",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:67:19",
         "kind": "instantiation",
         "code": "new UsagesTreeProvider()",
         "context": "new expression"
@@ -4762,7 +4776,7 @@
     ],
     "FlowTreeProvider": [
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:74:17",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:78:17",
         "kind": "instantiation",
         "code": "new FlowTreeProvider()",
         "context": "new expression"
@@ -4770,7 +4784,7 @@
     ],
     "GenTreeProvider": [
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:85:16",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:89:16",
         "kind": "instantiation",
         "code": "new GenTreeProvider()",
         "context": "new expression"
@@ -4778,7 +4792,7 @@
     ],
     "DiamondsTreeProvider": [
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:97:21",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:101:21",
         "kind": "instantiation",
         "code": "new DiamondsTreeProvider()",
         "context": "new expression"
@@ -4786,7 +4800,7 @@
     ],
     "BagelsTreeProvider": [
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:104:19",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:108:19",
         "kind": "instantiation",
         "code": "new BagelsTreeProvider()",
         "context": "new expression"
@@ -4794,7 +4808,7 @@
     ],
     "MnemonicaDefinitionProvider": [
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:193:23",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:197:23",
         "kind": "instantiation",
         "code": "new MnemonicaDefinitionProvider()",
         "context": "new expression"
@@ -4802,7 +4816,7 @@
     ],
     "MnemonicaReferenceProvider": [
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:194:22",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:198:22",
         "kind": "instantiation",
         "code": "new MnemonicaReferenceProvider()",
         "context": "new expression"
@@ -4810,7 +4824,7 @@
     ],
     "StrategyServer": [
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:220:19",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:224:19",
         "kind": "instantiation",
         "code": "new StrategyServer(strategyPort, strategyWsPort)",
         "context": "new expression"
@@ -4818,7 +4832,7 @@
     ],
     "MainOrchestrator": [
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:239:21",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:243:21",
         "kind": "instantiation",
         "code": "new MainOrchestrator(context.extension.packageJSON.version || '0.1.0')",
         "context": "new expression"
@@ -4826,7 +4840,7 @@
     ],
     "LiveTraceTreeProvider": [
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:269:22",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:281:22",
         "kind": "instantiation",
         "code": "new LiveTraceTreeProvider(mainOrchestrator)",
         "context": "new expression"
@@ -4834,34 +4848,34 @@
     ],
     "URLSearchParams": [
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:342:19",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:354:19",
         "kind": "instantiation",
         "code": "new URLSearchParams(uri.query)",
         "context": "new expression"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:349:29",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:361:29",
         "kind": "methodCall",
         "code": "params.get('root')",
         "propertyName": "get",
         "targetType": "URLSearchParams"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:349:29",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:361:29",
         "kind": "propertyRead",
         "code": "params.get",
         "propertyName": "get",
         "targetType": "URLSearchParams"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:353:21",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:365:21",
         "kind": "methodCall",
         "code": "params.get('jaeger')",
         "propertyName": "get",
         "targetType": "URLSearchParams"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:353:21",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:365:21",
         "kind": "propertyRead",
         "code": "params.get",
         "propertyName": "get",

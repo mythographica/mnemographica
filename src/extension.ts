@@ -17,6 +17,7 @@ import { GraphPanel } from './webview/panel';
 import { StrategyPanel } from './webview/strategyPanel';
 import { AppChannelPanel } from './webview/appChannelPanel';
 import { stopStrategyProcess } from './strategy/processManager';
+import { startSelfTrace, stopSelfTrace, wrapForSelfTrace } from './strategy/selfTrace';
 import { registerNavigationCommands } from './commands/navigationCommands';
 import { registerTreeCommands } from './commands/treeCommands';
 import { registerUtilityCommands } from './commands/utilityCommands';
@@ -40,6 +41,9 @@ let strategyServer: StrategyServer;
 let statusBarItem: vscode.StatusBarItem;
 let mainOrchestrator: MainOrchestrator;
 let liveTraceProvider: LiveTraceTreeProvider;
+// refreshTypeGraph routed through dive's wrap once self-tracing is up
+// (2026-09-06 self-instrumentation); until then the plain function
+let tracedRefresh: typeof refreshTypeGraph = refreshTypeGraph;
 
 export function activate(context: vscode.ExtensionContext) {
 	// Initialize logger first so we can capture all subsequent logs
@@ -241,6 +245,14 @@ export function activate(context: vscode.ExtensionContext) {
 	strategyServer.setOrchestrator(mainOrchestrator);
 	// The App Channel tab's direct connection lands its edges the same way
 	AppChannelPanel.setOrchestrator(mainOrchestrator);
+	// Self-instrumentation (2026-09-06, owner request): dive runs in the
+	// extension host and its edges land on the same ingestTrace. The wrap
+	// context is the Registry mnemonica instance — getProps resolves its
+	// TypeName at runtime and tactica sees the wrap site for eds.json.
+	// Fire-and-forget: a dive load failure never blocks activation
+	void startSelfTrace(mainOrchestrator).then(() => {
+		tracedRefresh = wrapForSelfTrace(refreshTypeGraph, mainOrchestrator.getRegistry(), 'refreshTypeGraph');
+	});
 	// The two reframe tabs: run/watch Strategy MCP, and connect directly to
 	// an app's self-hosted WS channel (no CDP, no strategy in the middle)
 	context.subscriptions.push(
@@ -411,7 +423,7 @@ export function activate(context: vscode.ExtensionContext) {
 	);
 	context.subscriptions.push(
 		vscode.commands.registerCommand('mnemographica.refreshGraph', async () => {
-			await refreshTypeGraph(context);
+			await tracedRefresh(context);
 		})
 	);
 	context.subscriptions.push(
@@ -555,11 +567,11 @@ export function activate(context: vscode.ExtensionContext) {
 	const tacticaWatcher = vscode.workspace.createFileSystemWatcher('**/.tactica/types.ts');
 	tacticaWatcher.onDidChange(async () => {
 		logger.info('.tactica/types.ts changed, refreshing graph...');
-		await refreshTypeGraph(context);
+		await tracedRefresh(context);
 	});
 	tacticaWatcher.onDidCreate(async () => {
 		logger.info('.tactica/types.ts created, refreshing graph...');
-		await refreshTypeGraph(context);
+		await tracedRefresh(context);
 	});
 	context.subscriptions.push(tacticaWatcher);
 
@@ -632,12 +644,13 @@ async function handleFileChange(context: vscode.ExtensionContext) {
 
 	logger.debug('File change detected, scheduling refresh...');
 	debounceTimer = setTimeout(async () => {
-		await refreshTypeGraph(context);
+		await tracedRefresh(context);
 	}, 2000);
 }
 
 export function deactivate() {
 	// Clean up
 	const logger = getLogger();
+	stopSelfTrace();
 	logger.info('Mnemonica Graphica extension deactivated');
 }
