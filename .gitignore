@@ -141,3 +141,6 @@ plans
 
 # internal agent memory — never published
 reports/
+
+# superseded design handoff (2026-08, pre-three.js scene) — kept in git history
+design_handoff_3d_scene/

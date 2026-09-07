@@ -4,7 +4,7 @@
 
 ### Step 1: Build the Extension
 ```bash
-cd /code/mnemonica/mnemographica
+cd mnemographica
 npm install
 npm run compile
 ```
@@ -18,13 +18,13 @@ npm install -g @vscode/vsce
 vsce package
 ```
 
-This creates `mnemographica-0.1.0.vsix`
+This creates `mnemographica-<version>.vsix`
 
 ### Step 3: Install in VS Code
 1. Open VS Code
 2. Go to Extensions view (Cmd+Shift+X)
 3. Click `...` (More Actions) → `Install from VSIX...`
-4. Select `mnemographica-0.1.0.vsix`
+4. Select the generated `.vsix` file
 5. The extension is now installed!
 
 ---
@@ -32,49 +32,20 @@ This creates `mnemographica-0.1.0.vsix`
 ## Method 2: Development Mode (F5)
 
 For development/testing:
-1. Open `mnemographica` folder in VS Code
+1. Open the `mnemographica` folder in VS Code
 2. Press `F5` to launch Extension Development Host
 3. The extension is active only in the new window
-
----
-
-## Method 3: Copy to Extensions Folder (Manual)
-
-### Find Extensions Folder
-```bash
-# macOS
-~/.vscode/extensions/
-
-# Linux
-~/.vscode/extensions/
-
-# Windows
-%USERPROFILE%\.vscode\extensions\
-```
-
-### Create Extension Directory
-```bash
-mkdir -p ~/.vscode/extensions/mnemographica-0.1.0
-```
-
-### Copy Files
-```bash
-cp -r /code/mnemonica/mnemographica/out ~/.vscode/extensions/mnemographica-0.1.0/
-cp -r /code/mnemonica/mnemographica/media ~/.vscode/extensions/mnemographica-0.1.0/
-cp /code/mnemonica/mnemographica/package.json ~/.vscode/extensions/mnemographica-0.1.0/
-```
-
-### Restart VS Code
-The extension will be loaded automatically.
 
 ---
 
 ## Usage After Installation
 
 1. Open a TypeScript project with mnemonica types
-2. Make sure `.tactica/types.ts` exists (run `npx tactica` if not)
-3. Press `Cmd+Shift+P` → `Mnemonica: Show Type Graph`
-4. Or right-click any `.ts` file → `Show Type Graph`
+2. Make sure the project has a `.tactica/` directory (run `npx tactica` if not)
+3. Open the Mnemonica activity bar container (Ψ) for the tree views
+4. Run `Mnemonica: Ψ 3D` for the interactive 3D type graph
+5. For live tracing, open `Mnemonica: Ψ App Channel` and connect to a
+   running instrumented app (see "Watching a running app" in the README)
 
 ---
 
@@ -84,9 +55,10 @@ The extension will be loaded automatically.
 - Check that the workspace has TypeScript files
 - Reload VS Code window (`Cmd+Shift+P` → `Developer: Reload Window`)
 
-### Graph is empty
-- Ensure `.tactica/types.ts` exists in your project
-- Run `npx tactica` to generate it
+### Views are empty
+- Ensure `.tactica/` exists in your project — run `npx tactica` to generate it
+- The Diamonds view additionally needs tactica ≥ 0.2.0 output
+  (`instrumentation.json`); see the README's Requirements section
 
 ### Extension fails to load
 - Check VS Code version (need 1.74.0+)

@@ -8,21 +8,26 @@ Explore mnemonica type hierarchies in VS Code: definitions, generated types, usa
 - **Usages View**: Every place the selected type is referenced, one click to jump
 - **Flow View**: Execution flow from `flow.json`, grouped by kind (instantiation, property access, pass-as-arg, …) → type → entry
 - **By Generation View**: All types grouped by inheritance depth
-- **3D Graph**: The whole hierarchy as an interactive Three.js scene (`Mnemonica: Ψ 3D`)
+- **Diamonds View**: The creation graph — which scopes construct which types, from entry points down to every `new` site (tactica v2 `instrumentation.json`)
+- **Bagels View**: Every `dive.wrap` call site from `eds.json`, as a trie keyed by the wrapped type
+- **3D Graph**: The whole hierarchy as an interactive Three.js scene (`Mnemonica: Ψ 3D`) — type spheres, creation diamonds, wrap rings, and the dive internals backplane, with draggable nodes and a persistent layout (Save)
+- **Live Trace**: The sidebar collects a running app's dive-trace stream — recent traces grouped by shape, errored ones in red, click to isolate a trace in the 3D graph or open it in Jaeger
 - **Code Navigation**: Ctrl+Click (Go to Definition) and Shift+F12 (Find References) for your mnemonica types
+- **Live Connection Tabs**: `Ψ Strategy MCP` spawns and watches the strategy server; `Ψ App Channel` connects directly to a running app's embedded WS channel — no CDP, no debugger
 - **Real-time Updates**: Views refresh automatically when source files or `.tactica` output change
 
 ## Requirements
 
 - VS Code 1.74.0 or higher
 - A TypeScript project using [mnemonica](https://www.npmjs.com/package/mnemonica)
-- [@mnemonica/tactica](https://www.npmjs.com/package/@mnemonica/tactica) run on that project, producing a `.tactica/` directory (`hierarchy.json`, `definitions.json`, `usages.json`, `eds.json`, `flow.json`, `types.ts`)
+- [@mnemonica/tactica](https://www.npmjs.com/package/@mnemonica/tactica) run on that project, producing a `.tactica/` directory (`hierarchy.json`, `definitions.json`, `usages.json`, `flow.json`, `types.ts`; `eds.json` when `@mnemonica/dive` is a dependency). tactica ≥ 0.2.0 also emits `instrumentation.json` (the creation graph behind the Diamonds view and the 3D diamond layer), `modules.json` and `scopes.json`. Framework instrumentation points are plugin-supplied — e.g. `@mnemonica/nestjs/tactica` enabled via a `.tactica.js` config next to `tsconfig.json`
+- For the live views: a running app emitting dive traces — [`@mnemonica/otel`](https://www.npmjs.com/package/@mnemonica/otel) wires the lifecycle (`attachHooks`), and for the direct App Channel connection the app hosts [`@mnemonica/strategy`](https://www.npmjs.com/package/@mnemonica/strategy)'s channel via `startStrategyClient()`
 
 ## Usage
 
 1. Open a project with a `.tactica/` directory
 2. Open the Mnemonica activity bar container (Ψ)
-3. Browse the Welcome, Usages, Types, Flow, and By Generation views
+3. Browse the Live Trace, Usages, Types, Flow, By Generation, Diamonds, and Bagels views
 4. Run `Mnemonica: Ψ 3D` for the interactive 3D type graph (needs network access — the panel loads d3/three from CDN)
 
 Navigation conventions:
@@ -36,13 +41,15 @@ Navigation conventions:
 | Command | Description |
 |---------|-------------|
 | `Mnemonica: Ψ 3D` | Open the interactive 3D type graph |
+| `Mnemonica: Ψ Strategy MCP` | Spawn and watch the `@mnemonica/strategy` MCP server |
+| `Mnemonica: Ψ App Channel` | Connect directly to a running app's embedded strategy WS channel |
 | `Mnemonica: Refresh Type Graph` | Reload all `.tactica` data and refresh every view |
 | `Mnemonica: Refresh Tree View` | Reload the Definitions/Types tree |
 | `Mnemonica: Refresh By Generation` | Rebuild the By Generation view |
 | `Mnemonica: Show Tree View` | Focus the Types view |
 | `Mnemonica: Select Workspace` | Load a different workspace containing `.tactica/` |
 | `Mnemonica: Show Logger` | Open the Mnemonica Logger output channel |
-| `Mnemonica: Show Strategy MCP Status` | Show the experimental Strategy server status |
+| `Mnemonica: Show Strategy MCP Status` | Show the Strategy server status |
 
 ## Code Navigation (Go to Definition)
 
@@ -115,9 +122,19 @@ depending on whether the 3D graph is on screen:
 - **3D graph closed or hidden** — the click jumps to the type's source
   location, as before.
 
+## Watching a running app
+
+Mnemographica is also the live observability surface of the ecosystem — the place where a running mnemonica application becomes visible:
+
+- **Live Trace** (the top sidebar pane) collects the dive-trace stream: recent traces grouped by root name and shape, errored ones in red, newest first. Clicking a trace isolates it in the 3D graph — the whole lineage glows acid-green, errored steps red — and traces carrying an OTEL `traceId` can jump to Jaeger. The trace ring is single-source: a `source: …` header row shows which process feeds it. `self:<pid>` is the extension itself — mnemographica instruments its own mnemonica models with dive, so you can watch the extension think while it works.
+- **Ψ App Channel** connects directly to a running application's embedded strategy WS channel: discovery via `GET http://127.0.0.1:3000/strategy/channel` (configurable) or manual host/port/token, then `traceSubscribe` streams edges in — no CDP, no debugger, no MCP server in the middle.
+- **Ψ Strategy MCP** spawns the [`@mnemonica/strategy`](https://www.npmjs.com/package/@mnemonica/strategy) server as a child process and mirrors its log socket into the panel.
+
+The app side of the story: [`@mnemonica/otel`](https://www.npmjs.com/package/@mnemonica/otel) wires mnemonica's lifecycle hooks to dive (`attachHooks`), [`@mnemonica/nestjs`](https://www.npmjs.com/package/@mnemonica/nestjs) carries the NestJS seams, and [the adapter's dive-trace-chain doc](https://github.com/mythographica/nestjs/blob/main/docs/dive-trace-chain.md) maps how one construction becomes a Jaeger span — and how each link of that chain is drawn in the 3D scene. The runtime underneath it all: [mnemonica](https://github.com/wentout/mnemonica) (manual: [FOR_HUMANS.md](https://github.com/wentout/mnemonica/blob/master/FOR_HUMANS.md)); the live-craft mode (define and swap constructors without a restart): [strategy/docs/live-craft.md](https://github.com/mythographica/strategy/blob/main/docs/live-craft.md).
+
 ## How It Works
 
-Mnemonica Graphica loads your project's `.tactica/` artifacts (generated by tactica) into mnemonica model instances via a Registry controller: hierarchy and structure from `hierarchy.json`, properties from the generated `types.ts`, plus definitions, usages, EDS and flow data. Tree views and navigation providers read from those models, and everything refreshes when the underlying files change.
+Mnemonica Graphica loads your project's `.tactica/` artifacts (generated by tactica) into mnemonica model instances via a Registry controller: hierarchy and structure from `hierarchy.json`, properties from the generated `types.ts`, plus definitions, usages, EDS and flow data — and, with tactica v2, the instrumentation creation graph and the module/scope wiring. Tree views and navigation providers read from those models, and everything refreshes when the underlying files change. The extension is itself built from mnemonica types — the graph can draw the tool drawing itself.
 
 All type identity is keyed by dot-joined full path (e.g. `Scene2D.GraphNode2D`), which is what makes the views join cleanly with definitions, usages, and flow data.
 
