@@ -14,6 +14,8 @@ export type Instrumentation = {
 	setCreationGraph: (graph: { nodes: Array<{ scopeId: string; name: string; kind: 'module' | 'function' | 'method' | 'arrow'; filePath: string; location: string; starter: boolean }>; edges: Array<{ caller: string; callee: string }>; anchors: Array<{ location: string; holderScopeId: string; typePath: string; constructorText?: string; rooted?: boolean; variable?: string; terminatedAt?: string }> }) => void;
 	getCreationGraph: () => { nodes: Array<{ scopeId: string; name: string; kind: 'module' | 'function' | 'method' | 'arrow'; filePath: string; location: string; starter: boolean }>; edges: Array<{ caller: string; callee: string }>; anchors: Array<{ location: string; holderScopeId: string; typePath: string; constructorText?: string; rooted?: boolean; variable?: string; terminatedAt?: string }> } | undefined;
 	hasCreationGraph: () => boolean;
+	setCreationGraphAbsentReason: (reason: 'missing' | 'stale' | 'v1') => void;
+	getCreationGraphAbsentReason: () => 'missing' | 'stale' | 'v1' | undefined;
 	clear: () => void;
 	InstrumentationPoint: new (data: { kind: string; className: string; location: string; code: string; scope: string; targets?: Array<string> }) => Instrumentation_InstrumentationPoint;
 };

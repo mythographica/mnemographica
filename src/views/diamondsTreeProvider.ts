@@ -121,6 +121,9 @@ export class DiamondsTreeProvider implements vscode.TreeDataProvider<DiamondsTre
 	private trieRoot: TrieNode = DiamondsTreeProvider.newTrieNode('', '');
 	private scopesById: Map<string, CreationScopeData> = new Map();
 	private status: 'ok' | 'no-registry' | 'no-graph' | 'empty' = 'no-registry';
+	// WHY there is no graph ('missing' | 'stale' | 'v1' | undefined) —
+	// the empty pane must give the right advice for each (2026-09-07)
+	private noGraphReason: 'missing' | 'stale' | 'v1' | undefined;
 	private registry: Registry | undefined;
 	private logger = getLogger();
 
@@ -150,8 +153,9 @@ export class DiamondsTreeProvider implements vscode.TreeDataProvider<DiamondsTre
 
 		const instrumentation = this.registry.getInstrumentation();
 		if (!instrumentation || !instrumentation.hasCreationGraph()) {
-			// instrumentation.json v1 carries no creationGraph — say so
-			// instead of rendering an empty pane
+			this.noGraphReason = instrumentation
+				? instrumentation.getCreationGraphAbsentReason()
+				: undefined;
 			this.status = 'no-graph';
 			this.refresh();
 			return;
@@ -173,6 +177,7 @@ export class DiamondsTreeProvider implements vscode.TreeDataProvider<DiamondsTre
 		}
 
 		this.status = graph.anchors.length > 0 ? 'ok' : 'empty';
+		this.noGraphReason = undefined;
 		this.logger.info(`[DiamondsTree] Loaded ${graph.anchors.length} creation sites across ${graph.nodes.length} scopes`);
 		this.refresh();
 	}
@@ -241,8 +246,17 @@ export class DiamondsTreeProvider implements vscode.TreeDataProvider<DiamondsTre
 				)];
 			}
 			if (this.status === 'no-graph') {
+				// One row, but the RIGHT words: a stale file was skipped
+				// by the guard (regenerate as ONE batch), a missing file
+				// means tactica never ran here, v1 genuinely predates
+				// the creation graph
+				const label = this.noGraphReason === 'stale'
+					? 'Stale instrumentation.json — older than definitions.json; regenerate .tactica as one batch'
+					: this.noGraphReason === 'missing'
+						? 'No instrumentation.json — run tactica to generate .tactica'
+						: 'No creation graph — regenerate .tactica with tactica v2';
 				return [new DiamondsTreeItem(
-					{ label: 'No creation graph — regenerate .tactica with tactica v2', type: 'info' },
+					{ label, type: 'info' },
 					vscode.TreeItemCollapsibleState.None
 				)];
 			}
@@ -281,6 +295,7 @@ export class DiamondsTreeProvider implements vscode.TreeDataProvider<DiamondsTre
 		this.trieRoot = DiamondsTreeProvider.newTrieNode('', '');
 		this.scopesById.clear();
 		this.status = 'no-registry';
+		this.noGraphReason = undefined;
 		this.refresh();
 	}
 }

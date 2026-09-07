@@ -198,6 +198,18 @@ export class MainOrchestrator {
 	}
 
 	/**
+	 * The session tag of the source currently feeding the trace ring
+	 * (`self:<pid>`, `app-channel:<pid>`, …) — undefined until the first
+	 * tagged batch lands. Surfaced as the Live Trace pane's source row
+	 * (2026-09-07): the ring is single-source (a new marker vacuum-wipes
+	 * it), so one marker describes every row — but only if visible.
+	 */
+	getTraceSession(): string | undefined {
+		const session = this.main.traceSession as string | undefined;
+		return session;
+	}
+
+	/**
 	 * Trace readback for state/query — counters plus the newest
 	 * `sample` edges (default 5) so a caller can eyeball the stream
 	 * without draining the whole buffer.

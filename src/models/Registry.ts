@@ -466,6 +466,7 @@ export const Registry = define('Registry', class {
 						const definitionsData = JSON.parse(fs.readFileSync(definitionsPath, 'utf-8'));
 						if (definitionsData.generatedAt && data.generatedAt < definitionsData.generatedAt) {
 							this.logger.warn('[Registry] : instrumentation.json is older than definitions.json — skipping as stale');
+							instrumentationInstance.setCreationGraphAbsentReason('stale');
 							return;
 						}
 					}
@@ -502,9 +503,16 @@ export const Registry = define('Registry', class {
 						this.logger.warn('[Registry] : creationGraph skipped — nodes/edges/anchors must be arrays');
 					}
 				}
+				// A loaded file without a usable creationGraph predates
+				// tactica v2 (or its graph section was malformed) — the
+				// Diamonds pane reads this reason to say so honestly
+				if (!instrumentationInstance.hasCreationGraph()) {
+					instrumentationInstance.setCreationGraphAbsentReason('v1');
+				}
 				this.logger.info(`[Registry] : Instrumentation loaded with ${instrumentationInstance.size} points`);
 			} else {
 				this.logger.warn(`[Registry] : instrumentation.json not found at ${instrumentationPath}`);
+				instrumentationInstance.setCreationGraphAbsentReason('missing');
 			}
 		} catch (error) {
 			this.logger.error('[Registry] : failed to load Instrumentation', error);

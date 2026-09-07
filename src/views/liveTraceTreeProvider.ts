@@ -205,6 +205,21 @@ export class LiveTraceTreeProvider implements vscode.TreeDataProvider<LiveTraceT
 				items.push(this.groupItem(members, endpoint, groupHash));
 			}
 		}
+		// Source badge (2026-09-07, Viktor's review): the ring is
+		// single-source — a new session marker vacuum-wipes it — so one
+		// header row describes every trace below. self:<pid> is THIS
+		// extension host, app-channel:<pid> is the App Channel tab's
+		// target; untagged means the strategy/CDP path
+		if (items.length > 0) {
+			const session = this.orchestrator.getTraceSession();
+			const sourceRow = new LiveTraceTreeItem(
+				`source: ${session || 'strategy (untagged)'}`,
+				vscode.TreeItemCollapsibleState.None
+			);
+			sourceRow.iconPath = new vscode.ThemeIcon('broadcast');
+			sourceRow.tooltip = 'Which process feeds this ring right now — it is single-source: a new source vacuum-wipes it. self:<pid> = this extension host, app-channel:<pid> = App Channel tab target';
+			items.unshift(sourceRow);
+		}
 		return items;
 	}
 

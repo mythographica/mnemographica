@@ -49,7 +49,10 @@ The extension helps AI agents:
      (static call chains from entry points down to every `new` site):
      stored as plain transfer data (`getCreationGraph()` /
      `hasCreationGraph()`), absent for v1 files, dropped by the model's
-     `clear()` together with the points
+     `clear()` together with the points. When no graph is attached the
+     model records WHY (`getCreationGraphAbsentReason()` → `missing` /
+     `stale` / `v1`, set by the loader, cleared by `setCreationGraph` and
+     `clear()`, 2026-09-07) so the Diamonds pane can give the right advice
    - Other models (`Definitions`, `Types`, `Usages`, `EDS`, `Flow`, `Trie`) are
      pure data containers (`Map` wrappers with a nested `*Entry` subtype)
 
@@ -100,7 +103,11 @@ The extension helps AI agents:
      `instanceSource` is `ambient` (dive's lastContext fallback) get a
      `question` icon and a tooltip warning — the instance may belong to a
      different flow. Row click isolates by rootId — name resolution can
-     bind to a DIFFERENT trace ending on the same type name. Context menu: "Replay Trace" (human-speed
+     bind to a DIFFERENT trace ending on the same type name. A `source: …`
+     header row tops the list whenever the ring is non-empty
+     (2026-09-07) — the ring is single-source, so the one marker
+     (`self:<pid>`, `app-channel:<pid>`, or untagged strategy) describes
+     every row; it reads `MainOrchestrator.getTraceSession()`. Context menu: "Replay Trace" (human-speed
      re-walk of the lineage in 3D, ~650ms per edge, errored steps flash
      red) and "Open in Jaeger" (rows whose edges carry an OTEL `traceId`
      forwarded by strategy's push mapper; base URL overridable via
@@ -121,8 +128,11 @@ The extension helps AI agents:
      the define() chain — the parent path is the prefix)
    - `diamondsTreeProvider.ts` — Diamonds: the instrumentation.json v2
      creationGraph as a type-path trie → the scopes holding each
-     `new` site (click jumps to the site; v1 payloads get an
-     explanatory row instead of an empty pane)
+     `new` site (click jumps to the site). An absent graph gets a
+     REASON-SPECIFIC row instead of an empty pane (2026-09-07):
+     `stale` — the file was skipped by the guard, regenerate as one
+     batch; `missing` — tactica never ran here; `v1` — the payload
+     predates the creation graph
    - `bagelsTreeProvider.ts` — Bagels: eds.json wrap sites as a
      type-path trie keyed by the type the bagel belongs to
      (`wrapsTypePath`, else the EDS scope key when it names a known

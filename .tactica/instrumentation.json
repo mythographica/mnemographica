@@ -1,23 +1,23 @@
 {
   "version": 2,
-  "generatedAt": "2026-09-06T22:32:51.461Z",
+  "generatedAt": "2026-09-07T16:19:35.162Z",
   "points": [],
   "creationGraph": {
     "nodes": [
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/models/Registry.ts:518:2",
+        "scopeId": "/code/mnemonica/mnemographica/src/models/Registry.ts:526:2",
         "name": "loadTrie",
         "kind": "method",
         "filePath": "/code/mnemonica/mnemographica/src/models/Registry.ts",
-        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:518:2",
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:526:2",
         "starter": true
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/models/Registry.ts:475:69",
-        "name": "/code/mnemonica/mnemographica/src/models/Registry.ts:475",
+        "scopeId": "/code/mnemonica/mnemographica/src/models/Registry.ts:476:69",
+        "name": "/code/mnemonica/mnemographica/src/models/Registry.ts:476",
         "kind": "arrow",
         "filePath": "/code/mnemonica/mnemographica/src/models/Registry.ts",
-        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:475:69",
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:476:69",
         "starter": true
       },
       {
@@ -1744,14 +1744,14 @@
         "variable": "instrumentationInstance"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:476:14",
-        "holderScopeId": "/code/mnemonica/mnemographica/src/models/Registry.ts:475:69",
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:477:14",
+        "holderScopeId": "/code/mnemonica/mnemographica/src/models/Registry.ts:476:69",
         "typePath": "Instrumentation.InstrumentationPoint",
         "constructorText": "instrumentationInstance.InstrumentationPoint"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:523:25",
-        "holderScopeId": "/code/mnemonica/mnemographica/src/models/Registry.ts:518:2",
+        "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:531:25",
+        "holderScopeId": "/code/mnemonica/mnemographica/src/models/Registry.ts:526:2",
         "typePath": "Trie",
         "constructorText": "TrieConstructor",
         "variable": "trieInstance"

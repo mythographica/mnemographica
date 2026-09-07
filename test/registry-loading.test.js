@@ -244,6 +244,7 @@ async function runTests() {
 	assert.ok(instrumentationV2, 'Instrumentation should load from fixtures-v2');
 	assert.strictEqual(instrumentationV2.size, 9, 'Should have 9 instrumentation points');
 	assert.strictEqual(instrumentationV2.hasCreationGraph(), true, 'v2 payload should carry a creationGraph');
+	assert.strictEqual(instrumentationV2.getCreationGraphAbsentReason(), undefined, 'a loaded graph carries no absence reason');
 	const creationGraph = instrumentationV2.getCreationGraph();
 	assert.strictEqual(creationGraph.nodes.length, 39, 'creationGraph should have 39 nodes');
 	assert.strictEqual(creationGraph.edges.length, 57, 'creationGraph should have 57 edges');
@@ -263,6 +264,7 @@ async function runTests() {
 	assert.strictEqual(instrumentationV1.size, 3, 'v1 points still load');
 	assert.strictEqual(instrumentationV1.hasCreationGraph(), false, 'v1 payload has no creationGraph');
 	assert.strictEqual(instrumentationV1.getCreationGraph(), undefined, 'getCreationGraph() returns undefined');
+	assert.strictEqual(instrumentationV1.getCreationGraphAbsentReason(), 'v1', 'the v1 absence is explained');
 	console.log('  ✓ v1 payload loads exactly as before\n');
 
 	// Test 22: the stale guard covers v2 files too — an
@@ -285,6 +287,7 @@ async function runTests() {
 	assert.ok(staleInstrumentation, 'Instrumentation instance exists even when stale');
 	assert.strictEqual(staleInstrumentation.size, 0, 'Stale points are skipped');
 	assert.strictEqual(staleInstrumentation.hasCreationGraph(), false, 'Stale creationGraph is skipped');
+	assert.strictEqual(staleInstrumentation.getCreationGraphAbsentReason(), 'stale', 'the stale skip is explained');
 	console.log('  ✓ stale instrumentation.json skipped\n');
 
 	// Test 23: Instrumentation.clear() drops the creationGraph together
@@ -293,6 +296,7 @@ async function runTests() {
 	instrumentationV2.clear();
 	assert.strictEqual(instrumentationV2.size, 0, 'Points should be cleared');
 	assert.strictEqual(instrumentationV2.hasCreationGraph(), false, 'creationGraph should be cleared');
+	assert.strictEqual(instrumentationV2.getCreationGraphAbsentReason(), undefined, 'the absence reason clears with the graph');
 	registryV2.clear();
 	console.log('  ✓ model clear() resets the creationGraph\n');
 

@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-09-06T22:32:51.462Z",
+  "generatedAt": "2026-09-07T16:19:35.163Z",
   "roots": [
     {
       "name": "Instrumentation",
@@ -10,7 +10,7 @@
         {
           "name": "InstrumentationPoint",
           "fullPath": "Instrumentation.InstrumentationPoint",
-          "location": "/code/mnemonica/mnemographica/src/models/Instrumentation.ts:103:53",
+          "location": "/code/mnemonica/mnemographica/src/models/Instrumentation.ts:119:53",
           "children": []
         }
       ]
@@ -23,7 +23,7 @@
         {
           "name": "DefinitionEntry",
           "fullPath": "Definitions.DefinitionEntry",
-          "location": "/code/mnemonica/mnemographica/src/models/Definition.ts:69:44",
+          "location": "/code/mnemonica/mnemographica/src/models/Definition.ts:70:44",
           "children": []
         }
       ]
@@ -114,7 +114,7 @@
         {
           "name": "RegistryEntry",
           "fullPath": "Registry.RegistryEntry",
-          "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:601:39",
+          "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:609:39",
           "children": []
         }
       ]

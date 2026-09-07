@@ -59,6 +59,12 @@ export const Instrumentation = define('Instrumentation', class {
 	createdAt: number;
 	private points: InstrumentationPointInstance[] = [];
 	private creationGraph: rawCreationGraph | undefined;
+	// Why there is no creation graph (2026-09-07): the Diamonds pane must
+	// say WHICH — 'missing' (no instrumentation.json at all), 'stale'
+	// (the file exists but is older than definitions.json, so the guard
+	// skipped it), 'v1' (loaded fine, but predates tactica v2 — or its
+	// graph section was malformed)
+	private creationGraphAbsentReason: 'missing' | 'stale' | 'v1' | undefined;
 	private logger = getLogger();
 
 	constructor () {
@@ -80,6 +86,7 @@ export const Instrumentation = define('Instrumentation', class {
 
 	setCreationGraph (graph: rawCreationGraph): void {
 		this.creationGraph = graph;
+		this.creationGraphAbsentReason = undefined;
 	}
 
 	getCreationGraph (): rawCreationGraph | undefined {
@@ -90,9 +97,18 @@ export const Instrumentation = define('Instrumentation', class {
 		return this.creationGraph !== undefined;
 	}
 
+	setCreationGraphAbsentReason (reason: 'missing' | 'stale' | 'v1'): void {
+		this.creationGraphAbsentReason = reason;
+	}
+
+	getCreationGraphAbsentReason (): 'missing' | 'stale' | 'v1' | undefined {
+		return this.creationGraphAbsentReason;
+	}
+
 	clear (): void {
 		this.points = [];
 		this.creationGraph = undefined;
+		this.creationGraphAbsentReason = undefined;
 	}
 });
 

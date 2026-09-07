@@ -172,7 +172,9 @@ console.log('Test 7: trace/reset wipes buffer and watermark (source restart)');
 console.log('Test 8: session tag auto-wipes on source restart (VACUUM rule)');
 {
 	const orchestrator = new MainOrchestrator('0.0.0-test');
+	assert.strictEqual(orchestrator.getTraceSession(), undefined, 'no marker before the first tagged batch');
 	orchestrator.ingestTrace([edge(1), edge(2), edge(3)], 'pid-100');
+	assert.strictEqual(orchestrator.getTraceSession(), 'pid-100', 'the Live Trace source row reads this marker');
 
 	// same session: dedup only, never a wipe
 	const same = orchestrator.ingestTrace([edge(2), edge(4)], 'pid-100');
@@ -185,11 +187,13 @@ console.log('Test 8: session tag auto-wipes on source restart (VACUUM rule)');
 	assert.strictEqual(restarted.sessionReset, true);
 	assert.strictEqual(restarted.dropped, 4, 'the wipe reports what it dropped');
 	assert.strictEqual(restarted.accepted, 2, 'restarted ids land immediately');
+	assert.strictEqual(orchestrator.getTraceSession(), 'pid-200', 'the marker follows the new source');
 
 	// untagged batches keep the old explicit-reset behavior
 	const untagged = orchestrator.ingestTrace([edge(3)]);
 	assert.strictEqual(untagged.sessionReset, false);
 	assert.strictEqual(untagged.accepted, 1);
+	assert.strictEqual(orchestrator.getTraceSession(), 'pid-200', 'untagged batches leave the marker alone');
 	console.log('  ✓ session change auto-wipes; same/untagged sessions do not');
 }
 
