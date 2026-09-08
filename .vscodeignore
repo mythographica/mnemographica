@@ -21,6 +21,11 @@ MnemoGraphica design.zip
 *.vsix
 node_modules/.package-lock.json
 
+# per-user 3D layout saves + dev configs
+.mnemographica/**
+.github/**
+eslint.config.js
+
 # Docs that are for contributors, not extension users
 AGENTS.md
 CHANGELOG.md

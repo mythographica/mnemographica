@@ -144,3 +144,9 @@ reports/
 
 # superseded design handoff (2026-08, pre-three.js scene) — kept in git history
 design_handoff_3d_scene/
+
+# packaged extension artifacts
+*.vsix
+
+# 3D panel saved layout (per-user, written by the Save button)
+.mnemographica/

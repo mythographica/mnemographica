@@ -31,10 +31,10 @@ The extension helps AI agents:
    - Creates the tree views, registers commands and file watchers
    - Starts the Strategy server, loads models via topologica
    - Owns `refreshTypeGraph()` — the single refresh path all watchers funnel into
-   - Registers a URI handler: `vscode://mnemonica.mnemographica/trace?root=N`
+   - Registers a URI handler: `vscode://mythographica.mnemographica/trace?root=N`
      (exact dive root edge) or `?jaeger=<traceId>` (matches any ring edge's
      OTEL traceId — robust when the true root predates the push window).
-     Jaeger's linkPatterns (strategy/tools/jaeger-ui.json) generate these
+     Jaeger's linkPatterns (tactica-nestjs/scripts/jaeger-ui.json) generate these
      links from span tags, closing the Jaeger → Live Trace → 3D loop.
 
 2. **Registry** (`src/models/Registry.ts`) — the controller
@@ -323,7 +323,13 @@ The extension helps AI agents:
      applies it around renderGraph — positions before (calculatePosition
      honors x3d, relaxTypeShells skips), pins after (`applySavedPins`,
      relative pins re-resolve through resolvePinAnchor), camera via the
-     constructor (a live mode-switch camera still wins). Untouched
+     constructor (a live mode-switch camera still wins). A full renderer
+     rebuild (every updateGraph) discards the old renderer's meshes —
+     UNSAVED pins hand across through a module-level `sessionPins` map
+     (`snapshotPins()` off the outgoing renderer before the wipe,
+     re-applied over the file pins after the builders; 2026-09-08 owner
+     review: Save must catch bagels/diamonds/cubes, not only spheres).
+     Untouched
      nodes are NOT saved — the deterministic layout reproduces them.
    - **Render-on-demand** (2026-09-04): `animate()` keeps its rAF loop
      but calls `renderer.render` only when `needsRender` is set (every
@@ -536,17 +542,6 @@ npm run watch      # Watch mode for development
 npm run lint       # Run ESLint
 npm test           # pretest (compile + lint) + node test/*.test.js
 ```
-
-**Open version gap:** the published `@mnemonica/tactica` 0.1.14 does NOT
-emit `instrumentation.json` / `modules.json` / `scopes.json` — only the
-local 0.1.15 build does. So every `npm run compile` rewrites
-`definitions.json` while leaving `instrumentation.json` behind, and the
-Registry stale guard (`generatedAt` compare) then skips it: no creation
-section, no diamonds. Until 0.1.15 is published and the devDependency
-bumped, regenerate with the sibling repo's build instead:
-`node ../tactica/lib/cli.js` from this repo's root (generation is the
-default action), then rebuild with `npx tsc -p ./` rather than
-`npm run compile`.
 
 ## Testing
 

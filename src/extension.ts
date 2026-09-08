@@ -344,7 +344,7 @@ export function activate(context: vscode.ExtensionContext) {
 		})
 	);
 	// Wanted #1: Jaeger → VS Code. Jaeger UI link patterns turn span tags
-	// into `vscode://mnemonica.mnemographica/trace?root=N` links; landing
+	// into `vscode://mythographica.mnemographica/trace?root=N` links; landing
 	// here focuses the Live Trace sidebar and isolates that trace in 3D.
 	context.subscriptions.push(vscode.window.registerUriHandler({
 		handleUri: (uri: vscode.Uri) => {

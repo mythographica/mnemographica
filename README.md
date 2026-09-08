@@ -16,6 +16,23 @@ Explore mnemonica type hierarchies in VS Code: definitions, generated types, usa
 - **Live Connection Tabs**: `Ψ Strategy MCP` spawns and watches the strategy server; `Ψ App Channel` connects directly to a running app's embedded WS channel — no CDP, no debugger
 - **Real-time Updates**: Views refresh automatically when source files or `.tactica` output change
 
+## Take a Look
+
+The extension reads `.tactica/` artifacts, so an empty project shows an empty sidebar. To simply **see it in action**, grab the demo app — a small NestJS project fully wired with the mnemonica ecosystem, `.tactica/` committed:
+
+```bash
+git clone https://github.com/mythographica/tactica-nestjs
+code tactica-nestjs
+```
+
+In that window:
+
+1. Open the **Ψ Mnemonica** container in the activity bar — Types, Usages, Flow, By Generation, Diamonds and Bagels are already populated
+2. Run `Mnemonica: Ψ 3D` from the Command Palette for the interactive 3D type graph (loads d3/three from CDN — needs network)
+3. To watch a **running** app: `npm install && npm run start:dev` in the demo, then run `Mnemonica: Ψ App Channel` → **Discover & Connect** — Live Trace in the sidebar starts collecting; `npm run demo:load` generates instant traffic, and clicking a trace isolates it in the 3D graph
+
+To point the extension at **your own** project instead, see Requirements below.
+
 ## Requirements
 
 - VS Code 1.74.0 or higher

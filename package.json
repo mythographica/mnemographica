@@ -3,7 +3,7 @@
 	"displayName": "Mnemonica Graphica",
 	"description": "Explore mnemonica type hierarchies: definitions, types, usages, execution flow and generations, with go-to-definition navigation",
 	"version": "0.2.0",
-	"publisher": "mnemonica",
+	"publisher": "Mythographica",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/mythographica/mnemographica.git"
@@ -412,8 +412,9 @@
 	"devDependencies": {
 		"@mnemonica/tactica": "^0.2.0",
 		"@types/node": "^20.19.43",
-		"@types/vscode": "^1.136.0",
+		"@types/vscode": "1.74.0",
 		"@types/ws": "^8.18.1",
+		"@vscode/vsce": "^3.9.2",
 		"eslint": "^9.39.5",
 		"typescript": "^6.0.3",
 		"typescript-eslint": "^8.70.0"

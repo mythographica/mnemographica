@@ -156,6 +156,15 @@
 	// null = no save ever loaded
 	let savedLayout = null;
 
+	// Pins handed ACROSS full renderer rebuilds (2026-09-08 owner review:
+	// Save caught spheres but lost bagels/diamonds/cubes whenever a refresh
+	// rebuilt the panel between drag and Save — the old renderer's meshes
+	// died with their pins). render3DGraph snapshots the outgoing
+	// renderer's pins into this map before wiping, and re-applies them over
+	// savedLayout.pins after the builders — session pins are always newer
+	// than the file
+	let sessionPins = {};
+
 	// Legend panel interactivity (2026-09-05 review): the header is the
 	// drag handle AND the collapse toggle. A press that moves < 4px counts
 	// as a click (toggle); a real drag repositions the panel. First drag
@@ -977,6 +986,14 @@
 			return;
 		}
 
+		// Hand the outgoing renderer's live pins across the rebuild BEFORE
+		// the wipe — a refresh between drag and Save must not lose the
+		// arrangement (2026-09-08 owner review: "Save lacks bagels,
+		// diamonds, cubes")
+		if (renderer3D) {
+			Object.assign(sessionPins, renderer3D.snapshotPins());
+		}
+
 		container.innerHTML = '';
 
 		// Saved layout application (2026-09-06 Save button): user-placed
@@ -1013,10 +1030,13 @@
 		});
 		renderer3D.renderGraph(data, d3);
 
-		// Saved pins land after the builders — their meshes must exist
+		// Saved pins land after the builders — their meshes must exist.
+		// Session pins (handed across rebuilds) apply LAST: they are newer
+		// than the file
 		if (savedLayout && savedLayout.pins) {
 			renderer3D.applySavedPins(savedLayout.pins);
 		}
+		renderer3D.applySavedPins(sessionPins);
 
 		// Handle resize
 		resizeHandler3D = function () {
@@ -3476,19 +3496,12 @@
 		}
 
 		/**
-		 * Collect the savable layout (Save button → host writes
-		 * .mnemographica/layout.json, 2026-09-06 owner request).
-		 * User-placed spheres only — untouched nodes reproduce from the
-		 * deterministic layout anyway. Pins ride the same snap shape
-		 * renderGraph's pinnedSnapshot uses, keyed by node id. Camera
-		 * matches the constructor's initialCameraState shape
+		 * Snapshot the pins of every non-sphere element (creation diamonds,
+		 * wrapper bagels, internals knots), keyed by node id. The single
+		 * snap shape collectLayout (Save button) and render3DGraph's
+		 * rebuild hand-off both ride on
 		 */
-		collectLayout(data) {
-			const nodes = {};
-			data.nodes.forEach(node => {
-				if (node.x3d === undefined) { return; }
-				nodes[node.id] = { x: node.x3d, y: node.y3d, z: node.z3d };
-			});
+		snapshotPins() {
 			const pins = {};
 			const snapMesh = (mesh, key) => {
 				if (!key || !mesh.userData.pinned) { return; }
@@ -3503,6 +3516,24 @@
 			this.creationMeshes.forEach(m => snapMesh(m, m.userData.creationNode && m.userData.creationNode.id));
 			this.wrapperMeshes.forEach(m => snapMesh(m, m.userData.wrapperNode && m.userData.wrapperNode.id));
 			this.internalsMeshes.forEach(m => snapMesh(m, m.userData.internalNode && m.userData.internalNode.id));
+			return pins;
+		}
+
+		/**
+		 * Collect the savable layout (Save button → host writes
+		 * .mnemographica/layout.json, 2026-09-06 owner request).
+		 * User-placed spheres only — untouched nodes reproduce from the
+		 * deterministic layout anyway. Pins ride the same snap shape
+		 * renderGraph's pinnedSnapshot uses, keyed by node id. Camera
+		 * matches the constructor's initialCameraState shape
+		 */
+		collectLayout(data) {
+			const nodes = {};
+			data.nodes.forEach(node => {
+				if (node.x3d === undefined) { return; }
+				nodes[node.id] = { x: node.x3d, y: node.y3d, z: node.z3d };
+			});
+			const pins = this.snapshotPins();
 			const layout = {
 				version : 1,
 				savedAt : new Date().toISOString(),
