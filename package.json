@@ -2,7 +2,7 @@
 	"name": "mnemographica",
 	"displayName": "Mnemonica Graphica",
 	"description": "Explore mnemonica type hierarchies: definitions, types, usages, execution flow and generations, with go-to-definition navigation",
-	"version": "0.2.0",
+	"version": "0.3.0",
 	"publisher": "Mythographica",
 	"repository": {
 		"type": "git",

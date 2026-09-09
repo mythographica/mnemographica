@@ -38,7 +38,7 @@ node_modules/**/test/**
 node_modules/**/tests/**
 node_modules/**/*.test.*
 node_modules/**/*.spec.*
-node_modules/**/README*
+node_modules/**/[Rr][Ee][Aa][Dd][Mm][Ee]*
 node_modules/**/CHANGELOG*
 node_modules/**/HISTORY*
 node_modules/zod/src/**

@@ -2,6 +2,8 @@
 
 Explore mnemonica type hierarchies in VS Code: definitions, generated types, usages, execution flow and inheritance depth — with go-to-definition navigation throughout.
 
+![Mnemonica Graphica drawing its own type registry: type spheres by generation, creation-graph diamonds, dive wrap rings, the Legend, the Layers & Distances panel and the full sidebar](img/screen.png)
+
 ## Features
 
 - **Types Tree**: The full inheritance hierarchy — Definitions (actual `define()` sites) and Types (generated aliases in `.tactica/types.ts`), cross-linked
