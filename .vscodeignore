@@ -30,3 +30,15 @@ eslint.config.js
 AGENTS.md
 CHANGELOG.md
 INSTALL.md
+
+# node_modules dev weight — types, tests, sources and readmes are never
+# required at runtime (~45% of the unpacked payload; LICENSE* stays)
+node_modules/**/*.d.ts
+node_modules/**/test/**
+node_modules/**/tests/**
+node_modules/**/*.test.*
+node_modules/**/*.spec.*
+node_modules/**/README*
+node_modules/**/CHANGELOG*
+node_modules/**/HISTORY*
+node_modules/zod/src/**
