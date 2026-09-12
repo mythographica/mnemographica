@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import * as path from 'path';
 import { MnemonicaTreeProvider, MnemonicaTreeItem } from './views/treeProvider';
 import { UsagesTreeProvider, UsageTreeItem } from './views/usagesTreeProvider';
 import { FlowTreeProvider, FlowTreeItem } from './views/flowTreeProvider';
@@ -187,7 +188,14 @@ export function activate(context: vscode.ExtensionContext) {
 				logger.warn('[Extension] Show on Graph: no graph data loaded yet');
 				return;
 			}
-			GraphPanel.createOrShow(context.extensionUri, graphData);
+			// The sidebar renders the primary Registry, so its nodes live
+			// in the primary source's panel — open THAT tab (2026-09-12)
+			const sourceRoot = treeProvider?.getCurrentWorkspace() || vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
+			if (!sourceRoot) {
+				logger.warn('[Extension] Show on Graph: no workspace folder');
+				return;
+			}
+			GraphPanel.createOrShow(context.extensionUri, sourceRoot);
 			GraphPanel.focusNode({ id, name });
 			logger.info(`[Extension] Show on Graph: ${id}`);
 		})
@@ -289,10 +297,10 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.commands.registerCommand('mnemographica.showTrace', (data: { name: string; rootId?: number }) => {
 			// Isolate the trace in the 3D panel; open the panel first when
 			// it is not on screen yet
-			if (!GraphPanel.currentPanel) {
-				const graphData = mainOrchestrator.getGraphData();
-				if (graphData) {
-					GraphPanel.createOrShow(context.extensionUri, graphData);
+			if (!GraphPanel.hasOpenPanel()) {
+				const sourceRoot = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
+				if (sourceRoot) {
+					GraphPanel.createOrShow(context.extensionUri, sourceRoot);
 				}
 			}
 			// The panel's webview needs a tick to be message-ready after
@@ -310,10 +318,10 @@ export function activate(context: vscode.ExtensionContext) {
 			// invocations pass the tree ITEM — unwrap its traceData.
 			const data = arg && arg.traceData ? arg.traceData : arg as { name: string; rootId?: number };
 			if (!data || typeof data.name !== 'string') { return; }
-			if (!GraphPanel.currentPanel) {
-				const graphData = mainOrchestrator.getGraphData();
-				if (graphData) {
-					GraphPanel.createOrShow(context.extensionUri, graphData);
+			if (!GraphPanel.hasOpenPanel()) {
+				const sourceRoot = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
+				if (sourceRoot) {
+					GraphPanel.createOrShow(context.extensionUri, sourceRoot);
 				}
 			}
 			setTimeout(() => {
@@ -372,10 +380,10 @@ export function activate(context: vscode.ExtensionContext) {
 			}
 			const group = found;
 			void vscode.commands.executeCommand('mnemonicaLiveTrace.focus');
-			if (!GraphPanel.currentPanel) {
-				const graphData = mainOrchestrator.getGraphData();
-				if (graphData) {
-					GraphPanel.createOrShow(context.extensionUri, graphData);
+			if (!GraphPanel.hasOpenPanel()) {
+				const sourceRoot = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
+				if (sourceRoot) {
+					GraphPanel.createOrShow(context.extensionUri, sourceRoot);
 				}
 			}
 			setTimeout(() => {
@@ -405,20 +413,73 @@ export function activate(context: vscode.ExtensionContext) {
 	// Graph commands (formerly commands/graphCommands.ts). The 2.5D panel
 	// was retired by owner decision; the 2D/3D webview panel remains and
 	// feeds straight from the orchestrator, same as the generation view.
+	// 2026-09-12 (owner item 8): panels are keyed by .tactica SOURCE —
+	// one tab per project, each holding what it was rendered for.
+	// 2026-09-12 (owner, URGENT review: "that list of current workspace
+	// should not happen when I ALREADY PICKED A TRIE!"): the Trie panel's
+	// picked source ALWAYS wins, no matter how many panels are open —
+	// the workspace picker made a browsed out-of-workspace .tactica
+	// UNREACHABLE (discoverTacticaSources scans workspace folders only),
+	// so its 3D render could never happen. Only with NO trie loaded does
+	// the command fall through: no panel → import/browse advice (both
+	// routed to mnemographica.selectWorkspace); panel(s) open → the
+	// workspace picker (the open-another-project flow).
 	context.subscriptions.push(
 		vscode.commands.registerCommand('mnemographica.showTypeGraph', async () => {
-			const workspacePath = treeProvider?.getCurrentWorkspace() || vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
-			if (!workspacePath) {
-				vscode.window.showWarningMessage('No workspace selected. Please select a workspace first.');
+			const trieSource = treeProvider.getCurrentWorkspace();
+			if (trieSource) {
+				logger.info(`[Extension] Opening 3D graph for the Trie panel source ${trieSource}`);
+				GraphPanel.createOrShow(context.extensionUri, trieSource);
 				return;
 			}
-			const graphData = mainOrchestrator.getGraphData();
-			if (!graphData) {
-				vscode.window.showErrorMessage('No graph data available. Load a workspace first.');
+			if (!GraphPanel.hasOpenPanel()) {
+				const found = await discoverTacticaSources();
+				if (found.length > 1) {
+					const importing = await vscode.window.showInformationMessage(
+						`${found.length} .tactica directories found in this workspace — import one to open its type graph.`,
+						'Import...'
+					);
+					if (importing) {
+						await vscode.commands.executeCommand('mnemographica.selectWorkspace');
+					}
+					return;
+				}
+				const browsing = await vscode.window.showInformationMessage(
+					'No .tactica loaded in the Trie panel — browse for a directory containing .tactica to load it.',
+					'Browse...'
+				);
+				if (browsing) {
+					await vscode.commands.executeCommand('mnemographica.selectWorkspace');
+				}
 				return;
 			}
-			logger.info(`Loaded graph with ${graphData.nodes.length} nodes and ${graphData.links.length} links`);
-			GraphPanel.createOrShow(context.extensionUri, graphData);
+			const sources = await discoverTacticaSources();
+			if (sources.length === 0) {
+				vscode.window.showErrorMessage('No .tactica found in this workspace. Run tactica first.');
+				return;
+			}
+			let sourceRoot = sources[0];
+			if (sources.length > 1) {
+				const workspaceRoot = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath ?? '';
+				const picked = await vscode.window.showQuickPick(
+					sources.map(source => {
+						const relative = path.relative(workspaceRoot, source);
+						const item = {
+							label       : relative === '' ? `${path.basename(source)} (workspace root)` : relative,
+							description : source,
+							source
+						};
+						return item;
+					}),
+					{ placeHolder: 'Which project’s type graph?' }
+				);
+				if (!picked) {
+					return;
+				}
+				sourceRoot = picked.source;
+			}
+			logger.info(`[Extension] Opening 3D graph for ${sourceRoot}`);
+			GraphPanel.createOrShow(context.extensionUri, sourceRoot);
 		})
 	);
 	context.subscriptions.push(
@@ -507,6 +568,9 @@ export function activate(context: vscode.ExtensionContext) {
 	if (workspaceFolders && modelsLoaded) {
 		const workspacePath = workspaceFolders[0].uri.fsPath;
 		logger.info('Loading tree definitions from:', workspacePath);
+		// The sidebar trees render THIS source's Registry — sidebar-driven
+		// focus and trace entry points route to its panel (2026-09-12)
+		GraphPanel.primarySource = workspacePath;
 
 		// Load all models through MainOrchestrator
 		mainOrchestrator.loadWorkspace(workspacePath).then(async () => {
@@ -528,12 +592,12 @@ export function activate(context: vscode.ExtensionContext) {
 			// Update the creation-scope and wrap-site tries
 			diamondsProvider.setRegistry(mainOrchestrator.getRegistry());
 			bagelsProvider.setRegistry(mainOrchestrator.getRegistry());
-			// Feed the generation tree view and the graph panel (if open)
+			// Feed the generation tree view. The 3D panel is NOT fed here
+			// (2026-09-12): it loads its own bound source on open
 			const graphData = mainOrchestrator.getGraphData();
 			if (graphData) {
 				logger.info(`[Extension] Graph data: ${graphData.nodes.length} nodes, ${graphData.links.length} links, ${graphData.execflow.length} exec links`);
 				genProvider.setGraphData(graphData);
-				GraphPanel.updateGraph(graphData);
 			}
 		}).catch((err: Error) => {
 			logger.error('Failed to load workspace:', err);
@@ -594,6 +658,23 @@ export function activate(context: vscode.ExtensionContext) {
 	(globalThis as { __mnemographica?: unknown }).__mnemographica = debugHandle;
 }
 
+/**
+ * Every project root carrying a .tactica in this workspace (2026-09-12,
+ * owner item 8): hierarchy.json is the load-bearing artifact the
+ * Registry reads. Shortest-path-first ordering — the workspace root
+ * tends to sort first, so the primary source opens without a pick
+ * when several exist.
+ */
+async function discoverTacticaSources (): Promise<string[]> {
+	const found = await vscode.workspace.findFiles('**/.tactica/hierarchy.json', '**/node_modules/**');
+	const roots = new Set<string>();
+	for (const uri of found) {
+		roots.add(path.dirname(path.dirname(uri.fsPath)));
+	}
+	const ordered = [...roots].sort((a, b) => a.length - b.length);
+	return ordered;
+}
+
 async function refreshTypeGraph(_context: vscode.ExtensionContext) {
 	const logger = getLogger();
 	const workspaceFolders = vscode.workspace.workspaceFolders;
@@ -614,7 +695,10 @@ async function refreshTypeGraph(_context: vscode.ExtensionContext) {
 		const graphData = mainOrchestrator.getGraphData();
 		if (graphData) {
 			genProvider.setGraphData(graphData);
-			GraphPanel.updateGraph(graphData);
+			// 3D panels are NOT pushed here anymore (2026-09-12, owner
+			// item 8): each tab is bound to its own .tactica source and
+			// re-reads it only via its own Refresh button or follow
+			// opt-in — a global refresh must never clobber a bound tab
 		}
 	}
 

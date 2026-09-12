@@ -410,7 +410,7 @@
 		"tactica:watch": "tactica --watch"
 	},
 	"devDependencies": {
-		"@mnemonica/tactica": "^0.2.0",
+		"@mnemonica/tactica": "^0.3.12",
 		"@types/node": "^20.19.43",
 		"@types/vscode": "1.74.0",
 		"@types/ws": "^8.18.1",

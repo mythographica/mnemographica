@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-09-09T09:33:46.587Z",
+  "generatedAt": "2026-09-12T03:08:35.657Z",
   "modules": {
     "/code/mnemonica/mnemographica/src/topologica/bootstrap.ts": {
       "filePath": "/code/mnemonica/mnemographica/src/topologica/bootstrap.ts",
@@ -1074,6 +1074,58 @@
         "path"
       ]
     },
+    "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts": {
+      "filePath": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts",
+      "definedTypes": [],
+      "exportedBindings": [
+        {
+          "name": "loadGraphDataFor",
+          "kind": "function",
+          "sourceModule": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts",
+          "isReExport": false
+        }
+      ],
+      "importedBindings": [
+        {
+          "name": "lookup",
+          "kind": "unknown",
+          "sourceModule": "/code/mnemonica/mnemographica/node_modules/mnemonica/build/index.d.ts",
+          "importKind": "named",
+          "isReExport": false,
+          "external": true
+        },
+        {
+          "name": "Registry",
+          "kind": "unknown",
+          "sourceModule": "/code/mnemonica/mnemographica/.tactica/types.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "GraphBuilder",
+          "kind": "class",
+          "sourceModule": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "GraphData",
+          "kind": "type",
+          "sourceModule": "/code/mnemonica/mnemographica/src/types/index.ts",
+          "importKind": "named",
+          "isReExport": false
+        }
+      ],
+      "dependencies": [
+        "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts",
+        "/code/mnemonica/mnemographica/src/types/index.ts"
+      ],
+      "unresolvedSpecifiers": [],
+      "builtinSpecifiers": [
+        "fs",
+        "path"
+      ]
+    },
     "/code/mnemonica/mnemographica/src/webview/panel.ts": {
       "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
       "definedTypes": [],
@@ -1116,6 +1168,13 @@
           "isReExport": false
         },
         {
+          "name": "loadGraphDataFor",
+          "kind": "function",
+          "sourceModule": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
           "name": "getLogger",
           "kind": "function",
           "sourceModule": "/code/mnemonica/mnemographica/src/services/LoggerService.ts",
@@ -1126,6 +1185,7 @@
       "dependencies": [
         "/code/mnemonica/mnemographica/src/types/index.ts",
         "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts",
+        "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts",
         "/code/mnemonica/mnemographica/src/services/LoggerService.ts"
       ],
       "unresolvedSpecifiers": [],
@@ -2085,7 +2145,9 @@
         "/code/mnemonica/mnemographica/src/commands/workspaceCommands.ts"
       ],
       "unresolvedSpecifiers": [],
-      "builtinSpecifiers": []
+      "builtinSpecifiers": [
+        "path"
+      ]
     },
     "/code/mnemonica/mnemographica/src/models/Definition.ts": {
       "filePath": "/code/mnemonica/mnemographica/src/models/Definition.ts",

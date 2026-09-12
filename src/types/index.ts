@@ -258,7 +258,7 @@ export type D3InternalLink = {
  */
 export type WebviewMessage = {
 	/** Command type */
-	command: 'goToDefinition' | 'nodeHover' | 'ready' | 'refresh' | 'log' | 'modeChanged' | 'focusNode' | 'viewState' | 'pickTrace' | 'traceModeExit' | 'saveLayout';
+	command: 'goToDefinition' | 'nodeHover' | 'ready' | 'refresh' | 'log' | 'modeChanged' | 'focusNode' | 'viewState' | 'pickTrace' | 'traceModeExit' | 'saveLayout' | 'refreshGraph' | 'followTactica';
 	/** Optional payload */
 	data?: unknown;
 };

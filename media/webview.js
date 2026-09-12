@@ -165,11 +165,694 @@
 	// than the file
 	let sessionPins = {};
 
+	// The captions on/off choice handed ACROSS full renderer rebuilds —
+	// the flag lives on the renderer (a rebuild resets it) and its
+	// checkbox is rebuilt with the Layers & Distances panel, so the
+	// user's choice rides this module-level var (2026-09-11 owner
+	// review: captions are "a separate layer, obviously, layer of
+	// names")
+	let sessionCaptionsVisible = true;
+
+	// Per-generation visibility (2026-09-12 owner request: "each gen
+	// should have checkbox, the same meaning as layers 'show or not'").
+	// depth → false when the user hid that generation; absent means
+	// visible. Module-level so the choice survives the renderer rebuilds
+	// that wipe the panel DOM (the sessionCaptionsVisible precedent)
+	const sessionGenVisibility = new Map();
+
+	// The follow-.tactica choice (2026-09-12, owner item 8 — connection-
+	// style opt-in: "having so many watchers on filesystem is
+	// discouraging"). While true, the HOST watches this panel's source
+	// and rebuilds on regeneration; the choice itself lives here
+	// because the panel rebuilds with every render
+	let sessionFollowTactica = false;
+
+	// Orientation state picked with the vector-sphere control (2026-09-12,
+	// owner items 4+6). Captions ride a VIEW-space unit vector — the sign
+	// sits at camera × vector × distance from its mesh, so it holds its
+	// screen spot on rotation ("captions should always stay on top on
+	// rotation"). Diamonds/bagels/sinks ride WORLD-space re-orientations
+	// of their bound-element offsets; Jaeger has NO orient of its own —
+	// it rides the sinks orient (2026-09-12 owner item 3: "it should
+	// move the same with it's company"). All four live HERE because the
+	// renderer (and its userData) dies with every rebuild
+	let sessionCaptionVector = null;
+	let sessionCaptionOverrides = {};
+	let sessionDiamondOrient = null;
+	let sessionBagelOrient = null;
+	let sessionSinkOrient = null;
+
+	/**
+	 * The vector-sphere control (2026-09-12, owner items 4+6 — "a control
+	 * which opens window with big sphere having central point, and some
+	 * point on a surface"). Three elements:
+	 *  - the CENTRAL dot — never moves; it stands for the center of
+	 *    whatever the vector binds to (sphere, diamond, captioned mesh)
+	 *  - the SURFACE dot — the orientation; Ctrl+drag ARCBALL-rotates the
+	 *    assembly (Shoemake trackball — the Euler yaw/pitch it replaces
+	 *    locked a pole dot: captions default to (0,1,0), ON the yaw axis,
+	 *    so horizontal drags spun it in place; owner review "unlock
+	 *    horizontal for captions")
+	 *  - the transparent SPHERE — the distance; the scroll wheel zooms
+	 *    its radius (the main scene's zoom idiom) and the dot stays
+	 *    glued to the surface
+	 * Distance is an ODOMETER (2026-09-12 owner review: "re-zoom to
+	 * normal after 100 pixels... so I may zoom in/out infinitely"):
+	 * wheelAcc accumulates wheel pixels; the VISUAL radius grows as
+	 * K^phase while the distance VALUE keeps accumulating smoothly —
+	 * value = base × K^(acc/CYCLE). The phase is CENTERED (−½…+½), so
+	 * the sphere passes through normal at the open point in BOTH wheel
+	 * directions and the wrap snap sits half a cycle away — an
+	 * edge-aligned phase jumped the sphere to near-max on a 1px
+	 * scroll-down (2026-09-12 owner review: "it should not pan
+	 * negative"). The base is captured at open, so the window always
+	 * opens at normal visual size carrying the current value.
+	 * floorLinear (when given) keeps the distance from crossing 0 —
+	 * bagels floor at the encircling 0: the antipode is the ROTATION's
+	 * job, not the wheel's (same owner review).
+	 * Output on every change: the surface dot's direction in SCREEN
+	 * space (the control's camera never moves) plus the consumer
+	 * distance — toLinear/fromLinear map the multiplicative quantity
+	 * (bagels multiply (1 + d/3), keeping signed distances meaningful)
+	 */
+	class VectorSphereControl {
+		constructor() {
+			this.root = null;
+			this.scene = null;
+			this.camera = null;
+			this.renderer3d = null;
+			this.group = null;
+			this.sphereMesh = null;
+			this.dotMesh = null;
+			this.radialLine = null;
+			this.titleEl = null;
+			this.footer = null;
+			// Footer widgets (2026-09-12 owner review: slider + [______]
+			// textfield replace the read-only readout); lastDist is the
+			// last emitted distance — the textfield restores it when a
+			// typed value does not parse
+			this.sliderEl = null;
+			this.inputEl = null;
+			this.lastDist = 0;
+			this.startDist = 1;
+			this.onChange = null;
+			this.toLinear = null;
+			this.fromLinear = null;
+			// Unit-formatted value ('168px', '×1.20 gen0') — shown as the
+			// textfield's hover tooltip on every emit
+			this.distToReadout = null;
+			this.distToInput = null;
+			// Odometer constants: the visual radius wraps every CYCLE
+			// accumulated wheel-pixels; the value itself never wraps.
+			// K retuned 1.6 → 1.2 (2026-09-12 owner review: "it zooms
+			// too fast" — one wheel notch is ~100px ≈ ×1.2, the main
+			// scene's zoom feel)
+			this.K = 1.2;
+			this.CYCLE = 100;
+			this.wheelAcc = 0;
+			this.baseLinear = 1;
+			// 0 = no floor; bagels open with floorLinear 1 (dist ≥ 0 —
+			// the encircling state, no wheel-driven antipode walk)
+			this.floorLinear = 0;
+			// The surface dot's ASSEMBLY-local direction; the group
+			// rotation carries it around the fixed central dot
+			this.dotDir = new THREE.Vector3(0, 1, 0);
+			this.windowDrag = null;
+		}
+
+		// DOM + mini scene build once; open() re-arms per consumer
+		ensureBuilt() {
+			if (this.root) { return; }
+			const root = document.createElement('div');
+			root.className = 'vector-control';
+			root.style.display = 'none';
+			const header = document.createElement('div');
+			header.className = 'vector-control-header';
+			const title = document.createElement('span');
+			title.className = 'vector-control-title';
+			const closeBtn = document.createElement('button');
+			closeBtn.className = 'vector-control-close';
+			closeBtn.textContent = '×';
+			header.appendChild(title);
+			header.appendChild(closeBtn);
+			const canvas = document.createElement('canvas');
+			canvas.className = 'vector-control-canvas';
+			// 3× the first pass (2026-09-12 owner review: "the window of a
+			// control is too small, let it be 3 times bigger")
+			canvas.width = 600;
+			canvas.height = 600;
+			const footer = document.createElement('div');
+			footer.className = 'vector-control-footer';
+			root.appendChild(header);
+			root.appendChild(canvas);
+			root.appendChild(footer);
+			document.body.appendChild(root);
+			this.root = root;
+			this.titleEl = title;
+			this.footer = footer;
+			closeBtn.addEventListener('click', () => this.close());
+
+			// Header drag repositions the window — pointer capture, the
+			// legend precedent: the drag survives the cursor leaving
+			header.addEventListener('pointerdown', (event) => {
+				if (event.button !== 0) { return; }
+				// The × press must reach its click handler — capturing
+				// the pointer HERE would retarget the following
+				// pointerup/click to the header and the window could
+				// never close (2026-09-12 owner review: "control is
+				// good, but I can't hide it")
+				if (event.target === closeBtn) { return; }
+				header.setPointerCapture(event.pointerId);
+				const rect = root.getBoundingClientRect();
+				this.windowDrag = { x: event.clientX, y: event.clientY, left: rect.left, top: rect.top };
+			});
+			header.addEventListener('pointermove', (event) => {
+				if (!this.windowDrag) { return; }
+				// Clamp to the viewport (2026-09-12 owner review: "it
+				// should not pan negative") — the legend drag precedent:
+				// an off-screen window is a lost window; keep a grip
+				const grip = 48;
+				const rect = root.getBoundingClientRect();
+				const left = Math.min(window.innerWidth - grip, Math.max(grip - rect.width,
+					this.windowDrag.left + event.clientX - this.windowDrag.x));
+				const top = Math.min(window.innerHeight - grip, Math.max(0,
+					this.windowDrag.top + event.clientY - this.windowDrag.y));
+				root.style.left = left + 'px';
+				root.style.top = top + 'px';
+				root.style.right = 'auto';
+			});
+			header.addEventListener('pointerup', () => { this.windowDrag = null; });
+
+			// The mini scene: FIXED camera, no controls of its own —
+			// drags rotate the assembly, the wheel zooms the sphere
+			const scene = new THREE.Scene();
+			const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 50);
+			camera.position.set(0, 0, 3.4);
+			camera.lookAt(0, 0, 0);
+			const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+			renderer.setPixelRatio(window.devicePixelRatio || 1);
+			renderer.setSize(600, 600, false);
+			renderer.setClearColor(0x000000, 0);
+			const group = new THREE.Group();
+			scene.add(group);
+			// The transparent shell holding the surface dot
+			const sphereMesh = new THREE.Mesh(
+				new THREE.SphereGeometry(1, 28, 18),
+				new THREE.MeshBasicMaterial({ color: 0x8a7ca8, wireframe: true, transparent: true, opacity: 0.28 })
+			);
+			group.add(sphereMesh);
+			// The central dot — the bound element's center; NEVER moves
+			const centralDot = new THREE.Mesh(
+				new THREE.SphereGeometry(0.045, 12, 12),
+				new THREE.MeshBasicMaterial({ color: 0xffd700 })
+			);
+			group.add(centralDot);
+			// The surface dot — the orientation carrier
+			const dotMesh = new THREE.Mesh(
+				new THREE.SphereGeometry(0.07, 14, 14),
+				new THREE.MeshBasicMaterial({ color: 0x26c6da })
+			);
+			group.add(dotMesh);
+			const lineGeometry = new THREE.BufferGeometry();
+			lineGeometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(6), 3));
+			const radialLine = new THREE.Line(
+				lineGeometry,
+				new THREE.LineBasicMaterial({ color: 0x9aa0a6, transparent: true, opacity: 0.5 })
+			);
+			group.add(radialLine);
+			this.scene = scene;
+			this.camera = camera;
+			this.renderer3d = renderer;
+			this.group = group;
+			this.sphereMesh = sphereMesh;
+			this.dotMesh = dotMesh;
+			this.radialLine = radialLine;
+
+			// Orientation: drag ARCBALL-rotates the assembly. PLAIN drag —
+			// no Ctrl (2026-09-12 owner review: "sphere rotated only on
+			// Ctrl + mouse, so that is not necessary there") — the control
+			// window has no pan of its own for plain drag to collide with,
+			// and Ctrl+drag keeps working through the same handler.
+			// Shoemake trackball: cursor
+			// positions map onto a virtual sphere filling the canvas; the
+			// rotation carrying the grab point to the current point
+			// premultiplies the assembly quaternion (the camera is fixed,
+			// so screen-space premultiply is correct). Works at the poles
+			// — the Euler yaw/pitch it replaces locked a dot sitting ON
+			// the yaw axis (captions default to screen-up (0,1,0)), so
+			// horizontal drags did nothing for them (2026-09-12 owner
+			// review: "unlock horizontal for captions")
+			const arcballVector = (event) => {
+				const rect = canvas.getBoundingClientRect();
+				const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+				const y = -(((event.clientY - rect.top) / rect.height) * 2 - 1);
+				const v = new THREE.Vector3(x, y, 0);
+				const lenSq = x * x + y * y;
+				if (lenSq <= 1) {
+					v.z = Math.sqrt(1 - lenSq);
+				} else {
+					v.normalize();
+				}
+				return v;
+			};
+			let orientDrag = null;
+			let rollDrag = null;
+			canvas.addEventListener('pointerdown', (event) => {
+				if (event.button !== 0) { return; }
+				canvas.setPointerCapture(event.pointerId);
+				if (event.shiftKey) {
+					// Shift+drag ROLLS the assembly around the view axis
+					// (2026-09-12 owner item 1: "for both, scene &
+					// controller") — the angle swept around the canvas
+					// center, the scene roll's idiom
+					const rect = canvas.getBoundingClientRect();
+					rollDrag = Math.atan2(
+						event.clientY - (rect.top + rect.height / 2),
+						event.clientX - (rect.left + rect.width / 2));
+					return;
+				}
+				orientDrag = arcballVector(event);
+			});
+			canvas.addEventListener('pointermove', (event) => {
+				if (rollDrag !== null) {
+					const rect = canvas.getBoundingClientRect();
+					const next = Math.atan2(
+						event.clientY - (rect.top + rect.height / 2),
+						event.clientX - (rect.left + rect.width / 2));
+					const TWO_PI = Math.PI * 2;
+					const sweep = ((next - rollDrag + Math.PI) % TWO_PI + TWO_PI) % TWO_PI - Math.PI;
+					rollDrag = next;
+					// Screen atan2 runs clockwise-positive (y down); the
+					// control camera sits at +Z, so the NEGATED sweep
+					// about +Z turns the dot after the cursor
+					const q = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 0, 1), -sweep);
+					this.group.quaternion.premultiply(q);
+					this.reseat();
+					this.emit();
+					this.paint();
+					return;
+				}
+				if (!orientDrag) { return; }
+				const next = arcballVector(event);
+				const axis = new THREE.Vector3().crossVectors(orientDrag, next);
+				if (axis.lengthSq() > 1e-12) {
+					const dot = Math.min(1, Math.max(-1, orientDrag.dot(next)));
+					const angle = Math.acos(dot);
+					const q = new THREE.Quaternion().setFromAxisAngle(axis.normalize(), angle);
+					this.group.quaternion.premultiply(q);
+				}
+				orientDrag = next;
+				this.reseat();
+				this.emit();
+				this.paint();
+			});
+			canvas.addEventListener('pointerup', () => { orientDrag = null; rollDrag = null; });
+
+			// Distance: the wheel zooms the SPHERE — the 3D view's zoom
+			// idiom — and the surface dot stays glued on. Live in EVERY
+			// mode: the radius IS the distance. Odometer (2026-09-12 owner
+			// review: "re-zoom to normal after 100 pixels... so I may zoom
+			// in/out infinitely seeing sphere changes"): wheelAcc
+			// accumulates pixels; reseat() wraps the VISUAL radius every
+			// CYCLE px while emit() keeps the VALUE accumulating
+			canvas.addEventListener('wheel', (event) => {
+				event.preventDefault();
+				this.wheelAcc -= event.deltaY;
+				this.reseat();
+				this.emit();
+				this.paint();
+			}, { passive: false });
+		}
+
+		// The sphere radius visualizes the odometer PHASE — CENTERED on
+		// normal (2026-09-12 owner review: "it should not pan negative"):
+		// the sphere passes through normal at the open point in both
+		// wheel directions and the wrap snap sits half a cycle away; the
+		// dot rides the surface
+		reseat() {
+			const cycles = this.wheelAcc / this.CYCLE;
+			const phase = cycles - Math.floor(cycles + 0.5);
+			const visualRadius = Math.pow(this.K, phase);
+			this.sphereMesh.scale.setScalar(visualRadius);
+			this.dotMesh.position.copy(this.dotDir).multiplyScalar(visualRadius);
+			const positions = this.radialLine.geometry.attributes.position;
+			positions.setXYZ(0, 0, 0, 0);
+			positions.setXYZ(1, this.dotMesh.position.x, this.dotMesh.position.y, this.dotMesh.position.z);
+			positions.needsUpdate = true;
+		}
+
+		emit() {
+			// The VALUE never wraps — smooth exponential over the whole
+			// accumulator (2026-09-12 owner review, the odometer).
+			// floorLinear keeps bagels from crossing the encircling 0
+			const rawLinear = this.baseLinear * Math.pow(this.K, this.wheelAcc / this.CYCLE);
+			const linear = Math.max(rawLinear, this.floorLinear);
+			const distNow = this.fromLinear(linear);
+			this.lastDist = distNow;
+			if (this.sliderEl) {
+				this.sliderEl.value = String(distNow);
+			}
+			// Never clobber a number the user is typing — the field
+			// re-syncs on the next emit after the commit
+			if (this.inputEl && document.activeElement !== this.inputEl) {
+				this.inputEl.value = this.distToInput(distNow);
+			}
+			if (this.inputEl) {
+				this.inputEl.title = this.distToReadout(distNow);
+			}
+			if (!this.onChange) { return; }
+			// Direction in SCREEN space: the control camera never moves,
+			// so the assembly rotation IS the screen re-orientation
+			const dir = this.dotDir.clone().applyQuaternion(this.group.quaternion).normalize();
+			const dist = distNow;
+			this.onChange(dir, dist);
+		}
+
+		// Set the distance directly — the slider's drag and the
+		// textfield's committed number both land here (2026-09-12 owner
+		// review: "controller needs precise distance slider ---*--- ...
+		// with [______] textfield for input number ... instead of just
+		// data of 'how much'"). Backs the wheel accumulator out of the
+		// target so the odometer, the visual sphere and the consumer all
+		// continue from the set value; a typed number past the slider's
+		// end stretches the range to fit
+		setDistance(dist) {
+			const floorDist = this.fromLinear(Math.max(this.floorLinear, 1e-9));
+			const clamped = Math.max(dist, floorDist);
+			const linear = Math.max(this.toLinear(clamped), this.floorLinear, 1e-9);
+			this.wheelAcc = this.CYCLE * Math.log(linear / this.baseLinear) / Math.log(this.K);
+			if (this.sliderEl && clamped > Number(this.sliderEl.max)) {
+				const widened = Math.ceil(clamped * 2);
+				this.sliderEl.max = String(widened);
+				this.sliderEl.step = String((widened - Number(this.sliderEl.min)) / 400);
+			}
+			this.reseat();
+			this.emit();
+		}
+
+		// Footer = distance slider + numeric textfield (2026-09-12 owner
+		// review: the slider ---*--- with [______] "for input number"
+		// replaces the read-only readout — "zooming is not so good";
+		// the preset arrows stay dead: "Ctrl + mouse should do all the
+		// work"). The textfield IS the readout now; the slider covers
+		// floor…4× the open value with the textfield for precision
+		buildFooter() {
+			this.footer.innerHTML = '';
+			const floorDist = this.fromLinear(Math.max(this.floorLinear, 1e-9));
+			const maxDist = Math.max(this.startDist * 4, floorDist + 1);
+			const slider = document.createElement('input');
+			slider.type = 'range';
+			slider.className = 'vector-control-slider';
+			slider.min = String(floorDist);
+			slider.max = String(maxDist);
+			slider.step = String((maxDist - floorDist) / 400);
+			slider.addEventListener('input', () => {
+				this.setDistance(Number(slider.value));
+			});
+			const input = document.createElement('input');
+			input.type = 'text';
+			input.className = 'vector-control-input';
+			input.spellcheck = false;
+			input.title = 'Exact distance — Enter to apply';
+			input.addEventListener('change', () => {
+				const parsed = Number(input.value.replace(',', '.'));
+				if (!Number.isFinite(parsed)) {
+					input.value = this.distToInput(this.lastDist);
+					return;
+				}
+				this.setDistance(parsed);
+			});
+			this.footer.appendChild(slider);
+			this.footer.appendChild(input);
+			this.sliderEl = slider;
+			this.inputEl = input;
+		}
+
+		paint() {
+			this.renderer3d.render(this.scene, this.camera);
+		}
+
+		open(opts) {
+			this.ensureBuilt();
+			this.onChange = opts.onChange;
+			this.toLinear = opts.toLinear || ((d) => d);
+			this.fromLinear = opts.fromLinear || ((d) => d);
+			this.distToReadout = opts.distToReadout || ((d) => '×' + d.toFixed(2));
+			this.distToInput = opts.distToInput || ((d) => String(Math.round(d * 100) / 100));
+			this.floorLinear = opts.floorLinear !== undefined ? opts.floorLinear : 0;
+			this.dotDir.copy(opts.dir).normalize();
+			this.group.quaternion.identity();
+			// Open at NORMAL visual size (odometer phase 0) carrying the
+			// current value as the base — wheeling continues from there,
+			// infinitely, no re-open reset (2026-09-12 owner review:
+			// "when it opened the sphere inside must become zoomed
+			// normally, so it would not retro to current distance")
+			const startDist = opts.dist !== undefined ? opts.dist : 1;
+			this.startDist = startDist;
+			this.baseLinear = Math.max(1e-6, this.toLinear(startDist));
+			this.wheelAcc = 0;
+			this.titleEl.textContent = opts.title || 'Vector';
+			this.buildFooter();
+			this.reseat();
+			this.root.style.display = 'block';
+			this.emit();
+			this.paint();
+		}
+
+		close() {
+			if (this.root) { this.root.style.display = 'none'; }
+			this.onChange = null;
+		}
+
+		isOpen() {
+			const open = Boolean(this.root) && this.root.style.display !== 'none';
+			return open;
+		}
+	}
+
+	let vectorControl = null;
+	// The consumer the window is currently armed for — re-invoking the
+	// same layer's ⌖ toggles the window SHUT (2026-09-12 owner review:
+	// "I can't hide it" — the × alone is not enough)
+	let vectorControlMode = null;
+
+	/**
+	 * Open the vector-sphere control for one of the consumers
+	 * (2026-09-12, owner: "I should invoke that from some button on any
+	 * layer"; sinks added the same day when the common "distance
+	 * & orientation" group replaced the per-layer knobs; generation
+	 * shell radii joined per owner item 5 — "gens distance just should
+	 * also be controlled with our orientation controller"; the separate
+	 * jaeger mode was DROPPED per owner item 3 — the cone rides the
+	 * sinks orient): captions → the caption vector (VIEW-space
+	 * direction + distance multiplier), diamonds/bagels/sinks →
+	 * WORLD-space direction + distance from the bound element's
+	 * center, 'gen' → wheel-only radius in px (shells have no vector
+	 * to orient, genSpec carries { depth, label, maxDepth, data,
+	 * rebuild }). World consumers capture the main camera AT OPEN, so
+	 * the control opens showing what the scene shows — the owner
+	 * confirmed the main scene is not rotated while the tool window
+	 * is up
+	 */
+	function openVectorControl(mode, renderer, genSpec) {
+		if (!vectorControl) {
+			vectorControl = new VectorSphereControl();
+		}
+		if (vectorControlMode === mode && vectorControl.isOpen()) {
+			vectorControl.close();
+			vectorControlMode = null;
+			return;
+		}
+		vectorControlMode = mode;
+		const qCapture = renderer.camera.quaternion.clone();
+		const qInverse = qCapture.clone().invert();
+		if (mode === 'captions') {
+			vectorControl.open({
+				title         : 'Caption vector',
+				dir           : renderer.captionVector.clone(),
+				dist          : renderer.captionDist,
+				distToReadout : (d) => '×' + d.toFixed(2),
+				onChange      : (dirScreen, dist) => {
+					renderer.captionVector.copy(dirScreen);
+					renderer.captionDist = dist;
+					sessionCaptionVector = { x: dirScreen.x, y: dirScreen.y, z: dirScreen.z, dist };
+					renderer.labeledMeshes.forEach(m => renderer.updateLabelPosition(m));
+					renderer.needsRender = true;
+				}
+			});
+			return;
+		}
+		if (mode === 'diamonds') {
+			const currentDir = renderer.diamondOrient ? renderer.diamondOrient.dir.clone() : new THREE.Vector3(1, 0, 0);
+			const currentScale = renderer.diamondOrient ? renderer.diamondOrient.scale : 1;
+			vectorControl.open({
+				title         : 'Diamond orient',
+				dir           : currentDir.applyQuaternion(qInverse),
+				dist          : currentScale,
+				distToReadout : (scale) => '×' + (renderer.layerDistances.creation.holderShell * scale).toFixed(2),
+				onChange      : (dirScreen, scale) => {
+					const world = dirScreen.clone().applyQuaternion(qCapture).normalize();
+					const previous = renderer.diamondOrient;
+					const quaternion = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(1, 0, 0), world);
+					// Pinned diamonds keep the user's arrangement: their
+					// stored offsets rotate/stretch by the DELTA between
+					// the old and new orient
+					if (previous) {
+						const delta = quaternion.clone().multiply(previous.quaternion.clone().invert());
+						const ratio = scale / previous.scale;
+						renderer.creationMeshes.forEach(m => {
+							if (!m.userData.creationNode || !m.userData.pinned || !m.userData.pinOffset) { return; }
+							m.userData.pinOffset.applyQuaternion(delta).multiplyScalar(ratio);
+						});
+					}
+					renderer.diamondOrient = { quaternion, dir: world, scale };
+					sessionDiamondOrient = {
+						dir   : { x: world.x, y: world.y, z: world.z },
+						scale : scale
+					};
+					renderer.updateLinkPositions();
+				}
+			});
+			return;
+		}
+		if (mode === 'bagels') {
+			// Distance in anchor radii, FLOORED at the encircling 0
+			// (2026-09-12 owner review: "it should not pan negative") —
+			// the antipode is the ROTATION's job now, not the wheel's.
+			// The multiplicative odometer quantity is (1 + d/3); stale
+			// saved negative distances self-heal — the first emit floors
+			// them to 0
+			const currentDir = renderer.bagelOrient ? renderer.bagelOrient.dir.clone() : new THREE.Vector3(1, 0, 0);
+			const currentDist = renderer.bagelOrient ? renderer.bagelOrient.dist : 0;
+			vectorControl.open({
+				title         : 'Bagel orient',
+				dir           : currentDir.applyQuaternion(qInverse),
+				dist          : currentDist,
+				toLinear      : (d) => 1 + d / 3,
+				fromLinear    : (l) => (l - 1) * 3,
+				floorLinear   : 1,
+				distToReadout : (d) => '×' + d.toFixed(2),
+				onChange      : (dirScreen, dist) => {
+					const world = dirScreen.clone().applyQuaternion(qCapture).normalize();
+					const previous = renderer.bagelOrient;
+					if (previous) {
+						const delta = new THREE.Quaternion().setFromUnitVectors(previous.dir, world);
+						renderer.wrapperMeshes.forEach(m => {
+							if (!m.userData.wrapperNode || !m.userData.pinned || !m.userData.pinOffset) { return; }
+							m.userData.pinOffset.applyQuaternion(delta);
+						});
+					}
+					renderer.bagelOrient = { dir: world, dist };
+					sessionBagelOrient = {
+						dir  : { x: world.x, y: world.y, z: world.z },
+						dist : dist
+					};
+					renderer.updateLinkPositions();
+				}
+			});
+			return;
+		}
+		if (mode === 'sinks') {
+			// The adapter-sink stack's zone off the origin, in gen-0
+			// radii (default layerDistances.dive.sinkOffset) — world-
+			// space, the camera captured at open. The Jaeger cone rides
+			// THIS orient too (2026-09-12 owner item 3: "we don't need
+			// separate Jaeger control... it should move the same with
+			// it's company") — jaegerSeat derives from sinkOrient
+			const currentDir = renderer.sinkOrient ? renderer.sinkOrient.dir.clone() : new THREE.Vector3(-1, 0, 0);
+			const currentDist = renderer.sinkOrient ? renderer.sinkOrient.dist : renderer.layerDistances.dive.sinkOffset;
+			vectorControl.open({
+				title         : 'Sink orient',
+				dir           : currentDir.applyQuaternion(qInverse),
+				dist          : currentDist,
+				distToReadout : (d) => '×' + d.toFixed(2) + ' gen0',
+				onChange      : (dirScreen, dist) => {
+					const world = dirScreen.clone().applyQuaternion(qCapture).normalize();
+					const previous = renderer.sinkOrient;
+					// Pinned sinks keep the user's arrangement: their
+					// offsets from the Jaeger cone rotate/stretch by the
+					// DELTA between the old and new orient; pinned cones
+					// (ABSOLUTE pins) take the same delta on their stored
+					// positions so the whole company moves together
+					if (previous) {
+						const delta = new THREE.Quaternion().setFromUnitVectors(previous.dir, world);
+						const ratio = dist / previous.dist;
+						renderer.internalsMeshes.forEach(m => {
+							const knot = m.userData.internalNode;
+							if (!knot || !m.userData.pinned) { return; }
+							if (knot.role === 'external') {
+								m.position.applyQuaternion(delta).multiplyScalar(ratio);
+								return;
+							}
+							if (knot.role !== 'sink' || !m.userData.pinOffset) { return; }
+							m.userData.pinOffset.applyQuaternion(delta).multiplyScalar(ratio);
+						});
+					}
+					renderer.sinkOrient = { dir: world, dist };
+					sessionSinkOrient = {
+						dir  : { x: world.x, y: world.y, z: world.z },
+						dist : dist
+					};
+					renderer.updateLinkPositions();
+				}
+			});
+			return;
+		}
+		if (mode === 'gen') {
+			// Generation shell radius (2026-09-12 owner item 5: "gens
+			// distance just should also be controlled with our
+			// orientation controller... place Ø everywhere"): shells
+			// have NO vector to orient — the wheel IS the control here,
+			// the assembly rotation is inert for this mode. Emits
+			// arrive per wheel tick, so the relayout rebuild is
+			// DEBOUNCED (trailing 150ms) while the radius value itself
+			// lands instantly through cascadeShellRadii
+			let genRebuildTimer = null;
+			vectorControl.open({
+				title         : genSpec.label + ' radius',
+				dir           : new THREE.Vector3(0, 1, 0),
+				dist          : (renderer.depthRadii && renderer.depthRadii.get(genSpec.depth)) || 0,
+				floorLinear   : 10,
+				distToReadout : (d) => Math.round(d) + 'px',
+				distToInput   : (d) => String(Math.round(d)),
+				onChange      : (dirScreen, dist) => {
+					const current = (renderer.depthRadii && renderer.depthRadii.get(genSpec.depth)) || 0;
+					const delta = dist - current;
+					if (Math.abs(delta) < 1e-9) { return; }
+					cascadeShellRadii(renderer, genSpec.data, genSpec.depth, genSpec.maxDepth, delta);
+					if (genRebuildTimer) { clearTimeout(genRebuildTimer); }
+					genRebuildTimer = setTimeout(() => {
+						genRebuildTimer = null;
+						genSpec.rebuild();
+					}, 150);
+				}
+			});
+		}
+	}
+
 	// Legend panel interactivity (2026-09-05 review): the header is the
 	// drag handle AND the collapse toggle. A press that moves < 4px counts
 	// as a click (toggle); a real drag repositions the panel. First drag
 	// switches the CSS bottom-anchoring to explicit left/top — bottom
 	// anchoring fights pixel dragging.
+	// 2026-09-11 owner review, three fixes:
+	// (a) the anchor switch moved from press time to the first real move —
+	//     switching on mousedown meant a plain collapse CLICK re-anchored
+	//     to top, so collapsing at the initial spot lifted the bottom edge
+	//     up; with the CSS bottom anchor intact, collapse now docks the
+	//     panel to the viewport bottom (the top corners move down);
+	// (b) the drag rides pointer events with pointer capture on the
+	//     header: the cursor leaving the legend (or even the window) keeps
+	//     the drag, and the scene canvas never sees the gesture — its
+	//     mousemove treats any button-held move as a grab-the-world pan
+	//     and its stopPropagation used to freeze the document-level drag
+	//     (a release over the canvas even left the drag stuck). The canvas
+	//     handlers ALSO bail on legendDragState as belt and suspenders;
+	// (c) expanding a dragged legend clamps the box back into the
+	//     viewport — it grows down/right from its top anchor and the
+	//     scene borders used to clip the rows. Collapse shrink-wraps to
+	//     the header (the smaller width is intentionally correct); the
+	//     header's column-gap (webview.css) keeps the arrow off the word.
 	let legendDragState = null;
 	let legendSuppressClick = false;
 
@@ -179,11 +862,18 @@
 		const toggle = document.getElementById('dive-legend-toggle');
 		if (!legend || !header) return;
 
-		header.addEventListener('mousedown', function (event) {
+		header.addEventListener('pointerdown', function (event) {
+			if (event.button !== 0) return;
+			// A fresh gesture never inherits suppression: if a drag ended
+			// with no trailing click (released off-window under capture),
+			// the stale flag must not eat THIS gesture's click
+			legendSuppressClick = false;
 			const rect = legend.getBoundingClientRect();
-			legend.style.bottom = 'auto';
-			legend.style.left = rect.left + 'px';
-			legend.style.top = rect.top + 'px';
+			// Capture retargets every pointermove/pointerup to the header
+			// until release — the drag survives the cursor leaving the
+			// legend, and compatibility mouse events follow the capture,
+			// so the canvas never starts a pan/rotate mid-drag
+			header.setPointerCapture(event.pointerId);
 			legendDragState = {
 				startX: event.clientX,
 				startY: event.clientY,
@@ -194,13 +884,23 @@
 			event.preventDefault();
 		});
 
-		document.addEventListener('mousemove', function (event) {
+		header.addEventListener('pointermove', function (event) {
 			if (!legendDragState) return;
 			const dx = event.clientX - legendDragState.startX;
 			const dy = event.clientY - legendDragState.startY;
 			if (!legendDragState.moved && Math.abs(dx) + Math.abs(dy) < 4) return;
-			legendDragState.moved = true;
-			legend.classList.add('dragging');
+			if (!legendDragState.moved) {
+				// First real movement: NOW switch bottom-anchoring to
+				// explicit left/top (bottom anchoring fights pixel
+				// dragging). A press that never crosses the threshold keeps
+				// the CSS bottom anchor, so collapse at the initial spot
+				// docks the panel to the viewport bottom
+				legendDragState.moved = true;
+				legend.classList.add('dragging');
+				legend.style.bottom = 'auto';
+				legend.style.left = legendDragState.baseLeft + 'px';
+				legend.style.top = legendDragState.baseTop + 'px';
+			}
 			const maxLeft = Math.max(0, window.innerWidth - legend.offsetWidth);
 			const maxTop = Math.max(0, window.innerHeight - legend.offsetHeight);
 			const nextLeft = Math.min(maxLeft, Math.max(0, legendDragState.baseLeft + dx));
@@ -209,12 +909,22 @@
 			legend.style.top = nextTop + 'px';
 		});
 
-		document.addEventListener('mouseup', function () {
-			if (legendDragState && legendDragState.moved) {
-				// mouseup fires BEFORE click — swallow the trailing click so
-				// a drag does not also toggle collapse
+		header.addEventListener('pointerup', function (event) {
+			if (!legendDragState) return;
+			if (legendDragState.moved) {
+				// pointerup fires BEFORE click — swallow the trailing
+				// click so a drag does not also toggle collapse
 				legendSuppressClick = true;
 			}
+			legendDragState = null;
+			legend.classList.remove('dragging');
+			if (header.hasPointerCapture(event.pointerId)) {
+				header.releasePointerCapture(event.pointerId);
+			}
+		});
+
+		header.addEventListener('pointercancel', function () {
+			// No click follows a cancel — just clean up, never suppress
 			legendDragState = null;
 			legend.classList.remove('dragging');
 		});
@@ -227,6 +937,24 @@
 			const collapsed = legend.classList.toggle('collapsed');
 			if (toggle) {
 				toggle.textContent = collapsed ? '▸' : '▾';
+			}
+			if (!collapsed && legend.style.bottom === 'auto') {
+				// Expanding a dragged legend: the box grows down (and
+				// right — the rows are wider than the bare header) from
+				// its top anchor, and the scene borders clip whatever
+				// overflows (2026-09-11 owner review: uncollapsing must
+				// become fully visible). Shift it back into the viewport.
+				// The never-dragged legend grows UP from its CSS bottom
+				// anchor — always in view, nothing to clamp
+				const rect = legend.getBoundingClientRect();
+				const overflowX = rect.right - window.innerWidth;
+				const overflowY = rect.bottom - window.innerHeight;
+				if (overflowX > 0) {
+					legend.style.left = Math.max(0, rect.left - overflowX) + 'px';
+				}
+				if (overflowY > 0) {
+					legend.style.top = Math.max(0, rect.top - overflowY) + 'px';
+				}
 			}
 		});
 	}
@@ -282,6 +1010,20 @@
 				// Same focus rule as the layer checkboxes — a focused
 				// button re-fires on Space
 				saveButton.blur();
+			});
+		}
+
+		// Refresh button (2026-09-12, owner item 8: auto-refresh died —
+		// "it would better be separate button"): the host re-reads THIS
+		// panel's .tactica and pushes a fresh updateGraph; the tab holds
+		// its render until asked. Camera/pins survive — the update rides
+		// the same savedLayout + sessionPins path as any refresh
+		const refreshButton = document.getElementById('refresh-graph');
+		if (refreshButton) {
+			refreshButton.addEventListener('click', function () {
+				vscode.postMessage({ command: 'refreshGraph' });
+				// Same focus rule as the Save button
+				refreshButton.blur();
 			});
 		}
 
@@ -1018,6 +1760,39 @@
 		// Debug handle: agent automation (Strategy/CDP) reads camera and
 		// scene state through this
 		window.__mnemographica3D = renderer3D;
+		// Orient vectors from the vector-sphere control (2026-09-12, owner
+		// items 4+6): session state is newest, the saved layout fills
+		// gaps. Set BEFORE renderGraph so the builders seat everything
+		// oriented from birth — no post-render snap
+		const savedOrient = savedLayout && savedLayout.orient ? savedLayout.orient : {};
+		const captionSrc = sessionCaptionVector || savedOrient.captions || null;
+		if (captionSrc) {
+			renderer3D.captionVector.set(captionSrc.x, captionSrc.y, captionSrc.z);
+			renderer3D.captionDist = captionSrc.dist !== undefined ? captionSrc.dist : 1;
+		}
+		const diamondSrc = sessionDiamondOrient || savedOrient.diamonds || null;
+		if (diamondSrc) {
+			const dir = new THREE.Vector3(diamondSrc.dir.x, diamondSrc.dir.y, diamondSrc.dir.z).normalize();
+			const quaternion = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(1, 0, 0), dir);
+			renderer3D.diamondOrient = { quaternion, dir, scale: diamondSrc.scale };
+		}
+		const bagelSrc = sessionBagelOrient || savedOrient.bagels || null;
+		if (bagelSrc) {
+			renderer3D.bagelOrient = {
+				dir  : new THREE.Vector3(bagelSrc.dir.x, bagelSrc.dir.y, bagelSrc.dir.z).normalize(),
+				dist : bagelSrc.dist
+			};
+		}
+		const sinkSrc = sessionSinkOrient || savedOrient.sinks || null;
+		if (sinkSrc) {
+			renderer3D.sinkOrient = {
+				dir  : new THREE.Vector3(sinkSrc.dir.x, sinkSrc.dir.y, sinkSrc.dir.z).normalize(),
+				dist : sinkSrc.dist
+			};
+		}
+		// NO jaeger orient restore: the cone rides the sinks orient now
+		// (2026-09-12 owner item 3) — a savedOrient.jaeger from an older
+		// layout.json is intentionally ignored
 		renderer3D.setOnNodeClick(function (node) {
 			debugLog('[Mnemonica] 3D Node clicked:', node.name, 'log');
 			const loc = node.definitionLocation || node.location;
@@ -1037,6 +1812,15 @@
 			renderer3D.applySavedPins(savedLayout.pins);
 		}
 		renderer3D.applySavedPins(sessionPins);
+		// Per-caption Shift-drag overrides land after the builders too —
+		// their meshes must exist. Session overrides win over the file,
+		// same newer-than rule as pins
+		const captionOverrideSrc = Object.assign(
+			{},
+			(savedLayout && savedLayout.orient && savedLayout.orient.captionOverrides) || {},
+			sessionCaptionOverrides
+		);
+		renderer3D.applyCaptionOverrides(captionOverrideSrc);
 
 		// Handle resize
 		resizeHandler3D = function () {
@@ -1050,6 +1834,11 @@
 		// Update status
 		setStatusBase(data.nodes.length + ' types | ' +
 			data.links.length + ' relationships (3D)');
+
+		// The captions choice survives renderer rebuilds only in
+		// sessionCaptionsVisible — apply it to the fresh renderer BEFORE
+		// the panel builds, so its checkbox reads the live state
+		renderer3D.setCaptionsVisible(sessionCaptionsVisible);
 
 		// Create the collapsible Layers & Distances panel — per-layer
 		// visibility checkboxes plus that layer's own distance knobs
@@ -1067,69 +1856,150 @@
 	}
 
 	/**
-		* Create the layer toggles + per-layer distance controls — one
-		* COLLAPSIBLE block per layer (2026-09-05 review: "we need distances
-		* for each layer type; the layer type itself must be collapsible as
-		* well as clickable"). The header row carries the visibility
-		* checkbox and an expand toggle; the expanded body lists that
-		* layer's distance knobs with ± buttons. Any adjust re-runs
-		* renderGraph (the old adjustGenRadius precedent) and rebuilds the
-		* panel so cascading displays refresh. Purely local to the webview
-		* (nothing posted to the extension host)
+		* Create the layer toggles + the common "distance & orientation"
+		* group (2026-09-12 owner review: layer rows are checkboxes only;
+		* "it is better place that common group + instead of current
+		* controls that was already there, so that would be control for
+		* everything in distance and orientation there"). The header row of
+		* each layer carries just the visibility checkbox; the ONE
+		* expandable group under them holds the generation shell radii
+		* (±15 knobs — shells have no vector to orient) and one ⌖ row per
+		* vector-sphere consumer (captions, diamonds, bagels, sinks,
+		* jaeger). The per-layer knob rows (Holder ring, Sink/Jaeger
+		* offset) and the header ⌖ buttons are gone — the sphere control
+		* covers both distance and orientation for those elements; their
+		* constants stay on renderer.layerDistances as the DEFAULTS the
+		* orients start from. Purely local to the webview (nothing posted
+		* to the extension host)
 		*/
-	// Knob-driven scaling of PINNED elements (2026-09-05 review): pins
-	// preserve the user's arrangement through relayouts, but a distance
-	// knob must still REACH them — "nothing increases the distance of
-	// diamonds and bagels from sphere" otherwise. Scale the pinned
-	// displacement by the knob's ratio instead of resetting to the
-	// layout default: the arrangement keeps its shape, stretched.
-	const scalePinnedDiamonds = function (renderer, ratio) {
-		renderer.creationMeshes.forEach(m => {
-			// Holder diamonds only — chain/starter nodes and arrows carry
-			// no pinAnchor (resolvePinAnchor returns null for them)
-			if (!m.userData.creationNode || !m.userData.pinned || !m.userData.pinAnchor || !m.userData.pinOffset) { return; }
-			m.userData.pinOffset.multiplyScalar(ratio);
-			m.position.copy(m.userData.pinAnchor.position).add(m.userData.pinOffset);
-		});
-	};
-	const scalePinnedKnots = function (renderer, role, ratio) {
-		renderer.internalsMeshes.forEach(m => {
-			const knot = m.userData.internalNode;
-			if (!knot || knot.role !== role || !m.userData.pinned) { return; }
-			// Sinks anchored to the Jaeger cone scale their OFFSET — the
-			// dynamics writer rewrites position from anchor + offset and
-			// would snap a direct position scale back
-			if (m.userData.pinAnchor && m.userData.pinOffset) {
-				m.userData.pinOffset.x *= ratio;
-				m.position.copy(m.userData.pinAnchor.position).add(m.userData.pinOffset);
-				return;
-			}
-			// Sinks/Jaeger sit at −gen0 × offset — the knob governs X only
-			m.position.x *= ratio;
-		});
-	};
-	const scalePinnedAmbientBagels = function (renderer, oldBag) {
-		const bag = renderer.layerDistances.dive;
-		const gen0 = (renderer.depthRadii && renderer.depthRadii.get(0)) || 105;
-		const nodeRadius = renderer.nodeRadius3d || 8;
-		renderer.wrapperMeshes.forEach(m => {
-			// Ambient pins are the anchor-less ones (resolvePinAnchor
-			// found nothing at pin time); anchored bagels ride their
-			// anchor and need no scaling
-			if (!m.userData.wrapperNode || !m.userData.pinned || m.userData.pinAnchor) { return; }
-			const generation = m.userData.wrapperNode.generation || 0;
-			const oldR = gen0 * oldBag.ambientBase + generation * nodeRadius * oldBag.ambientStep;
-			const newR = gen0 * bag.ambientBase + generation * nodeRadius * bag.ambientStep;
-			if (oldR < 1e-9) { return; }
-			// Radial scaling from the center: direction kept, the slot
-			// distance follows the knob
-			m.position.multiplyScalar(newR / oldR);
-		});
-	};
+	// Expansion state lives outside: a knob adjust rebuilds the panel and
+	// the open group must stay open across the rebuild
+	const expandedLayerControls = new Set(['distance-orient']);
 
-	// Expansion state lives outside: an adjust rebuilds the panel and the
-	// open block must stay open across the rebuild
-	const expandedLayerControls = new Set(['types']);
+	// The generation shell cascade, shared by the Ø vector-control mode
+	// ('gen') and formerly the ±step knobs (2026-09-12 owner item 5:
+	// "gens distance just should also be controlled with our orientation
+	// controller"). Adjust cascades OUTWARD (owner semantics from the old
+	// adjustGenRadius): growing a shell grows every shell outside it, so
+	// shells never cross
+	function cascadeShellRadii(renderer, data, depth, maxDepth, delta) {
+		// Snapshot the shell radii before the cascade — user-placed
+		// spheres scale by their shell's ratio below
+		const oldRadii = new Map();
+		for (let d = depth; d <= maxDepth; d++) {
+			oldRadii.set(d, (renderer.depthRadii && renderer.depthRadii.get(d)) || 0);
+		}
+		for (let d = depth; d <= maxDepth; d++) {
+			const current = (renderer.depthRadii && renderer.depthRadii.get(d)) || 0;
+			renderer.depthRadii.set(d, Math.max(10, current + delta));
+		}
+		// User-placed spheres ride the knob (2026-09-05 owner review:
+		// "when I increase distances via panel it should also move
+		// elements that I re-positioned, Spheres at least — the direction
+		// is obvious: there where their arrow directed"). A dragged
+		// sphere persists as node.x3d/y3d/z3d — calculatePosition honors
+		// it and relaxTypeShells never moves it — so scale the stored
+		// position by the shell's radius ratio. Scaling a vector keeps
+		// its direction: the sphere moves straight out/in along its own
+		// radial line.
+		data.nodes.forEach(node => {
+			if (node.x3d === undefined) { return; }
+			const nodeDepth = node.depth || 0;
+			const oldR = oldRadii.get(nodeDepth);
+			const newR = renderer.depthRadii.get(nodeDepth);
+			if (!oldR || !newR || oldR < 1e-9) { return; }
+			const ratio = newR / oldR;
+			node.x3d *= ratio;
+			node.y3d *= ratio;
+			node.z3d *= ratio;
+		});
+	}
+
+	/**
+	 * Per-generation visibility filter (2026-09-12 owner request: "each
+	 * gen should have checkbox ... switching off the checkbox also
+	 * switches off their deps and wraps from showing on graph").
+	 * renderGraph rebinds its data through this: hidden generations' type
+	 * spheres drop out, and everything hanging off them follows —
+	 * inheritance edges (endpoint filtered here), execflow path-hits and
+	 * attachHooks grafts (endpoint miss through nodeMap), holding
+	 * diamonds whose creates anchors are ALL hidden types (the scope is
+	 * dropped; a scope creating at least one VISIBLE type stays, its
+	 * hidden anchors skip through the same nodeMap miss), and the wraps
+	 * bound to a hidden type or hosted by a dropped scope — a bagel
+	 * whose anchor vanished would otherwise re-seat on the AMBIENT shell
+	 * and LIE about being unattached. Ambient wraps and anchor-less
+	 * scopes stay: they belong to no generation. The original data is
+	 * never mutated — sections are shallow-copied; the node/link objects
+	 * themselves are shared
+	 */
+	function filterHiddenGenerations(data) {
+		const hiddenDepths = new Set();
+		sessionGenVisibility.forEach((visible, depth) => {
+			if (visible === false) { hiddenDepths.add(depth); }
+		});
+		if (hiddenDepths.size === 0) { return data; }
+		const hiddenTypeIds = new Set();
+		data.nodes.forEach(node => {
+			if (hiddenDepths.has(node.depth || 0)) { hiddenTypeIds.add(node.id); }
+		});
+		if (hiddenTypeIds.size === 0) { return data; }
+
+		// Links arrive with STRING endpoints on the first render and
+		// NODE-OBJECT endpoints after renderGraph resolved them in place
+		// — both shapes must answer the membership question
+		const endpointId = (ep) => (ep && typeof ep === 'object') ? ep.id : ep;
+		const nodes = data.nodes.filter(node => !hiddenTypeIds.has(node.id));
+		const links = data.links.filter(link =>
+			!hiddenTypeIds.has(endpointId(link.source)) &&
+			!hiddenTypeIds.has(endpointId(link.target)));
+
+		// Creation scopes: drop a holder whose creates anchors are ALL
+		// hidden types — its diamond and everything downstream belong to
+		// the hidden generation. Links incident to a dropped scope go too
+		let creation = data.creation;
+		const droppedScopeIds = new Set();
+		if (creation && Array.isArray(creation.nodes)) {
+			const keptScopes = creation.nodes.filter(scope => {
+				if (!Array.isArray(scope.creates) || scope.creates.length === 0) { return true; }
+				const allHidden = scope.creates.every(anchor => hiddenTypeIds.has(anchor.typePath));
+				if (allHidden) { droppedScopeIds.add(scope.id); }
+				return !allHidden;
+			});
+			if (droppedScopeIds.size > 0) {
+				const keptLinks = (Array.isArray(creation.links) ? creation.links : []).filter(link =>
+					!droppedScopeIds.has(link.source) && !droppedScopeIds.has(link.target));
+				creation = Object.assign({}, creation, { nodes: keptScopes, links: keptLinks });
+			}
+		}
+
+		// Wraps: drop a bagel bound to a hidden type (wrapsTypePath) or
+		// hosted by a dropped scope (callbackScopeId preferred,
+		// holderScopeId fallback — the builder's own precedence)
+		let wrappers = data.wrappers;
+		if (wrappers && Array.isArray(wrappers.nodes)) {
+			const keptWraps = wrappers.nodes.filter(node => {
+				if (node.wrapsTypePath && hiddenTypeIds.has(node.wrapsTypePath)) { return false; }
+				const scopeId = node.callbackScopeId || node.holderScopeId;
+				if (scopeId && droppedScopeIds.has(scopeId)) { return false; }
+				return true;
+			});
+			if (keptWraps.length !== wrappers.nodes.length) {
+				const keptIds = new Set(keptWraps.map(node => node.id));
+				const keptLinks = (Array.isArray(wrappers.links) ? wrappers.links : []).filter(link =>
+					keptIds.has(link.source) && keptIds.has(link.target));
+				wrappers = Object.assign({}, wrappers, { nodes: keptWraps, links: keptLinks });
+			}
+		}
+
+		const result = Object.assign({}, data, {
+			nodes    : nodes,
+			links    : links,
+			creation : creation,
+			wrappers : wrappers
+		});
+		return result;
+	}
 
 	function createLayerControls(data, renderer) {
 		const container = document.getElementById('layer-controls-list');
@@ -1142,105 +2012,45 @@
 			createLayerControls(data, renderer);
 		};
 
-		// One distance knob: label, current-value text, adjust(delta).
-		// Multipliers display as ×N.NN, shell radii as px. onChanged (when
-		// given) scales the PINNED elements the knob governs, so pins
-		// don't make the knob look dead
-		const factorParam = function (label, group, key, step, min, onChanged) {
-			const param = {
-				label   : label,
-				step    : step,
-				display : function () {
-					const value = renderer.layerDistances[group][key];
-					const text = '×' + value.toFixed(2);
-					return text;
-				},
-				adjust : function (delta) {
-					const bag = renderer.layerDistances[group];
-					const oldValue = bag[key];
-					bag[key] = Math.max(min, Math.round((bag[key] + delta) * 100) / 100);
-					if (onChanged && bag[key] !== oldValue) {
-						onChanged(oldValue, bag[key]);
-					}
-				}
-			};
-			return param;
-		};
-
-		// The types layer exposes the generation shell radii themselves.
-		// Adjust cascades OUTWARD (owner semantics from the old
-		// adjustGenRadius): growing a shell grows every shell outside it,
-		// so shells never cross
+		// The generation shell radii rows — label + live value + a Ø
+		// button opening the vector-sphere control in 'gen' mode (the
+		// ±step knobs are gone, 2026-09-12 owner item 5)
 		const generationParams = [];
 		for (let depth = 0; depth <= maxDepth; depth++) {
 			generationParams.push({
+				depth   : depth,
 				label   : depth === 0 ? 'Roots' : 'Gen ' + depth,
-				step    : 15,
 				display : function () {
 					const radius = (renderer.depthRadii && renderer.depthRadii.get(depth)) || 0;
 					const text = Math.round(radius) + 'px';
 					return text;
-				},
-				adjust : function (delta) {
-					// Snapshot the shell radii before the cascade —
-					// user-placed spheres scale by their shell's ratio below
-					const oldRadii = new Map();
-					for (let d = depth; d <= maxDepth; d++) {
-						oldRadii.set(d, (renderer.depthRadii && renderer.depthRadii.get(d)) || 0);
-					}
-					for (let d = depth; d <= maxDepth; d++) {
-						const current = (renderer.depthRadii && renderer.depthRadii.get(d)) || 0;
-						renderer.depthRadii.set(d, Math.max(10, current + delta));
-					}
-					// User-placed spheres ride the knob (2026-09-05 owner
-					// review: "when I increase distances via panel it should
-					// also move elements that I re-positioned, Spheres at
-					// least — the direction is obvious: there where their
-					// arrow directed"). A dragged sphere persists as
-					// node.x3d/y3d/z3d — calculatePosition honors it and
-					// relaxTypeShells never moves it — so scale the stored
-					// position by the shell's radius ratio. Scaling a vector
-					// keeps its direction: the sphere moves straight out/in
-					// along its own radial line.
-					data.nodes.forEach(node => {
-						if (node.x3d === undefined) { return; }
-						const nodeDepth = node.depth || 0;
-						const oldR = oldRadii.get(nodeDepth);
-						const newR = renderer.depthRadii.get(nodeDepth);
-						if (!oldR || !newR || oldR < 1e-9) { return; }
-						const ratio = newR / oldR;
-						node.x3d *= ratio;
-						node.y3d *= ratio;
-						node.z3d *= ratio;
-					});
 				}
 			});
 		}
 
 		const layers = [
-			{ key: 'types', label: 'types', getGroup: () => renderer.typesGroup, params: generationParams },
-			{
-				key: 'instrumentation', label: 'instrumentation ◆', getGroup: () => renderer.instrumentationGroup,
-				params: [
-					factorParam('Holder ring', 'creation', 'holderShell', 0.2, 1.2,
-						(oldValue, newValue) => scalePinnedDiamonds(renderer, newValue / oldValue))
-				]
-			},
+			{ key: 'types', label: 'types', getGroup: () => renderer.typesGroup },
+			// 2026-09-12 owner item 4: the layer reads "invocations ◆" —
+			// the creation graph IS the invocation map; code ids keep the
+			// instrumentation name (instrumentation.json & friends)
+			{ key: 'instrumentation', label: 'invocations ◆', getGroup: () => renderer.instrumentationGroup },
 			// Wrappers + dive internals + adapter sinks merged into the
 			// single Dive graph (dive-layer-redesign-2026-09-04)
+			{ key: 'dive', label: 'dive ◯', getGroup: () => renderer.diveGroup },
+			// The captions "layer" (2026-09-11 owner review: "this is a
+			// separate layer, obviously, layer of names"): every sign
+			// sprite + leader line across all groups. The visibility
+			// choice rides sessionCaptionsVisible across renderer
+			// rebuilds (the panel itself is rebuilt too, so the DOM
+			// cannot hold the state here)
 			{
-				key: 'dive', label: 'dive ◯', getGroup: () => renderer.diveGroup,
-				params: [
-					factorParam('Ambient ring', 'dive', 'ambientBase', 0.1, 0.5,
-						(oldValue) => scalePinnedAmbientBagels(renderer, { ...renderer.layerDistances.dive, ambientBase: oldValue })),
-					factorParam('Ambient step', 'dive', 'ambientStep', 0.1, 0,
-						(oldValue) => scalePinnedAmbientBagels(renderer, { ...renderer.layerDistances.dive, ambientStep: oldValue })),
-					factorParam('Onion gap', 'dive', 'onionStep', 0.05, 0),
-					factorParam('Sink offset', 'dive', 'sinkOffset', 0.1, 0.5,
-						(oldValue, newValue) => scalePinnedKnots(renderer, 'sink', newValue / oldValue)),
-					factorParam('Jaeger offset', 'dive', 'jaegerOffset', 0.1, 0.6,
-						(oldValue, newValue) => scalePinnedKnots(renderer, 'external', newValue / oldValue))
-				]
+				key      : 'captions',
+				label    : 'captions',
+				getState : () => renderer.captionsVisible,
+				setState : (on) => {
+					sessionCaptionsVisible = on;
+					renderer.setCaptionsVisible(on);
+				}
 			}
 		];
 		layers.forEach(layer => {
@@ -1253,12 +2063,16 @@
 			checkbox.type = 'checkbox';
 			// Read the LIVE visibility — a rebuild must not lie about a
 			// layer the user already hid
-			const group = layer.getGroup();
-			checkbox.checked = group ? group.visible : true;
+			const group = layer.getGroup ? layer.getGroup() : null;
+			checkbox.checked = layer.getState ? layer.getState() : (group ? group.visible : true);
 			checkbox.onchange = function () {
-				const liveGroup = layer.getGroup();
-				if (liveGroup) {
-					liveGroup.visible = checkbox.checked;
+				if (layer.setState) {
+					layer.setState(checkbox.checked);
+				} else {
+					const liveGroup = layer.getGroup();
+					if (liveGroup) {
+						liveGroup.visible = checkbox.checked;
+					}
 				}
 				renderer.updateCenterMarkerVisibility();
 				renderer.needsRender = true;
@@ -1270,31 +2084,70 @@
 			label.appendChild(checkbox);
 			label.appendChild(document.createTextNode(' ' + layer.label));
 			header.appendChild(label);
-
-			const expanded = expandedLayerControls.has(layer.key);
-			const toggle = document.createElement('button');
-			toggle.className = 'gen-control-btn layer-toggle';
-			toggle.textContent = expanded ? '▾' : '▸';
-			toggle.title = 'Show/hide this layer\'s distances';
-			toggle.onclick = function () {
-				if (expandedLayerControls.has(layer.key)) {
-					expandedLayerControls.delete(layer.key);
-				} else {
-					expandedLayerControls.add(layer.key);
-				}
-				createLayerControls(data, renderer);
-			};
-			header.appendChild(toggle);
 			container.appendChild(header);
+		});
 
-			if (!expanded) { return; }
-			layer.params.forEach(param => {
+		// The common "distance & orientation" group (2026-09-12 owner
+		// review: "it is better place that common group + instead of
+		// current controls that was already there, so that would be
+		// control for everything in distance and orientation there") —
+		// one ⌖ row per consumer: the generation shell radii (wheel-
+		// driven 'gen' mode, owner item 5) plus the vector kinds
+		const groupExpanded = expandedLayerControls.has('distance-orient');
+		const groupHeader = document.createElement('div');
+		groupHeader.className = 'gen-control-row layer-header';
+		const groupLabel = document.createElement('span');
+		groupLabel.className = 'gen-control-label';
+		groupLabel.textContent = 'distance & orientation';
+		groupHeader.appendChild(groupLabel);
+		const groupToggle = document.createElement('button');
+		groupToggle.className = 'gen-control-btn layer-toggle';
+		groupToggle.textContent = groupExpanded ? '−' : '+';
+		groupToggle.title = 'Show/hide distance & orientation controls';
+		groupToggle.onclick = function () {
+			if (expandedLayerControls.has('distance-orient')) {
+				expandedLayerControls.delete('distance-orient');
+			} else {
+				expandedLayerControls.add('distance-orient');
+			}
+			createLayerControls(data, renderer);
+		};
+		groupHeader.appendChild(groupToggle);
+		container.appendChild(groupHeader);
+
+		if (groupExpanded) {
+			generationParams.forEach(param => {
 				const row = document.createElement('div');
 				row.className = 'gen-control-row layer-distance-row';
 
-				const name = document.createElement('span');
+				// Visibility checkbox FIRST (2026-09-12 owner request:
+				// "each gen should have checkbox, the same meaning as
+				// layers 'show or not' ... switching off the checkbox also
+				// switches off their deps and wraps from showing on
+				// graph") — hiding a generation filters its spheres, their
+				// edges, holding diamonds and wraps out of the render
+				// (filterHiddenGenerations). The choice rides
+				// sessionGenVisibility because this panel rebuilds with
+				// every render
+				const name = document.createElement('label');
 				name.className = 'gen-control-label';
-				name.textContent = param.label;
+				const genCheckbox = document.createElement('input');
+				genCheckbox.type = 'checkbox';
+				genCheckbox.checked = sessionGenVisibility.get(param.depth) !== false;
+				genCheckbox.title = 'Show/hide ' + param.label + ', their deps and their wraps';
+				genCheckbox.onchange = function () {
+					sessionGenVisibility.set(param.depth, genCheckbox.checked);
+					// The filter lives inside renderGraph, so only a
+					// re-render applies it — a single click, no debounce
+					rebuild();
+					// Same focus rule as the layer checkboxes (2026-09-05
+					// owner review): a focused checkbox re-toggles on
+					// Space. The panel rebuild already detached this
+					// checkbox; the blur covers the no-op path
+					genCheckbox.blur();
+				};
+				name.appendChild(genCheckbox);
+				name.appendChild(document.createTextNode(' ' + param.label));
 				row.appendChild(name);
 
 				const valueDisplay = document.createElement('span');
@@ -1302,31 +2155,83 @@
 				valueDisplay.textContent = param.display();
 				row.appendChild(valueDisplay);
 
-				const buttons = document.createElement('div');
-				buttons.className = 'gen-control-buttons';
-
-				const minusBtn = document.createElement('button');
-				minusBtn.className = 'gen-control-btn';
-				minusBtn.textContent = '-' + param.step;
-				minusBtn.onclick = function () {
-					param.adjust(-param.step);
-					rebuild();
+				// ⌖ in place of the old ±step buttons (2026-09-12 owner
+				// item 5: "instead of placing + sign on button place Ø
+				// everywhere") — opens the vector-sphere control in
+				// 'gen' mode; the wheel IS the radius
+				const orientBtn = document.createElement('button');
+				orientBtn.className = 'gen-control-btn layer-orient-btn';
+				orientBtn.textContent = '⌖';
+				orientBtn.title = 'Adjust the ' + param.label + ' shell radius (vector-sphere control)';
+				orientBtn.onclick = function () {
+					openVectorControl('gen', renderer, {
+						depth    : param.depth,
+						label    : param.label,
+						maxDepth : maxDepth,
+						data     : data,
+						rebuild  : rebuild
+					});
+					orientBtn.blur();
 				};
-				buttons.appendChild(minusBtn);
-
-				const plusBtn = document.createElement('button');
-				plusBtn.className = 'gen-control-btn';
-				plusBtn.textContent = '+' + param.step;
-				plusBtn.onclick = function () {
-					param.adjust(param.step);
-					rebuild();
-				};
-				buttons.appendChild(plusBtn);
-
-				row.appendChild(buttons);
+				row.appendChild(orientBtn);
 				container.appendChild(row);
 			});
-		});
+			// One ⌖ row per vector-sphere consumer (2026-09-12) —
+			// direction AND distance for that element kind, live, no
+			// rebuild. Jaeger has NO row of its own (owner item 3: "why
+			// having that only for one figure?") — the cone rides the
+			// Sinks orient
+			const orientRows = [
+				{ mode: 'captions', label: 'Captions', title: 'Orient captions (vector-sphere control)' },
+				{ mode: 'diamonds', label: 'Diamonds', title: 'Orient diamonds around their spheres' },
+				{ mode: 'bagels', label: 'Bagels', title: 'Orient bagels around their anchors' },
+				{ mode: 'sinks', label: 'Sinks', title: 'Orient the adapter-sink stack off the origin (Jaeger rides along)' }
+			];
+			orientRows.forEach(spec => {
+				const row = document.createElement('div');
+				row.className = 'gen-control-row layer-distance-row';
+				const name = document.createElement('span');
+				name.className = 'gen-control-label';
+				name.textContent = spec.label;
+				row.appendChild(name);
+				const orientBtn = document.createElement('button');
+				orientBtn.className = 'gen-control-btn layer-orient-btn';
+				orientBtn.textContent = '⌖';
+				orientBtn.title = spec.title;
+				orientBtn.onclick = function () {
+					openVectorControl(spec.mode, renderer);
+					orientBtn.blur();
+				};
+				row.appendChild(orientBtn);
+				container.appendChild(row);
+			});
+		}
+
+		// Follow .tactica changes (2026-09-12, owner item 8 — connection-
+		// style opt-in: "having so many watchers on filesystem is
+		// discouraging"): while checked, the HOST watches this panel's
+		// source and pushes a rebuild on regeneration; unchecked means
+		// zero watchers for this tab. Not a layer — a per-panel setting,
+		// so it sits below the layer rows
+		const followRow = document.createElement('div');
+		followRow.className = 'gen-control-row layer-header';
+		const followLabel = document.createElement('label');
+		followLabel.className = 'gen-control-label';
+		const followCheckbox = document.createElement('input');
+		followCheckbox.type = 'checkbox';
+		// Read the session choice — a rebuild must not lie about a
+		// connection the user already opened
+		followCheckbox.checked = sessionFollowTactica;
+		followCheckbox.onchange = function () {
+			sessionFollowTactica = followCheckbox.checked;
+			vscode.postMessage({ command: 'followTactica', data: { on: sessionFollowTactica } });
+			// Same focus rule as the layer checkboxes
+			followCheckbox.blur();
+		};
+		followLabel.appendChild(followCheckbox);
+		followLabel.appendChild(document.createTextNode(' follow .tactica changes'));
+		followRow.appendChild(followLabel);
+		container.appendChild(followRow);
 	}
 
 	/**
@@ -1577,6 +2482,11 @@
 			// the sign must never float free of what it signs
 			this.leaderLines = [];
 			this.leaderMaterial = null;
+			// Global captions on/off (2026-09-11 owner review: "captions
+			// should have a flag on/off, that is the only way to show
+			// Shape but not revealing details"). addLabel applies this at
+			// birth, so knob-driven rebuilds never re-show hidden captions
+			this.captionsVisible = true;
 			// Everything the pointer may grab or click: spheres, creation
 			// diamonds, bagels, internals knots (never arrows/lines/labels).
 			// Non-sphere drags pin via userData.pinned — RELATIVE pins:
@@ -1632,6 +2542,34 @@
 					jaegerOffset : 1.65
 				}
 			};
+			// Caption placement vector in VIEW space (2026-09-12, owner
+			// item 4): signs sit at camera × vector × signed distance
+			// from their mesh — screen-up by default, so captions hold
+			// their spot on rotation ("captions should always stay on top
+			// on rotation"). Per-caption Shift+drag overrides live in
+			// userData.captionViewOffset
+			this.captionVector = new THREE.Vector3(0, 1, 0);
+			// …and the wheel's distance multiplier for that vector
+			// (2026-09-12 owner review — the sphere radius IS the
+			// distance, captions included)
+			this.captionDist = 1;
+			// Every mesh carrying a sign — the camera watcher re-anchors
+			// them on rotation without a full dynamics pass
+			this.labeledMeshes = [];
+			this.lastCameraQuaternion = new THREE.Quaternion();
+			// Bound-element orientations from the vector-sphere control
+			// (owner item 6): null = canonical placement. diamondOrient =
+			// { quaternion (+X → picked), dir, scale } — shellPoint reads
+			// it LIVE; bagelOrient = { dir, dist } — the wrapper writer
+			// pushes bagels out from their anchor along it; sinkOrient =
+			// { dir, dist in gen-0 radii } — the internals builder and its
+			// re-seat dynamics read it LIVE (2026-09-12, the common
+			// "distance & orientation" group). Jaeger keeps NO orient of
+			// its own — jaegerSeat derives from sinkOrient (owner item 3)
+			this.diamondOrient = null;
+			this.bagelOrient = null;
+			this.sinkOrient = null;
+			this.draggedCaption = null;
 			// Focus animation state (sidebar click → rotate/zoom to node)
 			this.focusAnim = null;
 			this.focusedMesh = null;
@@ -1694,6 +2632,12 @@
 			if (this.panOffset === undefined) this.panOffset = { x: 0, y: 0, z: 0 };
 			this.isPanning = false;
 			this.draggedNode = null;
+			// Shift+drag roll state (2026-09-12 owner item 1): the angle
+			// applied in updateCameraPosition, and the live roll gesture
+			// flag — a Shift+drag that grabbed NO caption rolls the view
+			// instead of panning/node-dragging
+			this.cameraRoll = 0;
+			this.rollingView = false;
 			// Apply the camera position based on restored/default values
 			this.updateCameraPosition();
 
@@ -1749,6 +2693,10 @@
 			this.plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
 
 			canvas.addEventListener('mousedown', (e) => {
+				// Legend drag in progress: the scene must not react (the
+				// early return also keeps propagation alive for the
+				// legend's own handlers)
+				if (legendDragState) return;
 				e.preventDefault();
 				e.stopPropagation();
 				// User grabbed the scene — cancel any running focus animation
@@ -1762,6 +2710,79 @@
 				this.mouseVector.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
 				this.mouseVector.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
 				this.raycaster.setFromCamera(this.mouseVector, this.camera);
+				// Shift+drag moves a single caption (2026-09-12, owner
+				// item 4: "captions must be movable... Shift"). The
+				// override is stored VIEW-relative at drag end, so it
+				// holds its screen spot on rotation like the global
+				// vector. No caption under the cursor → fall through to
+				// the normal scene grab
+				this.draggedCaption = null;
+				if (e.shiftKey) {
+					const sprites = [];
+					this.labeledMeshes.forEach(m => {
+						if (m.userData.label && m.userData.label.visible) {
+							sprites.push(m.userData.label);
+						}
+					});
+					const captionHits = this.raycaster.intersectObjects(sprites, false);
+					// Texel-exact pick (2026-09-12 owner review: "I can
+					// not move exact caption"): the sprite raycast tests
+					// the whole QUAD — transparent margins included — so
+					// the nearest hit is often a NEIGHBOUR whose
+					// invisible edge covers the cursor (CDP probe: 2
+					// quad hits at one caption, the nearer with alpha 0
+					// at the hit UV). The label canvas still lives on
+					// the texture: sample its alpha at the hit UV and
+					// keep the first hit whose painted texel is really
+					// there (alphaTest is 0.5 → 127) — that IS the
+					// caption the user sees under the cursor
+					let sprite = null;
+					for (const hit of captionHits) {
+						const labelCanvas = hit.object.material.map && hit.object.material.map.image;
+						if (!labelCanvas || !hit.uv) { continue; }
+						const px = Math.max(0, Math.min(labelCanvas.width - 1,
+							Math.floor(hit.uv.x * labelCanvas.width)));
+						const py = Math.max(0, Math.min(labelCanvas.height - 1,
+							Math.floor((1 - hit.uv.y) * labelCanvas.height)));
+						const alpha = labelCanvas.getContext('2d').getImageData(px, py, 1, 1).data[3];
+						if (alpha > 127) {
+							sprite = hit.object;
+							break;
+						}
+					}
+					// No painted texel under the cursor at all: the press
+					// aimed at the caption BOX, not the exact glyph pixels
+					// — take the nearest quad (2026-09-12 owner review: "i
+					// just can not move captions by myself" — the glyph
+					// band fills only a strip of the quad, so exact-texel
+					// presses kept missing). Overlaps still resolve
+					// texel-exact above; this fires only when every hit
+					// is transparent at the cursor
+					if (!sprite && captionHits.length > 0) {
+						sprite = captionHits[0].object;
+					}
+					if (sprite) {
+						const ownerMesh = this.labeledMeshes.find(m => m.userData.label === sprite) || null;
+						if (ownerMesh) {
+							this.draggedCaption = { mesh: ownerMesh, sprite };
+							const cameraDirection = new THREE.Vector3();
+							this.camera.getWorldDirection(cameraDirection);
+							const camToSprite = new THREE.Vector3().subVectors(sprite.position, this.camera.position);
+							this.dragPlaneDistance = camToSprite.dot(cameraDirection);
+							canvas.style.cursor = 'move';
+							return;
+						}
+					}
+					// No caption under the cursor: Shift+drag ROLLS the
+					// view (2026-09-12 owner item 1: "when I hold shift so
+					// scene should rotate clockwise/anticlockwise, like
+					// if it'd be 2D so only X/Y of current view") — never
+					// a node drag, never a pan; mousemove turns the swept
+					// angle around the viewport center into cameraRoll
+					this.rollingView = true;
+					canvas.style.cursor = 'grabbing';
+					return;
+				}
 				const intersects = this.raycaster.intersectObjects(this.interactive);
 
 				const dragHit = firstVisibleIntersect(intersects);
@@ -1808,6 +2829,10 @@
 			}, { passive: false });
 
 			canvas.addEventListener('mousemove', (e) => {
+				// Legend drag in progress: any button-held move reads as a
+				// grab-the-world pan here — bail BEFORE stopPropagation so
+				// the event still reaches the legend's handlers
+				if (legendDragState) return;
 				e.preventDefault();
 				e.stopPropagation();
 
@@ -1817,7 +2842,52 @@
 				if (e.buttons === 1 && (Math.abs(dx) > 2 || Math.abs(dy) > 2)) {
 					this.isDragging = true;
 
-					if (this.draggedNode) {
+					if (this.rollingView) {
+						// Roll: the angle the cursor sweeps around the
+						// viewport CENTER becomes camera roll (2026-09-12
+						// owner item 1 — "rotate clockwise/anticlockwise,
+						// like if it'd be 2D so only X/Y of current
+						// view"). Screen atan2 runs clockwise-positive
+						// (y grows down), so a counter-clockwise sweep
+						// yields a negative delta — negate it to make the
+						// world follow the cursor
+						const rect = canvas.getBoundingClientRect();
+						const cx = rect.left + rect.width / 2;
+						const cy = rect.top + rect.height / 2;
+						const a0 = Math.atan2(this.previousMousePosition.y - cy, this.previousMousePosition.x - cx);
+						const a1 = Math.atan2(e.clientY - cy, e.clientX - cx);
+						const TWO_PI = Math.PI * 2;
+						const sweep = ((a1 - a0 + Math.PI) % TWO_PI + TWO_PI) % TWO_PI - Math.PI;
+						this.cameraRoll -= sweep;
+						this.updateCameraPosition();
+					} else if (this.draggedCaption) {
+						// Move the caption on its fixed-depth plane (the
+						// node-drag plane trick); the override lands in
+						// userData only at drag END
+						const rect = canvas.getBoundingClientRect();
+						this.mouseVector.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+						this.mouseVector.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+						this.raycaster.setFromCamera(this.mouseVector, this.camera);
+						const cameraDirection = new THREE.Vector3();
+						this.camera.getWorldDirection(cameraDirection);
+						const planePoint = this.camera.position.clone().add(
+							cameraDirection.clone().multiplyScalar(this.dragPlaneDistance)
+						);
+						const dragPlane = new THREE.Plane();
+						dragPlane.setFromNormalAndCoplanarPoint(cameraDirection, planePoint);
+						const target = new THREE.Vector3();
+						this.raycaster.ray.intersectPlane(dragPlane, target);
+						if (target) {
+							this.draggedCaption.sprite.position.copy(target);
+							const leader = this.draggedCaption.mesh.userData.leader;
+							if (leader) {
+								const positions = leader.geometry.attributes.position;
+								positions.setXYZ(1, target.x, target.y, target.z);
+								positions.needsUpdate = true;
+							}
+							this.needsRender = true;
+						}
+					} else if (this.draggedNode) {
 						// Stop simulation completely during drag
 						if (this.simulation) {
 							this.simulation.stop();
@@ -1882,26 +2952,20 @@
 							this.updateLabelPosition(this.draggedNode);
 						}
 					} else if (e.ctrlKey) {
-						// Ctrl+drag: rotate camera around center.
-						// No latitude clamp: full over-pole tumble. camera.up
-						// flips in updateCameraPosition past the poles, so the
-						// roll stays continuous (no 180° snap at the pole).
-						// Wrapped into [-π, π] to keep the numbers small.
-						this.cameraRotation.y += dx * 0.002;
-						this.cameraRotation.x += dy * 0.002;
-						const TWO_PI = Math.PI * 2;
-						this.cameraRotation.x = ((this.cameraRotation.x + Math.PI) % TWO_PI + TWO_PI) % TWO_PI - Math.PI;
-						this.updateCameraPosition();
-					} else {
-						// Regular drag: grab-the-world pan (2026-09-05 owner
-						// review: "when I drag left it should drag the central
-						// sphere to the left the same distance"). The point
-						// under the cursor stays under the cursor: translate
-						// the orbit center along the camera's OWN right/up
-						// axes by cursor-delta × world-units-per-pixel at the
-						// target distance (camera↔lookAt = this.zoom). The old
-						// axis-aligned pan (zoom×0.0003) was ~¼ grab speed and
-						// went wrong-directioned under rotation
+						// Ctrl+drag: grab-the-world pan. BINDINGS INVERTED
+						// 2026-09-12 (owner review: "when held mouse cursor
+						// should move graph, when not it should rotate") —
+						// rotation became the plain-drag default, the pan
+						// moved to Ctrl. Pan mechanics unchanged (2026-09-05
+						// owner review: "when I drag left it should drag
+						// the central sphere to the left the same
+						// distance"): the point under the cursor stays
+						// under the cursor — translate the orbit center
+						// along the camera's OWN right/up axes by
+						// cursor-delta × world-units-per-pixel at the
+						// target distance (camera↔lookAt = this.zoom). The
+						// old axis-aligned pan (zoom×0.0003) ran at ~¼ grab
+						// speed and went wrong-directioned under rotation
 						this.camera.updateMatrixWorld();
 						const rect = canvas.getBoundingClientRect();
 						const wpp = 2 * this.zoom
@@ -1913,6 +2977,19 @@
 						this.panOffset.y += (-dx * right.y + dy * up.y) * wpp;
 						this.panOffset.z = (this.panOffset.z || 0) + (-dx * right.z + dy * up.z) * wpp;
 						this.updateCameraPosition();
+					} else {
+						// Plain drag: rotate camera around center (bindings
+						// inverted 2026-09-12, owner review — only the
+						// modifier changed). No latitude clamp: full
+						// over-pole tumble. camera.up flips in
+						// updateCameraPosition past the poles, so the roll
+						// stays continuous (no 180° snap at the pole).
+						// Wrapped into [-π, π] to keep the numbers small.
+						this.cameraRotation.y += dx * 0.002;
+						this.cameraRotation.x += dy * 0.002;
+						const TWO_PI = Math.PI * 2;
+						this.cameraRotation.x = ((this.cameraRotation.x + Math.PI) % TWO_PI + TWO_PI) % TWO_PI - Math.PI;
+						this.updateCameraPosition();
 					}
 				}
 
@@ -1921,10 +2998,36 @@
 			}, { passive: false });
 
 			canvas.addEventListener('mouseup', (e) => {
+				// Legend drag in progress: let the release reach the
+				// legend's pointerup path instead of ending a scene drag
+				// that never started
+				if (legendDragState) return;
 				e.preventDefault();
 				e.stopPropagation();
 				canvas.style.cursor = 'grab';
-	
+				// A roll gesture ends here (2026-09-12 owner item 1) —
+				// set by a Shift+mousedown that grabbed no caption
+				this.rollingView = false;
+
+				if (this.draggedCaption) {
+					// The override is VIEW-relative — q⁻¹ × (sprite −
+					// mesh) — so it holds its screen spot on rotation
+					// like the global vector (2026-09-12, owner item 4)
+					const { mesh, sprite } = this.draggedCaption;
+					const inverse = this.camera.quaternion.clone().invert();
+					const offset = new THREE.Vector3()
+						.subVectors(sprite.position, mesh.position)
+						.applyQuaternion(inverse);
+					mesh.userData.captionViewOffset = offset;
+					const key = this.captionOverrideKey(mesh);
+					if (key) {
+						sessionCaptionOverrides[key] = { x: offset.x, y: offset.y, z: offset.z };
+					}
+					this.draggedCaption = null;
+					this.needsRender = true;
+					return;
+				}
+
 				if (this.draggedNode) {
 					// Keep node position fixed, don't restart simulation
 					const node = this.draggedNode.userData.node;
@@ -2084,6 +3187,16 @@
 			// over-pole tumble stays roll-continuous instead of snapping
 			// 180° at the pole. Must precede lookAt — lookAt reads `up`.
 			this.camera.up.set(0, Math.cos(this.cameraRotation.x) >= 0 ? 1 : -1, 0);
+			// Shift+drag ROLL (2026-09-12 owner review: "when I hold shift
+			// so scene should rotate clockwise/anticlockwise, like if it'd
+			// be 2D so only X/Y of current view"): spin the up vector
+			// around the view axis — a pure screen-plane rotation layered
+			// over the tumble
+			if (this.cameraRoll) {
+				const viewAxis = new THREE.Vector3(
+					this.panOffset.x - x, this.panOffset.y - y, panZ - z).normalize();
+				this.camera.up.applyAxisAngle(viewAxis, this.cameraRoll);
+			}
 			this.camera.position.set(x, y, z);
 			this.camera.lookAt(this.panOffset.x, this.panOffset.y, panZ);
 			// Every camera mutation funnels here (rotate/pan/wheel/zoom/
@@ -2108,56 +3221,39 @@
 			const node = mesh.userData.node;
 			const pos = mesh.position;
 
-			// Rotation target: align the view with the chain direction
-			// (parent → node) so the arrow-sphere line faces the viewer.
-			// Roots keep the current rotation — nothing to align to.
+			// Rotation target: FACE the item from the outside (owner
+			// rule 2026-09-11: "central point should be directed in
+			// distance and item should be in focus"). The camera ends
+			// on the center→item ray BEYOND the sphere, looking
+			// inward — the item is the foreground and the graph
+			// center reads behind it in the distance. The
+			// chain-aligned alternative (parent→node direction
+			// rotated ~80° off-axis, Rodrigues) was tried and
+			// rejected: the approach direction depended on chain
+			// geometry, so a tree click could fly the camera INTO
+			// the graph and face the item's inner side. From the
+			// outside the parent sits behind the item anyway, which
+			// is exactly the requested reading; outer-shell children
+			// may still block the ray — pickClearView steps around
+			// them.
 			let targetRotX = this.cameraRotation.x;
 			let targetRotY = this.cameraRotation.y;
 			const parentMesh = node && node.parent ? this.nodeMeshes.get(node.parent.id) : null;
-			if (parentMesh) {
-				const pp = parentMesh.position;
-				const dx = pos.x - pp.x;
-				const dy = pos.y - pp.y;
-				const dz = pos.z - pp.z;
-				const len = Math.sqrt(dx * dx + dy * dy + dz * dz);
-				if (len > 0.0001) {
-					const dirX = dx / len;
-					const dirY = dy / len;
-					const dirZ = dz / len;
-					// Do NOT look straight down the chain axis: the branch
-					// nodes stack one behind another and the zoomed sphere
-					// occludes its parent. Rotate the view ~80° off-axis
-					// (Rodrigues around the chain's perpendicular) so the
-					// branch spreads across the frame instead.
-					const up = Math.abs(dirY) > 0.95
-						? { x: 1, y: 0, z: 0 }
-						: { x: 0, y: 1, z: 0 };
-					// axis = normalize(cross(dir, up))
-					let axisX = dirY * up.z - dirZ * up.y;
-					let axisY = dirZ * up.x - dirX * up.z;
-					let axisZ = dirX * up.y - dirY * up.x;
-					const axisLen = Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
-					axisX /= axisLen;
-					axisY /= axisLen;
-					axisZ /= axisLen;
-					const theta = 80 * Math.PI / 180;
-					const cosT = Math.cos(theta);
-					const sinT = Math.sin(theta);
-					// cross(axis, dir) for the Rodrigues rotation
-					const crossX = axisY * dirZ - axisZ * dirY;
-					const crossY = axisZ * dirX - axisX * dirZ;
-					const crossZ = axisX * dirY - axisY * dirX;
-					const viewX = dirX * cosT + crossX * sinT;
-					const viewY = dirY * cosT + crossY * sinT;
-					const viewZ = dirZ * cosT + crossZ * sinT;
-					// camera sits at node − view·zoom, looking along view
-					targetRotX = Math.asin(Math.max(-1, Math.min(1, -viewY)));
-					targetRotY = Math.atan2(-viewX, -viewZ);
-					// Focus targets stay in the upright band (ctrl+drag
-					// allows over-pole tumbling, but a programmatic focus
-					// should always land right-side up)
-					targetRotX = Math.max(-Math.PI / 2 + 0.1, Math.min(Math.PI / 2 - 0.1, targetRotX));
-				}
+			const radialLen = Math.sqrt(pos.x * pos.x + pos.y * pos.y + pos.z * pos.z);
+			if (radialLen > 0.0001) {
+				// The camera offset direction (orbit center → camera)
+				// is the item's own radial; updateCameraPosition's
+				// spherical map inverts as rotX = asin(d.y),
+				// rotY = atan2(d.x, d.z)
+				const dirX = pos.x / radialLen;
+				const dirY = pos.y / radialLen;
+				const dirZ = pos.z / radialLen;
+				targetRotX = Math.asin(Math.max(-1, Math.min(1, dirY)));
+				targetRotY = Math.atan2(dirX, dirZ);
+				// Focus targets stay in the upright band (ctrl+drag
+				// allows over-pole tumbling, but a programmatic focus
+				// should always land right-side up)
+				targetRotX = Math.max(-Math.PI / 2 + 0.1, Math.min(Math.PI / 2 - 0.1, targetRotX));
 			}
 
 			// Adaptive zoom: fit the node's neighborhood (parent,
@@ -3051,6 +4147,12 @@
 		 * 3. Center marker at origin
 		 */
 		renderGraph(data) {
+			// Per-generation visibility (2026-09-12 owner request): hidden
+			// generations and everything hanging off them filter out HERE,
+			// at the single choke point every section flows through — the
+			// panel checkboxes re-run this whole method to apply
+			data = filterHiddenGenerations(data);
+
 			// Snapshot user-placed elements BEFORE clear() disposes them,
 			// so a knob-driven relayout restores CURRENT positions instead
 			// of the initial layout (2026-09-05 review: "increase/decrease
@@ -3534,6 +4636,47 @@
 				nodes[node.id] = { x: node.x3d, y: node.y3d, z: node.z3d };
 			});
 			const pins = this.snapshotPins();
+			// The vector-sphere control's state (2026-09-12, owner items
+			// 4+6): caption vector + per-caption Shift-drag overrides +
+			// diamond/bagel/sink/jaeger orients — arrangement is more
+			// than positions
+			const captionOverrides = {};
+			this.labeledMeshes.forEach(mesh => {
+				if (!mesh.userData.captionViewOffset) { return; }
+				const key = this.captionOverrideKey(mesh);
+				if (!key) { return; }
+				const v = mesh.userData.captionViewOffset;
+				captionOverrides[key] = { x: v.x, y: v.y, z: v.z };
+			});
+			const orient = {
+				captions         : {
+					x    : this.captionVector.x,
+					y    : this.captionVector.y,
+					z    : this.captionVector.z,
+					dist : this.captionDist
+				},
+				captionOverrides : captionOverrides,
+				diamonds         : this.diamondOrient
+					? {
+						dir   : { x: this.diamondOrient.dir.x, y: this.diamondOrient.dir.y, z: this.diamondOrient.dir.z },
+						scale : this.diamondOrient.scale
+					}
+					: null,
+				bagels           : this.bagelOrient
+					? {
+						dir  : { x: this.bagelOrient.dir.x, y: this.bagelOrient.dir.y, z: this.bagelOrient.dir.z },
+						dist : this.bagelOrient.dist
+					}
+					: null,
+				sinks            : this.sinkOrient
+					? {
+						dir  : { x: this.sinkOrient.dir.x, y: this.sinkOrient.dir.y, z: this.sinkOrient.dir.z },
+						dist : this.sinkOrient.dist
+					}
+					: null
+				// NO jaeger key (2026-09-12 owner item 3): the cone rides
+				// the sinks orient — nothing of its own to persist
+			};
 			const layout = {
 				version : 1,
 				savedAt : new Date().toISOString(),
@@ -3543,7 +4686,8 @@
 					cameraRotation : { ...this.cameraRotation },
 					zoom           : this.zoom,
 					panOffset      : { ...this.panOffset }
-				}
+				},
+				orient  : orient
 			};
 			return layout;
 		}
@@ -3576,6 +4720,38 @@
 			this.wrapperMeshes.forEach(m => applyMesh(m, m.userData.wrapperNode && m.userData.wrapperNode.id));
 			this.internalsMeshes.forEach(m => applyMesh(m, m.userData.internalNode && m.userData.internalNode.id));
 			this.updateLinkPositions();
+		}
+
+		/**
+		 * The session/save key a captioned mesh answers to (2026-09-12,
+		 * owner item 4): type spheres by node id (the typePath), the rest
+		 * by their payload node id — mirrors snapshotPins keying
+		 */
+		captionOverrideKey(mesh) {
+			const userData = mesh.userData;
+			if (userData.node && userData.node.id) { return userData.node.id; }
+			if (userData.creationNode && userData.creationNode.id) { return userData.creationNode.id; }
+			if (userData.wrapperNode && userData.wrapperNode.id) { return userData.wrapperNode.id; }
+			if (userData.internalNode && userData.internalNode.id) { return userData.internalNode.id; }
+			return null;
+		}
+
+		/**
+		 * Re-apply per-caption Shift-drag overrides after a fresh render —
+		 * the VIEW-relative offsets land on the rebuilt meshes and the
+		 * signs re-seat immediately (owner item 4: "captions must be
+		 * movable... Shift")
+		 */
+		applyCaptionOverrides(overrides) {
+			if (!overrides) { return; }
+			this.labeledMeshes.forEach(mesh => {
+				const key = this.captionOverrideKey(mesh);
+				const saved = key ? overrides[key] : undefined;
+				if (!saved) { return; }
+				mesh.userData.captionViewOffset = new THREE.Vector3(saved.x, saved.y, saved.z);
+				this.updateLabelPosition(mesh);
+			});
+			this.needsRender = true;
 		}
 
 		/**
@@ -3804,11 +4980,203 @@
 			}
 			const visible = !this.typesGroup || this.typesGroup.visible;
 			this.centerMarker.visible = visible;
+			// The marker's caption obeys BOTH masters: the types layer
+			// toggle and the global captions flag (2026-09-11)
+			const captionVisible = visible && this.captionsVisible;
 			if (this.centerMarker.userData.label) {
-				this.centerMarker.userData.label.visible = visible;
+				this.centerMarker.userData.label.visible = captionVisible;
 			}
 			if (this.centerMarker.userData.leader) {
-				this.centerMarker.userData.leader.visible = visible;
+				this.centerMarker.userData.leader.visible = captionVisible;
+			}
+		}
+
+		/**
+		 * Second-pass de-collision for the creation layer (2026-09-12 owner
+		 * review: "spheres are 100% fully overlapping each other ... that
+		 * just should not happen ... there must be uncollidable distance on
+		 * initial render — a second-pass of recalculation which sees
+		 * oversettled points and split/divide/stretch placements so no
+		 * collision happens"). The first pass maps (upstream starter,
+		 * downstream holder, t) to a point, which is NOT injective:
+		 * DI-symmetric chains — every feature module the same hop count
+		 * from the same starter to the same shared holder — collapse onto
+		 * identical coordinates, and placeOnSphere's index 0 is the north
+		 * pole for ANY ring total, so same-ring starter/fallback groups
+		 * stack there. This pass fans exact piles onto mini Fibonacci
+		 * shells, then relaxes near-misses out to minSep.
+		 * FIXED obstacles: the creation center, holder diamonds (their
+		 * shell seats are semantic), the maroon collection marker, and
+		 * every pinned mesh (user authority — a node being DRAGGED is
+		 * pinned, so the crowd yields to the cursor, never the drag).
+		 * Runs inside the creation dynamics writer so live re-seats
+		 * (type-sphere drags) re-converge the same spread.
+		 */
+		decollideCreationLayer(centerId, holderRecords, nodeRadius) {
+			const minSep = nodeRadius;
+			const movable = [];
+			const obstacles = [];
+			this.creationMeshById.forEach((mesh, id) => {
+				if (id === centerId || holderRecords.has(id) || mesh.userData.pinned) {
+					obstacles.push(mesh);
+					return;
+				}
+				movable.push(mesh);
+			});
+			if (this.centerMarker) {
+				obstacles.push(this.centerMarker);
+			}
+			if (movable.length === 0) {
+				return;
+			}
+
+			const goldenAngle = Math.PI * (3 - Math.sqrt(5));
+			const cellOf = (v) => Math.floor(v / minSep);
+			// Neighbor pairs within maxDist via a 27-cell stencil of a
+			// uniform grid (cell = maxDist); cb(i, j, distSq), j > i
+			const forEachNearPair = (meshes, maxDist, cb) => {
+				const grid = new Map();
+				meshes.forEach((mesh, i) => {
+					const key = cellOf(mesh.position.x) + ',' + cellOf(mesh.position.y) + ',' + cellOf(mesh.position.z);
+					if (!grid.has(key)) { grid.set(key, []); }
+					grid.get(key).push(i);
+				});
+				const maxDistSq = maxDist * maxDist;
+				meshes.forEach((mesh, i) => {
+					const cx = cellOf(mesh.position.x);
+					const cy = cellOf(mesh.position.y);
+					const cz = cellOf(mesh.position.z);
+					for (let dx = -1; dx <= 1; dx++) {
+						for (let dy = -1; dy <= 1; dy++) {
+							for (let dz = -1; dz <= 1; dz++) {
+								const cell = grid.get((cx + dx) + ',' + (cy + dy) + ',' + (cz + dz));
+								if (!cell) { continue; }
+								cell.forEach(j => {
+									if (j <= i) { return; }
+									const other = meshes[j];
+									const ddx = other.position.x - mesh.position.x;
+									const ddy = other.position.y - mesh.position.y;
+									const ddz = other.position.z - mesh.position.z;
+									const distSq = ddx * ddx + ddy * ddy + ddz * ddz;
+									if (distSq < maxDistSq) {
+										cb(i, j, distSq);
+									}
+								});
+							}
+						}
+					}
+				});
+			};
+
+			let moved = false;
+
+			// Pass 1 — fan EXACT piles: union-find over near-zero distances,
+			// then spread each pile on a mini Fibonacci shell around its
+			// centroid (relaxation alone has no push direction for a
+			// perfectly symmetric pile)
+			const eps = minSep * 0.02;
+			const parent = movable.map((mesh, i) => i);
+			const findRoot = (i) => {
+				let root = i;
+				while (parent[root] !== root) { root = parent[root]; }
+				while (parent[i] !== root) {
+					const next = parent[i];
+					parent[i] = root;
+					i = next;
+				}
+				return root;
+			};
+			forEachNearPair(movable, eps, (i, j) => {
+				const ri = findRoot(i);
+				const rj = findRoot(j);
+				if (ri !== rj) { parent[ri] = rj; }
+			});
+			const piles = new Map();
+			movable.forEach((mesh, i) => {
+				const root = findRoot(i);
+				if (!piles.has(root)) { piles.set(root, []); }
+				piles.get(root).push(i);
+			});
+			piles.forEach(members => {
+				if (members.length < 2) { return; }
+				let cx = 0;
+				let cy = 0;
+				let cz = 0;
+				members.forEach(i => {
+					cx += movable[i].position.x;
+					cy += movable[i].position.y;
+					cz += movable[i].position.z;
+				});
+				cx /= members.length;
+				cy /= members.length;
+				cz /= members.length;
+				const fanRadius = minSep * Math.max(1, Math.sqrt(members.length) / 2);
+				members.forEach((mi, k) => {
+					const y = 1 - (k / (members.length - 1)) * 2;
+					const radiusAtY = Math.sqrt(Math.max(0, 1 - y * y));
+					const theta = goldenAngle * k;
+					movable[mi].position.set(
+						cx + fanRadius * radiusAtY * Math.cos(theta),
+						cy + fanRadius * y,
+						cz + fanRadius * radiusAtY * Math.sin(theta)
+					);
+				});
+				moved = true;
+			});
+
+			// Pass 2 — relax near-misses out to minSep. Gauss-Seidel in
+			// fixed build order: deterministic across updates, so a live
+			// re-seat reproduces the same spread. Movable/movable pairs
+			// split the push; an obstacle's pair partner takes it all
+			const combined = movable.concat(obstacles);
+			const movableCount = movable.length;
+			for (let iter = 0; iter < 6; iter++) {
+				let iterMoved = false;
+				forEachNearPair(combined, minSep, (i, j, distSq) => {
+					const a = combined[i];
+					const b = combined[j];
+					const aMovable = i < movableCount;
+					const bMovable = j < movableCount;
+					if (!aMovable && !bMovable) { return; }
+					const dist = Math.sqrt(distSq);
+					let dx;
+					let dy;
+					let dz;
+					if (dist < 1e-6) {
+						// Zero-length pair (movable exactly ON an obstacle):
+						// no natural push direction — pick a deterministic
+						// one from the golden angle by index
+						const theta = goldenAngle * (i + 1);
+						dx = Math.cos(theta);
+						dy = 0;
+						dz = Math.sin(theta);
+					} else {
+						dx = (a.position.x - b.position.x) / dist;
+						dy = (a.position.y - b.position.y) / dist;
+						dz = (a.position.z - b.position.z) / dist;
+					}
+					const overlap = minSep - dist;
+					const aShare = aMovable ? (bMovable ? 0.5 : 1) : 0;
+					const bShare = bMovable ? (aMovable ? 0.5 : 1) : 0;
+					if (aMovable) {
+						a.position.x += dx * overlap * aShare;
+						a.position.y += dy * overlap * aShare;
+						a.position.z += dz * overlap * aShare;
+					}
+					if (bMovable) {
+						b.position.x -= dx * overlap * bShare;
+						b.position.y -= dy * overlap * bShare;
+						b.position.z -= dz * overlap * bShare;
+					}
+					iterMoved = true;
+				});
+				if (!iterMoved) { break; }
+				moved = true;
+			}
+
+			if (moved) {
+				movable.forEach(mesh => this.updateLabelPosition(mesh));
+				this.needsRender = true;
 			}
 		}
 
@@ -4008,10 +5376,22 @@
 			const SHELL_FACTOR = this.layerDistances.creation.holderShell;
 			const shellPoint = (entry) => {
 				const typeNode = entry.typeNode;
+				// The vector-sphere orient (2026-09-12, owner item 6):
+				// every shell direction rotates rigidly around the bound
+				// sphere — the co-holder Fibonacci spread keeps its
+				// shape — and the wheel stretches the ring. Read LIVE:
+				// the creation dynamics writer re-seats through this
+				// same helper, no rebuild needed
+				let dir = entry.dir;
+				let factor = SHELL_FACTOR;
+				if (this.diamondOrient) {
+					dir = dir.clone().applyQuaternion(this.diamondOrient.quaternion);
+					factor = SHELL_FACTOR * this.diamondOrient.scale;
+				}
 				const result = new THREE.Vector3(
-					(typeNode.x || 0) + entry.dir.x * nodeRadius * SHELL_FACTOR,
-					(typeNode.y || 0) + entry.dir.y * nodeRadius * SHELL_FACTOR,
-					(typeNode.z || 0) + entry.dir.z * nodeRadius * SHELL_FACTOR
+					(typeNode.x || 0) + dir.x * nodeRadius * factor,
+					(typeNode.y || 0) + dir.y * nodeRadius * factor,
+					(typeNode.z || 0) + dir.z * nodeRadius * factor
 				);
 				return result;
 			};
@@ -4245,6 +5625,17 @@
 					} else {
 						record.mesh.position.copy(shellPoint(primary));
 					}
+					// The orient control re-aims the octahedron vertex,
+					// not just the seat (2026-09-12, owner item 6 —
+					// "where their arrows oriented to sphere"): pinned
+					// diamonds keep the user's placement but still FACE
+					// honestly
+					if (this.diamondOrient) {
+						const oriented = primary.dir.clone()
+							.applyQuaternion(this.diamondOrient.quaternion)
+							.negate();
+						record.mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), oriented);
+					}
 					this.updateLabelPosition(record.mesh);
 					record.connectors.forEach(({ line, entry, arrow }) => {
 						const p = line.geometry.attributes.position.array;
@@ -4295,6 +5686,11 @@
 					);
 					this.updateLabelPosition(record.mesh);
 				});
+				// Second-pass de-collision BEFORE the edges read positions:
+				// fans pile-ups (DI-symmetric chains landing on one point)
+				// and relaxes near-misses, respecting pins (2026-09-12
+				// owner review: fully overlapping spheres must not happen)
+				this.decollideCreationLayer(center ? center.id : null, holderRecords, nodeRadius);
 				const ep = edgeSegments.geometry.attributes.position.array;
 				pairs.forEach((pair, i) => {
 					ep[i * 6] = pair.from.position.x;
@@ -4580,6 +5976,21 @@
 				}
 			};
 
+			// The vector-sphere orient (2026-09-12, owner item 6): bagels
+			// sit OFF their anchor along the picked world direction, at
+			// wheel distance in anchor radii (floored at the encircling 0
+			// — 2026-09-12 owner review "it should not pan negative");
+			// co-located bagels keep their onion step. The ring FACES its
+			// anchor once pushed out (co-centered bagels keep the
+			// golden-angle fan). Ambient bagels anchor to nothing — the
+			// orient does not reach them
+			const pushBagelOut = (record, anchorMesh, anchorRadius) => {
+				const orient = this.bagelOrient;
+				if (!orient || !orient.dist) { return; }
+				const step = 1 + (record.onionK || 0) * diveDist.onionStep;
+				record.mesh.position.addScaledVector(orient.dir, orient.dist * anchorRadius * step);
+				record.mesh.lookAt(anchorMesh.position);
+			};
 			this.wrapperDynamics.push(() => {
 				records.forEach(record => {
 					const { node, mesh, dir } = record;
@@ -4598,8 +6009,10 @@
 						// scope hosts the wrap; ambient hold their slot
 						if (record.creationMesh) {
 							mesh.position.copy(record.creationMesh.position);
+							pushBagelOut(record, record.creationMesh, nodeRadius * 0.55);
 						} else if (record.typeMesh) {
 							mesh.position.copy(record.typeMesh.position);
+							pushBagelOut(record, record.typeMesh, nodeRadius);
 						} else {
 							mesh.position.copy(dir).multiplyScalar(ambientRadius(node.generation));
 						}
@@ -4765,23 +6178,72 @@
 			// Terminal zone is DETERMINISTIC and NEAR (2026-09-04 review):
 			// just outside the gen-0 shell on the LEFT, the Jaeger cone
 			// leftmost, the adapter sinks in a tight vertical stack right
-			// of it — close enough to read together with the ring.
-			// Offsets are panel knobs (Layers & Distances → dive ◯)
-			const sinkOffset = this.layerDistances.dive.sinkOffset;
-			const jaegerOffset = this.layerDistances.dive.jaegerOffset;
+			// of it — close enough to read together with the ring. The
+			// vector-sphere orients (2026-09-12, the common "distance &
+			// orientation" group) re-aim that zone: dir is the zone's
+			// direction off the origin, dist its reach in gen-0 radii; the
+			// stack spreads along the world-up component perpendicular to
+			// dir. Read LIVE through the re-seat dynamics below, so the
+			// control applies without a rebuild — the shellPoint precedent
+			const zoneAxis = (dir) => {
+				const axis = new THREE.Vector3(0, 1, 0).addScaledVector(dir, -dir.y);
+				if (axis.lengthSq() < 1e-9) {
+					axis.set(0, 0, 1).addScaledVector(dir, -dir.z);
+				}
+				const result = axis.normalize();
+				return result;
+			};
+			const sinkSeat = (i, count) => {
+				const orient = this.sinkOrient;
+				const dir = orient ? orient.dir : new THREE.Vector3(-1, 0, 0);
+				const dist = orient ? orient.dist : this.layerDistances.dive.sinkOffset;
+				const pos = dir.clone().multiplyScalar(gen0Radius * dist);
+				pos.addScaledVector(zoneAxis(dir), (i - (count - 1) / 2) * gen0Radius * 0.5);
+				return pos;
+			};
+			const jaegerSeat = (i) => {
+				// Jaeger rides the SINKS orient (2026-09-12 owner item 3:
+				// "it should move the same with it's company") — same
+				// zone direction as the stack, reach stretched by the
+				// defaults' ratio so the cone keeps its "leftmost of
+				// all" spot relative to its company
+				const orient = this.sinkOrient;
+				const dir = orient ? orient.dir : new THREE.Vector3(-1, 0, 0);
+				const ratio = this.layerDistances.dive.jaegerOffset / this.layerDistances.dive.sinkOffset;
+				const dist = (orient ? orient.dist : this.layerDistances.dive.sinkOffset) * ratio;
+				const pos = dir.clone().multiplyScalar(gen0Radius * dist);
+				pos.addScaledVector(zoneAxis(dir), i * gen0Radius * 0.5);
+				return pos;
+			};
 			const sinkNodes = internals.nodes.filter(n => n.role === 'sink');
 			sinkNodes.forEach((node, i) => {
-				const pos = {
-					x: -gen0Radius * sinkOffset,
-					y: (i - (sinkNodes.length - 1) / 2) * gen0Radius * 0.5,
-					z: 0
-				};
-				placeKnot(node, pos);
+				placeKnot(node, sinkSeat(i, sinkNodes.length));
 			});
 			const externalNodes = internals.nodes.filter(n => n.role === 'external');
 			externalNodes.forEach((node, i) => {
-				const pos = { x: -gen0Radius * jaegerOffset, y: i * gen0Radius * 0.5, z: 0 };
-				placeKnot(node, pos);
+				placeKnot(node, jaegerSeat(i));
+			});
+
+			// Re-seat UNPINNED sinks/cones from the live orients — the
+			// vector-sphere control applies without a rebuild (2026-09-12).
+			// Must run BEFORE the pinned-follow writer below: pinned sinks
+			// read their anchor cone's fresh position — and both run before
+			// writeSinks (the sink edges read live positions)
+			this.internalsDynamics.push(() => {
+				const sinks = sinkNodes.map(n => this.internalsMeshById.get(n.id)).filter(Boolean);
+				sinks.forEach((mesh, i) => {
+					if (mesh.userData.pinned) { return; }
+					const seat = sinkSeat(i, sinks.length);
+					mesh.position.copy(seat);
+					this.updateLabelPosition(mesh);
+				});
+				const externals = externalNodes.map(n => this.internalsMeshById.get(n.id)).filter(Boolean);
+				externals.forEach((mesh, i) => {
+					if (mesh.userData.pinned) { return; }
+					const seat = jaegerSeat(i);
+					mesh.position.copy(seat);
+					this.updateLabelPosition(mesh);
+				});
 			});
 
 			// Sinks pin RELATIVE to the Jaeger cone (2026-09-05 owner
@@ -4937,7 +6399,10 @@
 
 		addLabel(mesh, text, scale = 1) {
 			const canvas = document.createElement('canvas');
-			const ctx = canvas.getContext('2d');
+			// willReadFrequently: the Shift+drag caption pick samples this
+			// canvas's alpha at the raycast hit UV (texel-exact grab,
+			// 2026-09-12) — keep it CPU-backed
+			const ctx = canvas.getContext('2d', { willReadFrequently: true });
 			canvas.width = 1024;
 			canvas.height = 256;
 
@@ -4970,8 +6435,6 @@
 			const sprite = new THREE.Sprite(spriteMaterial);
 			// Drawn after every sphere
 			sprite.renderOrder = 999;
-			// Position sprite in world space above the node
-			sprite.position.set(mesh.position.x, mesh.position.y + 35 * scale, mesh.position.z);
 			sprite.scale.set(100 * scale, 25 * scale, 1);
 
 			// Store sprite reference on mesh for updates (labelScale lets
@@ -4979,6 +6442,11 @@
 			mesh.userData.label = sprite;
 			mesh.userData.labelScale = scale;
 			this.scene.add(sprite);
+			// The sign rides the caption vector (VIEW space) from birth —
+			// 2026-09-12 owner item 4: screen-up by default, steady on
+			// rotation; labeledMeshes feeds the camera watcher
+			this.labeledMeshes.push(mesh);
+			this.updateLabelPosition(mesh);
 
 			// Every sign gets a leader line back to what it signs — when
 			// labels outrun their mesh (dense clusters) the connection
@@ -4993,6 +6461,10 @@
 			]), 3));
 			const leader = new THREE.Line(leaderGeometry, this.leaderMaterial);
 			leader.renderOrder = 998;
+			// Both sign and leader honor the captions flag from birth —
+			// the toggle never fights a rebuild (2026-09-11)
+			sprite.visible = this.captionsVisible;
+			leader.visible = this.captionsVisible;
 			mesh.userData.leader = leader;
 			this.leaderLines.push(leader);
 			this.scene.add(leader);
@@ -5002,10 +6474,28 @@
 			if (mesh.userData.label) {
 				const label = mesh.userData.label;
 				const scale = mesh.userData.labelScale || 1;
-				const offsetY = mesh.userData.labelOffsetY !== undefined ? mesh.userData.labelOffsetY : 35 * scale;
-				label.position.x = mesh.position.x;
-				label.position.y = mesh.position.y + offsetY;
-				label.position.z = mesh.position.z;
+				// VIEW-relative placement (2026-09-12, owner item 4): the
+				// offset is the caption vector rotated by the LIVE camera,
+				// so signs hold their screen spot on rotation. labelOffsetY
+				// keeps its meaning as a SIGNED distance along the vector —
+				// alternation and bagel onion steps ride the sign; a
+				// Shift-drag override (captionViewOffset) carries its own
+				// direction AND distance, still view-relative
+				const world = this.captionScratch || (this.captionScratch = new THREE.Vector3());
+				if (mesh.userData.captionViewOffset) {
+					world.copy(mesh.userData.captionViewOffset).applyQuaternion(this.camera.quaternion);
+				} else {
+					// captionDist: the wheel's multiplier from the
+					// vector-sphere control (×1.00 default)
+					const signed = (mesh.userData.labelOffsetY !== undefined ? mesh.userData.labelOffsetY : 35 * scale)
+						* this.captionDist;
+					world.copy(this.captionVector).applyQuaternion(this.camera.quaternion).multiplyScalar(signed);
+				}
+				label.position.set(
+					mesh.position.x + world.x,
+					mesh.position.y + world.y,
+					mesh.position.z + world.z
+				);
 			}
 			if (mesh.userData.leader) {
 				const positions = mesh.userData.leader.geometry.attributes.position;
@@ -5014,6 +6504,26 @@
 				positions.setXYZ(1, anchor.x, anchor.y, anchor.z);
 				positions.needsUpdate = true;
 			}
+		}
+
+		// Global captions on/off (owner review 2026-09-11). Flips every
+		// live sign + leader; addLabel applies the flag at birth, so the
+		// state survives renderGraph rebuilds. The center marker goes
+		// through updateCenterMarkerVisibility — its label ANDs this
+		// flag with the types-layer visibility
+		setCaptionsVisible(visible) {
+			this.captionsVisible = visible;
+			const applyTo = (mesh) => {
+				if (!mesh) { return; }
+				if (mesh.userData.label) { mesh.userData.label.visible = visible; }
+				if (mesh.userData.leader) { mesh.userData.leader.visible = visible; }
+			};
+			this.nodeMeshes.forEach(applyTo);
+			this.creationMeshes.forEach(applyTo);
+			this.wrapperMeshes.forEach(applyTo);
+			this.internalsMeshes.forEach(applyTo);
+			this.updateCenterMarkerVisibility();
+			this.needsRender = true;
 		}
 
 		zoomIn() {
@@ -5046,6 +6556,14 @@
 
 		animate() {
 			this.animationId = requestAnimationFrame(() => this.animate());
+			// Captions are VIEW-relative (2026-09-12, owner item 4): a
+			// camera move re-anchors every sign straight from the vector —
+			// no dynamics pass, just the quaternion watch
+			if (!this.camera.quaternion.equals(this.lastCameraQuaternion)) {
+				this.lastCameraQuaternion.copy(this.camera.quaternion);
+				this.labeledMeshes.forEach(m => this.updateLabelPosition(m));
+				this.needsRender = true;
+			}
 			// Render-on-demand gate: paint only when something changed.
 			// The "was" snapshot matters — the updaters below can END an
 			// animation on this very tick (last flash decayed, focus anim
@@ -5094,6 +6612,11 @@
 				mesh.material.dispose();
 			});
 			this.nodeMeshes.clear();
+			// The label census and any half-finished caption drag die with
+			// the meshes — the session override map re-seats them after
+			// the rebuild (2026-09-12, owner item 4)
+			this.labeledMeshes = [];
+			this.draggedCaption = null;
 
 			this.linkLines.forEach(({ line, arrow }) => {
 				if (line.parent) {

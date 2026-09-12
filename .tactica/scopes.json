@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-09-09T09:33:46.590Z",
+  "generatedAt": "2026-09-12T03:08:35.659Z",
   "scopes": {
     "/code/mnemonica/mnemographica/src/topologica/bootstrap.ts": {
       "scopeId": "/code/mnemonica/mnemographica/src/topologica/bootstrap.ts",
@@ -2183,6 +2183,21 @@
       "filePath": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts",
       "location": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:142:2"
     },
+    "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts": {
+      "scopeId": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts",
+      "name": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts",
+      "kind": "module",
+      "filePath": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts",
+      "location": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts:1:1"
+    },
+    "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts:19:1": {
+      "scopeId": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts:19:1",
+      "name": "loadGraphDataFor",
+      "kind": "function",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts",
+      "filePath": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts",
+      "location": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts:19:1"
+    },
     "/code/mnemonica/mnemographica/src/webview/panel.ts": {
       "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts",
       "name": "/code/mnemonica/mnemographica/src/webview/panel.ts",
@@ -2190,165 +2205,221 @@
       "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
       "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:1:1"
     },
-    "/code/mnemonica/mnemographica/src/webview/panel.ts:19:2": {
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:19:2",
+    "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2": {
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2",
       "name": "GraphPanel.createOrShow",
       "kind": "method",
       "parentScopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts",
       "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:19:2"
+      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2"
     },
-    "/code/mnemonica/mnemographica/src/webview/panel.ts:48:2": {
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:48:2",
-      "name": "GraphPanel.updateGraph",
+    "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2": {
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2",
+      "name": "GraphPanel.hasOpenPanel",
       "kind": "method",
       "parentScopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts",
       "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:48:2"
-    },
-    "/code/mnemonica/mnemographica/src/webview/panel.ts:67:2": {
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:67:2",
-      "name": "GraphPanel.focusNode",
-      "kind": "method",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-      "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:67:2"
+      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2"
     },
     "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2": {
       "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2",
-      "name": "GraphPanel.setTraceResolver",
+      "name": "GraphPanel.focusNode",
       "kind": "method",
       "parentScopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts",
       "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
       "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2"
     },
-    "/code/mnemonica/mnemographica/src/webview/panel.ts:108:2": {
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:108:2",
+    "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2": {
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2",
+      "name": "GraphPanel.focusTarget",
+      "kind": "method",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts",
+      "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
+      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2"
+    },
+    "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2": {
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2",
+      "name": "GraphPanel.activeTarget",
+      "kind": "method",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts",
+      "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
+      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2"
+    },
+    "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2": {
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2",
+      "name": "GraphPanel.setTraceResolver",
+      "kind": "method",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts",
+      "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
+      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2"
+    },
+    "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2": {
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2",
       "name": "GraphPanel.openTraceMode",
       "kind": "method",
       "parentScopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts",
       "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:108:2"
+      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2"
     },
-    "/code/mnemonica/mnemographica/src/webview/panel.ts:136:2": {
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:136:2",
+    "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2": {
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2",
       "name": "GraphPanel.replayTrace",
       "kind": "method",
       "parentScopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts",
       "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:136:2"
+      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2"
     },
-    "/code/mnemonica/mnemographica/src/webview/panel.ts:164:2": {
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:164:2",
+    "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2": {
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2",
       "name": "GraphPanel.pushTraceEdges",
       "kind": "method",
       "parentScopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts",
       "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:164:2"
+      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2"
     },
-    "/code/mnemonica/mnemographica/src/webview/panel.ts:201:2": {
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:201:2",
+    "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2": {
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2",
       "name": "GraphPanel.queryViewState",
       "kind": "method",
       "parentScopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts",
       "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:201:2"
+      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2"
     },
-    "/code/mnemonica/mnemographica/src/webview/panel.ts:217:43": {
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:217:43",
-      "name": "/code/mnemonica/mnemographica/src/webview/panel.ts:217",
+    "/code/mnemonica/mnemographica/src/webview/panel.ts:270:43": {
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:270:43",
+      "name": "/code/mnemonica/mnemographica/src/webview/panel.ts:270",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:201:2",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2",
       "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:217:43"
+      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:270:43"
     },
-    "/code/mnemonica/mnemographica/src/webview/panel.ts:218:29": {
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:218:29",
-      "name": "/code/mnemonica/mnemographica/src/webview/panel.ts:218",
+    "/code/mnemonica/mnemographica/src/webview/panel.ts:271:29": {
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:271:29",
+      "name": "/code/mnemonica/mnemographica/src/webview/panel.ts:271",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:217:43",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:270:43",
       "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:218:29"
+      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:271:29"
     },
-    "/code/mnemonica/mnemographica/src/webview/panel.ts:232:2": {
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:232:2",
+    "/code/mnemonica/mnemographica/src/webview/panel.ts:285:2": {
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:285:2",
       "name": "GraphPanel.constructor",
       "kind": "method",
       "parentScopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts",
       "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:232:2"
+      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:285:2"
     },
-    "/code/mnemonica/mnemographica/src/webview/panel.ts:245:4": {
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:245:4",
-      "name": "/code/mnemonica/mnemographica/src/webview/panel.ts:245",
+    "/code/mnemonica/mnemographica/src/webview/panel.ts:300:4": {
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:300:4",
+      "name": "/code/mnemonica/mnemographica/src/webview/panel.ts:300",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:232:2",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:285:2",
       "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:245:4"
+      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:300:4"
     },
-    "/code/mnemonica/mnemographica/src/webview/panel.ts:344:27": {
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:344:27",
-      "name": "/code/mnemonica/mnemographica/src/webview/panel.ts:344",
+    "/code/mnemonica/mnemographica/src/webview/panel.ts:411:4": {
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:411:4",
+      "name": "/code/mnemonica/mnemographica/src/webview/panel.ts:411",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:232:2",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:285:2",
       "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:344:27"
+      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:411:4"
     },
-    "/code/mnemonica/mnemographica/src/webview/panel.ts:347:2": {
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:347:2",
+    "/code/mnemonica/mnemographica/src/webview/panel.ts:420:27": {
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:420:27",
+      "name": "/code/mnemonica/mnemographica/src/webview/panel.ts:420",
+      "kind": "arrow",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:285:2",
+      "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
+      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:420:27"
+    },
+    "/code/mnemonica/mnemographica/src/webview/panel.ts:426:2": {
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:426:2",
+      "name": "GraphPanel.reloadGraph",
+      "kind": "method",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts",
+      "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
+      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:426:2"
+    },
+    "/code/mnemonica/mnemographica/src/webview/panel.ts:435:2": {
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:435:2",
+      "name": "GraphPanel.setFollowTactica",
+      "kind": "method",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts",
+      "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
+      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:435:2"
+    },
+    "/code/mnemonica/mnemographica/src/webview/panel.ts:446:23": {
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:446:23",
+      "name": "/code/mnemonica/mnemographica/src/webview/panel.ts:446",
+      "kind": "arrow",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:435:2",
+      "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
+      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:446:23"
+    },
+    "/code/mnemonica/mnemographica/src/webview/panel.ts:449:23": {
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:449:23",
+      "name": "/code/mnemonica/mnemographica/src/webview/panel.ts:449",
+      "kind": "arrow",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:435:2",
+      "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
+      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:449:23"
+    },
+    "/code/mnemonica/mnemographica/src/webview/panel.ts:455:2": {
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:455:2",
       "name": "GraphPanel.updateGraph",
       "kind": "method",
       "parentScopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts",
       "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:347:2"
+      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:455:2"
     },
-    "/code/mnemonica/mnemographica/src/webview/panel.ts:359:2": {
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:359:2",
+    "/code/mnemonica/mnemographica/src/webview/panel.ts:469:2": {
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:469:2",
       "name": "GraphPanel.getLayoutFilePath",
       "kind": "method",
       "parentScopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts",
       "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:359:2"
+      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:469:2"
     },
-    "/code/mnemonica/mnemographica/src/webview/panel.ts:368:2": {
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:368:2",
+    "/code/mnemonica/mnemographica/src/webview/panel.ts:474:2": {
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:474:2",
       "name": "GraphPanel.readSavedLayout",
       "kind": "method",
       "parentScopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts",
       "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:368:2"
+      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:474:2"
     },
-    "/code/mnemonica/mnemographica/src/webview/panel.ts:382:2": {
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:382:2",
+    "/code/mnemonica/mnemographica/src/webview/panel.ts:488:2": {
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:488:2",
       "name": "GraphPanel.handleSaveLayout",
       "kind": "method",
       "parentScopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts",
       "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:382:2"
+      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:488:2"
     },
-    "/code/mnemonica/mnemographica/src/webview/panel.ts:400:2": {
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:400:2",
+    "/code/mnemonica/mnemographica/src/webview/panel.ts:502:2": {
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:502:2",
       "name": "GraphPanel.handleGoToDefinition",
       "kind": "method",
       "parentScopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts",
       "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:400:2"
+      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:502:2"
     },
-    "/code/mnemonica/mnemographica/src/webview/panel.ts:416:2": {
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:416:2",
+    "/code/mnemonica/mnemographica/src/webview/panel.ts:518:2": {
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:518:2",
       "name": "GraphPanel.getWebviewContent",
       "kind": "method",
       "parentScopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts",
       "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:416:2"
+      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:518:2"
     },
-    "/code/mnemonica/mnemographica/src/webview/panel.ts:486:2": {
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:486:2",
+    "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2": {
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2",
       "name": "GraphPanel.dispose",
       "kind": "method",
       "parentScopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts",
       "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:486:2"
+      "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2"
     },
     "/code/mnemonica/mnemographica/src/strategy/server.ts": {
       "scopeId": "/code/mnemonica/mnemographica/src/strategy/server.ts",
@@ -3321,381 +3392,405 @@
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
       "location": "/code/mnemonica/mnemographica/src/extension.ts:1:1"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:48:1": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
+    "/code/mnemonica/mnemographica/src/extension.ts:49:1": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
       "name": "activate",
       "kind": "function",
       "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:48:1"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:49:1"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:119:71": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:119:71",
-      "name": "/code/mnemonica/mnemographica/src/extension.ts:119",
+    "/code/mnemonica/mnemographica/src/extension.ts:120:71": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:120:71",
+      "name": "/code/mnemonica/mnemographica/src/extension.ts:120",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:119:71"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:120:71"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:131:68": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:131:68",
-      "name": "/code/mnemonica/mnemographica/src/extension.ts:131",
+    "/code/mnemonica/mnemographica/src/extension.ts:132:68": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:132:68",
+      "name": "/code/mnemonica/mnemographica/src/extension.ts:132",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:131:68"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:132:68"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:153:62": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:153:62",
-      "name": "/code/mnemonica/mnemographica/src/extension.ts:153",
+    "/code/mnemonica/mnemographica/src/extension.ts:154:62": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:154:62",
+      "name": "/code/mnemonica/mnemographica/src/extension.ts:154",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:153:62"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:154:62"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:166:68": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:166:68",
-      "name": "/code/mnemonica/mnemographica/src/extension.ts:166",
+    "/code/mnemonica/mnemographica/src/extension.ts:167:68": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:167:68",
+      "name": "/code/mnemonica/mnemographica/src/extension.ts:167",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:166:68"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:167:68"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:178:64": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:178:64",
-      "name": "/code/mnemonica/mnemographica/src/extension.ts:178",
+    "/code/mnemonica/mnemographica/src/extension.ts:179:64": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:179:64",
+      "name": "/code/mnemonica/mnemographica/src/extension.ts:179",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:178:64"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:179:64"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:225:31": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:225:31",
-      "name": "/code/mnemonica/mnemographica/src/extension.ts:225",
+    "/code/mnemonica/mnemographica/src/extension.ts:233:31": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:233:31",
+      "name": "/code/mnemonica/mnemographica/src/extension.ts:233",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:225:31"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:233:31"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:231:12": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:231:12",
+    "/code/mnemonica/mnemographica/src/extension.ts:239:12": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:239:12",
       "name": "dispose",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:231:12"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:239:12"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:253:45": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:253:45",
-      "name": "/code/mnemonica/mnemographica/src/extension.ts:253",
+    "/code/mnemonica/mnemographica/src/extension.ts:261:45": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:261:45",
+      "name": "/code/mnemonica/mnemographica/src/extension.ts:261",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:253:45"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:261:45"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:259:68": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:259:68",
-      "name": "/code/mnemonica/mnemographica/src/extension.ts:259",
+    "/code/mnemonica/mnemographica/src/extension.ts:267:68": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:267:68",
+      "name": "/code/mnemonica/mnemographica/src/extension.ts:267",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:259:68"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:267:68"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:262:70": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:262:70",
-      "name": "/code/mnemonica/mnemographica/src/extension.ts:262",
+    "/code/mnemonica/mnemographica/src/extension.ts:270:70": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:270:70",
+      "name": "/code/mnemonica/mnemographica/src/extension.ts:270",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:262:70"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:270:70"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:265:14": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:265:14",
+    "/code/mnemonica/mnemographica/src/extension.ts:273:14": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:273:14",
       "name": "dispose",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:265:14"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:273:14"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:270:14": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:270:14",
+    "/code/mnemonica/mnemographica/src/extension.ts:278:14": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:278:14",
       "name": "resolve",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:270:14"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:278:14"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:271:19": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:271:19",
+    "/code/mnemonica/mnemographica/src/extension.ts:279:19": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:279:19",
       "name": "resolveByRoot",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:271:19"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:279:19"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:272:14": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:272:14",
+    "/code/mnemonica/mnemographica/src/extension.ts:280:14": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:280:14",
       "name": "continue",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:272:14"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:280:14"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:289:62": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:289:62",
-      "name": "/code/mnemonica/mnemographica/src/extension.ts:289",
+    "/code/mnemonica/mnemographica/src/extension.ts:297:62": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:297:62",
+      "name": "/code/mnemonica/mnemographica/src/extension.ts:297",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:289:62"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:297:62"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:300:15": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:300:15",
-      "name": "/code/mnemonica/mnemographica/src/extension.ts:300",
+    "/code/mnemonica/mnemographica/src/extension.ts:308:15": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:308:15",
+      "name": "/code/mnemonica/mnemographica/src/extension.ts:308",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:289:62",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:297:62",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:300:15"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:308:15"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:307:64": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:307:64",
-      "name": "/code/mnemonica/mnemographica/src/extension.ts:307",
+    "/code/mnemonica/mnemographica/src/extension.ts:315:64": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:315:64",
+      "name": "/code/mnemonica/mnemographica/src/extension.ts:315",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:307:64"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:315:64"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:319:15": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:319:15",
-      "name": "/code/mnemonica/mnemographica/src/extension.ts:319",
+    "/code/mnemonica/mnemographica/src/extension.ts:327:15": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:327:15",
+      "name": "/code/mnemonica/mnemographica/src/extension.ts:327",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:307:64",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:315:64",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:319:15"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:327:15"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:326:68": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:326:68",
-      "name": "/code/mnemonica/mnemographica/src/extension.ts:326",
+    "/code/mnemonica/mnemographica/src/extension.ts:334:68": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:334:68",
+      "name": "/code/mnemonica/mnemographica/src/extension.ts:334",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:326:68"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:334:68"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:336:66": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:336:66",
-      "name": "/code/mnemonica/mnemographica/src/extension.ts:336",
+    "/code/mnemonica/mnemographica/src/extension.ts:344:66": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:344:66",
+      "name": "/code/mnemonica/mnemographica/src/extension.ts:344",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:336:66"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:344:66"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:350:14": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:350:14",
+    "/code/mnemonica/mnemographica/src/extension.ts:358:14": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:358:14",
       "name": "handleUri",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:350:14"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:358:14"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:363:25": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:363:25",
-      "name": "/code/mnemonica/mnemographica/src/extension.ts:363",
+    "/code/mnemonica/mnemographica/src/extension.ts:371:25": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:371:25",
+      "name": "/code/mnemonica/mnemographica/src/extension.ts:371",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:350:14",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:358:14",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:363:25"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:371:25"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:367:25": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:367:25",
-      "name": "/code/mnemonica/mnemographica/src/extension.ts:367",
+    "/code/mnemonica/mnemographica/src/extension.ts:375:25": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:375:25",
+      "name": "/code/mnemonica/mnemographica/src/extension.ts:375",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:350:14",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:358:14",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:367:25"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:375:25"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:367:43": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:367:43",
-      "name": "/code/mnemonica/mnemographica/src/extension.ts:367",
+    "/code/mnemonica/mnemographica/src/extension.ts:375:43": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:375:43",
+      "name": "/code/mnemonica/mnemographica/src/extension.ts:375",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:367:25",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:375:25",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:367:43"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:375:43"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:381:15": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:381:15",
-      "name": "/code/mnemonica/mnemographica/src/extension.ts:381",
+    "/code/mnemonica/mnemographica/src/extension.ts:389:15": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:389:15",
+      "name": "/code/mnemonica/mnemographica/src/extension.ts:389",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:350:14",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:358:14",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:381:15"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:389:15"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:400:29": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:400:29",
-      "name": "/code/mnemonica/mnemographica/src/extension.ts:400",
+    "/code/mnemonica/mnemographica/src/extension.ts:408:29": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:408:29",
+      "name": "/code/mnemonica/mnemographica/src/extension.ts:408",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:400:29"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:408:29"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:401:23": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:401:23",
-      "name": "/code/mnemonica/mnemographica/src/extension.ts:401",
-      "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
-      "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:401:23"
-    },
-    "/code/mnemonica/mnemographica/src/extension.ts:402:26": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:402:26",
-      "name": "/code/mnemonica/mnemographica/src/extension.ts:402",
-      "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
-      "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:402:26"
-    },
-    "/code/mnemonica/mnemographica/src/extension.ts:403:28": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:403:28",
-      "name": "/code/mnemonica/mnemographica/src/extension.ts:403",
-      "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
-      "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:403:28"
-    },
-    "/code/mnemonica/mnemographica/src/extension.ts:409:66": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:409:66",
+    "/code/mnemonica/mnemographica/src/extension.ts:409:23": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:409:23",
       "name": "/code/mnemonica/mnemographica/src/extension.ts:409",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:409:66"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:409:23"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:425:65": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:425:65",
-      "name": "/code/mnemonica/mnemographica/src/extension.ts:425",
+    "/code/mnemonica/mnemographica/src/extension.ts:410:26": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:410:26",
+      "name": "/code/mnemonica/mnemographica/src/extension.ts:410",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:425:65"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:410:26"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:430:67": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:430:67",
-      "name": "/code/mnemonica/mnemographica/src/extension.ts:430",
+    "/code/mnemonica/mnemographica/src/extension.ts:411:28": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:411:28",
+      "name": "/code/mnemonica/mnemographica/src/extension.ts:411",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:430:67"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:411:28"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:443:32": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:443:32",
-      "name": "/code/mnemonica/mnemographica/src/extension.ts:443",
+    "/code/mnemonica/mnemographica/src/extension.ts:428:66": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:428:66",
+      "name": "/code/mnemonica/mnemographica/src/extension.ts:428",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:443:32"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:428:66"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:460:34": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:460:34",
-      "name": "/code/mnemonica/mnemographica/src/extension.ts:460",
+    "/code/mnemonica/mnemographica/src/extension.ts:465:18": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:465:18",
+      "name": "/code/mnemonica/mnemographica/src/extension.ts:465",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:443:32",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:428:66",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:460:34"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:465:18"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:497:30": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:497:30",
-      "name": "/code/mnemonica/mnemographica/src/extension.ts:497",
+    "/code/mnemonica/mnemographica/src/extension.ts:486:65": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:486:65",
+      "name": "/code/mnemonica/mnemographica/src/extension.ts:486",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:497:30"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:486:65"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:501:32": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:501:32",
-      "name": "/code/mnemonica/mnemographica/src/extension.ts:501",
+    "/code/mnemonica/mnemographica/src/extension.ts:491:67": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:491:67",
+      "name": "/code/mnemonica/mnemographica/src/extension.ts:491",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:501:32"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:491:67"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:512:54": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:512:54",
-      "name": "/code/mnemonica/mnemographica/src/extension.ts:512",
+    "/code/mnemonica/mnemographica/src/extension.ts:504:32": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:504:32",
+      "name": "/code/mnemonica/mnemographica/src/extension.ts:504",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:512:54"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:504:32"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:538:12": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:538:12",
-      "name": "/code/mnemonica/mnemographica/src/extension.ts:538",
+    "/code/mnemonica/mnemographica/src/extension.ts:521:34": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:521:34",
+      "name": "/code/mnemonica/mnemographica/src/extension.ts:521",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:504:32",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:538:12"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:521:34"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:558:22": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:558:22",
+    "/code/mnemonica/mnemographica/src/extension.ts:558:30": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:558:30",
       "name": "/code/mnemonica/mnemographica/src/extension.ts:558",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:558:22"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:558:30"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:561:22": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:561:22",
-      "name": "/code/mnemonica/mnemographica/src/extension.ts:561",
+    "/code/mnemonica/mnemographica/src/extension.ts:562:32": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:562:32",
+      "name": "/code/mnemonica/mnemographica/src/extension.ts:562",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:561:22"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:562:32"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:568:29": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:568:29",
-      "name": "/code/mnemonica/mnemographica/src/extension.ts:568",
+    "/code/mnemonica/mnemographica/src/extension.ts:576:54": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:576:54",
+      "name": "/code/mnemonica/mnemographica/src/extension.ts:576",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:568:29"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:576:54"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:572:29": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:572:29",
-      "name": "/code/mnemonica/mnemographica/src/extension.ts:572",
+    "/code/mnemonica/mnemographica/src/extension.ts:602:12": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:602:12",
+      "name": "/code/mnemonica/mnemographica/src/extension.ts:602",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:572:29"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:602:12"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:597:1": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:597:1",
+    "/code/mnemonica/mnemographica/src/extension.ts:622:22": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:622:22",
+      "name": "/code/mnemonica/mnemographica/src/extension.ts:622",
+      "kind": "arrow",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
+      "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:622:22"
+    },
+    "/code/mnemonica/mnemographica/src/extension.ts:625:22": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:625:22",
+      "name": "/code/mnemonica/mnemographica/src/extension.ts:625",
+      "kind": "arrow",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
+      "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:625:22"
+    },
+    "/code/mnemonica/mnemographica/src/extension.ts:632:29": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:632:29",
+      "name": "/code/mnemonica/mnemographica/src/extension.ts:632",
+      "kind": "arrow",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
+      "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:632:29"
+    },
+    "/code/mnemonica/mnemographica/src/extension.ts:636:29": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:636:29",
+      "name": "/code/mnemonica/mnemographica/src/extension.ts:636",
+      "kind": "arrow",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
+      "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:636:29"
+    },
+    "/code/mnemonica/mnemographica/src/extension.ts:668:1": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:668:1",
+      "name": "discoverTacticaSources",
+      "kind": "function",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts",
+      "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:668:1"
+    },
+    "/code/mnemonica/mnemographica/src/extension.ts:674:34": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:674:34",
+      "name": "/code/mnemonica/mnemographica/src/extension.ts:674",
+      "kind": "arrow",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:668:1",
+      "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:674:34"
+    },
+    "/code/mnemonica/mnemographica/src/extension.ts:678:1": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:678:1",
       "name": "refreshTypeGraph",
       "kind": "function",
       "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:597:1"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:678:1"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:638:1": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:638:1",
+    "/code/mnemonica/mnemographica/src/extension.ts:722:1": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:722:1",
       "name": "handleFileChange",
       "kind": "function",
       "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:638:1"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:722:1"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:646:29": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:646:29",
-      "name": "/code/mnemonica/mnemographica/src/extension.ts:646",
+    "/code/mnemonica/mnemographica/src/extension.ts:730:29": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:730:29",
+      "name": "/code/mnemonica/mnemographica/src/extension.ts:730",
       "kind": "arrow",
-      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:638:1",
+      "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts:722:1",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:646:29"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:730:29"
     },
-    "/code/mnemonica/mnemographica/src/extension.ts:651:1": {
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:651:1",
+    "/code/mnemonica/mnemographica/src/extension.ts:735:1": {
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:735:1",
       "name": "deactivate",
       "kind": "function",
       "parentScopeId": "/code/mnemonica/mnemographica/src/extension.ts",
       "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-      "location": "/code/mnemonica/mnemographica/src/extension.ts:651:1"
+      "location": "/code/mnemonica/mnemographica/src/extension.ts:735:1"
     },
     "/code/mnemonica/mnemographica/src/models/Definition.ts": {
       "scopeId": "/code/mnemonica/mnemographica/src/models/Definition.ts",
@@ -11107,77 +11202,159 @@
       "reassignments": []
     },
     {
+      "name": "sourceRoot",
+      "scopeId": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts:19:1",
+      "declaration": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts:19:41",
+      "isParameter": true,
+      "isMutable": true,
+      "reassignments": [],
+      "inferredType": "string"
+    },
+    {
+      "name": "tacticaPath",
+      "scopeId": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts:19:1",
+      "declaration": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts:20:8",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "missing",
+      "scopeId": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts:19:1",
+      "declaration": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts:22:9",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "RegistryType",
+      "scopeId": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts:19:1",
+      "declaration": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts:25:8",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": [],
+      "typePath": "Registry"
+    },
+    {
+      "name": "registry",
+      "scopeId": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts:19:1",
+      "declaration": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts:26:8",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "graphData",
+      "scopeId": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts:19:1",
+      "declaration": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts:28:8",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
       "name": "logger",
       "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:9:7",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:10:7",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "extensionUri",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:19:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:19:30",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:30",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
       "inferredType": "vscode.Uri"
     },
     {
-      "name": "graphData",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:19:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:19:56",
+      "name": "sourceRoot",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:56",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
-      "inferredType": "GraphData | null"
+      "inferredType": "string"
+    },
+    {
+      "name": "existing",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:43:9",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
     },
     {
       "name": "column",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:19:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:20:9",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:52:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "panel",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:19:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:32:9",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:55:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
-      "name": "graphData",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:48:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:48:29",
-      "isParameter": true,
-      "isMutable": true,
+      "name": "graphPanel",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:68:9",
+      "isParameter": false,
+      "isMutable": false,
       "reassignments": [],
-      "inferredType": "GraphData | null"
+      "inferredType": "GraphPanel"
+    },
+    {
+      "name": "open",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:74:9",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
     },
     {
       "name": "data",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:67:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:67:27",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:27",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
       "inferredType": "{ id: string; name: string }"
     },
     {
-      "name": "current",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:67:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:68:9",
+      "name": "target",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:92:9",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "primary",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:109:10",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "primary",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:124:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "resolver",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:34",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:34",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -11185,8 +11362,8 @@
     },
     {
       "name": "name",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:108:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:108:31",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:31",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -11194,8 +11371,8 @@
     },
     {
       "name": "rootId",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:108:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:108:45",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:45",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -11203,24 +11380,24 @@
     },
     {
       "name": "current",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:108:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:109:9",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:159:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "resolved",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:108:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:113:9",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:163:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "name",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:136:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:136:29",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:29",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -11228,8 +11405,8 @@
     },
     {
       "name": "rootId",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:136:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:136:43",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:43",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -11237,24 +11414,24 @@
     },
     {
       "name": "current",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:136:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:137:9",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:187:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "resolved",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:136:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:9",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:191:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "edges",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:164:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:164:32",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:32",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -11262,96 +11439,96 @@
     },
     {
       "name": "current",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:164:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:165:9",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:215:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "continuation",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:164:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:174:10",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:224:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "current",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:201:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:202:9",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:252:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "closed",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:201:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:204:10",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:254:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "facts",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:201:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:207:9",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:257:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "noView",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:201:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:213:10",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:266:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "requestId",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:201:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:216:9",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:269:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "view",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:201:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:217:9",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:270:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "resolve",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:217:43",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:217:44",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:270:43",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:270:44",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "timer",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:217:43",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:218:10",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:270:43",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:271:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "result",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:201:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:228:9",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:281:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "panel",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:232:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:233:3",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:285:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:286:3",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -11359,26 +11536,26 @@
     },
     {
       "name": "extensionUri",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:232:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:234:3",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:285:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:287:3",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
       "inferredType": "vscode.Uri"
     },
     {
-      "name": "graphData",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:232:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:235:3",
+      "name": "sourceRoot",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:285:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:288:3",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
-      "inferredType": "GraphData | null"
+      "inferredType": "string"
     },
     {
       "name": "message",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:245:4",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:245:11",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:300:4",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:300:11",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -11386,105 +11563,130 @@
     },
     {
       "name": "pending",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:245:4",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:304:13",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:300:4",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:370:13",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "logType",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:245:4",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:281:13",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:300:4",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:347:13",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "logMsg",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:245:4",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:282:13",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:300:4",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:348:13",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "mode",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:245:4",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:294:13",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:300:4",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:360:13",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "requestId",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:245:4",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:303:13",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:300:4",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:369:13",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "name",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:245:4",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:317:13",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:300:4",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:383:13",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "resolved",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:245:4",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:318:13",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:300:4",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:384:13",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "event",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:411:4",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:411:5",
+      "isParameter": true,
+      "isMutable": true,
+      "reassignments": []
+    },
+    {
+      "name": "graphData",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:426:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:427:9",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "on",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:435:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:435:28",
+      "isParameter": true,
+      "isMutable": true,
+      "reassignments": [],
+      "inferredType": "boolean"
+    },
+    {
+      "name": "watcher",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:435:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:443:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "graphData",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:347:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:347:23",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:455:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:455:23",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
       "inferredType": "GraphData"
     },
     {
-      "name": "folder",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:359:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:360:9",
+      "name": "filePath",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:469:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:470:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "filePath",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:359:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:364:9",
-      "isParameter": false,
-      "isMutable": false,
-      "reassignments": []
-    },
-    {
-      "name": "filePath",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:368:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:369:9",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:474:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:475:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "parsed",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:368:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:374:10",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:474:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:480:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "data",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:382:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:382:34",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:488:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:488:34",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -11492,16 +11694,16 @@
     },
     {
       "name": "filePath",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:382:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:383:9",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:488:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:489:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "location",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:400:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:400:38",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:502:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:502:38",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -11509,41 +11711,32 @@
     },
     {
       "name": "document",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:400:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:406:10",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:502:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:508:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "editor",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:400:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:407:10",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:502:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:509:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "position",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:400:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:408:10",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:502:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:510:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
-      "name": "_graphData",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:416:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:416:29",
-      "isParameter": true,
-      "isMutable": true,
-      "reassignments": [],
-      "inferredType": "GraphData | null"
-    },
-    {
       "name": "extensionUri",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:416:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:416:59",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:518:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:518:29",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -11551,40 +11744,40 @@
     },
     {
       "name": "config",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:416:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:417:9",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:518:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:519:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "showProperties",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:416:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:418:9",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:518:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:520:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "styleUri",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:416:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:421:9",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:518:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:523:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "scriptUri",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:416:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:424:9",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:518:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:526:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "d3Uri",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:416:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:429:9",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:518:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:531:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -11592,8 +11785,8 @@
     },
     {
       "name": "threeUri",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:416:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:431:9",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:518:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:533:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -11601,8 +11794,8 @@
     },
     {
       "name": "x",
-      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:486:2",
-      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:493:10",
+      "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2",
+      "declaration": "/code/mnemonica/mnemographica/src/webview/panel.ts:603:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
@@ -14040,104 +14233,93 @@
     {
       "name": "treeProvider",
       "scopeId": "/code/mnemonica/mnemographica/src/extension.ts",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:26:5",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:27:5",
       "isParameter": false,
       "isMutable": true,
       "reassignments": [
-        "/code/mnemonica/mnemographica/src/extension.ts:56:2"
+        "/code/mnemonica/mnemographica/src/extension.ts:57:2"
       ],
       "inferredType": "MnemonicaTreeProvider"
     },
     {
       "name": "treeView",
       "scopeId": "/code/mnemonica/mnemographica/src/extension.ts",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:27:5",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:28:5",
       "isParameter": false,
       "isMutable": true,
       "reassignments": [
-        "/code/mnemonica/mnemographica/src/extension.ts:60:2"
+        "/code/mnemonica/mnemographica/src/extension.ts:61:2"
       ],
       "inferredType": "vscode.TreeView<MnemonicaTreeItem>"
     },
     {
       "name": "usagesProvider",
       "scopeId": "/code/mnemonica/mnemographica/src/extension.ts",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:28:5",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:29:5",
       "isParameter": false,
       "isMutable": true,
       "reassignments": [
-        "/code/mnemonica/mnemographica/src/extension.ts:67:2"
+        "/code/mnemonica/mnemographica/src/extension.ts:68:2"
       ],
       "inferredType": "UsagesTreeProvider"
     },
     {
       "name": "usagesTreeView",
       "scopeId": "/code/mnemonica/mnemographica/src/extension.ts",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:29:5",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:30:5",
       "isParameter": false,
       "isMutable": true,
       "reassignments": [
-        "/code/mnemonica/mnemographica/src/extension.ts:71:2"
+        "/code/mnemonica/mnemographica/src/extension.ts:72:2"
       ],
       "inferredType": "vscode.TreeView<UsageTreeItem>"
     },
     {
       "name": "flowProvider",
       "scopeId": "/code/mnemonica/mnemographica/src/extension.ts",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:30:5",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:31:5",
       "isParameter": false,
       "isMutable": true,
       "reassignments": [
-        "/code/mnemonica/mnemographica/src/extension.ts:78:2"
+        "/code/mnemonica/mnemographica/src/extension.ts:79:2"
       ],
       "inferredType": "FlowTreeProvider"
     },
     {
       "name": "flowTreeView",
       "scopeId": "/code/mnemonica/mnemographica/src/extension.ts",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:31:5",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:32:5",
       "isParameter": false,
       "isMutable": true,
       "reassignments": [
-        "/code/mnemonica/mnemographica/src/extension.ts:82:2"
+        "/code/mnemonica/mnemographica/src/extension.ts:83:2"
       ],
       "inferredType": "vscode.TreeView<FlowTreeItem>"
     },
     {
       "name": "genProvider",
       "scopeId": "/code/mnemonica/mnemographica/src/extension.ts",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:32:5",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:33:5",
       "isParameter": false,
       "isMutable": true,
       "reassignments": [
-        "/code/mnemonica/mnemographica/src/extension.ts:89:2"
+        "/code/mnemonica/mnemographica/src/extension.ts:90:2"
       ],
       "inferredType": "GenTreeProvider"
     },
     {
       "name": "genTreeView",
       "scopeId": "/code/mnemonica/mnemographica/src/extension.ts",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:33:5",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:34:5",
       "isParameter": false,
       "isMutable": true,
       "reassignments": [
-        "/code/mnemonica/mnemographica/src/extension.ts:93:2"
+        "/code/mnemonica/mnemographica/src/extension.ts:94:2"
       ],
       "inferredType": "vscode.TreeView<GenTreeItem>"
     },
     {
       "name": "diamondsProvider",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:34:5",
-      "isParameter": false,
-      "isMutable": true,
-      "reassignments": [
-        "/code/mnemonica/mnemographica/src/extension.ts:101:2"
-      ],
-      "inferredType": "DiamondsTreeProvider"
-    },
-    {
-      "name": "diamondsTreeView",
       "scopeId": "/code/mnemonica/mnemographica/src/extension.ts",
       "declaration": "/code/mnemonica/mnemographica/src/extension.ts:35:5",
       "isParameter": false,
@@ -14145,21 +14327,21 @@
       "reassignments": [
         "/code/mnemonica/mnemographica/src/extension.ts:102:2"
       ],
-      "inferredType": "vscode.TreeView<DiamondsTreeItem>"
+      "inferredType": "DiamondsTreeProvider"
     },
     {
-      "name": "bagelsProvider",
+      "name": "diamondsTreeView",
       "scopeId": "/code/mnemonica/mnemographica/src/extension.ts",
       "declaration": "/code/mnemonica/mnemographica/src/extension.ts:36:5",
       "isParameter": false,
       "isMutable": true,
       "reassignments": [
-        "/code/mnemonica/mnemographica/src/extension.ts:108:2"
+        "/code/mnemonica/mnemographica/src/extension.ts:103:2"
       ],
-      "inferredType": "BagelsTreeProvider"
+      "inferredType": "vscode.TreeView<DiamondsTreeItem>"
     },
     {
-      "name": "bagelsTreeView",
+      "name": "bagelsProvider",
       "scopeId": "/code/mnemonica/mnemographica/src/extension.ts",
       "declaration": "/code/mnemonica/mnemographica/src/extension.ts:37:5",
       "isParameter": false,
@@ -14167,89 +14349,100 @@
       "reassignments": [
         "/code/mnemonica/mnemographica/src/extension.ts:109:2"
       ],
-      "inferredType": "vscode.TreeView<BagelsTreeItem>"
+      "inferredType": "BagelsTreeProvider"
     },
     {
-      "name": "definitionProvider",
+      "name": "bagelsTreeView",
       "scopeId": "/code/mnemonica/mnemographica/src/extension.ts",
       "declaration": "/code/mnemonica/mnemographica/src/extension.ts:38:5",
       "isParameter": false,
       "isMutable": true,
       "reassignments": [
-        "/code/mnemonica/mnemographica/src/extension.ts:197:2"
+        "/code/mnemonica/mnemographica/src/extension.ts:110:2"
+      ],
+      "inferredType": "vscode.TreeView<BagelsTreeItem>"
+    },
+    {
+      "name": "definitionProvider",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:39:5",
+      "isParameter": false,
+      "isMutable": true,
+      "reassignments": [
+        "/code/mnemonica/mnemographica/src/extension.ts:205:2"
       ],
       "inferredType": "MnemonicaDefinitionProvider"
     },
     {
       "name": "referenceProvider",
       "scopeId": "/code/mnemonica/mnemographica/src/extension.ts",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:39:5",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:40:5",
       "isParameter": false,
       "isMutable": true,
       "reassignments": [
-        "/code/mnemonica/mnemographica/src/extension.ts:198:2"
+        "/code/mnemonica/mnemographica/src/extension.ts:206:2"
       ],
       "inferredType": "MnemonicaReferenceProvider"
     },
     {
       "name": "strategyServer",
       "scopeId": "/code/mnemonica/mnemographica/src/extension.ts",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:40:5",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:41:5",
       "isParameter": false,
       "isMutable": true,
       "reassignments": [
-        "/code/mnemonica/mnemographica/src/extension.ts:224:2"
+        "/code/mnemonica/mnemographica/src/extension.ts:232:2"
       ],
       "inferredType": "StrategyServer"
     },
     {
       "name": "statusBarItem",
       "scopeId": "/code/mnemonica/mnemographica/src/extension.ts",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:41:5",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:42:5",
       "isParameter": false,
       "isMutable": true,
       "reassignments": [
-        "/code/mnemonica/mnemographica/src/extension.ts:546:2"
+        "/code/mnemonica/mnemographica/src/extension.ts:610:2"
       ],
       "inferredType": "vscode.StatusBarItem"
     },
     {
       "name": "mainOrchestrator",
       "scopeId": "/code/mnemonica/mnemographica/src/extension.ts",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:42:5",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:43:5",
       "isParameter": false,
       "isMutable": true,
       "reassignments": [
-        "/code/mnemonica/mnemographica/src/extension.ts:243:2"
+        "/code/mnemonica/mnemographica/src/extension.ts:251:2"
       ],
       "inferredType": "MainOrchestrator"
     },
     {
       "name": "liveTraceProvider",
       "scopeId": "/code/mnemonica/mnemographica/src/extension.ts",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:43:5",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:44:5",
       "isParameter": false,
       "isMutable": true,
       "reassignments": [
-        "/code/mnemonica/mnemographica/src/extension.ts:281:2"
+        "/code/mnemonica/mnemographica/src/extension.ts:289:2"
       ],
       "inferredType": "LiveTraceTreeProvider"
     },
     {
       "name": "tracedRefresh",
       "scopeId": "/code/mnemonica/mnemographica/src/extension.ts",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:46:5",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:47:5",
       "isParameter": false,
       "isMutable": true,
       "reassignments": [
-        "/code/mnemonica/mnemographica/src/extension.ts:254:3"
+        "/code/mnemonica/mnemographica/src/extension.ts:262:3"
       ],
       "inferredType": "typeof refreshTypeGraph"
     },
     {
       "name": "context",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:48:26",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:49:26",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -14257,16 +14450,16 @@
     },
     {
       "name": "logger",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:50:8",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:51:8",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "location",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:119:71",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:119:78",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:120:71",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:120:78",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -14274,8 +14467,8 @@
     },
     {
       "name": "target",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:131:68",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:131:75",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:132:68",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:132:75",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -14283,16 +14476,16 @@
     },
     {
       "name": "rotated",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:131:68",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:139:10",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:132:68",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:140:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "item",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:153:62",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:153:63",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:154:62",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:154:63",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -14300,24 +14493,24 @@
     },
     {
       "name": "typeName",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:153:62",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:155:10",
-      "isParameter": false,
-      "isMutable": false,
-      "reassignments": []
-    },
-    {
-      "name": "searchName",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:153:62",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:154:62",
       "declaration": "/code/mnemonica/mnemographica/src/extension.ts:156:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
+      "name": "searchName",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:154:62",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:157:10",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
       "name": "item",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:178:64",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:178:65",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:179:64",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:179:65",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -14325,56 +14518,64 @@
     },
     {
       "name": "raw",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:178:64",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:180:10",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:179:64",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:181:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "id",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:178:64",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:183:10",
-      "isParameter": false,
-      "isMutable": false,
-      "reassignments": []
-    },
-    {
-      "name": "name",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:178:64",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:179:64",
       "declaration": "/code/mnemonica/mnemographica/src/extension.ts:184:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
-      "name": "graphData",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:178:64",
+      "name": "name",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:179:64",
       "declaration": "/code/mnemonica/mnemographica/src/extension.ts:185:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
+      "name": "graphData",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:179:64",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:186:10",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "sourceRoot",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:179:64",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:193:10",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
       "name": "strategyPort",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:222:8",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:230:8",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "strategyWsPort",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:223:8",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:231:8",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "err",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:225:31",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:225:32",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:233:31",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:233:32",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -14382,8 +14583,8 @@
     },
     {
       "name": "name",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:270:14",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:270:15",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:278:14",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:278:15",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -14391,8 +14592,8 @@
     },
     {
       "name": "rootId",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:271:19",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:271:20",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:279:19",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:279:20",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -14400,8 +14601,8 @@
     },
     {
       "name": "rootId",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:272:14",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:272:15",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:280:14",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:280:15",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -14409,8 +14610,8 @@
     },
     {
       "name": "edges",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:272:14",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:272:31",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:280:14",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:280:31",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -14418,41 +14619,41 @@
     },
     {
       "name": "continuation",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:272:14",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:273:10",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:280:14",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:281:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "data",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:289:62",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:289:63",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:297:62",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:297:63",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
       "inferredType": "{ name: string; rootId?: number }"
     },
     {
-      "name": "graphData",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:289:62",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:293:11",
-      "isParameter": false,
-      "isMutable": false,
-      "reassignments": []
-    },
-    {
-      "name": "opened",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:300:15",
+      "name": "sourceRoot",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:297:62",
       "declaration": "/code/mnemonica/mnemographica/src/extension.ts:301:11",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
+      "name": "opened",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:308:15",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:309:11",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
       "name": "arg",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:307:64",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:307:65",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:315:64",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:315:65",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -14460,32 +14661,32 @@
     },
     {
       "name": "data",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:307:64",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:311:10",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:315:64",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:319:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
-      "name": "graphData",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:307:64",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:314:11",
+      "name": "sourceRoot",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:315:64",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:322:11",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "replaying",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:319:15",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:320:11",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:327:15",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:328:11",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "arg",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:326:68",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:326:69",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:334:68",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:334:69",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -14493,24 +14694,24 @@
     },
     {
       "name": "data",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:326:68",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:329:10",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:334:68",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:337:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "base",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:326:68",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:333:10",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:334:68",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:341:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "location",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:336:66",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:336:73",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:344:66",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:344:73",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -14518,8 +14719,8 @@
     },
     {
       "name": "uri",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:350:14",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:350:15",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:358:14",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:358:15",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -14527,8 +14728,8 @@
     },
     {
       "name": "params",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:350:14",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:354:10",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:358:14",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:362:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -14536,292 +14737,366 @@
     },
     {
       "name": "groups",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:350:14",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:355:10",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:358:14",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:363:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "found",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:350:14",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:360:8",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:358:14",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:368:8",
       "isParameter": false,
       "isMutable": true,
       "reassignments": [
-        "/code/mnemonica/mnemographica/src/extension.ts:363:5",
-        "/code/mnemonica/mnemographica/src/extension.ts:367:5"
+        "/code/mnemonica/mnemographica/src/extension.ts:371:5",
+        "/code/mnemonica/mnemographica/src/extension.ts:375:5"
       ],
       "inferredType": "traceGroup | undefined"
     },
     {
       "name": "rootParam",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:350:14",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:361:10",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:358:14",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:369:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "g",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:363:25",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:363:25",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:371:25",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:371:25",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "jaegerId",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:350:14",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:365:10",
-      "isParameter": false,
-      "isMutable": false,
-      "reassignments": []
-    },
-    {
-      "name": "g",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:367:25",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:367:25",
-      "isParameter": true,
-      "isMutable": true,
-      "reassignments": []
-    },
-    {
-      "name": "e",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:367:43",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:367:43",
-      "isParameter": true,
-      "isMutable": true,
-      "reassignments": []
-    },
-    {
-      "name": "group",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:350:14",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:358:14",
       "declaration": "/code/mnemonica/mnemographica/src/extension.ts:373:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
-      "name": "graphData",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:350:14",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:376:11",
+      "name": "g",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:375:25",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:375:25",
+      "isParameter": true,
+      "isMutable": true,
+      "reassignments": []
+    },
+    {
+      "name": "e",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:375:43",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:375:43",
+      "isParameter": true,
+      "isMutable": true,
+      "reassignments": []
+    },
+    {
+      "name": "group",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:358:14",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:381:10",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "sourceRoot",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:358:14",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:384:11",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "opened",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:381:15",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:382:11",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:389:15",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:390:11",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "navigationCommands",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:395:8",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:403:8",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "treeCommands",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:396:8",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:404:8",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "utilityCommands",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:397:8",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:405:8",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "workspaceCommands",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:398:8",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:406:8",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "cmd",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:400:29",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:400:29",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:408:29",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:408:29",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "cmd",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:401:23",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:401:23",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:409:23",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:409:23",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "cmd",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:402:26",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:402:26",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:410:26",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:410:26",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "cmd",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:403:28",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:403:28",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:411:28",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:411:28",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
-      "name": "workspacePath",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:409:66",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:410:10",
+      "name": "trieSource",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:428:66",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:429:10",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "found",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:428:66",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:436:11",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "importing",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:428:66",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:438:12",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "browsing",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:428:66",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:447:11",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "sources",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:428:66",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:456:10",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "sourceRoot",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:428:66",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:461:8",
+      "isParameter": false,
+      "isMutable": true,
+      "reassignments": [
+        "/code/mnemonica/mnemographica/src/extension.ts:479:5"
+      ]
+    },
+    {
+      "name": "workspaceRoot",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:428:66",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:463:11",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "picked",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:428:66",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:464:11",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "source",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:465:18",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:465:18",
+      "isParameter": true,
+      "isMutable": true,
+      "reassignments": []
+    },
+    {
+      "name": "relative",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:465:18",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:466:13",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "item",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:465:18",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:467:13",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "graphData",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:409:66",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:415:10",
-      "isParameter": false,
-      "isMutable": false,
-      "reassignments": []
-    },
-    {
-      "name": "graphData",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:430:67",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:431:10",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:491:67",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:492:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "event",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:443:32",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:443:39",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:504:32",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:504:39",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "selected",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:443:32",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:444:9",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:504:32",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:505:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "typeName",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:443:32",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:452:9",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:504:32",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:513:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "searchName",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:443:32",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:453:9",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:504:32",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:514:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "usages",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:443:32",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:457:9",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:504:32",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:518:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "usageItems",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:443:32",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:460:10",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:504:32",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:521:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "u",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:460:34",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:460:34",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:521:34",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:521:34",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "nodeId",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:443:32",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:479:10",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:504:32",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:540:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "rotated",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:443:32",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:480:10",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:504:32",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:541:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "event",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:497:30",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:497:31",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:558:30",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:558:31",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "event",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:501:32",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:501:33",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:562:32",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:562:33",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "workspaceFolders",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:506:8",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:567:8",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "workspacePath",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:508:9",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:569:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "graphData",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:512:54",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:532:10",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:576:54",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:597:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "err",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:538:12",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:538:13",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:602:12",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:602:13",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -14829,32 +15104,81 @@
     },
     {
       "name": "watcher",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:557:8",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:621:8",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "tacticaWatcher",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:567:8",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:631:8",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "debugHandle",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:48:1",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:581:8",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:645:8",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
+      "name": "found",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:668:1",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:669:8",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "roots",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:668:1",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:670:8",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": [],
+      "inferredType": "Set"
+    },
+    {
+      "name": "uri",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:668:1",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:671:13",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "ordered",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:668:1",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:674:8",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "a",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:674:34",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:674:35",
+      "isParameter": true,
+      "isMutable": true,
+      "reassignments": []
+    },
+    {
+      "name": "b",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:674:34",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:674:38",
+      "isParameter": true,
+      "isMutable": true,
+      "reassignments": []
+    },
+    {
       "name": "_context",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:597:1",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:597:33",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:678:1",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:678:33",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -14862,24 +15186,24 @@
     },
     {
       "name": "logger",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:597:1",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:598:8",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:678:1",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:679:8",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "workspaceFolders",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:597:1",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:599:8",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:678:1",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:680:8",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "graphData",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:597:1",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:614:9",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:678:1",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:695:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
@@ -14887,18 +15211,18 @@
     {
       "name": "debounceTimer",
       "scopeId": "/code/mnemonica/mnemographica/src/extension.ts",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:636:5",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:720:5",
       "isParameter": false,
       "isMutable": true,
       "reassignments": [
-        "/code/mnemonica/mnemographica/src/extension.ts:646:2"
+        "/code/mnemonica/mnemographica/src/extension.ts:730:2"
       ],
       "inferredType": "NodeJS.Timeout | null"
     },
     {
       "name": "context",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:638:1",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:638:33",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:722:1",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:722:33",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -14906,16 +15230,16 @@
     },
     {
       "name": "logger",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:638:1",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:639:8",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:722:1",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:723:8",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "logger",
-      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:651:1",
-      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:653:8",
+      "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:735:1",
+      "declaration": "/code/mnemonica/mnemographica/src/extension.ts:737:8",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []

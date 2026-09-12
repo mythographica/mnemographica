@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-09-09T09:33:46.553Z",
+  "generatedAt": "2026-09-12T03:08:35.634Z",
   "usages": {
     "LoggerTab": [
       {
@@ -60,6 +60,19 @@
         "code": "new Registry()",
         "constructorText": "Registry",
         "holderScopeId": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:42:2"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts:25:23",
+        "kind": "lookup",
+        "code": "lookup('Registry')",
+        "holderScopeId": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts:19:1"
+      },
+      {
+        "location": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts:26:19",
+        "kind": "instantiation",
+        "code": "new RegistryType()",
+        "constructorText": "RegistryType",
+        "holderScopeId": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts:19:1"
       }
     ],
     "Definitions": [
