@@ -5,7 +5,7 @@ import { dirname, join } from 'node:path';
 import type { WSSession as WSSessionType } from '@mnemonica/strategy';
 
 /**
- * Direct app-channel client (Strategy reframe, 2026-09-01).
+ * Direct app-channel client.
  *
  * Connects Mnemographica STRAIGHT to an application's self-hosted strategy
  * WS channel (startStrategyClient in the app — no CDP, no strategy MCP in

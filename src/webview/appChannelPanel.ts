@@ -7,7 +7,7 @@ import { LiveTraceTreeProvider } from '../views/liveTraceTreeProvider';
 import type { MainOrchestrator } from '../core/MainOrchestrator';
 
 /**
- * App Channel tab (Strategy reframe, 2026-09-01): connect Mnemographica
+ * App Channel tab: connect Mnemographica
  * DIRECTLY to an application's self-hosted strategy WS channel — the app's
  * own `.start()` (startStrategyClient), no CDP, no strategy MCP in the
  * middle. Discovery URL or manual host/port/token; on connect the client

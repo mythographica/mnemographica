@@ -122,7 +122,7 @@ export class DiamondsTreeProvider implements vscode.TreeDataProvider<DiamondsTre
 	private scopesById: Map<string, CreationScopeData> = new Map();
 	private status: 'ok' | 'no-registry' | 'no-graph' | 'empty' = 'no-registry';
 	// WHY there is no graph ('missing' | 'stale' | 'v1' | undefined) —
-	// the empty pane must give the right advice for each (2026-09-07)
+	// the empty pane must give the right advice for each
 	private noGraphReason: 'missing' | 'stale' | 'v1' | undefined;
 	private registry: Registry | undefined;
 	private logger = getLogger();

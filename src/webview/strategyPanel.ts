@@ -10,7 +10,7 @@ import {
 } from '../strategy/processManager';
 
 /**
- * Strategy tab (Strategy reframe, 2026-09-01): run/stop the Strategy MCP
+ * Strategy tab: run/stop the Strategy MCP
  * server as a child process and watch its log socket live. The child's
  * stdout is the MCP protocol — never surfaced here; the log socket
  * (STRATEGY_LOG_PORT) is the observability surface.

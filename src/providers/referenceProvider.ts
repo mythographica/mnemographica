@@ -60,9 +60,9 @@ export class MnemonicaReferenceProvider implements vscode.ReferenceProvider {
 
 		const word = document.getText(wordRange);
 
-		// No per-request logging here (2026-08-30): reference lookups fire
-		// per editor request; LoggerService.debug has no level gating, so
-		// these were plain noise. Reach via the inspector when needed.
+		// No per-request logging here: reference lookups fire per editor
+		// request; LoggerService.debug has no level gating, so these are
+		// plain noise. Reach via the inspector when needed.
 
 		// Try exact match first
 		let usageList = this.usages!.get(word);

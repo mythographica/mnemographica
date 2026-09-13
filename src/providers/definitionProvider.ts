@@ -109,9 +109,9 @@ export class MnemonicaDefinitionProvider implements vscode.DefinitionProvider {
 		position: vscode.Position,
 		_token: vscode.CancellationToken
 	): vscode.ProviderResult<vscode.Definition | vscode.LocationLink[]> {
-		// No per-request logging here (2026-08-30): VS Code calls this on
-		// every Ctrl+hover — it was the classic "no CDP access" debug
-		// noise. Per-request detail is reachable via the inspector now.
+		// No per-request logging here: VS Code calls this on every
+		// Ctrl+hover — per-request logging is pure noise. Detail is
+		// reachable via the inspector when needed.
 
 		// Case 1: Check if this is inside a lookup('TypeName') call
 		const lookupResult = this.handleLookup(document, position);

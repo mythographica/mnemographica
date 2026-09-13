@@ -1,6 +1,5 @@
 /**
- * Self-instrumentation (2026-09-06, owner request: "instrument
- * MnemoGraphica itself"). dive runs IN the extension host; its edge
+ * Self-instrumentation: dive runs IN the extension host; its edge
  * lifecycle events land directly on the orchestrator's ingestTrace —
  * the same landing point as the WS trace/ingest (server.ts), no socket
  * in between. The payload → edge mapping mirrors strategy's

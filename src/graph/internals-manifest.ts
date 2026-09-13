@@ -10,8 +10,7 @@
  * surface them. We own those packages, so the truthful source is a
  * hand-declared manifest with a source citation per knot.
  *
- * Shape (Viktor's structure review, plans/graph-structure-review-2026-09-04.md):
- * dive's internal functions are NOT knots — recordCreation / enterContext /
+ * Shape: dive's internal functions are NOT knots — recordCreation / enterContext /
  * wrapConstructorArg / upgradeConstructorArg / wrapInstanceMethods /
  * isWrappedFunction / current / setTraceLimit are event chunks of the
  * attachHooks hub firing (or bootstrap config), so they fold into the
@@ -21,11 +20,11 @@
  * adapter sinks a fiber's data leaves through — Jaeger the only terminal
  * outside the system.
  *
- * Every edge below was verified against the cited source on 2026-09-04.
+ * Every edge below was verified against the cited source.
  * When dive or the adapter change, update the manifest — it is a mirror,
  * not a derivation.
  *
- * Terminology (Viktor, 2026-09-04): EDS = dive's ring storage (runtime);
+ * Terminology: EDS = dive's ring storage (runtime);
  * Fiber = one context segment of the ring; Trace = the bigger
  * linear-order chain the Adapter constructs. Trace ⊃ Fiber ⊃ EDS.
  */

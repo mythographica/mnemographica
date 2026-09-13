@@ -5,7 +5,7 @@ import { Socket } from 'node:net';
 import * as net from 'node:net';
 
 /**
- * Owns the Strategy MCP child process (Strategy reframe, 2026-09-01).
+ * Owns the Strategy MCP child process.
  *
  * Mnemographica can RUN strategy itself: spawn `lib/cli.js` from the
  * installed @mnemonica/strategy package with STRATEGY_LOG_PORT set, then

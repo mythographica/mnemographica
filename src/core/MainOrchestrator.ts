@@ -95,16 +95,15 @@ export class MainOrchestrator {
 	}
 
 	// Bounded ring for the live dive-trace stream (B1.3). 1000rps
-	// ambient volume is fine in memory (owner: JS holds millions of
-	// records); the bound exists so a runaway source cannot grow it
-	// without limit.
+	// ambient volume is fine in memory; the bound exists so a runaway
+	// source cannot grow it without limit.
 	private static readonly TRACE_BUFFER_LIMIT = 5000;
 
 	// Id → buffered edge index for the upsert path: 'leave'/'settle'
 	// re-publish an edge id already ingested via 'enter', carrying its
 	// completion (status + duration). Without this index the monotonic
 	// dedupe below would drop every completion as a replay and call
-	// edges would stay 'running' forever (2026-09-01).
+	// edges would stay 'running' forever.
 	private traceById = new Map<number, traceEdge>();
 
 	/**
@@ -115,8 +114,8 @@ export class MainOrchestrator {
 	 * ring is upserted in place (status/duration/ts merge) and counted
 	 * as `updated`, not dropped. A source RESTART resets its ids — tag
 	 * the batch with `session` (the pusher's target pid) and a changed
-	 * marker auto-wipes before ingest (VACUUM rule, 2026-08-30);
-	 * untagged batches keep the old explicit-reset behavior.
+	 * marker auto-wipes before ingest (VACUUM rule); untagged batches
+	 * keep the explicit-reset behavior.
 	 */
 	ingestTrace(edges: unknown, session?: unknown): {
 		accepted: number;
@@ -200,9 +199,9 @@ export class MainOrchestrator {
 	/**
 	 * The session tag of the source currently feeding the trace ring
 	 * (`self:<pid>`, `app-channel:<pid>`, …) — undefined until the first
-	 * tagged batch lands. Surfaced as the Live Trace pane's source row
-	 * (2026-09-07): the ring is single-source (a new marker vacuum-wipes
-	 * it), so one marker describes every row — but only if visible.
+	 * tagged batch lands. Surfaced as the Live Trace pane's source row:
+	 * the ring is single-source (a new marker vacuum-wipes it), so one
+	 * marker describes every row — but only if visible.
 	 */
 	getTraceSession(): string | undefined {
 		const session = this.main.traceSession as string | undefined;
@@ -233,7 +232,7 @@ export class MainOrchestrator {
 	}
 
 	/**
-	 * trace/reset (2026-08-30): wipe the trace buffer and the id
+	 * trace/reset: wipe the trace buffer and the id
 	 * watermark. The ingest dedup is monotonic per source process (ids at
 	 * or below traceLastId are dropped as replays), so a RESTARTED source
 	 * — ids from 1 again — is silently dropped without this. Resetting is
@@ -253,7 +252,7 @@ export class MainOrchestrator {
 	}
 
 	/**
-	 * Names-first trace resolution (trace mode, 2026-08-30): the latest
+	 * Names-first trace resolution (trace mode): the latest
 	 * edge carrying this type name, its ancestor chain (root →
 	 * selected), and any descendants already in the ring. Returns null
 	 * when the name never traced. Parentage is dive's data-flow
@@ -289,7 +288,7 @@ export class MainOrchestrator {
 	}
 
 	/**
-	 * Root-first trace resolution (Live Trace sidebar, 2026-09-01):
+	 * Root-first trace resolution (Live Trace sidebar):
 	 * every edge in the ring whose ancestor walk reaches rootId, root
 	 * included, in ring order. The tree row carries the exact rootId of
 	 * the trace it renders — resolving by NAME would pick the latest
@@ -339,7 +338,7 @@ export class MainOrchestrator {
 	}
 
 	/**
-	 * Live Trace view (2026-09-01): the newest `windowSize` edges grouped
+	 * Live Trace view: the newest `windowSize` edges grouped
 	 * into traces by root ancestor, newest activity first. Humans can't
 	 * track a millisecond event stream, so the sidebar collects it: one
 	 * row per trace with its edge count, expandable to the edges.
@@ -381,10 +380,10 @@ export class MainOrchestrator {
 			if (edge.status === 'error') { group.hasError = true; }
 			if (edge.ts > group.latest) { group.latest = edge.ts; }
 		}
-		// Error tiers (2026-09-02, Viktor's choice): errored traces pin above
-		// healthy ones, and UNKNOWN errors — no create edge in the trace, so
-		// no mnemonica instance to pin the failure to — rank above known ones.
-		// Newest-first inside each tier.
+		// Error tiers: errored traces pin above healthy ones, and UNKNOWN
+		// errors — no create edge in the trace, so no mnemonica instance
+		// to pin the failure to — rank above known ones. Newest-first
+		// inside each tier.
 		for (const group of groups.values()) {
 			group.unknownError = group.hasError && !group.edges.some(edge => edge.kind === 'create');
 		}

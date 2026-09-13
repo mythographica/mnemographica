@@ -500,9 +500,9 @@ export class StrategyServer {
 			// fired, the previous trace session is gone by design.
 			this.logger.info(`trace session changed (${String(p.session)}) — buffer auto-wiped, ${result.dropped} edges dropped`);
 		}
-		// No per-batch logging here (2026-08-30): at stream rates it was
-		// the log flood; state/query 'trace' counters are the
-		// observability for this channel now.
+		// No per-batch logging here: at stream rates it floods the log;
+		// state/query 'trace' counters are the observability for this
+		// channel.
 		// B1.5: illuminate the open panel with the live stream — flash
 		// matching spheres in 3D, advance the status counter elsewhere
 		GraphPanel.pushTraceEdges(result.edges);
@@ -512,7 +512,7 @@ export class StrategyServer {
 	}
 
 	/**
-	 * trace/reset (2026-08-30): begin a fresh trace session — the source
+	 * trace/reset: begin a fresh trace session — the source
 	 * process was restarted and its edge ids restarted with it, so the
 	 * monotonic dedup in ingestTrace would drop everything until reset.
 	 * The panel keeps its own ambient counter (cosmetic); name-based
@@ -577,8 +577,8 @@ export class StrategyServer {
 			}
 
 			case 'logs': {
-				// Agent log access (2026-08-30): pull the LoggerService
-				// ring over the wire instead of parsing logs/server.log.
+				// Agent log access: pull the LoggerService ring over the
+				// wire instead of parsing logs/server.log.
 				// Params: sample (default 50), level (optional lowercase
 				// filter: log | info | warn | error | debug)
 				const sample = typeof p.sample === 'number' ? p.sample : 50;

@@ -59,7 +59,7 @@ export type D3Node = {
 	};
 	/** Node class discriminator — spheres are types; 'instrumentation' is the
 	 * reserved slot for the upcoming EDS/instrumentation layer (no current
-	 * producer — the v1 diamond emission was reverted 2026-09-03) */
+	 * producer) */
 	nodeClass?: 'type' | 'instrumentation';
 	/** Instrumentation point payload (from instrumentation.json; consumed by
 	 * the upcoming layer, nothing emits it today) */
@@ -220,7 +220,7 @@ export type D3WrapperLink = {
  * live inside the packages, not the analyzed workspace. Kept OUT of
  * GraphData.nodes, same isolation policy as creation and wrapper nodes.
  *
- * Terminology (Viktor, 2026-09-04): EDS is dive's ring storage
+ * Terminology: EDS is dive's ring storage
  * (runtime); a Fiber is one context segment of the ring; the Trace is
  * the bigger linear-order chain the Adapter constructs — Trace ⊃ Fiber
  * ⊃ EDS. The `dive:edsRing` knot is that ring made visible.
@@ -287,8 +287,7 @@ export type GraphData = {
 		links: D3WrapperLink[];
 	};
 	/** Combined Dive graph: declared ring/hub/sink knots, the directed
-	 * export path, and the attachHooks grafts
-	 * (plans/dive-layer-redesign-2026-09-04.md). Absent when the workspace
+	 * export path, and the attachHooks grafts. Absent when the workspace
 	 * shows no dive wiring — optional, same as the other sections. */
 	internals?: {
 		nodes: D3InternalNode[];

@@ -25,11 +25,11 @@ export const Main = define('Main', function (
 		}>;
 		traceLastId: number;
 		traceReceivedTotal: number;
-		// Source session marker (2026-08-30): pushers tag each ingest
-		// batch with the target's identity (pid). A CHANGED marker means
-		// the source process restarted — its edge ids restart from 1 and
-		// the monotonic dedup would drop them all, so ingestTrace
-		// auto-wipes first (VACUUM rule, Viktor 2026-08-30).
+		// Source session marker: pushers tag each ingest batch with the
+		// target's identity (pid). A CHANGED marker means the source
+		// process restarted — its edge ids restart from 1 and the
+		// monotonic dedup would drop them all, so ingestTrace auto-wipes
+		// first (VACUUM rule).
 		traceSession: string | undefined;
 	},
 	extensionVersion: string

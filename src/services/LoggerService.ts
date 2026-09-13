@@ -27,10 +27,9 @@ export class LoggerService {
 	private loggerTab: LoggerTab | undefined;
 	private logEntries: LoggerTab_LogEntry[] = [];
 
-	// Bounded ring (2026-08-30): entries lived unbounded until the
-	// strategy fetch channel existed; now that logs are queryable the
-	// in-memory copy only needs a recent window. The file log keeps
-	// the full history.
+	// Bounded ring: logs are queryable over the strategy fetch channel,
+	// so the in-memory copy only needs a recent window. The file log
+	// keeps the full history.
 	private static readonly LOG_ENTRIES_LIMIT = 2000;
 
 	private constructor () {
@@ -175,9 +174,8 @@ export class LoggerService {
 	 * Get log entries by level
 	 * Phase 1: Filter logs by severity level
 	 * Levels are the CONSOLE names (log|info|warn|error|debug) — that
-	 * design is not ours, entries store them lowercased (2026-08-30:
-	 * the union used to say 'warning', which never matched a stored
-	 * 'warn' entry).
+	 * design is not ours, entries store them lowercased ('warning' never
+	 * matches a stored 'warn' entry).
 	 */
 	getLogsByLevel (level: 'log' | 'info' | 'warn' | 'error' | 'debug'): LoggerTab_LogEntry[] {
 		return this.logEntries.filter(entry => entry.level === level);

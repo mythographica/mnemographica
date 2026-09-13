@@ -173,6 +173,14 @@ body {
 .gen-control-label {
 	flex: 1;
 	color: var(--vscode-foreground);
+	/* Checkbox + text read off-center as baseline-aligned inline
+	   content — flex centers them */
+	display: inline-flex;
+	align-items: center;
+	/* ... but flex glues the word to the checkbox: the leading space of
+	   the label's text node collapses at the start of its anonymous
+	   flex item — one space of column-gap instead */
+	column-gap: 4px;
 }
 
 .gen-control-buttons {
@@ -399,7 +407,7 @@ body {
 	opacity: 0.3;
 }
 
-/* Legend collapse + drag (2026-09-05 review): the header is both the
+/* Legend collapse + drag: the header is both the
    collapse toggle and the drag handle. Collapsed hides the rows only —
    the header stays as the affordance to reopen. */
 #dive-legend.collapsed .legend-row {
@@ -411,6 +419,7 @@ body {
 	user-select: none;
 	display: flex;
 	justify-content: space-between;
+	column-gap: 10px;
 	margin-bottom: 0;
 }
 
@@ -422,9 +431,49 @@ body {
 	cursor: grabbing;
 }
 
-/* The vector-sphere control (2026-09-12, owner items 4+6): a small
-   draggable window holding the orientation sphere — fixed central dot,
-   surface dot riding Ctrl+drag rotation, wheel-zoomed radius */
+/* Layers & Distances collapse + drag — the legend idiom: the header is
+   both the collapse toggle and the drag handle; collapsed hides the
+   rows only, the header stays as the affordance */
+#gen-controls.collapsed #layer-controls-list {
+	display: none;
+}
+
+#gen-controls .gen-controls-header {
+	cursor: grab;
+	user-select: none;
+	display: flex;
+	justify-content: space-between;
+	column-gap: 10px;
+	margin-bottom: 0;
+}
+
+#gen-controls:not(.collapsed) .gen-controls-header {
+	margin-bottom: 8px;
+}
+
+#gen-controls.dragging .gen-controls-header {
+	cursor: grabbing;
+}
+
+/* The generation distance rows NEST under the types row, which doubles
+   as their expander — indent them; the merged orient names
+   (Diamonds/Bagels) sit left of their ⌖ button with a breath of space */
+#layer-controls-list .layer-distance-row {
+	margin-left: 14px;
+}
+
+#layer-controls-list .layer-orient-name {
+	margin-right: 6px;
+}
+
+/* 6px before the [+] buttons — the same breath the orient names have */
+#layer-controls-list .gen-control-value {
+	margin-right: 6px;
+}
+
+/* The vector-sphere control: a small draggable window holding the
+   orientation sphere — fixed central dot, surface dot riding Ctrl+drag
+   rotation, wheel-zoomed radius */
 .vector-control {
 	position: absolute;
 	top: 60px;
@@ -457,8 +506,7 @@ body {
 	border: none;
 	color: inherit;
 	cursor: pointer;
-	/* 2026-09-12 owner review: "that cross which closes orientation
-	   controller is too small" — 13px/2px was a fiducial, not a button */
+	/* a real button target, not a fiducial cross */
 	font-size: 20px;
 	line-height: 1;
 	padding: 2px 8px;
@@ -478,8 +526,6 @@ body {
 	min-height: 18px;
 }
 
-/* 2026-09-12 owner review: precise distance slider ---*--- + [______]
-   textfield "instead of just data of how much" */
 .vector-control-slider {
 	flex: 1 1 auto;
 	min-width: 0;
@@ -500,6 +546,54 @@ body {
 
 .vector-control-input:focus {
 	outline: 1px solid var(--vscode-focusBorder, #007fd4);
+}
+
+/* The invocations path filter window — a small window docked
+   immediately left of the Layers & Distances panel (which is right:10 +
+   width:220, so right:240 leaves the same 10px gap rhythm); .invalid
+   marks an expression that does not parse — the last good one keeps
+   running meanwhile */
+.invocation-filter {
+	position: absolute;
+	top: 50px;
+	right: 240px;
+	background: var(--vscode-editorHoverWidget-background);
+	border: 1px solid var(--vscode-editorHoverWidget-border);
+	border-radius: 4px;
+	padding: 6px;
+	z-index: 110;
+	color: var(--vscode-editorHoverWidget-foreground);
+	font-size: 11px;
+}
+
+.invocation-filter-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 4px;
+}
+
+.invocation-filter-title {
+	font-weight: 600;
+	margin-right: 12px;
+}
+
+.invocation-filter-input {
+	/* 460px — twice the panel's 220 */
+	width: 460px;
+	background: var(--vscode-input-background, #3c3c3c);
+	color: var(--vscode-input-foreground, #cccccc);
+	border: 1px solid var(--vscode-input-border, #3c3c3c);
+	border-radius: 2px;
+	padding: 2px 6px;
+}
+
+.invocation-filter-input:focus {
+	outline: 1px solid var(--vscode-focusBorder, #007fd4);
+}
+
+.invocation-filter-input.invalid {
+	outline: 1px solid var(--vscode-inputValidation-errorBorder, #be1100);
 }
 
 /* The ⌖ button on Layers & Distances header rows opening the control */

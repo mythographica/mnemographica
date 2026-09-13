@@ -10,13 +10,11 @@ import { getLogger } from '../services/LoggerService';
 const logger = getLogger();
 
 export class GraphPanel {
-	// Panels keyed by .tactica SOURCE ROOT (2026-09-12, owner item 8):
-	// one tab per project, each bound for life to the graph it was
-	// opened for — "when I switch to the other tactica it still holds
-	// what it was rendered for". Re-invoking on an open source reveals
-	// its tab instead of duplicating. A panel's data changes only via
-	// its own Refresh button or its explicitly opted-in follow watcher;
-	// the global refresh path never touches panels anymore.
+	// Panels keyed by .tactica SOURCE ROOT: one tab per project, each
+	// bound for life to the graph it was opened for. Re-invoking on an
+	// open source reveals its tab instead of duplicating. A panel's data
+	// changes only via its own Refresh button or its explicitly opted-in
+	// follow watcher; the global refresh path never touches panels.
 	public static panels = new Map<string, GraphPanel>();
 	// The workspace-primary source (the sidebar trees' Registry root).
 	// Sidebar-driven focus belongs to THIS panel — the sidebar renders
@@ -30,9 +28,8 @@ export class GraphPanel {
 	private readonly panel: vscode.WebviewPanel;
 	private readonly sourceRoot: string;
 	private readonly sourceName: string;
-	// Connection-style opt-in (owner review 2026-09-12: "having so many
-	// watchers on filesystem is discouraging"): exists only while the
-	// panel's follow checkbox is checked, for THIS panel's source only
+	// Connection-style opt-in: exists only while the panel's follow
+	// checkbox is checked, for THIS panel's source only
 	private followWatcher: vscode.FileSystemWatcher | undefined;
 	private readonly disposables: vscode.Disposable[] = [];
 	// Mirrors the webview's render mode ('modeChanged' messages); the
@@ -127,10 +124,10 @@ export class GraphPanel {
 		return undefined;
 	}
 
-	// Trace mode state (names-first tracing, 2026-08-30): which dive
-	// trace edge the open panel is isolating, plus the resolver hooks
-	// into the orchestrator's ring (wired from extension.ts — the panel
-	// has no orchestrator of its own)
+	// Trace mode state (names-first tracing): which dive trace edge the
+	// open panel is isolating, plus the resolver hooks into the
+	// orchestrator's ring (wired from extension.ts — the panel has no
+	// orchestrator of its own)
 	private static traceResolver: {
 		resolve: (name: string) => { selectedId: number; edges: traceEdge[] } | null;
 		resolveByRoot?: (rootId: number) => { selectedId: number; edges: traceEdge[] } | null;
@@ -147,8 +144,8 @@ export class GraphPanel {
 	}
 
 	/**
-	 * Open trace mode from OUTSIDE the webview (Live Trace sidebar,
-	 * 2026-09-01): same resolution path as the webview's pickTrace, but
+	 * Open trace mode from OUTSIDE the webview (Live Trace sidebar):
+	 * same resolution path as the webview's pickTrace, but
 	 * invoked by command. When the caller carries the trace's rootId the
 	 * by-root resolver wins — name resolution can bind to a DIFFERENT
 	 * trace that happens to end on the same type name. Returns false
@@ -178,7 +175,7 @@ export class GraphPanel {
 	}
 
 	/**
-	 * Replay a stored trace at human speed (Wanted #5, 2026-09-01):
+	 * Replay a stored trace at human speed (Wanted #5):
 	 * isolate the lineage, then the webview re-walks its spheres one
 	 * flash per edge (~650ms apart). Resolution matches openTraceMode —
 	 * by rootId when the caller carries it.
@@ -329,9 +326,8 @@ export class GraphPanel {
 					}
 					break;
 				case 'refreshGraph':
-					// The Refresh button (2026-09-12, owner item 8:
-					// auto-refresh died — "it would better be separate
-					// button"): re-read THIS panel's .tactica and rebuild
+					// The Refresh button: re-read THIS panel's .tactica
+					// and rebuild
 					await this.reloadGraph();
 					break;
 				case 'followTactica':
@@ -376,9 +372,9 @@ export class GraphPanel {
 					}
 					break;
 				case 'pickTrace': {
-					// Trace mode (2026-08-30): user clicked a sphere with
-					// live trace activity — resolve the lineage and open
-					// the isolated path view in the webview
+					// Trace mode: user clicked a sphere with live trace
+					// activity — resolve the lineage and open the isolated
+					// path view in the webview
 					if (message.data && typeof message.data === 'object' && 'name' in message.data) {
 						const name = String(message.data.name);
 						const resolved = GraphPanel.traceResolver ? GraphPanel.traceResolver.resolve(name) : null;
@@ -393,9 +389,9 @@ export class GraphPanel {
 					break;
 				}
 				case 'saveLayout':
-					// The Save button (2026-09-06 owner request): the
-					// webview cannot write files — it posts the collected
-					// layout here and the host persists it
+					// The Save button: the webview cannot write files —
+					// it posts the collected layout here and the host
+					// persists it
 					await this.handleSaveLayout(message.data);
 					break;
 				case 'traceModeExit':
@@ -462,10 +458,9 @@ export class GraphPanel {
 		});
 	}
 
-	// The Save button's backing file (2026-09-06 owner request; per-source
-	// since the 2026-09-12 multi-panel refactor): the arrangement belongs
-	// to the PROJECT — <sourceRoot>/.mnemographica/layout.json, next to
-	// the .tactica it arranges
+	// The Save button's backing file (per-source): the arrangement
+	// belongs to the PROJECT — <sourceRoot>/.mnemographica/layout.json,
+	// next to the .tactica it arranges
 	private getLayoutFilePath (): string {
 		const filePath = path.join(this.sourceRoot, '.mnemographica', 'layout.json');
 		return filePath;
@@ -478,6 +473,17 @@ export class GraphPanel {
 		}
 		try {
 			const parsed = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+			// Stale guard (the instrumentation.json idiom): a layout
+			// predating the last .tactica regeneration arranges a graph
+			// that no longer exists — skip it entirely
+			const hierarchyPath = path.join(this.sourceRoot, '.tactica', 'hierarchy.json');
+			if (fs.existsSync(hierarchyPath)) {
+				const savedAtMs = Date.parse(parsed?.savedAt as string) || fs.statSync(filePath).mtimeMs;
+				if (fs.statSync(hierarchyPath).mtimeMs > savedAtMs) {
+					logger.info('[GraphPanel] Saved layout predates the last .tactica regeneration — ignoring it');
+					return null;
+				}
+			}
 			return parsed;
 		} catch (error) {
 			logger.warn('[GraphPanel] Failed to read saved layout:', String(error));
@@ -544,14 +550,15 @@ export class GraphPanel {
 </head>
 <body>
 	<div id="controls">
-		<button id="zoom-in" title="Zoom In">+</button>
-		<button id="zoom-out" title="Zoom Out">−</button>
+		<!-- the wheel is the zoom; the .* invocation-filter button sits
+		     where the +/− zoom buttons used to be -->
+		<button id="invocation-filter" title="Filter invocations by path (regexp)">.*</button>
 		<button id="reset" title="Reset View">⟲</button>
 		<button id="save-layout" title="Save layout to .mnemographica/layout.json">Save</button>
 		<button id="refresh-graph" title="Re-read this project's .tactica and rebuild the graph">⟳ Refresh</button>
 	</div>
 	<div id="gen-controls" style="display: block;">
-		<div class="gen-controls-header">Layers &amp; Distances</div>
+		<div class="gen-controls-header" id="gen-controls-header"><span>Layers &amp; Distances</span><span id="gen-controls-toggle">▾</span></div>
 		<div id="layer-controls-list"></div>
 	</div>
 	<div id="dive-legend">

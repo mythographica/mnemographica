@@ -4,15 +4,14 @@ import * as vscode from 'vscode';
 import type { MainOrchestrator, traceEdge } from '../core/MainOrchestrator';
 
 /**
- * Live Trace view (2026-09-01, replaces the Welcome placeholder).
+ * Live Trace view.
  *
  * The 3D panel's flashes move at machine speed — unobservable for a
  * human. This sidebar collects the stream: traces from the
  * orchestrator's ring, merged by root name AND trace shape
- * (2026-09-05, Viktor's review — a name alone collides distinct
- * traces sharing a root; the shape signature is the sorted set of
- * kind:name edge identities, loop ×N repeats folded out) — one
- * `[2][×49] UserEntity` row per name+shape, discriminated by the
+ * (a name alone collides distinct traces sharing a root; the shape
+ * signature is the sorted set of kind:name edge identities, loop ×N
+ * repeats folded out) — one `[2][×49] UserEntity` row per name+shape, discriminated by the
  * trace's endpoint (`→ UserResponse`) when several shapes share a
  * name, expanding to the individual traces (exact-pick while they're in
  * the ring), each expanding to its edges in order. Clicking an edge
@@ -130,18 +129,17 @@ export class LiveTraceTreeProvider implements vscode.TreeDataProvider<LiveTraceT
 		// Fetch the WHOLE window (not the default 50) so the ×N is the true
 		// count of matching traces in the ring, not a slice artifact.
 		const groups = this.orchestrator.getTraceGroups(MAX_GROUP_ROWS * 10, 1000);
-		// Merge by root name AND trace shape (2026-09-05, Viktor's review —
-		// replaces the pure name merge of 2026-09-02): a name alone
-		// collides DIFFERENT traces that merely share a root — a trace
-		// ending at one wrap site is not the same trace as one ending at
-		// another ("UserEntity → UserResponse" is another trace). The
-		// signature is the sorted set of the trace's kind:name edge
-		// identities (the name carries the callsite for call/method edges —
-		// which wrap site fired); multiplicity folds out, so a request
-		// loop's ×N repeats stay in one group. The flat list arrives
-		// tier-sorted (unknown > error > newest), so members keep that
-		// order inside their group and the group row inherits the tier of
-		// its worst member.
+		// Merge by root name AND trace shape: a name alone collides
+		// DIFFERENT traces that merely share a root — a trace ending at
+		// one wrap site is not the same trace as one ending at another
+		// ("UserEntity → UserResponse" is another trace). The signature is
+		// the sorted set of the trace's kind:name edge identities (the
+		// name carries the callsite for call/method edges — which wrap
+		// site fired); multiplicity folds out, so a request loop's ×N
+		// repeats stay in one group. The flat list arrives tier-sorted
+		// (unknown > error > newest), so members keep that order inside
+		// their group and the group row inherits the tier of its worst
+		// member.
 		const signatureOf = (group: traceGroup): string => {
 			const parts = group.edges.map(edge => `${edge.kind}:${edge.name}`);
 			const result = Array.from(new Set(parts)).sort().join('|');
@@ -205,11 +203,10 @@ export class LiveTraceTreeProvider implements vscode.TreeDataProvider<LiveTraceT
 				items.push(this.groupItem(members, endpoint, groupHash));
 			}
 		}
-		// Source badge (2026-09-07, Viktor's review): the ring is
-		// single-source — a new session marker vacuum-wipes it — so one
-		// header row describes every trace below. self:<pid> is THIS
-		// extension host, app-channel:<pid> is the App Channel tab's
-		// target; untagged means the strategy/CDP path
+		// Source badge: the ring is single-source — a new session marker
+		// vacuum-wipes it — so one header row describes every trace below.
+		// self:<pid> is THIS extension host, app-channel:<pid> is the App
+		// Channel tab's target; untagged means the strategy/CDP path
 		if (items.length > 0) {
 			const session = this.orchestrator.getTraceSession();
 			const sourceRow = new LiveTraceTreeItem(
@@ -252,7 +249,7 @@ export class LiveTraceTreeProvider implements vscode.TreeDataProvider<LiveTraceT
 
 	private traceItem(group: traceGroup, asChild = false, endpoint?: string): LiveTraceTreeItem {
 		// Error tiers ride the group's own flags (getTraceGroups sorts
-		// unknown errors above known ones above healthy, 2026-09-02)
+		// unknown errors above known ones above healthy)
 		const hasError = group.hasError;
 		const unknownError = group.unknownError;
 		// The trace's Jaeger id rides any edge that became an OTEL span —

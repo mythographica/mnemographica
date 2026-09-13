@@ -1,8 +1,8 @@
 'use strict';
 
-// Logger channel (2026-08-30): LoggerService ring bound +
-// getRecentLogs plain-object mapping — the pieces the strategy WS
-// state/query 'logs' subject is built on.
+// Logger channel: LoggerService ring bound + getRecentLogs plain-object
+// mapping — the pieces the strategy WS state/query 'logs' subject is
+// built on.
 
 const assert = require('assert');
 

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-09-12T03:08:35.742Z",
+  "generatedAt": "2026-09-13T18:28:04.215Z",
   "points": [],
   "creationGraph": {
     "nodes": [
@@ -101,19 +101,19 @@
         "starter": true
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts:19:1",
+        "scopeId": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts:18:1",
         "name": "loadGraphDataFor",
         "kind": "function",
         "filePath": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts",
-        "location": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts:19:1",
+        "location": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts:18:1",
         "starter": false
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:426:2",
+        "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:422:2",
         "name": "GraphPanel.reloadGraph",
         "kind": "method",
         "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:426:2",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:422:2",
         "starter": false
       },
       {
@@ -125,19 +125,19 @@
         "starter": true
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:504:32",
-        "name": "/code/mnemonica/mnemographica/src/extension.ts:504",
+        "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:499:32",
+        "name": "/code/mnemonica/mnemographica/src/extension.ts:499",
         "kind": "arrow",
         "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:504:32",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:499:32",
         "starter": true
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:428:66",
-        "name": "/code/mnemonica/mnemographica/src/extension.ts:428",
+        "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:423:66",
+        "name": "/code/mnemonica/mnemographica/src/extension.ts:423",
         "kind": "arrow",
         "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:428:66",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:423:66",
         "starter": true
       },
       {
@@ -205,11 +205,11 @@
         "starter": true
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:120:27",
-        "name": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:120",
+        "scopeId": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:119:27",
+        "name": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:119",
         "kind": "arrow",
         "filePath": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts",
-        "location": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:120:27",
+        "location": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:119:27",
         "starter": true
       },
       {
@@ -253,107 +253,107 @@
         "starter": false
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2",
+        "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2",
         "name": "GraphPanel.dispose",
         "kind": "method",
         "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2",
         "starter": false
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:411:4",
-        "name": "/code/mnemonica/mnemographica/src/webview/panel.ts:411",
+        "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:407:4",
+        "name": "/code/mnemonica/mnemographica/src/webview/panel.ts:407",
         "kind": "arrow",
         "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:411:4",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:407:4",
         "starter": true
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:300:4",
-        "name": "/code/mnemonica/mnemographica/src/webview/panel.ts:300",
+        "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:297:4",
+        "name": "/code/mnemonica/mnemographica/src/webview/panel.ts:297",
         "kind": "arrow",
         "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:300:4",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:297:4",
         "starter": true
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:270:43",
-        "name": "/code/mnemonica/mnemographica/src/webview/panel.ts:270",
+        "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:267:43",
+        "name": "/code/mnemonica/mnemographica/src/webview/panel.ts:267",
         "kind": "arrow",
         "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:270:43",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:267:43",
         "starter": true
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:271:29",
-        "name": "/code/mnemonica/mnemographica/src/webview/panel.ts:271",
+        "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:268:29",
+        "name": "/code/mnemonica/mnemographica/src/webview/panel.ts:268",
         "kind": "arrow",
         "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:271:29",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:268:29",
         "starter": true
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2",
+        "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2",
         "name": "GraphPanel.queryViewState",
         "kind": "method",
         "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2",
         "starter": false
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2",
+        "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2",
         "name": "GraphPanel.pushTraceEdges",
         "kind": "method",
         "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2",
         "starter": false
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2",
+        "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2",
         "name": "GraphPanel.replayTrace",
         "kind": "method",
         "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2",
         "starter": false
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2",
+        "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2",
         "name": "GraphPanel.openTraceMode",
         "kind": "method",
         "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2",
         "starter": false
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2",
+        "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2",
         "name": "GraphPanel.setTraceResolver",
         "kind": "method",
         "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2",
         "starter": false
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2",
+        "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2",
         "name": "GraphPanel.activeTarget",
         "kind": "method",
         "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2",
         "starter": false
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2",
+        "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2",
         "name": "GraphPanel.focusTarget",
         "kind": "method",
         "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2",
         "starter": false
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2",
+        "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2",
         "name": "GraphPanel.focusNode",
         "kind": "method",
         "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2",
         "starter": false
       },
       {
@@ -405,19 +405,19 @@
         "starter": true
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2",
+        "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2",
         "name": "GraphPanel.hasOpenPanel",
         "kind": "method",
         "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2",
         "starter": false
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2",
+        "scopeId": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2",
         "name": "GraphPanel.createOrShow",
         "kind": "method",
         "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2",
+        "location": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2",
         "starter": false
       },
       {
@@ -477,11 +477,11 @@
         "starter": false
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:77:1",
+        "scopeId": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:76:1",
         "name": "startSelfTrace",
         "kind": "function",
         "filePath": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts",
-        "location": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:77:1",
+        "location": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:76:1",
         "starter": false
       },
       {
@@ -565,11 +565,11 @@
         "starter": false
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:58:2",
+        "scopeId": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:57:2",
         "name": "LiveTraceTreeProvider.constructor",
         "kind": "method",
         "filePath": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts",
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:58:2",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:57:2",
         "starter": false
       },
       {
@@ -581,19 +581,19 @@
         "starter": false
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:71:51",
-        "name": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:71",
+        "scopeId": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:70:51",
+        "name": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:70",
         "kind": "arrow",
         "filePath": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts",
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:71:51",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:70:51",
         "starter": true
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:67:2",
+        "scopeId": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:66:2",
         "name": "LiveTraceTreeProvider.noteIngest",
         "kind": "method",
         "filePath": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts",
-        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:67:2",
+        "location": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:66:2",
         "starter": false
       },
       {
@@ -605,27 +605,27 @@
         "starter": false
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:121:2",
+        "scopeId": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:120:2",
         "name": "MainOrchestrator.ingestTrace",
         "kind": "method",
         "filePath": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts",
-        "location": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:121:2",
+        "location": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:120:2",
         "starter": false
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:221:2",
+        "scopeId": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:219:2",
         "name": "LoggerService.write",
         "kind": "method",
         "filePath": "/code/mnemonica/mnemographica/src/services/LoggerService.ts",
-        "location": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:221:2",
+        "location": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:219:2",
         "starter": false
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1",
+        "scopeId": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:307:1",
         "name": "getLogger",
         "kind": "function",
         "filePath": "/code/mnemonica/mnemographica/src/services/LoggerService.ts",
-        "location": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1",
+        "location": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:307:1",
         "starter": false
       },
       {
@@ -677,43 +677,43 @@
         "starter": false
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:735:1",
+        "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:729:1",
         "name": "deactivate",
         "kind": "function",
         "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:735:1",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:729:1",
         "starter": true
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:722:1",
+        "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:716:1",
         "name": "handleFileChange",
         "kind": "function",
         "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:722:1",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:716:1",
         "starter": false
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:625:22",
-        "name": "/code/mnemonica/mnemographica/src/extension.ts:625",
+        "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:620:22",
+        "name": "/code/mnemonica/mnemographica/src/extension.ts:620",
         "kind": "arrow",
         "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:625:22",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:620:22",
         "starter": true
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:622:22",
-        "name": "/code/mnemonica/mnemographica/src/extension.ts:622",
+        "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:617:22",
+        "name": "/code/mnemonica/mnemographica/src/extension.ts:617",
         "kind": "arrow",
         "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:622:22",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:617:22",
         "starter": true
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:678:1",
+        "scopeId": "/code/mnemonica/mnemographica/src/extension.ts:672:1",
         "name": "refreshTypeGraph",
         "kind": "function",
         "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
-        "location": "/code/mnemonica/mnemographica/src/extension.ts:678:1",
+        "location": "/code/mnemonica/mnemographica/src/extension.ts:672:1",
         "starter": false
       },
       {
@@ -869,11 +869,11 @@
         "starter": false
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:41:2",
+        "scopeId": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:40:2",
         "name": "LoggerService.getInstance",
         "kind": "method",
         "filePath": "/code/mnemonica/mnemographica/src/services/LoggerService.ts",
-        "location": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:41:2",
+        "location": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:40:2",
         "starter": false
       },
       {
@@ -893,11 +893,11 @@
         "starter": false
       },
       {
-        "scopeId": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:79:2",
+        "scopeId": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:78:2",
         "name": "LoggerService.ensureLoggerTab",
         "kind": "method",
         "filePath": "/code/mnemonica/mnemographica/src/services/LoggerService.ts",
-        "location": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:79:2",
+        "location": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:78:2",
         "starter": false
       }
     ],
@@ -907,132 +907,132 @@
         "callee": "/code/mnemonica/mnemographica/src/models/Registry.ts:218:18"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:426:2",
-        "callee": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts:19:1"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:422:2",
+        "callee": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts:18:1"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:426:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:422:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:426:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:422:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:426:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:422:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:426:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:422:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:426:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:422:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:426:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:422:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:426:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:422:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:426:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:422:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:426:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:422:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:426:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:422:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:426:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:422:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:271:29",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:426:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:268:29",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:422:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:270:43",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:426:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:267:43",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:422:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:300:4",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:426:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:297:4",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:422:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:411:4",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:426:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:407:4",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:422:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:426:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:422:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts:492:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:426:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:422:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts:538:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:426:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:422:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/webview/appChannelPanel.ts:59:13",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:426:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:422:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:120:27",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:426:2"
+        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:119:27",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:422:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:132:68",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:426:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:422:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:179:64",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:426:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:422:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:426:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:422:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:297:62",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:426:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:422:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:308:15",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:426:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:422:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:315:64",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:426:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:422:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:327:15",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:426:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:422:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:358:14",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:426:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:422:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:389:15",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:426:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:422:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:428:66",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:426:2"
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:423:66",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:422:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:504:32",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:426:2"
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:499:32",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:422:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/commands/utilityCommands.ts:7:1",
@@ -1064,1083 +1064,1083 @@
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:271:29",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:268:29",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:270:43",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:267:43",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:300:4",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:297:4",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:411:4",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:407:4",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts:492:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts:538:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/webview/appChannelPanel.ts:59:13",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:120:27",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2"
+        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:119:27",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:132:68",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:179:64",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:297:62",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:308:15",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:315:64",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:327:15",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:358:14",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:389:15",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:428:66",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2"
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:423:66",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:504:32",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2"
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:499:32",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:271:29",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:268:29",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:270:43",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:267:43",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:300:4",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:297:4",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:411:4",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:407:4",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts:492:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts:538:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/webview/appChannelPanel.ts:59:13",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:120:27",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2"
+        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:119:27",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:132:68",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:179:64",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:297:62",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:308:15",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:315:64",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:327:15",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:358:14",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:389:15",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:428:66",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2"
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:423:66",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:504:32",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2"
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:499:32",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:271:29",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:268:29",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:270:43",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:267:43",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:300:4",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:297:4",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:411:4",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:407:4",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts:492:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts:538:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/webview/appChannelPanel.ts:59:13",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:120:27",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2"
+        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:119:27",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:132:68",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:179:64",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:297:62",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:308:15",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:315:64",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:327:15",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:358:14",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:389:15",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:428:66",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2"
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:423:66",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:504:32",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2"
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:499:32",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:271:29",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:268:29",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:270:43",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:267:43",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:300:4",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:297:4",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:411:4",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:407:4",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts:492:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts:538:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/webview/appChannelPanel.ts:59:13",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:120:27",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2"
+        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:119:27",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:132:68",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:179:64",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:297:62",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:308:15",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:315:64",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:327:15",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:358:14",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:389:15",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:428:66",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2"
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:423:66",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:504:32",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2"
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:499:32",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:271:29",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:268:29",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:270:43",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:267:43",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:300:4",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:297:4",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:411:4",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:407:4",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts:492:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts:538:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/webview/appChannelPanel.ts:59:13",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:120:27",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2"
+        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:119:27",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:132:68",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:179:64",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:297:62",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:308:15",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:315:64",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:327:15",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:358:14",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:389:15",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:428:66",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2"
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:423:66",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:504:32",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2"
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:499:32",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:271:29",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:268:29",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:270:43",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:267:43",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:300:4",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:297:4",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:411:4",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:407:4",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts:492:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts:538:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/webview/appChannelPanel.ts:59:13",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:120:27",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2"
+        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:119:27",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:132:68",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:179:64",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:297:62",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:308:15",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:315:64",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:327:15",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:358:14",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:389:15",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:428:66",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2"
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:423:66",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:504:32",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2"
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:499:32",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:271:29",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:268:29",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:270:43",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:267:43",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:300:4",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:297:4",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:411:4",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:407:4",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts:492:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts:538:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/webview/appChannelPanel.ts:59:13",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:120:27",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2"
+        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:119:27",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:132:68",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:179:64",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:297:62",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:308:15",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:315:64",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:327:15",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:358:14",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:389:15",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:428:66",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2"
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:423:66",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:504:32",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2"
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:499:32",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:271:29",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:268:29",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:270:43",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:267:43",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:300:4",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:297:4",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:411:4",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:407:4",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts:492:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts:538:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/webview/appChannelPanel.ts:59:13",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:120:27",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2"
+        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:119:27",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:132:68",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:179:64",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:297:62",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:308:15",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:315:64",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:327:15",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:358:14",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:389:15",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:428:66",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2"
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:423:66",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:504:32",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2"
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:499:32",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:271:29",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:268:29",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:270:43",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:267:43",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:300:4",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:297:4",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:411:4",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:407:4",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts:492:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts:538:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/webview/appChannelPanel.ts:59:13",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:120:27",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2"
+        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:119:27",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:132:68",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:179:64",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:297:62",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:308:15",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:315:64",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:327:15",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:358:14",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:389:15",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:428:66",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2"
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:423:66",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:504:32",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2"
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:499:32",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts",
@@ -2184,250 +2184,250 @@
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:271:29",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:268:29",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:270:43",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:267:43",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:300:4",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:297:4",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:411:4",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:407:4",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts:492:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts:538:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/webview/appChannelPanel.ts:59:13",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:120:27",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2"
+        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:119:27",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:132:68",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:179:64",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:297:62",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:308:15",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:315:64",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:327:15",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:358:14",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:389:15",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:428:66",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2"
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:423:66",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:504:32",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2"
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:499:32",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:73:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:70:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:91:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:88:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:107:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:104:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:119:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:116:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:141:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:138:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:158:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:155:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:186:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:183:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:214:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:211:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:251:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:248:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:271:29",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:268:29",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:270:43",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:267:43",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:300:4",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:297:4",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:411:4",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:407:4",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:589:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2"
+        "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts:596:2",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts:492:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts:538:2",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/webview/appChannelPanel.ts:59:13",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:120:27",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2"
+        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:119:27",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:132:68",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:179:64",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:297:62",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:308:15",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:315:64",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:327:15",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:358:14",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:389:15",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2"
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:428:66",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2"
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:423:66",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:504:32",
-        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:42:2"
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:499:32",
+        "callee": "/code/mnemonica/mnemographica/src/webview/panel.ts:39:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:121:2",
+        "caller": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:120:2",
         "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:42:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:58:2",
+        "caller": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:57:2",
         "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:42:2"
       },
       {
@@ -2455,7 +2455,7 @@
         "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:42:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:77:1",
+        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:76:1",
         "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:42:2"
       },
       {
@@ -2512,7 +2512,7 @@
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
-        "callee": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:77:1"
+        "callee": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:76:1"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/webview/appChannelPanel.ts",
@@ -2628,39 +2628,39 @@
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts",
-        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:58:2"
+        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:57:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:67:2",
-        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:58:2"
+        "caller": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:66:2",
+        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:57:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:71:51",
-        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:58:2"
+        "caller": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:70:51",
+        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:57:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts:492:2",
-        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:58:2"
+        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:57:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts:521:2",
-        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:58:2"
+        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:57:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/webview/appChannelPanel.ts:59:13",
-        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:58:2"
+        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:57:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:120:27",
-        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:58:2"
+        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:119:27",
+        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:57:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts",
-        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:58:2"
+        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:57:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
-        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:58:2"
+        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:57:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/commands/utilityCommands.ts:7:1",
@@ -2676,39 +2676,39 @@
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts",
-        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:67:2"
+        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:66:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:58:2",
-        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:67:2"
+        "caller": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:57:2",
+        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:66:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:71:51",
-        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:67:2"
+        "caller": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:70:51",
+        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:66:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts:492:2",
-        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:67:2"
+        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:66:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts:521:2",
-        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:67:2"
+        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:66:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/webview/appChannelPanel.ts:59:13",
-        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:67:2"
+        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:66:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:120:27",
-        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:67:2"
+        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:119:27",
+        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:66:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts",
-        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:67:2"
+        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:66:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
-        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:67:2"
+        "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:66:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts",
@@ -2727,188 +2727,188 @@
         "callee": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:58:2",
-        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:121:2"
+        "caller": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:57:2",
+        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:120:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts",
-        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:121:2"
+        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:120:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts:25:2",
-        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:121:2"
+        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:120:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts",
-        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:121:2"
+        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:120:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts:61:2",
-        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:121:2"
+        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:120:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/webview/appChannelPanel.ts",
-        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:121:2"
+        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:120:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/webview/appChannelPanel.ts:37:2",
-        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:121:2"
+        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:120:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:77:1",
-        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:121:2"
+        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:76:1",
+        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:120:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/commands/treeCommands.ts:9:1",
-        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:121:2"
+        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:120:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/commands/workspaceCommands.ts:19:1",
-        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:121:2"
+        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:120:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/commands/workspaceCommands.ts:36:1",
-        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:121:2"
+        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:120:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/commands/workspaceCommands.ts:76:1",
-        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:121:2"
+        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:120:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/commands/workspaceCommands.ts:109:1",
-        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:121:2"
+        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:120:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts",
-        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:121:2"
+        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:120:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
-        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:121:2"
+        "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:120:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/services/LoggerService.ts",
-        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:221:2"
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:219:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:41:2",
-        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:221:2"
+        "caller": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:40:2",
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:219:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1",
-        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:221:2"
+        "caller": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:307:1",
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:219:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/topologica/bootstrap.ts:14:1",
-        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1"
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:307:1"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/views/treeProvider.ts",
-        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1"
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:307:1"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts",
-        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1"
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:307:1"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/views/genTreeProvider.ts",
-        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1"
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:307:1"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts",
-        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1"
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:307:1"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts",
-        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1"
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:307:1"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/models/Instrumentation.ts",
-        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1"
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:307:1"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:18:2",
-        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1"
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:307:1"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/providers/definitionProvider.ts",
-        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1"
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:307:1"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts",
-        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1"
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:307:1"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/webview/panel.ts",
-        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1"
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:307:1"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts",
-        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1"
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:307:1"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/strategy/server.ts:538:2",
-        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1"
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:307:1"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:77:1",
-        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1"
+        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:76:1",
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:307:1"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/commands/navigationCommands.ts:11:1",
-        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1"
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:307:1"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/commands/utilityCommands.ts:7:1",
-        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1"
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:307:1"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/commands/workspaceCommands.ts:109:1",
-        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1"
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:307:1"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/commands/workspaceCommands.ts:142:1",
-        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1"
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:307:1"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:49:1",
-        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1"
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:307:1"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:678:1",
-        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1"
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:672:1",
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:307:1"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:722:1",
-        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1"
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:716:1",
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:307:1"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:735:1",
-        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1"
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:729:1",
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:307:1"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/models/Definition.ts",
-        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1"
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:307:1"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/models/EDS.ts",
-        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1"
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:307:1"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/models/Flow.ts",
-        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1"
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:307:1"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/models/Types.ts",
-        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1"
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:307:1"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/models/Usages.ts",
-        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1"
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:307:1"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/models/Registry.ts",
-        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1"
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:307:1"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/models/Registry.ts",
@@ -2931,20 +2931,20 @@
         "callee": "/code/mnemonica/mnemographica/src/models/Definition.ts"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:622:22",
-        "callee": "/code/mnemonica/mnemographica/src/extension.ts:722:1"
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:617:22",
+        "callee": "/code/mnemonica/mnemographica/src/extension.ts:716:1"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/extension.ts:625:22",
-        "callee": "/code/mnemonica/mnemographica/src/extension.ts:722:1"
+        "caller": "/code/mnemonica/mnemographica/src/extension.ts:620:22",
+        "callee": "/code/mnemonica/mnemographica/src/extension.ts:716:1"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts",
-        "callee": "/code/mnemonica/mnemographica/src/extension.ts:678:1"
+        "callee": "/code/mnemonica/mnemographica/src/extension.ts:672:1"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/extension.ts:261:45",
-        "callee": "/code/mnemonica/mnemographica/src/extension.ts:678:1"
+        "callee": "/code/mnemonica/mnemographica/src/extension.ts:672:1"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/commands/workspaceCommands.ts:48:3",
@@ -2971,15 +2971,15 @@
         "callee": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:18:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts:19:1",
+        "caller": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts:18:1",
         "callee": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:18:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:121:2",
+        "caller": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:120:2",
         "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:88:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:58:2",
+        "caller": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:57:2",
         "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:88:2"
       },
       {
@@ -3007,7 +3007,7 @@
         "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:88:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:77:1",
+        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:76:1",
         "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:88:2"
       },
       {
@@ -3039,11 +3039,11 @@
         "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:88:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:121:2",
+        "caller": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:120:2",
         "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:58:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:58:2",
+        "caller": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts:57:2",
         "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:58:2"
       },
       {
@@ -3071,7 +3071,7 @@
         "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:58:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:77:1",
+        "caller": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:76:1",
         "callee": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:58:2"
       },
       {
@@ -3204,15 +3204,15 @@
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/services/LoggerService.ts",
-        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:41:2"
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:40:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:221:2",
-        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:41:2"
+        "caller": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:219:2",
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:40:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1",
-        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:41:2"
+        "caller": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:307:1",
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:40:2"
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/topologica/bootstrap.ts",
@@ -3312,31 +3312,31 @@
       },
       {
         "caller": "/code/mnemonica/mnemographica/src/services/LoggerService.ts",
-        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:79:2"
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:78:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:41:2",
-        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:79:2"
+        "caller": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:40:2",
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:78:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:221:2",
-        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:79:2"
+        "caller": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:219:2",
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:78:2"
       },
       {
-        "caller": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:309:1",
-        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:79:2"
+        "caller": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:307:1",
+        "callee": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:78:2"
       }
     ],
     "anchors": [
       {
-        "location": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:85:21",
-        "holderScopeId": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:79:2",
+        "location": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:84:21",
+        "holderScopeId": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:78:2",
         "typePath": "LoggerTab",
         "constructorText": "LoggerTabConstructor"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:247:18",
-        "holderScopeId": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:221:2",
+        "location": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:245:18",
+        "holderScopeId": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:219:2",
         "typePath": "LoggerTab.LogEntry",
         "constructorText": "this.loggerTab.LogEntry",
         "variable": "entry"
@@ -3354,8 +3354,8 @@
         "constructorText": "Registry"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts:26:19",
-        "holderScopeId": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts:19:1",
+        "location": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts:25:19",
+        "holderScopeId": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts:18:1",
         "typePath": "Registry",
         "constructorText": "RegistryType",
         "variable": "registry"

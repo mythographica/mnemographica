@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-09-12T03:08:35.636Z",
+  "generatedAt": "2026-09-13T18:28:04.138Z",
   "eds": {
     "unknown": [
       {
@@ -14,12 +14,12 @@
         "code": "registry.getFlow()"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:145:18",
+        "location": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:144:18",
         "kind": "wrap",
         "code": "dive.wrap(fn as (...args: unknown[]) => unknown, context, label)",
         "fn": "wrap",
         "instanceArg": "context",
-        "scopeId": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:140:1"
+        "scopeId": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:139:1"
       }
     ]
   }

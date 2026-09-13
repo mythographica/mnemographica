@@ -1,35 +1,35 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-09-12T03:08:35.634Z",
+  "generatedAt": "2026-09-13T18:28:04.137Z",
   "usages": {
     "LoggerTab": [
       {
-        "location": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:83:32",
+        "location": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:82:32",
         "kind": "lookup",
         "code": "lookup('LoggerTab')",
-        "holderScopeId": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:79:2"
+        "holderScopeId": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:78:2"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:85:21",
+        "location": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:84:21",
         "kind": "instantiation",
         "code": "new LoggerTabConstructor()",
         "constructorText": "LoggerTabConstructor",
-        "holderScopeId": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:79:2"
+        "holderScopeId": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:78:2"
       }
     ],
     "LoggerTab.LogEntry": [
       {
-        "location": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:247:18",
+        "location": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:245:18",
         "kind": "instantiation",
         "code": "new this.loggerTab.LogEntry({\n\t\t\t\tlevel: level.toLowerCase() as 'info' | 'warning' | 'error',\n\t\t\t\tme",
         "constructorText": "this.loggerTab.LogEntry",
-        "holderScopeId": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:221:2"
+        "holderScopeId": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:219:2"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:247:22",
+        "location": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:245:22",
         "kind": "propertyAccess",
         "code": "this.loggerTab.LogEntry",
-        "holderScopeId": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:221:2"
+        "holderScopeId": "/code/mnemonica/mnemographica/src/services/LoggerService.ts:219:2"
       }
     ],
     "Main": [
@@ -62,17 +62,17 @@
         "holderScopeId": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts:42:2"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts:25:23",
+        "location": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts:24:23",
         "kind": "lookup",
         "code": "lookup('Registry')",
-        "holderScopeId": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts:19:1"
+        "holderScopeId": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts:18:1"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts:26:19",
+        "location": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts:25:19",
         "kind": "instantiation",
         "code": "new RegistryType()",
         "constructorText": "RegistryType",
-        "holderScopeId": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts:19:1"
+        "holderScopeId": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts:18:1"
       }
     ],
     "Definitions": [

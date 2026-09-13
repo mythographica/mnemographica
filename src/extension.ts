@@ -42,8 +42,8 @@ let strategyServer: StrategyServer;
 let statusBarItem: vscode.StatusBarItem;
 let mainOrchestrator: MainOrchestrator;
 let liveTraceProvider: LiveTraceTreeProvider;
-// refreshTypeGraph routed through dive's wrap once self-tracing is up
-// (2026-09-06 self-instrumentation); until then the plain function
+// refreshTypeGraph routed through dive's wrap once self-tracing is up;
+// until then the plain function
 let tracedRefresh: typeof refreshTypeGraph = refreshTypeGraph;
 
 export function activate(context: vscode.ExtensionContext) {
@@ -189,7 +189,7 @@ export function activate(context: vscode.ExtensionContext) {
 				return;
 			}
 			// The sidebar renders the primary Registry, so its nodes live
-			// in the primary source's panel — open THAT tab (2026-09-12)
+			// in the primary source's panel — open THAT tab
 			const sourceRoot = treeProvider?.getCurrentWorkspace() || vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
 			if (!sourceRoot) {
 				logger.warn('[Extension] Show on Graph: no workspace folder');
@@ -253,10 +253,10 @@ export function activate(context: vscode.ExtensionContext) {
 	strategyServer.setOrchestrator(mainOrchestrator);
 	// The App Channel tab's direct connection lands its edges the same way
 	AppChannelPanel.setOrchestrator(mainOrchestrator);
-	// Self-instrumentation (2026-09-06, owner request): dive runs in the
-	// extension host and its edges land on the same ingestTrace. The wrap
-	// context is the Registry mnemonica instance — getProps resolves its
-	// TypeName at runtime and tactica sees the wrap site for eds.json.
+	// Self-instrumentation: dive runs in the extension host and its edges
+	// land on the same ingestTrace. The wrap context is the Registry
+	// mnemonica instance — getProps resolves its TypeName at runtime and
+	// tactica sees the wrap site for eds.json.
 	// Fire-and-forget: a dive load failure never blocks activation
 	void startSelfTrace(mainOrchestrator).then(() => {
 		tracedRefresh = wrapForSelfTrace(refreshTypeGraph, mainOrchestrator.getRegistry(), 'refreshTypeGraph');
@@ -283,9 +283,9 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 	});
 
-	// Live Trace sidebar (2026-09-01, replaces the Welcome placeholder):
-	// the machine-speed stream collected into human-speed rows — one per
-	// recent trace, edge count up front, expandable to per-edge code jumps
+	// Live Trace sidebar: the machine-speed stream collected into
+	// human-speed rows — one per recent trace, edge count up front,
+	// expandable to per-edge code jumps
 	liveTraceProvider = new LiveTraceTreeProvider(mainOrchestrator);
 	context.subscriptions.push(
 		vscode.window.createTreeView('mnemonicaLiveTrace', {
@@ -410,13 +410,8 @@ export function activate(context: vscode.ExtensionContext) {
 	utilityCommands.forEach(cmd => context.subscriptions.push(cmd));
 	workspaceCommands.forEach(cmd => context.subscriptions.push(cmd));
 
-	// Graph commands (formerly commands/graphCommands.ts). The 2.5D panel
-	// was retired by owner decision; the 2D/3D webview panel remains and
-	// feeds straight from the orchestrator, same as the generation view.
-	// 2026-09-12 (owner item 8): panels are keyed by .tactica SOURCE —
-	// one tab per project, each holding what it was rendered for.
-	// 2026-09-12 (owner, URGENT review: "that list of current workspace
-	// should not happen when I ALREADY PICKED A TRIE!"): the Trie panel's
+	// Graph commands. Panels are keyed by .tactica SOURCE — one tab per
+	// project, each holding what it was rendered for. The Trie panel's
 	// picked source ALWAYS wins, no matter how many panels are open —
 	// the workspace picker made a browsed out-of-workspace .tactica
 	// UNREACHABLE (discoverTacticaSources scans workspace folders only),
@@ -534,8 +529,8 @@ export function activate(context: vscode.ExtensionContext) {
 
 		// Navigate to the selected item — unless the 3D graph is on screen,
 		// in which case rotate the graph to the node instead of stealing
-		// the editor (owner decision 2026-08-29: rotate when 3D open,
-		// jump to file when it is closed/hidden)
+		// the editor (rotate when 3D open, jump to file when it is
+		// closed/hidden)
 		if (selected.data.fullPath) {
 			const nodeId = selected.data.fullName || selected.data.label;
 			const rotated = GraphPanel.focusNode({ id: nodeId, name: selected.data.label });
@@ -569,7 +564,7 @@ export function activate(context: vscode.ExtensionContext) {
 		const workspacePath = workspaceFolders[0].uri.fsPath;
 		logger.info('Loading tree definitions from:', workspacePath);
 		// The sidebar trees render THIS source's Registry — sidebar-driven
-		// focus and trace entry points route to its panel (2026-09-12)
+		// focus and trace entry points route to its panel
 		GraphPanel.primarySource = workspacePath;
 
 		// Load all models through MainOrchestrator
@@ -592,8 +587,8 @@ export function activate(context: vscode.ExtensionContext) {
 			// Update the creation-scope and wrap-site tries
 			diamondsProvider.setRegistry(mainOrchestrator.getRegistry());
 			bagelsProvider.setRegistry(mainOrchestrator.getRegistry());
-			// Feed the generation tree view. The 3D panel is NOT fed here
-			// (2026-09-12): it loads its own bound source on open
+			// Feed the generation tree view. The 3D panel is NOT fed here:
+			// it loads its own bound source on open
 			const graphData = mainOrchestrator.getGraphData();
 			if (graphData) {
 				logger.info(`[Extension] Graph data: ${graphData.nodes.length} nodes, ${graphData.links.length} links, ${graphData.execflow.length} exec links`);
@@ -659,11 +654,10 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 /**
- * Every project root carrying a .tactica in this workspace (2026-09-12,
- * owner item 8): hierarchy.json is the load-bearing artifact the
- * Registry reads. Shortest-path-first ordering — the workspace root
- * tends to sort first, so the primary source opens without a pick
- * when several exist.
+ * Every project root carrying a .tactica in this workspace:
+ * hierarchy.json is the load-bearing artifact the Registry reads.
+ * Shortest-path-first ordering — the workspace root tends to sort
+ * first, so the primary source opens without a pick when several exist.
  */
 async function discoverTacticaSources (): Promise<string[]> {
 	const found = await vscode.workspace.findFiles('**/.tactica/hierarchy.json', '**/node_modules/**');
@@ -695,10 +689,10 @@ async function refreshTypeGraph(_context: vscode.ExtensionContext) {
 		const graphData = mainOrchestrator.getGraphData();
 		if (graphData) {
 			genProvider.setGraphData(graphData);
-			// 3D panels are NOT pushed here anymore (2026-09-12, owner
-			// item 8): each tab is bound to its own .tactica source and
-			// re-reads it only via its own Refresh button or follow
-			// opt-in — a global refresh must never clobber a bound tab
+			// 3D panels are NOT pushed here: each tab is bound to its own
+			// .tactica source and re-reads it only via its own Refresh
+			// button or follow opt-in — a global refresh must never
+			// clobber a bound tab
 		}
 	}
 

@@ -109,8 +109,8 @@ console.log('Test 5: result carries the freshly-accepted edges (B1.5 panel push)
 	assert.strictEqual(first.edges.length, 2, 'accepted edges returned for forwarding');
 	assert.strictEqual(first.edges[1].id, 2);
 	// Re-published ids still in the ring are lifecycle completions
-	// (leave/settle, 2026-09-01): upserted in place AND forwarded, so the
-	// panel and the Live Trace tree see the completion, not just arrivals
+	// (leave/settle): upserted in place AND forwarded, so the panel and
+	// the Live Trace tree see the completion, not just arrivals
 	const completion = Object.assign(edge(2), { status: 'ok', duration: 5 });
 	const second = orchestrator.ingestTrace([completion, edge(3)]);
 	assert.strictEqual(second.accepted, 1, 'only the genuinely new edge is new');
