@@ -300,6 +300,49 @@ async function runTests() {
 	registryV2.clear();
 	console.log('  ✓ model clear() resets the creationGraph\n');
 
+	// Test 24: relative paths (portable tactica output) resolve against
+	// the workspace root at load time; type-name keys stay untouched
+	console.log('Test 24: relative .tactica paths resolve against the workspace root');
+	const relDir = fs.mkdtempSync(path.join(os.tmpdir(), 'mnemo-rel-'));
+	const relTactica = path.join(relDir, '.tactica');
+	fs.mkdirSync(relTactica);
+	const fixtureFiles = [
+		'definitions.json', 'hierarchy.json', 'usages.json',
+		'eds.json', 'flow.json', 'instrumentation.json', 'types.ts'
+	];
+	for (const file of fixtureFiles) {
+		const source = path.join(fixturesV2Path, '.tactica', file);
+		if (!fs.existsSync(source)) { continue; }
+		const raw = fs.readFileSync(source, 'utf-8');
+		// simulate portable tactica output: the old machine root is
+		// stripped, exactly what the writer emits now
+		const relativized = raw.split('/code/mnemonica/tactica-nestjs/').join('');
+		fs.writeFileSync(path.join(relTactica, file), relativized);
+	}
+	const relRegistry = new Registry();
+	await relRegistry.loadFromWorkspace(relDir);
+	const relDefinitions = relRegistry.getDefinitions();
+	assert.ok(relDefinitions.size > 0, 'definitions load from relative payloads');
+	let resolvedLocations = 0;
+	for (const key of relDefinitions.keys()) {
+		assert.ok(!key.startsWith(relDir), `type-name key stays untouched: ${key}`);
+		const entry = relDefinitions.get(key);
+		if (!entry.location) { continue; }
+		assert.ok(path.isAbsolute(entry.location), `location resolves absolute: ${entry.location}`);
+		assert.ok(entry.location.startsWith(relDir + path.sep), 'location anchors at the workspace root');
+		resolvedLocations++;
+	}
+	assert.ok(resolvedLocations > 0, 'at least one definition location was checked');
+	const relGraph = relRegistry.getInstrumentation().getCreationGraph();
+	assert.ok(relGraph, 'creationGraph loads from relative payloads');
+	for (const node of relGraph.nodes) {
+		assert.ok(node.filePath.startsWith(relDir + path.sep), `node filePath resolves absolute: ${node.filePath}`);
+	}
+	for (const anchor of relGraph.anchors) {
+		assert.ok(anchor.location.startsWith(relDir + path.sep), `anchor location resolves absolute: ${anchor.location}`);
+	}
+	console.log(`  ✓ ${resolvedLocations} definitions + ${relGraph.nodes.length} creation nodes resolve against the workspace root\n`);
+
 	console.log('=== All Tests Passed ===');
 }
 

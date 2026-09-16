@@ -1,25 +1,25 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-09-13T18:28:04.138Z",
+  "generatedAt": "2026-09-16T08:07:16.710Z",
   "eds": {
     "unknown": [
       {
-        "location": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts:127:21",
+        "location": "src/views/flowTreeProvider.ts:127:21",
         "kind": "contextConsume",
         "code": "this.registry.getFlow()"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts:196:16",
+        "location": "src/core/GraphBuilder.ts:196:16",
         "kind": "contextConsume",
         "code": "registry.getFlow()"
       },
       {
-        "location": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:144:18",
+        "location": "src/strategy/selfTrace.ts:144:18",
         "kind": "wrap",
         "code": "dive.wrap(fn as (...args: unknown[]) => unknown, context, label)",
         "fn": "wrap",
         "instanceArg": "context",
-        "scopeId": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts:139:1"
+        "scopeId": "src/strategy/selfTrace.ts:139:1"
       }
     ]
   }

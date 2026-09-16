@@ -1,10 +1,10 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-09-13T18:28:04.136Z",
+  "generatedAt": "2026-09-16T08:07:16.708Z",
   "definitions": {
     "Instrumentation": {
       "name": "Instrumentation",
-      "location": "/code/mnemonica/mnemographica/src/models/Instrumentation.ts:58:32",
+      "location": "src/models/Instrumentation.ts:58:32",
       "kind": "define",
       "parent": null,
       "strictChain": true,
@@ -12,7 +12,7 @@
     },
     "Instrumentation.InstrumentationPoint": {
       "name": "InstrumentationPoint",
-      "location": "/code/mnemonica/mnemographica/src/models/Instrumentation.ts:119:53",
+      "location": "src/models/Instrumentation.ts:119:53",
       "kind": "define",
       "parent": "Instrumentation",
       "strictChain": true,
@@ -20,7 +20,7 @@
     },
     "Definitions": {
       "name": "Definitions",
-      "location": "/code/mnemonica/mnemographica/src/models/Definition.ts:18:28",
+      "location": "src/models/Definition.ts:18:28",
       "kind": "define",
       "parent": null,
       "strictChain": true,
@@ -28,7 +28,7 @@
     },
     "Definitions.DefinitionEntry": {
       "name": "DefinitionEntry",
-      "location": "/code/mnemonica/mnemographica/src/models/Definition.ts:70:44",
+      "location": "src/models/Definition.ts:70:44",
       "kind": "define",
       "parent": "Definitions",
       "strictChain": true,
@@ -36,7 +36,7 @@
     },
     "EDS": {
       "name": "EDS",
-      "location": "/code/mnemonica/mnemographica/src/models/EDS.ts:29:20",
+      "location": "src/models/EDS.ts:29:20",
       "kind": "define",
       "parent": null,
       "strictChain": true,
@@ -44,7 +44,7 @@
     },
     "EDS.EDSEntry": {
       "name": "EDSEntry",
-      "location": "/code/mnemonica/mnemographica/src/models/EDS.ts:76:29",
+      "location": "src/models/EDS.ts:76:29",
       "kind": "define",
       "parent": "EDS",
       "strictChain": true,
@@ -52,7 +52,7 @@
     },
     "Flow": {
       "name": "Flow",
-      "location": "/code/mnemonica/mnemographica/src/models/Flow.ts:18:21",
+      "location": "src/models/Flow.ts:18:21",
       "kind": "define",
       "parent": null,
       "strictChain": true,
@@ -60,7 +60,7 @@
     },
     "Flow.FlowEntry": {
       "name": "FlowEntry",
-      "location": "/code/mnemonica/mnemographica/src/models/Flow.ts:65:31",
+      "location": "src/models/Flow.ts:65:31",
       "kind": "define",
       "parent": "Flow",
       "strictChain": true,
@@ -68,7 +68,7 @@
     },
     "LoggerTab": {
       "name": "LoggerTab",
-      "location": "/code/mnemonica/mnemographica/src/models/LoggerTab.ts:15:26",
+      "location": "src/models/LoggerTab.ts:15:26",
       "kind": "define",
       "parent": null,
       "strictChain": true,
@@ -76,7 +76,7 @@
     },
     "LoggerTab.LogEntry": {
       "name": "LogEntry",
-      "location": "/code/mnemonica/mnemographica/src/models/LoggerTab.ts:23:35",
+      "location": "src/models/LoggerTab.ts:23:35",
       "kind": "define",
       "parent": "LoggerTab",
       "strictChain": true,
@@ -84,7 +84,7 @@
     },
     "Main": {
       "name": "Main",
-      "location": "/code/mnemonica/mnemographica/src/models/Main.ts:5:21",
+      "location": "src/models/Main.ts:5:21",
       "kind": "define",
       "parent": null,
       "strictChain": true,
@@ -92,7 +92,7 @@
     },
     "Main.Adapter": {
       "name": "Adapter",
-      "location": "/code/mnemonica/mnemographica/src/models/Main.ts:45:29",
+      "location": "src/models/Main.ts:45:29",
       "kind": "define",
       "parent": "Main",
       "strictChain": true,
@@ -100,7 +100,7 @@
     },
     "Types": {
       "name": "Types",
-      "location": "/code/mnemonica/mnemographica/src/models/Types.ts:21:22",
+      "location": "src/models/Types.ts:21:22",
       "kind": "define",
       "parent": null,
       "strictChain": true,
@@ -108,7 +108,7 @@
     },
     "Types.TypeEntry": {
       "name": "TypeEntry",
-      "location": "/code/mnemonica/mnemographica/src/models/Types.ts:75:32",
+      "location": "src/models/Types.ts:75:32",
       "kind": "define",
       "parent": "Types",
       "strictChain": true,
@@ -116,7 +116,7 @@
     },
     "Usages": {
       "name": "Usages",
-      "location": "/code/mnemonica/mnemographica/src/models/Usages.ts:16:23",
+      "location": "src/models/Usages.ts:16:23",
       "kind": "define",
       "parent": null,
       "strictChain": true,
@@ -124,7 +124,7 @@
     },
     "Usages.UsageEntry": {
       "name": "UsageEntry",
-      "location": "/code/mnemonica/mnemographica/src/models/Usages.ts:59:34",
+      "location": "src/models/Usages.ts:59:34",
       "kind": "define",
       "parent": "Usages",
       "strictChain": true,
@@ -132,7 +132,7 @@
     },
     "Registry": {
       "name": "Registry",
-      "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:43:25",
+      "location": "src/models/Registry.ts:44:25",
       "kind": "define",
       "parent": null,
       "strictChain": true,
@@ -140,7 +140,7 @@
     },
     "Registry.RegistryEntry": {
       "name": "RegistryEntry",
-      "location": "/code/mnemonica/mnemographica/src/models/Registry.ts:609:39",
+      "location": "src/models/Registry.ts:613:39",
       "kind": "define",
       "parent": "Registry",
       "strictChain": true,
@@ -148,7 +148,7 @@
     },
     "Scene3D": {
       "name": "Scene3D",
-      "location": "/code/mnemonica/mnemographica/src/models/Scene3D.ts:5:24",
+      "location": "src/models/Scene3D.ts:5:24",
       "kind": "define",
       "parent": null,
       "strictChain": true,
@@ -156,7 +156,7 @@
     },
     "Scene3D.Camera3D": {
       "name": "Camera3D",
-      "location": "/code/mnemonica/mnemographica/src/models/Scene3D.ts:9:33",
+      "location": "src/models/Scene3D.ts:9:33",
       "kind": "define",
       "parent": "Scene3D",
       "strictChain": true,
@@ -164,7 +164,7 @@
     },
     "Scene3D.GraphNode3D": {
       "name": "GraphNode3D",
-      "location": "/code/mnemonica/mnemographica/src/models/Scene3D.ts:21:36",
+      "location": "src/models/Scene3D.ts:21:36",
       "kind": "define",
       "parent": "Scene3D",
       "strictChain": true,
@@ -172,7 +172,7 @@
     },
     "Scene3D.Link3D": {
       "name": "Link3D",
-      "location": "/code/mnemonica/mnemographica/src/models/Scene3D.ts:34:31",
+      "location": "src/models/Scene3D.ts:34:31",
       "kind": "define",
       "parent": "Scene3D",
       "strictChain": true,
@@ -180,7 +180,7 @@
     },
     "Scene3D.GraphNode3D.Tooltip3D": {
       "name": "Tooltip3D",
-      "location": "/code/mnemonica/mnemographica/src/models/Scene3D.ts:43:38",
+      "location": "src/models/Scene3D.ts:43:38",
       "kind": "define",
       "parent": "Scene3D.GraphNode3D",
       "strictChain": true,
@@ -188,7 +188,7 @@
     },
     "Trie": {
       "name": "Trie",
-      "location": "/code/mnemonica/mnemographica/src/models/Trie.ts:5:21",
+      "location": "src/models/Trie.ts:5:21",
       "kind": "define",
       "parent": null,
       "strictChain": true,
@@ -196,7 +196,7 @@
     },
     "Trie.GraphNodeTrie": {
       "name": "GraphNodeTrie",
-      "location": "/code/mnemonica/mnemographica/src/models/Trie.ts:9:35",
+      "location": "src/models/Trie.ts:9:35",
       "kind": "define",
       "parent": "Trie",
       "strictChain": true,
@@ -204,7 +204,7 @@
     },
     "Trie.GraphNodeTrie.LinkTrie": {
       "name": "LinkTrie",
-      "location": "/code/mnemonica/mnemographica/src/models/Trie.ts:20:39",
+      "location": "src/models/Trie.ts:20:39",
       "kind": "define",
       "parent": "Trie.GraphNodeTrie",
       "strictChain": true,
@@ -212,7 +212,7 @@
     },
     "Trie.GraphNodeTrie.ContextMenu": {
       "name": "ContextMenu",
-      "location": "/code/mnemonica/mnemographica/src/models/Trie.ts:29:42",
+      "location": "src/models/Trie.ts:29:42",
       "kind": "define",
       "parent": "Trie.GraphNodeTrie",
       "strictChain": true,

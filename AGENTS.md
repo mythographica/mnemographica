@@ -46,6 +46,13 @@ The extension helps AI agents:
 
 2. **Registry** (`src/models/Registry.ts`) — the controller
    - The only model doing file I/O: `loadFromWorkspace()` reads `.tactica/*`
+   - tactica emits project-relative paths (portable output); every parsed
+     payload passes through `resolveWorkspacePaths` (`src/utils/paths.ts`)
+     at load time, anchored at the directory holding `.tactica`, so all
+     downstream code sees absolute paths. Legacy absolute payloads pass
+     through unchanged. The same resolver covers the scattered readers
+     (`navigationCommands`, `treeProvider` fallback); `definitionProvider`
+     resolves per-file on its own
    - Types are loaded from `hierarchy.json` (structure, dot-joined fullPaths,
      1-based define()-site locations); property signatures are parsed from the
      generated `types.ts` bodies, the only place they exist

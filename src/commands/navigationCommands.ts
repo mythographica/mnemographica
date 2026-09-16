@@ -5,6 +5,7 @@ import { VSCodeNavigation } from '../services/NavigationAdapter';
 import { MnemonicaTreeProvider, MnemonicaTreeItem } from '../views/treeProvider';
 import { UsagesTreeProvider, UsageTreeItem } from '../views/usagesTreeProvider';
 import { getLogger } from '../services/LoggerService';
+import { resolveWorkspacePaths } from '../utils/paths';
 import * as path from 'path';
 import * as fs from 'fs';
 
@@ -118,7 +119,7 @@ export function registerNavigationCommands(
 
 			try {
 				const content = fs.readFileSync(definitionsPath, 'utf-8');
-				const definitions = JSON.parse(content);
+				const definitions = resolveWorkspacePaths(JSON.parse(content), workspacePath);
 				const typeName = item.typeName.replace(/Instance$/, '');
 
 				let definition = definitions[typeName] || definitions[`${typeName}Instance`];

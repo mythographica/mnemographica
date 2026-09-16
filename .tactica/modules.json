@@ -1,15 +1,15 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-09-13T18:28:04.152Z",
+  "generatedAt": "2026-09-16T08:07:16.729Z",
   "modules": {
-    "/code/mnemonica/mnemographica/src/topologica/bootstrap.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/topologica/bootstrap.ts",
+    "src/topologica/bootstrap.ts": {
+      "filePath": "src/topologica/bootstrap.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "loadModels",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/topologica/bootstrap.ts",
+          "sourceModule": "src/topologica/bootstrap.ts",
           "isReExport": false
         }
       ],
@@ -17,7 +17,7 @@
         {
           "name": "define",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/node_modules/mnemonica/build/index.d.ts",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -25,7 +25,7 @@
         {
           "name": "topologicaLoader",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/node_modules/@mnemonica/topologica/lib/index.d.ts",
+          "sourceModule": "node_modules/@mnemonica/topologica/lib/index.d.ts",
           "importKind": "namespace",
           "isReExport": false,
           "external": true
@@ -33,33 +33,33 @@
         {
           "name": "getLogger",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/services/LoggerService.ts",
+          "sourceModule": "src/services/LoggerService.ts",
           "importKind": "named",
           "isReExport": false
         }
       ],
       "dependencies": [
-        "/code/mnemonica/mnemographica/src/services/LoggerService.ts"
+        "src/services/LoggerService.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": [
         "path"
       ]
     },
-    "/code/mnemonica/mnemographica/src/services/LoggerService.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/services/LoggerService.ts",
+    "src/services/LoggerService.ts": {
+      "filePath": "src/services/LoggerService.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "LoggerService",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/services/LoggerService.ts",
+          "sourceModule": "src/services/LoggerService.ts",
           "isReExport": false
         },
         {
           "name": "getLogger",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/services/LoggerService.ts",
+          "sourceModule": "src/services/LoggerService.ts",
           "isReExport": false
         }
       ],
@@ -67,7 +67,7 @@
         {
           "name": "vscode",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/node_modules/@types/vscode/index.d.ts",
+          "sourceModule": "node_modules/@types/vscode/index.d.ts",
           "importKind": "namespace",
           "isReExport": false,
           "external": true
@@ -75,7 +75,7 @@
         {
           "name": "lookup",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/node_modules/mnemonica/build/index.d.ts",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -83,27 +83,27 @@
         {
           "name": "modelsLoaded",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/src/topologica/bootstrap.ts",
+          "sourceModule": "src/topologica/bootstrap.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "LoggerTab",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/.tactica/types.ts",
+          "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "LoggerTab_LogEntry",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/.tactica/types.ts",
+          "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false
         }
       ],
       "dependencies": [
-        "/code/mnemonica/mnemographica/src/topologica/bootstrap.ts"
+        "src/topologica/bootstrap.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": [
@@ -111,20 +111,38 @@
         "path"
       ]
     },
-    "/code/mnemonica/mnemographica/src/views/treeProvider.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/views/treeProvider.ts",
+    "src/utils/paths.ts": {
+      "filePath": "src/utils/paths.ts",
+      "definedTypes": [],
+      "exportedBindings": [
+        {
+          "name": "resolveWorkspacePaths",
+          "kind": "function",
+          "sourceModule": "src/utils/paths.ts",
+          "isReExport": false
+        }
+      ],
+      "importedBindings": [],
+      "dependencies": [],
+      "unresolvedSpecifiers": [],
+      "builtinSpecifiers": [
+        "path"
+      ]
+    },
+    "src/views/treeProvider.ts": {
+      "filePath": "src/views/treeProvider.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "MnemonicaTreeItem",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/views/treeProvider.ts",
+          "sourceModule": "src/views/treeProvider.ts",
           "isReExport": false
         },
         {
           "name": "MnemonicaTreeProvider",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/views/treeProvider.ts",
+          "sourceModule": "src/views/treeProvider.ts",
           "isReExport": false
         }
       ],
@@ -132,7 +150,7 @@
         {
           "name": "vscode",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/node_modules/@types/vscode/index.d.ts",
+          "sourceModule": "node_modules/@types/vscode/index.d.ts",
           "importKind": "namespace",
           "isReExport": false,
           "external": true
@@ -140,20 +158,28 @@
         {
           "name": "getLogger",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/services/LoggerService.ts",
+          "sourceModule": "src/services/LoggerService.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "resolveWorkspacePaths",
+          "kind": "function",
+          "sourceModule": "src/utils/paths.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "Registry",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/.tactica/types.ts",
+          "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false
         }
       ],
       "dependencies": [
-        "/code/mnemonica/mnemographica/src/services/LoggerService.ts"
+        "src/services/LoggerService.ts",
+        "src/utils/paths.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": [
@@ -161,20 +187,20 @@
         "path"
       ]
     },
-    "/code/mnemonica/mnemographica/src/views/usagesTreeProvider.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/views/usagesTreeProvider.ts",
+    "src/views/usagesTreeProvider.ts": {
+      "filePath": "src/views/usagesTreeProvider.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "UsageTreeItem",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/views/usagesTreeProvider.ts",
+          "sourceModule": "src/views/usagesTreeProvider.ts",
           "isReExport": false
         },
         {
           "name": "UsagesTreeProvider",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/views/usagesTreeProvider.ts",
+          "sourceModule": "src/views/usagesTreeProvider.ts",
           "isReExport": false
         }
       ],
@@ -182,7 +208,7 @@
         {
           "name": "vscode",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/node_modules/@types/vscode/index.d.ts",
+          "sourceModule": "node_modules/@types/vscode/index.d.ts",
           "importKind": "namespace",
           "isReExport": false,
           "external": true
@@ -194,20 +220,20 @@
         "path"
       ]
     },
-    "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts",
+    "src/views/flowTreeProvider.ts": {
+      "filePath": "src/views/flowTreeProvider.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "FlowTreeItem",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts",
+          "sourceModule": "src/views/flowTreeProvider.ts",
           "isReExport": false
         },
         {
           "name": "FlowTreeProvider",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts",
+          "sourceModule": "src/views/flowTreeProvider.ts",
           "isReExport": false
         }
       ],
@@ -215,7 +241,7 @@
         {
           "name": "vscode",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/node_modules/@types/vscode/index.d.ts",
+          "sourceModule": "node_modules/@types/vscode/index.d.ts",
           "importKind": "namespace",
           "isReExport": false,
           "external": true
@@ -223,62 +249,62 @@
         {
           "name": "getLogger",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/services/LoggerService.ts",
+          "sourceModule": "src/services/LoggerService.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "Registry",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/.tactica/types.ts",
+          "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false
         }
       ],
       "dependencies": [
-        "/code/mnemonica/mnemographica/src/services/LoggerService.ts"
+        "src/services/LoggerService.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/mnemographica/src/types/tactica-types.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/types/tactica-types.ts",
+    "src/types/tactica-types.ts": {
+      "filePath": "src/types/tactica-types.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "PropertyInfo",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/types/tactica-types.ts",
+          "sourceModule": "src/types/tactica-types.ts",
           "isReExport": false
         },
         {
           "name": "TypeNode",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/types/tactica-types.ts",
+          "sourceModule": "src/types/tactica-types.ts",
           "isReExport": false
         },
         {
           "name": "TypeGraph",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/types/tactica-types.ts",
+          "sourceModule": "src/types/tactica-types.ts",
           "isReExport": false
         },
         {
           "name": "AnalyzeResult",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/types/tactica-types.ts",
+          "sourceModule": "src/types/tactica-types.ts",
           "isReExport": false
         },
         {
           "name": "AnalyzeError",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/types/tactica-types.ts",
+          "sourceModule": "src/types/tactica-types.ts",
           "isReExport": false
         },
         {
           "name": "GeneratedTypes",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/types/tactica-types.ts",
+          "sourceModule": "src/types/tactica-types.ts",
           "isReExport": false
         }
       ],
@@ -287,88 +313,88 @@
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/mnemographica/src/types/index.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/types/index.ts",
+    "src/types/index.ts": {
+      "filePath": "src/types/index.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "TypeNode",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/types/tactica-types.ts",
+          "sourceModule": "src/types/tactica-types.ts",
           "importKind": "named",
           "isReExport": true
         },
         {
           "name": "PropertyInfo",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/types/tactica-types.ts",
+          "sourceModule": "src/types/tactica-types.ts",
           "importKind": "named",
           "isReExport": true
         },
         {
           "name": "D3Node",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/types/index.ts",
+          "sourceModule": "src/types/index.ts",
           "isReExport": false
         },
         {
           "name": "D3Link",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/types/index.ts",
+          "sourceModule": "src/types/index.ts",
           "isReExport": false
         },
         {
           "name": "D3ExecLink",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/types/index.ts",
+          "sourceModule": "src/types/index.ts",
           "isReExport": false
         },
         {
           "name": "D3CreationNode",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/types/index.ts",
+          "sourceModule": "src/types/index.ts",
           "isReExport": false
         },
         {
           "name": "D3CreationLink",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/types/index.ts",
+          "sourceModule": "src/types/index.ts",
           "isReExport": false
         },
         {
           "name": "D3WrapperNode",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/types/index.ts",
+          "sourceModule": "src/types/index.ts",
           "isReExport": false
         },
         {
           "name": "D3WrapperLink",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/types/index.ts",
+          "sourceModule": "src/types/index.ts",
           "isReExport": false
         },
         {
           "name": "D3InternalNode",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/types/index.ts",
+          "sourceModule": "src/types/index.ts",
           "isReExport": false
         },
         {
           "name": "D3InternalLink",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/types/index.ts",
+          "sourceModule": "src/types/index.ts",
           "isReExport": false
         },
         {
           "name": "WebviewMessage",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/types/index.ts",
+          "sourceModule": "src/types/index.ts",
           "isReExport": false
         },
         {
           "name": "GraphData",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/types/index.ts",
+          "sourceModule": "src/types/index.ts",
           "isReExport": false
         }
       ],
@@ -376,38 +402,38 @@
         {
           "name": "TypeNode",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/types/tactica-types.ts",
+          "sourceModule": "src/types/tactica-types.ts",
           "importKind": "named",
           "isReExport": true
         },
         {
           "name": "PropertyInfo",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/types/tactica-types.ts",
+          "sourceModule": "src/types/tactica-types.ts",
           "importKind": "named",
           "isReExport": true
         }
       ],
       "dependencies": [
-        "/code/mnemonica/mnemographica/src/types/tactica-types.ts"
+        "src/types/tactica-types.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/mnemographica/src/views/genTreeProvider.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/views/genTreeProvider.ts",
+    "src/views/genTreeProvider.ts": {
+      "filePath": "src/views/genTreeProvider.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "GenTreeItem",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/views/genTreeProvider.ts",
+          "sourceModule": "src/views/genTreeProvider.ts",
           "isReExport": false
         },
         {
           "name": "GenTreeProvider",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/views/genTreeProvider.ts",
+          "sourceModule": "src/views/genTreeProvider.ts",
           "isReExport": false
         }
       ],
@@ -415,7 +441,7 @@
         {
           "name": "vscode",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/node_modules/@types/vscode/index.d.ts",
+          "sourceModule": "node_modules/@types/vscode/index.d.ts",
           "importKind": "namespace",
           "isReExport": false,
           "external": true
@@ -423,46 +449,46 @@
         {
           "name": "getLogger",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/services/LoggerService.ts",
+          "sourceModule": "src/services/LoggerService.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "GraphData",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/types/index.ts",
+          "sourceModule": "src/types/index.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "D3Node",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/types/index.ts",
+          "sourceModule": "src/types/index.ts",
           "importKind": "named",
           "isReExport": false
         }
       ],
       "dependencies": [
-        "/code/mnemonica/mnemographica/src/services/LoggerService.ts",
-        "/code/mnemonica/mnemographica/src/types/index.ts"
+        "src/services/LoggerService.ts",
+        "src/types/index.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts",
+    "src/views/diamondsTreeProvider.ts": {
+      "filePath": "src/views/diamondsTreeProvider.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "DiamondsTreeItem",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts",
+          "sourceModule": "src/views/diamondsTreeProvider.ts",
           "isReExport": false
         },
         {
           "name": "DiamondsTreeProvider",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts",
+          "sourceModule": "src/views/diamondsTreeProvider.ts",
           "isReExport": false
         }
       ],
@@ -470,7 +496,7 @@
         {
           "name": "vscode",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/node_modules/@types/vscode/index.d.ts",
+          "sourceModule": "node_modules/@types/vscode/index.d.ts",
           "importKind": "namespace",
           "isReExport": false,
           "external": true
@@ -478,38 +504,38 @@
         {
           "name": "getLogger",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/services/LoggerService.ts",
+          "sourceModule": "src/services/LoggerService.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "Registry",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/.tactica/types.ts",
+          "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false
         }
       ],
       "dependencies": [
-        "/code/mnemonica/mnemographica/src/services/LoggerService.ts"
+        "src/services/LoggerService.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts",
+    "src/views/bagelsTreeProvider.ts": {
+      "filePath": "src/views/bagelsTreeProvider.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "BagelsTreeItem",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts",
+          "sourceModule": "src/views/bagelsTreeProvider.ts",
           "isReExport": false
         },
         {
           "name": "BagelsTreeProvider",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts",
+          "sourceModule": "src/views/bagelsTreeProvider.ts",
           "isReExport": false
         }
       ],
@@ -517,7 +543,7 @@
         {
           "name": "vscode",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/node_modules/@types/vscode/index.d.ts",
+          "sourceModule": "node_modules/@types/vscode/index.d.ts",
           "importKind": "namespace",
           "isReExport": false,
           "external": true
@@ -525,38 +551,38 @@
         {
           "name": "getLogger",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/services/LoggerService.ts",
+          "sourceModule": "src/services/LoggerService.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "Registry",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/.tactica/types.ts",
+          "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false
         }
       ],
       "dependencies": [
-        "/code/mnemonica/mnemographica/src/services/LoggerService.ts"
+        "src/services/LoggerService.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/mnemographica/src/core/StateManager.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/core/StateManager.ts",
+    "src/core/StateManager.ts": {
+      "filePath": "src/core/StateManager.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "AppState",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/core/StateManager.ts",
+          "sourceModule": "src/core/StateManager.ts",
           "isReExport": false
         },
         {
           "name": "StateManager",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/core/StateManager.ts",
+          "sourceModule": "src/core/StateManager.ts",
           "isReExport": false
         }
       ],
@@ -565,14 +591,14 @@
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/mnemographica/src/graph/converter.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/graph/converter.ts",
+    "src/graph/converter.ts": {
+      "filePath": "src/graph/converter.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "GraphConverter",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/graph/converter.ts",
+          "sourceModule": "src/graph/converter.ts",
           "isReExport": false
         }
       ],
@@ -580,70 +606,70 @@
         {
           "name": "TypeNode",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/types/index.ts",
+          "sourceModule": "src/types/index.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "D3Node",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/types/index.ts",
+          "sourceModule": "src/types/index.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "D3Link",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/types/index.ts",
+          "sourceModule": "src/types/index.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "GraphData",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/types/index.ts",
+          "sourceModule": "src/types/index.ts",
           "importKind": "named",
           "isReExport": false
         }
       ],
       "dependencies": [
-        "/code/mnemonica/mnemographica/src/types/index.ts"
+        "src/types/index.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/mnemographica/src/graph/internals-manifest.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/graph/internals-manifest.ts",
+    "src/graph/internals-manifest.ts": {
+      "filePath": "src/graph/internals-manifest.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "rawInternalKnot",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/graph/internals-manifest.ts",
+          "sourceModule": "src/graph/internals-manifest.ts",
           "isReExport": false
         },
         {
           "name": "rawInternalEdge",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/graph/internals-manifest.ts",
+          "sourceModule": "src/graph/internals-manifest.ts",
           "isReExport": false
         },
         {
           "name": "INTERNAL_KNOTS",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/graph/internals-manifest.ts",
+          "sourceModule": "src/graph/internals-manifest.ts",
           "isReExport": false
         },
         {
           "name": "INTERNAL_EDGES",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/graph/internals-manifest.ts",
+          "sourceModule": "src/graph/internals-manifest.ts",
           "isReExport": false
         },
         {
           "name": "COLLECTION_HOOKUP_EDGE",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/graph/internals-manifest.ts",
+          "sourceModule": "src/graph/internals-manifest.ts",
           "isReExport": false
         }
       ],
@@ -652,8 +678,8 @@
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/mnemographica/src/models/Instrumentation.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/models/Instrumentation.ts",
+    "src/models/Instrumentation.ts": {
+      "filePath": "src/models/Instrumentation.ts",
       "definedTypes": [
         "Instrumentation",
         "Instrumentation.InstrumentationPoint"
@@ -662,55 +688,55 @@
         {
           "name": "rawInstrumentationPoint",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Instrumentation.ts",
+          "sourceModule": "src/models/Instrumentation.ts",
           "isReExport": false
         },
         {
           "name": "rawCreationGraphNode",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Instrumentation.ts",
+          "sourceModule": "src/models/Instrumentation.ts",
           "isReExport": false
         },
         {
           "name": "rawCreationGraphEdge",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Instrumentation.ts",
+          "sourceModule": "src/models/Instrumentation.ts",
           "isReExport": false
         },
         {
           "name": "rawCreationGraphAnchor",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Instrumentation.ts",
+          "sourceModule": "src/models/Instrumentation.ts",
           "isReExport": false
         },
         {
           "name": "rawCreationGraph",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Instrumentation.ts",
+          "sourceModule": "src/models/Instrumentation.ts",
           "isReExport": false
         },
         {
           "name": "InstrumentationPointInstance",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Instrumentation.ts",
+          "sourceModule": "src/models/Instrumentation.ts",
           "isReExport": false
         },
         {
           "name": "Instrumentation",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Instrumentation.ts",
+          "sourceModule": "src/models/Instrumentation.ts",
           "isReExport": false
         },
         {
           "name": "InstrumentationPoint",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Instrumentation.ts",
+          "sourceModule": "src/models/Instrumentation.ts",
           "isReExport": false
         },
         {
           "name": "default",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Instrumentation.ts",
+          "sourceModule": "src/models/Instrumentation.ts",
           "importKind": "default",
           "isReExport": false,
           "importAlias": "Instrumentation"
@@ -720,7 +746,7 @@
         {
           "name": "define",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/node_modules/mnemonica/build/index.d.ts",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -728,25 +754,25 @@
         {
           "name": "getLogger",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/services/LoggerService.ts",
+          "sourceModule": "src/services/LoggerService.ts",
           "importKind": "named",
           "isReExport": false
         }
       ],
       "dependencies": [
-        "/code/mnemonica/mnemographica/src/services/LoggerService.ts"
+        "src/services/LoggerService.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts",
+    "src/core/GraphBuilder.ts": {
+      "filePath": "src/core/GraphBuilder.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "GraphBuilder",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts",
+          "sourceModule": "src/core/GraphBuilder.ts",
           "isReExport": false
         }
       ],
@@ -754,134 +780,134 @@
         {
           "name": "GraphData",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/types/index.ts",
+          "sourceModule": "src/types/index.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "D3CreationNode",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/types/index.ts",
+          "sourceModule": "src/types/index.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "D3CreationLink",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/types/index.ts",
+          "sourceModule": "src/types/index.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "D3WrapperNode",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/types/index.ts",
+          "sourceModule": "src/types/index.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "D3WrapperLink",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/types/index.ts",
+          "sourceModule": "src/types/index.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "D3InternalNode",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/types/index.ts",
+          "sourceModule": "src/types/index.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "D3InternalLink",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/types/index.ts",
+          "sourceModule": "src/types/index.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "GraphConverter",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/graph/converter.ts",
+          "sourceModule": "src/graph/converter.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "INTERNAL_KNOTS",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/graph/internals-manifest.ts",
+          "sourceModule": "src/graph/internals-manifest.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "INTERNAL_EDGES",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/graph/internals-manifest.ts",
+          "sourceModule": "src/graph/internals-manifest.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "COLLECTION_HOOKUP_EDGE",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/graph/internals-manifest.ts",
+          "sourceModule": "src/graph/internals-manifest.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "TypeNode",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/types/tactica-types.ts",
+          "sourceModule": "src/types/tactica-types.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "Registry",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/.tactica/types.ts",
+          "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "rawCreationGraph",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Instrumentation.ts",
+          "sourceModule": "src/models/Instrumentation.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "getLogger",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/services/LoggerService.ts",
+          "sourceModule": "src/services/LoggerService.ts",
           "importKind": "named",
           "isReExport": false
         }
       ],
       "dependencies": [
-        "/code/mnemonica/mnemographica/src/types/index.ts",
-        "/code/mnemonica/mnemographica/src/graph/converter.ts",
-        "/code/mnemonica/mnemographica/src/graph/internals-manifest.ts",
-        "/code/mnemonica/mnemographica/src/types/tactica-types.ts",
-        "/code/mnemonica/mnemographica/src/models/Instrumentation.ts",
-        "/code/mnemonica/mnemographica/src/services/LoggerService.ts"
+        "src/types/index.ts",
+        "src/graph/converter.ts",
+        "src/graph/internals-manifest.ts",
+        "src/types/tactica-types.ts",
+        "src/models/Instrumentation.ts",
+        "src/services/LoggerService.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts",
+    "src/core/MainOrchestrator.ts": {
+      "filePath": "src/core/MainOrchestrator.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "traceEdge",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts",
+          "sourceModule": "src/core/MainOrchestrator.ts",
           "isReExport": false
         },
         {
           "name": "MainOrchestrator",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts",
+          "sourceModule": "src/core/MainOrchestrator.ts",
           "isReExport": false
         }
       ],
@@ -889,7 +915,7 @@
         {
           "name": "lookup",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/node_modules/mnemonica/build/index.d.ts",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -897,7 +923,7 @@
         {
           "name": "MainType",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/.tactica/types.ts",
+          "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false,
           "importAlias": "Main"
@@ -905,54 +931,54 @@
         {
           "name": "Registry",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/.tactica/types.ts",
+          "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "StateManager",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/core/StateManager.ts",
+          "sourceModule": "src/core/StateManager.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "GraphBuilder",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts",
+          "sourceModule": "src/core/GraphBuilder.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "GraphData",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/types/index.ts",
+          "sourceModule": "src/types/index.ts",
           "importKind": "named",
           "isReExport": false
         }
       ],
       "dependencies": [
-        "/code/mnemonica/mnemographica/src/core/StateManager.ts",
-        "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts",
-        "/code/mnemonica/mnemographica/src/types/index.ts"
+        "src/core/StateManager.ts",
+        "src/core/GraphBuilder.ts",
+        "src/types/index.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts",
+    "src/views/liveTraceTreeProvider.ts": {
+      "filePath": "src/views/liveTraceTreeProvider.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "LiveTraceTreeItem",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts",
+          "sourceModule": "src/views/liveTraceTreeProvider.ts",
           "isReExport": false
         },
         {
           "name": "LiveTraceTreeProvider",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts",
+          "sourceModule": "src/views/liveTraceTreeProvider.ts",
           "isReExport": false
         }
       ],
@@ -960,7 +986,7 @@
         {
           "name": "vscode",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/node_modules/@types/vscode/index.d.ts",
+          "sourceModule": "node_modules/@types/vscode/index.d.ts",
           "importKind": "namespace",
           "isReExport": false,
           "external": true
@@ -968,32 +994,32 @@
         {
           "name": "MainOrchestrator",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts",
+          "sourceModule": "src/core/MainOrchestrator.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "traceEdge",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts",
+          "sourceModule": "src/core/MainOrchestrator.ts",
           "importKind": "named",
           "isReExport": false
         }
       ],
       "dependencies": [
-        "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts"
+        "src/core/MainOrchestrator.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/mnemographica/src/providers/definitionProvider.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/providers/definitionProvider.ts",
+    "src/providers/definitionProvider.ts": {
+      "filePath": "src/providers/definitionProvider.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "MnemonicaDefinitionProvider",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/providers/definitionProvider.ts",
+          "sourceModule": "src/providers/definitionProvider.ts",
           "isReExport": false
         }
       ],
@@ -1001,7 +1027,7 @@
         {
           "name": "vscode",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/node_modules/@types/vscode/index.d.ts",
+          "sourceModule": "node_modules/@types/vscode/index.d.ts",
           "importKind": "namespace",
           "isReExport": false,
           "external": true
@@ -1009,13 +1035,13 @@
         {
           "name": "getLogger",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/services/LoggerService.ts",
+          "sourceModule": "src/services/LoggerService.ts",
           "importKind": "named",
           "isReExport": false
         }
       ],
       "dependencies": [
-        "/code/mnemonica/mnemographica/src/services/LoggerService.ts"
+        "src/services/LoggerService.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": [
@@ -1023,14 +1049,14 @@
         "fs"
       ]
     },
-    "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts",
+    "src/providers/referenceProvider.ts": {
+      "filePath": "src/providers/referenceProvider.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "MnemonicaReferenceProvider",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts",
+          "sourceModule": "src/providers/referenceProvider.ts",
           "isReExport": false
         }
       ],
@@ -1038,7 +1064,7 @@
         {
           "name": "vscode",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/node_modules/@types/vscode/index.d.ts",
+          "sourceModule": "node_modules/@types/vscode/index.d.ts",
           "importKind": "namespace",
           "isReExport": false,
           "external": true
@@ -1046,42 +1072,42 @@
         {
           "name": "getLogger",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/services/LoggerService.ts",
+          "sourceModule": "src/services/LoggerService.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "Usages",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/.tactica/types.ts",
+          "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "MainOrchestrator",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts",
+          "sourceModule": "src/core/MainOrchestrator.ts",
           "importKind": "named",
           "isReExport": false
         }
       ],
       "dependencies": [
-        "/code/mnemonica/mnemographica/src/services/LoggerService.ts",
-        "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts"
+        "src/services/LoggerService.ts",
+        "src/core/MainOrchestrator.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": [
         "path"
       ]
     },
-    "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts",
+    "src/core/graphDataLoader.ts": {
+      "filePath": "src/core/graphDataLoader.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "loadGraphDataFor",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts",
+          "sourceModule": "src/core/graphDataLoader.ts",
           "isReExport": false
         }
       ],
@@ -1089,7 +1115,7 @@
         {
           "name": "lookup",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/node_modules/mnemonica/build/index.d.ts",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1097,28 +1123,28 @@
         {
           "name": "Registry",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/.tactica/types.ts",
+          "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "GraphBuilder",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts",
+          "sourceModule": "src/core/GraphBuilder.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "GraphData",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/types/index.ts",
+          "sourceModule": "src/types/index.ts",
           "importKind": "named",
           "isReExport": false
         }
       ],
       "dependencies": [
-        "/code/mnemonica/mnemographica/src/core/GraphBuilder.ts",
-        "/code/mnemonica/mnemographica/src/types/index.ts"
+        "src/core/GraphBuilder.ts",
+        "src/types/index.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": [
@@ -1126,14 +1152,14 @@
         "path"
       ]
     },
-    "/code/mnemonica/mnemographica/src/webview/panel.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/webview/panel.ts",
+    "src/webview/panel.ts": {
+      "filePath": "src/webview/panel.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "GraphPanel",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/webview/panel.ts",
+          "sourceModule": "src/webview/panel.ts",
           "isReExport": false
         }
       ],
@@ -1141,7 +1167,7 @@
         {
           "name": "vscode",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/node_modules/@types/vscode/index.d.ts",
+          "sourceModule": "node_modules/@types/vscode/index.d.ts",
           "importKind": "namespace",
           "isReExport": false,
           "external": true
@@ -1149,44 +1175,44 @@
         {
           "name": "GraphData",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/types/index.ts",
+          "sourceModule": "src/types/index.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "WebviewMessage",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/types/index.ts",
+          "sourceModule": "src/types/index.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "traceEdge",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts",
+          "sourceModule": "src/core/MainOrchestrator.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "loadGraphDataFor",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts",
+          "sourceModule": "src/core/graphDataLoader.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "getLogger",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/services/LoggerService.ts",
+          "sourceModule": "src/services/LoggerService.ts",
           "importKind": "named",
           "isReExport": false
         }
       ],
       "dependencies": [
-        "/code/mnemonica/mnemographica/src/types/index.ts",
-        "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts",
-        "/code/mnemonica/mnemographica/src/core/graphDataLoader.ts",
-        "/code/mnemonica/mnemographica/src/services/LoggerService.ts"
+        "src/types/index.ts",
+        "src/core/MainOrchestrator.ts",
+        "src/core/graphDataLoader.ts",
+        "src/services/LoggerService.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": [
@@ -1194,14 +1220,14 @@
         "path"
       ]
     },
-    "/code/mnemonica/mnemographica/src/strategy/server.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/strategy/server.ts",
+    "src/strategy/server.ts": {
+      "filePath": "src/strategy/server.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "StrategyServer",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/strategy/server.ts",
+          "sourceModule": "src/strategy/server.ts",
           "isReExport": false
         }
       ],
@@ -1209,7 +1235,7 @@
         {
           "name": "ws",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/node_modules/@types/ws/index.d.ts",
+          "sourceModule": "node_modules/@types/ws/index.d.ts",
           "importKind": "namespace",
           "isReExport": false,
           "external": true
@@ -1217,7 +1243,7 @@
         {
           "name": "vscode",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/node_modules/@types/vscode/index.d.ts",
+          "sourceModule": "node_modules/@types/vscode/index.d.ts",
           "importKind": "namespace",
           "isReExport": false,
           "external": true
@@ -1225,59 +1251,59 @@
         {
           "name": "getLogger",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/services/LoggerService.ts",
+          "sourceModule": "src/services/LoggerService.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "GraphPanel",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/webview/panel.ts",
+          "sourceModule": "src/webview/panel.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "LiveTraceTreeProvider",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts",
+          "sourceModule": "src/views/liveTraceTreeProvider.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "MainOrchestrator",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts",
+          "sourceModule": "src/core/MainOrchestrator.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "WebSocket",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/node_modules/@types/ws/index.d.ts",
+          "sourceModule": "node_modules/@types/ws/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
         }
       ],
       "dependencies": [
-        "/code/mnemonica/mnemographica/src/services/LoggerService.ts",
-        "/code/mnemonica/mnemographica/src/webview/panel.ts",
-        "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts",
-        "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts"
+        "src/services/LoggerService.ts",
+        "src/webview/panel.ts",
+        "src/views/liveTraceTreeProvider.ts",
+        "src/core/MainOrchestrator.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": [
         "http"
       ]
     },
-    "/code/mnemonica/mnemographica/src/strategy/index.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/strategy/index.ts",
+    "src/strategy/index.ts": {
+      "filePath": "src/strategy/index.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "StrategyServer",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/strategy/server.ts",
+          "sourceModule": "src/strategy/server.ts",
           "importKind": "named",
           "isReExport": true
         }
@@ -1286,25 +1312,25 @@
         {
           "name": "StrategyServer",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/strategy/server.ts",
+          "sourceModule": "src/strategy/server.ts",
           "importKind": "named",
           "isReExport": true
         }
       ],
       "dependencies": [
-        "/code/mnemonica/mnemographica/src/strategy/server.ts"
+        "src/strategy/server.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/mnemographica/src/services/NavigationAdapter.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/services/NavigationAdapter.ts",
+    "src/services/NavigationAdapter.ts": {
+      "filePath": "src/services/NavigationAdapter.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "VSCodeNavigation",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/services/NavigationAdapter.ts",
+          "sourceModule": "src/services/NavigationAdapter.ts",
           "isReExport": false
         }
       ],
@@ -1312,7 +1338,7 @@
         {
           "name": "vscode",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/node_modules/@types/vscode/index.d.ts",
+          "sourceModule": "node_modules/@types/vscode/index.d.ts",
           "importKind": "namespace",
           "isReExport": false,
           "external": true
@@ -1322,38 +1348,38 @@
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/mnemographica/src/strategy/processManager.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/strategy/processManager.ts",
+    "src/strategy/processManager.ts": {
+      "filePath": "src/strategy/processManager.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "StrategyProcessStatus",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/strategy/processManager.ts",
+          "sourceModule": "src/strategy/processManager.ts",
           "isReExport": false
         },
         {
           "name": "setStrategyLogListener",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/strategy/processManager.ts",
+          "sourceModule": "src/strategy/processManager.ts",
           "isReExport": false
         },
         {
           "name": "startStrategyProcess",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/strategy/processManager.ts",
+          "sourceModule": "src/strategy/processManager.ts",
           "isReExport": false
         },
         {
           "name": "stopStrategyProcess",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/strategy/processManager.ts",
+          "sourceModule": "src/strategy/processManager.ts",
           "isReExport": false
         },
         {
           "name": "getStrategyProcessStatus",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/strategy/processManager.ts",
+          "sourceModule": "src/strategy/processManager.ts",
           "isReExport": false
         }
       ],
@@ -1365,14 +1391,14 @@
         "node:net"
       ]
     },
-    "/code/mnemonica/mnemographica/src/webview/strategyPanel.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/webview/strategyPanel.ts",
+    "src/webview/strategyPanel.ts": {
+      "filePath": "src/webview/strategyPanel.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "StrategyPanel",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/webview/strategyPanel.ts",
+          "sourceModule": "src/webview/strategyPanel.ts",
           "isReExport": false
         }
       ],
@@ -1380,7 +1406,7 @@
         {
           "name": "vscode",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/node_modules/@types/vscode/index.d.ts",
+          "sourceModule": "node_modules/@types/vscode/index.d.ts",
           "importKind": "namespace",
           "isReExport": false,
           "external": true
@@ -1388,72 +1414,72 @@
         {
           "name": "startStrategyProcess",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/strategy/processManager.ts",
+          "sourceModule": "src/strategy/processManager.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "stopStrategyProcess",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/strategy/processManager.ts",
+          "sourceModule": "src/strategy/processManager.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "getStrategyProcessStatus",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/strategy/processManager.ts",
+          "sourceModule": "src/strategy/processManager.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "setStrategyLogListener",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/strategy/processManager.ts",
+          "sourceModule": "src/strategy/processManager.ts",
           "importKind": "named",
           "isReExport": false
         }
       ],
       "dependencies": [
-        "/code/mnemonica/mnemographica/src/strategy/processManager.ts"
+        "src/strategy/processManager.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": [
         "node:path"
       ]
     },
-    "/code/mnemonica/mnemographica/src/strategy/appChannelClient.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/strategy/appChannelClient.ts",
+    "src/strategy/appChannelClient.ts": {
+      "filePath": "src/strategy/appChannelClient.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "AppChannelDiscovery",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/strategy/appChannelClient.ts",
+          "sourceModule": "src/strategy/appChannelClient.ts",
           "isReExport": false
         },
         {
           "name": "AppChannelStatus",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/strategy/appChannelClient.ts",
+          "sourceModule": "src/strategy/appChannelClient.ts",
           "isReExport": false
         },
         {
           "name": "TraceEdgeSink",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/strategy/appChannelClient.ts",
+          "sourceModule": "src/strategy/appChannelClient.ts",
           "isReExport": false
         },
         {
           "name": "fetchDiscovery",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/strategy/appChannelClient.ts",
+          "sourceModule": "src/strategy/appChannelClient.ts",
           "isReExport": false
         },
         {
           "name": "AppChannelClient",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/strategy/appChannelClient.ts",
+          "sourceModule": "src/strategy/appChannelClient.ts",
           "isReExport": false
         }
       ],
@@ -1461,7 +1487,7 @@
         {
           "name": "WSSessionType",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/node_modules/@mnemonica/strategy/lib/index.d.ts",
+          "sourceModule": "node_modules/@mnemonica/strategy/lib/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "importAlias": "WSSession",
@@ -1475,14 +1501,14 @@
         "node:path"
       ]
     },
-    "/code/mnemonica/mnemographica/src/webview/appChannelPanel.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/webview/appChannelPanel.ts",
+    "src/webview/appChannelPanel.ts": {
+      "filePath": "src/webview/appChannelPanel.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "AppChannelPanel",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/webview/appChannelPanel.ts",
+          "sourceModule": "src/webview/appChannelPanel.ts",
           "isReExport": false
         }
       ],
@@ -1490,7 +1516,7 @@
         {
           "name": "vscode",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/node_modules/@types/vscode/index.d.ts",
+          "sourceModule": "node_modules/@types/vscode/index.d.ts",
           "importKind": "namespace",
           "isReExport": false,
           "external": true
@@ -1498,68 +1524,68 @@
         {
           "name": "AppChannelClient",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/strategy/appChannelClient.ts",
+          "sourceModule": "src/strategy/appChannelClient.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "fetchDiscovery",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/strategy/appChannelClient.ts",
+          "sourceModule": "src/strategy/appChannelClient.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "GraphPanel",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/webview/panel.ts",
+          "sourceModule": "src/webview/panel.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "LiveTraceTreeProvider",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts",
+          "sourceModule": "src/views/liveTraceTreeProvider.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "MainOrchestrator",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts",
+          "sourceModule": "src/core/MainOrchestrator.ts",
           "importKind": "named",
           "isReExport": false
         }
       ],
       "dependencies": [
-        "/code/mnemonica/mnemographica/src/strategy/appChannelClient.ts",
-        "/code/mnemonica/mnemographica/src/webview/panel.ts",
-        "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts",
-        "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts"
+        "src/strategy/appChannelClient.ts",
+        "src/webview/panel.ts",
+        "src/views/liveTraceTreeProvider.ts",
+        "src/core/MainOrchestrator.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts",
+    "src/strategy/selfTrace.ts": {
+      "filePath": "src/strategy/selfTrace.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "startSelfTrace",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts",
+          "sourceModule": "src/strategy/selfTrace.ts",
           "isReExport": false
         },
         {
           "name": "wrapForSelfTrace",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts",
+          "sourceModule": "src/strategy/selfTrace.ts",
           "isReExport": false
         },
         {
           "name": "stopSelfTrace",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts",
+          "sourceModule": "src/strategy/selfTrace.ts",
           "isReExport": false
         }
       ],
@@ -1567,7 +1593,7 @@
         {
           "name": "getProps",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/node_modules/mnemonica/build/index.d.ts",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1575,56 +1601,56 @@
         {
           "name": "getLogger",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/services/LoggerService.ts",
+          "sourceModule": "src/services/LoggerService.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "MainOrchestrator",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts",
+          "sourceModule": "src/core/MainOrchestrator.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "traceEdge",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts",
+          "sourceModule": "src/core/MainOrchestrator.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "GraphPanel",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/webview/panel.ts",
+          "sourceModule": "src/webview/panel.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "LiveTraceTreeProvider",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts",
+          "sourceModule": "src/views/liveTraceTreeProvider.ts",
           "importKind": "named",
           "isReExport": false
         }
       ],
       "dependencies": [
-        "/code/mnemonica/mnemographica/src/services/LoggerService.ts",
-        "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts",
-        "/code/mnemonica/mnemographica/src/webview/panel.ts",
-        "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts"
+        "src/services/LoggerService.ts",
+        "src/core/MainOrchestrator.ts",
+        "src/webview/panel.ts",
+        "src/views/liveTraceTreeProvider.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/mnemographica/src/commands/navigationCommands.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/commands/navigationCommands.ts",
+    "src/commands/navigationCommands.ts": {
+      "filePath": "src/commands/navigationCommands.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "registerNavigationCommands",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/commands/navigationCommands.ts",
+          "sourceModule": "src/commands/navigationCommands.ts",
           "isReExport": false
         }
       ],
@@ -1632,7 +1658,7 @@
         {
           "name": "vscode",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/node_modules/@types/vscode/index.d.ts",
+          "sourceModule": "node_modules/@types/vscode/index.d.ts",
           "importKind": "namespace",
           "isReExport": false,
           "external": true
@@ -1640,51 +1666,59 @@
         {
           "name": "VSCodeNavigation",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/services/NavigationAdapter.ts",
+          "sourceModule": "src/services/NavigationAdapter.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "MnemonicaTreeProvider",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/views/treeProvider.ts",
+          "sourceModule": "src/views/treeProvider.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "MnemonicaTreeItem",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/views/treeProvider.ts",
+          "sourceModule": "src/views/treeProvider.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "UsagesTreeProvider",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/views/usagesTreeProvider.ts",
+          "sourceModule": "src/views/usagesTreeProvider.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "UsageTreeItem",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/views/usagesTreeProvider.ts",
+          "sourceModule": "src/views/usagesTreeProvider.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "getLogger",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/services/LoggerService.ts",
+          "sourceModule": "src/services/LoggerService.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "resolveWorkspacePaths",
+          "kind": "function",
+          "sourceModule": "src/utils/paths.ts",
           "importKind": "named",
           "isReExport": false
         }
       ],
       "dependencies": [
-        "/code/mnemonica/mnemographica/src/services/NavigationAdapter.ts",
-        "/code/mnemonica/mnemographica/src/views/treeProvider.ts",
-        "/code/mnemonica/mnemographica/src/views/usagesTreeProvider.ts",
-        "/code/mnemonica/mnemographica/src/services/LoggerService.ts"
+        "src/services/NavigationAdapter.ts",
+        "src/views/treeProvider.ts",
+        "src/views/usagesTreeProvider.ts",
+        "src/services/LoggerService.ts",
+        "src/utils/paths.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": [
@@ -1692,14 +1726,14 @@
         "fs"
       ]
     },
-    "/code/mnemonica/mnemographica/src/commands/treeCommands.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/commands/treeCommands.ts",
+    "src/commands/treeCommands.ts": {
+      "filePath": "src/commands/treeCommands.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "registerTreeCommands",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/commands/treeCommands.ts",
+          "sourceModule": "src/commands/treeCommands.ts",
           "isReExport": false
         }
       ],
@@ -1707,7 +1741,7 @@
         {
           "name": "vscode",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/node_modules/@types/vscode/index.d.ts",
+          "sourceModule": "node_modules/@types/vscode/index.d.ts",
           "importKind": "namespace",
           "isReExport": false,
           "external": true
@@ -1715,49 +1749,49 @@
         {
           "name": "MnemonicaTreeProvider",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/views/treeProvider.ts",
+          "sourceModule": "src/views/treeProvider.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "UsagesTreeProvider",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/views/usagesTreeProvider.ts",
+          "sourceModule": "src/views/usagesTreeProvider.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "MnemonicaReferenceProvider",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts",
+          "sourceModule": "src/providers/referenceProvider.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "MainOrchestrator",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts",
+          "sourceModule": "src/core/MainOrchestrator.ts",
           "importKind": "named",
           "isReExport": false
         }
       ],
       "dependencies": [
-        "/code/mnemonica/mnemographica/src/views/treeProvider.ts",
-        "/code/mnemonica/mnemographica/src/views/usagesTreeProvider.ts",
-        "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts",
-        "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts"
+        "src/views/treeProvider.ts",
+        "src/views/usagesTreeProvider.ts",
+        "src/providers/referenceProvider.ts",
+        "src/core/MainOrchestrator.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/mnemographica/src/commands/utilityCommands.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/commands/utilityCommands.ts",
+    "src/commands/utilityCommands.ts": {
+      "filePath": "src/commands/utilityCommands.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "registerUtilityCommands",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/commands/utilityCommands.ts",
+          "sourceModule": "src/commands/utilityCommands.ts",
           "isReExport": false
         }
       ],
@@ -1765,7 +1799,7 @@
         {
           "name": "vscode",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/node_modules/@types/vscode/index.d.ts",
+          "sourceModule": "node_modules/@types/vscode/index.d.ts",
           "importKind": "namespace",
           "isReExport": false,
           "external": true
@@ -1773,33 +1807,33 @@
         {
           "name": "StrategyServer",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/strategy/server.ts",
+          "sourceModule": "src/strategy/server.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "getLogger",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/services/LoggerService.ts",
+          "sourceModule": "src/services/LoggerService.ts",
           "importKind": "named",
           "isReExport": false
         }
       ],
       "dependencies": [
-        "/code/mnemonica/mnemographica/src/strategy/server.ts",
-        "/code/mnemonica/mnemographica/src/services/LoggerService.ts"
+        "src/strategy/server.ts",
+        "src/services/LoggerService.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/mnemographica/src/commands/workspaceCommands.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/commands/workspaceCommands.ts",
+    "src/commands/workspaceCommands.ts": {
+      "filePath": "src/commands/workspaceCommands.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "registerWorkspaceCommands",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/commands/workspaceCommands.ts",
+          "sourceModule": "src/commands/workspaceCommands.ts",
           "isReExport": false
         }
       ],
@@ -1807,7 +1841,7 @@
         {
           "name": "vscode",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/node_modules/@types/vscode/index.d.ts",
+          "sourceModule": "node_modules/@types/vscode/index.d.ts",
           "importKind": "namespace",
           "isReExport": false,
           "external": true
@@ -1815,45 +1849,45 @@
         {
           "name": "MnemonicaTreeProvider",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/views/treeProvider.ts",
+          "sourceModule": "src/views/treeProvider.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "MnemonicaReferenceProvider",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts",
+          "sourceModule": "src/providers/referenceProvider.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "FlowTreeProvider",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts",
+          "sourceModule": "src/views/flowTreeProvider.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "MainOrchestrator",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts",
+          "sourceModule": "src/core/MainOrchestrator.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "getLogger",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/services/LoggerService.ts",
+          "sourceModule": "src/services/LoggerService.ts",
           "importKind": "named",
           "isReExport": false
         }
       ],
       "dependencies": [
-        "/code/mnemonica/mnemographica/src/views/treeProvider.ts",
-        "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts",
-        "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts",
-        "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts",
-        "/code/mnemonica/mnemographica/src/services/LoggerService.ts"
+        "src/views/treeProvider.ts",
+        "src/providers/referenceProvider.ts",
+        "src/views/flowTreeProvider.ts",
+        "src/core/MainOrchestrator.ts",
+        "src/services/LoggerService.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": [
@@ -1861,20 +1895,20 @@
         "fs"
       ]
     },
-    "/code/mnemonica/mnemographica/src/extension.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/extension.ts",
+    "src/extension.ts": {
+      "filePath": "src/extension.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "activate",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/extension.ts",
+          "sourceModule": "src/extension.ts",
           "isReExport": false
         },
         {
           "name": "deactivate",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/extension.ts",
+          "sourceModule": "src/extension.ts",
           "isReExport": false
         }
       ],
@@ -1882,7 +1916,7 @@
         {
           "name": "vscode",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/node_modules/@types/vscode/index.d.ts",
+          "sourceModule": "node_modules/@types/vscode/index.d.ts",
           "importKind": "namespace",
           "isReExport": false,
           "external": true
@@ -1890,267 +1924,267 @@
         {
           "name": "MnemonicaTreeProvider",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/views/treeProvider.ts",
+          "sourceModule": "src/views/treeProvider.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "MnemonicaTreeItem",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/views/treeProvider.ts",
+          "sourceModule": "src/views/treeProvider.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "UsagesTreeProvider",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/views/usagesTreeProvider.ts",
+          "sourceModule": "src/views/usagesTreeProvider.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "UsageTreeItem",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/views/usagesTreeProvider.ts",
+          "sourceModule": "src/views/usagesTreeProvider.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "FlowTreeProvider",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts",
+          "sourceModule": "src/views/flowTreeProvider.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "FlowTreeItem",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts",
+          "sourceModule": "src/views/flowTreeProvider.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "GenTreeProvider",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/views/genTreeProvider.ts",
+          "sourceModule": "src/views/genTreeProvider.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "GenTreeItem",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/views/genTreeProvider.ts",
+          "sourceModule": "src/views/genTreeProvider.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "DiamondsTreeProvider",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts",
+          "sourceModule": "src/views/diamondsTreeProvider.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "DiamondsTreeItem",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts",
+          "sourceModule": "src/views/diamondsTreeProvider.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "BagelsTreeProvider",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts",
+          "sourceModule": "src/views/bagelsTreeProvider.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "BagelsTreeItem",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts",
+          "sourceModule": "src/views/bagelsTreeProvider.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "LiveTraceTreeProvider",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts",
+          "sourceModule": "src/views/liveTraceTreeProvider.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "MnemonicaDefinitionProvider",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/providers/definitionProvider.ts",
+          "sourceModule": "src/providers/definitionProvider.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "MnemonicaReferenceProvider",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts",
+          "sourceModule": "src/providers/referenceProvider.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "StrategyServer",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/strategy/index.ts",
+          "sourceModule": "src/strategy/index.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "getLogger",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/services/LoggerService.ts",
+          "sourceModule": "src/services/LoggerService.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "VSCodeNavigation",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/services/NavigationAdapter.ts",
+          "sourceModule": "src/services/NavigationAdapter.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "loadModels",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/topologica/bootstrap.ts",
+          "sourceModule": "src/topologica/bootstrap.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "modelsLoaded",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/src/topologica/bootstrap.ts",
+          "sourceModule": "src/topologica/bootstrap.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "MainOrchestrator",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts",
+          "sourceModule": "src/core/MainOrchestrator.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "traceEdge",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts",
+          "sourceModule": "src/core/MainOrchestrator.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "GraphPanel",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/webview/panel.ts",
+          "sourceModule": "src/webview/panel.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "StrategyPanel",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/webview/strategyPanel.ts",
+          "sourceModule": "src/webview/strategyPanel.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "AppChannelPanel",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/webview/appChannelPanel.ts",
+          "sourceModule": "src/webview/appChannelPanel.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "stopStrategyProcess",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/strategy/processManager.ts",
+          "sourceModule": "src/strategy/processManager.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "startSelfTrace",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts",
+          "sourceModule": "src/strategy/selfTrace.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "stopSelfTrace",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts",
+          "sourceModule": "src/strategy/selfTrace.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "wrapForSelfTrace",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts",
+          "sourceModule": "src/strategy/selfTrace.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "registerNavigationCommands",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/commands/navigationCommands.ts",
+          "sourceModule": "src/commands/navigationCommands.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "registerTreeCommands",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/commands/treeCommands.ts",
+          "sourceModule": "src/commands/treeCommands.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "registerUtilityCommands",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/commands/utilityCommands.ts",
+          "sourceModule": "src/commands/utilityCommands.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "registerWorkspaceCommands",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/commands/workspaceCommands.ts",
+          "sourceModule": "src/commands/workspaceCommands.ts",
           "importKind": "named",
           "isReExport": false
         }
       ],
       "dependencies": [
-        "/code/mnemonica/mnemographica/src/views/treeProvider.ts",
-        "/code/mnemonica/mnemographica/src/views/usagesTreeProvider.ts",
-        "/code/mnemonica/mnemographica/src/views/flowTreeProvider.ts",
-        "/code/mnemonica/mnemographica/src/views/genTreeProvider.ts",
-        "/code/mnemonica/mnemographica/src/views/diamondsTreeProvider.ts",
-        "/code/mnemonica/mnemographica/src/views/bagelsTreeProvider.ts",
-        "/code/mnemonica/mnemographica/src/views/liveTraceTreeProvider.ts",
-        "/code/mnemonica/mnemographica/src/providers/definitionProvider.ts",
-        "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts",
-        "/code/mnemonica/mnemographica/src/strategy/index.ts",
-        "/code/mnemonica/mnemographica/src/services/LoggerService.ts",
-        "/code/mnemonica/mnemographica/src/services/NavigationAdapter.ts",
-        "/code/mnemonica/mnemographica/src/topologica/bootstrap.ts",
-        "/code/mnemonica/mnemographica/src/core/MainOrchestrator.ts",
-        "/code/mnemonica/mnemographica/src/webview/panel.ts",
-        "/code/mnemonica/mnemographica/src/webview/strategyPanel.ts",
-        "/code/mnemonica/mnemographica/src/webview/appChannelPanel.ts",
-        "/code/mnemonica/mnemographica/src/strategy/processManager.ts",
-        "/code/mnemonica/mnemographica/src/strategy/selfTrace.ts",
-        "/code/mnemonica/mnemographica/src/commands/navigationCommands.ts",
-        "/code/mnemonica/mnemographica/src/commands/treeCommands.ts",
-        "/code/mnemonica/mnemographica/src/commands/utilityCommands.ts",
-        "/code/mnemonica/mnemographica/src/commands/workspaceCommands.ts"
+        "src/views/treeProvider.ts",
+        "src/views/usagesTreeProvider.ts",
+        "src/views/flowTreeProvider.ts",
+        "src/views/genTreeProvider.ts",
+        "src/views/diamondsTreeProvider.ts",
+        "src/views/bagelsTreeProvider.ts",
+        "src/views/liveTraceTreeProvider.ts",
+        "src/providers/definitionProvider.ts",
+        "src/providers/referenceProvider.ts",
+        "src/strategy/index.ts",
+        "src/services/LoggerService.ts",
+        "src/services/NavigationAdapter.ts",
+        "src/topologica/bootstrap.ts",
+        "src/core/MainOrchestrator.ts",
+        "src/webview/panel.ts",
+        "src/webview/strategyPanel.ts",
+        "src/webview/appChannelPanel.ts",
+        "src/strategy/processManager.ts",
+        "src/strategy/selfTrace.ts",
+        "src/commands/navigationCommands.ts",
+        "src/commands/treeCommands.ts",
+        "src/commands/utilityCommands.ts",
+        "src/commands/workspaceCommands.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": [
         "path"
       ]
     },
-    "/code/mnemonica/mnemographica/src/models/Definition.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/models/Definition.ts",
+    "src/models/Definition.ts": {
+      "filePath": "src/models/Definition.ts",
       "definedTypes": [
         "Definitions",
         "Definitions.DefinitionEntry"
@@ -2159,31 +2193,31 @@
         {
           "name": "rawDefinitionEntry",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Definition.ts",
+          "sourceModule": "src/models/Definition.ts",
           "isReExport": false
         },
         {
           "name": "DefinitionEntryInstance",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Definition.ts",
+          "sourceModule": "src/models/Definition.ts",
           "isReExport": false
         },
         {
           "name": "Definitions",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Definition.ts",
+          "sourceModule": "src/models/Definition.ts",
           "isReExport": false
         },
         {
           "name": "DefinitionEntry",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Definition.ts",
+          "sourceModule": "src/models/Definition.ts",
           "isReExport": false
         },
         {
           "name": "default",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Definition.ts",
+          "sourceModule": "src/models/Definition.ts",
           "importKind": "default",
           "isReExport": false,
           "importAlias": "Definitions"
@@ -2193,7 +2227,7 @@
         {
           "name": "define",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/node_modules/mnemonica/build/index.d.ts",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -2201,19 +2235,19 @@
         {
           "name": "getLogger",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/services/LoggerService.ts",
+          "sourceModule": "src/services/LoggerService.ts",
           "importKind": "named",
           "isReExport": false
         }
       ],
       "dependencies": [
-        "/code/mnemonica/mnemographica/src/services/LoggerService.ts"
+        "src/services/LoggerService.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/mnemographica/src/models/EDS.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/models/EDS.ts",
+    "src/models/EDS.ts": {
+      "filePath": "src/models/EDS.ts",
       "definedTypes": [
         "EDS",
         "EDS.EDSEntry"
@@ -2222,31 +2256,31 @@
         {
           "name": "rawEDSEntry",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/EDS.ts",
+          "sourceModule": "src/models/EDS.ts",
           "isReExport": false
         },
         {
           "name": "EDSEntryInstance",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/EDS.ts",
+          "sourceModule": "src/models/EDS.ts",
           "isReExport": false
         },
         {
           "name": "EDS",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/EDS.ts",
+          "sourceModule": "src/models/EDS.ts",
           "isReExport": false
         },
         {
           "name": "EDSEntry",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/EDS.ts",
+          "sourceModule": "src/models/EDS.ts",
           "isReExport": false
         },
         {
           "name": "default",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/EDS.ts",
+          "sourceModule": "src/models/EDS.ts",
           "importKind": "default",
           "isReExport": false,
           "importAlias": "EDS"
@@ -2256,7 +2290,7 @@
         {
           "name": "define",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/node_modules/mnemonica/build/index.d.ts",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -2264,19 +2298,19 @@
         {
           "name": "getLogger",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/services/LoggerService.ts",
+          "sourceModule": "src/services/LoggerService.ts",
           "importKind": "named",
           "isReExport": false
         }
       ],
       "dependencies": [
-        "/code/mnemonica/mnemographica/src/services/LoggerService.ts"
+        "src/services/LoggerService.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/mnemographica/src/models/Flow.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/models/Flow.ts",
+    "src/models/Flow.ts": {
+      "filePath": "src/models/Flow.ts",
       "definedTypes": [
         "Flow",
         "Flow.FlowEntry"
@@ -2285,31 +2319,31 @@
         {
           "name": "rawFlowEntry",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Flow.ts",
+          "sourceModule": "src/models/Flow.ts",
           "isReExport": false
         },
         {
           "name": "FlowEntryInstance",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Flow.ts",
+          "sourceModule": "src/models/Flow.ts",
           "isReExport": false
         },
         {
           "name": "Flow",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Flow.ts",
+          "sourceModule": "src/models/Flow.ts",
           "isReExport": false
         },
         {
           "name": "FlowEntry",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Flow.ts",
+          "sourceModule": "src/models/Flow.ts",
           "isReExport": false
         },
         {
           "name": "default",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Flow.ts",
+          "sourceModule": "src/models/Flow.ts",
           "importKind": "default",
           "isReExport": false,
           "importAlias": "Flow"
@@ -2319,7 +2353,7 @@
         {
           "name": "define",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/node_modules/mnemonica/build/index.d.ts",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -2327,19 +2361,19 @@
         {
           "name": "getLogger",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/services/LoggerService.ts",
+          "sourceModule": "src/services/LoggerService.ts",
           "importKind": "named",
           "isReExport": false
         }
       ],
       "dependencies": [
-        "/code/mnemonica/mnemographica/src/services/LoggerService.ts"
+        "src/services/LoggerService.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/mnemographica/src/models/LoggerTab.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/models/LoggerTab.ts",
+    "src/models/LoggerTab.ts": {
+      "filePath": "src/models/LoggerTab.ts",
       "definedTypes": [
         "LoggerTab",
         "LoggerTab.LogEntry"
@@ -2348,31 +2382,31 @@
         {
           "name": "LogEntryData",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/LoggerTab.ts",
+          "sourceModule": "src/models/LoggerTab.ts",
           "isReExport": false
         },
         {
           "name": "LoggerTab",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/LoggerTab.ts",
+          "sourceModule": "src/models/LoggerTab.ts",
           "isReExport": false
         },
         {
           "name": "LogEntry",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/LoggerTab.ts",
+          "sourceModule": "src/models/LoggerTab.ts",
           "isReExport": false
         },
         {
           "name": "LogEntry",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/LoggerTab.ts",
+          "sourceModule": "src/models/LoggerTab.ts",
           "isReExport": false
         },
         {
           "name": "default",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/LoggerTab.ts",
+          "sourceModule": "src/models/LoggerTab.ts",
           "importKind": "default",
           "isReExport": false,
           "importAlias": "LoggerTab"
@@ -2382,7 +2416,7 @@
         {
           "name": "define",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/node_modules/mnemonica/build/index.d.ts",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -2392,8 +2426,8 @@
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/mnemographica/src/models/Main.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/models/Main.ts",
+    "src/models/Main.ts": {
+      "filePath": "src/models/Main.ts",
       "definedTypes": [
         "Main",
         "Main.Adapter"
@@ -2402,19 +2436,19 @@
         {
           "name": "Main",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Main.ts",
+          "sourceModule": "src/models/Main.ts",
           "isReExport": false
         },
         {
           "name": "Adapter",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Main.ts",
+          "sourceModule": "src/models/Main.ts",
           "isReExport": false
         },
         {
           "name": "default",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Main.ts",
+          "sourceModule": "src/models/Main.ts",
           "importKind": "default",
           "isReExport": false,
           "importAlias": "Main"
@@ -2424,7 +2458,7 @@
         {
           "name": "define",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/node_modules/mnemonica/build/index.d.ts",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -2434,8 +2468,8 @@
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/mnemographica/src/models/Types.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/models/Types.ts",
+    "src/models/Types.ts": {
+      "filePath": "src/models/Types.ts",
       "definedTypes": [
         "Types",
         "Types.TypeEntry"
@@ -2444,31 +2478,31 @@
         {
           "name": "rawTypeEntry",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Types.ts",
+          "sourceModule": "src/models/Types.ts",
           "isReExport": false
         },
         {
           "name": "TypeEntryInstance",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Types.ts",
+          "sourceModule": "src/models/Types.ts",
           "isReExport": false
         },
         {
           "name": "Types",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Types.ts",
+          "sourceModule": "src/models/Types.ts",
           "isReExport": false
         },
         {
           "name": "TypeEntry",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Types.ts",
+          "sourceModule": "src/models/Types.ts",
           "isReExport": false
         },
         {
           "name": "default",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Types.ts",
+          "sourceModule": "src/models/Types.ts",
           "importKind": "default",
           "isReExport": false,
           "importAlias": "Types"
@@ -2478,7 +2512,7 @@
         {
           "name": "define",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/node_modules/mnemonica/build/index.d.ts",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -2486,19 +2520,19 @@
         {
           "name": "getLogger",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/services/LoggerService.ts",
+          "sourceModule": "src/services/LoggerService.ts",
           "importKind": "named",
           "isReExport": false
         }
       ],
       "dependencies": [
-        "/code/mnemonica/mnemographica/src/services/LoggerService.ts"
+        "src/services/LoggerService.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/mnemographica/src/models/Usages.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/models/Usages.ts",
+    "src/models/Usages.ts": {
+      "filePath": "src/models/Usages.ts",
       "definedTypes": [
         "Usages",
         "Usages.UsageEntry"
@@ -2507,31 +2541,31 @@
         {
           "name": "usage",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Usages.ts",
+          "sourceModule": "src/models/Usages.ts",
           "isReExport": false
         },
         {
           "name": "usageEntry",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Usages.ts",
+          "sourceModule": "src/models/Usages.ts",
           "isReExport": false
         },
         {
           "name": "Usages",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Usages.ts",
+          "sourceModule": "src/models/Usages.ts",
           "isReExport": false
         },
         {
           "name": "UsageEntry",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Usages.ts",
+          "sourceModule": "src/models/Usages.ts",
           "isReExport": false
         },
         {
           "name": "default",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Usages.ts",
+          "sourceModule": "src/models/Usages.ts",
           "importKind": "default",
           "isReExport": false,
           "importAlias": "Usages"
@@ -2541,7 +2575,7 @@
         {
           "name": "define",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/node_modules/mnemonica/build/index.d.ts",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -2549,19 +2583,19 @@
         {
           "name": "getLogger",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/services/LoggerService.ts",
+          "sourceModule": "src/services/LoggerService.ts",
           "importKind": "named",
           "isReExport": false
         }
       ],
       "dependencies": [
-        "/code/mnemonica/mnemographica/src/services/LoggerService.ts"
+        "src/services/LoggerService.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/mnemographica/src/models/Registry.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/models/Registry.ts",
+    "src/models/Registry.ts": {
+      "filePath": "src/models/Registry.ts",
       "definedTypes": [
         "Registry",
         "Registry.RegistryEntry"
@@ -2570,31 +2604,31 @@
         {
           "name": "registryEntry",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Registry.ts",
+          "sourceModule": "src/models/Registry.ts",
           "isReExport": false
         },
         {
           "name": "Registry",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Registry.ts",
+          "sourceModule": "src/models/Registry.ts",
           "isReExport": false
         },
         {
           "name": "RegistryEntry",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Registry.ts",
+          "sourceModule": "src/models/Registry.ts",
           "isReExport": false
         },
         {
           "name": "registry",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Registry.ts",
+          "sourceModule": "src/models/Registry.ts",
           "isReExport": false
         },
         {
           "name": "default",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Registry.ts",
+          "sourceModule": "src/models/Registry.ts",
           "importKind": "default",
           "isReExport": false,
           "importAlias": "Registry"
@@ -2604,7 +2638,7 @@
         {
           "name": "define",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/node_modules/mnemonica/build/index.d.ts",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -2612,7 +2646,7 @@
         {
           "name": "lookup",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/node_modules/mnemonica/build/index.d.ts",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -2620,117 +2654,125 @@
         {
           "name": "getLogger",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/mnemographica/src/services/LoggerService.ts",
+          "sourceModule": "src/services/LoggerService.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "resolveWorkspacePaths",
+          "kind": "function",
+          "sourceModule": "src/utils/paths.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "Definitions",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/.tactica/types.ts",
+          "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "Types",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/.tactica/types.ts",
+          "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "Usages",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/.tactica/types.ts",
+          "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "Trie",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/.tactica/types.ts",
+          "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "EDS",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/.tactica/types.ts",
+          "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "Flow",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/.tactica/types.ts",
+          "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "Instrumentation",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/.tactica/types.ts",
+          "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "rawDefinitionEntry",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Definition.ts",
+          "sourceModule": "src/models/Definition.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "rawTypeEntry",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Types.ts",
+          "sourceModule": "src/models/Types.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "usage",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Usages.ts",
+          "sourceModule": "src/models/Usages.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "rawEDSEntry",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/EDS.ts",
+          "sourceModule": "src/models/EDS.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "rawFlowEntry",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Flow.ts",
+          "sourceModule": "src/models/Flow.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "rawInstrumentationPoint",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Instrumentation.ts",
+          "sourceModule": "src/models/Instrumentation.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "rawCreationGraph",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Instrumentation.ts",
+          "sourceModule": "src/models/Instrumentation.ts",
           "importKind": "named",
           "isReExport": false
         }
       ],
       "dependencies": [
-        "/code/mnemonica/mnemographica/src/services/LoggerService.ts",
-        "/code/mnemonica/mnemographica/src/models/Definition.ts",
-        "/code/mnemonica/mnemographica/src/models/Types.ts",
-        "/code/mnemonica/mnemographica/src/models/Usages.ts",
-        "/code/mnemonica/mnemographica/src/models/EDS.ts",
-        "/code/mnemonica/mnemographica/src/models/Flow.ts",
-        "/code/mnemonica/mnemographica/src/models/Instrumentation.ts"
+        "src/services/LoggerService.ts",
+        "src/utils/paths.ts",
+        "src/models/Definition.ts",
+        "src/models/Types.ts",
+        "src/models/Usages.ts",
+        "src/models/EDS.ts",
+        "src/models/Flow.ts",
+        "src/models/Instrumentation.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": [
@@ -2738,8 +2780,8 @@
         "path"
       ]
     },
-    "/code/mnemonica/mnemographica/src/models/Scene3D.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/models/Scene3D.ts",
+    "src/models/Scene3D.ts": {
+      "filePath": "src/models/Scene3D.ts",
       "definedTypes": [
         "Scene3D",
         "Scene3D.Camera3D",
@@ -2751,37 +2793,37 @@
         {
           "name": "Scene3D",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Scene3D.ts",
+          "sourceModule": "src/models/Scene3D.ts",
           "isReExport": false
         },
         {
           "name": "Camera3D",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Scene3D.ts",
+          "sourceModule": "src/models/Scene3D.ts",
           "isReExport": false
         },
         {
           "name": "GraphNode3D",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Scene3D.ts",
+          "sourceModule": "src/models/Scene3D.ts",
           "isReExport": false
         },
         {
           "name": "Link3D",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Scene3D.ts",
+          "sourceModule": "src/models/Scene3D.ts",
           "isReExport": false
         },
         {
           "name": "Tooltip3D",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Scene3D.ts",
+          "sourceModule": "src/models/Scene3D.ts",
           "isReExport": false
         },
         {
           "name": "default",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Scene3D.ts",
+          "sourceModule": "src/models/Scene3D.ts",
           "importKind": "default",
           "isReExport": false,
           "importAlias": "Scene3D"
@@ -2791,7 +2833,7 @@
         {
           "name": "define",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/node_modules/mnemonica/build/index.d.ts",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -2801,8 +2843,8 @@
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/mnemographica/src/models/Trie.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/models/Trie.ts",
+    "src/models/Trie.ts": {
+      "filePath": "src/models/Trie.ts",
       "definedTypes": [
         "Trie",
         "Trie.GraphNodeTrie",
@@ -2813,31 +2855,31 @@
         {
           "name": "Trie",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Trie.ts",
+          "sourceModule": "src/models/Trie.ts",
           "isReExport": false
         },
         {
           "name": "GraphNodeTrie",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Trie.ts",
+          "sourceModule": "src/models/Trie.ts",
           "isReExport": false
         },
         {
           "name": "LinkTrie",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Trie.ts",
+          "sourceModule": "src/models/Trie.ts",
           "isReExport": false
         },
         {
           "name": "ContextMenu",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Trie.ts",
+          "sourceModule": "src/models/Trie.ts",
           "isReExport": false
         },
         {
           "name": "default",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/mnemographica/src/models/Trie.ts",
+          "sourceModule": "src/models/Trie.ts",
           "importKind": "default",
           "isReExport": false,
           "importAlias": "Trie"
@@ -2847,7 +2889,7 @@
         {
           "name": "define",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/mnemographica/node_modules/mnemonica/build/index.d.ts",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -2857,21 +2899,21 @@
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/mnemographica/src/providers/index.ts": {
-      "filePath": "/code/mnemonica/mnemographica/src/providers/index.ts",
+    "src/providers/index.ts": {
+      "filePath": "src/providers/index.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "MnemonicaDefinitionProvider",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/providers/definitionProvider.ts",
+          "sourceModule": "src/providers/definitionProvider.ts",
           "importKind": "named",
           "isReExport": true
         },
         {
           "name": "MnemonicaReferenceProvider",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts",
+          "sourceModule": "src/providers/referenceProvider.ts",
           "importKind": "named",
           "isReExport": true
         }
@@ -2880,21 +2922,21 @@
         {
           "name": "MnemonicaDefinitionProvider",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/providers/definitionProvider.ts",
+          "sourceModule": "src/providers/definitionProvider.ts",
           "importKind": "named",
           "isReExport": true
         },
         {
           "name": "MnemonicaReferenceProvider",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts",
+          "sourceModule": "src/providers/referenceProvider.ts",
           "importKind": "named",
           "isReExport": true
         }
       ],
       "dependencies": [
-        "/code/mnemonica/mnemographica/src/providers/definitionProvider.ts",
-        "/code/mnemonica/mnemographica/src/providers/referenceProvider.ts"
+        "src/providers/definitionProvider.ts",
+        "src/providers/referenceProvider.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
@@ -2903,8 +2945,8 @@
   "edges": [],
   "cycles": [
     [
-      "/code/mnemonica/mnemographica/src/topologica/bootstrap.ts",
-      "/code/mnemonica/mnemographica/src/services/LoggerService.ts"
+      "src/topologica/bootstrap.ts",
+      "src/services/LoggerService.ts"
     ]
   ]
 }

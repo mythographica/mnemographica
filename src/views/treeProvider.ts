@@ -4,6 +4,7 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 import { getLogger } from '../services/LoggerService';
+import { resolveWorkspacePaths } from '../utils/paths';
 import type { Registry } from '../../.tactica/types';
 
 type TreeNodeType = 'root' | 'type' | 'subtype' | 'definition';
@@ -234,7 +235,7 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 		const definitionsPath = path.join(workspacePath, '.tactica', 'definitions.json');
 		if (fs.existsSync(definitionsPath)) {
 			const content = fs.readFileSync(definitionsPath, 'utf-8');
-			const data = JSON.parse(content) as {
+			const data = resolveWorkspacePaths(JSON.parse(content), workspacePath) as {
 				definitions: Record<string, {
 					name: string;
 					location: string;
