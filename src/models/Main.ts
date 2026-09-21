@@ -31,6 +31,11 @@ export const Main = define('Main', function (
 		// monotonic dedup would drop them all, so ingestTrace auto-wipes
 		// first (VACUUM rule).
 		traceSession: string | undefined;
+		// The subsystem adapters the extension runs (navigation, strategy
+		// server, self-trace), recorded as Main.Adapter instances by the
+		// MainOrchestrator; state/query 'server' reports them. An Array,
+		// not a Map — tactica's type printer drops Map type arguments
+		adapters: Array<object>;
 	},
 	extensionVersion: string
 ) {
@@ -40,6 +45,7 @@ export const Main = define('Main', function (
 	this.traceLastId = 0;
 	this.traceReceivedTotal = 0;
 	this.traceSession = undefined;
+	this.adapters = [];
 });
 
 export const Adapter = Main.define('Adapter', function (

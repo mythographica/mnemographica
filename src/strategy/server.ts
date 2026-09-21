@@ -546,7 +546,9 @@ export class StrategyServer {
 					wsPort    : this.wsPort,
 					running   : this.isRunning(),
 					uptimeMs  : this.startedAt ? Date.now() - this.startedAt : 0,
-					wsClients : this.wsClients
+					wsClients : this.wsClients,
+					// The subsystem adapters, as recorded on the Main model
+					adapters  : this.orchestrator ? this.orchestrator.getAdapters() : []
 				};
 				return result;
 			}

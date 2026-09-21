@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-09-16T08:07:16.800Z",
+  "generatedAt": "2026-09-21T21:09:37.369Z",
   "roots": [
     {
       "name": "Instrumentation",
@@ -75,7 +75,7 @@
         {
           "name": "Adapter",
           "fullPath": "Main.Adapter",
-          "location": "src/models/Main.ts:45:29",
+          "location": "src/models/Main.ts:51:29",
           "children": []
         }
       ]
@@ -114,7 +114,7 @@
         {
           "name": "RegistryEntry",
           "fullPath": "Registry.RegistryEntry",
-          "location": "src/models/Registry.ts:613:39",
+          "location": "src/models/Registry.ts:654:39",
           "children": []
         }
       ]
@@ -122,23 +122,23 @@
     {
       "name": "Scene3D",
       "fullPath": "Scene3D",
-      "location": "src/models/Scene3D.ts:5:24",
+      "location": "src/models/Scene3D.ts:19:24",
       "children": [
         {
           "name": "Camera3D",
           "fullPath": "Scene3D.Camera3D",
-          "location": "src/models/Scene3D.ts:9:33",
+          "location": "src/models/Scene3D.ts:99:33",
           "children": []
         },
         {
           "name": "GraphNode3D",
           "fullPath": "Scene3D.GraphNode3D",
-          "location": "src/models/Scene3D.ts:21:36",
+          "location": "src/models/Scene3D.ts:113:36",
           "children": [
             {
               "name": "Tooltip3D",
               "fullPath": "Scene3D.GraphNode3D.Tooltip3D",
-              "location": "src/models/Scene3D.ts:43:38",
+              "location": "src/models/Scene3D.ts:148:38",
               "children": []
             }
           ]
@@ -146,7 +146,55 @@
         {
           "name": "Link3D",
           "fullPath": "Scene3D.Link3D",
-          "location": "src/models/Scene3D.ts:34:31",
+          "location": "src/models/Scene3D.ts:136:31",
+          "children": []
+        },
+        {
+          "name": "Diamond3D",
+          "fullPath": "Scene3D.Diamond3D",
+          "location": "src/models/Scene3D.ts:159:34",
+          "children": []
+        },
+        {
+          "name": "Bagel3D",
+          "fullPath": "Scene3D.Bagel3D",
+          "location": "src/models/Scene3D.ts:188:32",
+          "children": []
+        },
+        {
+          "name": "Ring3D",
+          "fullPath": "Scene3D.Ring3D",
+          "location": "src/models/Scene3D.ts:214:31",
+          "children": []
+        },
+        {
+          "name": "Hub3D",
+          "fullPath": "Scene3D.Hub3D",
+          "location": "src/models/Scene3D.ts:224:30",
+          "children": []
+        },
+        {
+          "name": "Sink3D",
+          "fullPath": "Scene3D.Sink3D",
+          "location": "src/models/Scene3D.ts:235:31",
+          "children": []
+        },
+        {
+          "name": "Cone3D",
+          "fullPath": "Scene3D.Cone3D",
+          "location": "src/models/Scene3D.ts:245:31",
+          "children": []
+        },
+        {
+          "name": "Caption3D",
+          "fullPath": "Scene3D.Caption3D",
+          "location": "src/models/Scene3D.ts:255:34",
+          "children": []
+        },
+        {
+          "name": "Tube3D",
+          "fullPath": "Scene3D.Tube3D",
+          "location": "src/models/Scene3D.ts:265:31",
           "children": []
         }
       ]
@@ -154,23 +202,23 @@
     {
       "name": "Trie",
       "fullPath": "Trie",
-      "location": "src/models/Trie.ts:5:21",
+      "location": "src/models/Trie.ts:12:21",
       "children": [
         {
           "name": "GraphNodeTrie",
           "fullPath": "Trie.GraphNodeTrie",
-          "location": "src/models/Trie.ts:9:35",
+          "location": "src/models/Trie.ts:53:35",
           "children": [
             {
               "name": "LinkTrie",
               "fullPath": "Trie.GraphNodeTrie.LinkTrie",
-              "location": "src/models/Trie.ts:20:39",
+              "location": "src/models/Trie.ts:64:39",
               "children": []
             },
             {
               "name": "ContextMenu",
               "fullPath": "Trie.GraphNodeTrie.ContextMenu",
-              "location": "src/models/Trie.ts:29:42",
+              "location": "src/models/Trie.ts:75:42",
               "children": []
             }
           ]

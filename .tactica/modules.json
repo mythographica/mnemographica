@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-09-16T08:07:16.729Z",
+  "generatedAt": "2026-09-21T21:09:37.308Z",
   "modules": {
     "src/topologica/bootstrap.ts": {
       "filePath": "src/topologica/bootstrap.ts",
@@ -929,6 +929,13 @@
           "importAlias": "Main"
         },
         {
+          "name": "Main_Adapter",
+          "kind": "unknown",
+          "sourceModule": ".tactica/types.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
           "name": "Registry",
           "kind": "unknown",
           "sourceModule": ".tactica/types.ts",
@@ -1121,13 +1128,6 @@
           "external": true
         },
         {
-          "name": "Registry",
-          "kind": "unknown",
-          "sourceModule": ".tactica/types.ts",
-          "importKind": "named",
-          "isReExport": false
-        },
-        {
           "name": "GraphBuilder",
           "kind": "class",
           "sourceModule": "src/core/GraphBuilder.ts",
@@ -1151,6 +1151,54 @@
         "fs",
         "path"
       ]
+    },
+    "src/core/SceneBuilder.ts": {
+      "filePath": "src/core/SceneBuilder.ts",
+      "definedTypes": [],
+      "exportedBindings": [
+        {
+          "name": "buildSceneFor",
+          "kind": "function",
+          "sourceModule": "src/core/SceneBuilder.ts",
+          "isReExport": false
+        }
+      ],
+      "importedBindings": [
+        {
+          "name": "lookup",
+          "kind": "unknown",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
+          "importKind": "named",
+          "isReExport": false,
+          "external": true
+        },
+        {
+          "name": "Scene3D",
+          "kind": "unknown",
+          "sourceModule": ".tactica/types.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "D3Node",
+          "kind": "type",
+          "sourceModule": "src/types/index.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "GraphData",
+          "kind": "type",
+          "sourceModule": "src/types/index.ts",
+          "importKind": "named",
+          "isReExport": false
+        }
+      ],
+      "dependencies": [
+        "src/types/index.ts"
+      ],
+      "unresolvedSpecifiers": [],
+      "builtinSpecifiers": []
     },
     "src/webview/panel.ts": {
       "filePath": "src/webview/panel.ts",
@@ -1201,6 +1249,27 @@
           "isReExport": false
         },
         {
+          "name": "buildSceneFor",
+          "kind": "function",
+          "sourceModule": "src/core/SceneBuilder.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "Scene3D",
+          "kind": "unknown",
+          "sourceModule": ".tactica/types.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "Scene3D_GraphNode3D",
+          "kind": "unknown",
+          "sourceModule": ".tactica/types.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
           "name": "getLogger",
           "kind": "function",
           "sourceModule": "src/services/LoggerService.ts",
@@ -1212,6 +1281,7 @@
         "src/types/index.ts",
         "src/core/MainOrchestrator.ts",
         "src/core/graphDataLoader.ts",
+        "src/core/SceneBuilder.ts",
         "src/services/LoggerService.ts"
       ],
       "unresolvedSpecifiers": [],
@@ -2076,6 +2146,13 @@
           "isReExport": false
         },
         {
+          "name": "Trie_GraphNodeTrie",
+          "kind": "unknown",
+          "sourceModule": ".tactica/types.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
           "name": "GraphPanel",
           "kind": "class",
           "sourceModule": "src/webview/panel.ts",
@@ -2715,6 +2792,14 @@
           "isReExport": false
         },
         {
+          "name": "RegistryModel",
+          "kind": "unknown",
+          "sourceModule": ".tactica/types.ts",
+          "importKind": "named",
+          "isReExport": false,
+          "importAlias": "Registry"
+        },
+        {
           "name": "rawDefinitionEntry",
           "kind": "type",
           "sourceModule": "src/models/Definition.ts",
@@ -2787,7 +2872,15 @@
         "Scene3D.Camera3D",
         "Scene3D.GraphNode3D",
         "Scene3D.Link3D",
-        "Scene3D.GraphNode3D.Tooltip3D"
+        "Scene3D.GraphNode3D.Tooltip3D",
+        "Scene3D.Diamond3D",
+        "Scene3D.Bagel3D",
+        "Scene3D.Ring3D",
+        "Scene3D.Hub3D",
+        "Scene3D.Sink3D",
+        "Scene3D.Cone3D",
+        "Scene3D.Caption3D",
+        "Scene3D.Tube3D"
       ],
       "exportedBindings": [
         {
@@ -2816,6 +2909,54 @@
         },
         {
           "name": "Tooltip3D",
+          "kind": "const",
+          "sourceModule": "src/models/Scene3D.ts",
+          "isReExport": false
+        },
+        {
+          "name": "Diamond3D",
+          "kind": "const",
+          "sourceModule": "src/models/Scene3D.ts",
+          "isReExport": false
+        },
+        {
+          "name": "Bagel3D",
+          "kind": "const",
+          "sourceModule": "src/models/Scene3D.ts",
+          "isReExport": false
+        },
+        {
+          "name": "Ring3D",
+          "kind": "const",
+          "sourceModule": "src/models/Scene3D.ts",
+          "isReExport": false
+        },
+        {
+          "name": "Hub3D",
+          "kind": "const",
+          "sourceModule": "src/models/Scene3D.ts",
+          "isReExport": false
+        },
+        {
+          "name": "Sink3D",
+          "kind": "const",
+          "sourceModule": "src/models/Scene3D.ts",
+          "isReExport": false
+        },
+        {
+          "name": "Cone3D",
+          "kind": "const",
+          "sourceModule": "src/models/Scene3D.ts",
+          "isReExport": false
+        },
+        {
+          "name": "Caption3D",
+          "kind": "const",
+          "sourceModule": "src/models/Scene3D.ts",
+          "isReExport": false
+        },
+        {
+          "name": "Tube3D",
           "kind": "const",
           "sourceModule": "src/models/Scene3D.ts",
           "isReExport": false

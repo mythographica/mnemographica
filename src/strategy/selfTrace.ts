@@ -71,18 +71,21 @@ const mapEdge = function (edge: traceEdge & { instance?: unknown }): traceEdge {
  * Attach dive's edge-lifecycle hooks and pump mapped edges into the
  * orchestrator. Fire-and-forget from activate(): a dive load failure
  * (EH too old for require(ESM)) disables self-tracing without breaking
- * the extension.
+ * the extension. Resolves to whether self-tracing is actually on — the
+ * Main model's adapter registry records the honest answer.
  */
-export async function startSelfTrace (orchestrator: MainOrchestrator): Promise<void> {
+export async function startSelfTrace (orchestrator: MainOrchestrator): Promise<boolean> {
 	const logger = getLogger();
 	if (detachHooks.length > 0) {
-		return;
+		const attached = true;
+		return attached;
 	}
 	try {
 		diveModuleRef = await import('@mnemonica/dive');
 	} catch (error) {
 		logger.warn('[SelfTrace] @mnemonica/dive not loadable — self-instrumentation off:', String(error));
-		return;
+		const off = false;
+		return off;
 	}
 	const dive = diveModuleRef;
 
@@ -110,7 +113,8 @@ export async function startSelfTrace (orchestrator: MainOrchestrator): Promise<v
 	});
 	if (detachHooks.length === 0) {
 		logger.warn('[SelfTrace] no dive hooks registered — self-instrumentation off');
-		return;
+		const off = false;
+		return off;
 	}
 
 	// The in-process session tag for the orchestrator's per-source
@@ -129,6 +133,8 @@ export async function startSelfTrace (orchestrator: MainOrchestrator): Promise<v
 		LiveTraceTreeProvider.noteIngest();
 	}, FLUSH_MS);
 	logger.info('[SelfTrace] dive hooks attached — mnemographica is tracing itself');
+	const on = true;
+	return on;
 }
 
 /**

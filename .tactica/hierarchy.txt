@@ -21,7 +21,15 @@ Type Hierarchy (Trie):
 │   ├── Scene3D_Camera3D
 │   ├── Scene3D_GraphNode3D
 │   │   └── Scene3D_GraphNode3D_Tooltip3D
-│   └── Scene3D_Link3D
+│   ├── Scene3D_Link3D
+│   ├── Scene3D_Diamond3D
+│   ├── Scene3D_Bagel3D
+│   ├── Scene3D_Ring3D
+│   ├── Scene3D_Hub3D
+│   ├── Scene3D_Sink3D
+│   ├── Scene3D_Cone3D
+│   ├── Scene3D_Caption3D
+│   └── Scene3D_Tube3D
 └── Trie
     └── Trie_GraphNodeTrie
         ├── Trie_GraphNodeTrie_LinkTrie

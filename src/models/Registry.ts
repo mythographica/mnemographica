@@ -5,7 +5,7 @@ import * as path from 'path';
 import { define, lookup } from 'mnemonica';
 import { getLogger } from '../services/LoggerService';
 import { resolveWorkspacePaths } from '../utils/paths';
-import type { Definitions, Types, Usages, Trie, EDS, Flow, Instrumentation } from '~tactica/types';
+import type { Definitions, Types, Usages, Trie, EDS, Flow, Instrumentation, Registry as RegistryModel } from '~tactica/types';
 
 import type { rawDefinitionEntry } from './Definition';
 import type { rawTypeEntry } from './Types';
@@ -123,6 +123,10 @@ export const Registry = define('Registry', class {
 			// Load Definitions
 			await this.loadDefinitions(tacticaPath);
 
+			// Trie holds the hierarchy trie — it must exist before
+			// loadTypes walks hierarchy.json (it has no file of its own)
+			await this.loadTrie();
+
 			// Load Types
 			await this.loadTypes(tacticaPath);
 
@@ -137,9 +141,6 @@ export const Registry = define('Registry', class {
 
 			// Load Instrumentation (framework lifecycle crossroads, diamond graph)
 			await this.loadInstrumentation(tacticaPath);
-
-			// Initialize Trie (no file to load, just create instance)
-			await this.loadTrie();
 
 			this.logger.info('[Registry] : all models loaded successfully');
 		} catch (error) {
@@ -241,6 +242,46 @@ export const Registry = define('Registry', class {
 					const { stack } = error as Error;
 					this.logger.error(stack as string);
 				}
+
+				// The Trie model mirrors the same hierarchy: one
+				// GraphNodeTrie per type, one LinkTrie per parent edge —
+				// the link is constructed from its child node, so its
+				// prototype chain ties it there
+				const trie = this.trieInstance;
+				if (trie) {
+					const trieNode = new trie.GraphNodeTrie({
+						id     : node.fullPath,
+						name   : node.name,
+						path   : node.fullPath,
+						depth  : parent ? parent.split('.').length : 0,
+						isLeaf : !node.children || node.children.length === 0
+					});
+					trie.addNode(node.fullPath, trieNode);
+					if (parent) {
+						const link = new trieNode.LinkTrie({
+							parent,
+							child    : node.fullPath,
+							relation : 'subtype'
+						});
+						trie.addLink(link);
+					}
+				}
+
+				// The flat type index the Registry's map API always
+				// promised: one RegistryEntry per type, keyed by fullPath.
+				// The class body cannot see the runtime-installed subtype
+				// constructor, so `this` re-grounds to the tactica
+				// Registry type at this one boundary — the same file that
+				// defines the model
+				const self = this as unknown as RegistryModel;
+				const registryEntry = new self.RegistryEntry({
+					id       : node.fullPath,
+					name     : node.name,
+					filePath : parsed ? parsed.fileName : '',
+					line     : parsed ? parsed.line : 0,
+					column   : parsed ? parsed.column : 0
+				});
+				self.set(node.fullPath, registryEntry);
 
 				for (const child of node.children || []) {
 					visit(child, node.fullPath);

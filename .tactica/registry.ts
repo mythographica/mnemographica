@@ -33,6 +33,14 @@ import type {
 	Scene3D_GraphNode3D,
 	Scene3D_GraphNode3D_Tooltip3D,
 	Scene3D_Link3D,
+	Scene3D_Diamond3D,
+	Scene3D_Bagel3D,
+	Scene3D_Ring3D,
+	Scene3D_Hub3D,
+	Scene3D_Sink3D,
+	Scene3D_Cone3D,
+	Scene3D_Caption3D,
+	Scene3D_Tube3D,
 	Trie,
 	Trie_GraphNodeTrie,
 	Trie_GraphNodeTrie_LinkTrie,
@@ -67,9 +75,17 @@ declare module 'mnemonica' {
 		'Registry.RegistryEntry': new (data: { id: string; name: string; filePath: string; line: number; column: number }) => Registry_RegistryEntry;
 		'Scene3D': new () => Scene3D;
 		'Scene3D.Camera3D': new (data: { x: number; y: number; z: number; zoom: number; rotationX: number; rotationY: number }) => Scene3D_Camera3D;
-		'Scene3D.GraphNode3D': new (data: { id: string; label: string; x: number; y: number; z: number; radius: number; color: string }) => Scene3D_GraphNode3D;
-		'Scene3D.GraphNode3D.Tooltip3D': new (data: { targetNode: unknown; content: string; visible: boolean }) => Scene3D_GraphNode3D_Tooltip3D;
-		'Scene3D.Link3D': new (data: { source: unknown; target: unknown; strength: number }) => Scene3D_Link3D;
+		'Scene3D.GraphNode3D': new (data: { id: string; label: string; depth: number; isRoot: boolean; location?: { fileName: string; line: number; column: number } }) => Scene3D_GraphNode3D;
+		'Scene3D.GraphNode3D.Tooltip3D': new (data: { targetNode: string; content: string; visible: boolean }) => Scene3D_GraphNode3D_Tooltip3D;
+		'Scene3D.Link3D': new (data: { source: string; target: string; kind: string }) => Scene3D_Link3D;
+		'Scene3D.Diamond3D': new (data: { id: string; name: string; kind: string; filePath: string; starter: boolean; creates: number }) => Scene3D_Diamond3D;
+		'Scene3D.Bagel3D': new (data: { id: string; name: string; generation: number; anchor: string | null; wrapsTypePath?: string }) => Scene3D_Bagel3D;
+		'Scene3D.Ring3D': new (data: { id: string; name: string; citation?: string }) => Scene3D_Ring3D;
+		'Scene3D.Hub3D': new (data: { id: string; name: string; citation?: string }) => Scene3D_Hub3D;
+		'Scene3D.Sink3D': new (data: { id: string; name: string; citation?: string }) => Scene3D_Sink3D;
+		'Scene3D.Cone3D': new (data: { id: string; name: string }) => Scene3D_Cone3D;
+		'Scene3D.Caption3D': new (data: { text: string; targetId: string }) => Scene3D_Caption3D;
+		'Scene3D.Tube3D': new (data: { id: string; chain: Array<string> }) => Scene3D_Tube3D;
 		'Trie': new () => Trie;
 		'Trie.GraphNodeTrie': new (data: { id: string; name: string; path: string; depth: number; isLeaf: boolean }) => Trie_GraphNodeTrie;
 		'Trie.GraphNodeTrie.LinkTrie': new (data: { parent: unknown; child: unknown; relation: 'subtype' | 'instance' }) => Trie_GraphNodeTrie_LinkTrie;

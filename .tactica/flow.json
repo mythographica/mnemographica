@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-09-16T08:07:16.710Z",
+  "generatedAt": "2026-09-21T21:09:37.294Z",
   "flow": {
     "LoggerService": [
       {
@@ -304,6 +304,20 @@
         "kind": "propertyRead",
         "code": "entry.lineNumber",
         "propertyName": "lineNumber",
+        "targetType": "LoggerTab.LogEntry"
+      },
+      {
+        "location": "src/core/MainOrchestrator.ts:105:82",
+        "kind": "propertyRead",
+        "code": "entry.name",
+        "propertyName": "name",
+        "targetType": "LoggerTab.LogEntry"
+      },
+      {
+        "location": "src/core/MainOrchestrator.ts:111:79",
+        "kind": "propertyRead",
+        "code": "entry.name",
+        "propertyName": "name",
         "targetType": "LoggerTab.LogEntry"
       },
       {
@@ -2255,232 +2269,232 @@
         "context": "new expression"
       },
       {
-        "location": "src/core/MainOrchestrator.ts:107:22",
+        "location": "src/core/MainOrchestrator.ts:132:22",
         "kind": "instantiation",
         "code": "new Map<number, traceEdge>()",
         "context": "new expression"
       },
       {
-        "location": "src/core/MainOrchestrator.ts:273:16",
+        "location": "src/core/MainOrchestrator.ts:298:16",
         "kind": "instantiation",
         "code": "new Map<number, traceEdge>()",
         "context": "new expression"
       },
       {
-        "location": "src/core/MainOrchestrator.ts:274:32",
+        "location": "src/core/MainOrchestrator.ts:299:32",
         "kind": "methodCall",
         "code": "byId.set(edge.id, edge)",
         "propertyName": "set",
         "targetType": "Map"
       },
       {
-        "location": "src/core/MainOrchestrator.ts:274:32",
+        "location": "src/core/MainOrchestrator.ts:299:32",
         "kind": "propertyRead",
         "code": "byId.set",
         "propertyName": "set",
         "targetType": "Map"
       },
       {
-        "location": "src/core/MainOrchestrator.ts:279:40",
+        "location": "src/core/MainOrchestrator.ts:304:40",
         "kind": "methodCall",
         "code": "byId.get(cursor.parentId)",
         "propertyName": "get",
         "targetType": "Map"
       },
       {
-        "location": "src/core/MainOrchestrator.ts:279:40",
+        "location": "src/core/MainOrchestrator.ts:304:40",
         "kind": "propertyRead",
         "code": "byId.get",
         "propertyName": "get",
         "targetType": "Map"
       },
       {
-        "location": "src/core/MainOrchestrator.ts:283:49",
+        "location": "src/core/MainOrchestrator.ts:308:49",
         "kind": "passAsArg",
         "code": "this.hasAncestor(edge, selectedId, byId)",
         "targetType": "Map",
         "context": "arg 2 to hasAncestor"
       },
       {
-        "location": "src/core/MainOrchestrator.ts:302:16",
+        "location": "src/core/MainOrchestrator.ts:327:16",
         "kind": "instantiation",
         "code": "new Map<number, traceEdge>()",
         "context": "new expression"
       },
       {
-        "location": "src/core/MainOrchestrator.ts:303:32",
+        "location": "src/core/MainOrchestrator.ts:328:32",
         "kind": "methodCall",
         "code": "byId.set(edge.id, edge)",
         "propertyName": "set",
         "targetType": "Map"
       },
       {
-        "location": "src/core/MainOrchestrator.ts:303:32",
+        "location": "src/core/MainOrchestrator.ts:328:32",
         "kind": "propertyRead",
         "code": "byId.set",
         "propertyName": "set",
         "targetType": "Map"
       },
       {
-        "location": "src/core/MainOrchestrator.ts:305:20",
+        "location": "src/core/MainOrchestrator.ts:330:20",
         "kind": "passAsArg",
         "code": "this.hasAncestor(edge, rootId, byId)",
         "targetType": "Map",
         "context": "arg 2 to hasAncestor"
       },
       {
-        "location": "src/core/MainOrchestrator.ts:322:16",
+        "location": "src/core/MainOrchestrator.ts:347:16",
         "kind": "instantiation",
         "code": "new Map<number, traceEdge>()",
         "context": "new expression"
       },
       {
-        "location": "src/core/MainOrchestrator.ts:323:32",
+        "location": "src/core/MainOrchestrator.ts:348:32",
         "kind": "methodCall",
         "code": "byId.set(edge.id, edge)",
         "propertyName": "set",
         "targetType": "Map"
       },
       {
-        "location": "src/core/MainOrchestrator.ts:323:32",
+        "location": "src/core/MainOrchestrator.ts:348:32",
         "kind": "propertyRead",
         "code": "byId.set",
         "propertyName": "set",
         "targetType": "Map"
       },
       {
-        "location": "src/core/MainOrchestrator.ts:325:20",
+        "location": "src/core/MainOrchestrator.ts:350:20",
         "kind": "passAsArg",
         "code": "this.hasAncestor(edge, rootId, byId)",
         "targetType": "Map",
         "context": "arg 2 to hasAncestor"
       },
       {
-        "location": "src/core/MainOrchestrator.ts:335:40",
+        "location": "src/core/MainOrchestrator.ts:360:40",
         "kind": "methodCall",
         "code": "byId.get(cursor.parentId)",
         "propertyName": "get",
         "targetType": "Map"
       },
       {
-        "location": "src/core/MainOrchestrator.ts:335:40",
+        "location": "src/core/MainOrchestrator.ts:360:40",
         "kind": "propertyRead",
         "code": "byId.get",
         "propertyName": "get",
         "targetType": "Map"
       },
       {
-        "location": "src/core/MainOrchestrator.ts:359:16",
+        "location": "src/core/MainOrchestrator.ts:384:16",
         "kind": "instantiation",
         "code": "new Map<number, traceEdge>()",
         "context": "new expression"
       },
       {
-        "location": "src/core/MainOrchestrator.ts:360:32",
+        "location": "src/core/MainOrchestrator.ts:385:32",
         "kind": "methodCall",
         "code": "byId.set(edge.id, edge)",
         "propertyName": "set",
         "targetType": "Map"
       },
       {
-        "location": "src/core/MainOrchestrator.ts:360:32",
+        "location": "src/core/MainOrchestrator.ts:385:32",
         "kind": "propertyRead",
         "code": "byId.set",
         "propertyName": "set",
         "targetType": "Map"
       },
       {
-        "location": "src/core/MainOrchestrator.ts:362:18",
+        "location": "src/core/MainOrchestrator.ts:387:18",
         "kind": "instantiation",
         "code": "new Map<number, { rootId: number; name: string; count: number; latest: number; edges: traceEdge[]; h",
         "context": "new expression"
       },
       {
-        "location": "src/core/MainOrchestrator.ts:367:20",
+        "location": "src/core/MainOrchestrator.ts:392:20",
         "kind": "methodCall",
         "code": "byId.get(cursor.parentId)",
         "propertyName": "get",
         "targetType": "Map"
       },
       {
-        "location": "src/core/MainOrchestrator.ts:367:20",
+        "location": "src/core/MainOrchestrator.ts:392:20",
         "kind": "propertyRead",
         "code": "byId.get",
         "propertyName": "get",
         "targetType": "Map"
       },
       {
-        "location": "src/core/MainOrchestrator.ts:372:16",
+        "location": "src/core/MainOrchestrator.ts:397:16",
         "kind": "methodCall",
         "code": "groups.get(root.id)",
         "propertyName": "get",
         "targetType": "Map"
       },
       {
-        "location": "src/core/MainOrchestrator.ts:372:16",
+        "location": "src/core/MainOrchestrator.ts:397:16",
         "kind": "propertyRead",
         "code": "groups.get",
         "propertyName": "get",
         "targetType": "Map"
       },
       {
-        "location": "src/core/MainOrchestrator.ts:376:5",
+        "location": "src/core/MainOrchestrator.ts:401:5",
         "kind": "methodCall",
         "code": "groups.set(root.id, group)",
         "propertyName": "set",
         "targetType": "Map"
       },
       {
-        "location": "src/core/MainOrchestrator.ts:376:5",
+        "location": "src/core/MainOrchestrator.ts:401:5",
         "kind": "propertyRead",
         "code": "groups.set",
         "propertyName": "set",
         "targetType": "Map"
       },
       {
-        "location": "src/core/MainOrchestrator.ts:387:23",
+        "location": "src/core/MainOrchestrator.ts:412:23",
         "kind": "methodCall",
         "code": "groups.values()",
         "propertyName": "values",
         "targetType": "Map"
       },
       {
-        "location": "src/core/MainOrchestrator.ts:387:23",
+        "location": "src/core/MainOrchestrator.ts:412:23",
         "kind": "propertyRead",
         "code": "groups.values",
         "propertyName": "values",
         "targetType": "Map"
       },
       {
-        "location": "src/core/MainOrchestrator.ts:394:30",
+        "location": "src/core/MainOrchestrator.ts:419:30",
         "kind": "methodCall",
         "code": "groups.values()",
         "propertyName": "values",
         "targetType": "Map"
       },
       {
-        "location": "src/core/MainOrchestrator.ts:394:30",
+        "location": "src/core/MainOrchestrator.ts:419:30",
         "kind": "propertyRead",
         "code": "groups.values",
         "propertyName": "values",
         "targetType": "Map"
       },
       {
-        "location": "src/core/MainOrchestrator.ts:414:26",
+        "location": "src/core/MainOrchestrator.ts:439:26",
         "kind": "propertyRead",
         "code": "node.id",
         "propertyName": "id",
         "targetType": "Map"
       },
       {
-        "location": "src/core/MainOrchestrator.ts:414:41",
+        "location": "src/core/MainOrchestrator.ts:439:41",
         "kind": "propertyRead",
         "code": "node.name",
         "propertyName": "name",
         "targetType": "Map"
       },
       {
-        "location": "src/core/MainOrchestrator.ts:414:60",
+        "location": "src/core/MainOrchestrator.ts:439:60",
         "kind": "propertyRead",
         "code": "node.isRoot",
         "propertyName": "isRoot",
@@ -2773,13 +2787,90 @@
         "targetType": "Map"
       },
       {
-        "location": "src/webview/panel.ts:18:25",
+        "location": "src/core/SceneBuilder.ts:33:15",
+        "kind": "propertyRead",
+        "code": "node.id",
+        "propertyName": "id",
+        "targetType": "Map"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:34:15",
+        "kind": "propertyRead",
+        "code": "node.name",
+        "propertyName": "name",
+        "targetType": "Map"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:35:15",
+        "kind": "propertyRead",
+        "code": "node.depth",
+        "propertyName": "depth",
+        "targetType": "Map"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:36:15",
+        "kind": "propertyRead",
+        "code": "node.isRoot",
+        "propertyName": "isRoot",
+        "targetType": "Map"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:37:15",
+        "kind": "propertyRead",
+        "code": "node.location",
+        "propertyName": "location",
+        "targetType": "Map"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:39:3",
+        "kind": "passAsArg",
+        "code": "scene.addNode(node.id, sphere)",
+        "targetType": "Map",
+        "context": "arg 0 to addNode"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:39:17",
+        "kind": "propertyRead",
+        "code": "node.id",
+        "propertyName": "id",
+        "targetType": "Map"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:40:47",
+        "kind": "propertyRead",
+        "code": "node.name",
+        "propertyName": "name",
+        "targetType": "Map"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:40:68",
+        "kind": "propertyRead",
+        "code": "node.id",
+        "propertyName": "id",
+        "targetType": "Map"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:41:3",
+        "kind": "passAsArg",
+        "code": "scene.addCaption(node.id, caption)",
+        "targetType": "Map",
+        "context": "arg 0 to addCaption"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:41:20",
+        "kind": "propertyRead",
+        "code": "node.id",
+        "propertyName": "id",
+        "targetType": "Map"
+      },
+      {
+        "location": "src/webview/panel.ts:55:25",
         "kind": "instantiation",
         "code": "new Map<string, GraphPanel>()",
         "context": "new expression"
       },
       {
-        "location": "src/webview/panel.ts:236:37",
+        "location": "src/webview/panel.ts:278:37",
         "kind": "instantiation",
         "code": "new Map<number, {\n\t\tresolve: (data: unknown) => void;\n\t\ttimer: ReturnType<typeof setTimeout>;\n\t}>()",
         "context": "new expression"
@@ -2791,28 +2882,28 @@
         "context": "new expression"
       },
       {
-        "location": "src/extension.ts:371:13",
+        "location": "src/extension.ts:395:13",
         "kind": "methodCall",
         "code": "groups.find(g => g.rootId === rootParam)",
         "propertyName": "find",
         "targetType": "Map"
       },
       {
-        "location": "src/extension.ts:371:13",
+        "location": "src/extension.ts:395:13",
         "kind": "propertyRead",
         "code": "groups.find",
         "propertyName": "find",
         "targetType": "Map"
       },
       {
-        "location": "src/extension.ts:375:13",
+        "location": "src/extension.ts:399:13",
         "kind": "methodCall",
         "code": "groups.find(g => g.edges.some(e => e.traceId === jaegerId))",
         "propertyName": "find",
         "targetType": "Map"
       },
       {
-        "location": "src/extension.ts:375:13",
+        "location": "src/extension.ts:399:13",
         "kind": "propertyRead",
         "code": "groups.find",
         "propertyName": "find",
@@ -2855,173 +2946,326 @@
         "context": "new expression"
       },
       {
-        "location": "src/models/Registry.ts:224:9",
+        "location": "src/models/Registry.ts:225:9",
         "kind": "propertyRead",
         "code": "node.fullPath",
         "propertyName": "fullPath",
         "targetType": "Map"
       },
       {
-        "location": "src/models/Registry.ts:225:70",
+        "location": "src/models/Registry.ts:226:70",
         "kind": "propertyRead",
         "code": "node.fullPath",
         "propertyName": "fullPath",
         "targetType": "Map"
       },
       {
-        "location": "src/models/Registry.ts:229:20",
+        "location": "src/models/Registry.ts:230:20",
         "kind": "passAsArg",
         "code": "parseLocationString(node.location)",
         "targetType": "Map",
         "context": "arg 0 to parseLocationString"
       },
       {
-        "location": "src/models/Registry.ts:229:40",
+        "location": "src/models/Registry.ts:230:40",
         "kind": "propertyRead",
         "code": "node.location",
         "propertyName": "location",
         "targetType": "Map"
       },
       {
-        "location": "src/models/Registry.ts:232:13",
+        "location": "src/models/Registry.ts:233:13",
         "kind": "propertyRead",
         "code": "node.name",
         "propertyName": "name",
         "targetType": "Map"
       },
       {
-        "location": "src/models/Registry.ts:233:17",
+        "location": "src/models/Registry.ts:234:17",
         "kind": "propertyRead",
         "code": "node.fullPath",
         "propertyName": "fullPath",
         "targetType": "Map"
       },
       {
-        "location": "src/models/Registry.ts:235:19",
+        "location": "src/models/Registry.ts:236:19",
         "kind": "passAsArg",
         "code": "propertiesByType.get(node.fullPath)",
         "targetType": "Map",
         "context": "arg 0 to get"
       },
       {
-        "location": "src/models/Registry.ts:235:40",
+        "location": "src/models/Registry.ts:236:40",
         "kind": "propertyRead",
         "code": "node.fullPath",
         "propertyName": "fullPath",
         "targetType": "Map"
       },
       {
-        "location": "src/models/Registry.ts:235:58",
+        "location": "src/models/Registry.ts:236:58",
         "kind": "instantiation",
         "code": "new Map()",
         "context": "new expression"
       },
       {
-        "location": "src/models/Registry.ts:237:17",
+        "location": "src/models/Registry.ts:238:17",
         "kind": "propertyRead",
         "code": "node.location",
         "propertyName": "location",
         "targetType": "Map"
       },
       {
-        "location": "src/models/Registry.ts:239:6",
+        "location": "src/models/Registry.ts:240:6",
         "kind": "passAsArg",
         "code": "typesInstance.set(node.fullPath, entry)",
         "targetType": "Map",
         "context": "arg 0 to set"
       },
       {
-        "location": "src/models/Registry.ts:239:24",
+        "location": "src/models/Registry.ts:240:24",
         "kind": "propertyRead",
         "code": "node.fullPath",
         "propertyName": "fullPath",
         "targetType": "Map"
       },
       {
-        "location": "src/models/Registry.ts:245:25",
+        "location": "src/models/Registry.ts:253:16",
+        "kind": "propertyRead",
+        "code": "node.fullPath",
+        "propertyName": "fullPath",
+        "targetType": "Map"
+      },
+      {
+        "location": "src/models/Registry.ts:254:16",
+        "kind": "propertyRead",
+        "code": "node.name",
+        "propertyName": "name",
+        "targetType": "Map"
+      },
+      {
+        "location": "src/models/Registry.ts:255:16",
+        "kind": "propertyRead",
+        "code": "node.fullPath",
+        "propertyName": "fullPath",
+        "targetType": "Map"
+      },
+      {
+        "location": "src/models/Registry.ts:257:17",
         "kind": "propertyRead",
         "code": "node.children",
         "propertyName": "children",
         "targetType": "Map"
       },
       {
-        "location": "src/models/Registry.ts:246:6",
-        "kind": "passAsArg",
-        "code": "visit(child, node.fullPath)",
-        "targetType": "Map",
-        "context": "arg 1 to visit"
+        "location": "src/models/Registry.ts:257:34",
+        "kind": "propertyRead",
+        "code": "node.children.length",
+        "propertyName": "length",
+        "targetType": "Map"
       },
       {
-        "location": "src/models/Registry.ts:246:19",
+        "location": "src/models/Registry.ts:257:34",
+        "kind": "propertyRead",
+        "code": "node.children",
+        "propertyName": "children",
+        "targetType": "Map"
+      },
+      {
+        "location": "src/models/Registry.ts:259:6",
+        "kind": "passAsArg",
+        "code": "trie.addNode(node.fullPath, trieNode)",
+        "targetType": "Map",
+        "context": "arg 0 to addNode"
+      },
+      {
+        "location": "src/models/Registry.ts:259:19",
         "kind": "propertyRead",
         "code": "node.fullPath",
         "propertyName": "fullPath",
         "targetType": "Map"
       },
       {
-        "location": "src/models/Registry.ts:271:18",
+        "location": "src/models/Registry.ts:263:19",
+        "kind": "propertyRead",
+        "code": "node.fullPath",
+        "propertyName": "fullPath",
+        "targetType": "Map"
+      },
+      {
+        "location": "src/models/Registry.ts:278:17",
+        "kind": "propertyRead",
+        "code": "node.fullPath",
+        "propertyName": "fullPath",
+        "targetType": "Map"
+      },
+      {
+        "location": "src/models/Registry.ts:279:17",
+        "kind": "propertyRead",
+        "code": "node.name",
+        "propertyName": "name",
+        "targetType": "Map"
+      },
+      {
+        "location": "src/models/Registry.ts:284:5",
+        "kind": "passAsArg",
+        "code": "self.set(node.fullPath, registryEntry)",
+        "targetType": "Map",
+        "context": "arg 0 to set"
+      },
+      {
+        "location": "src/models/Registry.ts:284:14",
+        "kind": "propertyRead",
+        "code": "node.fullPath",
+        "propertyName": "fullPath",
+        "targetType": "Map"
+      },
+      {
+        "location": "src/models/Registry.ts:286:25",
+        "kind": "propertyRead",
+        "code": "node.children",
+        "propertyName": "children",
+        "targetType": "Map"
+      },
+      {
+        "location": "src/models/Registry.ts:287:6",
+        "kind": "passAsArg",
+        "code": "visit(child, node.fullPath)",
+        "targetType": "Map",
+        "context": "arg 1 to visit"
+      },
+      {
+        "location": "src/models/Registry.ts:287:19",
+        "kind": "propertyRead",
+        "code": "node.fullPath",
+        "propertyName": "fullPath",
+        "targetType": "Map"
+      },
+      {
+        "location": "src/models/Registry.ts:312:18",
         "kind": "instantiation",
         "code": "new Map<string, Map<string, { name: string; type: string; optional: boolean }>>()",
         "context": "new expression"
       },
       {
-        "location": "src/models/Registry.ts:276:4",
+        "location": "src/models/Registry.ts:317:4",
         "kind": "return",
         "code": "return result;",
         "targetType": "Map"
       },
       {
-        "location": "src/models/Registry.ts:293:23",
+        "location": "src/models/Registry.ts:334:23",
         "kind": "instantiation",
         "code": "new Map<string, { name: string; type: string; optional: boolean }>()",
         "context": "new expression"
       },
       {
-        "location": "src/models/Registry.ts:305:6",
+        "location": "src/models/Registry.ts:346:6",
         "kind": "methodCall",
         "code": "properties.set(propertyMatch[1], {\n\t\t\t\t\t\tname: propertyMatch[1],\n\t\t\t\t\t\ttype: propertyMatch[3].trim()",
         "propertyName": "set",
         "targetType": "Map"
       },
       {
-        "location": "src/models/Registry.ts:305:6",
+        "location": "src/models/Registry.ts:346:6",
         "kind": "propertyRead",
         "code": "properties.set",
         "propertyName": "set",
         "targetType": "Map"
       },
       {
-        "location": "src/models/Registry.ts:313:4",
+        "location": "src/models/Registry.ts:354:4",
         "kind": "methodCall",
         "code": "result.set(alias.replace(/_/g, '.'), properties)",
         "propertyName": "set",
         "targetType": "Map"
       },
       {
-        "location": "src/models/Registry.ts:313:4",
+        "location": "src/models/Registry.ts:354:4",
         "kind": "passAsArg",
         "code": "result.set(alias.replace(/_/g, '.'), properties)",
         "targetType": "Map",
         "context": "arg 1 to set"
       },
       {
-        "location": "src/models/Registry.ts:313:4",
+        "location": "src/models/Registry.ts:354:4",
         "kind": "propertyRead",
         "code": "result.set",
         "propertyName": "set",
         "targetType": "Map"
       },
       {
-        "location": "src/models/Registry.ts:316:3",
+        "location": "src/models/Registry.ts:357:3",
         "kind": "return",
         "code": "return result;",
         "targetType": "Map"
       },
       {
-        "location": "src/models/Registry.ts:621:25",
+        "location": "src/models/Registry.ts:662:25",
         "kind": "instantiation",
         "code": "new Registry()",
         "context": "new expression"
+      },
+      {
+        "location": "src/models/Scene3D.ts:34:41",
+        "kind": "instantiation",
+        "code": "new Map()",
+        "context": "new expression"
+      },
+      {
+        "location": "src/models/Scene3D.ts:36:44",
+        "kind": "instantiation",
+        "code": "new Map()",
+        "context": "new expression"
+      },
+      {
+        "location": "src/models/Scene3D.ts:37:42",
+        "kind": "instantiation",
+        "code": "new Map()",
+        "context": "new expression"
+      },
+      {
+        "location": "src/models/Scene3D.ts:38:41",
+        "kind": "instantiation",
+        "code": "new Map()",
+        "context": "new expression"
+      },
+      {
+        "location": "src/models/Scene3D.ts:39:44",
+        "kind": "instantiation",
+        "code": "new Map()",
+        "context": "new expression"
+      },
+      {
+        "location": "src/models/Scene3D.ts:46:3",
+        "kind": "passAsArg",
+        "code": "this.nodeMap.set(id, node)",
+        "targetType": "Map",
+        "context": "arg 1 to set"
+      },
+      {
+        "location": "src/models/Scene3D.ts:51:3",
+        "kind": "return",
+        "code": "return node;",
+        "targetType": "Map"
+      },
+      {
+        "location": "src/models/Trie.ts:15:41",
+        "kind": "instantiation",
+        "code": "new Map()",
+        "context": "new expression"
+      },
+      {
+        "location": "src/models/Trie.ts:24:3",
+        "kind": "passAsArg",
+        "code": "this.nodeMap.set(id, node)",
+        "targetType": "Map",
+        "context": "arg 1 to set"
+      },
+      {
+        "location": "src/models/Trie.ts:29:3",
+        "kind": "return",
+        "code": "return node;",
+        "targetType": "Map"
       }
     ],
     "MnemonicaTreeItem": [
@@ -3530,7 +3774,7 @@
         "targetType": "Set"
       },
       {
-        "location": "src/webview/panel.ts:279:3",
+        "location": "src/webview/panel.ts:335:3",
         "kind": "return",
         "code": "return result;",
         "targetType": "Set"
@@ -3576,31 +3820,31 @@
         "targetType": "Set"
       },
       {
-        "location": "src/strategy/server.ts:551:5",
+        "location": "src/strategy/server.ts:553:5",
         "kind": "return",
         "code": "return result;",
         "targetType": "Set"
       },
       {
-        "location": "src/strategy/server.ts:559:5",
+        "location": "src/strategy/server.ts:561:5",
         "kind": "return",
         "code": "return result;",
         "targetType": "Set"
       },
       {
-        "location": "src/strategy/server.ts:568:5",
+        "location": "src/strategy/server.ts:570:5",
         "kind": "return",
         "code": "return result;",
         "targetType": "Set"
       },
       {
-        "location": "src/strategy/server.ts:576:5",
+        "location": "src/strategy/server.ts:578:5",
         "kind": "return",
         "code": "return result;",
         "targetType": "Set"
       },
       {
-        "location": "src/strategy/server.ts:593:5",
+        "location": "src/strategy/server.ts:595:5",
         "kind": "return",
         "code": "return result;",
         "targetType": "Set"
@@ -3640,27 +3884,27 @@
         "targetType": "Set"
       },
       {
-        "location": "src/extension.ts:664:16",
+        "location": "src/extension.ts:688:16",
         "kind": "instantiation",
         "code": "new Set<string>()",
         "context": "new expression"
       },
       {
-        "location": "src/extension.ts:666:3",
+        "location": "src/extension.ts:690:3",
         "kind": "methodCall",
         "code": "roots.add(path.dirname(path.dirname(uri.fsPath)))",
         "propertyName": "add",
         "targetType": "Set"
       },
       {
-        "location": "src/extension.ts:666:3",
+        "location": "src/extension.ts:690:3",
         "kind": "propertyRead",
         "code": "roots.add",
         "propertyName": "add",
         "targetType": "Set"
       },
       {
-        "location": "src/extension.ts:668:19",
+        "location": "src/extension.ts:692:19",
         "kind": "spread",
         "code": "...roots",
         "targetType": "Set"
@@ -3722,31 +3966,60 @@
         "context": "new expression"
       },
       {
-        "location": "src/core/graphDataLoader.ts:25:19",
+        "location": "src/core/graphDataLoader.ts:24:19",
         "kind": "instantiation",
         "code": "new RegistryType()",
         "context": "new expression"
       },
       {
-        "location": "src/core/graphDataLoader.ts:26:8",
+        "location": "src/core/graphDataLoader.ts:25:8",
         "kind": "methodCall",
         "code": "registry.loadFromWorkspace(sourceRoot)",
         "propertyName": "loadFromWorkspace",
         "targetType": "Registry"
       },
       {
-        "location": "src/core/graphDataLoader.ts:26:8",
+        "location": "src/core/graphDataLoader.ts:25:8",
         "kind": "propertyRead",
         "code": "registry.loadFromWorkspace",
         "propertyName": "loadFromWorkspace",
         "targetType": "Registry"
       },
       {
-        "location": "src/core/graphDataLoader.ts:27:20",
+        "location": "src/core/graphDataLoader.ts:26:20",
         "kind": "passAsArg",
         "code": "GraphBuilder.buildFromRegistry(registry)",
         "targetType": "Registry",
         "context": "arg 0 to buildFromRegistry"
+      }
+    ],
+    "Main.Adapter": [
+      {
+        "location": "src/core/MainOrchestrator.ts:103:19",
+        "kind": "instantiation",
+        "code": "new this.main.Adapter({ name, domain, enabled })",
+        "context": "new expression"
+      },
+      {
+        "location": "src/core/MainOrchestrator.ts:106:3",
+        "kind": "passAsArg",
+        "code": "rest.push(adapter)",
+        "targetType": "Main.Adapter",
+        "context": "arg 0 to push"
+      },
+      {
+        "location": "src/core/MainOrchestrator.ts:113:4",
+        "kind": "propertyWrite",
+        "code": "adapter.enabled = enabled",
+        "propertyName": "enabled",
+        "targetType": "Main.Adapter"
+      },
+      {
+        "location": "src/core/MainOrchestrator.ts:113:4",
+        "kind": "propertyRead",
+        "code": "adapter.enabled",
+        "propertyName": "enabled",
+        "targetType": "Main.Adapter"
       }
     ],
     "LiveTraceTreeItem": [
@@ -4436,77 +4709,77 @@
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "src/extension.ts:155:18",
+        "location": "src/extension.ts:156:18",
         "kind": "propertyRead",
         "code": "item.data",
         "propertyName": "data",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "src/extension.ts:156:21",
+        "location": "src/extension.ts:157:21",
         "kind": "propertyRead",
         "code": "item.data.fullName",
         "propertyName": "fullName",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "src/extension.ts:156:21",
+        "location": "src/extension.ts:157:21",
         "kind": "propertyRead",
         "code": "item.data",
         "propertyName": "data",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "src/extension.ts:156:43",
+        "location": "src/extension.ts:157:43",
         "kind": "propertyRead",
         "code": "item.data.label",
         "propertyName": "label",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "src/extension.ts:156:43",
+        "location": "src/extension.ts:157:43",
         "kind": "propertyRead",
         "code": "item.data",
         "propertyName": "data",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "src/extension.ts:180:18",
+        "location": "src/extension.ts:181:18",
         "kind": "propertyRead",
         "code": "item.data",
         "propertyName": "data",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "src/extension.ts:181:16",
+        "location": "src/extension.ts:182:16",
         "kind": "propertyRead",
         "code": "item.data.fullName",
         "propertyName": "fullName",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "src/extension.ts:181:16",
+        "location": "src/extension.ts:182:16",
         "kind": "propertyRead",
         "code": "item.data",
         "propertyName": "data",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "src/extension.ts:181:38",
+        "location": "src/extension.ts:182:38",
         "kind": "propertyRead",
         "code": "item.data.label",
         "propertyName": "label",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "src/extension.ts:181:38",
+        "location": "src/extension.ts:182:38",
         "kind": "propertyRead",
         "code": "item.data",
         "propertyName": "data",
         "targetType": "LiveTraceTreeItem"
       },
       {
-        "location": "src/extension.ts:467:7",
+        "location": "src/extension.ts:491:7",
         "kind": "return",
         "code": "return item;",
         "targetType": "LiveTraceTreeItem"
@@ -4576,7 +4849,7 @@
         "context": "new expression"
       },
       {
-        "location": "src/webview/panel.ts:516:21",
+        "location": "src/webview/panel.ts:648:21",
         "kind": "instantiation",
         "code": "new vscode.Position(location.line - 1, location.column - 1)",
         "context": "new expression"
@@ -4632,15 +4905,800 @@
         "targetType": "vscode.Location"
       }
     ],
+    "Scene3D": [
+      {
+        "location": "src/core/SceneBuilder.ts:28:16",
+        "kind": "instantiation",
+        "code": "new Scene3DConstructor()",
+        "context": "new expression"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:29:2",
+        "kind": "propertyWrite",
+        "code": "scene.sourceRoot = sourceRoot",
+        "propertyName": "sourceRoot",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:29:2",
+        "kind": "propertyRead",
+        "code": "scene.sourceRoot",
+        "propertyName": "sourceRoot",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:32:22",
+        "kind": "propertyRead",
+        "code": "scene.GraphNode3D",
+        "propertyName": "GraphNode3D",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:39:3",
+        "kind": "methodCall",
+        "code": "scene.addNode(node.id, sphere)",
+        "propertyName": "addNode",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:39:3",
+        "kind": "propertyRead",
+        "code": "scene.addNode",
+        "propertyName": "addNode",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:40:23",
+        "kind": "propertyRead",
+        "code": "scene.Caption3D",
+        "propertyName": "Caption3D",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:41:3",
+        "kind": "methodCall",
+        "code": "scene.addCaption(node.id, caption)",
+        "propertyName": "addCaption",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:41:3",
+        "kind": "propertyRead",
+        "code": "scene.addCaption",
+        "propertyName": "addCaption",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:45:20",
+        "kind": "propertyRead",
+        "code": "scene.Link3D",
+        "propertyName": "Link3D",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:50:3",
+        "kind": "methodCall",
+        "code": "scene.addLink(edge)",
+        "propertyName": "addLink",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:50:3",
+        "kind": "propertyRead",
+        "code": "scene.addLink",
+        "propertyName": "addLink",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:53:20",
+        "kind": "propertyRead",
+        "code": "scene.Link3D",
+        "propertyName": "Link3D",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:59:3",
+        "kind": "methodCall",
+        "code": "scene.addLink(edge)",
+        "propertyName": "addLink",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:59:3",
+        "kind": "propertyRead",
+        "code": "scene.addLink",
+        "propertyName": "addLink",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:64:24",
+        "kind": "propertyRead",
+        "code": "scene.Diamond3D",
+        "propertyName": "Diamond3D",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:72:4",
+        "kind": "methodCall",
+        "code": "scene.addDiamond(scope.id, diamond)",
+        "propertyName": "addDiamond",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:72:4",
+        "kind": "propertyRead",
+        "code": "scene.addDiamond",
+        "propertyName": "addDiamond",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:73:24",
+        "kind": "propertyRead",
+        "code": "scene.Caption3D",
+        "propertyName": "Caption3D",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:74:4",
+        "kind": "methodCall",
+        "code": "scene.addCaption(scope.id, caption)",
+        "propertyName": "addCaption",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:74:4",
+        "kind": "propertyRead",
+        "code": "scene.addCaption",
+        "propertyName": "addCaption",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:77:21",
+        "kind": "propertyRead",
+        "code": "scene.Link3D",
+        "propertyName": "Link3D",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:78:4",
+        "kind": "methodCall",
+        "code": "scene.addLink(edge)",
+        "propertyName": "addLink",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:78:4",
+        "kind": "propertyRead",
+        "code": "scene.addLink",
+        "propertyName": "addLink",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:88:22",
+        "kind": "propertyRead",
+        "code": "scene.Bagel3D",
+        "propertyName": "Bagel3D",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:95:4",
+        "kind": "methodCall",
+        "code": "scene.addBagel(wrap.id, bagel)",
+        "propertyName": "addBagel",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:95:4",
+        "kind": "propertyRead",
+        "code": "scene.addBagel",
+        "propertyName": "addBagel",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:96:24",
+        "kind": "propertyRead",
+        "code": "scene.Caption3D",
+        "propertyName": "Caption3D",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:97:4",
+        "kind": "methodCall",
+        "code": "scene.addCaption(wrap.id, caption)",
+        "propertyName": "addCaption",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:97:4",
+        "kind": "propertyRead",
+        "code": "scene.addCaption",
+        "propertyName": "addCaption",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:100:21",
+        "kind": "propertyRead",
+        "code": "scene.Link3D",
+        "propertyName": "Link3D",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:101:4",
+        "kind": "methodCall",
+        "code": "scene.addLink(edge)",
+        "propertyName": "addLink",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:101:4",
+        "kind": "propertyRead",
+        "code": "scene.addLink",
+        "propertyName": "addLink",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:108:5",
+        "kind": "propertyWrite",
+        "code": "scene.ring = new scene.Ring3D({ id: knot.id, name: knot.name, citation: knot.citation })",
+        "propertyName": "ring",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:108:5",
+        "kind": "propertyRead",
+        "code": "scene.ring",
+        "propertyName": "ring",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:108:22",
+        "kind": "propertyRead",
+        "code": "scene.Ring3D",
+        "propertyName": "Ring3D",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:110:5",
+        "kind": "propertyWrite",
+        "code": "scene.hub = new scene.Hub3D({ id: knot.id, name: knot.name, citation: knot.citation })",
+        "propertyName": "hub",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:110:5",
+        "kind": "propertyRead",
+        "code": "scene.hub",
+        "propertyName": "hub",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:110:21",
+        "kind": "propertyRead",
+        "code": "scene.Hub3D",
+        "propertyName": "Hub3D",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:112:22",
+        "kind": "propertyRead",
+        "code": "scene.Sink3D",
+        "propertyName": "Sink3D",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:113:5",
+        "kind": "methodCall",
+        "code": "scene.addSink(knot.id, sink)",
+        "propertyName": "addSink",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:113:5",
+        "kind": "propertyRead",
+        "code": "scene.addSink",
+        "propertyName": "addSink",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:116:5",
+        "kind": "propertyWrite",
+        "code": "scene.cone = new scene.Cone3D({ id: knot.id, name: knot.name })",
+        "propertyName": "cone",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:116:5",
+        "kind": "propertyRead",
+        "code": "scene.cone",
+        "propertyName": "cone",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:116:22",
+        "kind": "propertyRead",
+        "code": "scene.Cone3D",
+        "propertyName": "Cone3D",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:118:24",
+        "kind": "propertyRead",
+        "code": "scene.Caption3D",
+        "propertyName": "Caption3D",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:119:4",
+        "kind": "methodCall",
+        "code": "scene.addCaption(knot.id, caption)",
+        "propertyName": "addCaption",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:119:4",
+        "kind": "propertyRead",
+        "code": "scene.addCaption",
+        "propertyName": "addCaption",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:122:21",
+        "kind": "propertyRead",
+        "code": "scene.Link3D",
+        "propertyName": "Link3D",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:123:4",
+        "kind": "methodCall",
+        "code": "scene.addLink(edge)",
+        "propertyName": "addLink",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:123:4",
+        "kind": "propertyRead",
+        "code": "scene.addLink",
+        "propertyName": "addLink",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:127:2",
+        "kind": "return",
+        "code": "return scene;",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/webview/panel.ts:592:3",
+        "kind": "propertyWrite",
+        "code": "scene.tube = new scene.Tube3D({ id, chain })",
+        "propertyName": "tube",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/webview/panel.ts:592:3",
+        "kind": "propertyRead",
+        "code": "scene.tube",
+        "propertyName": "tube",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/webview/panel.ts:592:20",
+        "kind": "propertyRead",
+        "code": "scene.Tube3D",
+        "propertyName": "Tube3D",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/webview/panel.ts:593:18",
+        "kind": "methodCall",
+        "code": "scene.getNode(id)",
+        "propertyName": "getNode",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/webview/panel.ts:593:18",
+        "kind": "propertyRead",
+        "code": "scene.getNode",
+        "propertyName": "getNode",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/webview/panel.ts:595:4",
+        "kind": "propertyWrite",
+        "code": "scene.tooltip = new sphere.Tooltip3D({ targetNode: id, content: name, visible: true })",
+        "propertyName": "tooltip",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/webview/panel.ts:595:4",
+        "kind": "propertyRead",
+        "code": "scene.tooltip",
+        "propertyName": "tooltip",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/webview/panel.ts:616:4",
+        "kind": "propertyWrite",
+        "code": "scene.camera = new scene.Camera3D({\n\t\t\t\tx         : num(cam.pan?.x),\n\t\t\t\ty         : num(cam.pan?.y)",
+        "propertyName": "camera",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/webview/panel.ts:616:4",
+        "kind": "propertyRead",
+        "code": "scene.camera",
+        "propertyName": "camera",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/webview/panel.ts:616:23",
+        "kind": "propertyRead",
+        "code": "scene.Camera3D",
+        "propertyName": "Camera3D",
+        "targetType": "Scene3D"
+      },
+      {
+        "location": "src/webview/panel.ts:637:3",
+        "kind": "return",
+        "code": "return scene;",
+        "targetType": "Scene3D"
+      }
+    ],
+    "Scene3D.GraphNode3D": [
+      {
+        "location": "src/core/SceneBuilder.ts:32:18",
+        "kind": "instantiation",
+        "code": "new scene.GraphNode3D({\n\t\t\tid       : node.id,\n\t\t\tlabel    : node.name,\n\t\t\tdepth    : node.depth,\n\t\t",
+        "context": "new expression"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:39:3",
+        "kind": "passAsArg",
+        "code": "scene.addNode(node.id, sphere)",
+        "targetType": "Scene3D.GraphNode3D",
+        "context": "arg 1 to addNode"
+      },
+      {
+        "location": "src/webview/panel.ts:595:24",
+        "kind": "propertyRead",
+        "code": "sphere.Tooltip3D",
+        "propertyName": "Tooltip3D",
+        "targetType": "Scene3D.GraphNode3D"
+      }
+    ],
+    "Scene3D.Caption3D": [
+      {
+        "location": "src/core/SceneBuilder.ts:40:19",
+        "kind": "instantiation",
+        "code": "new scene.Caption3D({ text: node.name, targetId: node.id })",
+        "context": "new expression"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:41:3",
+        "kind": "passAsArg",
+        "code": "scene.addCaption(node.id, caption)",
+        "targetType": "Scene3D.Caption3D",
+        "context": "arg 1 to addCaption"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:73:20",
+        "kind": "instantiation",
+        "code": "new scene.Caption3D({ text: scope.name, targetId: scope.id })",
+        "context": "new expression"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:74:4",
+        "kind": "passAsArg",
+        "code": "scene.addCaption(scope.id, caption)",
+        "targetType": "Scene3D.Caption3D",
+        "context": "arg 1 to addCaption"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:96:20",
+        "kind": "instantiation",
+        "code": "new scene.Caption3D({ text: wrap.name, targetId: wrap.id })",
+        "context": "new expression"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:97:4",
+        "kind": "passAsArg",
+        "code": "scene.addCaption(wrap.id, caption)",
+        "targetType": "Scene3D.Caption3D",
+        "context": "arg 1 to addCaption"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:118:20",
+        "kind": "instantiation",
+        "code": "new scene.Caption3D({ text: knot.name, targetId: knot.id })",
+        "context": "new expression"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:119:4",
+        "kind": "passAsArg",
+        "code": "scene.addCaption(knot.id, caption)",
+        "targetType": "Scene3D.Caption3D",
+        "context": "arg 1 to addCaption"
+      },
+      {
+        "location": "src/models/Scene3D.ts:91:3",
+        "kind": "passAsArg",
+        "code": "this.captionMap.set(id, caption)",
+        "targetType": "Scene3D.Caption3D",
+        "context": "arg 1 to set"
+      }
+    ],
+    "Scene3D.Link3D": [
+      {
+        "location": "src/core/SceneBuilder.ts:45:16",
+        "kind": "instantiation",
+        "code": "new scene.Link3D({\n\t\t\tsource : endpointId(link.source),\n\t\t\ttarget : endpointId(link.target),\n\t\t\tkind",
+        "context": "new expression"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:50:3",
+        "kind": "passAsArg",
+        "code": "scene.addLink(edge)",
+        "targetType": "Scene3D.Link3D",
+        "context": "arg 0 to addLink"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:53:16",
+        "kind": "instantiation",
+        "code": "new scene.Link3D({\n\t\t\tsource : endpointId(link.source),\n\t\t\ttarget : endpointId(link.target),\n\t\t\t// e",
+        "context": "new expression"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:59:3",
+        "kind": "passAsArg",
+        "code": "scene.addLink(edge)",
+        "targetType": "Scene3D.Link3D",
+        "context": "arg 0 to addLink"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:77:17",
+        "kind": "instantiation",
+        "code": "new scene.Link3D({ source: link.source, target: link.target, kind: 'creation' })",
+        "context": "new expression"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:78:4",
+        "kind": "passAsArg",
+        "code": "scene.addLink(edge)",
+        "targetType": "Scene3D.Link3D",
+        "context": "arg 0 to addLink"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:100:17",
+        "kind": "instantiation",
+        "code": "new scene.Link3D({ source: link.source, target: link.target, kind: `fiber-${link.kind}` })",
+        "context": "new expression"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:101:4",
+        "kind": "passAsArg",
+        "code": "scene.addLink(edge)",
+        "targetType": "Scene3D.Link3D",
+        "context": "arg 0 to addLink"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:122:17",
+        "kind": "instantiation",
+        "code": "new scene.Link3D({ source: link.source, target: link.target, kind: link.kind })",
+        "context": "new expression"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:123:4",
+        "kind": "passAsArg",
+        "code": "scene.addLink(edge)",
+        "targetType": "Scene3D.Link3D",
+        "context": "arg 0 to addLink"
+      },
+      {
+        "location": "src/strategy/selfTrace.ts:53:30",
+        "kind": "passAsArg",
+        "code": "traceIds.get(edge.id)",
+        "targetType": "Scene3D.Link3D",
+        "context": "arg 0 to get"
+      },
+      {
+        "location": "src/strategy/selfTrace.ts:53:43",
+        "kind": "propertyRead",
+        "code": "edge.id",
+        "propertyName": "id",
+        "targetType": "Scene3D.Link3D"
+      },
+      {
+        "location": "src/strategy/selfTrace.ts:55:19",
+        "kind": "propertyRead",
+        "code": "edge.id",
+        "propertyName": "id",
+        "targetType": "Scene3D.Link3D"
+      },
+      {
+        "location": "src/strategy/selfTrace.ts:56:19",
+        "kind": "propertyRead",
+        "code": "edge.parentId",
+        "propertyName": "parentId",
+        "targetType": "Scene3D.Link3D"
+      },
+      {
+        "location": "src/strategy/selfTrace.ts:57:19",
+        "kind": "propertyRead",
+        "code": "edge.name",
+        "propertyName": "name",
+        "targetType": "Scene3D.Link3D"
+      },
+      {
+        "location": "src/strategy/selfTrace.ts:58:19",
+        "kind": "propertyRead",
+        "code": "edge.kind",
+        "propertyName": "kind",
+        "targetType": "Scene3D.Link3D"
+      },
+      {
+        "location": "src/strategy/selfTrace.ts:59:19",
+        "kind": "propertyRead",
+        "code": "edge.status",
+        "propertyName": "status",
+        "targetType": "Scene3D.Link3D"
+      },
+      {
+        "location": "src/strategy/selfTrace.ts:60:19",
+        "kind": "propertyRead",
+        "code": "edge.duration",
+        "propertyName": "duration",
+        "targetType": "Scene3D.Link3D"
+      },
+      {
+        "location": "src/strategy/selfTrace.ts:60:56",
+        "kind": "propertyRead",
+        "code": "edge.duration",
+        "propertyName": "duration",
+        "targetType": "Scene3D.Link3D"
+      },
+      {
+        "location": "src/strategy/selfTrace.ts:61:19",
+        "kind": "propertyRead",
+        "code": "edge.ts",
+        "propertyName": "ts",
+        "targetType": "Scene3D.Link3D"
+      },
+      {
+        "location": "src/strategy/selfTrace.ts:62:19",
+        "kind": "passAsArg",
+        "code": "instanceTypeOf(edge.instance)",
+        "targetType": "Scene3D.Link3D",
+        "context": "arg 0 to instanceTypeOf"
+      },
+      {
+        "location": "src/strategy/selfTrace.ts:62:34",
+        "kind": "propertyRead",
+        "code": "edge.instance",
+        "propertyName": "instance",
+        "targetType": "Scene3D.Link3D"
+      },
+      {
+        "location": "src/strategy/selfTrace.ts:64:19",
+        "kind": "propertyRead",
+        "code": "edge.instanceSource",
+        "propertyName": "instanceSource",
+        "targetType": "Scene3D.Link3D"
+      },
+      {
+        "location": "src/strategy/selfTrace.ts:94:23",
+        "kind": "propertyRead",
+        "code": "edge.id",
+        "propertyName": "id",
+        "targetType": "Scene3D.Link3D"
+      },
+      {
+        "location": "src/strategy/selfTrace.ts:97:19",
+        "kind": "passAsArg",
+        "code": "mapEdge(edge)",
+        "targetType": "Scene3D.Link3D",
+        "context": "arg 0 to mapEdge"
+      }
+    ],
+    "Scene3D.Diamond3D": [
+      {
+        "location": "src/core/SceneBuilder.ts:64:20",
+        "kind": "instantiation",
+        "code": "new scene.Diamond3D({\n\t\t\t\tid       : scope.id,\n\t\t\t\tname     : scope.name,\n\t\t\t\tkind     : scope.kind,",
+        "context": "new expression"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:72:4",
+        "kind": "passAsArg",
+        "code": "scene.addDiamond(scope.id, diamond)",
+        "targetType": "Scene3D.Diamond3D",
+        "context": "arg 1 to addDiamond"
+      },
+      {
+        "location": "src/models/Scene3D.ts:67:3",
+        "kind": "passAsArg",
+        "code": "this.diamondMap.set(id, diamond)",
+        "targetType": "Scene3D.Diamond3D",
+        "context": "arg 1 to set"
+      }
+    ],
+    "Scene3D.Bagel3D": [
+      {
+        "location": "src/core/SceneBuilder.ts:88:18",
+        "kind": "instantiation",
+        "code": "new scene.Bagel3D({\n\t\t\t\tid            : wrap.id,\n\t\t\t\tname          : wrap.name,\n\t\t\t\tgeneration    : ",
+        "context": "new expression"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:95:4",
+        "kind": "passAsArg",
+        "code": "scene.addBagel(wrap.id, bagel)",
+        "targetType": "Scene3D.Bagel3D",
+        "context": "arg 1 to addBagel"
+      },
+      {
+        "location": "src/models/Scene3D.ts:75:3",
+        "kind": "passAsArg",
+        "code": "this.bagelMap.set(id, bagel)",
+        "targetType": "Scene3D.Bagel3D",
+        "context": "arg 1 to set"
+      }
+    ],
+    "Scene3D.Ring3D": [
+      {
+        "location": "src/core/SceneBuilder.ts:108:18",
+        "kind": "instantiation",
+        "code": "new scene.Ring3D({ id: knot.id, name: knot.name, citation: knot.citation })",
+        "context": "new expression"
+      }
+    ],
+    "Scene3D.Hub3D": [
+      {
+        "location": "src/core/SceneBuilder.ts:110:17",
+        "kind": "instantiation",
+        "code": "new scene.Hub3D({ id: knot.id, name: knot.name, citation: knot.citation })",
+        "context": "new expression"
+      }
+    ],
+    "Scene3D.Sink3D": [
+      {
+        "location": "src/core/SceneBuilder.ts:112:18",
+        "kind": "instantiation",
+        "code": "new scene.Sink3D({ id: knot.id, name: knot.name, citation: knot.citation })",
+        "context": "new expression"
+      },
+      {
+        "location": "src/core/SceneBuilder.ts:113:5",
+        "kind": "passAsArg",
+        "code": "scene.addSink(knot.id, sink)",
+        "targetType": "Scene3D.Sink3D",
+        "context": "arg 1 to addSink"
+      },
+      {
+        "location": "src/models/Scene3D.ts:83:3",
+        "kind": "passAsArg",
+        "code": "this.sinkMap.set(id, sink)",
+        "targetType": "Scene3D.Sink3D",
+        "context": "arg 1 to set"
+      }
+    ],
+    "Scene3D.Cone3D": [
+      {
+        "location": "src/core/SceneBuilder.ts:116:18",
+        "kind": "instantiation",
+        "code": "new scene.Cone3D({ id: knot.id, name: knot.name })",
+        "context": "new expression"
+      }
+    ],
     "GraphPanel": [
       {
-        "location": "src/webview/panel.ts:65:22",
+        "location": "src/webview/panel.ts:106:22",
         "kind": "instantiation",
         "code": "new GraphPanel(panel, extensionUri, sourceRoot)",
         "context": "new expression"
       },
       {
-        "location": "src/webview/panel.ts:66:3",
+        "location": "src/webview/panel.ts:107:3",
         "kind": "passAsArg",
         "code": "GraphPanel.panels.set(sourceRoot, graphPanel)",
         "targetType": "GraphPanel",
@@ -4649,7 +5707,7 @@
     ],
     "Promise": [
       {
-        "location": "src/webview/panel.ts:267:22",
+        "location": "src/webview/panel.ts:323:22",
         "kind": "instantiation",
         "code": "new Promise<unknown>((resolve) => {\n\t\t\tconst timer = setTimeout(() => {\n\t\t\t\tGraphPanel.viewStateRequ",
         "context": "new expression"
@@ -4675,78 +5733,114 @@
     ],
     "vscode.RelativePattern": [
       {
-        "location": "src/webview/panel.ts:440:4",
+        "location": "src/webview/panel.ts:497:4",
         "kind": "instantiation",
         "code": "new vscode.RelativePattern(this.sourceRoot, '.tactica/types.ts')",
         "context": "new expression"
       },
       {
-        "location": "src/webview/panel.ts:442:3",
+        "location": "src/webview/panel.ts:499:3",
         "kind": "methodCall",
         "code": "watcher.onDidChange(() => {\n\t\t\tvoid this.reloadGraph();\n\t\t})",
         "propertyName": "onDidChange",
         "targetType": "vscode.RelativePattern"
       },
       {
-        "location": "src/webview/panel.ts:442:3",
+        "location": "src/webview/panel.ts:499:3",
         "kind": "propertyRead",
         "code": "watcher.onDidChange",
         "propertyName": "onDidChange",
         "targetType": "vscode.RelativePattern"
       },
       {
-        "location": "src/webview/panel.ts:445:3",
+        "location": "src/webview/panel.ts:502:3",
         "kind": "methodCall",
         "code": "watcher.onDidCreate(() => {\n\t\t\tvoid this.reloadGraph();\n\t\t})",
         "propertyName": "onDidCreate",
         "targetType": "vscode.RelativePattern"
       },
       {
-        "location": "src/webview/panel.ts:445:3",
+        "location": "src/webview/panel.ts:502:3",
         "kind": "propertyRead",
         "code": "watcher.onDidCreate",
         "propertyName": "onDidCreate",
         "targetType": "vscode.RelativePattern"
       },
       {
-        "location": "src/extension.ts:617:2",
+        "location": "src/extension.ts:641:2",
         "kind": "methodCall",
         "code": "watcher.onDidChange(async () => {\n\t\tawait handleFileChange(context);\n\t})",
         "propertyName": "onDidChange",
         "targetType": "vscode.RelativePattern"
       },
       {
-        "location": "src/extension.ts:617:2",
+        "location": "src/extension.ts:641:2",
         "kind": "propertyRead",
         "code": "watcher.onDidChange",
         "propertyName": "onDidChange",
         "targetType": "vscode.RelativePattern"
       },
       {
-        "location": "src/extension.ts:620:2",
+        "location": "src/extension.ts:644:2",
         "kind": "methodCall",
         "code": "watcher.onDidCreate(async () => {\n\t\tawait handleFileChange(context);\n\t})",
         "propertyName": "onDidCreate",
         "targetType": "vscode.RelativePattern"
       },
       {
-        "location": "src/extension.ts:620:2",
+        "location": "src/extension.ts:644:2",
         "kind": "propertyRead",
         "code": "watcher.onDidCreate",
         "propertyName": "onDidCreate",
         "targetType": "vscode.RelativePattern"
       },
       {
-        "location": "src/extension.ts:623:2",
+        "location": "src/extension.ts:647:2",
         "kind": "passAsArg",
         "code": "context.subscriptions.push(watcher)",
         "targetType": "vscode.RelativePattern",
         "context": "arg 0 to push"
       }
     ],
+    "Scene3D.Camera3D": [
+      {
+        "location": "src/webview/panel.ts:517:24",
+        "kind": "instantiation",
+        "code": "new this.scene.Camera3D(cameraData)",
+        "context": "new expression"
+      },
+      {
+        "location": "src/webview/panel.ts:567:25",
+        "kind": "instantiation",
+        "code": "new this.scene.Camera3D(cameraData)",
+        "context": "new expression"
+      },
+      {
+        "location": "src/webview/panel.ts:616:19",
+        "kind": "instantiation",
+        "code": "new scene.Camera3D({\n\t\t\t\tx         : num(cam.pan?.x),\n\t\t\t\ty         : num(cam.pan?.y),\n\t\t\t\tz        ",
+        "context": "new expression"
+      }
+    ],
+    "Scene3D.Tube3D": [
+      {
+        "location": "src/webview/panel.ts:592:16",
+        "kind": "instantiation",
+        "code": "new scene.Tube3D({ id, chain })",
+        "context": "new expression"
+      }
+    ],
+    "Scene3D.GraphNode3D.Tooltip3D": [
+      {
+        "location": "src/webview/panel.ts:595:20",
+        "kind": "instantiation",
+        "code": "new sphere.Tooltip3D({ targetNode: id, content: name, visible: true })",
+        "context": "new expression"
+      }
+    ],
     "vscode.Selection": [
       {
-        "location": "src/webview/panel.ts:517:23",
+        "location": "src/webview/panel.ts:649:23",
         "kind": "instantiation",
         "code": "new vscode.Selection(position, position)",
         "context": "new expression"
@@ -4766,7 +5860,7 @@
     ],
     "vscode.Range": [
       {
-        "location": "src/webview/panel.ts:518:23",
+        "location": "src/webview/panel.ts:650:23",
         "kind": "instantiation",
         "code": "new vscode.Range(position, position)",
         "context": "new expression"
@@ -4874,14 +5968,14 @@
         "targetType": "Error"
       },
       {
-        "location": "src/strategy/selfTrace.ts:128:3",
+        "location": "src/strategy/selfTrace.ts:132:3",
         "kind": "passAsArg",
         "code": "GraphPanel.pushTraceEdges(result.edges)",
         "targetType": "Error",
         "context": "arg 0 to pushTraceEdges"
       },
       {
-        "location": "src/strategy/selfTrace.ts:128:29",
+        "location": "src/strategy/selfTrace.ts:132:29",
         "kind": "propertyRead",
         "code": "result.edges",
         "propertyName": "edges",
@@ -4958,7 +6052,7 @@
     ],
     "MnemonicaTreeProvider": [
       {
-        "location": "src/extension.ts:57:17",
+        "location": "src/extension.ts:58:17",
         "kind": "instantiation",
         "code": "new MnemonicaTreeProvider()",
         "context": "new expression"
@@ -4966,7 +6060,7 @@
     ],
     "UsagesTreeProvider": [
       {
-        "location": "src/extension.ts:68:19",
+        "location": "src/extension.ts:69:19",
         "kind": "instantiation",
         "code": "new UsagesTreeProvider()",
         "context": "new expression"
@@ -4974,7 +6068,7 @@
     ],
     "FlowTreeProvider": [
       {
-        "location": "src/extension.ts:79:17",
+        "location": "src/extension.ts:80:17",
         "kind": "instantiation",
         "code": "new FlowTreeProvider()",
         "context": "new expression"
@@ -4982,7 +6076,7 @@
     ],
     "GenTreeProvider": [
       {
-        "location": "src/extension.ts:90:16",
+        "location": "src/extension.ts:91:16",
         "kind": "instantiation",
         "code": "new GenTreeProvider()",
         "context": "new expression"
@@ -4990,7 +6084,7 @@
     ],
     "DiamondsTreeProvider": [
       {
-        "location": "src/extension.ts:102:21",
+        "location": "src/extension.ts:103:21",
         "kind": "instantiation",
         "code": "new DiamondsTreeProvider()",
         "context": "new expression"
@@ -4998,15 +6092,37 @@
     ],
     "BagelsTreeProvider": [
       {
-        "location": "src/extension.ts:109:19",
+        "location": "src/extension.ts:110:19",
         "kind": "instantiation",
         "code": "new BagelsTreeProvider()",
         "context": "new expression"
       }
     ],
+    "Trie.GraphNodeTrie.ContextMenu": [
+      {
+        "location": "src/extension.ts:206:18",
+        "kind": "instantiation",
+        "code": "new (trieNode as Trie_GraphNodeTrie).ContextMenu({\n\t\t\t\t\ttargetNode : id,\n\t\t\t\t\titems      : [\n\t\t\t\t\t\t{",
+        "context": "new expression"
+      },
+      {
+        "location": "src/extension.ts:217:5",
+        "kind": "passAsArg",
+        "code": "trie.addMenu(menu)",
+        "targetType": "Trie.GraphNodeTrie.ContextMenu",
+        "context": "arg 0 to addMenu"
+      },
+      {
+        "location": "src/models/Trie.ts:45:3",
+        "kind": "passAsArg",
+        "code": "this.menuList.push(menu)",
+        "targetType": "Trie.GraphNodeTrie.ContextMenu",
+        "context": "arg 0 to push"
+      }
+    ],
     "MnemonicaDefinitionProvider": [
       {
-        "location": "src/extension.ts:205:23",
+        "location": "src/extension.ts:224:23",
         "kind": "instantiation",
         "code": "new MnemonicaDefinitionProvider()",
         "context": "new expression"
@@ -5014,7 +6130,7 @@
     ],
     "MnemonicaReferenceProvider": [
       {
-        "location": "src/extension.ts:206:22",
+        "location": "src/extension.ts:225:22",
         "kind": "instantiation",
         "code": "new MnemonicaReferenceProvider()",
         "context": "new expression"
@@ -5022,7 +6138,7 @@
     ],
     "StrategyServer": [
       {
-        "location": "src/extension.ts:232:19",
+        "location": "src/extension.ts:251:19",
         "kind": "instantiation",
         "code": "new StrategyServer(strategyPort, strategyWsPort)",
         "context": "new expression"
@@ -5030,7 +6146,7 @@
     ],
     "MainOrchestrator": [
       {
-        "location": "src/extension.ts:251:21",
+        "location": "src/extension.ts:270:21",
         "kind": "instantiation",
         "code": "new MainOrchestrator(context.extension.packageJSON.version || '0.1.0')",
         "context": "new expression"
@@ -5038,7 +6154,7 @@
     ],
     "LiveTraceTreeProvider": [
       {
-        "location": "src/extension.ts:289:22",
+        "location": "src/extension.ts:313:22",
         "kind": "instantiation",
         "code": "new LiveTraceTreeProvider(mainOrchestrator)",
         "context": "new expression"
@@ -5046,34 +6162,34 @@
     ],
     "URLSearchParams": [
       {
-        "location": "src/extension.ts:362:19",
+        "location": "src/extension.ts:386:19",
         "kind": "instantiation",
         "code": "new URLSearchParams(uri.query)",
         "context": "new expression"
       },
       {
-        "location": "src/extension.ts:369:29",
+        "location": "src/extension.ts:393:29",
         "kind": "methodCall",
         "code": "params.get('root')",
         "propertyName": "get",
         "targetType": "URLSearchParams"
       },
       {
-        "location": "src/extension.ts:369:29",
+        "location": "src/extension.ts:393:29",
         "kind": "propertyRead",
         "code": "params.get",
         "propertyName": "get",
         "targetType": "URLSearchParams"
       },
       {
-        "location": "src/extension.ts:373:21",
+        "location": "src/extension.ts:397:21",
         "kind": "methodCall",
         "code": "params.get('jaeger')",
         "propertyName": "get",
         "targetType": "URLSearchParams"
       },
       {
-        "location": "src/extension.ts:373:21",
+        "location": "src/extension.ts:397:21",
         "kind": "propertyRead",
         "code": "params.get",
         "propertyName": "get",
@@ -5082,34 +6198,34 @@
     ],
     "Definitions": [
       {
-        "location": "src/models/Registry.ts:160:32",
+        "location": "src/models/Registry.ts:161:32",
         "kind": "instantiation",
         "code": "new DefinitionsConstructor()",
         "context": "new expression"
       },
       {
-        "location": "src/models/Registry.ts:170:26",
+        "location": "src/models/Registry.ts:171:26",
         "kind": "propertyRead",
         "code": "definitionsInstance.DefinitionEntry",
         "propertyName": "DefinitionEntry",
         "targetType": "Definitions"
       },
       {
-        "location": "src/models/Registry.ts:171:8",
+        "location": "src/models/Registry.ts:172:8",
         "kind": "methodCall",
         "code": "definitionsInstance.set(key, entry)",
         "propertyName": "set",
         "targetType": "Definitions"
       },
       {
-        "location": "src/models/Registry.ts:171:8",
+        "location": "src/models/Registry.ts:172:8",
         "kind": "propertyRead",
         "code": "definitionsInstance.set",
         "propertyName": "set",
         "targetType": "Definitions"
       },
       {
-        "location": "src/models/Registry.ts:178:62",
+        "location": "src/models/Registry.ts:179:62",
         "kind": "propertyRead",
         "code": "definitionsInstance.size",
         "propertyName": "size",
@@ -5118,13 +6234,13 @@
     ],
     "Definitions.DefinitionEntry": [
       {
-        "location": "src/models/Registry.ts:170:22",
+        "location": "src/models/Registry.ts:171:22",
         "kind": "instantiation",
         "code": "new definitionsInstance.DefinitionEntry(value as rawDefinitionEntry)",
         "context": "new expression"
       },
       {
-        "location": "src/models/Registry.ts:171:8",
+        "location": "src/models/Registry.ts:172:8",
         "kind": "passAsArg",
         "code": "definitionsInstance.set(key, entry)",
         "targetType": "Definitions.DefinitionEntry",
@@ -5133,34 +6249,34 @@
     ],
     "Types": [
       {
-        "location": "src/models/Registry.ts:205:26",
+        "location": "src/models/Registry.ts:206:26",
         "kind": "instantiation",
         "code": "new TypesConstructor()",
         "context": "new expression"
       },
       {
-        "location": "src/models/Registry.ts:231:24",
+        "location": "src/models/Registry.ts:232:24",
         "kind": "propertyRead",
         "code": "typesInstance.TypeEntry",
         "propertyName": "TypeEntry",
         "targetType": "Types"
       },
       {
-        "location": "src/models/Registry.ts:239:6",
+        "location": "src/models/Registry.ts:240:6",
         "kind": "methodCall",
         "code": "typesInstance.set(node.fullPath, entry)",
         "propertyName": "set",
         "targetType": "Types"
       },
       {
-        "location": "src/models/Registry.ts:239:6",
+        "location": "src/models/Registry.ts:240:6",
         "kind": "propertyRead",
         "code": "typesInstance.set",
         "propertyName": "set",
         "targetType": "Types"
       },
       {
-        "location": "src/models/Registry.ts:254:55",
+        "location": "src/models/Registry.ts:295:55",
         "kind": "propertyRead",
         "code": "typesInstance.size",
         "propertyName": "size",
@@ -5169,42 +6285,108 @@
     ],
     "Types.TypeEntry": [
       {
-        "location": "src/models/Registry.ts:231:20",
+        "location": "src/models/Registry.ts:232:20",
         "kind": "instantiation",
         "code": "new typesInstance.TypeEntry({\n\t\t\t\t\t\tname: node.name,\n\t\t\t\t\t\tfullPath: node.fullPath,\n\t\t\t\t\t\tparent,\n\t\t",
         "context": "new expression"
       }
     ],
+    "Trie.GraphNodeTrie": [
+      {
+        "location": "src/models/Registry.ts:252:23",
+        "kind": "instantiation",
+        "code": "new trie.GraphNodeTrie({\n\t\t\t\t\t\tid     : node.fullPath,\n\t\t\t\t\t\tname   : node.name,\n\t\t\t\t\t\tpath   : node",
+        "context": "new expression"
+      },
+      {
+        "location": "src/models/Registry.ts:259:6",
+        "kind": "passAsArg",
+        "code": "trie.addNode(node.fullPath, trieNode)",
+        "targetType": "Trie.GraphNodeTrie",
+        "context": "arg 1 to addNode"
+      },
+      {
+        "location": "src/models/Registry.ts:261:24",
+        "kind": "propertyRead",
+        "code": "trieNode.LinkTrie",
+        "propertyName": "LinkTrie",
+        "targetType": "Trie.GraphNodeTrie"
+      }
+    ],
+    "Trie.GraphNodeTrie.LinkTrie": [
+      {
+        "location": "src/models/Registry.ts:261:20",
+        "kind": "instantiation",
+        "code": "new trieNode.LinkTrie({\n\t\t\t\t\t\t\tparent,\n\t\t\t\t\t\t\tchild    : node.fullPath,\n\t\t\t\t\t\t\trelation : 'subtype'\n",
+        "context": "new expression"
+      },
+      {
+        "location": "src/models/Registry.ts:266:7",
+        "kind": "passAsArg",
+        "code": "trie.addLink(link)",
+        "targetType": "Trie.GraphNodeTrie.LinkTrie",
+        "context": "arg 0 to addLink"
+      },
+      {
+        "location": "src/models/Scene3D.ts:59:3",
+        "kind": "passAsArg",
+        "code": "this.linkList.push(link)",
+        "targetType": "Trie.GraphNodeTrie.LinkTrie",
+        "context": "arg 0 to push"
+      },
+      {
+        "location": "src/models/Trie.ts:37:3",
+        "kind": "passAsArg",
+        "code": "this.linkList.push(link)",
+        "targetType": "Trie.GraphNodeTrie.LinkTrie",
+        "context": "arg 0 to push"
+      }
+    ],
+    "Registry.RegistryEntry": [
+      {
+        "location": "src/models/Registry.ts:277:27",
+        "kind": "instantiation",
+        "code": "new self.RegistryEntry({\n\t\t\t\t\tid       : node.fullPath,\n\t\t\t\t\tname     : node.name,\n\t\t\t\t\tfilePath : p",
+        "context": "new expression"
+      },
+      {
+        "location": "src/models/Registry.ts:284:5",
+        "kind": "passAsArg",
+        "code": "self.set(node.fullPath, registryEntry)",
+        "targetType": "Registry.RegistryEntry",
+        "context": "arg 1 to set"
+      }
+    ],
     "Usages": [
       {
-        "location": "src/models/Registry.ts:327:27",
+        "location": "src/models/Registry.ts:368:27",
         "kind": "instantiation",
         "code": "new UsagesConstructor()",
         "context": "new expression"
       },
       {
-        "location": "src/models/Registry.ts:343:19",
+        "location": "src/models/Registry.ts:384:19",
         "kind": "propertyRead",
         "code": "usagesInstance.UsageEntry",
         "propertyName": "UsageEntry",
         "targetType": "Usages"
       },
       {
-        "location": "src/models/Registry.ts:345:7",
+        "location": "src/models/Registry.ts:386:7",
         "kind": "methodCall",
         "code": "usagesInstance.set(key, entries)",
         "propertyName": "set",
         "targetType": "Usages"
       },
       {
-        "location": "src/models/Registry.ts:345:7",
+        "location": "src/models/Registry.ts:386:7",
         "kind": "propertyRead",
         "code": "usagesInstance.set",
         "propertyName": "set",
         "targetType": "Usages"
       },
       {
-        "location": "src/models/Registry.ts:348:57",
+        "location": "src/models/Registry.ts:389:57",
         "kind": "propertyRead",
         "code": "usagesInstance.size",
         "propertyName": "size",
@@ -5213,13 +6395,13 @@
     ],
     "Usages.UsageEntry": [
       {
-        "location": "src/models/Registry.ts:343:15",
+        "location": "src/models/Registry.ts:384:15",
         "kind": "instantiation",
         "code": "new usagesInstance.UsageEntry(stamped)",
         "context": "new expression"
       },
       {
-        "location": "src/models/Registry.ts:345:7",
+        "location": "src/models/Registry.ts:386:7",
         "kind": "passAsArg",
         "code": "usagesInstance.set(key, entries)",
         "targetType": "Usages.UsageEntry",
@@ -5228,34 +6410,34 @@
     ],
     "EDS": [
       {
-        "location": "src/models/Registry.ts:366:24",
+        "location": "src/models/Registry.ts:407:24",
         "kind": "instantiation",
         "code": "new EDSConstructor()",
         "context": "new expression"
       },
       {
-        "location": "src/models/Registry.ts:394:19",
+        "location": "src/models/Registry.ts:435:19",
         "kind": "propertyRead",
         "code": "edsInstance.EDSEntry",
         "propertyName": "EDSEntry",
         "targetType": "EDS"
       },
       {
-        "location": "src/models/Registry.ts:398:7",
+        "location": "src/models/Registry.ts:439:7",
         "kind": "methodCall",
         "code": "edsInstance.set(key, entries)",
         "propertyName": "set",
         "targetType": "EDS"
       },
       {
-        "location": "src/models/Registry.ts:398:7",
+        "location": "src/models/Registry.ts:439:7",
         "kind": "propertyRead",
         "code": "edsInstance.set",
         "propertyName": "set",
         "targetType": "EDS"
       },
       {
-        "location": "src/models/Registry.ts:401:54",
+        "location": "src/models/Registry.ts:442:54",
         "kind": "propertyRead",
         "code": "edsInstance.size",
         "propertyName": "size",
@@ -5264,13 +6446,13 @@
     ],
     "EDS.EDSEntry": [
       {
-        "location": "src/models/Registry.ts:394:15",
+        "location": "src/models/Registry.ts:435:15",
         "kind": "instantiation",
         "code": "new edsInstance.EDSEntry(\n\t\t\t\t\t\t\t\tObject.assign({ typeName: key }, e)\n\t\t\t\t\t\t\t)",
         "context": "new expression"
       },
       {
-        "location": "src/models/Registry.ts:398:7",
+        "location": "src/models/Registry.ts:439:7",
         "kind": "passAsArg",
         "code": "edsInstance.set(key, entries)",
         "targetType": "EDS.EDSEntry",
@@ -5279,34 +6461,34 @@
     ],
     "Flow": [
       {
-        "location": "src/models/Registry.ts:419:25",
+        "location": "src/models/Registry.ts:460:25",
         "kind": "instantiation",
         "code": "new FlowConstructor()",
         "context": "new expression"
       },
       {
-        "location": "src/models/Registry.ts:432:19",
+        "location": "src/models/Registry.ts:473:19",
         "kind": "propertyRead",
         "code": "flowInstance.FlowEntry",
         "propertyName": "FlowEntry",
         "targetType": "Flow"
       },
       {
-        "location": "src/models/Registry.ts:436:7",
+        "location": "src/models/Registry.ts:477:7",
         "kind": "methodCall",
         "code": "flowInstance.set(key, entries)",
         "propertyName": "set",
         "targetType": "Flow"
       },
       {
-        "location": "src/models/Registry.ts:436:7",
+        "location": "src/models/Registry.ts:477:7",
         "kind": "propertyRead",
         "code": "flowInstance.set",
         "propertyName": "set",
         "targetType": "Flow"
       },
       {
-        "location": "src/models/Registry.ts:439:55",
+        "location": "src/models/Registry.ts:480:55",
         "kind": "propertyRead",
         "code": "flowInstance.size",
         "propertyName": "size",
@@ -5315,13 +6497,13 @@
     ],
     "Flow.FlowEntry": [
       {
-        "location": "src/models/Registry.ts:432:15",
+        "location": "src/models/Registry.ts:473:15",
         "kind": "instantiation",
         "code": "new flowInstance.FlowEntry(\n\t\t\t\t\t\t\t\tObject.assign({ typeName: key }, e)\n\t\t\t\t\t\t\t)",
         "context": "new expression"
       },
       {
-        "location": "src/models/Registry.ts:436:7",
+        "location": "src/models/Registry.ts:477:7",
         "kind": "passAsArg",
         "code": "flowInstance.set(key, entries)",
         "targetType": "Flow.FlowEntry",
@@ -5330,104 +6512,104 @@
     ],
     "Instrumentation": [
       {
-        "location": "src/models/Registry.ts:457:36",
+        "location": "src/models/Registry.ts:498:36",
         "kind": "instantiation",
         "code": "new InstrumentationConstructor()",
         "context": "new expression"
       },
       {
-        "location": "src/models/Registry.ts:473:8",
+        "location": "src/models/Registry.ts:514:8",
         "kind": "methodCall",
         "code": "instrumentationInstance.setCreationGraphAbsentReason('stale')",
         "propertyName": "setCreationGraphAbsentReason",
         "targetType": "Instrumentation"
       },
       {
-        "location": "src/models/Registry.ts:473:8",
+        "location": "src/models/Registry.ts:514:8",
         "kind": "propertyRead",
         "code": "instrumentationInstance.setCreationGraphAbsentReason",
         "propertyName": "setCreationGraphAbsentReason",
         "targetType": "Instrumentation"
       },
       {
-        "location": "src/models/Registry.ts:481:18",
+        "location": "src/models/Registry.ts:522:18",
         "kind": "propertyRead",
         "code": "instrumentationInstance.InstrumentationPoint",
         "propertyName": "InstrumentationPoint",
         "targetType": "Instrumentation"
       },
       {
-        "location": "src/models/Registry.ts:483:6",
+        "location": "src/models/Registry.ts:524:6",
         "kind": "methodCall",
         "code": "instrumentationInstance.set(entries)",
         "propertyName": "set",
         "targetType": "Instrumentation"
       },
       {
-        "location": "src/models/Registry.ts:483:6",
+        "location": "src/models/Registry.ts:524:6",
         "kind": "propertyRead",
         "code": "instrumentationInstance.set",
         "propertyName": "set",
         "targetType": "Instrumentation"
       },
       {
-        "location": "src/models/Registry.ts:504:7",
+        "location": "src/models/Registry.ts:545:7",
         "kind": "methodCall",
         "code": "instrumentationInstance.setCreationGraph(graph)",
         "propertyName": "setCreationGraph",
         "targetType": "Instrumentation"
       },
       {
-        "location": "src/models/Registry.ts:504:7",
+        "location": "src/models/Registry.ts:545:7",
         "kind": "propertyRead",
         "code": "instrumentationInstance.setCreationGraph",
         "propertyName": "setCreationGraph",
         "targetType": "Instrumentation"
       },
       {
-        "location": "src/models/Registry.ts:513:10",
+        "location": "src/models/Registry.ts:554:10",
         "kind": "methodCall",
         "code": "instrumentationInstance.hasCreationGraph()",
         "propertyName": "hasCreationGraph",
         "targetType": "Instrumentation"
       },
       {
-        "location": "src/models/Registry.ts:513:10",
+        "location": "src/models/Registry.ts:554:10",
         "kind": "propertyRead",
         "code": "instrumentationInstance.hasCreationGraph",
         "propertyName": "hasCreationGraph",
         "targetType": "Instrumentation"
       },
       {
-        "location": "src/models/Registry.ts:514:6",
+        "location": "src/models/Registry.ts:555:6",
         "kind": "methodCall",
         "code": "instrumentationInstance.setCreationGraphAbsentReason('v1')",
         "propertyName": "setCreationGraphAbsentReason",
         "targetType": "Instrumentation"
       },
       {
-        "location": "src/models/Registry.ts:514:6",
+        "location": "src/models/Registry.ts:555:6",
         "kind": "propertyRead",
         "code": "instrumentationInstance.setCreationGraphAbsentReason",
         "propertyName": "setCreationGraphAbsentReason",
         "targetType": "Instrumentation"
       },
       {
-        "location": "src/models/Registry.ts:516:66",
+        "location": "src/models/Registry.ts:557:66",
         "kind": "propertyRead",
         "code": "instrumentationInstance.size",
         "propertyName": "size",
         "targetType": "Instrumentation"
       },
       {
-        "location": "src/models/Registry.ts:519:5",
+        "location": "src/models/Registry.ts:560:5",
         "kind": "methodCall",
         "code": "instrumentationInstance.setCreationGraphAbsentReason('missing')",
         "propertyName": "setCreationGraphAbsentReason",
         "targetType": "Instrumentation"
       },
       {
-        "location": "src/models/Registry.ts:519:5",
+        "location": "src/models/Registry.ts:560:5",
         "kind": "propertyRead",
         "code": "instrumentationInstance.setCreationGraphAbsentReason",
         "propertyName": "setCreationGraphAbsentReason",
@@ -5436,13 +6618,13 @@
     ],
     "Instrumentation.InstrumentationPoint": [
       {
-        "location": "src/models/Registry.ts:481:14",
+        "location": "src/models/Registry.ts:522:14",
         "kind": "instantiation",
         "code": "new instrumentationInstance.InstrumentationPoint(p)",
         "context": "new expression"
       },
       {
-        "location": "src/models/Registry.ts:483:6",
+        "location": "src/models/Registry.ts:524:6",
         "kind": "passAsArg",
         "code": "instrumentationInstance.set(entries)",
         "targetType": "Instrumentation.InstrumentationPoint",
@@ -5451,7 +6633,7 @@
     ],
     "Trie": [
       {
-        "location": "src/models/Registry.ts:535:25",
+        "location": "src/models/Registry.ts:576:25",
         "kind": "instantiation",
         "code": "new TrieConstructor()",
         "context": "new expression"

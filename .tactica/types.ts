@@ -129,6 +129,7 @@ export type Main = {
 	traceLastId: number;
 	traceReceivedTotal: number;
 	traceSession: string | undefined;
+	adapters: Array<unknown>;
 	Adapter: new (data: { name: string; domain: string; enabled: boolean }) => Main_Adapter;
 };
 
@@ -217,9 +218,37 @@ export type Registry_RegistryEntry = ProtoFlat<Registry, {
 
 export type Scene3D = {
 	createdAt: number;
+	sourceRoot: unknown;
+	ring: unknown | null;
+	hub: unknown | null;
+	cone: unknown | null;
+	camera: unknown | null;
+	tooltip: unknown | null;
+	tube: unknown | null;
+	addNode: (id: string, node: unknown) => void;
+	getNode: (id: string) => unknown | undefined;
+	readonly nodeCount: number;
+	addLink: (link: unknown) => void;
+	readonly linkCount: number;
+	addDiamond: (id: string, diamond: unknown) => void;
+	readonly diamondCount: number;
+	addBagel: (id: string, bagel: unknown) => void;
+	readonly bagelCount: number;
+	addSink: (id: string, sink: unknown) => void;
+	readonly sinkCount: number;
+	addCaption: (id: string, caption: unknown) => void;
+	readonly captionCount: number;
 	Camera3D: new (data: { x: number; y: number; z: number; zoom: number; rotationX: number; rotationY: number }) => Scene3D_Camera3D;
-	GraphNode3D: new (data: { id: string; label: string; x: number; y: number; z: number; radius: number; color: string }) => Scene3D_GraphNode3D;
-	Link3D: new (data: { source: unknown; target: unknown; strength: number }) => Scene3D_Link3D;
+	GraphNode3D: new (data: { id: string; label: string; depth: number; isRoot: boolean; location?: { fileName: string; line: number; column: number } }) => Scene3D_GraphNode3D;
+	Link3D: new (data: { source: string; target: string; kind: string }) => Scene3D_Link3D;
+	Diamond3D: new (data: { id: string; name: string; kind: string; filePath: string; starter: boolean; creates: number }) => Scene3D_Diamond3D;
+	Bagel3D: new (data: { id: string; name: string; generation: number; anchor: string | null; wrapsTypePath?: string }) => Scene3D_Bagel3D;
+	Ring3D: new (data: { id: string; name: string; citation?: string }) => Scene3D_Ring3D;
+	Hub3D: new (data: { id: string; name: string; citation?: string }) => Scene3D_Hub3D;
+	Sink3D: new (data: { id: string; name: string; citation?: string }) => Scene3D_Sink3D;
+	Cone3D: new (data: { id: string; name: string }) => Scene3D_Cone3D;
+	Caption3D: new (data: { text: string; targetId: string }) => Scene3D_Caption3D;
+	Tube3D: new (data: { id: string; chain: Array<string> }) => Scene3D_Tube3D;
 };
 
 export type Scene3D_Camera3D = ProtoFlat<Scene3D, {
@@ -232,40 +261,207 @@ export type Scene3D_Camera3D = ProtoFlat<Scene3D, {
 	Camera3D: undefined;
 	GraphNode3D: undefined;
 	Link3D: undefined;
+	Diamond3D: undefined;
+	Bagel3D: undefined;
+	Ring3D: undefined;
+	Hub3D: undefined;
+	Sink3D: undefined;
+	Cone3D: undefined;
+	Caption3D: undefined;
+	Tube3D: undefined;
 }>;
 
 export type Scene3D_GraphNode3D = ProtoFlat<Scene3D, {
 	id: string;
 	label: string;
-	x: number;
-	y: number;
-	z: number;
-	radius: number;
-	color: string;
-	Tooltip3D: new (data: { targetNode: unknown; content: string; visible: boolean }) => Scene3D_GraphNode3D_Tooltip3D;
+	depth: number;
+	isRoot: boolean;
+	location?: { fileName: string; line: number; column: number };
+	Tooltip3D: new (data: { targetNode: string; content: string; visible: boolean }) => Scene3D_GraphNode3D_Tooltip3D;
 	GraphNode3D: undefined;
 	Camera3D: undefined;
 	Link3D: undefined;
+	Diamond3D: undefined;
+	Bagel3D: undefined;
+	Ring3D: undefined;
+	Hub3D: undefined;
+	Sink3D: undefined;
+	Cone3D: undefined;
+	Caption3D: undefined;
+	Tube3D: undefined;
 }>;
 
 export type Scene3D_GraphNode3D_Tooltip3D = ProtoFlat<Scene3D_GraphNode3D, {
-	targetNode: unknown;
+	targetNode: string;
 	content: string;
 	visible: boolean;
 	Tooltip3D: undefined;
 }>;
 
 export type Scene3D_Link3D = ProtoFlat<Scene3D, {
-	source: unknown;
-	target: unknown;
-	strength: number;
+	source: string;
+	target: string;
+	kind: string;
 	Link3D: undefined;
 	Camera3D: undefined;
 	GraphNode3D: undefined;
+	Diamond3D: undefined;
+	Bagel3D: undefined;
+	Ring3D: undefined;
+	Hub3D: undefined;
+	Sink3D: undefined;
+	Cone3D: undefined;
+	Caption3D: undefined;
+	Tube3D: undefined;
+}>;
+
+export type Scene3D_Diamond3D = ProtoFlat<Scene3D, {
+	id: string;
+	name: string;
+	kind: string;
+	filePath: string;
+	starter: boolean;
+	creates: number;
+	Diamond3D: undefined;
+	Camera3D: undefined;
+	GraphNode3D: undefined;
+	Link3D: undefined;
+	Bagel3D: undefined;
+	Ring3D: undefined;
+	Hub3D: undefined;
+	Sink3D: undefined;
+	Cone3D: undefined;
+	Caption3D: undefined;
+	Tube3D: undefined;
+}>;
+
+export type Scene3D_Bagel3D = ProtoFlat<Scene3D, {
+	id: string;
+	name: string;
+	generation: number;
+	anchor: string | null;
+	wrapsTypePath?: string;
+	Bagel3D: undefined;
+	Camera3D: undefined;
+	GraphNode3D: undefined;
+	Link3D: undefined;
+	Diamond3D: undefined;
+	Ring3D: undefined;
+	Hub3D: undefined;
+	Sink3D: undefined;
+	Cone3D: undefined;
+	Caption3D: undefined;
+	Tube3D: undefined;
+}>;
+
+export type Scene3D_Ring3D = ProtoFlat<Scene3D, {
+	id: string;
+	name: string;
+	citation?: string;
+	Ring3D: undefined;
+	Camera3D: undefined;
+	GraphNode3D: undefined;
+	Link3D: undefined;
+	Diamond3D: undefined;
+	Bagel3D: undefined;
+	Hub3D: undefined;
+	Sink3D: undefined;
+	Cone3D: undefined;
+	Caption3D: undefined;
+	Tube3D: undefined;
+}>;
+
+export type Scene3D_Hub3D = ProtoFlat<Scene3D, {
+	id: string;
+	name: string;
+	citation?: string;
+	Hub3D: undefined;
+	Camera3D: undefined;
+	GraphNode3D: undefined;
+	Link3D: undefined;
+	Diamond3D: undefined;
+	Bagel3D: undefined;
+	Ring3D: undefined;
+	Sink3D: undefined;
+	Cone3D: undefined;
+	Caption3D: undefined;
+	Tube3D: undefined;
+}>;
+
+export type Scene3D_Sink3D = ProtoFlat<Scene3D, {
+	id: string;
+	name: string;
+	citation?: string;
+	Sink3D: undefined;
+	Camera3D: undefined;
+	GraphNode3D: undefined;
+	Link3D: undefined;
+	Diamond3D: undefined;
+	Bagel3D: undefined;
+	Ring3D: undefined;
+	Hub3D: undefined;
+	Cone3D: undefined;
+	Caption3D: undefined;
+	Tube3D: undefined;
+}>;
+
+export type Scene3D_Cone3D = ProtoFlat<Scene3D, {
+	id: string;
+	name: string;
+	Cone3D: undefined;
+	Camera3D: undefined;
+	GraphNode3D: undefined;
+	Link3D: undefined;
+	Diamond3D: undefined;
+	Bagel3D: undefined;
+	Ring3D: undefined;
+	Hub3D: undefined;
+	Sink3D: undefined;
+	Caption3D: undefined;
+	Tube3D: undefined;
+}>;
+
+export type Scene3D_Caption3D = ProtoFlat<Scene3D, {
+	text: string;
+	targetId: string;
+	Caption3D: undefined;
+	Camera3D: undefined;
+	GraphNode3D: undefined;
+	Link3D: undefined;
+	Diamond3D: undefined;
+	Bagel3D: undefined;
+	Ring3D: undefined;
+	Hub3D: undefined;
+	Sink3D: undefined;
+	Cone3D: undefined;
+	Tube3D: undefined;
+}>;
+
+export type Scene3D_Tube3D = ProtoFlat<Scene3D, {
+	id: string;
+	chain: Array<string>;
+	Tube3D: undefined;
+	Camera3D: undefined;
+	GraphNode3D: undefined;
+	Link3D: undefined;
+	Diamond3D: undefined;
+	Bagel3D: undefined;
+	Ring3D: undefined;
+	Hub3D: undefined;
+	Sink3D: undefined;
+	Cone3D: undefined;
+	Caption3D: undefined;
 }>;
 
 export type Trie = {
 	createdAt: number;
+	addNode: (id: string, node: unknown) => void;
+	getNode: (id: string) => unknown | undefined;
+	readonly nodeCount: number;
+	addLink: (link: unknown) => void;
+	readonly linkCount: number;
+	addMenu: (menu: unknown) => void;
+	readonly menuCount: number;
 	GraphNodeTrie: new (data: { id: string; name: string; path: string; depth: number; isLeaf: boolean }) => Trie_GraphNodeTrie;
 };
 

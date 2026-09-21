@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-09-16T08:07:16.708Z",
+  "generatedAt": "2026-09-21T21:09:37.291Z",
   "definitions": {
     "Instrumentation": {
       "name": "Instrumentation",
@@ -92,7 +92,7 @@
     },
     "Main.Adapter": {
       "name": "Adapter",
-      "location": "src/models/Main.ts:45:29",
+      "location": "src/models/Main.ts:51:29",
       "kind": "define",
       "parent": "Main",
       "strictChain": true,
@@ -140,7 +140,7 @@
     },
     "Registry.RegistryEntry": {
       "name": "RegistryEntry",
-      "location": "src/models/Registry.ts:613:39",
+      "location": "src/models/Registry.ts:654:39",
       "kind": "define",
       "parent": "Registry",
       "strictChain": true,
@@ -148,7 +148,7 @@
     },
     "Scene3D": {
       "name": "Scene3D",
-      "location": "src/models/Scene3D.ts:5:24",
+      "location": "src/models/Scene3D.ts:19:24",
       "kind": "define",
       "parent": null,
       "strictChain": true,
@@ -156,7 +156,7 @@
     },
     "Scene3D.Camera3D": {
       "name": "Camera3D",
-      "location": "src/models/Scene3D.ts:9:33",
+      "location": "src/models/Scene3D.ts:99:33",
       "kind": "define",
       "parent": "Scene3D",
       "strictChain": true,
@@ -164,7 +164,7 @@
     },
     "Scene3D.GraphNode3D": {
       "name": "GraphNode3D",
-      "location": "src/models/Scene3D.ts:21:36",
+      "location": "src/models/Scene3D.ts:113:36",
       "kind": "define",
       "parent": "Scene3D",
       "strictChain": true,
@@ -172,7 +172,7 @@
     },
     "Scene3D.Link3D": {
       "name": "Link3D",
-      "location": "src/models/Scene3D.ts:34:31",
+      "location": "src/models/Scene3D.ts:136:31",
       "kind": "define",
       "parent": "Scene3D",
       "strictChain": true,
@@ -180,15 +180,79 @@
     },
     "Scene3D.GraphNode3D.Tooltip3D": {
       "name": "Tooltip3D",
-      "location": "src/models/Scene3D.ts:43:38",
+      "location": "src/models/Scene3D.ts:148:38",
       "kind": "define",
       "parent": "Scene3D.GraphNode3D",
       "strictChain": true,
       "blockErrors": false
     },
+    "Scene3D.Diamond3D": {
+      "name": "Diamond3D",
+      "location": "src/models/Scene3D.ts:159:34",
+      "kind": "define",
+      "parent": "Scene3D",
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Scene3D.Bagel3D": {
+      "name": "Bagel3D",
+      "location": "src/models/Scene3D.ts:188:32",
+      "kind": "define",
+      "parent": "Scene3D",
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Scene3D.Ring3D": {
+      "name": "Ring3D",
+      "location": "src/models/Scene3D.ts:214:31",
+      "kind": "define",
+      "parent": "Scene3D",
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Scene3D.Hub3D": {
+      "name": "Hub3D",
+      "location": "src/models/Scene3D.ts:224:30",
+      "kind": "define",
+      "parent": "Scene3D",
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Scene3D.Sink3D": {
+      "name": "Sink3D",
+      "location": "src/models/Scene3D.ts:235:31",
+      "kind": "define",
+      "parent": "Scene3D",
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Scene3D.Cone3D": {
+      "name": "Cone3D",
+      "location": "src/models/Scene3D.ts:245:31",
+      "kind": "define",
+      "parent": "Scene3D",
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Scene3D.Caption3D": {
+      "name": "Caption3D",
+      "location": "src/models/Scene3D.ts:255:34",
+      "kind": "define",
+      "parent": "Scene3D",
+      "strictChain": true,
+      "blockErrors": false
+    },
+    "Scene3D.Tube3D": {
+      "name": "Tube3D",
+      "location": "src/models/Scene3D.ts:265:31",
+      "kind": "define",
+      "parent": "Scene3D",
+      "strictChain": true,
+      "blockErrors": false
+    },
     "Trie": {
       "name": "Trie",
-      "location": "src/models/Trie.ts:5:21",
+      "location": "src/models/Trie.ts:12:21",
       "kind": "define",
       "parent": null,
       "strictChain": true,
@@ -196,7 +260,7 @@
     },
     "Trie.GraphNodeTrie": {
       "name": "GraphNodeTrie",
-      "location": "src/models/Trie.ts:9:35",
+      "location": "src/models/Trie.ts:53:35",
       "kind": "define",
       "parent": "Trie",
       "strictChain": true,
@@ -204,7 +268,7 @@
     },
     "Trie.GraphNodeTrie.LinkTrie": {
       "name": "LinkTrie",
-      "location": "src/models/Trie.ts:20:39",
+      "location": "src/models/Trie.ts:64:39",
       "kind": "define",
       "parent": "Trie.GraphNodeTrie",
       "strictChain": true,
@@ -212,7 +276,7 @@
     },
     "Trie.GraphNodeTrie.ContextMenu": {
       "name": "ContextMenu",
-      "location": "src/models/Trie.ts:29:42",
+      "location": "src/models/Trie.ts:75:42",
       "kind": "define",
       "parent": "Trie.GraphNodeTrie",
       "strictChain": true,

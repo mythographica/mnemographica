@@ -183,6 +183,12 @@ body {
 	column-gap: 4px;
 }
 
+/* Generations of a hidden types layer have nothing to govern — the
+   checkbox is disabled and the whole row label reads dimmed */
+.gen-control-label.gen-dimmed {
+	opacity: .35;
+}
+
 .gen-control-buttons {
 	display: flex;
 	gap: 3px;

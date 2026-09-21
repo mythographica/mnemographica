@@ -1,7 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { lookup } from 'mnemonica';
-import type { Registry } from '../../.tactica/types';
 import { GraphBuilder } from './GraphBuilder';
 import type { GraphData } from '../types';
 
@@ -22,7 +21,7 @@ export async function loadGraphDataFor (sourceRoot: string): Promise<GraphData |
 		return missing;
 	}
 	const RegistryType = lookup('Registry');
-	const registry = new RegistryType() as Registry;
+	const registry = new RegistryType();
 	await registry.loadFromWorkspace(sourceRoot);
 	const graphData = GraphBuilder.buildFromRegistry(registry);
 	return graphData;

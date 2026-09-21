@@ -190,7 +190,14 @@
 	// read it. Edges and captions COMPOSE: their getters read the
 	// endpoint/owner meshes' .visible, so one rule lives exactly one
 	// place
-	const genDepthVisible = (depth) => sessionGenVisibility.get(depth || 0) !== false;
+	const genDepthVisible = (depth) => {
+		// The types layer is the master switch: with the whole layer off,
+		// every generation answers hidden too, so type-anchored elements
+		// OUTSIDE typesGroup (holder diamonds, hookup grafts) follow
+		// exactly as if their generation were unchecked
+		const typesOn = !renderer3D || !renderer3D.typesGroup || renderer3D.typesGroup.visible !== false;
+		return typesOn && sessionGenVisibility.get(depth || 0) !== false;
+	};
 	const defineComputedVisible = (obj, isVisible) => {
 		Object.defineProperty(obj, 'visible', { get: isVisible, configurable: true });
 	};
@@ -1462,13 +1469,19 @@
 		}
 	});
 
-	// Escape leaves trace mode (names-first tracing)
+	// Escape leaves trace mode (names-first tracing) and drops the
+	// selection highlight
 	window.addEventListener('keydown', function (event) {
-		if (event.key === 'Escape' && renderer3D && renderer3D.traceMode) {
-			renderer3D.exitTraceMode();
-			updateStatusLine();
-			if (vscodeRef) {
-				vscodeRef.postMessage({ command: 'traceModeExit' });
+		if (event.key === 'Escape' && renderer3D) {
+			if (renderer3D.selectionMode) {
+				renderer3D.clearSelectionHighlight();
+			}
+			if (renderer3D.traceMode) {
+				renderer3D.exitTraceMode();
+				updateStatusLine();
+				if (vscodeRef) {
+					vscodeRef.postMessage({ command: 'traceModeExit' });
+				}
 			}
 		}
 	});
@@ -2337,7 +2350,20 @@
 			},
 			// types comes LAST: its row doubles as the expander for the
 			// generation distance rows
-			{ key: 'types', label: 'types', getGroup: () => renderer.typesGroup }
+			{
+				key      : 'types',
+				label    : 'types',
+				getGroup : () => renderer.typesGroup,
+				setState : (on) => {
+					renderer.typesGroup.visible = on;
+					// The generation checkboxes dim and disable with the
+					// master layer — toggling a generation of a hidden
+					// layer is meaningless. Rebuilding the panel renders
+					// their disabled state; the choices themselves survive
+					// in sessionGenVisibility
+					createLayerControls(data, renderer);
+				}
+			}
 		];
 		layers.forEach(layer => {
 			const header = document.createElement('div');
@@ -2429,7 +2455,16 @@
 				const genCheckbox = document.createElement('input');
 				genCheckbox.type = 'checkbox';
 				genCheckbox.checked = sessionGenVisibility.get(param.depth) !== false;
-				genCheckbox.title = 'Show/hide ' + param.label + ', their deps and their wraps';
+				// With the types layer off every generation is hidden
+				// anyway (genDepthVisible composes it) — the checkbox has
+				// nothing to govern, so it dims and disables until the
+				// layer returns. The checked state itself is kept
+				const typesOn = !renderer.typesGroup || renderer.typesGroup.visible !== false;
+				genCheckbox.disabled = !typesOn;
+				genCheckbox.title = typesOn
+					? 'Show/hide ' + param.label + ', their deps and their wraps'
+					: 'The types layer is off — re-enable it to toggle generations';
+				name.classList.toggle('gen-dimmed', !typesOn);
 				genCheckbox.onchange = function () {
 					sessionGenVisibility.set(param.depth, genCheckbox.checked);
 					// Instant flip, NO rebuild — every governed object
@@ -2849,6 +2884,13 @@
 			// flashes suppressed. { names, meshes, links, dimmed } —
 			// dimmed holds the shared materials to restore
 			this.traceMode = null;
+			// Selection highlight (tree click): the focused item's whole
+			// inheritance cone glows — ancestors + self + descendants —
+			// everything else dims to SELECTION_DIM. { id, cone, chain,
+			// tube, tubeSig, dimmed } — dimmed holds the shared materials
+			// to restore, chain orders the ancestor meshes root → self
+			// for the glow tube
+			this.selectionMode = null;
 
 			// Render-on-demand: animate() keeps its rAF loop but paints
 			// only when this flag is set (scene mutation), a continuous
@@ -3310,10 +3352,11 @@
 						this.handleInternalClick(e, hitMesh.userData.internalNode);
 					}
 				} else {
-					// Click on background - hide tooltip, drop focus glow,
-					// leave trace mode
+					// Click on background - hide tooltip, drop focus glow
+					// and the selection cone, leave trace mode
 					d3.select('#tooltip').classed('visible', false);
 					this.setFocusedMesh(null);
+					this.clearSelectionHighlight();
 					if (this.traceMode) {
 						this.exitTraceMode();
 						updateStatusLine();
@@ -3456,6 +3499,10 @@
 			if (!mesh) return;
 
 			const node = mesh.userData.node;
+			// Every focus path (tree click, Show on Graph, By Generation)
+			// also lights the item's inheritance cone — the camera answer
+			// alone never showed the PATH
+			this.applySelectionHighlight(node.id);
 			const pos = mesh.position;
 
 			// Rotation target: FACE the item from the outside. The
@@ -3820,6 +3867,183 @@
 		static get TRACE_COLOR() { return 0x40ff80; }
 		static get TRACE_ERROR_COLOR() { return 0xff2020; }
 
+		// Dim level for everything OUTSIDE the selected cone. Picked from
+		// the 10/20/30% mock captures: 30% keeps too much noise, 10% is
+		// near-isolation, 20% keeps orientation while the path owns the
+		// frame
+		static get SELECTION_DIM() { return 0.2; }
+
+		/**
+		 * Tree-click selection: light the item's whole inheritance cone —
+		 * ancestors + self + descendants, one prefix walk over the
+		 * dot-joined ids (a leaf lights its chain, a root lights its
+		 * subtree) — and dim the rest of the scene to SELECTION_DIM.
+		 * Mechanics mirror trace mode (emissive + shared-material
+		 * dimming + restore bookkeeping) but stay a SEPARATE mode: trace
+		 * mode means runtime lineage, selection means static structure.
+		 * The focused mesh itself keeps its gold pulse on top — the
+		 * pulse says "you clicked THIS", the green cone says "its path".
+		 */
+		applySelectionHighlight(id) {
+			this.clearSelectionHighlight();
+			const cone = new Set();
+			this.nodeMeshes.forEach((mesh, meshId) => {
+				if (meshId === id || meshId.startsWith(id + '.') || id.startsWith(meshId + '.')) {
+					cone.add(meshId);
+				}
+			});
+			if (!cone.has(id)) { return; }
+			const dimmed = { line: null, arrow: null, pathHit: null };
+			this.nodeMeshes.forEach((mesh, meshId) => {
+				const m = mesh.material;
+				// Stash exactly what gets overwritten — the census dim
+				// (never-created spheres sit at 0.35) and the root glow
+				// must come back on clear, not a blanket opacity 1
+				mesh.userData.selRestore = {
+					opacity           : m.opacity,
+					transparent       : m.transparent,
+					emissive          : m.emissive.getHex(),
+					emissiveIntensity : m.emissiveIntensity,
+					labelOpacity      : mesh.userData.label ? mesh.userData.label.material.opacity : null
+				};
+				if (cone.has(meshId)) {
+					m.emissive = new THREE.Color(Graph3DRenderer.TRACE_COLOR);
+					m.emissiveIntensity = 0.9;
+					m.opacity = 1;
+					m.transparent = false;
+					if (mesh.userData.label) {
+						mesh.userData.label.material.opacity = 1;
+					}
+				} else {
+					m.transparent = true;
+					m.opacity = Graph3DRenderer.SELECTION_DIM;
+					m.emissiveIntensity = 0;
+					if (mesh.userData.label) {
+						mesh.userData.label.material.opacity = Graph3DRenderer.SELECTION_DIM;
+					}
+				}
+				m.needsUpdate = true;
+			});
+			// Dim the SHARED link materials — same idiom as trace mode
+			if (this.linkLines.length > 0) {
+				dimmed.line = this.linkLines[0].line.material;
+				dimmed.arrow = this.linkLines[0].arrow.material;
+				dimmed.line.opacity = 0.15;
+				dimmed.arrow.transparent = true;
+				dimmed.arrow.opacity = 0.15;
+				dimmed.arrow.needsUpdate = true;
+			}
+			if (this.pathHitLines.length > 0) {
+				dimmed.pathHit = [];
+				this.pathHitLines.forEach(({ line }) => {
+					if (!dimmed.pathHit.includes(line.material)) {
+						dimmed.pathHit.push(line.material);
+					}
+				});
+				dimmed.pathHit.forEach(m => {
+					m.userData.restoreOpacity = m.opacity;
+					m.opacity = Math.min(m.opacity, 0.1);
+					m.needsUpdate = true;
+				});
+			}
+			// The glow tube threads the ANCESTOR chain only (root → self)
+			// — a subtree is a branching cone, no single curve reads there
+			const chain = [];
+			let prefix = id;
+			while (prefix) {
+				const chainMesh = this.nodeMeshes.get(prefix);
+				if (chainMesh) {
+					chain.unshift(chainMesh);
+				}
+				prefix = prefix.includes('.') ? prefix.slice(0, prefix.lastIndexOf('.')) : null;
+			}
+			this.selectionMode = { id, cone, chain, tube: null, tubeSig: null, dimmed };
+			this.updateSelectionTube();
+			this.needsRender = true;
+		}
+
+		// Leave selection: hand every mesh its stashed pre-selection
+		// state back (census dim and root glow included), restore the
+		// shared materials, and dispose the tube
+		clearSelectionHighlight() {
+			const sel = this.selectionMode;
+			if (!sel) { return; }
+			this.nodeMeshes.forEach(mesh => {
+				const stash = mesh.userData.selRestore;
+				if (!stash) { return; }
+				const m = mesh.material;
+				m.opacity = stash.opacity;
+				m.transparent = stash.transparent;
+				m.emissive = new THREE.Color(stash.emissive);
+				// A live focus pulse rewrites the focused mesh's
+				// intensity every frame anyway — this is just the baseline
+				m.emissiveIntensity = stash.emissiveIntensity;
+				if (mesh.userData.label && stash.labelOpacity !== null) {
+					mesh.userData.label.material.opacity = stash.labelOpacity;
+				}
+				m.needsUpdate = true;
+				delete mesh.userData.selRestore;
+			});
+			if (sel.dimmed.line) {
+				sel.dimmed.line.opacity = 0.8;
+				sel.dimmed.line.needsUpdate = true;
+			}
+			if (sel.dimmed.arrow) {
+				sel.dimmed.arrow.transparent = false;
+				sel.dimmed.arrow.opacity = 1;
+				sel.dimmed.arrow.needsUpdate = true;
+			}
+			if (sel.dimmed.pathHit) {
+				sel.dimmed.pathHit.forEach(m => {
+					m.opacity = m.userData.restoreOpacity ?? 0.5;
+					m.needsUpdate = true;
+				});
+			}
+			if (sel.tube) {
+				if (sel.tube.parent) {
+					sel.tube.parent.remove(sel.tube);
+				}
+				sel.tube.geometry.dispose();
+				sel.tube.material.dispose();
+			}
+			this.selectionMode = null;
+			this.needsRender = true;
+		}
+
+		// The tube follows drags and relayouts: rebuilt from live chain
+		// positions at the end of updateLinkPositions, but ONLY when a
+		// chain sphere actually moved — an unrelated dynamics pass must
+		// not churn geometry
+		updateSelectionTube() {
+			const sel = this.selectionMode;
+			if (!sel) { return; }
+			const sig = sel.chain.map(m =>
+				Math.round(m.position.x) + ',' + Math.round(m.position.y) + ',' + Math.round(m.position.z)
+			).join('|');
+			if (sig === sel.tubeSig) { return; }
+			sel.tubeSig = sig;
+			if (sel.tube) {
+				if (sel.tube.parent) {
+					sel.tube.parent.remove(sel.tube);
+				}
+				sel.tube.geometry.dispose();
+				sel.tube.material.dispose();
+				sel.tube = null;
+			}
+			if (sel.chain.length < 2) { return; }
+			const pts = sel.chain.map(m => m.position.clone());
+			const curve = new THREE.CatmullRomCurve3(pts);
+			const tubeRadius = (this.nodeRadius3d || 12) * 0.2;
+			const tubeGeo = new THREE.TubeGeometry(curve, 64, tubeRadius, 8, false);
+			const tubeMat = new THREE.MeshBasicMaterial({
+				color       : Graph3DRenderer.TRACE_COLOR,
+				transparent : true,
+				opacity     : 0.85
+			});
+			sel.tube = new THREE.Mesh(tubeGeo, tubeMat);
+			this.scene.add(sel.tube);
+		}
+
 		// Enter trace mode: isolate the resolved lineage — path spheres
 		// green (red where an edge errored), links between consecutive
 		// path nodes green, everything else dimmed.
@@ -3828,6 +4052,9 @@
 			this.exitTraceMode();
 			this.traceFlashes.clear();
 			this.setFocusedMesh(null);
+			// Runtime lineage beats static structure: the selection's
+			// cone/tube would fight the trace's own dimming
+			this.clearSelectionHighlight();
 			const namesInOrder = [];
 			const seen = new Set();
 			const erroredNames = new Set();
@@ -4484,6 +4711,20 @@
 			// Configuration - TRUE 3D SPHERICAL LAYOUT
 			const nodeRadius = 8;
 
+			// Labels alternate above/below their sphere, so two screen rows
+			// share one shell's circumference; the margin keeps leader
+			// lines clear of neighbouring signs
+			const LABEL_ROWS = 2;
+			const LABEL_MARGIN = 1.15;
+
+			// Label metrics are the layout's spacing source: measured text
+			// widths (the label font at its 25-world-unit height) drive the
+			// shells' circumference rule, the sibling cone caps, sprite
+			// sizing in addLabel, and relaxation collision radii — one
+			// measurement, every spacing decision
+			const labelMetrics = measureLabelWidths(data.nodes);
+			this.labelMetrics = labelMetrics;
+
 			/**
 			 * TRUE 3D SPHERICAL LAYOUT
 			 * Each generation forms a complete spherical shell
@@ -4495,13 +4736,18 @@
 			if (!this.depthRadii) {
 				const radii = get3D_Radii(maxDepth).map((r, i) => {
 					// Data-driven widening: a crowded shell needs the
-					// circumference to fit its nodes with label room
-					// (10 nodeRadii of arc per node — a ×6 factor leaves
-					// crowded shells unreadable at a glance). Runs only at
-					// init — the Generation Distances rows own the values
-					// afterwards
-					const count = (nodesByDepth.get(i) || []).length;
-					const needed = count * nodeRadius * 10 / (2 * Math.PI);
+					// circumference to fit its nodes — spheres claim
+					// 4.4 nodeRadii each (the relaxation collision rule),
+					// labels claim their MEASURED width split across the
+					// two alternating label rows; whichever is larger wins.
+					// Runs only at init — the Generation Distances rows own
+					// the values afterwards
+					const shellNodes = nodesByDepth.get(i) || [];
+					const sphereArc = shellNodes.length * nodeRadius * 4.4;
+					const labelArc = shellNodes.reduce(
+						(sum, n) => sum + (labelMetrics.get(n.name) || 0), 0
+					) / LABEL_ROWS * LABEL_MARGIN;
+					const needed = Math.max(sphereArc, labelArc) / (2 * Math.PI);
 					const widened = Math.max(r, needed);
 					return widened;
 				});
@@ -4523,6 +4769,27 @@
 				this.depthRadii = new Map(radii.map((r, i) => [i, r]));
 			}
 			const depthRadii = this.depthRadii;
+
+			/**
+			 * Measure label texts once, at the label's own font: canvas px
+			 * converted to world units (25 world units per 256 canvas px,
+			 * addLabel's sprite height) plus the stroke's padding. Keyed by
+			 * text — duplicate names measure identically anyway
+			 */
+			function measureLabelWidths(nodes) {
+				const canvas = document.createElement('canvas');
+				const ctx = canvas.getContext('2d');
+				const WORLD_PER_PX = 25 / 256;
+				const PADDING_PX = 36;
+				ctx.font = 'bold 64px Arial, sans-serif';
+				const metrics = new Map();
+				nodes.forEach(node => {
+					if (metrics.has(node.name)) { return; }
+					const px = ctx.measureText(node.name).width + PADDING_PX;
+					metrics.set(node.name, px * WORLD_PER_PX);
+				});
+				return metrics;
+			}
 
 			/**
 			 * Distribute points evenly on a sphere surface
@@ -4564,10 +4831,12 @@
 				const py = parentPos.y / parentR;
 				const pz = parentPos.z / parentR;
 
-				// Even distribution around parent direction
-				const angleStep = (2 * Math.PI) / childCount;
-				const theta = childIndex * angleStep;
-				const deviation = (childIndex / Math.max(childCount - 1, 1)) * maxAngle;
+				// Uniform-area sampling of the cap: sqrt annuli give every
+				// sibling the same area, the golden angle keeps successive
+				// siblings off each other's radial line
+				const goldenAngle = Math.PI * (3 - Math.sqrt(5));
+				const deviation = maxAngle * Math.sqrt((childIndex + 0.5) / childCount);
+				const theta = childIndex * goldenAngle;
 
 				// Orthonormal basis
 				let ux, uy, uz;
@@ -4629,8 +4898,17 @@
 				const siblingIndex = siblings.indexOf(node);
 				const siblingCount = siblings.length;
 
-				// 15-degree cone spread (smaller angle = tighter grouping)
-				const maxAngle = Math.PI / 12;
+				// The cap must give every sibling its measured claim — the
+				// same sphere/label footprint the shell rule uses: a fixed
+				// small angle piles a wide sibling group into a wedge
+				// relaxation cannot finish spreading, so the angle grows
+				// with the sibling count and shrinks on wider shells
+				const spacing = siblings.reduce(
+					(sum, sib) => sum + Math.max(nodeRadius * 4.4, labelMetrics.get(sib.name) || 0),
+					0
+				) / siblingCount;
+				const capChord = Math.sqrt(siblingCount) * spacing;
+				const maxAngle = Math.asin(Math.min(1, capChord / (2 * radius)));
 
 				return placeInCone(node.parent, siblingIndex, siblingCount, radius, maxAngle);
 			}
@@ -5143,10 +5421,18 @@
 				const crown = crownByType.get(id) || 0;
 				// Effective radii: crowded shells must stay readable at a
 				// glance, not just non-overlapping — ×2.2 uncrowned,
-				// ×(3.3 + min(crown,8)×0.15) crowned
-				const r = crown > 0
-					? nodeRadius * (3.3 + Math.min(crown, 8) * 0.15)
-					: nodeRadius * 2.2;
+				// ×(3.3 + min(crown,8)×0.15) crowned. The label's measured
+				// half-width joins as a floor: labels, not spheres, are
+				// what actually overlaps on a dense shell
+				const labelHalf = (mesh.userData.node && this.labelMetrics)
+					? (this.labelMetrics.get(mesh.userData.node.name) || 0) / 2
+					: 0;
+				const r = Math.max(
+					crown > 0
+						? nodeRadius * (3.3 + Math.min(crown, 8) * 0.15)
+						: nodeRadius * 2.2,
+					labelHalf
+				);
 				return r;
 			});
 			const shellRadius = meshes.map(mesh => {
@@ -5155,7 +5441,9 @@
 				return r;
 			});
 
-			const ITERATIONS = 80;
+			// The cap only bounds pathological piles (dense crowns, pinned
+			// anchors); sane seeds stop through EPSILON long before it
+			const ITERATIONS = 400;
 			const DAMPING = 0.4;
 			const EPSILON = 0.05;
 			for (let iter = 0; iter < ITERATIONS; iter++) {
@@ -5304,6 +5592,9 @@
 			this.wrapperDynamics.forEach(update => update());
 			// Hookup edges hang off bagel meshes — last in the chain
 			this.internalsDynamics.forEach(update => update());
+			// The selection tube reads the freshest positions, after every
+			// writer — it rebuilds only when a chain sphere actually moved
+			this.updateSelectionTube();
 		}
 
 		/**
@@ -6798,21 +7089,30 @@
 			// canvas's alpha at the raycast hit UV (texel-exact grab) —
 			// keep it CPU-backed
 			const ctx = canvas.getContext('2d', { willReadFrequently: true });
-			canvas.width = 1024;
+
+			const LABEL_FONT = 'bold 64px Arial, sans-serif';
+			ctx.font = LABEL_FONT;
+			// The quad is cropped to the text: a fixed-width canvas made
+			// every label claim the same world width, while the layout's
+			// spacing constants read measured widths — the sprite must BE
+			// the measured width or the two disagree. (Assigning
+			// canvas.width resets context state, so the font is set twice.)
+			const widthPx = Math.ceil(ctx.measureText(text).width) + 36;
+			canvas.width = Math.max(64, widthPx);
 			canvas.height = 256;
 
 			ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-			ctx.font = 'bold 64px Arial, sans-serif';
+			ctx.font = LABEL_FONT;
 			ctx.textAlign = 'center';
 			ctx.textBaseline = 'middle';
 
 			ctx.strokeStyle = 'rgba(0, 0, 0, 0.9)';
 			ctx.lineWidth = 12;
-			ctx.strokeText(text, 512, 128);
+			ctx.strokeText(text, canvas.width / 2, 128);
 
 			ctx.fillStyle = '#ffffff';
-			ctx.fillText(text, 512, 128);
+			ctx.fillText(text, canvas.width / 2, 128);
 
 			const texture = new THREE.CanvasTexture(canvas);
 			texture.minFilter = THREE.LinearFilter;
@@ -6830,12 +7130,16 @@
 			const sprite = new THREE.Sprite(spriteMaterial);
 			// Drawn after every sphere
 			sprite.renderOrder = 999;
-			sprite.scale.set(100 * scale, 25 * scale, 1);
+			// 25 world units of height per 256 canvas px — the same
+			// conversion measureLabelWidths uses for the layout constants
+			const worldWidth = widthPx * (25 / 256);
+			sprite.scale.set(worldWidth * scale, 25 * scale, 1);
 
 			// Store sprite reference on mesh for updates (labelScale lets
 			// updateLabelPosition keep the smaller creation-label offset)
 			mesh.userData.label = sprite;
 			mesh.userData.labelScale = scale;
+			mesh.userData.labelWidth = worldWidth * scale;
 			this.scene.add(sprite);
 			// The sign rides the caption vector (VIEW space) from birth —
 			// screen-up by default, steady on rotation; labeledMeshes
@@ -6959,6 +7263,27 @@
 			}
 			this.camera.far = Math.max(5000, fitDist + bounding * 2);
 			this.camera.updateProjectionMatrix();
+			// Label legibility floor: at the fitted distance a label should
+			// render at ~1.6% of the viewport height (≈12px on a 768px
+			// pane). World-sized sprites shrink as the graph grows, so a
+			// huge graph's labels scale up here — layout spacing keeps the
+			// scale-1 measurements (the floor trades a little fit-zoom
+			// spacing honesty for legibility; zooming in restores both).
+			// Fit runs only on a fresh camera, so Refresh keeps the user's
+			// zoom and this never re-applies mid-session
+			const viewportH = (this.renderer.domElement && this.renderer.domElement.clientHeight) || 768;
+			const pxPerWorld = viewportH / (2 * fitDist * Math.tan(fovHalf));
+			const legibility = Math.max(1, Math.min(4, (viewportH * 0.016) / (25 * pxPerWorld)));
+			if (legibility > 1) {
+				this.labeledMeshes.forEach(mesh => {
+					const label = mesh.userData.label;
+					if (!label) { return; }
+					label.scale.x *= legibility;
+					label.scale.y *= legibility;
+					mesh.userData.labelScale = (mesh.userData.labelScale || 1) * legibility;
+					if (mesh.userData.labelWidth) { mesh.userData.labelWidth *= legibility; }
+				});
+			}
 			this.updateCameraPosition();
 		}
 
@@ -7031,6 +7356,10 @@
 			// disposed — no restore needed, renderGraph rebuilds all
 			this.traceFlashes.clear();
 			this.traceMode = null;
+			// Same story for the selection, except its tube hangs off the
+			// SCENE (not a layer group) — it must be removed and disposed
+			// or a ghost curve survives the rebuild
+			this.clearSelectionHighlight();
 			this.nodeMeshes.forEach(mesh => {
 				// Remove label if exists — meshes and labels live inside
 				// the layer groups now, so remove from the ACTUAL parent

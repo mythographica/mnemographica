@@ -1,7 +1,7 @@
 'use strict';
 
 import { lookup } from 'mnemonica';
-import type { Main as MainType, Registry } from '../../.tactica/types';
+import type { Main as MainType, Main_Adapter, Registry } from '../../.tactica/types';
 import { StateManager } from './StateManager';
 import { GraphBuilder } from './GraphBuilder';
 import { GraphData } from '../types';
@@ -92,6 +92,31 @@ export class MainOrchestrator {
 
 	getMain(): MainType {
 		return this.main;
+	}
+
+	/**
+	 * The subsystem adapters the extension runs (navigation, strategy
+	 * server, self-trace), recorded as Main.Adapter instances on the Main
+	 * model — strategy's state/query 'server' subject reports them
+	 */
+	registerAdapter(name: string, domain: string, enabled: boolean): void {
+		const adapter = new this.main.Adapter({ name, domain, enabled });
+		// One row per subsystem name — re-registration replaces
+		const rest = (this.main.adapters as Array<{ name: string }>).filter((entry) => entry.name !== name);
+		rest.push(adapter);
+		this.main.adapters = rest;
+	}
+
+	setAdapterEnabled(name: string, enabled: boolean): void {
+		const adapter = (this.main.adapters as Array<Main_Adapter>).find((entry) => entry.name === name);
+		if (adapter) {
+			adapter.enabled = enabled;
+		}
+	}
+
+	getAdapters(): Array<{ name: string; domain: string; enabled: boolean }> {
+		const list = this.main.adapters as Array<{ name: string; domain: string; enabled: boolean }>;
+		return list;
 	}
 
 	// Bounded ring for the live dive-trace stream (B1.3). 1000rps

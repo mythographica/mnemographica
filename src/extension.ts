@@ -14,6 +14,7 @@ import { getLogger } from './services/LoggerService';
 import { VSCodeNavigation } from './services/NavigationAdapter';
 import { loadModels, modelsLoaded } from './topologica/bootstrap';
 import { MainOrchestrator, traceEdge } from './core/MainOrchestrator';
+import type { Trie_GraphNodeTrie } from '../.tactica/types';
 import { GraphPanel } from './webview/panel';
 import { StrategyPanel } from './webview/strategyPanel';
 import { AppChannelPanel } from './webview/appChannelPanel';
@@ -197,6 +198,24 @@ export function activate(context: vscode.ExtensionContext) {
 			}
 			GraphPanel.createOrShow(context.extensionUri, sourceRoot);
 			GraphPanel.focusNode({ id, name });
+			// Record the menu invocation on the Trie model — the context
+			// menu is part of the trie's surface
+			const trie = mainOrchestrator.getRegistry().getTrie();
+			const trieNode = trie?.getNode(id);
+			if (trie && trieNode) {
+				const menu = new (trieNode as Trie_GraphNodeTrie).ContextMenu({
+					targetNode : id,
+					items      : [
+						{ label: 'Open Type', action: 'mnemographica.openType' },
+						{ label: 'Open Definition', action: 'mnemographica.openTreeItem' },
+						{ label: 'Show Usages', action: 'mnemographica.showUsages' },
+						{ label: 'Show Flows', action: 'mnemographica.showFlows' },
+						{ label: 'Show on Graph', action: 'mnemographica.showOnGraph' }
+					],
+					visible    : true
+				});
+				trie.addMenu(menu);
+			}
 			logger.info(`[Extension] Show on Graph: ${id}`);
 		})
 	);
@@ -249,6 +268,10 @@ export function activate(context: vscode.ExtensionContext) {
 
 	// Create main orchestrator
 	mainOrchestrator = new MainOrchestrator(context.extension.packageJSON.version || '0.1.0');
+	// The subsystem adapters the extension runs, recorded as Main.Adapter
+	// instances on the Main model — state/query 'server' reports them
+	mainOrchestrator.registerAdapter('navigation', 'vscode', true);
+	mainOrchestrator.registerAdapter('strategy-server', 'trace', true);
 	// The strategy server's trace-ingest/state-query read through it
 	strategyServer.setOrchestrator(mainOrchestrator);
 	// The App Channel tab's direct connection lands its edges the same way
@@ -258,8 +281,9 @@ export function activate(context: vscode.ExtensionContext) {
 	// mnemonica instance — getProps resolves its TypeName at runtime and
 	// tactica sees the wrap site for eds.json.
 	// Fire-and-forget: a dive load failure never blocks activation
-	void startSelfTrace(mainOrchestrator).then(() => {
+	void startSelfTrace(mainOrchestrator).then((started) => {
 		tracedRefresh = wrapForSelfTrace(refreshTypeGraph, mainOrchestrator.getRegistry(), 'refreshTypeGraph');
+		mainOrchestrator.registerAdapter('self-trace', 'trace', started);
 	});
 	// The two reframe tabs: run/watch Strategy MCP, and connect directly to
 	// an app's self-hosted WS channel (no CDP, no strategy in the middle)

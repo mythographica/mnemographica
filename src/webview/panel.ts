@@ -4,10 +4,47 @@ import * as path from 'path';
 import type { GraphData, WebviewMessage } from '../types/index.js';
 import type { traceEdge } from '../core/MainOrchestrator';
 import { loadGraphDataFor } from '../core/graphDataLoader';
+import { buildSceneFor } from '../core/SceneBuilder';
+import type { Scene3D, Scene3D_GraphNode3D } from '../../.tactica/types';
 import { getLogger } from '../services/LoggerService';
 
 // Get logger instance once at module level
 const logger = getLogger();
+
+// layout.json's camera shape (the renderer's initialCameraState):
+// { cameraRotation: {x,y}, zoom, panOffset: {x,y,z} }. The Camera3D
+// model carries the same state as x/y/z pan + rotationX/rotationY + zoom
+const cameraDataFromLayout = function (layout: unknown): {
+	x: number; y: number; z: number; zoom: number; rotationX: number; rotationY: number;
+} | null {
+	if (!layout || typeof layout !== 'object') {
+		const missing = null;
+		return missing;
+	}
+	const camera = (layout as { camera?: unknown }).camera;
+	if (!camera || typeof camera !== 'object') {
+		const missing = null;
+		return missing;
+	}
+	const cam = camera as {
+		cameraRotation?: { x?: unknown; y?: unknown };
+		zoom?: unknown;
+		panOffset?: { x?: unknown; y?: unknown; z?: unknown };
+	};
+	const num = (value: unknown): number => {
+		const n = typeof value === 'number' && Number.isFinite(value) ? value : 0;
+		return n;
+	};
+	const data = {
+		x         : num(cam.panOffset?.x),
+		y         : num(cam.panOffset?.y),
+		z         : num(cam.panOffset?.z),
+		zoom      : num(cam.zoom),
+		rotationX : num(cam.cameraRotation?.x),
+		rotationY : num(cam.cameraRotation?.y)
+	};
+	return data;
+};
 
 export class GraphPanel {
 	// Panels keyed by .tactica SOURCE ROOT: one tab per project, each
@@ -35,6 +72,10 @@ export class GraphPanel {
 	// Mirrors the webview's render mode ('modeChanged' messages); the
 	// webview starts in 3D
 	private currentMode: '2D' | '3D' = '3D';
+	// The panel's logical scene: the Scene3D model tree SceneBuilder
+	// derives from every pushed GraphData; camera/tooltip/tube update as
+	// view events arrive. queryViewState reports its census.
+	private scene: Scene3D | undefined;
 
 	public static createOrShow (extensionUri: vscode.Uri, sourceRoot: string) {
 		const existing = GraphPanel.panels.get(sourceRoot);
@@ -95,6 +136,7 @@ export class GraphPanel {
 			command : 'focusNode',
 			data
 		});
+		target.noteFocus(data.id, data.name);
 		return true;
 	}
 
@@ -257,7 +299,21 @@ export class GraphPanel {
 			mode    : current.currentMode,
 			// Which project's graph answered — with N panels the caller
 			// cannot otherwise tell
-			source  : current.sourceRoot
+			source  : current.sourceRoot,
+			// The panel's logical scene as a census — sizes only, the
+			// instances themselves never cross the wire
+			scene   : current.scene ? {
+				nodes    : current.scene.nodeCount,
+				links    : current.scene.linkCount,
+				diamonds : current.scene.diamondCount,
+				bagels   : current.scene.bagelCount,
+				sinks    : current.scene.sinkCount,
+				captions : current.scene.captionCount,
+				ring     : current.scene.ring !== null,
+				hub      : current.scene.hub !== null,
+				cone     : current.scene.cone !== null,
+				camera   : current.scene.camera !== null
+			} : null
 		};
 		if (!current.panel.visible || current.currentMode !== '3D') {
 			const noView = Object.assign({ view: null }, facts);
@@ -369,6 +425,7 @@ export class GraphPanel {
 							clearTimeout(pending.timer);
 							pending.resolve(message.data);
 						}
+						this.noteViewState(message.data);
 					}
 					break;
 				case 'pickTrace': {
@@ -449,12 +506,20 @@ export class GraphPanel {
 	}
 
 	private updateGraph (graphData: GraphData) {
+		// The saved layout rides along so render3DGraph can apply it
+		// around renderGraph; null when no save exists yet
+		const layout = this.readSavedLayout();
+		// The host-side logical scene mirrors what the webview is about
+		// to draw; a saved camera becomes the scene's Camera3D
+		this.scene = buildSceneFor(this.sourceRoot, graphData);
+		const cameraData = cameraDataFromLayout(layout);
+		if (cameraData) {
+			this.scene.camera = new this.scene.Camera3D(cameraData);
+		}
 		void this.panel.webview.postMessage({
 			command : 'updateGraph',
 			data    : graphData,
-			// The saved layout rides along so render3DGraph can apply it
-			// around renderGraph; null when no save exists yet
-			layout  : this.readSavedLayout()
+			layout  : layout
 		});
 	}
 
@@ -496,6 +561,11 @@ export class GraphPanel {
 		try {
 			fs.mkdirSync(path.dirname(filePath), { recursive: true });
 			fs.writeFileSync(filePath, JSON.stringify(data, null, '\t'));
+			// The saved camera is the scene's camera from now on
+			const cameraData = cameraDataFromLayout(data);
+			if (this.scene && cameraData) {
+				this.scene.camera = new this.scene.Camera3D(cameraData);
+			}
 			void this.panel.webview.postMessage({
 				command : 'layoutSaved',
 				data    : { path: filePath }
@@ -503,6 +573,68 @@ export class GraphPanel {
 		} catch (error) {
 			void vscode.window.showErrorMessage(`Failed to save layout: ${String(error)}`);
 		}
+	}
+
+	/**
+	 * Record a focus event on the scene model: the selection glow tube
+	 * (the dot-joined id's prefixes ARE the ancestor chain it threads)
+	 * and the tooltip bound to the focused sphere — the Tooltip3D is
+	 * constructed FROM the sphere instance, so the prototype chain ties
+	 * tooltip → node → scene.
+	 */
+	private noteFocus (id: string, name: string) {
+		const scene = this.scene;
+		if (!scene) { return; }
+		const chain = id.split('.').map((segment, index, parts) => {
+			void segment;
+			return parts.slice(0, index + 1).join('.');
+		});
+		scene.tube = new scene.Tube3D({ id, chain });
+		const sphere = scene.getNode(id) as Scene3D_GraphNode3D | undefined;
+		if (sphere) {
+			scene.tooltip = new sphere.Tooltip3D({ targetNode: id, content: name, visible: true });
+		}
+	}
+
+	/**
+	 * Fold a viewState answer into the scene model: the live camera and,
+	 * when the webview has a focused node, the tooltip for it.
+	 */
+	private noteViewState (data: unknown) {
+		const scene = this.scene;
+		if (!scene || !data || typeof data !== 'object') { return; }
+		const state = data as {
+			camera?: { rotX?: unknown; rotY?: unknown; zoom?: unknown; pan?: { x?: unknown; y?: unknown; z?: unknown } };
+			focusedNode?: { id?: unknown; name?: unknown } | null;
+		};
+		const num = (value: unknown): number => {
+			const n = typeof value === 'number' && Number.isFinite(value) ? value : 0;
+			return n;
+		};
+		if (state.camera && typeof state.camera === 'object') {
+			const cam = state.camera;
+			scene.camera = new scene.Camera3D({
+				x         : num(cam.pan?.x),
+				y         : num(cam.pan?.y),
+				z         : num(cam.pan?.z),
+				zoom      : num(cam.zoom),
+				rotationX : num(cam.rotX),
+				rotationY : num(cam.rotY)
+			});
+		}
+		const focused = state.focusedNode;
+		if (focused && typeof focused.id === 'string' && typeof focused.name === 'string') {
+			this.noteFocus(focused.id, focused.name);
+		}
+	}
+
+	/**
+	 * The panel's logical scene (automation/tests read its census through
+	 * queryViewState; direct access is for the debug handle)
+	 */
+	public getScene (): Scene3D | undefined {
+		const scene = this.scene;
+		return scene;
 	}
 
 	private async handleGoToDefinition (location: {
@@ -603,6 +735,7 @@ export class GraphPanel {
 			this.followWatcher = undefined;
 		}
 		GraphPanel.traceMode = null;
+		this.scene = undefined;
 
 		this.panel.dispose();
 

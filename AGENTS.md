@@ -69,6 +69,12 @@ The extension helps AI agents:
      `clear()`) so the Diamonds pane can give the right advice
    - Other models (`Definitions`, `Types`, `Usages`, `EDS`, `Flow`, `Trie`) are
      pure data containers (`Map` wrappers with a nested `*Entry` subtype)
+   - The Registry's own map is the flat type index: one `RegistryEntry`
+     per type, keyed by fullPath, populated by the same `loadTypes` walk
+     that fills Types. The `Trie` model has no file of its own — the
+     same walk fills it with one `GraphNodeTrie` per type and one
+     `LinkTrie` per parent→child edge; the Types tree's "Show on Graph"
+     records one `ContextMenu` per invocation on its trie node
 
 3. **GraphBuilder + GraphConverter** (`src/core/GraphBuilder.ts`, `src/graph/converter.ts`)
    - Builds `GraphData { nodes, links, execflow }` from the Registry
@@ -176,6 +182,25 @@ The extension helps AI agents:
      Three.js scene of the current GraphData — 3D-only (the 2D view is
      retired; the dormant 2D renderer remains in webview.js but is
      never entered). Loads d3/three from CDN, so it needs network access.
+   - **Host-side logical scene** (`src/core/SceneBuilder.ts` +
+     `src/models/Scene3D.ts`): every panel owns one `Scene3D` instance
+     tree, rebuilt by `buildSceneFor` on each `updateGraph` from the
+     same GraphData the webview receives. The webview owns geometry;
+     the scene owns the census — one `GraphNode3D` per type sphere,
+     `Link3D` per directed edge (kind-discriminated: inheritance, the
+     execflow kinds, creation, fiber-via/ctor, sink, hookup),
+     `Diamond3D` per creation scope, `Bagel3D` per wrap site (anchor =
+     the encircled element's id, null when ambient), `Ring3D`/`Hub3D`/
+     `Sink3D`/`Cone3D` for the internals knots, `Caption3D` per labelled
+     element. `Scene3D` is class-based with private collections behind
+     accessor methods — tactica's type printer drops `Map` type
+     arguments, so a public `Map<string, …>` field would emit a bare
+     `Map` (TS2314). View events fold back into the model: a saved
+     layout or a live viewState answer becomes the scene's `Camera3D`,
+     a focus becomes the `Tube3D` (chain = the dot-joined id's
+     prefixes) plus a `Tooltip3D` constructed FROM the focused sphere
+     instance (the prototype chain ties tooltip → node → scene). The
+     census rides `state/query` 'view' facts as `scene`.
    - **Layer groups, one scene**: type spheres live in `typesGroup`;
      `instrumentationGroup` carries the creation layer, `diveGroup` the
      combined Dive layer (wrappers and the internals backplane under one
@@ -259,7 +284,14 @@ The extension helps AI agents:
      `margin-right: 6px`. Each generation
      row (Roots/Gen N, nested under the types row) carries its own
      visibility CHECKBOX — hiding a generation hides its spheres,
-     their edges, holding diamonds and wraps. The mechanism is COMPUTED
+     their edges, holding diamonds and wraps. The types row's own
+     checkbox is the master switch: `genDepthVisible` composes the
+     layer flag with the per-generation map, so types-off reads as
+     EVERY generation hidden (type-anchored holders and grafts outside
+     `typesGroup` follow), and the generation checkboxes disable and
+     dim (`.gen-dimmed`) until the layer returns — a generation of a
+     hidden layer has nothing to govern. Their choices survive in
+     `sessionGenVisibility`, untouched by the layer flip. The mechanism is COMPUTED
      visibility: `defineComputedVisible(obj, fn)` installs a
      getter-only `.visible` (the module-level
      `sessionGenVisibility` map feeds `genDepthVisible(depth)`) and
@@ -401,20 +433,35 @@ The extension helps AI agents:
      out of `nodeMeshes` but ride the interactive list: drag pins,
      click shows the wrap tooltip (including WHAT it wraps), double-click
      jumps to the wrap site.
-   - **Layout relaxation**: two deterministic steps. (1) Initial shell
-     radii widen with node counts (circumference ≥ count × 10
-     nodeRadii; shells kept strictly ordered) — computed at init, where
-     a saved/session seed overlays them (see the Save bullet); the
-     layer distances own the values afterwards. (2) `relaxTypeShells()`
+   - **Layout relaxation**: two deterministic steps over MEASURED label
+     metrics — `measureLabelWidths` reads every node name at the label
+     font once (canvas px → world units at 25 world units per 256
+     canvas px) and every spacing constant derives from it: the shell
+     rule, the cone caps, the sprite widths in `addLabel`, and the
+     relaxation collision radii all read the one Map. (1) Initial shell
+     radii widen with content: circumference ≥ max(sphere claims —
+     count × 4.4 nodeRadii, label claims — Σ measured widths over the
+     2 alternating label rows × 1.15 margin); shells kept strictly
+     ordered — computed at init, where a saved/session seed overlays
+     them (see the Save bullet); the layer distances own the values
+     afterwards. Children seed in a cone around the parent axis
+     (`placeInCone`) whose half-angle is sized by the siblings' mean
+     measured footprint (chord √N × mean claim, capped at the
+     hemisphere), sampled uniformly over the cap (sqrt annuli + golden
+     angle), so a wide sibling group starts already spread instead of
+     piled in a wedge relaxation cannot finish. (2) `relaxTypeShells()`
      runs at the end of `renderGraph`: type spheres repel SLIDING ON
      THEIR OWN SHELL (radial distance is invariant — generation geometry
      never collapses, only the angular position moves), with effective
-     radii ×2.2 uncrowned and ×(3.3 + min(crown,8)×0.15) crowned so
-     crowns stop colliding; fixed iteration order and cap (80
-     iterations, damping 0.4, ε 0.05) — same graph, same layout, every
-     render. Labels then alternate above/below their sphere (leader
-     lines keep attribution), and the whole dynamics chain (diamond
-     shells, bagels, edges) follows through `updateLinkPositions()`.
+     radii ×2.2 uncrowned and ×(3.3 + min(crown,8)×0.15) crowned, and
+     the label's measured half-width as a floor — labels, not spheres,
+     are what actually overlaps on a dense shell; fixed iteration order,
+     damping 0.4, ε 0.05 early-break, cap 400 iterations (it only bounds
+     pathological piles — sane seeds stop through ε) — same graph, same
+     layout, every render. Labels then alternate above/below their
+     sphere (leader lines keep attribution), and the whole dynamics
+     chain (diamond shells, bagels, edges) follows through
+     `updateLinkPositions()`.
    - **Over-pole camera**: rotation drags no longer clamp
      latitude at ±90° — the camera tumbles over the poles, full
      north-to-south. `camera.up` flips sign past each pole in
@@ -434,11 +481,15 @@ The extension helps AI agents:
      scans every mesh layer for the outermost |position|, derives the
      distance from the fov/aspect with a 1.08 margin, and stretches
      `maxZoomOut` (max(2500, fit×2)), the fog band and `camera.far`
-     to match, so zoom-out reaches the whole graph. `reset()`
+     to match, so zoom-out reaches the whole graph. It ends with a
+     label legibility floor: world-sized sprites shrink as the graph
+     grows, so labels are scaled up to render at ~1.6% of the viewport
+     height at the fit distance (layout spacing keeps the scale-1
+     measurements; fresh-camera only — a Refresh keeps the user's zoom
+     and the floor never re-applies). `reset()`
      homes to the fitted zoom. Deliberately NOT a gen-distance
      recalculation — shrinking shells would fight the deliberate
-     circumference ≥ count × 10 nodeRadii widening (a readability
-     rule).
+     label-metric widening (the readability rule in Layout relaxation).
    - **Grab-the-world pan**:
      Ctrl+drag translates the orbit center along the camera's OWN
      right/up axes by cursor-delta × world-units-per-pixel at the target
@@ -691,6 +742,26 @@ The extension helps AI agents:
      load window — panel-side `GraphPanel.pendingFocus` flushed on
      the webview's `ready`, webview-side `pendingFocusNode` flushed
      at the end of `render3DGraph`.
+     Every focus also lights the item's SELECTION CONE
+     (`focusNode` calls `applySelectionHighlight`): ancestors + self +
+     descendants, one prefix walk over the dot-joined ids — a leaf
+     lights its chain, a root lights its whole subtree. Cone spheres
+     glow in the trace green at full opacity, everything else dims to
+     `SELECTION_DIM` (0.2), and a glow TUBE (CatmullRom +
+     TubeGeometry, radius nodeRadius × 0.2) threads the ancestor chain
+     — roots get no tube, a single point is not a curve. The tube is
+     rebuilt at the end of `updateLinkPositions` only when a chain
+     sphere actually moved (position-signature guard), so drags and
+     shell rescales carry it. Per-mesh state is stashed in
+     `userData.selRestore` before dimming and handed back on clear —
+     the census dim (never-created at 0.35) and the root glow survive
+     a selection; a blanket opacity-1 restore would clobber them.
+     Selection is a SEPARATE mode from trace mode (static structure
+     vs runtime lineage): entering trace mode clears it, Escape and
+     background click clear it, a renderer rebuild drops it (the tube
+     hangs off the scene, so `clear()` disposes it explicitly), and
+     the focused mesh keeps its gold pulse on top — pulse says "you
+     clicked THIS", green cone says "its path".
 
 5. **Navigation providers** (`src/providers/`)
    - `definitionProvider.ts` — Ctrl+Click for `lookup('X')` and type identifiers;
@@ -729,7 +800,11 @@ The extension helps AI agents:
      (`{ subject, sample? }` — subjects `server`, `graph`, `trace`,
      `view`; `view` roundtrips into the 3D webview for the live camera
      + focused node — with several panels open the most recently active
-     one answers, and the facts carry its source root as `source`)
+     one answers, and the facts carry its source root as `source` and
+     the panel's Scene3D census as `scene`; `server` reports the
+     `Main.Adapter` registry — one entry per subsystem adapter
+     (navigation, strategy-server, self-trace) with its enabled flag,
+     populated by extension.ts at activation)
    - **Bound to 127.0.0.1** — there is no auth,
      so it must never listen on a LAN interface
    - **Self-trace** (`src/strategy/selfTrace.ts`): dive runs IN the
@@ -852,6 +927,12 @@ Automated (plain node, no VS Code host):
   the internals backplane (6 declared knots, sink edges, the collection
   hookup, census-driven grafts, never-created spheres and never-taken
   path-hits)
+- `test/scene-builder.test.js` — SceneBuilder → Scene3D: the scene
+  census (spheres, links by kind, diamonds, bagel anchors, knots,
+  captions) for v2 and v1 payloads, the interactive shapes
+  (Camera3D/Tooltip3D/Tube3D) constructing from their parent instances,
+  and the Registry's load-time side effects (the Trie fill and the
+  RegistryEntry flat index)
 
 The fixtures live in `test/fixtures/.tactica/` (v1 instrumentation payload)
 and `test/fixtures-v2/.tactica/` (real tactica v2 output, regenerated from
@@ -922,6 +1003,7 @@ src/
 ├── core/
 │   ├── MainOrchestrator.ts  # Owns Registry instance + StateManager + GraphData
 │   ├── GraphBuilder.ts      # Registry → GraphData (nodes, links, execflow)
+│   ├── SceneBuilder.ts      # GraphData → Scene3D model tree (the logical scene)
 │   └── StateManager.ts      # App state holder
 ├── graph/
 │   └── converter.ts      # TypeNode hierarchy → GraphData
@@ -1025,6 +1107,15 @@ export type rawTypeEntry = {
 4. **No getter-only `Object.defineProperty` on mutable class state** —
    later assignment throws in strict mode. Keep mutable model references
    as plain private fields.
+
+5. **Every `as` cast is an error** (the no-cast law — the extension's own
+   types come from its own `.tactica/`). A cast means the registry is
+   stale or the model is wrong: regenerate, or fix the model — never
+   silence the compiler. Sanctioned exceptions, one-spot and commented:
+   the container-accessor narrowing (`getNode()` returns
+   `object | undefined`, narrowed to the concrete subtype at the call
+   site) and the `Registry.ts` `this`-re-grounding at the
+   runtime-installed subtype constructor.
 
 **Key Principle:** Models define `raw*` types for data transfer. Controllers use these types when populating models.
 
