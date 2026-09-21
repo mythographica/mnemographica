@@ -1470,18 +1470,24 @@
 	});
 
 	// Escape leaves trace mode (names-first tracing) and drops the
-	// selection highlight
+	// selection highlight; a lived selection/trace releases the orbit
+	// center back to the graph center
 	window.addEventListener('keydown', function (event) {
 		if (event.key === 'Escape' && renderer3D) {
-			if (renderer3D.selectionMode) {
+			const hadSelection = !!renderer3D.selectionMode;
+			const hadTrace = !!renderer3D.traceMode;
+			if (hadSelection) {
 				renderer3D.clearSelectionHighlight();
 			}
-			if (renderer3D.traceMode) {
+			if (hadTrace) {
 				renderer3D.exitTraceMode();
 				updateStatusLine();
 				if (vscodeRef) {
 					vscodeRef.postMessage({ command: 'traceModeExit' });
 				}
+			}
+			if (hadSelection || hadTrace) {
+				renderer3D.restoreGraphCenter();
 			}
 		}
 	});
@@ -3355,6 +3361,10 @@
 					// Click on background - hide tooltip, drop focus glow
 					// and the selection cone, leave trace mode
 					d3.select('#tooltip').classed('visible', false);
+					// A lived selection/trace had pulled the orbit center onto
+					// its sphere — release it back to the graph center
+					const hadSelection = !!this.selectionMode;
+					const hadTrace = !!this.traceMode;
 					this.setFocusedMesh(null);
 					this.clearSelectionHighlight();
 					if (this.traceMode) {
@@ -3363,6 +3373,9 @@
 						if (vscodeRef) {
 							vscodeRef.postMessage({ command: 'traceModeExit' });
 						}
+					}
+					if (hadSelection || hadTrace) {
+						this.restoreGraphCenter();
 					}
 				}
 			});
@@ -7304,6 +7317,37 @@
 			// frame, not an arbitrary 600
 			this.zoom = this.fitZoom || 600;
 			this.updateCameraPosition();
+		}
+
+		// The orbit center follows the focused sphere while a selection or
+		// trace lives (focusNode animates panOffset onto it). Clearing must
+		// hand the center back to the graph's own origin — the maroon
+		// collection marker — or rotation keeps orbiting a sphere that is
+		// no longer selected. Rotation and zoom stay untouched; only the
+		// center glides home through the focus animation channel. A no-op
+		// when the center is already home (deliberate Ctrl+drag pans with
+		// nothing selected are never yanked).
+		restoreGraphCenter() {
+			const pan = this.panOffset;
+			const atHome = !pan ||
+				(Math.abs(pan.x) < 0.001 && Math.abs(pan.y) < 0.001 && Math.abs(pan.z || 0) < 0.001);
+			if (atHome) return;
+			this.focusAnim = {
+				start    : performance.now(),
+				duration : 600,
+				from : {
+					rotX : this.cameraRotation.x,
+					rotY : this.cameraRotation.y,
+					zoom : this.zoom,
+					pan  : { x: pan.x, y: pan.y, z: pan.z || 0 }
+				},
+				to : {
+					rotX : this.cameraRotation.x,
+					rotY : this.cameraRotation.y,
+					zoom : this.zoom,
+					pan  : { x: 0, y: 0, z: 0 }
+				}
+			};
 		}
 
 		resize(width, height) {

@@ -761,7 +761,15 @@ The extension helps AI agents:
      background click clear it, a renderer rebuild drops it (the tube
      hangs off the scene, so `clear()` disposes it explicitly), and
      the focused mesh keeps its gold pulse on top — pulse says "you
-     clicked THIS", green cone says "its path".
+     clicked THIS", green cone says "its path". A user-initiated clear
+     (Escape, background click) also glides the orbit center back to
+     the graph's origin — the maroon marker — through
+     `restoreGraphCenter()`: focus had animated `panOffset` onto the
+     selected sphere, so clearing without the restore would leave
+     rotation orbiting a sphere nothing points at anymore. The
+     restore is guarded — it fires only when a selection or trace
+     mode was actually live, and is a no-op when the center already
+     sits at home, so deliberate Ctrl+drag pans survive.
 
 5. **Navigation providers** (`src/providers/`)
    - `definitionProvider.ts` — Ctrl+Click for `lookup('X')` and type identifiers;
