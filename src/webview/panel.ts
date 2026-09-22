@@ -52,8 +52,9 @@ export class GraphPanel {
 	// Panels keyed by .tactica SOURCE ROOT: one tab per project, each
 	// bound for life to the graph it was opened for. Re-invoking on an
 	// open source reveals its tab instead of duplicating. A panel's data
-	// changes only via its own Refresh button or its explicitly opted-in
-	// follow watcher; the global refresh path never touches panels.
+	// changes only via its own Refresh button or the follow watcher (the
+	// global `mnemographica.followTacticaChanges` setting); the global
+	// refresh path never touches panels.
 	public static panels = new Map<string, GraphPanel>();
 	// The workspace-primary source (the sidebar trees' Registry root).
 	// Sidebar-driven focus belongs to THIS panel — the sidebar renders
@@ -67,8 +68,8 @@ export class GraphPanel {
 	private readonly panel: vscode.WebviewPanel;
 	private readonly sourceRoot: string;
 	private readonly sourceName: string;
-	// Connection-style opt-in: exists only while the panel's follow
-	// checkbox is checked, for THIS panel's source only
+	// Global persisted opt-in (`mnemographica.followTacticaChanges`):
+	// exists only while the setting is on, for THIS panel's source only
 	private followWatcher: vscode.FileSystemWatcher | undefined;
 	private readonly disposables: vscode.Disposable[] = [];
 	// Mirrors the webview's render mode ('modeChanged' messages); the
@@ -342,6 +343,33 @@ export class GraphPanel {
 		return result;
 	}
 
+	// The UI settings the webview mirrors from `mnemographica.*` config:
+	// read fresh on every push, so a settings edit reaches open panels
+	private static readUiSettings () {
+		const config = vscode.workspace.getConfiguration('mnemographica');
+		const settings = {
+			invocationPathFilter         : config.get<string>('invocationPathFilter', ''),
+			alwaysShowCollectionSelector : config.get<boolean>('alwaysShowCollectionSelector', true)
+		};
+		return settings;
+	}
+
+	public static pushUiSettings () {
+		const settings = GraphPanel.readUiSettings();
+		for (const panel of GraphPanel.panels.values()) {
+			void panel.panel.webview.postMessage({
+				command : 'settings',
+				data    : settings
+			});
+		}
+	}
+
+	public static applyFollowSetting (on: boolean) {
+		for (const panel of GraphPanel.panels.values()) {
+			panel.setFollowTactica(on);
+		}
+	}
+
 	private constructor (
 		panel: vscode.WebviewPanel,
 		extensionUri: vscode.Uri,
@@ -400,11 +428,6 @@ export class GraphPanel {
 					if (message.data && typeof message.data === 'object' && 'id' in message.data) {
 						this.currentCollection = String(message.data.id);
 						await this.reloadGraph();
-					}
-					break;
-				case 'followTactica':
-					if (message.data && typeof message.data === 'object' && 'on' in message.data) {
-						this.setFollowTactica(Boolean(message.data.on));
 					}
 					break;
 				case 'log':
@@ -487,6 +510,10 @@ export class GraphPanel {
 		);
 
 		this.panel.onDidDispose(() => this.dispose(), null, this.disposables);
+
+		// The follow watcher is a global persisted setting — apply it at
+		// birth so a panel opened mid-session matches the others
+		this.setFollowTactica(vscode.workspace.getConfiguration('mnemographica').get<boolean>('followTacticaChanges', false));
 	}
 
 	// (Re)read THIS panel's .tactica and push the fresh graph. A missing
@@ -536,9 +563,10 @@ export class GraphPanel {
 			this.scene.camera = new this.scene.Camera3D(cameraData);
 		}
 		void this.panel.webview.postMessage({
-			command : 'updateGraph',
-			data    : graphData,
-			layout  : layout
+			command  : 'updateGraph',
+			data     : graphData,
+			layout   : layout,
+			settings : GraphPanel.readUiSettings()
 		});
 	}
 
@@ -700,23 +728,23 @@ export class GraphPanel {
 	<script src="${threeUri}"></script>
 </head>
 <body>
+	<!-- the collection selector pins to the top-LEFT corner, away from
+	     the top-right button bar -->
+	<select id="collection-select" title="Type collection (or all collections combined)" style="display:none"></select>
 	<div id="controls">
-		<!-- the wheel is the zoom; the .* invocation-filter button sits
-		     where the +/− zoom buttons used to be -->
-		<!-- the collection selector stays hidden until a payload reports
-		     more than one collection (see updateCollectionSelect) -->
-		<select id="collection-select" title="Type collection (one universe per view)" style="display:none"></select>
-		<button id="invocation-filter" title="Filter invocations by path (regexp)">.*</button>
-		<button id="reset" title="Reset View">⟲</button>
-		<button id="save-layout" title="Save layout to .mnemographica/layout.json">Save</button>
+		<!-- the wheel is the zoom; the invocation path filter lives in
+		     the native Settings UI (the gear button on the Usages view) -->
+		<button id="reset" title="Reset View">⟲ Reset</button>
 		<button id="refresh-graph" title="Re-read this project's .tactica and rebuild the graph">⟳ Refresh</button>
+		<button id="save-layout" title="Save layout to .mnemographica/layout.json">💾 Save</button>
 	</div>
 	<div id="gen-controls" style="display: block;">
 		<div class="gen-controls-header" id="gen-controls-header"><span>Layers &amp; Distances</span><span id="gen-controls-toggle">▾</span></div>
 		<div id="layer-controls-list"></div>
 	</div>
-	<div id="dive-legend">
-		<div class="gen-controls-header" id="dive-legend-header"><span>Legend</span><span id="dive-legend-toggle">▾</span></div>
+	<!-- folded by default — the legend is a reference, not a dashboard -->
+	<div id="dive-legend" class="collapsed">
+		<div class="gen-controls-header" id="dive-legend-header"><span>Legend</span><span id="dive-legend-toggle">▸</span></div>
 		<div class="legend-row"><span class="legend-swatch" style="color:#ef9a9a">●</span> type sphere (color = generation)</div>
 		<div class="legend-row"><span class="legend-swatch legend-dim" style="color:#ef9a9a">●</span> type never created (usages.json)</div>
 		<div class="legend-row"><span class="legend-swatch" style="color:#ce93d8">◆</span> creation scope (instrumentation)</div>

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-09-22T10:57:25.246Z",
+  "generatedAt": "2026-09-22T13:08:21.288Z",
   "points": [],
   "creationGraph": {
     "nodes": [
@@ -109,11 +109,11 @@
         "starter": true
       },
       {
-        "scopeId": "src/webview/panel.ts:604:2",
+        "scopeId": "src/webview/panel.ts:632:2",
         "name": "GraphPanel.noteFocus",
         "kind": "method",
         "filePath": "src/webview/panel.ts",
-        "location": "src/webview/panel.ts:604:2",
+        "location": "src/webview/panel.ts:632:2",
         "starter": false
       },
       {
@@ -125,51 +125,67 @@
         "starter": true
       },
       {
-        "scopeId": "src/extension.ts:526:27",
+        "scopeId": "src/extension.ts:545:27",
         "name": "activateTreeItem",
         "kind": "arrow",
         "filePath": "src/extension.ts",
-        "location": "src/extension.ts:526:27",
+        "location": "src/extension.ts:545:27",
         "starter": false
       },
       {
-        "scopeId": "src/extension.ts:591:66",
-        "name": "src/extension.ts:591",
+        "scopeId": "src/extension.ts:610:66",
+        "name": "src/extension.ts:610",
         "kind": "arrow",
         "filePath": "src/extension.ts",
-        "location": "src/extension.ts:591:66",
+        "location": "src/extension.ts:610:66",
         "starter": true
       },
       {
-        "scopeId": "src/extension.ts:577:32",
-        "name": "src/extension.ts:577",
+        "scopeId": "src/extension.ts:596:32",
+        "name": "src/extension.ts:596",
         "kind": "arrow",
         "filePath": "src/extension.ts",
-        "location": "src/extension.ts:577:32",
+        "location": "src/extension.ts:596:32",
         "starter": true
       },
       {
-        "scopeId": "src/extension.ts:447:66",
-        "name": "src/extension.ts:447",
+        "scopeId": "src/extension.ts:466:66",
+        "name": "src/extension.ts:466",
         "kind": "arrow",
         "filePath": "src/extension.ts",
-        "location": "src/extension.ts:447:66",
+        "location": "src/extension.ts:466:66",
         "starter": true
       },
       {
-        "scopeId": "src/extension.ts:413:15",
-        "name": "src/extension.ts:413",
+        "scopeId": "src/extension.ts:432:15",
+        "name": "src/extension.ts:432",
         "kind": "arrow",
         "filePath": "src/extension.ts",
-        "location": "src/extension.ts:413:15",
+        "location": "src/extension.ts:432:15",
         "starter": true
       },
       {
-        "scopeId": "src/extension.ts:382:14",
+        "scopeId": "src/extension.ts:401:14",
         "name": "handleUri",
         "kind": "arrow",
         "filePath": "src/extension.ts",
-        "location": "src/extension.ts:382:14",
+        "location": "src/extension.ts:401:14",
+        "starter": true
+      },
+      {
+        "scopeId": "src/extension.ts:370:15",
+        "name": "src/extension.ts:370",
+        "kind": "arrow",
+        "filePath": "src/extension.ts",
+        "location": "src/extension.ts:370:15",
+        "starter": true
+      },
+      {
+        "scopeId": "src/extension.ts:358:64",
+        "name": "src/extension.ts:358",
+        "kind": "arrow",
+        "filePath": "src/extension.ts",
+        "location": "src/extension.ts:358:64",
         "starter": true
       },
       {
@@ -181,27 +197,19 @@
         "starter": true
       },
       {
-        "scopeId": "src/extension.ts:339:64",
-        "name": "src/extension.ts:339",
+        "scopeId": "src/extension.ts:340:62",
+        "name": "src/extension.ts:340",
         "kind": "arrow",
         "filePath": "src/extension.ts",
-        "location": "src/extension.ts:339:64",
+        "location": "src/extension.ts:340:62",
         "starter": true
       },
       {
-        "scopeId": "src/extension.ts:332:15",
-        "name": "src/extension.ts:332",
+        "scopeId": "src/extension.ts:305:45",
+        "name": "src/extension.ts:305",
         "kind": "arrow",
         "filePath": "src/extension.ts",
-        "location": "src/extension.ts:332:15",
-        "starter": true
-      },
-      {
-        "scopeId": "src/extension.ts:321:62",
-        "name": "src/extension.ts:321",
-        "kind": "arrow",
-        "filePath": "src/extension.ts",
-        "location": "src/extension.ts:321:62",
+        "location": "src/extension.ts:305:45",
         "starter": true
       },
       {
@@ -261,107 +269,131 @@
         "starter": false
       },
       {
-        "scopeId": "src/webview/panel.ts:750:2",
+        "scopeId": "src/webview/panel.ts:778:2",
         "name": "GraphPanel.dispose",
         "kind": "method",
         "filePath": "src/webview/panel.ts",
-        "location": "src/webview/panel.ts:750:2",
+        "location": "src/webview/panel.ts:778:2",
         "starter": false
       },
       {
-        "scopeId": "src/webview/panel.ts:480:4",
-        "name": "src/webview/panel.ts:480",
+        "scopeId": "src/webview/panel.ts:554:2",
+        "name": "GraphPanel.updateGraph",
+        "kind": "method",
+        "filePath": "src/webview/panel.ts",
+        "location": "src/webview/panel.ts:554:2",
+        "starter": false
+      },
+      {
+        "scopeId": "src/webview/panel.ts:503:4",
+        "name": "src/webview/panel.ts:503",
         "kind": "arrow",
         "filePath": "src/webview/panel.ts",
-        "location": "src/webview/panel.ts:480:4",
+        "location": "src/webview/panel.ts:503:4",
         "starter": true
       },
       {
-        "scopeId": "src/webview/panel.ts:360:4",
-        "name": "src/webview/panel.ts:360",
+        "scopeId": "src/webview/panel.ts:388:4",
+        "name": "src/webview/panel.ts:388",
         "kind": "arrow",
         "filePath": "src/webview/panel.ts",
-        "location": "src/webview/panel.ts:360:4",
+        "location": "src/webview/panel.ts:388:4",
         "starter": true
       },
       {
-        "scopeId": "src/webview/panel.ts:330:43",
-        "name": "src/webview/panel.ts:330",
-        "kind": "arrow",
+        "scopeId": "src/webview/panel.ts:367:2",
+        "name": "GraphPanel.applyFollowSetting",
+        "kind": "method",
         "filePath": "src/webview/panel.ts",
-        "location": "src/webview/panel.ts:330:43",
-        "starter": true
+        "location": "src/webview/panel.ts:367:2",
+        "starter": false
       },
       {
-        "scopeId": "src/webview/panel.ts:331:29",
+        "scopeId": "src/webview/panel.ts:357:2",
+        "name": "GraphPanel.pushUiSettings",
+        "kind": "method",
+        "filePath": "src/webview/panel.ts",
+        "location": "src/webview/panel.ts:357:2",
+        "starter": false
+      },
+      {
+        "scopeId": "src/webview/panel.ts:331:43",
         "name": "src/webview/panel.ts:331",
         "kind": "arrow",
         "filePath": "src/webview/panel.ts",
-        "location": "src/webview/panel.ts:331:29",
+        "location": "src/webview/panel.ts:331:43",
         "starter": true
       },
       {
-        "scopeId": "src/webview/panel.ts:297:2",
+        "scopeId": "src/webview/panel.ts:332:29",
+        "name": "src/webview/panel.ts:332",
+        "kind": "arrow",
+        "filePath": "src/webview/panel.ts",
+        "location": "src/webview/panel.ts:332:29",
+        "starter": true
+      },
+      {
+        "scopeId": "src/webview/panel.ts:298:2",
         "name": "GraphPanel.queryViewState",
         "kind": "method",
         "filePath": "src/webview/panel.ts",
-        "location": "src/webview/panel.ts:297:2",
+        "location": "src/webview/panel.ts:298:2",
         "starter": false
       },
       {
-        "scopeId": "src/webview/panel.ts:260:2",
+        "scopeId": "src/webview/panel.ts:261:2",
         "name": "GraphPanel.pushTraceEdges",
         "kind": "method",
         "filePath": "src/webview/panel.ts",
-        "location": "src/webview/panel.ts:260:2",
+        "location": "src/webview/panel.ts:261:2",
         "starter": false
       },
       {
-        "scopeId": "src/webview/panel.ts:232:2",
+        "scopeId": "src/webview/panel.ts:233:2",
         "name": "GraphPanel.replayTrace",
         "kind": "method",
         "filePath": "src/webview/panel.ts",
-        "location": "src/webview/panel.ts:232:2",
+        "location": "src/webview/panel.ts:233:2",
         "starter": false
       },
       {
-        "scopeId": "src/webview/panel.ts:204:2",
+        "scopeId": "src/webview/panel.ts:205:2",
         "name": "GraphPanel.openTraceMode",
         "kind": "method",
         "filePath": "src/webview/panel.ts",
-        "location": "src/webview/panel.ts:204:2",
+        "location": "src/webview/panel.ts:205:2",
         "starter": false
       },
       {
-        "scopeId": "src/webview/panel.ts:187:2",
+        "scopeId": "src/webview/panel.ts:188:2",
         "name": "GraphPanel.setTraceResolver",
         "kind": "method",
         "filePath": "src/webview/panel.ts",
-        "location": "src/webview/panel.ts:187:2",
+        "location": "src/webview/panel.ts:188:2",
         "starter": false
       },
       {
-        "scopeId": "src/webview/panel.ts:165:2",
+        "scopeId": "src/webview/panel.ts:166:2",
         "name": "GraphPanel.activeTarget",
         "kind": "method",
         "filePath": "src/webview/panel.ts",
-        "location": "src/webview/panel.ts:165:2",
+        "location": "src/webview/panel.ts:166:2",
         "starter": false
       },
       {
-        "scopeId": "src/webview/panel.ts:153:2",
+        "scopeId": "src/webview/panel.ts:154:2",
         "name": "GraphPanel.focusTarget",
         "kind": "method",
         "filePath": "src/webview/panel.ts",
-        "location": "src/webview/panel.ts:153:2",
+        "location": "src/webview/panel.ts:154:2",
         "starter": false
       },
       {
-        "scopeId": "src/webview/panel.ts:136:2",
+        "scopeId": "src/webview/panel.ts:137:2",
         "name": "GraphPanel.focusNode",
         "kind": "method",
         "filePath": "src/webview/panel.ts",
-        "location": "src/webview/panel.ts:136:2",
+        "location": "src/webview/panel.ts:137:2",
         "starter": false
       },
       {
@@ -413,43 +445,35 @@
         "starter": true
       },
       {
-        "scopeId": "src/webview/panel.ts:118:2",
+        "scopeId": "src/webview/panel.ts:119:2",
         "name": "GraphPanel.hasOpenPanel",
         "kind": "method",
         "filePath": "src/webview/panel.ts",
-        "location": "src/webview/panel.ts:118:2",
+        "location": "src/webview/panel.ts:119:2",
         "starter": false
       },
       {
-        "scopeId": "src/webview/panel.ts:87:2",
+        "scopeId": "src/webview/panel.ts:88:2",
         "name": "GraphPanel.createOrShow",
         "kind": "method",
         "filePath": "src/webview/panel.ts",
-        "location": "src/webview/panel.ts:87:2",
+        "location": "src/webview/panel.ts:88:2",
         "starter": false
       },
       {
-        "scopeId": "src/webview/panel.ts:622:2",
+        "scopeId": "src/webview/panel.ts:650:2",
         "name": "GraphPanel.noteViewState",
         "kind": "method",
         "filePath": "src/webview/panel.ts",
-        "location": "src/webview/panel.ts:622:2",
+        "location": "src/webview/panel.ts:650:2",
         "starter": false
       },
       {
-        "scopeId": "src/webview/panel.ts:578:2",
+        "scopeId": "src/webview/panel.ts:606:2",
         "name": "GraphPanel.handleSaveLayout",
         "kind": "method",
         "filePath": "src/webview/panel.ts",
-        "location": "src/webview/panel.ts:578:2",
-        "starter": false
-      },
-      {
-        "scopeId": "src/webview/panel.ts:527:2",
-        "name": "GraphPanel.updateGraph",
-        "kind": "method",
-        "filePath": "src/webview/panel.ts",
-        "location": "src/webview/panel.ts:527:2",
+        "location": "src/webview/panel.ts:606:2",
         "starter": false
       },
       {
@@ -669,11 +693,11 @@
         "starter": false
       },
       {
-        "scopeId": "src/webview/panel.ts:495:2",
+        "scopeId": "src/webview/panel.ts:522:2",
         "name": "GraphPanel.reloadGraph",
         "kind": "method",
         "filePath": "src/webview/panel.ts",
-        "location": "src/webview/panel.ts:495:2",
+        "location": "src/webview/panel.ts:522:2",
         "starter": false
       },
       {
@@ -741,43 +765,43 @@
         "starter": false
       },
       {
-        "scopeId": "src/extension.ts:779:1",
+        "scopeId": "src/extension.ts:798:1",
         "name": "deactivate",
         "kind": "function",
         "filePath": "src/extension.ts",
-        "location": "src/extension.ts:779:1",
+        "location": "src/extension.ts:798:1",
         "starter": true
       },
       {
-        "scopeId": "src/extension.ts:766:1",
+        "scopeId": "src/extension.ts:785:1",
         "name": "handleFileChange",
         "kind": "function",
         "filePath": "src/extension.ts",
-        "location": "src/extension.ts:766:1",
+        "location": "src/extension.ts:785:1",
         "starter": false
       },
       {
-        "scopeId": "src/extension.ts:670:22",
-        "name": "src/extension.ts:670",
+        "scopeId": "src/extension.ts:689:22",
+        "name": "src/extension.ts:689",
         "kind": "arrow",
         "filePath": "src/extension.ts",
-        "location": "src/extension.ts:670:22",
+        "location": "src/extension.ts:689:22",
         "starter": true
       },
       {
-        "scopeId": "src/extension.ts:667:22",
-        "name": "src/extension.ts:667",
+        "scopeId": "src/extension.ts:686:22",
+        "name": "src/extension.ts:686",
         "kind": "arrow",
         "filePath": "src/extension.ts",
-        "location": "src/extension.ts:667:22",
+        "location": "src/extension.ts:686:22",
         "starter": true
       },
       {
-        "scopeId": "src/extension.ts:722:1",
+        "scopeId": "src/extension.ts:741:1",
         "name": "refreshTypeGraph",
         "kind": "function",
         "filePath": "src/extension.ts",
-        "location": "src/extension.ts:722:1",
+        "location": "src/extension.ts:741:1",
         "starter": false
       },
       {
@@ -972,135 +996,151 @@
       },
       {
         "caller": "src/webview/panel.ts",
-        "callee": "src/webview/panel.ts:604:2"
+        "callee": "src/webview/panel.ts:632:2"
       },
       {
-        "caller": "src/webview/panel.ts:87:2",
-        "callee": "src/webview/panel.ts:604:2"
+        "caller": "src/webview/panel.ts:88:2",
+        "callee": "src/webview/panel.ts:632:2"
       },
       {
-        "caller": "src/webview/panel.ts:118:2",
-        "callee": "src/webview/panel.ts:604:2"
+        "caller": "src/webview/panel.ts:119:2",
+        "callee": "src/webview/panel.ts:632:2"
       },
       {
-        "caller": "src/webview/panel.ts:136:2",
-        "callee": "src/webview/panel.ts:604:2"
+        "caller": "src/webview/panel.ts:137:2",
+        "callee": "src/webview/panel.ts:632:2"
       },
       {
-        "caller": "src/webview/panel.ts:153:2",
-        "callee": "src/webview/panel.ts:604:2"
+        "caller": "src/webview/panel.ts:154:2",
+        "callee": "src/webview/panel.ts:632:2"
       },
       {
-        "caller": "src/webview/panel.ts:165:2",
-        "callee": "src/webview/panel.ts:604:2"
+        "caller": "src/webview/panel.ts:166:2",
+        "callee": "src/webview/panel.ts:632:2"
       },
       {
-        "caller": "src/webview/panel.ts:187:2",
-        "callee": "src/webview/panel.ts:604:2"
+        "caller": "src/webview/panel.ts:188:2",
+        "callee": "src/webview/panel.ts:632:2"
       },
       {
-        "caller": "src/webview/panel.ts:204:2",
-        "callee": "src/webview/panel.ts:604:2"
+        "caller": "src/webview/panel.ts:205:2",
+        "callee": "src/webview/panel.ts:632:2"
       },
       {
-        "caller": "src/webview/panel.ts:232:2",
-        "callee": "src/webview/panel.ts:604:2"
+        "caller": "src/webview/panel.ts:233:2",
+        "callee": "src/webview/panel.ts:632:2"
       },
       {
-        "caller": "src/webview/panel.ts:260:2",
-        "callee": "src/webview/panel.ts:604:2"
+        "caller": "src/webview/panel.ts:261:2",
+        "callee": "src/webview/panel.ts:632:2"
       },
       {
-        "caller": "src/webview/panel.ts:297:2",
-        "callee": "src/webview/panel.ts:604:2"
+        "caller": "src/webview/panel.ts:298:2",
+        "callee": "src/webview/panel.ts:632:2"
       },
       {
-        "caller": "src/webview/panel.ts:331:29",
-        "callee": "src/webview/panel.ts:604:2"
+        "caller": "src/webview/panel.ts:332:29",
+        "callee": "src/webview/panel.ts:632:2"
       },
       {
-        "caller": "src/webview/panel.ts:330:43",
-        "callee": "src/webview/panel.ts:604:2"
+        "caller": "src/webview/panel.ts:331:43",
+        "callee": "src/webview/panel.ts:632:2"
       },
       {
-        "caller": "src/webview/panel.ts:360:4",
-        "callee": "src/webview/panel.ts:604:2"
+        "caller": "src/webview/panel.ts:357:2",
+        "callee": "src/webview/panel.ts:632:2"
       },
       {
-        "caller": "src/webview/panel.ts:480:4",
-        "callee": "src/webview/panel.ts:604:2"
+        "caller": "src/webview/panel.ts:367:2",
+        "callee": "src/webview/panel.ts:632:2"
       },
       {
-        "caller": "src/webview/panel.ts:750:2",
-        "callee": "src/webview/panel.ts:604:2"
+        "caller": "src/webview/panel.ts:388:4",
+        "callee": "src/webview/panel.ts:632:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:503:4",
+        "callee": "src/webview/panel.ts:632:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:554:2",
+        "callee": "src/webview/panel.ts:632:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:778:2",
+        "callee": "src/webview/panel.ts:632:2"
       },
       {
         "caller": "src/strategy/server.ts:492:2",
-        "callee": "src/webview/panel.ts:604:2"
+        "callee": "src/webview/panel.ts:632:2"
       },
       {
         "caller": "src/strategy/server.ts:538:2",
-        "callee": "src/webview/panel.ts:604:2"
+        "callee": "src/webview/panel.ts:632:2"
       },
       {
         "caller": "src/webview/appChannelPanel.ts:59:13",
-        "callee": "src/webview/panel.ts:604:2"
+        "callee": "src/webview/panel.ts:632:2"
       },
       {
         "caller": "src/strategy/selfTrace.ts:123:27",
-        "callee": "src/webview/panel.ts:604:2"
+        "callee": "src/webview/panel.ts:632:2"
       },
       {
         "caller": "src/extension.ts:133:68",
-        "callee": "src/webview/panel.ts:604:2"
+        "callee": "src/webview/panel.ts:632:2"
       },
       {
         "caller": "src/extension.ts:180:64",
-        "callee": "src/webview/panel.ts:604:2"
+        "callee": "src/webview/panel.ts:632:2"
+      },
+      {
+        "caller": "src/extension.ts:305:45",
+        "callee": "src/webview/panel.ts:632:2"
       },
       {
         "caller": "src/extension.ts:50:1",
-        "callee": "src/webview/panel.ts:604:2"
+        "callee": "src/webview/panel.ts:632:2"
       },
       {
-        "caller": "src/extension.ts:321:62",
-        "callee": "src/webview/panel.ts:604:2"
-      },
-      {
-        "caller": "src/extension.ts:332:15",
-        "callee": "src/webview/panel.ts:604:2"
-      },
-      {
-        "caller": "src/extension.ts:339:64",
-        "callee": "src/webview/panel.ts:604:2"
+        "caller": "src/extension.ts:340:62",
+        "callee": "src/webview/panel.ts:632:2"
       },
       {
         "caller": "src/extension.ts:351:15",
-        "callee": "src/webview/panel.ts:604:2"
+        "callee": "src/webview/panel.ts:632:2"
       },
       {
-        "caller": "src/extension.ts:382:14",
-        "callee": "src/webview/panel.ts:604:2"
+        "caller": "src/extension.ts:358:64",
+        "callee": "src/webview/panel.ts:632:2"
       },
       {
-        "caller": "src/extension.ts:413:15",
-        "callee": "src/webview/panel.ts:604:2"
+        "caller": "src/extension.ts:370:15",
+        "callee": "src/webview/panel.ts:632:2"
       },
       {
-        "caller": "src/extension.ts:447:66",
-        "callee": "src/webview/panel.ts:604:2"
+        "caller": "src/extension.ts:401:14",
+        "callee": "src/webview/panel.ts:632:2"
       },
       {
-        "caller": "src/extension.ts:526:27",
-        "callee": "src/webview/panel.ts:604:2"
+        "caller": "src/extension.ts:432:15",
+        "callee": "src/webview/panel.ts:632:2"
       },
       {
-        "caller": "src/extension.ts:577:32",
-        "callee": "src/extension.ts:526:27"
+        "caller": "src/extension.ts:466:66",
+        "callee": "src/webview/panel.ts:632:2"
       },
       {
-        "caller": "src/extension.ts:591:66",
-        "callee": "src/extension.ts:526:27"
+        "caller": "src/extension.ts:545:27",
+        "callee": "src/webview/panel.ts:632:2"
+      },
+      {
+        "caller": "src/extension.ts:596:32",
+        "callee": "src/extension.ts:545:27"
+      },
+      {
+        "caller": "src/extension.ts:610:66",
+        "callee": "src/extension.ts:545:27"
       },
       {
         "caller": "src/commands/utilityCommands.ts:7:1",
@@ -1132,1083 +1172,1635 @@
       },
       {
         "caller": "src/webview/panel.ts",
-        "callee": "src/webview/panel.ts:750:2"
+        "callee": "src/webview/panel.ts:778:2"
       },
       {
-        "caller": "src/webview/panel.ts:87:2",
-        "callee": "src/webview/panel.ts:750:2"
+        "caller": "src/webview/panel.ts:88:2",
+        "callee": "src/webview/panel.ts:778:2"
       },
       {
-        "caller": "src/webview/panel.ts:118:2",
-        "callee": "src/webview/panel.ts:750:2"
+        "caller": "src/webview/panel.ts:119:2",
+        "callee": "src/webview/panel.ts:778:2"
       },
       {
-        "caller": "src/webview/panel.ts:136:2",
-        "callee": "src/webview/panel.ts:750:2"
+        "caller": "src/webview/panel.ts:137:2",
+        "callee": "src/webview/panel.ts:778:2"
       },
       {
-        "caller": "src/webview/panel.ts:153:2",
-        "callee": "src/webview/panel.ts:750:2"
+        "caller": "src/webview/panel.ts:154:2",
+        "callee": "src/webview/panel.ts:778:2"
       },
       {
-        "caller": "src/webview/panel.ts:165:2",
-        "callee": "src/webview/panel.ts:750:2"
+        "caller": "src/webview/panel.ts:166:2",
+        "callee": "src/webview/panel.ts:778:2"
       },
       {
-        "caller": "src/webview/panel.ts:187:2",
-        "callee": "src/webview/panel.ts:750:2"
+        "caller": "src/webview/panel.ts:188:2",
+        "callee": "src/webview/panel.ts:778:2"
       },
       {
-        "caller": "src/webview/panel.ts:204:2",
-        "callee": "src/webview/panel.ts:750:2"
+        "caller": "src/webview/panel.ts:205:2",
+        "callee": "src/webview/panel.ts:778:2"
       },
       {
-        "caller": "src/webview/panel.ts:232:2",
-        "callee": "src/webview/panel.ts:750:2"
+        "caller": "src/webview/panel.ts:233:2",
+        "callee": "src/webview/panel.ts:778:2"
       },
       {
-        "caller": "src/webview/panel.ts:260:2",
-        "callee": "src/webview/panel.ts:750:2"
+        "caller": "src/webview/panel.ts:261:2",
+        "callee": "src/webview/panel.ts:778:2"
       },
       {
-        "caller": "src/webview/panel.ts:297:2",
-        "callee": "src/webview/panel.ts:750:2"
+        "caller": "src/webview/panel.ts:298:2",
+        "callee": "src/webview/panel.ts:778:2"
       },
       {
-        "caller": "src/webview/panel.ts:331:29",
-        "callee": "src/webview/panel.ts:750:2"
+        "caller": "src/webview/panel.ts:332:29",
+        "callee": "src/webview/panel.ts:778:2"
       },
       {
-        "caller": "src/webview/panel.ts:330:43",
-        "callee": "src/webview/panel.ts:750:2"
+        "caller": "src/webview/panel.ts:331:43",
+        "callee": "src/webview/panel.ts:778:2"
       },
       {
-        "caller": "src/webview/panel.ts:360:4",
-        "callee": "src/webview/panel.ts:750:2"
+        "caller": "src/webview/panel.ts:357:2",
+        "callee": "src/webview/panel.ts:778:2"
       },
       {
-        "caller": "src/webview/panel.ts:480:4",
-        "callee": "src/webview/panel.ts:750:2"
+        "caller": "src/webview/panel.ts:367:2",
+        "callee": "src/webview/panel.ts:778:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:388:4",
+        "callee": "src/webview/panel.ts:778:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:503:4",
+        "callee": "src/webview/panel.ts:778:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:554:2",
+        "callee": "src/webview/panel.ts:778:2"
       },
       {
         "caller": "src/strategy/server.ts:492:2",
-        "callee": "src/webview/panel.ts:750:2"
+        "callee": "src/webview/panel.ts:778:2"
       },
       {
         "caller": "src/strategy/server.ts:538:2",
-        "callee": "src/webview/panel.ts:750:2"
+        "callee": "src/webview/panel.ts:778:2"
       },
       {
         "caller": "src/webview/appChannelPanel.ts:59:13",
-        "callee": "src/webview/panel.ts:750:2"
+        "callee": "src/webview/panel.ts:778:2"
       },
       {
         "caller": "src/strategy/selfTrace.ts:123:27",
-        "callee": "src/webview/panel.ts:750:2"
+        "callee": "src/webview/panel.ts:778:2"
       },
       {
         "caller": "src/extension.ts:133:68",
-        "callee": "src/webview/panel.ts:750:2"
+        "callee": "src/webview/panel.ts:778:2"
       },
       {
         "caller": "src/extension.ts:180:64",
-        "callee": "src/webview/panel.ts:750:2"
+        "callee": "src/webview/panel.ts:778:2"
+      },
+      {
+        "caller": "src/extension.ts:305:45",
+        "callee": "src/webview/panel.ts:778:2"
       },
       {
         "caller": "src/extension.ts:50:1",
-        "callee": "src/webview/panel.ts:750:2"
+        "callee": "src/webview/panel.ts:778:2"
       },
       {
-        "caller": "src/extension.ts:321:62",
-        "callee": "src/webview/panel.ts:750:2"
-      },
-      {
-        "caller": "src/extension.ts:332:15",
-        "callee": "src/webview/panel.ts:750:2"
-      },
-      {
-        "caller": "src/extension.ts:339:64",
-        "callee": "src/webview/panel.ts:750:2"
+        "caller": "src/extension.ts:340:62",
+        "callee": "src/webview/panel.ts:778:2"
       },
       {
         "caller": "src/extension.ts:351:15",
-        "callee": "src/webview/panel.ts:750:2"
+        "callee": "src/webview/panel.ts:778:2"
       },
       {
-        "caller": "src/extension.ts:382:14",
-        "callee": "src/webview/panel.ts:750:2"
+        "caller": "src/extension.ts:358:64",
+        "callee": "src/webview/panel.ts:778:2"
       },
       {
-        "caller": "src/extension.ts:413:15",
-        "callee": "src/webview/panel.ts:750:2"
+        "caller": "src/extension.ts:370:15",
+        "callee": "src/webview/panel.ts:778:2"
       },
       {
-        "caller": "src/extension.ts:447:66",
-        "callee": "src/webview/panel.ts:750:2"
+        "caller": "src/extension.ts:401:14",
+        "callee": "src/webview/panel.ts:778:2"
       },
       {
-        "caller": "src/extension.ts:526:27",
-        "callee": "src/webview/panel.ts:750:2"
+        "caller": "src/extension.ts:432:15",
+        "callee": "src/webview/panel.ts:778:2"
+      },
+      {
+        "caller": "src/extension.ts:466:66",
+        "callee": "src/webview/panel.ts:778:2"
+      },
+      {
+        "caller": "src/extension.ts:545:27",
+        "callee": "src/webview/panel.ts:778:2"
       },
       {
         "caller": "src/webview/panel.ts",
-        "callee": "src/webview/panel.ts:297:2"
+        "callee": "src/webview/panel.ts:554:2"
       },
       {
-        "caller": "src/webview/panel.ts:87:2",
-        "callee": "src/webview/panel.ts:297:2"
+        "caller": "src/webview/panel.ts:88:2",
+        "callee": "src/webview/panel.ts:554:2"
       },
       {
-        "caller": "src/webview/panel.ts:118:2",
-        "callee": "src/webview/panel.ts:297:2"
+        "caller": "src/webview/panel.ts:119:2",
+        "callee": "src/webview/panel.ts:554:2"
       },
       {
-        "caller": "src/webview/panel.ts:136:2",
-        "callee": "src/webview/panel.ts:297:2"
+        "caller": "src/webview/panel.ts:137:2",
+        "callee": "src/webview/panel.ts:554:2"
       },
       {
-        "caller": "src/webview/panel.ts:153:2",
-        "callee": "src/webview/panel.ts:297:2"
+        "caller": "src/webview/panel.ts:154:2",
+        "callee": "src/webview/panel.ts:554:2"
       },
       {
-        "caller": "src/webview/panel.ts:165:2",
-        "callee": "src/webview/panel.ts:297:2"
+        "caller": "src/webview/panel.ts:166:2",
+        "callee": "src/webview/panel.ts:554:2"
       },
       {
-        "caller": "src/webview/panel.ts:187:2",
-        "callee": "src/webview/panel.ts:297:2"
+        "caller": "src/webview/panel.ts:188:2",
+        "callee": "src/webview/panel.ts:554:2"
       },
       {
-        "caller": "src/webview/panel.ts:204:2",
-        "callee": "src/webview/panel.ts:297:2"
+        "caller": "src/webview/panel.ts:205:2",
+        "callee": "src/webview/panel.ts:554:2"
       },
       {
-        "caller": "src/webview/panel.ts:232:2",
-        "callee": "src/webview/panel.ts:297:2"
+        "caller": "src/webview/panel.ts:233:2",
+        "callee": "src/webview/panel.ts:554:2"
       },
       {
-        "caller": "src/webview/panel.ts:260:2",
-        "callee": "src/webview/panel.ts:297:2"
+        "caller": "src/webview/panel.ts:261:2",
+        "callee": "src/webview/panel.ts:554:2"
       },
       {
-        "caller": "src/webview/panel.ts:331:29",
-        "callee": "src/webview/panel.ts:297:2"
+        "caller": "src/webview/panel.ts:298:2",
+        "callee": "src/webview/panel.ts:554:2"
       },
       {
-        "caller": "src/webview/panel.ts:330:43",
-        "callee": "src/webview/panel.ts:297:2"
+        "caller": "src/webview/panel.ts:332:29",
+        "callee": "src/webview/panel.ts:554:2"
       },
       {
-        "caller": "src/webview/panel.ts:360:4",
-        "callee": "src/webview/panel.ts:297:2"
+        "caller": "src/webview/panel.ts:331:43",
+        "callee": "src/webview/panel.ts:554:2"
       },
       {
-        "caller": "src/webview/panel.ts:480:4",
-        "callee": "src/webview/panel.ts:297:2"
+        "caller": "src/webview/panel.ts:357:2",
+        "callee": "src/webview/panel.ts:554:2"
       },
       {
-        "caller": "src/webview/panel.ts:750:2",
-        "callee": "src/webview/panel.ts:297:2"
+        "caller": "src/webview/panel.ts:367:2",
+        "callee": "src/webview/panel.ts:554:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:388:4",
+        "callee": "src/webview/panel.ts:554:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:503:4",
+        "callee": "src/webview/panel.ts:554:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:778:2",
+        "callee": "src/webview/panel.ts:554:2"
       },
       {
         "caller": "src/strategy/server.ts:492:2",
-        "callee": "src/webview/panel.ts:297:2"
+        "callee": "src/webview/panel.ts:554:2"
       },
       {
         "caller": "src/strategy/server.ts:538:2",
-        "callee": "src/webview/panel.ts:297:2"
+        "callee": "src/webview/panel.ts:554:2"
       },
       {
         "caller": "src/webview/appChannelPanel.ts:59:13",
-        "callee": "src/webview/panel.ts:297:2"
+        "callee": "src/webview/panel.ts:554:2"
       },
       {
         "caller": "src/strategy/selfTrace.ts:123:27",
-        "callee": "src/webview/panel.ts:297:2"
+        "callee": "src/webview/panel.ts:554:2"
       },
       {
         "caller": "src/extension.ts:133:68",
-        "callee": "src/webview/panel.ts:297:2"
+        "callee": "src/webview/panel.ts:554:2"
       },
       {
         "caller": "src/extension.ts:180:64",
-        "callee": "src/webview/panel.ts:297:2"
+        "callee": "src/webview/panel.ts:554:2"
+      },
+      {
+        "caller": "src/extension.ts:305:45",
+        "callee": "src/webview/panel.ts:554:2"
       },
       {
         "caller": "src/extension.ts:50:1",
-        "callee": "src/webview/panel.ts:297:2"
+        "callee": "src/webview/panel.ts:554:2"
       },
       {
-        "caller": "src/extension.ts:321:62",
-        "callee": "src/webview/panel.ts:297:2"
-      },
-      {
-        "caller": "src/extension.ts:332:15",
-        "callee": "src/webview/panel.ts:297:2"
-      },
-      {
-        "caller": "src/extension.ts:339:64",
-        "callee": "src/webview/panel.ts:297:2"
+        "caller": "src/extension.ts:340:62",
+        "callee": "src/webview/panel.ts:554:2"
       },
       {
         "caller": "src/extension.ts:351:15",
-        "callee": "src/webview/panel.ts:297:2"
+        "callee": "src/webview/panel.ts:554:2"
       },
       {
-        "caller": "src/extension.ts:382:14",
-        "callee": "src/webview/panel.ts:297:2"
+        "caller": "src/extension.ts:358:64",
+        "callee": "src/webview/panel.ts:554:2"
       },
       {
-        "caller": "src/extension.ts:413:15",
-        "callee": "src/webview/panel.ts:297:2"
+        "caller": "src/extension.ts:370:15",
+        "callee": "src/webview/panel.ts:554:2"
       },
       {
-        "caller": "src/extension.ts:447:66",
-        "callee": "src/webview/panel.ts:297:2"
+        "caller": "src/extension.ts:401:14",
+        "callee": "src/webview/panel.ts:554:2"
       },
       {
-        "caller": "src/extension.ts:526:27",
-        "callee": "src/webview/panel.ts:297:2"
+        "caller": "src/extension.ts:432:15",
+        "callee": "src/webview/panel.ts:554:2"
+      },
+      {
+        "caller": "src/extension.ts:466:66",
+        "callee": "src/webview/panel.ts:554:2"
+      },
+      {
+        "caller": "src/extension.ts:545:27",
+        "callee": "src/webview/panel.ts:554:2"
       },
       {
         "caller": "src/webview/panel.ts",
-        "callee": "src/webview/panel.ts:260:2"
+        "callee": "src/webview/panel.ts:367:2"
       },
       {
-        "caller": "src/webview/panel.ts:87:2",
-        "callee": "src/webview/panel.ts:260:2"
+        "caller": "src/webview/panel.ts:88:2",
+        "callee": "src/webview/panel.ts:367:2"
       },
       {
-        "caller": "src/webview/panel.ts:118:2",
-        "callee": "src/webview/panel.ts:260:2"
+        "caller": "src/webview/panel.ts:119:2",
+        "callee": "src/webview/panel.ts:367:2"
       },
       {
-        "caller": "src/webview/panel.ts:136:2",
-        "callee": "src/webview/panel.ts:260:2"
+        "caller": "src/webview/panel.ts:137:2",
+        "callee": "src/webview/panel.ts:367:2"
       },
       {
-        "caller": "src/webview/panel.ts:153:2",
-        "callee": "src/webview/panel.ts:260:2"
+        "caller": "src/webview/panel.ts:154:2",
+        "callee": "src/webview/panel.ts:367:2"
       },
       {
-        "caller": "src/webview/panel.ts:165:2",
-        "callee": "src/webview/panel.ts:260:2"
+        "caller": "src/webview/panel.ts:166:2",
+        "callee": "src/webview/panel.ts:367:2"
       },
       {
-        "caller": "src/webview/panel.ts:187:2",
-        "callee": "src/webview/panel.ts:260:2"
+        "caller": "src/webview/panel.ts:188:2",
+        "callee": "src/webview/panel.ts:367:2"
       },
       {
-        "caller": "src/webview/panel.ts:204:2",
-        "callee": "src/webview/panel.ts:260:2"
+        "caller": "src/webview/panel.ts:205:2",
+        "callee": "src/webview/panel.ts:367:2"
       },
       {
-        "caller": "src/webview/panel.ts:232:2",
-        "callee": "src/webview/panel.ts:260:2"
+        "caller": "src/webview/panel.ts:233:2",
+        "callee": "src/webview/panel.ts:367:2"
       },
       {
-        "caller": "src/webview/panel.ts:297:2",
-        "callee": "src/webview/panel.ts:260:2"
+        "caller": "src/webview/panel.ts:261:2",
+        "callee": "src/webview/panel.ts:367:2"
       },
       {
-        "caller": "src/webview/panel.ts:331:29",
-        "callee": "src/webview/panel.ts:260:2"
+        "caller": "src/webview/panel.ts:298:2",
+        "callee": "src/webview/panel.ts:367:2"
       },
       {
-        "caller": "src/webview/panel.ts:330:43",
-        "callee": "src/webview/panel.ts:260:2"
+        "caller": "src/webview/panel.ts:332:29",
+        "callee": "src/webview/panel.ts:367:2"
       },
       {
-        "caller": "src/webview/panel.ts:360:4",
-        "callee": "src/webview/panel.ts:260:2"
+        "caller": "src/webview/panel.ts:331:43",
+        "callee": "src/webview/panel.ts:367:2"
       },
       {
-        "caller": "src/webview/panel.ts:480:4",
-        "callee": "src/webview/panel.ts:260:2"
+        "caller": "src/webview/panel.ts:357:2",
+        "callee": "src/webview/panel.ts:367:2"
       },
       {
-        "caller": "src/webview/panel.ts:750:2",
-        "callee": "src/webview/panel.ts:260:2"
+        "caller": "src/webview/panel.ts:388:4",
+        "callee": "src/webview/panel.ts:367:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:503:4",
+        "callee": "src/webview/panel.ts:367:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:554:2",
+        "callee": "src/webview/panel.ts:367:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:778:2",
+        "callee": "src/webview/panel.ts:367:2"
       },
       {
         "caller": "src/strategy/server.ts:492:2",
-        "callee": "src/webview/panel.ts:260:2"
+        "callee": "src/webview/panel.ts:367:2"
       },
       {
         "caller": "src/strategy/server.ts:538:2",
-        "callee": "src/webview/panel.ts:260:2"
+        "callee": "src/webview/panel.ts:367:2"
       },
       {
         "caller": "src/webview/appChannelPanel.ts:59:13",
-        "callee": "src/webview/panel.ts:260:2"
+        "callee": "src/webview/panel.ts:367:2"
       },
       {
         "caller": "src/strategy/selfTrace.ts:123:27",
-        "callee": "src/webview/panel.ts:260:2"
+        "callee": "src/webview/panel.ts:367:2"
       },
       {
         "caller": "src/extension.ts:133:68",
-        "callee": "src/webview/panel.ts:260:2"
+        "callee": "src/webview/panel.ts:367:2"
       },
       {
         "caller": "src/extension.ts:180:64",
-        "callee": "src/webview/panel.ts:260:2"
+        "callee": "src/webview/panel.ts:367:2"
+      },
+      {
+        "caller": "src/extension.ts:305:45",
+        "callee": "src/webview/panel.ts:367:2"
       },
       {
         "caller": "src/extension.ts:50:1",
-        "callee": "src/webview/panel.ts:260:2"
+        "callee": "src/webview/panel.ts:367:2"
       },
       {
-        "caller": "src/extension.ts:321:62",
-        "callee": "src/webview/panel.ts:260:2"
-      },
-      {
-        "caller": "src/extension.ts:332:15",
-        "callee": "src/webview/panel.ts:260:2"
-      },
-      {
-        "caller": "src/extension.ts:339:64",
-        "callee": "src/webview/panel.ts:260:2"
+        "caller": "src/extension.ts:340:62",
+        "callee": "src/webview/panel.ts:367:2"
       },
       {
         "caller": "src/extension.ts:351:15",
-        "callee": "src/webview/panel.ts:260:2"
+        "callee": "src/webview/panel.ts:367:2"
       },
       {
-        "caller": "src/extension.ts:382:14",
-        "callee": "src/webview/panel.ts:260:2"
+        "caller": "src/extension.ts:358:64",
+        "callee": "src/webview/panel.ts:367:2"
       },
       {
-        "caller": "src/extension.ts:413:15",
-        "callee": "src/webview/panel.ts:260:2"
+        "caller": "src/extension.ts:370:15",
+        "callee": "src/webview/panel.ts:367:2"
       },
       {
-        "caller": "src/extension.ts:447:66",
-        "callee": "src/webview/panel.ts:260:2"
+        "caller": "src/extension.ts:401:14",
+        "callee": "src/webview/panel.ts:367:2"
       },
       {
-        "caller": "src/extension.ts:526:27",
-        "callee": "src/webview/panel.ts:260:2"
+        "caller": "src/extension.ts:432:15",
+        "callee": "src/webview/panel.ts:367:2"
+      },
+      {
+        "caller": "src/extension.ts:466:66",
+        "callee": "src/webview/panel.ts:367:2"
+      },
+      {
+        "caller": "src/extension.ts:545:27",
+        "callee": "src/webview/panel.ts:367:2"
       },
       {
         "caller": "src/webview/panel.ts",
-        "callee": "src/webview/panel.ts:232:2"
+        "callee": "src/webview/panel.ts:357:2"
       },
       {
-        "caller": "src/webview/panel.ts:87:2",
-        "callee": "src/webview/panel.ts:232:2"
+        "caller": "src/webview/panel.ts:88:2",
+        "callee": "src/webview/panel.ts:357:2"
       },
       {
-        "caller": "src/webview/panel.ts:118:2",
-        "callee": "src/webview/panel.ts:232:2"
+        "caller": "src/webview/panel.ts:119:2",
+        "callee": "src/webview/panel.ts:357:2"
       },
       {
-        "caller": "src/webview/panel.ts:136:2",
-        "callee": "src/webview/panel.ts:232:2"
+        "caller": "src/webview/panel.ts:137:2",
+        "callee": "src/webview/panel.ts:357:2"
       },
       {
-        "caller": "src/webview/panel.ts:153:2",
-        "callee": "src/webview/panel.ts:232:2"
+        "caller": "src/webview/panel.ts:154:2",
+        "callee": "src/webview/panel.ts:357:2"
       },
       {
-        "caller": "src/webview/panel.ts:165:2",
-        "callee": "src/webview/panel.ts:232:2"
+        "caller": "src/webview/panel.ts:166:2",
+        "callee": "src/webview/panel.ts:357:2"
       },
       {
-        "caller": "src/webview/panel.ts:187:2",
-        "callee": "src/webview/panel.ts:232:2"
+        "caller": "src/webview/panel.ts:188:2",
+        "callee": "src/webview/panel.ts:357:2"
       },
       {
-        "caller": "src/webview/panel.ts:204:2",
-        "callee": "src/webview/panel.ts:232:2"
+        "caller": "src/webview/panel.ts:205:2",
+        "callee": "src/webview/panel.ts:357:2"
       },
       {
-        "caller": "src/webview/panel.ts:260:2",
-        "callee": "src/webview/panel.ts:232:2"
+        "caller": "src/webview/panel.ts:233:2",
+        "callee": "src/webview/panel.ts:357:2"
       },
       {
-        "caller": "src/webview/panel.ts:297:2",
-        "callee": "src/webview/panel.ts:232:2"
+        "caller": "src/webview/panel.ts:261:2",
+        "callee": "src/webview/panel.ts:357:2"
       },
       {
-        "caller": "src/webview/panel.ts:331:29",
-        "callee": "src/webview/panel.ts:232:2"
+        "caller": "src/webview/panel.ts:298:2",
+        "callee": "src/webview/panel.ts:357:2"
       },
       {
-        "caller": "src/webview/panel.ts:330:43",
-        "callee": "src/webview/panel.ts:232:2"
+        "caller": "src/webview/panel.ts:332:29",
+        "callee": "src/webview/panel.ts:357:2"
       },
       {
-        "caller": "src/webview/panel.ts:360:4",
-        "callee": "src/webview/panel.ts:232:2"
+        "caller": "src/webview/panel.ts:331:43",
+        "callee": "src/webview/panel.ts:357:2"
       },
       {
-        "caller": "src/webview/panel.ts:480:4",
-        "callee": "src/webview/panel.ts:232:2"
+        "caller": "src/webview/panel.ts:367:2",
+        "callee": "src/webview/panel.ts:357:2"
       },
       {
-        "caller": "src/webview/panel.ts:750:2",
-        "callee": "src/webview/panel.ts:232:2"
+        "caller": "src/webview/panel.ts:388:4",
+        "callee": "src/webview/panel.ts:357:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:503:4",
+        "callee": "src/webview/panel.ts:357:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:554:2",
+        "callee": "src/webview/panel.ts:357:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:778:2",
+        "callee": "src/webview/panel.ts:357:2"
       },
       {
         "caller": "src/strategy/server.ts:492:2",
-        "callee": "src/webview/panel.ts:232:2"
+        "callee": "src/webview/panel.ts:357:2"
       },
       {
         "caller": "src/strategy/server.ts:538:2",
-        "callee": "src/webview/panel.ts:232:2"
+        "callee": "src/webview/panel.ts:357:2"
       },
       {
         "caller": "src/webview/appChannelPanel.ts:59:13",
-        "callee": "src/webview/panel.ts:232:2"
+        "callee": "src/webview/panel.ts:357:2"
       },
       {
         "caller": "src/strategy/selfTrace.ts:123:27",
-        "callee": "src/webview/panel.ts:232:2"
+        "callee": "src/webview/panel.ts:357:2"
       },
       {
         "caller": "src/extension.ts:133:68",
-        "callee": "src/webview/panel.ts:232:2"
+        "callee": "src/webview/panel.ts:357:2"
       },
       {
         "caller": "src/extension.ts:180:64",
-        "callee": "src/webview/panel.ts:232:2"
+        "callee": "src/webview/panel.ts:357:2"
+      },
+      {
+        "caller": "src/extension.ts:305:45",
+        "callee": "src/webview/panel.ts:357:2"
       },
       {
         "caller": "src/extension.ts:50:1",
-        "callee": "src/webview/panel.ts:232:2"
+        "callee": "src/webview/panel.ts:357:2"
       },
       {
-        "caller": "src/extension.ts:321:62",
-        "callee": "src/webview/panel.ts:232:2"
-      },
-      {
-        "caller": "src/extension.ts:332:15",
-        "callee": "src/webview/panel.ts:232:2"
-      },
-      {
-        "caller": "src/extension.ts:339:64",
-        "callee": "src/webview/panel.ts:232:2"
+        "caller": "src/extension.ts:340:62",
+        "callee": "src/webview/panel.ts:357:2"
       },
       {
         "caller": "src/extension.ts:351:15",
-        "callee": "src/webview/panel.ts:232:2"
+        "callee": "src/webview/panel.ts:357:2"
       },
       {
-        "caller": "src/extension.ts:382:14",
-        "callee": "src/webview/panel.ts:232:2"
+        "caller": "src/extension.ts:358:64",
+        "callee": "src/webview/panel.ts:357:2"
       },
       {
-        "caller": "src/extension.ts:413:15",
-        "callee": "src/webview/panel.ts:232:2"
+        "caller": "src/extension.ts:370:15",
+        "callee": "src/webview/panel.ts:357:2"
       },
       {
-        "caller": "src/extension.ts:447:66",
-        "callee": "src/webview/panel.ts:232:2"
+        "caller": "src/extension.ts:401:14",
+        "callee": "src/webview/panel.ts:357:2"
       },
       {
-        "caller": "src/extension.ts:526:27",
-        "callee": "src/webview/panel.ts:232:2"
+        "caller": "src/extension.ts:432:15",
+        "callee": "src/webview/panel.ts:357:2"
+      },
+      {
+        "caller": "src/extension.ts:466:66",
+        "callee": "src/webview/panel.ts:357:2"
+      },
+      {
+        "caller": "src/extension.ts:545:27",
+        "callee": "src/webview/panel.ts:357:2"
       },
       {
         "caller": "src/webview/panel.ts",
-        "callee": "src/webview/panel.ts:204:2"
+        "callee": "src/webview/panel.ts:298:2"
       },
       {
-        "caller": "src/webview/panel.ts:87:2",
-        "callee": "src/webview/panel.ts:204:2"
+        "caller": "src/webview/panel.ts:88:2",
+        "callee": "src/webview/panel.ts:298:2"
       },
       {
-        "caller": "src/webview/panel.ts:118:2",
-        "callee": "src/webview/panel.ts:204:2"
+        "caller": "src/webview/panel.ts:119:2",
+        "callee": "src/webview/panel.ts:298:2"
       },
       {
-        "caller": "src/webview/panel.ts:136:2",
-        "callee": "src/webview/panel.ts:204:2"
+        "caller": "src/webview/panel.ts:137:2",
+        "callee": "src/webview/panel.ts:298:2"
       },
       {
-        "caller": "src/webview/panel.ts:153:2",
-        "callee": "src/webview/panel.ts:204:2"
+        "caller": "src/webview/panel.ts:154:2",
+        "callee": "src/webview/panel.ts:298:2"
       },
       {
-        "caller": "src/webview/panel.ts:165:2",
-        "callee": "src/webview/panel.ts:204:2"
+        "caller": "src/webview/panel.ts:166:2",
+        "callee": "src/webview/panel.ts:298:2"
       },
       {
-        "caller": "src/webview/panel.ts:187:2",
-        "callee": "src/webview/panel.ts:204:2"
+        "caller": "src/webview/panel.ts:188:2",
+        "callee": "src/webview/panel.ts:298:2"
       },
       {
-        "caller": "src/webview/panel.ts:232:2",
-        "callee": "src/webview/panel.ts:204:2"
+        "caller": "src/webview/panel.ts:205:2",
+        "callee": "src/webview/panel.ts:298:2"
       },
       {
-        "caller": "src/webview/panel.ts:260:2",
-        "callee": "src/webview/panel.ts:204:2"
+        "caller": "src/webview/panel.ts:233:2",
+        "callee": "src/webview/panel.ts:298:2"
       },
       {
-        "caller": "src/webview/panel.ts:297:2",
-        "callee": "src/webview/panel.ts:204:2"
+        "caller": "src/webview/panel.ts:261:2",
+        "callee": "src/webview/panel.ts:298:2"
       },
       {
-        "caller": "src/webview/panel.ts:331:29",
-        "callee": "src/webview/panel.ts:204:2"
+        "caller": "src/webview/panel.ts:332:29",
+        "callee": "src/webview/panel.ts:298:2"
       },
       {
-        "caller": "src/webview/panel.ts:330:43",
-        "callee": "src/webview/panel.ts:204:2"
+        "caller": "src/webview/panel.ts:331:43",
+        "callee": "src/webview/panel.ts:298:2"
       },
       {
-        "caller": "src/webview/panel.ts:360:4",
-        "callee": "src/webview/panel.ts:204:2"
+        "caller": "src/webview/panel.ts:357:2",
+        "callee": "src/webview/panel.ts:298:2"
       },
       {
-        "caller": "src/webview/panel.ts:480:4",
-        "callee": "src/webview/panel.ts:204:2"
+        "caller": "src/webview/panel.ts:367:2",
+        "callee": "src/webview/panel.ts:298:2"
       },
       {
-        "caller": "src/webview/panel.ts:750:2",
-        "callee": "src/webview/panel.ts:204:2"
+        "caller": "src/webview/panel.ts:388:4",
+        "callee": "src/webview/panel.ts:298:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:503:4",
+        "callee": "src/webview/panel.ts:298:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:554:2",
+        "callee": "src/webview/panel.ts:298:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:778:2",
+        "callee": "src/webview/panel.ts:298:2"
       },
       {
         "caller": "src/strategy/server.ts:492:2",
-        "callee": "src/webview/panel.ts:204:2"
+        "callee": "src/webview/panel.ts:298:2"
       },
       {
         "caller": "src/strategy/server.ts:538:2",
-        "callee": "src/webview/panel.ts:204:2"
+        "callee": "src/webview/panel.ts:298:2"
       },
       {
         "caller": "src/webview/appChannelPanel.ts:59:13",
-        "callee": "src/webview/panel.ts:204:2"
+        "callee": "src/webview/panel.ts:298:2"
       },
       {
         "caller": "src/strategy/selfTrace.ts:123:27",
-        "callee": "src/webview/panel.ts:204:2"
+        "callee": "src/webview/panel.ts:298:2"
       },
       {
         "caller": "src/extension.ts:133:68",
-        "callee": "src/webview/panel.ts:204:2"
+        "callee": "src/webview/panel.ts:298:2"
       },
       {
         "caller": "src/extension.ts:180:64",
-        "callee": "src/webview/panel.ts:204:2"
+        "callee": "src/webview/panel.ts:298:2"
+      },
+      {
+        "caller": "src/extension.ts:305:45",
+        "callee": "src/webview/panel.ts:298:2"
       },
       {
         "caller": "src/extension.ts:50:1",
-        "callee": "src/webview/panel.ts:204:2"
+        "callee": "src/webview/panel.ts:298:2"
       },
       {
-        "caller": "src/extension.ts:321:62",
-        "callee": "src/webview/panel.ts:204:2"
-      },
-      {
-        "caller": "src/extension.ts:332:15",
-        "callee": "src/webview/panel.ts:204:2"
-      },
-      {
-        "caller": "src/extension.ts:339:64",
-        "callee": "src/webview/panel.ts:204:2"
+        "caller": "src/extension.ts:340:62",
+        "callee": "src/webview/panel.ts:298:2"
       },
       {
         "caller": "src/extension.ts:351:15",
-        "callee": "src/webview/panel.ts:204:2"
+        "callee": "src/webview/panel.ts:298:2"
       },
       {
-        "caller": "src/extension.ts:382:14",
-        "callee": "src/webview/panel.ts:204:2"
+        "caller": "src/extension.ts:358:64",
+        "callee": "src/webview/panel.ts:298:2"
       },
       {
-        "caller": "src/extension.ts:413:15",
-        "callee": "src/webview/panel.ts:204:2"
+        "caller": "src/extension.ts:370:15",
+        "callee": "src/webview/panel.ts:298:2"
       },
       {
-        "caller": "src/extension.ts:447:66",
-        "callee": "src/webview/panel.ts:204:2"
+        "caller": "src/extension.ts:401:14",
+        "callee": "src/webview/panel.ts:298:2"
       },
       {
-        "caller": "src/extension.ts:526:27",
-        "callee": "src/webview/panel.ts:204:2"
+        "caller": "src/extension.ts:432:15",
+        "callee": "src/webview/panel.ts:298:2"
+      },
+      {
+        "caller": "src/extension.ts:466:66",
+        "callee": "src/webview/panel.ts:298:2"
+      },
+      {
+        "caller": "src/extension.ts:545:27",
+        "callee": "src/webview/panel.ts:298:2"
       },
       {
         "caller": "src/webview/panel.ts",
-        "callee": "src/webview/panel.ts:187:2"
+        "callee": "src/webview/panel.ts:261:2"
       },
       {
-        "caller": "src/webview/panel.ts:87:2",
-        "callee": "src/webview/panel.ts:187:2"
+        "caller": "src/webview/panel.ts:88:2",
+        "callee": "src/webview/panel.ts:261:2"
       },
       {
-        "caller": "src/webview/panel.ts:118:2",
-        "callee": "src/webview/panel.ts:187:2"
+        "caller": "src/webview/panel.ts:119:2",
+        "callee": "src/webview/panel.ts:261:2"
       },
       {
-        "caller": "src/webview/panel.ts:136:2",
-        "callee": "src/webview/panel.ts:187:2"
+        "caller": "src/webview/panel.ts:137:2",
+        "callee": "src/webview/panel.ts:261:2"
       },
       {
-        "caller": "src/webview/panel.ts:153:2",
-        "callee": "src/webview/panel.ts:187:2"
+        "caller": "src/webview/panel.ts:154:2",
+        "callee": "src/webview/panel.ts:261:2"
       },
       {
-        "caller": "src/webview/panel.ts:165:2",
-        "callee": "src/webview/panel.ts:187:2"
+        "caller": "src/webview/panel.ts:166:2",
+        "callee": "src/webview/panel.ts:261:2"
       },
       {
-        "caller": "src/webview/panel.ts:204:2",
-        "callee": "src/webview/panel.ts:187:2"
+        "caller": "src/webview/panel.ts:188:2",
+        "callee": "src/webview/panel.ts:261:2"
       },
       {
-        "caller": "src/webview/panel.ts:232:2",
-        "callee": "src/webview/panel.ts:187:2"
+        "caller": "src/webview/panel.ts:205:2",
+        "callee": "src/webview/panel.ts:261:2"
       },
       {
-        "caller": "src/webview/panel.ts:260:2",
-        "callee": "src/webview/panel.ts:187:2"
+        "caller": "src/webview/panel.ts:233:2",
+        "callee": "src/webview/panel.ts:261:2"
       },
       {
-        "caller": "src/webview/panel.ts:297:2",
-        "callee": "src/webview/panel.ts:187:2"
+        "caller": "src/webview/panel.ts:298:2",
+        "callee": "src/webview/panel.ts:261:2"
       },
       {
-        "caller": "src/webview/panel.ts:331:29",
-        "callee": "src/webview/panel.ts:187:2"
+        "caller": "src/webview/panel.ts:332:29",
+        "callee": "src/webview/panel.ts:261:2"
       },
       {
-        "caller": "src/webview/panel.ts:330:43",
-        "callee": "src/webview/panel.ts:187:2"
+        "caller": "src/webview/panel.ts:331:43",
+        "callee": "src/webview/panel.ts:261:2"
       },
       {
-        "caller": "src/webview/panel.ts:360:4",
-        "callee": "src/webview/panel.ts:187:2"
+        "caller": "src/webview/panel.ts:357:2",
+        "callee": "src/webview/panel.ts:261:2"
       },
       {
-        "caller": "src/webview/panel.ts:480:4",
-        "callee": "src/webview/panel.ts:187:2"
+        "caller": "src/webview/panel.ts:367:2",
+        "callee": "src/webview/panel.ts:261:2"
       },
       {
-        "caller": "src/webview/panel.ts:750:2",
-        "callee": "src/webview/panel.ts:187:2"
+        "caller": "src/webview/panel.ts:388:4",
+        "callee": "src/webview/panel.ts:261:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:503:4",
+        "callee": "src/webview/panel.ts:261:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:554:2",
+        "callee": "src/webview/panel.ts:261:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:778:2",
+        "callee": "src/webview/panel.ts:261:2"
       },
       {
         "caller": "src/strategy/server.ts:492:2",
-        "callee": "src/webview/panel.ts:187:2"
+        "callee": "src/webview/panel.ts:261:2"
       },
       {
         "caller": "src/strategy/server.ts:538:2",
-        "callee": "src/webview/panel.ts:187:2"
+        "callee": "src/webview/panel.ts:261:2"
       },
       {
         "caller": "src/webview/appChannelPanel.ts:59:13",
-        "callee": "src/webview/panel.ts:187:2"
+        "callee": "src/webview/panel.ts:261:2"
       },
       {
         "caller": "src/strategy/selfTrace.ts:123:27",
-        "callee": "src/webview/panel.ts:187:2"
+        "callee": "src/webview/panel.ts:261:2"
       },
       {
         "caller": "src/extension.ts:133:68",
-        "callee": "src/webview/panel.ts:187:2"
+        "callee": "src/webview/panel.ts:261:2"
       },
       {
         "caller": "src/extension.ts:180:64",
-        "callee": "src/webview/panel.ts:187:2"
+        "callee": "src/webview/panel.ts:261:2"
+      },
+      {
+        "caller": "src/extension.ts:305:45",
+        "callee": "src/webview/panel.ts:261:2"
       },
       {
         "caller": "src/extension.ts:50:1",
-        "callee": "src/webview/panel.ts:187:2"
+        "callee": "src/webview/panel.ts:261:2"
       },
       {
-        "caller": "src/extension.ts:321:62",
-        "callee": "src/webview/panel.ts:187:2"
-      },
-      {
-        "caller": "src/extension.ts:332:15",
-        "callee": "src/webview/panel.ts:187:2"
-      },
-      {
-        "caller": "src/extension.ts:339:64",
-        "callee": "src/webview/panel.ts:187:2"
+        "caller": "src/extension.ts:340:62",
+        "callee": "src/webview/panel.ts:261:2"
       },
       {
         "caller": "src/extension.ts:351:15",
-        "callee": "src/webview/panel.ts:187:2"
+        "callee": "src/webview/panel.ts:261:2"
       },
       {
-        "caller": "src/extension.ts:382:14",
-        "callee": "src/webview/panel.ts:187:2"
+        "caller": "src/extension.ts:358:64",
+        "callee": "src/webview/panel.ts:261:2"
       },
       {
-        "caller": "src/extension.ts:413:15",
-        "callee": "src/webview/panel.ts:187:2"
+        "caller": "src/extension.ts:370:15",
+        "callee": "src/webview/panel.ts:261:2"
       },
       {
-        "caller": "src/extension.ts:447:66",
-        "callee": "src/webview/panel.ts:187:2"
+        "caller": "src/extension.ts:401:14",
+        "callee": "src/webview/panel.ts:261:2"
       },
       {
-        "caller": "src/extension.ts:526:27",
-        "callee": "src/webview/panel.ts:187:2"
+        "caller": "src/extension.ts:432:15",
+        "callee": "src/webview/panel.ts:261:2"
+      },
+      {
+        "caller": "src/extension.ts:466:66",
+        "callee": "src/webview/panel.ts:261:2"
+      },
+      {
+        "caller": "src/extension.ts:545:27",
+        "callee": "src/webview/panel.ts:261:2"
       },
       {
         "caller": "src/webview/panel.ts",
-        "callee": "src/webview/panel.ts:165:2"
+        "callee": "src/webview/panel.ts:233:2"
       },
       {
-        "caller": "src/webview/panel.ts:87:2",
-        "callee": "src/webview/panel.ts:165:2"
+        "caller": "src/webview/panel.ts:88:2",
+        "callee": "src/webview/panel.ts:233:2"
       },
       {
-        "caller": "src/webview/panel.ts:118:2",
-        "callee": "src/webview/panel.ts:165:2"
+        "caller": "src/webview/panel.ts:119:2",
+        "callee": "src/webview/panel.ts:233:2"
       },
       {
-        "caller": "src/webview/panel.ts:136:2",
-        "callee": "src/webview/panel.ts:165:2"
+        "caller": "src/webview/panel.ts:137:2",
+        "callee": "src/webview/panel.ts:233:2"
       },
       {
-        "caller": "src/webview/panel.ts:153:2",
-        "callee": "src/webview/panel.ts:165:2"
+        "caller": "src/webview/panel.ts:154:2",
+        "callee": "src/webview/panel.ts:233:2"
       },
       {
-        "caller": "src/webview/panel.ts:187:2",
-        "callee": "src/webview/panel.ts:165:2"
+        "caller": "src/webview/panel.ts:166:2",
+        "callee": "src/webview/panel.ts:233:2"
       },
       {
-        "caller": "src/webview/panel.ts:204:2",
-        "callee": "src/webview/panel.ts:165:2"
+        "caller": "src/webview/panel.ts:188:2",
+        "callee": "src/webview/panel.ts:233:2"
       },
       {
-        "caller": "src/webview/panel.ts:232:2",
-        "callee": "src/webview/panel.ts:165:2"
+        "caller": "src/webview/panel.ts:205:2",
+        "callee": "src/webview/panel.ts:233:2"
       },
       {
-        "caller": "src/webview/panel.ts:260:2",
-        "callee": "src/webview/panel.ts:165:2"
+        "caller": "src/webview/panel.ts:261:2",
+        "callee": "src/webview/panel.ts:233:2"
       },
       {
-        "caller": "src/webview/panel.ts:297:2",
-        "callee": "src/webview/panel.ts:165:2"
+        "caller": "src/webview/panel.ts:298:2",
+        "callee": "src/webview/panel.ts:233:2"
       },
       {
-        "caller": "src/webview/panel.ts:331:29",
-        "callee": "src/webview/panel.ts:165:2"
+        "caller": "src/webview/panel.ts:332:29",
+        "callee": "src/webview/panel.ts:233:2"
       },
       {
-        "caller": "src/webview/panel.ts:330:43",
-        "callee": "src/webview/panel.ts:165:2"
+        "caller": "src/webview/panel.ts:331:43",
+        "callee": "src/webview/panel.ts:233:2"
       },
       {
-        "caller": "src/webview/panel.ts:360:4",
-        "callee": "src/webview/panel.ts:165:2"
+        "caller": "src/webview/panel.ts:357:2",
+        "callee": "src/webview/panel.ts:233:2"
       },
       {
-        "caller": "src/webview/panel.ts:480:4",
-        "callee": "src/webview/panel.ts:165:2"
+        "caller": "src/webview/panel.ts:367:2",
+        "callee": "src/webview/panel.ts:233:2"
       },
       {
-        "caller": "src/webview/panel.ts:750:2",
-        "callee": "src/webview/panel.ts:165:2"
+        "caller": "src/webview/panel.ts:388:4",
+        "callee": "src/webview/panel.ts:233:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:503:4",
+        "callee": "src/webview/panel.ts:233:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:554:2",
+        "callee": "src/webview/panel.ts:233:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:778:2",
+        "callee": "src/webview/panel.ts:233:2"
       },
       {
         "caller": "src/strategy/server.ts:492:2",
-        "callee": "src/webview/panel.ts:165:2"
+        "callee": "src/webview/panel.ts:233:2"
       },
       {
         "caller": "src/strategy/server.ts:538:2",
-        "callee": "src/webview/panel.ts:165:2"
+        "callee": "src/webview/panel.ts:233:2"
       },
       {
         "caller": "src/webview/appChannelPanel.ts:59:13",
-        "callee": "src/webview/panel.ts:165:2"
+        "callee": "src/webview/panel.ts:233:2"
       },
       {
         "caller": "src/strategy/selfTrace.ts:123:27",
-        "callee": "src/webview/panel.ts:165:2"
+        "callee": "src/webview/panel.ts:233:2"
       },
       {
         "caller": "src/extension.ts:133:68",
-        "callee": "src/webview/panel.ts:165:2"
+        "callee": "src/webview/panel.ts:233:2"
       },
       {
         "caller": "src/extension.ts:180:64",
-        "callee": "src/webview/panel.ts:165:2"
+        "callee": "src/webview/panel.ts:233:2"
+      },
+      {
+        "caller": "src/extension.ts:305:45",
+        "callee": "src/webview/panel.ts:233:2"
       },
       {
         "caller": "src/extension.ts:50:1",
-        "callee": "src/webview/panel.ts:165:2"
+        "callee": "src/webview/panel.ts:233:2"
       },
       {
-        "caller": "src/extension.ts:321:62",
-        "callee": "src/webview/panel.ts:165:2"
-      },
-      {
-        "caller": "src/extension.ts:332:15",
-        "callee": "src/webview/panel.ts:165:2"
-      },
-      {
-        "caller": "src/extension.ts:339:64",
-        "callee": "src/webview/panel.ts:165:2"
+        "caller": "src/extension.ts:340:62",
+        "callee": "src/webview/panel.ts:233:2"
       },
       {
         "caller": "src/extension.ts:351:15",
-        "callee": "src/webview/panel.ts:165:2"
+        "callee": "src/webview/panel.ts:233:2"
       },
       {
-        "caller": "src/extension.ts:382:14",
-        "callee": "src/webview/panel.ts:165:2"
+        "caller": "src/extension.ts:358:64",
+        "callee": "src/webview/panel.ts:233:2"
       },
       {
-        "caller": "src/extension.ts:413:15",
-        "callee": "src/webview/panel.ts:165:2"
+        "caller": "src/extension.ts:370:15",
+        "callee": "src/webview/panel.ts:233:2"
       },
       {
-        "caller": "src/extension.ts:447:66",
-        "callee": "src/webview/panel.ts:165:2"
+        "caller": "src/extension.ts:401:14",
+        "callee": "src/webview/panel.ts:233:2"
       },
       {
-        "caller": "src/extension.ts:526:27",
-        "callee": "src/webview/panel.ts:165:2"
+        "caller": "src/extension.ts:432:15",
+        "callee": "src/webview/panel.ts:233:2"
+      },
+      {
+        "caller": "src/extension.ts:466:66",
+        "callee": "src/webview/panel.ts:233:2"
+      },
+      {
+        "caller": "src/extension.ts:545:27",
+        "callee": "src/webview/panel.ts:233:2"
       },
       {
         "caller": "src/webview/panel.ts",
-        "callee": "src/webview/panel.ts:153:2"
+        "callee": "src/webview/panel.ts:205:2"
       },
       {
-        "caller": "src/webview/panel.ts:87:2",
-        "callee": "src/webview/panel.ts:153:2"
+        "caller": "src/webview/panel.ts:88:2",
+        "callee": "src/webview/panel.ts:205:2"
       },
       {
-        "caller": "src/webview/panel.ts:118:2",
-        "callee": "src/webview/panel.ts:153:2"
+        "caller": "src/webview/panel.ts:119:2",
+        "callee": "src/webview/panel.ts:205:2"
       },
       {
-        "caller": "src/webview/panel.ts:136:2",
-        "callee": "src/webview/panel.ts:153:2"
+        "caller": "src/webview/panel.ts:137:2",
+        "callee": "src/webview/panel.ts:205:2"
       },
       {
-        "caller": "src/webview/panel.ts:165:2",
-        "callee": "src/webview/panel.ts:153:2"
+        "caller": "src/webview/panel.ts:154:2",
+        "callee": "src/webview/panel.ts:205:2"
       },
       {
-        "caller": "src/webview/panel.ts:187:2",
-        "callee": "src/webview/panel.ts:153:2"
+        "caller": "src/webview/panel.ts:166:2",
+        "callee": "src/webview/panel.ts:205:2"
       },
       {
-        "caller": "src/webview/panel.ts:204:2",
-        "callee": "src/webview/panel.ts:153:2"
+        "caller": "src/webview/panel.ts:188:2",
+        "callee": "src/webview/panel.ts:205:2"
       },
       {
-        "caller": "src/webview/panel.ts:232:2",
-        "callee": "src/webview/panel.ts:153:2"
+        "caller": "src/webview/panel.ts:233:2",
+        "callee": "src/webview/panel.ts:205:2"
       },
       {
-        "caller": "src/webview/panel.ts:260:2",
-        "callee": "src/webview/panel.ts:153:2"
+        "caller": "src/webview/panel.ts:261:2",
+        "callee": "src/webview/panel.ts:205:2"
       },
       {
-        "caller": "src/webview/panel.ts:297:2",
-        "callee": "src/webview/panel.ts:153:2"
+        "caller": "src/webview/panel.ts:298:2",
+        "callee": "src/webview/panel.ts:205:2"
       },
       {
-        "caller": "src/webview/panel.ts:331:29",
-        "callee": "src/webview/panel.ts:153:2"
+        "caller": "src/webview/panel.ts:332:29",
+        "callee": "src/webview/panel.ts:205:2"
       },
       {
-        "caller": "src/webview/panel.ts:330:43",
-        "callee": "src/webview/panel.ts:153:2"
+        "caller": "src/webview/panel.ts:331:43",
+        "callee": "src/webview/panel.ts:205:2"
       },
       {
-        "caller": "src/webview/panel.ts:360:4",
-        "callee": "src/webview/panel.ts:153:2"
+        "caller": "src/webview/panel.ts:357:2",
+        "callee": "src/webview/panel.ts:205:2"
       },
       {
-        "caller": "src/webview/panel.ts:480:4",
-        "callee": "src/webview/panel.ts:153:2"
+        "caller": "src/webview/panel.ts:367:2",
+        "callee": "src/webview/panel.ts:205:2"
       },
       {
-        "caller": "src/webview/panel.ts:750:2",
-        "callee": "src/webview/panel.ts:153:2"
+        "caller": "src/webview/panel.ts:388:4",
+        "callee": "src/webview/panel.ts:205:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:503:4",
+        "callee": "src/webview/panel.ts:205:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:554:2",
+        "callee": "src/webview/panel.ts:205:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:778:2",
+        "callee": "src/webview/panel.ts:205:2"
       },
       {
         "caller": "src/strategy/server.ts:492:2",
-        "callee": "src/webview/panel.ts:153:2"
+        "callee": "src/webview/panel.ts:205:2"
       },
       {
         "caller": "src/strategy/server.ts:538:2",
-        "callee": "src/webview/panel.ts:153:2"
+        "callee": "src/webview/panel.ts:205:2"
       },
       {
         "caller": "src/webview/appChannelPanel.ts:59:13",
-        "callee": "src/webview/panel.ts:153:2"
+        "callee": "src/webview/panel.ts:205:2"
       },
       {
         "caller": "src/strategy/selfTrace.ts:123:27",
-        "callee": "src/webview/panel.ts:153:2"
+        "callee": "src/webview/panel.ts:205:2"
       },
       {
         "caller": "src/extension.ts:133:68",
-        "callee": "src/webview/panel.ts:153:2"
+        "callee": "src/webview/panel.ts:205:2"
       },
       {
         "caller": "src/extension.ts:180:64",
-        "callee": "src/webview/panel.ts:153:2"
+        "callee": "src/webview/panel.ts:205:2"
+      },
+      {
+        "caller": "src/extension.ts:305:45",
+        "callee": "src/webview/panel.ts:205:2"
       },
       {
         "caller": "src/extension.ts:50:1",
-        "callee": "src/webview/panel.ts:153:2"
+        "callee": "src/webview/panel.ts:205:2"
       },
       {
-        "caller": "src/extension.ts:321:62",
-        "callee": "src/webview/panel.ts:153:2"
-      },
-      {
-        "caller": "src/extension.ts:332:15",
-        "callee": "src/webview/panel.ts:153:2"
-      },
-      {
-        "caller": "src/extension.ts:339:64",
-        "callee": "src/webview/panel.ts:153:2"
+        "caller": "src/extension.ts:340:62",
+        "callee": "src/webview/panel.ts:205:2"
       },
       {
         "caller": "src/extension.ts:351:15",
-        "callee": "src/webview/panel.ts:153:2"
+        "callee": "src/webview/panel.ts:205:2"
       },
       {
-        "caller": "src/extension.ts:382:14",
-        "callee": "src/webview/panel.ts:153:2"
+        "caller": "src/extension.ts:358:64",
+        "callee": "src/webview/panel.ts:205:2"
       },
       {
-        "caller": "src/extension.ts:413:15",
-        "callee": "src/webview/panel.ts:153:2"
+        "caller": "src/extension.ts:370:15",
+        "callee": "src/webview/panel.ts:205:2"
       },
       {
-        "caller": "src/extension.ts:447:66",
-        "callee": "src/webview/panel.ts:153:2"
+        "caller": "src/extension.ts:401:14",
+        "callee": "src/webview/panel.ts:205:2"
       },
       {
-        "caller": "src/extension.ts:526:27",
-        "callee": "src/webview/panel.ts:153:2"
+        "caller": "src/extension.ts:432:15",
+        "callee": "src/webview/panel.ts:205:2"
+      },
+      {
+        "caller": "src/extension.ts:466:66",
+        "callee": "src/webview/panel.ts:205:2"
+      },
+      {
+        "caller": "src/extension.ts:545:27",
+        "callee": "src/webview/panel.ts:205:2"
       },
       {
         "caller": "src/webview/panel.ts",
-        "callee": "src/webview/panel.ts:136:2"
+        "callee": "src/webview/panel.ts:188:2"
       },
       {
-        "caller": "src/webview/panel.ts:87:2",
-        "callee": "src/webview/panel.ts:136:2"
+        "caller": "src/webview/panel.ts:88:2",
+        "callee": "src/webview/panel.ts:188:2"
       },
       {
-        "caller": "src/webview/panel.ts:118:2",
-        "callee": "src/webview/panel.ts:136:2"
+        "caller": "src/webview/panel.ts:119:2",
+        "callee": "src/webview/panel.ts:188:2"
       },
       {
-        "caller": "src/webview/panel.ts:153:2",
-        "callee": "src/webview/panel.ts:136:2"
+        "caller": "src/webview/panel.ts:137:2",
+        "callee": "src/webview/panel.ts:188:2"
       },
       {
-        "caller": "src/webview/panel.ts:165:2",
-        "callee": "src/webview/panel.ts:136:2"
+        "caller": "src/webview/panel.ts:154:2",
+        "callee": "src/webview/panel.ts:188:2"
       },
       {
-        "caller": "src/webview/panel.ts:187:2",
-        "callee": "src/webview/panel.ts:136:2"
+        "caller": "src/webview/panel.ts:166:2",
+        "callee": "src/webview/panel.ts:188:2"
       },
       {
-        "caller": "src/webview/panel.ts:204:2",
-        "callee": "src/webview/panel.ts:136:2"
+        "caller": "src/webview/panel.ts:205:2",
+        "callee": "src/webview/panel.ts:188:2"
       },
       {
-        "caller": "src/webview/panel.ts:232:2",
-        "callee": "src/webview/panel.ts:136:2"
+        "caller": "src/webview/panel.ts:233:2",
+        "callee": "src/webview/panel.ts:188:2"
       },
       {
-        "caller": "src/webview/panel.ts:260:2",
-        "callee": "src/webview/panel.ts:136:2"
+        "caller": "src/webview/panel.ts:261:2",
+        "callee": "src/webview/panel.ts:188:2"
       },
       {
-        "caller": "src/webview/panel.ts:297:2",
-        "callee": "src/webview/panel.ts:136:2"
+        "caller": "src/webview/panel.ts:298:2",
+        "callee": "src/webview/panel.ts:188:2"
       },
       {
-        "caller": "src/webview/panel.ts:331:29",
-        "callee": "src/webview/panel.ts:136:2"
+        "caller": "src/webview/panel.ts:332:29",
+        "callee": "src/webview/panel.ts:188:2"
       },
       {
-        "caller": "src/webview/panel.ts:330:43",
-        "callee": "src/webview/panel.ts:136:2"
+        "caller": "src/webview/panel.ts:331:43",
+        "callee": "src/webview/panel.ts:188:2"
       },
       {
-        "caller": "src/webview/panel.ts:360:4",
-        "callee": "src/webview/panel.ts:136:2"
+        "caller": "src/webview/panel.ts:357:2",
+        "callee": "src/webview/panel.ts:188:2"
       },
       {
-        "caller": "src/webview/panel.ts:480:4",
-        "callee": "src/webview/panel.ts:136:2"
+        "caller": "src/webview/panel.ts:367:2",
+        "callee": "src/webview/panel.ts:188:2"
       },
       {
-        "caller": "src/webview/panel.ts:750:2",
-        "callee": "src/webview/panel.ts:136:2"
+        "caller": "src/webview/panel.ts:388:4",
+        "callee": "src/webview/panel.ts:188:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:503:4",
+        "callee": "src/webview/panel.ts:188:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:554:2",
+        "callee": "src/webview/panel.ts:188:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:778:2",
+        "callee": "src/webview/panel.ts:188:2"
       },
       {
         "caller": "src/strategy/server.ts:492:2",
-        "callee": "src/webview/panel.ts:136:2"
+        "callee": "src/webview/panel.ts:188:2"
       },
       {
         "caller": "src/strategy/server.ts:538:2",
-        "callee": "src/webview/panel.ts:136:2"
+        "callee": "src/webview/panel.ts:188:2"
       },
       {
         "caller": "src/webview/appChannelPanel.ts:59:13",
-        "callee": "src/webview/panel.ts:136:2"
+        "callee": "src/webview/panel.ts:188:2"
       },
       {
         "caller": "src/strategy/selfTrace.ts:123:27",
-        "callee": "src/webview/panel.ts:136:2"
+        "callee": "src/webview/panel.ts:188:2"
       },
       {
         "caller": "src/extension.ts:133:68",
-        "callee": "src/webview/panel.ts:136:2"
+        "callee": "src/webview/panel.ts:188:2"
       },
       {
         "caller": "src/extension.ts:180:64",
-        "callee": "src/webview/panel.ts:136:2"
+        "callee": "src/webview/panel.ts:188:2"
+      },
+      {
+        "caller": "src/extension.ts:305:45",
+        "callee": "src/webview/panel.ts:188:2"
       },
       {
         "caller": "src/extension.ts:50:1",
-        "callee": "src/webview/panel.ts:136:2"
+        "callee": "src/webview/panel.ts:188:2"
       },
       {
-        "caller": "src/extension.ts:321:62",
-        "callee": "src/webview/panel.ts:136:2"
-      },
-      {
-        "caller": "src/extension.ts:332:15",
-        "callee": "src/webview/panel.ts:136:2"
-      },
-      {
-        "caller": "src/extension.ts:339:64",
-        "callee": "src/webview/panel.ts:136:2"
+        "caller": "src/extension.ts:340:62",
+        "callee": "src/webview/panel.ts:188:2"
       },
       {
         "caller": "src/extension.ts:351:15",
-        "callee": "src/webview/panel.ts:136:2"
+        "callee": "src/webview/panel.ts:188:2"
       },
       {
-        "caller": "src/extension.ts:382:14",
-        "callee": "src/webview/panel.ts:136:2"
+        "caller": "src/extension.ts:358:64",
+        "callee": "src/webview/panel.ts:188:2"
       },
       {
-        "caller": "src/extension.ts:413:15",
-        "callee": "src/webview/panel.ts:136:2"
+        "caller": "src/extension.ts:370:15",
+        "callee": "src/webview/panel.ts:188:2"
       },
       {
-        "caller": "src/extension.ts:447:66",
-        "callee": "src/webview/panel.ts:136:2"
+        "caller": "src/extension.ts:401:14",
+        "callee": "src/webview/panel.ts:188:2"
       },
       {
-        "caller": "src/extension.ts:526:27",
-        "callee": "src/webview/panel.ts:136:2"
+        "caller": "src/extension.ts:432:15",
+        "callee": "src/webview/panel.ts:188:2"
+      },
+      {
+        "caller": "src/extension.ts:466:66",
+        "callee": "src/webview/panel.ts:188:2"
+      },
+      {
+        "caller": "src/extension.ts:545:27",
+        "callee": "src/webview/panel.ts:188:2"
+      },
+      {
+        "caller": "src/webview/panel.ts",
+        "callee": "src/webview/panel.ts:166:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:88:2",
+        "callee": "src/webview/panel.ts:166:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:119:2",
+        "callee": "src/webview/panel.ts:166:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:137:2",
+        "callee": "src/webview/panel.ts:166:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:154:2",
+        "callee": "src/webview/panel.ts:166:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:188:2",
+        "callee": "src/webview/panel.ts:166:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:205:2",
+        "callee": "src/webview/panel.ts:166:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:233:2",
+        "callee": "src/webview/panel.ts:166:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:261:2",
+        "callee": "src/webview/panel.ts:166:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:298:2",
+        "callee": "src/webview/panel.ts:166:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:332:29",
+        "callee": "src/webview/panel.ts:166:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:331:43",
+        "callee": "src/webview/panel.ts:166:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:357:2",
+        "callee": "src/webview/panel.ts:166:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:367:2",
+        "callee": "src/webview/panel.ts:166:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:388:4",
+        "callee": "src/webview/panel.ts:166:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:503:4",
+        "callee": "src/webview/panel.ts:166:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:554:2",
+        "callee": "src/webview/panel.ts:166:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:778:2",
+        "callee": "src/webview/panel.ts:166:2"
+      },
+      {
+        "caller": "src/strategy/server.ts:492:2",
+        "callee": "src/webview/panel.ts:166:2"
+      },
+      {
+        "caller": "src/strategy/server.ts:538:2",
+        "callee": "src/webview/panel.ts:166:2"
+      },
+      {
+        "caller": "src/webview/appChannelPanel.ts:59:13",
+        "callee": "src/webview/panel.ts:166:2"
+      },
+      {
+        "caller": "src/strategy/selfTrace.ts:123:27",
+        "callee": "src/webview/panel.ts:166:2"
+      },
+      {
+        "caller": "src/extension.ts:133:68",
+        "callee": "src/webview/panel.ts:166:2"
+      },
+      {
+        "caller": "src/extension.ts:180:64",
+        "callee": "src/webview/panel.ts:166:2"
+      },
+      {
+        "caller": "src/extension.ts:305:45",
+        "callee": "src/webview/panel.ts:166:2"
+      },
+      {
+        "caller": "src/extension.ts:50:1",
+        "callee": "src/webview/panel.ts:166:2"
+      },
+      {
+        "caller": "src/extension.ts:340:62",
+        "callee": "src/webview/panel.ts:166:2"
+      },
+      {
+        "caller": "src/extension.ts:351:15",
+        "callee": "src/webview/panel.ts:166:2"
+      },
+      {
+        "caller": "src/extension.ts:358:64",
+        "callee": "src/webview/panel.ts:166:2"
+      },
+      {
+        "caller": "src/extension.ts:370:15",
+        "callee": "src/webview/panel.ts:166:2"
+      },
+      {
+        "caller": "src/extension.ts:401:14",
+        "callee": "src/webview/panel.ts:166:2"
+      },
+      {
+        "caller": "src/extension.ts:432:15",
+        "callee": "src/webview/panel.ts:166:2"
+      },
+      {
+        "caller": "src/extension.ts:466:66",
+        "callee": "src/webview/panel.ts:166:2"
+      },
+      {
+        "caller": "src/extension.ts:545:27",
+        "callee": "src/webview/panel.ts:166:2"
+      },
+      {
+        "caller": "src/webview/panel.ts",
+        "callee": "src/webview/panel.ts:154:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:88:2",
+        "callee": "src/webview/panel.ts:154:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:119:2",
+        "callee": "src/webview/panel.ts:154:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:137:2",
+        "callee": "src/webview/panel.ts:154:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:166:2",
+        "callee": "src/webview/panel.ts:154:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:188:2",
+        "callee": "src/webview/panel.ts:154:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:205:2",
+        "callee": "src/webview/panel.ts:154:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:233:2",
+        "callee": "src/webview/panel.ts:154:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:261:2",
+        "callee": "src/webview/panel.ts:154:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:298:2",
+        "callee": "src/webview/panel.ts:154:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:332:29",
+        "callee": "src/webview/panel.ts:154:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:331:43",
+        "callee": "src/webview/panel.ts:154:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:357:2",
+        "callee": "src/webview/panel.ts:154:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:367:2",
+        "callee": "src/webview/panel.ts:154:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:388:4",
+        "callee": "src/webview/panel.ts:154:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:503:4",
+        "callee": "src/webview/panel.ts:154:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:554:2",
+        "callee": "src/webview/panel.ts:154:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:778:2",
+        "callee": "src/webview/panel.ts:154:2"
+      },
+      {
+        "caller": "src/strategy/server.ts:492:2",
+        "callee": "src/webview/panel.ts:154:2"
+      },
+      {
+        "caller": "src/strategy/server.ts:538:2",
+        "callee": "src/webview/panel.ts:154:2"
+      },
+      {
+        "caller": "src/webview/appChannelPanel.ts:59:13",
+        "callee": "src/webview/panel.ts:154:2"
+      },
+      {
+        "caller": "src/strategy/selfTrace.ts:123:27",
+        "callee": "src/webview/panel.ts:154:2"
+      },
+      {
+        "caller": "src/extension.ts:133:68",
+        "callee": "src/webview/panel.ts:154:2"
+      },
+      {
+        "caller": "src/extension.ts:180:64",
+        "callee": "src/webview/panel.ts:154:2"
+      },
+      {
+        "caller": "src/extension.ts:305:45",
+        "callee": "src/webview/panel.ts:154:2"
+      },
+      {
+        "caller": "src/extension.ts:50:1",
+        "callee": "src/webview/panel.ts:154:2"
+      },
+      {
+        "caller": "src/extension.ts:340:62",
+        "callee": "src/webview/panel.ts:154:2"
+      },
+      {
+        "caller": "src/extension.ts:351:15",
+        "callee": "src/webview/panel.ts:154:2"
+      },
+      {
+        "caller": "src/extension.ts:358:64",
+        "callee": "src/webview/panel.ts:154:2"
+      },
+      {
+        "caller": "src/extension.ts:370:15",
+        "callee": "src/webview/panel.ts:154:2"
+      },
+      {
+        "caller": "src/extension.ts:401:14",
+        "callee": "src/webview/panel.ts:154:2"
+      },
+      {
+        "caller": "src/extension.ts:432:15",
+        "callee": "src/webview/panel.ts:154:2"
+      },
+      {
+        "caller": "src/extension.ts:466:66",
+        "callee": "src/webview/panel.ts:154:2"
+      },
+      {
+        "caller": "src/extension.ts:545:27",
+        "callee": "src/webview/panel.ts:154:2"
+      },
+      {
+        "caller": "src/webview/panel.ts",
+        "callee": "src/webview/panel.ts:137:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:88:2",
+        "callee": "src/webview/panel.ts:137:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:119:2",
+        "callee": "src/webview/panel.ts:137:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:154:2",
+        "callee": "src/webview/panel.ts:137:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:166:2",
+        "callee": "src/webview/panel.ts:137:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:188:2",
+        "callee": "src/webview/panel.ts:137:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:205:2",
+        "callee": "src/webview/panel.ts:137:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:233:2",
+        "callee": "src/webview/panel.ts:137:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:261:2",
+        "callee": "src/webview/panel.ts:137:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:298:2",
+        "callee": "src/webview/panel.ts:137:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:332:29",
+        "callee": "src/webview/panel.ts:137:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:331:43",
+        "callee": "src/webview/panel.ts:137:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:357:2",
+        "callee": "src/webview/panel.ts:137:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:367:2",
+        "callee": "src/webview/panel.ts:137:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:388:4",
+        "callee": "src/webview/panel.ts:137:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:503:4",
+        "callee": "src/webview/panel.ts:137:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:554:2",
+        "callee": "src/webview/panel.ts:137:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:778:2",
+        "callee": "src/webview/panel.ts:137:2"
+      },
+      {
+        "caller": "src/strategy/server.ts:492:2",
+        "callee": "src/webview/panel.ts:137:2"
+      },
+      {
+        "caller": "src/strategy/server.ts:538:2",
+        "callee": "src/webview/panel.ts:137:2"
+      },
+      {
+        "caller": "src/webview/appChannelPanel.ts:59:13",
+        "callee": "src/webview/panel.ts:137:2"
+      },
+      {
+        "caller": "src/strategy/selfTrace.ts:123:27",
+        "callee": "src/webview/panel.ts:137:2"
+      },
+      {
+        "caller": "src/extension.ts:133:68",
+        "callee": "src/webview/panel.ts:137:2"
+      },
+      {
+        "caller": "src/extension.ts:180:64",
+        "callee": "src/webview/panel.ts:137:2"
+      },
+      {
+        "caller": "src/extension.ts:305:45",
+        "callee": "src/webview/panel.ts:137:2"
+      },
+      {
+        "caller": "src/extension.ts:50:1",
+        "callee": "src/webview/panel.ts:137:2"
+      },
+      {
+        "caller": "src/extension.ts:340:62",
+        "callee": "src/webview/panel.ts:137:2"
+      },
+      {
+        "caller": "src/extension.ts:351:15",
+        "callee": "src/webview/panel.ts:137:2"
+      },
+      {
+        "caller": "src/extension.ts:358:64",
+        "callee": "src/webview/panel.ts:137:2"
+      },
+      {
+        "caller": "src/extension.ts:370:15",
+        "callee": "src/webview/panel.ts:137:2"
+      },
+      {
+        "caller": "src/extension.ts:401:14",
+        "callee": "src/webview/panel.ts:137:2"
+      },
+      {
+        "caller": "src/extension.ts:432:15",
+        "callee": "src/webview/panel.ts:137:2"
+      },
+      {
+        "caller": "src/extension.ts:466:66",
+        "callee": "src/webview/panel.ts:137:2"
+      },
+      {
+        "caller": "src/extension.ts:545:27",
+        "callee": "src/webview/panel.ts:137:2"
       },
       {
         "caller": "src/strategy/server.ts",
@@ -2252,618 +2844,558 @@
       },
       {
         "caller": "src/webview/panel.ts",
-        "callee": "src/webview/panel.ts:118:2"
+        "callee": "src/webview/panel.ts:119:2"
       },
       {
-        "caller": "src/webview/panel.ts:87:2",
-        "callee": "src/webview/panel.ts:118:2"
+        "caller": "src/webview/panel.ts:88:2",
+        "callee": "src/webview/panel.ts:119:2"
       },
       {
-        "caller": "src/webview/panel.ts:136:2",
-        "callee": "src/webview/panel.ts:118:2"
+        "caller": "src/webview/panel.ts:137:2",
+        "callee": "src/webview/panel.ts:119:2"
       },
       {
-        "caller": "src/webview/panel.ts:153:2",
-        "callee": "src/webview/panel.ts:118:2"
+        "caller": "src/webview/panel.ts:154:2",
+        "callee": "src/webview/panel.ts:119:2"
       },
       {
-        "caller": "src/webview/panel.ts:165:2",
-        "callee": "src/webview/panel.ts:118:2"
+        "caller": "src/webview/panel.ts:166:2",
+        "callee": "src/webview/panel.ts:119:2"
       },
       {
-        "caller": "src/webview/panel.ts:187:2",
-        "callee": "src/webview/panel.ts:118:2"
+        "caller": "src/webview/panel.ts:188:2",
+        "callee": "src/webview/panel.ts:119:2"
       },
       {
-        "caller": "src/webview/panel.ts:204:2",
-        "callee": "src/webview/panel.ts:118:2"
+        "caller": "src/webview/panel.ts:205:2",
+        "callee": "src/webview/panel.ts:119:2"
       },
       {
-        "caller": "src/webview/panel.ts:232:2",
-        "callee": "src/webview/panel.ts:118:2"
+        "caller": "src/webview/panel.ts:233:2",
+        "callee": "src/webview/panel.ts:119:2"
       },
       {
-        "caller": "src/webview/panel.ts:260:2",
-        "callee": "src/webview/panel.ts:118:2"
+        "caller": "src/webview/panel.ts:261:2",
+        "callee": "src/webview/panel.ts:119:2"
       },
       {
-        "caller": "src/webview/panel.ts:297:2",
-        "callee": "src/webview/panel.ts:118:2"
+        "caller": "src/webview/panel.ts:298:2",
+        "callee": "src/webview/panel.ts:119:2"
       },
       {
-        "caller": "src/webview/panel.ts:331:29",
-        "callee": "src/webview/panel.ts:118:2"
+        "caller": "src/webview/panel.ts:332:29",
+        "callee": "src/webview/panel.ts:119:2"
       },
       {
-        "caller": "src/webview/panel.ts:330:43",
-        "callee": "src/webview/panel.ts:118:2"
+        "caller": "src/webview/panel.ts:331:43",
+        "callee": "src/webview/panel.ts:119:2"
       },
       {
-        "caller": "src/webview/panel.ts:360:4",
-        "callee": "src/webview/panel.ts:118:2"
+        "caller": "src/webview/panel.ts:357:2",
+        "callee": "src/webview/panel.ts:119:2"
       },
       {
-        "caller": "src/webview/panel.ts:480:4",
-        "callee": "src/webview/panel.ts:118:2"
+        "caller": "src/webview/panel.ts:367:2",
+        "callee": "src/webview/panel.ts:119:2"
       },
       {
-        "caller": "src/webview/panel.ts:750:2",
-        "callee": "src/webview/panel.ts:118:2"
+        "caller": "src/webview/panel.ts:388:4",
+        "callee": "src/webview/panel.ts:119:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:503:4",
+        "callee": "src/webview/panel.ts:119:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:554:2",
+        "callee": "src/webview/panel.ts:119:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:778:2",
+        "callee": "src/webview/panel.ts:119:2"
       },
       {
         "caller": "src/strategy/server.ts:492:2",
-        "callee": "src/webview/panel.ts:118:2"
+        "callee": "src/webview/panel.ts:119:2"
       },
       {
         "caller": "src/strategy/server.ts:538:2",
-        "callee": "src/webview/panel.ts:118:2"
+        "callee": "src/webview/panel.ts:119:2"
       },
       {
         "caller": "src/webview/appChannelPanel.ts:59:13",
-        "callee": "src/webview/panel.ts:118:2"
+        "callee": "src/webview/panel.ts:119:2"
       },
       {
         "caller": "src/strategy/selfTrace.ts:123:27",
-        "callee": "src/webview/panel.ts:118:2"
+        "callee": "src/webview/panel.ts:119:2"
       },
       {
         "caller": "src/extension.ts:133:68",
-        "callee": "src/webview/panel.ts:118:2"
+        "callee": "src/webview/panel.ts:119:2"
       },
       {
         "caller": "src/extension.ts:180:64",
-        "callee": "src/webview/panel.ts:118:2"
+        "callee": "src/webview/panel.ts:119:2"
+      },
+      {
+        "caller": "src/extension.ts:305:45",
+        "callee": "src/webview/panel.ts:119:2"
       },
       {
         "caller": "src/extension.ts:50:1",
-        "callee": "src/webview/panel.ts:118:2"
+        "callee": "src/webview/panel.ts:119:2"
       },
       {
-        "caller": "src/extension.ts:321:62",
-        "callee": "src/webview/panel.ts:118:2"
-      },
-      {
-        "caller": "src/extension.ts:332:15",
-        "callee": "src/webview/panel.ts:118:2"
-      },
-      {
-        "caller": "src/extension.ts:339:64",
-        "callee": "src/webview/panel.ts:118:2"
+        "caller": "src/extension.ts:340:62",
+        "callee": "src/webview/panel.ts:119:2"
       },
       {
         "caller": "src/extension.ts:351:15",
-        "callee": "src/webview/panel.ts:118:2"
+        "callee": "src/webview/panel.ts:119:2"
       },
       {
-        "caller": "src/extension.ts:382:14",
-        "callee": "src/webview/panel.ts:118:2"
+        "caller": "src/extension.ts:358:64",
+        "callee": "src/webview/panel.ts:119:2"
       },
       {
-        "caller": "src/extension.ts:413:15",
-        "callee": "src/webview/panel.ts:118:2"
+        "caller": "src/extension.ts:370:15",
+        "callee": "src/webview/panel.ts:119:2"
       },
       {
-        "caller": "src/extension.ts:447:66",
-        "callee": "src/webview/panel.ts:118:2"
+        "caller": "src/extension.ts:401:14",
+        "callee": "src/webview/panel.ts:119:2"
       },
       {
-        "caller": "src/extension.ts:526:27",
-        "callee": "src/webview/panel.ts:118:2"
+        "caller": "src/extension.ts:432:15",
+        "callee": "src/webview/panel.ts:119:2"
+      },
+      {
+        "caller": "src/extension.ts:466:66",
+        "callee": "src/webview/panel.ts:119:2"
+      },
+      {
+        "caller": "src/extension.ts:545:27",
+        "callee": "src/webview/panel.ts:119:2"
       },
       {
         "caller": "src/webview/panel.ts",
-        "callee": "src/webview/panel.ts:87:2"
+        "callee": "src/webview/panel.ts:88:2"
       },
       {
-        "caller": "src/webview/panel.ts:118:2",
-        "callee": "src/webview/panel.ts:87:2"
+        "caller": "src/webview/panel.ts:119:2",
+        "callee": "src/webview/panel.ts:88:2"
       },
       {
-        "caller": "src/webview/panel.ts:136:2",
-        "callee": "src/webview/panel.ts:87:2"
+        "caller": "src/webview/panel.ts:137:2",
+        "callee": "src/webview/panel.ts:88:2"
       },
       {
-        "caller": "src/webview/panel.ts:153:2",
-        "callee": "src/webview/panel.ts:87:2"
+        "caller": "src/webview/panel.ts:154:2",
+        "callee": "src/webview/panel.ts:88:2"
       },
       {
-        "caller": "src/webview/panel.ts:165:2",
-        "callee": "src/webview/panel.ts:87:2"
+        "caller": "src/webview/panel.ts:166:2",
+        "callee": "src/webview/panel.ts:88:2"
       },
       {
-        "caller": "src/webview/panel.ts:187:2",
-        "callee": "src/webview/panel.ts:87:2"
+        "caller": "src/webview/panel.ts:188:2",
+        "callee": "src/webview/panel.ts:88:2"
       },
       {
-        "caller": "src/webview/panel.ts:204:2",
-        "callee": "src/webview/panel.ts:87:2"
+        "caller": "src/webview/panel.ts:205:2",
+        "callee": "src/webview/panel.ts:88:2"
       },
       {
-        "caller": "src/webview/panel.ts:232:2",
-        "callee": "src/webview/panel.ts:87:2"
+        "caller": "src/webview/panel.ts:233:2",
+        "callee": "src/webview/panel.ts:88:2"
       },
       {
-        "caller": "src/webview/panel.ts:260:2",
-        "callee": "src/webview/panel.ts:87:2"
+        "caller": "src/webview/panel.ts:261:2",
+        "callee": "src/webview/panel.ts:88:2"
       },
       {
-        "caller": "src/webview/panel.ts:297:2",
-        "callee": "src/webview/panel.ts:87:2"
+        "caller": "src/webview/panel.ts:298:2",
+        "callee": "src/webview/panel.ts:88:2"
       },
       {
-        "caller": "src/webview/panel.ts:331:29",
-        "callee": "src/webview/panel.ts:87:2"
+        "caller": "src/webview/panel.ts:332:29",
+        "callee": "src/webview/panel.ts:88:2"
       },
       {
-        "caller": "src/webview/panel.ts:330:43",
-        "callee": "src/webview/panel.ts:87:2"
+        "caller": "src/webview/panel.ts:331:43",
+        "callee": "src/webview/panel.ts:88:2"
       },
       {
-        "caller": "src/webview/panel.ts:360:4",
-        "callee": "src/webview/panel.ts:87:2"
+        "caller": "src/webview/panel.ts:357:2",
+        "callee": "src/webview/panel.ts:88:2"
       },
       {
-        "caller": "src/webview/panel.ts:480:4",
-        "callee": "src/webview/panel.ts:87:2"
+        "caller": "src/webview/panel.ts:367:2",
+        "callee": "src/webview/panel.ts:88:2"
       },
       {
-        "caller": "src/webview/panel.ts:750:2",
-        "callee": "src/webview/panel.ts:87:2"
+        "caller": "src/webview/panel.ts:388:4",
+        "callee": "src/webview/panel.ts:88:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:503:4",
+        "callee": "src/webview/panel.ts:88:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:554:2",
+        "callee": "src/webview/panel.ts:88:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:778:2",
+        "callee": "src/webview/panel.ts:88:2"
       },
       {
         "caller": "src/strategy/server.ts:492:2",
-        "callee": "src/webview/panel.ts:87:2"
+        "callee": "src/webview/panel.ts:88:2"
       },
       {
         "caller": "src/strategy/server.ts:538:2",
-        "callee": "src/webview/panel.ts:87:2"
+        "callee": "src/webview/panel.ts:88:2"
       },
       {
         "caller": "src/webview/appChannelPanel.ts:59:13",
-        "callee": "src/webview/panel.ts:87:2"
+        "callee": "src/webview/panel.ts:88:2"
       },
       {
         "caller": "src/strategy/selfTrace.ts:123:27",
-        "callee": "src/webview/panel.ts:87:2"
+        "callee": "src/webview/panel.ts:88:2"
       },
       {
         "caller": "src/extension.ts:133:68",
-        "callee": "src/webview/panel.ts:87:2"
+        "callee": "src/webview/panel.ts:88:2"
       },
       {
         "caller": "src/extension.ts:180:64",
-        "callee": "src/webview/panel.ts:87:2"
+        "callee": "src/webview/panel.ts:88:2"
+      },
+      {
+        "caller": "src/extension.ts:305:45",
+        "callee": "src/webview/panel.ts:88:2"
       },
       {
         "caller": "src/extension.ts:50:1",
-        "callee": "src/webview/panel.ts:87:2"
+        "callee": "src/webview/panel.ts:88:2"
       },
       {
-        "caller": "src/extension.ts:321:62",
-        "callee": "src/webview/panel.ts:87:2"
-      },
-      {
-        "caller": "src/extension.ts:332:15",
-        "callee": "src/webview/panel.ts:87:2"
-      },
-      {
-        "caller": "src/extension.ts:339:64",
-        "callee": "src/webview/panel.ts:87:2"
+        "caller": "src/extension.ts:340:62",
+        "callee": "src/webview/panel.ts:88:2"
       },
       {
         "caller": "src/extension.ts:351:15",
-        "callee": "src/webview/panel.ts:87:2"
+        "callee": "src/webview/panel.ts:88:2"
       },
       {
-        "caller": "src/extension.ts:382:14",
-        "callee": "src/webview/panel.ts:87:2"
+        "caller": "src/extension.ts:358:64",
+        "callee": "src/webview/panel.ts:88:2"
       },
       {
-        "caller": "src/extension.ts:413:15",
-        "callee": "src/webview/panel.ts:87:2"
+        "caller": "src/extension.ts:370:15",
+        "callee": "src/webview/panel.ts:88:2"
       },
       {
-        "caller": "src/extension.ts:447:66",
-        "callee": "src/webview/panel.ts:87:2"
+        "caller": "src/extension.ts:401:14",
+        "callee": "src/webview/panel.ts:88:2"
       },
       {
-        "caller": "src/extension.ts:526:27",
-        "callee": "src/webview/panel.ts:87:2"
+        "caller": "src/extension.ts:432:15",
+        "callee": "src/webview/panel.ts:88:2"
+      },
+      {
+        "caller": "src/extension.ts:466:66",
+        "callee": "src/webview/panel.ts:88:2"
+      },
+      {
+        "caller": "src/extension.ts:545:27",
+        "callee": "src/webview/panel.ts:88:2"
       },
       {
         "caller": "src/webview/panel.ts",
-        "callee": "src/webview/panel.ts:622:2"
+        "callee": "src/webview/panel.ts:650:2"
       },
       {
-        "caller": "src/webview/panel.ts:87:2",
-        "callee": "src/webview/panel.ts:622:2"
+        "caller": "src/webview/panel.ts:88:2",
+        "callee": "src/webview/panel.ts:650:2"
       },
       {
-        "caller": "src/webview/panel.ts:118:2",
-        "callee": "src/webview/panel.ts:622:2"
+        "caller": "src/webview/panel.ts:119:2",
+        "callee": "src/webview/panel.ts:650:2"
       },
       {
-        "caller": "src/webview/panel.ts:136:2",
-        "callee": "src/webview/panel.ts:622:2"
+        "caller": "src/webview/panel.ts:137:2",
+        "callee": "src/webview/panel.ts:650:2"
       },
       {
-        "caller": "src/webview/panel.ts:153:2",
-        "callee": "src/webview/panel.ts:622:2"
+        "caller": "src/webview/panel.ts:154:2",
+        "callee": "src/webview/panel.ts:650:2"
       },
       {
-        "caller": "src/webview/panel.ts:165:2",
-        "callee": "src/webview/panel.ts:622:2"
+        "caller": "src/webview/panel.ts:166:2",
+        "callee": "src/webview/panel.ts:650:2"
       },
       {
-        "caller": "src/webview/panel.ts:187:2",
-        "callee": "src/webview/panel.ts:622:2"
+        "caller": "src/webview/panel.ts:188:2",
+        "callee": "src/webview/panel.ts:650:2"
       },
       {
-        "caller": "src/webview/panel.ts:204:2",
-        "callee": "src/webview/panel.ts:622:2"
+        "caller": "src/webview/panel.ts:205:2",
+        "callee": "src/webview/panel.ts:650:2"
       },
       {
-        "caller": "src/webview/panel.ts:232:2",
-        "callee": "src/webview/panel.ts:622:2"
+        "caller": "src/webview/panel.ts:233:2",
+        "callee": "src/webview/panel.ts:650:2"
       },
       {
-        "caller": "src/webview/panel.ts:260:2",
-        "callee": "src/webview/panel.ts:622:2"
+        "caller": "src/webview/panel.ts:261:2",
+        "callee": "src/webview/panel.ts:650:2"
       },
       {
-        "caller": "src/webview/panel.ts:297:2",
-        "callee": "src/webview/panel.ts:622:2"
+        "caller": "src/webview/panel.ts:298:2",
+        "callee": "src/webview/panel.ts:650:2"
       },
       {
-        "caller": "src/webview/panel.ts:331:29",
-        "callee": "src/webview/panel.ts:622:2"
+        "caller": "src/webview/panel.ts:332:29",
+        "callee": "src/webview/panel.ts:650:2"
       },
       {
-        "caller": "src/webview/panel.ts:330:43",
-        "callee": "src/webview/panel.ts:622:2"
+        "caller": "src/webview/panel.ts:331:43",
+        "callee": "src/webview/panel.ts:650:2"
       },
       {
-        "caller": "src/webview/panel.ts:360:4",
-        "callee": "src/webview/panel.ts:622:2"
+        "caller": "src/webview/panel.ts:357:2",
+        "callee": "src/webview/panel.ts:650:2"
       },
       {
-        "caller": "src/webview/panel.ts:480:4",
-        "callee": "src/webview/panel.ts:622:2"
+        "caller": "src/webview/panel.ts:367:2",
+        "callee": "src/webview/panel.ts:650:2"
       },
       {
-        "caller": "src/webview/panel.ts:750:2",
-        "callee": "src/webview/panel.ts:622:2"
+        "caller": "src/webview/panel.ts:388:4",
+        "callee": "src/webview/panel.ts:650:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:503:4",
+        "callee": "src/webview/panel.ts:650:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:554:2",
+        "callee": "src/webview/panel.ts:650:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:778:2",
+        "callee": "src/webview/panel.ts:650:2"
       },
       {
         "caller": "src/strategy/server.ts:492:2",
-        "callee": "src/webview/panel.ts:622:2"
+        "callee": "src/webview/panel.ts:650:2"
       },
       {
         "caller": "src/strategy/server.ts:538:2",
-        "callee": "src/webview/panel.ts:622:2"
+        "callee": "src/webview/panel.ts:650:2"
       },
       {
         "caller": "src/webview/appChannelPanel.ts:59:13",
-        "callee": "src/webview/panel.ts:622:2"
+        "callee": "src/webview/panel.ts:650:2"
       },
       {
         "caller": "src/strategy/selfTrace.ts:123:27",
-        "callee": "src/webview/panel.ts:622:2"
+        "callee": "src/webview/panel.ts:650:2"
       },
       {
         "caller": "src/extension.ts:133:68",
-        "callee": "src/webview/panel.ts:622:2"
+        "callee": "src/webview/panel.ts:650:2"
       },
       {
         "caller": "src/extension.ts:180:64",
-        "callee": "src/webview/panel.ts:622:2"
+        "callee": "src/webview/panel.ts:650:2"
+      },
+      {
+        "caller": "src/extension.ts:305:45",
+        "callee": "src/webview/panel.ts:650:2"
       },
       {
         "caller": "src/extension.ts:50:1",
-        "callee": "src/webview/panel.ts:622:2"
+        "callee": "src/webview/panel.ts:650:2"
       },
       {
-        "caller": "src/extension.ts:321:62",
-        "callee": "src/webview/panel.ts:622:2"
-      },
-      {
-        "caller": "src/extension.ts:332:15",
-        "callee": "src/webview/panel.ts:622:2"
-      },
-      {
-        "caller": "src/extension.ts:339:64",
-        "callee": "src/webview/panel.ts:622:2"
+        "caller": "src/extension.ts:340:62",
+        "callee": "src/webview/panel.ts:650:2"
       },
       {
         "caller": "src/extension.ts:351:15",
-        "callee": "src/webview/panel.ts:622:2"
+        "callee": "src/webview/panel.ts:650:2"
       },
       {
-        "caller": "src/extension.ts:382:14",
-        "callee": "src/webview/panel.ts:622:2"
+        "caller": "src/extension.ts:358:64",
+        "callee": "src/webview/panel.ts:650:2"
       },
       {
-        "caller": "src/extension.ts:413:15",
-        "callee": "src/webview/panel.ts:622:2"
+        "caller": "src/extension.ts:370:15",
+        "callee": "src/webview/panel.ts:650:2"
       },
       {
-        "caller": "src/extension.ts:447:66",
-        "callee": "src/webview/panel.ts:622:2"
+        "caller": "src/extension.ts:401:14",
+        "callee": "src/webview/panel.ts:650:2"
       },
       {
-        "caller": "src/extension.ts:526:27",
-        "callee": "src/webview/panel.ts:622:2"
+        "caller": "src/extension.ts:432:15",
+        "callee": "src/webview/panel.ts:650:2"
+      },
+      {
+        "caller": "src/extension.ts:466:66",
+        "callee": "src/webview/panel.ts:650:2"
+      },
+      {
+        "caller": "src/extension.ts:545:27",
+        "callee": "src/webview/panel.ts:650:2"
       },
       {
         "caller": "src/webview/panel.ts",
-        "callee": "src/webview/panel.ts:578:2"
+        "callee": "src/webview/panel.ts:606:2"
       },
       {
-        "caller": "src/webview/panel.ts:87:2",
-        "callee": "src/webview/panel.ts:578:2"
+        "caller": "src/webview/panel.ts:88:2",
+        "callee": "src/webview/panel.ts:606:2"
       },
       {
-        "caller": "src/webview/panel.ts:118:2",
-        "callee": "src/webview/panel.ts:578:2"
+        "caller": "src/webview/panel.ts:119:2",
+        "callee": "src/webview/panel.ts:606:2"
       },
       {
-        "caller": "src/webview/panel.ts:136:2",
-        "callee": "src/webview/panel.ts:578:2"
+        "caller": "src/webview/panel.ts:137:2",
+        "callee": "src/webview/panel.ts:606:2"
       },
       {
-        "caller": "src/webview/panel.ts:153:2",
-        "callee": "src/webview/panel.ts:578:2"
+        "caller": "src/webview/panel.ts:154:2",
+        "callee": "src/webview/panel.ts:606:2"
       },
       {
-        "caller": "src/webview/panel.ts:165:2",
-        "callee": "src/webview/panel.ts:578:2"
+        "caller": "src/webview/panel.ts:166:2",
+        "callee": "src/webview/panel.ts:606:2"
       },
       {
-        "caller": "src/webview/panel.ts:187:2",
-        "callee": "src/webview/panel.ts:578:2"
+        "caller": "src/webview/panel.ts:188:2",
+        "callee": "src/webview/panel.ts:606:2"
       },
       {
-        "caller": "src/webview/panel.ts:204:2",
-        "callee": "src/webview/panel.ts:578:2"
+        "caller": "src/webview/panel.ts:205:2",
+        "callee": "src/webview/panel.ts:606:2"
       },
       {
-        "caller": "src/webview/panel.ts:232:2",
-        "callee": "src/webview/panel.ts:578:2"
+        "caller": "src/webview/panel.ts:233:2",
+        "callee": "src/webview/panel.ts:606:2"
       },
       {
-        "caller": "src/webview/panel.ts:260:2",
-        "callee": "src/webview/panel.ts:578:2"
+        "caller": "src/webview/panel.ts:261:2",
+        "callee": "src/webview/panel.ts:606:2"
       },
       {
-        "caller": "src/webview/panel.ts:297:2",
-        "callee": "src/webview/panel.ts:578:2"
+        "caller": "src/webview/panel.ts:298:2",
+        "callee": "src/webview/panel.ts:606:2"
       },
       {
-        "caller": "src/webview/panel.ts:331:29",
-        "callee": "src/webview/panel.ts:578:2"
+        "caller": "src/webview/panel.ts:332:29",
+        "callee": "src/webview/panel.ts:606:2"
       },
       {
-        "caller": "src/webview/panel.ts:330:43",
-        "callee": "src/webview/panel.ts:578:2"
+        "caller": "src/webview/panel.ts:331:43",
+        "callee": "src/webview/panel.ts:606:2"
       },
       {
-        "caller": "src/webview/panel.ts:360:4",
-        "callee": "src/webview/panel.ts:578:2"
+        "caller": "src/webview/panel.ts:357:2",
+        "callee": "src/webview/panel.ts:606:2"
       },
       {
-        "caller": "src/webview/panel.ts:480:4",
-        "callee": "src/webview/panel.ts:578:2"
+        "caller": "src/webview/panel.ts:367:2",
+        "callee": "src/webview/panel.ts:606:2"
       },
       {
-        "caller": "src/webview/panel.ts:750:2",
-        "callee": "src/webview/panel.ts:578:2"
+        "caller": "src/webview/panel.ts:388:4",
+        "callee": "src/webview/panel.ts:606:2"
       },
       {
-        "caller": "src/strategy/server.ts:492:2",
-        "callee": "src/webview/panel.ts:578:2"
+        "caller": "src/webview/panel.ts:503:4",
+        "callee": "src/webview/panel.ts:606:2"
       },
       {
-        "caller": "src/strategy/server.ts:538:2",
-        "callee": "src/webview/panel.ts:578:2"
+        "caller": "src/webview/panel.ts:554:2",
+        "callee": "src/webview/panel.ts:606:2"
       },
       {
-        "caller": "src/webview/appChannelPanel.ts:59:13",
-        "callee": "src/webview/panel.ts:578:2"
-      },
-      {
-        "caller": "src/strategy/selfTrace.ts:123:27",
-        "callee": "src/webview/panel.ts:578:2"
-      },
-      {
-        "caller": "src/extension.ts:133:68",
-        "callee": "src/webview/panel.ts:578:2"
-      },
-      {
-        "caller": "src/extension.ts:180:64",
-        "callee": "src/webview/panel.ts:578:2"
-      },
-      {
-        "caller": "src/extension.ts:50:1",
-        "callee": "src/webview/panel.ts:578:2"
-      },
-      {
-        "caller": "src/extension.ts:321:62",
-        "callee": "src/webview/panel.ts:578:2"
-      },
-      {
-        "caller": "src/extension.ts:332:15",
-        "callee": "src/webview/panel.ts:578:2"
-      },
-      {
-        "caller": "src/extension.ts:339:64",
-        "callee": "src/webview/panel.ts:578:2"
-      },
-      {
-        "caller": "src/extension.ts:351:15",
-        "callee": "src/webview/panel.ts:578:2"
-      },
-      {
-        "caller": "src/extension.ts:382:14",
-        "callee": "src/webview/panel.ts:578:2"
-      },
-      {
-        "caller": "src/extension.ts:413:15",
-        "callee": "src/webview/panel.ts:578:2"
-      },
-      {
-        "caller": "src/extension.ts:447:66",
-        "callee": "src/webview/panel.ts:578:2"
-      },
-      {
-        "caller": "src/extension.ts:526:27",
-        "callee": "src/webview/panel.ts:578:2"
-      },
-      {
-        "caller": "src/webview/panel.ts",
-        "callee": "src/webview/panel.ts:527:2"
-      },
-      {
-        "caller": "src/webview/panel.ts:87:2",
-        "callee": "src/webview/panel.ts:527:2"
-      },
-      {
-        "caller": "src/webview/panel.ts:118:2",
-        "callee": "src/webview/panel.ts:527:2"
-      },
-      {
-        "caller": "src/webview/panel.ts:136:2",
-        "callee": "src/webview/panel.ts:527:2"
-      },
-      {
-        "caller": "src/webview/panel.ts:153:2",
-        "callee": "src/webview/panel.ts:527:2"
-      },
-      {
-        "caller": "src/webview/panel.ts:165:2",
-        "callee": "src/webview/panel.ts:527:2"
-      },
-      {
-        "caller": "src/webview/panel.ts:187:2",
-        "callee": "src/webview/panel.ts:527:2"
-      },
-      {
-        "caller": "src/webview/panel.ts:204:2",
-        "callee": "src/webview/panel.ts:527:2"
-      },
-      {
-        "caller": "src/webview/panel.ts:232:2",
-        "callee": "src/webview/panel.ts:527:2"
-      },
-      {
-        "caller": "src/webview/panel.ts:260:2",
-        "callee": "src/webview/panel.ts:527:2"
-      },
-      {
-        "caller": "src/webview/panel.ts:297:2",
-        "callee": "src/webview/panel.ts:527:2"
-      },
-      {
-        "caller": "src/webview/panel.ts:331:29",
-        "callee": "src/webview/panel.ts:527:2"
-      },
-      {
-        "caller": "src/webview/panel.ts:330:43",
-        "callee": "src/webview/panel.ts:527:2"
-      },
-      {
-        "caller": "src/webview/panel.ts:360:4",
-        "callee": "src/webview/panel.ts:527:2"
-      },
-      {
-        "caller": "src/webview/panel.ts:480:4",
-        "callee": "src/webview/panel.ts:527:2"
-      },
-      {
-        "caller": "src/webview/panel.ts:750:2",
-        "callee": "src/webview/panel.ts:527:2"
+        "caller": "src/webview/panel.ts:778:2",
+        "callee": "src/webview/panel.ts:606:2"
       },
       {
         "caller": "src/strategy/server.ts:492:2",
-        "callee": "src/webview/panel.ts:527:2"
+        "callee": "src/webview/panel.ts:606:2"
       },
       {
         "caller": "src/strategy/server.ts:538:2",
-        "callee": "src/webview/panel.ts:527:2"
+        "callee": "src/webview/panel.ts:606:2"
       },
       {
         "caller": "src/webview/appChannelPanel.ts:59:13",
-        "callee": "src/webview/panel.ts:527:2"
+        "callee": "src/webview/panel.ts:606:2"
       },
       {
         "caller": "src/strategy/selfTrace.ts:123:27",
-        "callee": "src/webview/panel.ts:527:2"
+        "callee": "src/webview/panel.ts:606:2"
       },
       {
         "caller": "src/extension.ts:133:68",
-        "callee": "src/webview/panel.ts:527:2"
+        "callee": "src/webview/panel.ts:606:2"
       },
       {
         "caller": "src/extension.ts:180:64",
-        "callee": "src/webview/panel.ts:527:2"
+        "callee": "src/webview/panel.ts:606:2"
+      },
+      {
+        "caller": "src/extension.ts:305:45",
+        "callee": "src/webview/panel.ts:606:2"
       },
       {
         "caller": "src/extension.ts:50:1",
-        "callee": "src/webview/panel.ts:527:2"
+        "callee": "src/webview/panel.ts:606:2"
       },
       {
-        "caller": "src/extension.ts:321:62",
-        "callee": "src/webview/panel.ts:527:2"
-      },
-      {
-        "caller": "src/extension.ts:332:15",
-        "callee": "src/webview/panel.ts:527:2"
-      },
-      {
-        "caller": "src/extension.ts:339:64",
-        "callee": "src/webview/panel.ts:527:2"
+        "caller": "src/extension.ts:340:62",
+        "callee": "src/webview/panel.ts:606:2"
       },
       {
         "caller": "src/extension.ts:351:15",
-        "callee": "src/webview/panel.ts:527:2"
+        "callee": "src/webview/panel.ts:606:2"
       },
       {
-        "caller": "src/extension.ts:382:14",
-        "callee": "src/webview/panel.ts:527:2"
+        "caller": "src/extension.ts:358:64",
+        "callee": "src/webview/panel.ts:606:2"
       },
       {
-        "caller": "src/extension.ts:413:15",
-        "callee": "src/webview/panel.ts:527:2"
+        "caller": "src/extension.ts:370:15",
+        "callee": "src/webview/panel.ts:606:2"
       },
       {
-        "caller": "src/extension.ts:447:66",
-        "callee": "src/webview/panel.ts:527:2"
+        "caller": "src/extension.ts:401:14",
+        "callee": "src/webview/panel.ts:606:2"
       },
       {
-        "caller": "src/extension.ts:526:27",
-        "callee": "src/webview/panel.ts:527:2"
+        "caller": "src/extension.ts:432:15",
+        "callee": "src/webview/panel.ts:606:2"
       },
       {
-        "caller": "src/webview/panel.ts:527:2",
+        "caller": "src/extension.ts:466:66",
+        "callee": "src/webview/panel.ts:606:2"
+      },
+      {
+        "caller": "src/extension.ts:545:27",
+        "callee": "src/webview/panel.ts:606:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:554:2",
         "callee": "src/core/SceneBuilder.ts:26:1"
       },
       {
@@ -3231,132 +3763,148 @@
         "callee": "src/core/MainOrchestrator.ts:145:2"
       },
       {
-        "caller": "src/webview/panel.ts:495:2",
+        "caller": "src/webview/panel.ts:522:2",
         "callee": "src/core/graphDataLoader.ts:22:1"
       },
       {
         "caller": "src/webview/panel.ts",
-        "callee": "src/webview/panel.ts:495:2"
+        "callee": "src/webview/panel.ts:522:2"
       },
       {
-        "caller": "src/webview/panel.ts:87:2",
-        "callee": "src/webview/panel.ts:495:2"
+        "caller": "src/webview/panel.ts:88:2",
+        "callee": "src/webview/panel.ts:522:2"
       },
       {
-        "caller": "src/webview/panel.ts:118:2",
-        "callee": "src/webview/panel.ts:495:2"
+        "caller": "src/webview/panel.ts:119:2",
+        "callee": "src/webview/panel.ts:522:2"
       },
       {
-        "caller": "src/webview/panel.ts:136:2",
-        "callee": "src/webview/panel.ts:495:2"
+        "caller": "src/webview/panel.ts:137:2",
+        "callee": "src/webview/panel.ts:522:2"
       },
       {
-        "caller": "src/webview/panel.ts:153:2",
-        "callee": "src/webview/panel.ts:495:2"
+        "caller": "src/webview/panel.ts:154:2",
+        "callee": "src/webview/panel.ts:522:2"
       },
       {
-        "caller": "src/webview/panel.ts:165:2",
-        "callee": "src/webview/panel.ts:495:2"
+        "caller": "src/webview/panel.ts:166:2",
+        "callee": "src/webview/panel.ts:522:2"
       },
       {
-        "caller": "src/webview/panel.ts:187:2",
-        "callee": "src/webview/panel.ts:495:2"
+        "caller": "src/webview/panel.ts:188:2",
+        "callee": "src/webview/panel.ts:522:2"
       },
       {
-        "caller": "src/webview/panel.ts:204:2",
-        "callee": "src/webview/panel.ts:495:2"
+        "caller": "src/webview/panel.ts:205:2",
+        "callee": "src/webview/panel.ts:522:2"
       },
       {
-        "caller": "src/webview/panel.ts:232:2",
-        "callee": "src/webview/panel.ts:495:2"
+        "caller": "src/webview/panel.ts:233:2",
+        "callee": "src/webview/panel.ts:522:2"
       },
       {
-        "caller": "src/webview/panel.ts:260:2",
-        "callee": "src/webview/panel.ts:495:2"
+        "caller": "src/webview/panel.ts:261:2",
+        "callee": "src/webview/panel.ts:522:2"
       },
       {
-        "caller": "src/webview/panel.ts:297:2",
-        "callee": "src/webview/panel.ts:495:2"
+        "caller": "src/webview/panel.ts:298:2",
+        "callee": "src/webview/panel.ts:522:2"
       },
       {
-        "caller": "src/webview/panel.ts:331:29",
-        "callee": "src/webview/panel.ts:495:2"
+        "caller": "src/webview/panel.ts:332:29",
+        "callee": "src/webview/panel.ts:522:2"
       },
       {
-        "caller": "src/webview/panel.ts:330:43",
-        "callee": "src/webview/panel.ts:495:2"
+        "caller": "src/webview/panel.ts:331:43",
+        "callee": "src/webview/panel.ts:522:2"
       },
       {
-        "caller": "src/webview/panel.ts:360:4",
-        "callee": "src/webview/panel.ts:495:2"
+        "caller": "src/webview/panel.ts:357:2",
+        "callee": "src/webview/panel.ts:522:2"
       },
       {
-        "caller": "src/webview/panel.ts:480:4",
-        "callee": "src/webview/panel.ts:495:2"
+        "caller": "src/webview/panel.ts:367:2",
+        "callee": "src/webview/panel.ts:522:2"
       },
       {
-        "caller": "src/webview/panel.ts:750:2",
-        "callee": "src/webview/panel.ts:495:2"
+        "caller": "src/webview/panel.ts:388:4",
+        "callee": "src/webview/panel.ts:522:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:503:4",
+        "callee": "src/webview/panel.ts:522:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:554:2",
+        "callee": "src/webview/panel.ts:522:2"
+      },
+      {
+        "caller": "src/webview/panel.ts:778:2",
+        "callee": "src/webview/panel.ts:522:2"
       },
       {
         "caller": "src/strategy/server.ts:492:2",
-        "callee": "src/webview/panel.ts:495:2"
+        "callee": "src/webview/panel.ts:522:2"
       },
       {
         "caller": "src/strategy/server.ts:538:2",
-        "callee": "src/webview/panel.ts:495:2"
+        "callee": "src/webview/panel.ts:522:2"
       },
       {
         "caller": "src/webview/appChannelPanel.ts:59:13",
-        "callee": "src/webview/panel.ts:495:2"
+        "callee": "src/webview/panel.ts:522:2"
       },
       {
         "caller": "src/strategy/selfTrace.ts:123:27",
-        "callee": "src/webview/panel.ts:495:2"
+        "callee": "src/webview/panel.ts:522:2"
       },
       {
         "caller": "src/extension.ts:133:68",
-        "callee": "src/webview/panel.ts:495:2"
+        "callee": "src/webview/panel.ts:522:2"
       },
       {
         "caller": "src/extension.ts:180:64",
-        "callee": "src/webview/panel.ts:495:2"
+        "callee": "src/webview/panel.ts:522:2"
+      },
+      {
+        "caller": "src/extension.ts:305:45",
+        "callee": "src/webview/panel.ts:522:2"
       },
       {
         "caller": "src/extension.ts:50:1",
-        "callee": "src/webview/panel.ts:495:2"
+        "callee": "src/webview/panel.ts:522:2"
       },
       {
-        "caller": "src/extension.ts:321:62",
-        "callee": "src/webview/panel.ts:495:2"
-      },
-      {
-        "caller": "src/extension.ts:332:15",
-        "callee": "src/webview/panel.ts:495:2"
-      },
-      {
-        "caller": "src/extension.ts:339:64",
-        "callee": "src/webview/panel.ts:495:2"
+        "caller": "src/extension.ts:340:62",
+        "callee": "src/webview/panel.ts:522:2"
       },
       {
         "caller": "src/extension.ts:351:15",
-        "callee": "src/webview/panel.ts:495:2"
+        "callee": "src/webview/panel.ts:522:2"
       },
       {
-        "caller": "src/extension.ts:382:14",
-        "callee": "src/webview/panel.ts:495:2"
+        "caller": "src/extension.ts:358:64",
+        "callee": "src/webview/panel.ts:522:2"
       },
       {
-        "caller": "src/extension.ts:413:15",
-        "callee": "src/webview/panel.ts:495:2"
+        "caller": "src/extension.ts:370:15",
+        "callee": "src/webview/panel.ts:522:2"
       },
       {
-        "caller": "src/extension.ts:447:66",
-        "callee": "src/webview/panel.ts:495:2"
+        "caller": "src/extension.ts:401:14",
+        "callee": "src/webview/panel.ts:522:2"
       },
       {
-        "caller": "src/extension.ts:526:27",
-        "callee": "src/webview/panel.ts:495:2"
+        "caller": "src/extension.ts:432:15",
+        "callee": "src/webview/panel.ts:522:2"
+      },
+      {
+        "caller": "src/extension.ts:466:66",
+        "callee": "src/webview/panel.ts:522:2"
+      },
+      {
+        "caller": "src/extension.ts:545:27",
+        "callee": "src/webview/panel.ts:522:2"
       },
       {
         "caller": "src/core/MainOrchestrator.ts:145:2",
@@ -3511,15 +4059,15 @@
         "callee": "src/services/LoggerService.ts:307:1"
       },
       {
-        "caller": "src/extension.ts:722:1",
+        "caller": "src/extension.ts:741:1",
         "callee": "src/services/LoggerService.ts:307:1"
       },
       {
-        "caller": "src/extension.ts:766:1",
+        "caller": "src/extension.ts:785:1",
         "callee": "src/services/LoggerService.ts:307:1"
       },
       {
-        "caller": "src/extension.ts:779:1",
+        "caller": "src/extension.ts:798:1",
         "callee": "src/services/LoggerService.ts:307:1"
       },
       {
@@ -3567,20 +4115,20 @@
         "callee": "src/models/Definition.ts"
       },
       {
-        "caller": "src/extension.ts:667:22",
-        "callee": "src/extension.ts:766:1"
+        "caller": "src/extension.ts:686:22",
+        "callee": "src/extension.ts:785:1"
       },
       {
-        "caller": "src/extension.ts:670:22",
-        "callee": "src/extension.ts:766:1"
+        "caller": "src/extension.ts:689:22",
+        "callee": "src/extension.ts:785:1"
       },
       {
         "caller": "src/extension.ts",
-        "callee": "src/extension.ts:722:1"
+        "callee": "src/extension.ts:741:1"
       },
       {
         "caller": "src/extension.ts:284:45",
-        "callee": "src/extension.ts:722:1"
+        "callee": "src/extension.ts:741:1"
       },
       {
         "caller": "src/commands/workspaceCommands.ts:48:3",
@@ -4121,32 +4669,32 @@
         "constructorText": "scene.Cone3D"
       },
       {
-        "location": "src/webview/panel.ts:536:24",
-        "holderScopeId": "src/webview/panel.ts:527:2",
+        "location": "src/webview/panel.ts:563:24",
+        "holderScopeId": "src/webview/panel.ts:554:2",
         "typePath": "collection_2::Scene3D.Camera3D",
         "constructorText": "this.scene.Camera3D"
       },
       {
-        "location": "src/webview/panel.ts:586:25",
-        "holderScopeId": "src/webview/panel.ts:578:2",
+        "location": "src/webview/panel.ts:614:25",
+        "holderScopeId": "src/webview/panel.ts:606:2",
         "typePath": "collection_2::Scene3D.Camera3D",
         "constructorText": "this.scene.Camera3D"
       },
       {
-        "location": "src/webview/panel.ts:635:19",
-        "holderScopeId": "src/webview/panel.ts:622:2",
+        "location": "src/webview/panel.ts:663:19",
+        "holderScopeId": "src/webview/panel.ts:650:2",
         "typePath": "collection_2::Scene3D.Camera3D",
         "constructorText": "scene.Camera3D"
       },
       {
-        "location": "src/webview/panel.ts:611:16",
-        "holderScopeId": "src/webview/panel.ts:604:2",
+        "location": "src/webview/panel.ts:639:16",
+        "holderScopeId": "src/webview/panel.ts:632:2",
         "typePath": "collection_2::Scene3D.Tube3D",
         "constructorText": "scene.Tube3D"
       },
       {
-        "location": "src/webview/panel.ts:614:20",
-        "holderScopeId": "src/webview/panel.ts:604:2",
+        "location": "src/webview/panel.ts:642:20",
+        "holderScopeId": "src/webview/panel.ts:632:2",
         "typePath": "collection_2::Scene3D.GraphNode3D.Tooltip3D",
         "constructorText": "sphere.Tooltip3D"
       },

@@ -2,7 +2,7 @@
 	"name": "mnemographica",
 	"displayName": "Mnemonica Graphica",
 	"description": "Explore mnemonica type hierarchies: definitions, types, usages, execution flow and generations, with go-to-definition navigation",
-	"version": "0.5.3",
+	"version": "0.5.5",
 	"publisher": "Mythographica",
 	"repository": {
 		"type": "git",
@@ -81,6 +81,12 @@
 				"title": "Ψ App Channel",
 				"category": "Mnemonica",
 				"icon": "$(plug)"
+			},
+			{
+				"command": "mnemographica.openSettings",
+				"title": "Ψ Settings",
+				"category": "Mnemonica",
+				"icon": "$(settings-gear)"
 			},
 			{
 				"command": "mnemographica.showLogger",
@@ -233,6 +239,11 @@
 					"command": "mnemographica.selectWorkspace",
 					"when": "view == mnemonicaTypes",
 					"group": "navigation@2"
+				},
+				{
+					"command": "mnemographica.openSettings",
+					"when": "view == mnemonicaUsages",
+					"group": "navigation@1"
 				},
 				{
 					"command": "mnemographica.clearFlowFilter",
@@ -394,6 +405,26 @@
 					"type": "string",
 					"default": "http://127.0.0.1:3000/strategy/channel",
 					"description": "Default discovery URL for the App Channel tab — an app's self-hosted strategy WS channel (startStrategyClient)"
+				},
+				"mnemographica.followTacticaChanges": {
+					"type": "boolean",
+					"default": false,
+					"description": "Watch every open 3D graph's .tactica and rebuild the graph on regeneration"
+				},
+				"mnemographica.alwaysShowCollectionSelector": {
+					"type": "boolean",
+					"default": true,
+					"description": "Show the 3D collection selector even when the project has a single collection, so the feature stays discoverable"
+				},
+				"mnemographica.invocationPathFilter": {
+					"type": "string",
+					"default": "\\.spec\\.ts|\\.test\\.ts|/tests?/|__tests__",
+					"description": "RegExp over creation-scope file paths — matching scopes hide in the 3D graph. Empty string shows everything"
+				},
+				"mnemographica.usagesPathFilter": {
+					"type": "string",
+					"default": "",
+					"description": "RegExp over usage file paths for the Usages tree — matching entries hide. Empty reuses the 3D graph's invocationPathFilter"
 				}
 			}
 		}

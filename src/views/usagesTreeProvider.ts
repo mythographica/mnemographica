@@ -10,6 +10,30 @@ interface UsageInfo {
 	context?: string;
 }
 
+const DEFAULT_PATH_FILTER = '\\.spec\\.ts|\\.test\\.ts|/tests?/|__tests__';
+
+// The active path filter for the Usages tree: the dedicated
+// usagesPathFilter when set, else the 3D graph's invocationPathFilter.
+// Matching filePaths HIDE — the point is keeping test-file usages out
+// of the tree. Invalid regex → no filtering (the Settings UI does no
+// validation; hiding nothing beats crashing the tree)
+function activePathFilter (): RegExp | null {
+	const config = vscode.workspace.getConfiguration('mnemographica');
+	const own = config.get<string>('usagesPathFilter', '').trim();
+	const pattern = own.length > 0 ? own : config.get<string>('invocationPathFilter', DEFAULT_PATH_FILTER);
+	const trimmed = pattern.trim();
+	if (trimmed.length === 0) {
+		return null;
+	}
+	try {
+		const filter = new RegExp(trimmed);
+		return filter;
+	} catch {
+		const nothing = null;
+		return nothing;
+	}
+}
+
 export class UsageTreeItem extends vscode.TreeItem {
 	constructor(
 		public readonly usage: UsageInfo,
@@ -88,18 +112,24 @@ export class UsagesTreeProvider implements vscode.TreeDataProvider<UsageTreeItem
 			return Promise.resolve([]);
 		}
 		
-		if (this.usages.length === 0) {
+		const filter = activePathFilter();
+		const visible = filter
+			? this.usages.filter(usage => !filter.test(usage.filePath))
+			: this.usages;
+
+		if (visible.length === 0) {
 			// Show a placeholder item when no usages
 			if (this.currentTypeName) {
-				const emptyItem = new vscode.TreeItem('No usages found');
+				const label = this.usages.length > 0 ? 'All usages are in filtered (test) files' : 'No usages found';
+				const emptyItem = new vscode.TreeItem(label);
 				emptyItem.description = this.currentTypeName;
 				return Promise.resolve([emptyItem as UsageTreeItem]);
 			}
 			return Promise.resolve([]);
 		}
-		
+
 		return Promise.resolve(
-			this.usages.map(usage => new UsageTreeItem(usage, this.workspacePath, this.currentTypeName))
+			visible.map(usage => new UsageTreeItem(usage, this.workspacePath, this.currentTypeName))
 		);
 	}
 	

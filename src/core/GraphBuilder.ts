@@ -4,7 +4,7 @@ import { GraphData, D3CreationNode, D3CreationLink, D3WrapperNode, D3WrapperLink
 import { GraphConverter } from '../graph/converter';
 import { INTERNAL_KNOTS, INTERNAL_EDGES, COLLECTION_HOOKUP_EDGE } from '../graph/internals-manifest';
 import { TypeNode } from '../types/tactica-types';
-import { collectionOfPath, DEFAULT_COLLECTION } from '../utils/collections';
+import { collectionOfPath, DEFAULT_COLLECTION, ALL_COLLECTIONS } from '../utils/collections';
 import type { Registry } from '../../.tactica/types';
 import type { rawCreationGraph } from '../models/Instrumentation';
 import { getLogger } from '../services/LoggerService';
@@ -62,14 +62,24 @@ export class GraphBuilder {
 			}
 		}
 		let selected = collection;
-		if (!selected || !collectionIndex.has(selected)) {
-			const fallback = collectionIndex.has(DEFAULT_COLLECTION)
-				? DEFAULT_COLLECTION
-				: collections[0]?.id ?? DEFAULT_COLLECTION;
+		// The combined view ('*') is a valid pick, not a fallback case —
+		// it survives validation even though no collection bears that id
+		if (selected !== ALL_COLLECTIONS && (!selected || !collectionIndex.has(selected))) {
+			// Absent or unknown pick: the combined view when there is
+			// something to combine, else the single/default universe (a
+			// one-collection project keeps its named marker)
+			const fallback = collections.length > 1
+				? ALL_COLLECTIONS
+				: collectionIndex.has(DEFAULT_COLLECTION)
+					? DEFAULT_COLLECTION
+					: collections[0]?.id ?? DEFAULT_COLLECTION;
 			selected = fallback;
 		}
 
-		// Pass 1: create all TypeNodes — of the selected collection only.
+		// Pass 1: create all TypeNodes — of the selected collection only
+		// (the combined view skips the filter entirely: every universe is
+		// present, and the no-dangling-reference policy below drops
+		// nothing because nothing dangles).
 		// Every downstream section resolves through this nodeMap
 		// (path-hits, flow, creation anchors, wrapper joins, grafts), so
 		// cross-collection references drop out by the existing
@@ -77,7 +87,7 @@ export class GraphBuilder {
 		const nodeMap = new Map<string, TypeNode>();
 		const typeNodes: TypeNode[] = [];
 		for (const [name, entry] of types.entries()) {
-			if (collectionOfPath(name) !== selected) { continue; }
+			if (selected !== ALL_COLLECTIONS && collectionOfPath(name) !== selected) { continue; }
 			const typeNode = this.buildTypeNode(name, entry as unknown as Record<string, unknown>);
 			if (typeNode) {
 				nodeMap.set(name, typeNode);

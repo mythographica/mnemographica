@@ -244,14 +244,12 @@
 		});
 	};
 
-	// Invocations path filter: the .* button in the top #controls bar
-	// opens a small panel over Layers & Distances whose input
-	// is a RegExp tested against each creation scope's filePath; matching
-	// scopes hide so test-file invocations stop drowning the app ones.
-	// The compiled expression rides this module var: the panel DOM
-	// rebuilds with every render, and empty text means OFF. Session-only
-	// — Save persists arrangement, not view filters
-	const DEFAULT_INVOCATION_FILTER = '\\.spec\\.ts|\\.test\\.ts|/tests?/|__tests__';
+	// Invocations path filter: a RegExp tested against each creation
+	// scope's filePath; matching scopes hide so test-file invocations
+	// stop drowning the app ones. The pattern is the
+	// mnemographica.invocationPathFilter SETTING — pushed by the host
+	// with every updateGraph and re-pushed on configuration change (the
+	// Ø button opens the native Settings UI). Empty text means OFF
 	let sessionInvocationFilter = null;
 	const invocationPathFiltered = (scopeNode) => {
 		if (!sessionInvocationFilter || !scopeNode) { return false; }
@@ -260,11 +258,10 @@
 		return sessionInvocationFilter.test(filePath);
 	};
 
-	// The follow-.tactica choice — a connection-style opt-in: while true,
-	// the HOST watches this panel's source and rebuilds on regeneration;
-	// the choice itself lives here because the panel rebuilds with every
-	// render
-	let sessionFollowTactica = false;
+	// Host-pushed UI settings. alwaysShowCollectionSelector keeps the
+	// collection <select> visible for single-collection projects so the
+	// feature stays discoverable
+	let sessionUiSettings = { alwaysShowCollectionSelector: true };
 
 	// Orientation state picked with the vector-sphere control. Captions
 	// ride a VIEW-space unit vector — the sign sits at camera × vector ×
@@ -731,9 +728,11 @@
 	}
 
 	let vectorControl = null;
-	// The consumer the window is currently armed for — re-invoking the
-	// same layer's ⌖ toggles the window SHUT (the × alone is not enough)
-	let vectorControlMode = null;
+	// The consumer the window is currently armed for, keyed per ROW —
+	// re-invoking the same row's ⌖ toggles the window SHUT (the × alone
+	// is not enough), while a different row's ⌖ re-arms the OPEN window
+	// for that row instead of closing it (no close-then-open dance)
+	let vectorControlKey = null;
 
 	/**
 	 * Open the vector-sphere control for one of the consumers: captions →
@@ -750,12 +749,14 @@
 		if (!vectorControl) {
 			vectorControl = new VectorSphereControl();
 		}
-		if (vectorControlMode === mode && vectorControl.isOpen()) {
+		// The gen rows share the one 'gen' mode — the depth discriminates
+		const key = genSpec ? mode + ':' + String(genSpec.depth) : mode;
+		if (vectorControlKey === key && vectorControl.isOpen()) {
 			vectorControl.close();
-			vectorControlMode = null;
+			vectorControlKey = null;
 			return;
 		}
-		vectorControlMode = mode;
+		vectorControlKey = key;
 		const qCapture = renderer.camera.quaternion.clone();
 		const qInverse = qCapture.clone().invert();
 		if (mode === 'captions') {
@@ -1160,21 +1161,8 @@
 	}
 
 	function setupEventListeners() {
-		// Control buttons
-		// The invocation path filter — the .* button in the top bar (the
-		// wheel IS the zoom; the renderer's zoomIn/zoomOut methods stay
-		// as automation API); it toggles the regexp window docked left of
-		// the Layers & Distances panel
-		const filterButton = document.getElementById('invocation-filter');
-		if (filterButton) {
-			filterButton.addEventListener('click', function () {
-				toggleInvocationFilterWindow();
-				// Same focus rule as the layer checkboxes — a focused
-				// button re-fires on Space
-				filterButton.blur();
-			});
-		}
-
+		// Control buttons (the wheel IS the zoom; the renderer's
+		// zoomIn/zoomOut methods stay as automation API)
 		document.getElementById('reset').addEventListener('click', function () {
 			if (is3D && renderer3D) {
 				renderer3D.reset();
@@ -1355,15 +1343,29 @@
 		}
 	}
 
-	// The collection selector lists every collection tactica reported; a
-	// single-collection project has nothing to switch, so it hides.
+	// Selector value for the combined all-collections view — mirrors
+	// ALL_COLLECTIONS in src/utils/collections.ts (the webview loads no
+	// project modules)
+	const ALL_COLLECTIONS = '*';
+	// The default collection sorts first among the named options
+	const DEFAULT_COLLECTION = 'defaultTypes';
+
+	// The collection selector lists the combined view first, then every
+	// collection tactica reported — defaultTypes ahead, the rest
+	// alphabetical by display label. It hides only for a
+	// single-collection project when the
+	// `mnemographica.alwaysShowCollectionSelector` setting is off.
 	// Options rebuild only when the inventory changes — a Refresh must
 	// not collapse an open dropdown or reset a mid-gesture pick
 	function updateCollectionSelect(data) {
 		const select = document.getElementById('collection-select');
 		if (!select) { return; }
 		const collections = data && data.collections;
-		if (!Array.isArray(collections) || collections.length < 2) {
+		if (!Array.isArray(collections) || collections.length === 0) {
+			select.style.display = 'none';
+			return;
+		}
+		if (collections.length < 2 && !sessionUiSettings.alwaysShowCollectionSelector) {
 			select.style.display = 'none';
 			return;
 		}
@@ -1371,7 +1373,20 @@
 		if (select.dataset.signature !== signature) {
 			select.dataset.signature = signature;
 			select.innerHTML = '';
-			collections.forEach(function (c) {
+			const allOption = document.createElement('option');
+			allOption.value = ALL_COLLECTIONS;
+			allOption.textContent = 'all collections';
+			select.appendChild(allOption);
+			const sorted = collections.slice().sort(function (a, b) {
+				if (a.id === DEFAULT_COLLECTION) { return -1; }
+				if (b.id === DEFAULT_COLLECTION) { return 1; }
+				const aLabel = a.name || a.id;
+				const bLabel = b.name || b.id;
+				if (aLabel < bLabel) { return -1; }
+				if (aLabel > bLabel) { return 1; }
+				return 0;
+			});
+			sorted.forEach(function (c) {
 				const option = document.createElement('option');
 				option.value = c.id;
 				// collections.json (tactica ≥ 0.4.1) carries the display
@@ -1380,19 +1395,40 @@
 				select.appendChild(option);
 			});
 		}
-		const selected = data.collection || collections[0].id;
+		const selected = data.collection || ALL_COLLECTIONS;
 		if (select.value !== selected) {
 			select.value = selected;
 		}
 		select.style.display = '';
 	}
 
+	// The `mnemographica.*` settings the host pushes: they ride every
+	// updateGraph and land again on every settings change, so open and
+	// freshly opened panels agree
+	function applyUiSettings(settings) {
+		if (typeof settings.alwaysShowCollectionSelector === 'boolean') {
+			sessionUiSettings.alwaysShowCollectionSelector = settings.alwaysShowCollectionSelector;
+			if (currentData) { updateCollectionSelect(currentData); }
+		}
+		if (typeof settings.invocationPathFilter === 'string') {
+			applyInvocationFilterText(settings.invocationPathFilter);
+		}
+	}
+
 	// Handle messages from extension
 	window.addEventListener('message', function (event) {
 		const message = event.data;
 
+		if (message.command === 'settings') {
+			applyUiSettings(message.data || {});
+			return;
+		}
+
 		if (message.command === 'updateGraph') {
 			currentData = message.data;
+			if (message.settings) {
+				applyUiSettings(message.settings);
+			}
 			updateCollectionSelect(message.data);
 			// The host reads .mnemographica/layout.json and rides it along.
 			// null means "no save yet" — keep a layout we already hold in
@@ -2254,20 +2290,12 @@
 		});
 	}
 
-	// The invocations filter window — a small non-draggable panel
-	// immediately left of Layers & Distances. The DOM
-	// (and its input text) survives the panel rebuilds because the window
-	// hangs off document.body, not #layer-controls-list; opening applies
-	// the current text, live edits apply debounced, Enter applies now,
-	// empty text switches the filter OFF, and an invalid expression keeps
-	// the last good one (the input wears .invalid until it parses again).
-	// The apply reaches the LIVE renderer through the module-level
-	// renderer3D — a renderer captured at build time dies with the next
-	// refresh
-	let invocationFilterWindow = null;
-	let invocationFilterInput = null;
-	let invocationFilterTimer = null;
-
+	// The invocations filter — a JS RegExp from the
+	// `mnemographica.invocationPathFilter` setting, tested against each
+	// creation scope's filePath; empty text means OFF, an invalid
+	// expression keeps the last good one. The apply reaches the LIVE
+	// renderer through the module-level renderer3D — a renderer captured
+	// at build time dies with the next refresh
 	function applyInvocationFilterText(text) {
 		const trimmed = text.trim();
 		let next = null;
@@ -2275,8 +2303,8 @@
 			try {
 				next = new RegExp(trimmed);
 			} catch (err) {
-				// Keep the last good expression — the .invalid mark on
-				// the input says why nothing changed
+				// Keep the last good expression — a pattern that does
+				// not parse must never blank the scene
 				return false;
 			}
 		}
@@ -2290,63 +2318,6 @@
 			renderer3D.needsRender = true;
 		}
 		return true;
-	}
-
-	function toggleInvocationFilterWindow() {
-		if (!invocationFilterWindow) {
-			const root = document.createElement('div');
-			root.className = 'invocation-filter';
-			root.style.display = 'none';
-			const header = document.createElement('div');
-			header.className = 'invocation-filter-header';
-			const title = document.createElement('span');
-			title.className = 'invocation-filter-title';
-			title.textContent = 'invocations filter';
-			const closeBtn = document.createElement('button');
-			closeBtn.className = 'vector-control-close';
-			closeBtn.textContent = '×';
-			header.appendChild(title);
-			header.appendChild(closeBtn);
-			const input = document.createElement('input');
-			input.className = 'invocation-filter-input';
-			input.type = 'text';
-			input.spellcheck = false;
-			input.value = DEFAULT_INVOCATION_FILTER;
-			input.title = 'RegExp over each scope\'s file path — matching scopes hide. Empty shows everything';
-			closeBtn.addEventListener('click', () => { root.style.display = 'none'; });
-			input.addEventListener('input', () => {
-				if (invocationFilterTimer) { clearTimeout(invocationFilterTimer); }
-				invocationFilterTimer = setTimeout(() => {
-					invocationFilterTimer = null;
-					const ok = applyInvocationFilterText(input.value);
-					input.classList.toggle('invalid', !ok);
-				}, 200);
-			});
-			input.addEventListener('keydown', (event) => {
-				if (event.key !== 'Enter') { return; }
-				if (invocationFilterTimer) {
-					clearTimeout(invocationFilterTimer);
-					invocationFilterTimer = null;
-				}
-				const ok = applyInvocationFilterText(input.value);
-				input.classList.toggle('invalid', !ok);
-			});
-			root.appendChild(header);
-			root.appendChild(input);
-			document.body.appendChild(root);
-			invocationFilterWindow = root;
-			invocationFilterInput = input;
-		}
-		const root = invocationFilterWindow;
-		if (root.style.display !== 'none') {
-			root.style.display = 'none';
-			return;
-		}
-		root.style.display = '';
-		// Opening applies the current text — with the default pre-fill
-		// that one click IS the "observe just app" switch
-		const ok = applyInvocationFilterText(invocationFilterInput.value);
-		invocationFilterInput.classList.toggle('invalid', !ok);
 	}
 
 	function createLayerControls(data, renderer) {
@@ -2380,34 +2351,9 @@
 		// scopes ARE the invocation map), the Bagels ⌖ rides dive ◯
 		// (the EDS rings), the captions ⌖ rides captions; the types
 		// row doubles as the expander for the generation distance
-		// rows. The follow-.tactica setting sits at the panel top.
-		// Sinks keeps its own row inside the expanded group — it has
-		// no layer of its own and Jaeger's cone rides its orient
+		// rows. Sinks keeps its own row inside the expanded group — it
+		// has no layer of its own and Jaeger's cone rides its orient
 		const groupExpanded = expandedLayerControls.has('distance-orient');
-
-		// Follow .tactica changes — a connection-style opt-in: while
-		// checked, the HOST watches this panel's source and pushes a
-		// rebuild on regeneration; unchecked means zero watchers for
-		// this tab. Not a layer — a per-panel setting
-		const followRow = document.createElement('div');
-		followRow.className = 'gen-control-row layer-header';
-		const followLabel = document.createElement('label');
-		followLabel.className = 'gen-control-label';
-		const followCheckbox = document.createElement('input');
-		followCheckbox.type = 'checkbox';
-		// Read the session choice — a rebuild must not lie about a
-		// connection the user already opened
-		followCheckbox.checked = sessionFollowTactica;
-		followCheckbox.onchange = function () {
-			sessionFollowTactica = followCheckbox.checked;
-			vscode.postMessage({ command: 'followTactica', data: { on: sessionFollowTactica } });
-			// Same focus rule as the layer checkboxes
-			followCheckbox.blur();
-		};
-		followLabel.appendChild(followCheckbox);
-		followLabel.appendChild(document.createTextNode(' follow .tactica changes'));
-		followRow.appendChild(followLabel);
-		container.appendChild(followRow);
 
 		const layers = [
 			// The layer reads "invocations ◆" — the creation graph IS
@@ -3037,9 +2983,11 @@
 			const gl = testCanvas.getContext('webgl') || testCanvas.getContext('experimental-webgl');
 			debugLog('[3D] WebGL available:', !!gl, 'log');
 
-			// Create scene with lighter background
+			// The scene wears the theme's editor background — the one
+			// dark the rest of the window already uses
 			this.scene = new THREE.Scene();
-			this.scene.background = new THREE.Color(0x2d2d2d);
+			const editorBg = getComputedStyle(document.body).getPropertyValue('--vscode-editor-background').trim();
+			this.scene.background = new THREE.Color(editorBg || '#1e1e1e');
 
 			// Create camera with better initial position
 			const width = this.container.clientWidth || 800;
@@ -3467,6 +3415,15 @@
 					);
 					this.pressPosition = null;
 					if (pressDist > 4) { return; }
+				}
+				// A scene click dismisses the vector-sphere control —
+				// easier than aiming for the × or the row's ⌖ again.
+				// Drags never reach here (the 4px idiom above), and the
+				// window's own DOM sits above the canvas, so its clicks
+				// never arrive
+				if (vectorControl && vectorControl.isOpen()) {
+					vectorControl.close();
+					vectorControlKey = null;
 				}
 				const rect = canvas.getBoundingClientRect();
 				this.mouseVector.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
@@ -5122,11 +5079,15 @@
 			this.scene.add(centerSphere);
 			// The shown collection's display name: the collections.json
 			// name when the manifest exists, else the raw id
-			// ('defaultTypes' for the default universe)
-			const collectionsInventory = Array.isArray(data.collections) ? data.collections : [];
-			const shownCollection = collectionsInventory.find(function (c) { return c.id === data.collection; });
-			const centerLabel = (shownCollection && shownCollection.name) || data.collection || 'defaultTypes';
-			this.addLabel(centerSphere, centerLabel, 0.6);
+			// ('defaultTypes' for the default universe). The combined
+			// all-collections view gets no label — the marker is the
+			// shared orientation anchor, not a collection's badge.
+			if (data.collection !== ALL_COLLECTIONS) {
+				const collectionsInventory = Array.isArray(data.collections) ? data.collections : [];
+				const shownCollection = collectionsInventory.find(function (c) { return c.id === data.collection; });
+				const centerLabel = (shownCollection && shownCollection.name) || data.collection || 'defaultTypes';
+				this.addLabel(centerSphere, centerLabel, 0.6);
+			}
 			if (centerSphere.userData.label) {
 				this.typesGroup.add(centerSphere.userData.label);
 				this.typesGroup.add(centerSphere.userData.leader);

@@ -40,6 +40,7 @@ topologicaLoader.default(modelsPath, define);
 
 const { Registry } = require('../out/src/models/Registry');
 const { GraphBuilder } = require('../out/src/core/GraphBuilder');
+const { ALL_COLLECTIONS } = require('../out/src/utils/collections');
 
 const fixturesMixedPath = path.join(__dirname, 'fixtures-collections');
 const fixturesOnlyPath = path.join(__dirname, 'fixtures-collections-only');
@@ -47,16 +48,18 @@ const fixturesOnlyPath = path.join(__dirname, 'fixtures-collections-only');
 async function runTests() {
 	console.log('\n=== Testing GraphBuilder collections ===\n');
 
-	// Test 1: no selection renders the default collection's universe
-	console.log('Test 1: default selection renders the default collection');
+	// Test 1: no selection renders the combined all-collections view when
+	// the project holds more than one collection
+	console.log('Test 1: default selection is the combined all-collections view');
 	const registryMixed = new Registry();
 	await registryMixed.loadFromWorkspace(fixturesMixedPath);
 	const dataDefault = GraphBuilder.buildFromRegistry(registryMixed);
-	assert.strictEqual(dataDefault.collection, 'defaultTypes', 'default collection selected when present');
-	assert.deepStrictEqual(dataDefault.nodes.map(n => n.id).sort(), ['Widget', 'Widget.Button'],
-		'only unprefixed type nodes');
-	assert.strictEqual(dataDefault.links.length, 1, 'one inheritance link inside the universe');
-	console.log(`  ✓ ${dataDefault.nodes.length} nodes, ${dataDefault.links.length} link, collection=${dataDefault.collection}\n`);
+	assert.strictEqual(dataDefault.collection, ALL_COLLECTIONS, 'multi-collection projects default to the combined view');
+	assert.deepStrictEqual(dataDefault.nodes.map(n => n.id).sort(), [
+		'Widget', 'Widget.Button', 'collection_1::Product', 'collection_1::Product.Category'
+	], 'every universe\'s type nodes');
+	assert.strictEqual(dataDefault.links.length, 2, 'both universes keep their inheritance links');
+	console.log(`  ✓ ${dataDefault.nodes.length} nodes, ${dataDefault.links.length} links, collection=${dataDefault.collection}\n`);
 
 	// Test 2: the inventory lists every collection in first-seen order,
 	// with display names resolved from the collections.json manifest
@@ -105,15 +108,15 @@ async function runTests() {
 		'Button is never created');
 	console.log('  ✓ census keyed by fullPath, no cross-collection leak\n');
 
-	// Test 5: an unknown selection falls back to the default collection
-	// when the project has one
-	console.log('Test 5: unknown selection falls back to defaultTypes');
+	// Test 5: an unknown selection falls back to the combined view when
+	// the project holds more than one collection
+	console.log('Test 5: unknown selection falls back to all collections');
 	const registryFallback = new Registry();
 	await registryFallback.loadFromWorkspace(fixturesMixedPath);
 	const dataFallback = GraphBuilder.buildFromRegistry(registryFallback, 'collection_nope');
-	assert.strictEqual(dataFallback.collection, 'defaultTypes', 'default wins when present');
-	assert.strictEqual(dataFallback.nodes.length, 2, 'default universe rendered');
-	console.log('  ✓ fallback → defaultTypes\n');
+	assert.strictEqual(dataFallback.collection, ALL_COLLECTIONS, 'the combined view wins over an unknown id');
+	assert.strictEqual(dataFallback.nodes.length, 4, 'every universe rendered');
+	console.log('  ✓ fallback → all collections\n');
 
 	// Test 6: a project with NO default collection falls back to the
 	// first-seen collection instead of rendering empty. This fixture has
@@ -129,6 +132,19 @@ async function runTests() {
 	assert.deepStrictEqual(dataOnly.collections, [{ id: 'collection_1', count: 1 }],
 		'inventory holds the single collection');
 	console.log('  ✓ fallback → collection_1\n');
+
+	// Test 7: the combined all-collections view renders every universe —
+	// no type-node filtering, both inheritance links survive
+	console.log('Test 7: all-collections view renders every universe');
+	const registryAll = new Registry();
+	await registryAll.loadFromWorkspace(fixturesMixedPath);
+	const dataAll = GraphBuilder.buildFromRegistry(registryAll, ALL_COLLECTIONS);
+	assert.strictEqual(dataAll.collection, ALL_COLLECTIONS, 'the combined marker rides the payload');
+	assert.deepStrictEqual(dataAll.nodes.map(n => n.id).sort(), [
+		'Widget', 'Widget.Button', 'collection_1::Product', 'collection_1::Product.Category'
+	], 'every universe present');
+	assert.strictEqual(dataAll.links.length, 2, 'both universes keep their inheritance links');
+	console.log(`  ✓ ${dataAll.nodes.length} nodes, ${dataAll.links.length} links, one center\n`);
 
 	console.log('=== All Tests Passed ===');
 }

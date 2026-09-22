@@ -294,6 +294,25 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.commands.registerCommand('mnemographica.openAppChannelTab', () => {
 			AppChannelPanel.createOrShow();
 		}),
+		// The Ø button on the Types view: the NATIVE Settings UI filtered
+		// to this extension — no custom settings page to maintain
+		vscode.commands.registerCommand('mnemographica.openSettings', () => {
+			void vscode.commands.executeCommand('workbench.action.openSettings', 'mnemographica');
+		}),
+		// Settings are host-side: follow-.tactica re-arms the panels'
+		// watchers, the UI settings re-push to the webviews, and the
+		// Usages tree re-applies its path filter
+		vscode.workspace.onDidChangeConfiguration((event) => {
+			if (!event.affectsConfiguration('mnemographica')) {
+				return;
+			}
+			if (event.affectsConfiguration('mnemographica.followTacticaChanges')) {
+				const followOn = vscode.workspace.getConfiguration('mnemographica').get<boolean>('followTacticaChanges', false);
+				GraphPanel.applyFollowSetting(followOn);
+			}
+			GraphPanel.pushUiSettings();
+			usagesProvider.refresh();
+		}),
 		{ dispose: () => stopStrategyProcess() }
 	);
 	// Trace mode (names-first tracing): the panel resolves lineages and

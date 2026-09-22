@@ -138,9 +138,14 @@ body {
 	box-shadow: inset 0 0 0 1px var(--vscode-focusBorder);
 }
 
-/* Collection selector: same pill idiom as the bar's buttons, but a
-   dropdown — dropdown-background/foreground are the themed pair */
-#controls select {
+/* Collection selector: pinned to the top-LEFT corner, away from the
+   top-right button bar — same pill idiom as the buttons, but a
+   dropdown: dropdown-background/foreground are the themed pair */
+#collection-select {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	z-index: 100;
 	padding: 6px 8px;
 	background: var(--vscode-dropdown-background);
 	color: var(--vscode-dropdown-foreground);
@@ -194,6 +199,12 @@ body {
 	   the label's text node collapses at the start of its anonymous
 	   flex item — one space of column-gap instead */
 	column-gap: 4px;
+}
+
+/* Checkboxes wear the theme's button color — the browser-default blue
+   fights the panel's themed buttons */
+.gen-control-label input[type="checkbox"] {
+	accent-color: var(--vscode-button-background);
 }
 
 /* Generations of a hidden types layer have nothing to govern — the
@@ -548,7 +559,7 @@ body {
 .vector-control-slider {
 	flex: 1 1 auto;
 	min-width: 0;
-	accent-color: #4ec9b0;
+	accent-color: var(--vscode-button-background);
 }
 
 .vector-control-input {
@@ -565,54 +576,6 @@ body {
 
 .vector-control-input:focus {
 	outline: 1px solid var(--vscode-focusBorder, #007fd4);
-}
-
-/* The invocations path filter window — a small window docked
-   immediately left of the Layers & Distances panel (which is right:10 +
-   width:220, so right:240 leaves the same 10px gap rhythm); .invalid
-   marks an expression that does not parse — the last good one keeps
-   running meanwhile */
-.invocation-filter {
-	position: absolute;
-	top: 50px;
-	right: 240px;
-	background: var(--vscode-editorHoverWidget-background);
-	border: 1px solid var(--vscode-editorHoverWidget-border);
-	border-radius: 4px;
-	padding: 6px;
-	z-index: 110;
-	color: var(--vscode-editorHoverWidget-foreground);
-	font-size: 11px;
-}
-
-.invocation-filter-header {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	margin-bottom: 4px;
-}
-
-.invocation-filter-title {
-	font-weight: 600;
-	margin-right: 12px;
-}
-
-.invocation-filter-input {
-	/* 460px — twice the panel's 220 */
-	width: 460px;
-	background: var(--vscode-input-background, #3c3c3c);
-	color: var(--vscode-input-foreground, #cccccc);
-	border: 1px solid var(--vscode-input-border, #3c3c3c);
-	border-radius: 2px;
-	padding: 2px 6px;
-}
-
-.invocation-filter-input:focus {
-	outline: 1px solid var(--vscode-focusBorder, #007fd4);
-}
-
-.invocation-filter-input.invalid {
-	outline: 1px solid var(--vscode-inputValidation-errorBorder, #be1100);
 }
 
 /* The ⌖ button on Layers & Distances header rows opening the control */

@@ -9,6 +9,13 @@
 export const DEFAULT_COLLECTION = 'defaultTypes';
 
 /**
+ * Selector value for the combined view: every collection's types in one
+ * payload, all roots sharing the single center marker. Not a real
+ * collection id — real ids are 'defaultTypes' or `collection_N`.
+ */
+export const ALL_COLLECTIONS = '*';
+
+/**
  * The collection a dot-joined fullPath belongs to: the id tactica minted
  * ("collection_1") for a custom collection, 'defaultTypes' for the
  * unprefixed default graph. Same parse as tactica's own

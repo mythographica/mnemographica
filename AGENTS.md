@@ -167,7 +167,10 @@ The extension helps AI agents:
      refresh) so the command's bare data payload resolves back to the
      live instance reveal needs. Without a command, expansion would
      stay twistie-only (double-click on the label still toggles)
-   - `usagesTreeProvider.ts` — usages per selected type
+   - `usagesTreeProvider.ts` — usages per selected type, with
+     test-file filtering: `mnemographica.usagesPathFilter` when set,
+     else the 3D `invocationPathFilter`; an invalid expression filters
+     nothing
    - `flowTreeProvider.ts` — flow.json grouped kind → type → entry;
      entry rows carry the `file.ts:line` tail as description so
      identical labels (".value" × N under one type) stay
@@ -204,10 +207,11 @@ The extension helps AI agents:
      (`graphDataLoader.loadGraphDataFor(sourceRoot)` — a fresh Registry
      per source; the MainOrchestrator's primary Registry serves the
      sidebar only). There is no auto-refresh for panels — a tab re-reads
-     its source only via its ⟳ Refresh button, or via the Layers &
-     Distances `follow .tactica changes` checkbox, a connection-style
-     opt-in creating a per-source watcher only while checked (host-side
-     `followWatcher`, disposed on uncheck/close). Save writes per
+     its source only via its ⟳ Refresh button, or via the global
+     `mnemographica.followTacticaChanges` setting, which creates a
+     per-source watcher on every open panel while on (host-side
+     `followWatcher`, applied at panel birth and on every settings
+     change, disposed on off/close). Save writes per
      project: `<sourceRoot>/.mnemographica/layout.json`. Routing:
      sidebar-driven focus → the primary source's panel
      (`GraphPanel.primarySource`); trace isolate/replay/flashes and
@@ -215,15 +219,27 @@ The extension helps AI agents:
      (`lastActivePanel`).
    - **Collection selector**: tactica keys custom-collection types by a
      `collectionId::`-prefixed fullPath; the panel renders ONE
-     collection's universe at a time. `GraphBuilder.buildFromRegistry`
-     takes the collection id (undefined → default collection when
-     present, else first-seen), filters at the type-node pass, and
+     collection's universe at a time, plus the combined **all
+     collections** view (selector value `*` — `ALL_COLLECTIONS` in
+     `src/utils/collections.ts`, mirrored in webview.js), which skips
+     the type-node filter and seats every universe around the one
+     center marker — label-less there, since no single collection owns
+     it. `GraphBuilder.buildFromRegistry`
+     takes the collection id (absent or unknown → the combined `*`
+     view when the inventory holds more than one collection, else the
+     single/default universe; `*` survives validation), filters at the
+     type-node pass, and
      every downstream section (path-hits, flow, creation anchors,
      wrapper joins, grafts) drops cross-collection references by the
-     existing no-dangling-reference policy. The payload carries
+     existing no-dangling-reference policy — in the combined view
+     nothing dangles, so nothing drops. The payload carries
      `collection` (the actual pick) and `collections` (the inventory
-     with per-collection counts); the webview's `<select>` in
-     `#controls` hides until the inventory holds two or more, and its
+     with per-collection counts); the webview's `<select>` — pinned to
+     the top-left corner, away from the top-right button bar — lists
+     **all collections** first, then `defaultTypes`,
+     then the rest alphabetical by display label, and hides only for a
+     single-collection inventory with
+     `mnemographica.alwaysShowCollectionSelector` off (default on); its
      `selectCollection` message re-reads the panel's .tactica through
      the same path as Refresh (`GraphPanel.currentCollection` holds the
      pick across reloads). Each collection renders as its own universe:
@@ -231,6 +247,16 @@ The extension helps AI agents:
      inventory entries and the marker label use the display names from
      `collections.json` (tactica ≥ 0.4.1); older outputs without the
      manifest show the raw ids (`collection_1`).
+   - **Settings are native VS Code settings** (`package.json`
+     `contributes.configuration`): `mnemographica.followTacticaChanges`,
+     `alwaysShowCollectionSelector`, `invocationPathFilter`,
+     `usagesPathFilter`. The settings-gear button on the Usages view
+     title (`mnemographica.openSettings`) opens the native Settings UI
+     scoped to `mnemographica`; extension.ts's config-change listener
+     pushes the UI settings to every open panel
+     (`GraphPanel.pushUiSettings`, also riding every updateGraph),
+     applies the follow flag (`applyFollowSetting`), and refreshes the
+     Usages tree.
    - The `mnemographica.showTypeGraph` command ("Ψ 3D") opens an interactive
      Three.js scene of the current GraphData — 3D-only (the 2D view is
      retired; the dormant 2D renderer remains in webview.js but is
@@ -321,8 +347,7 @@ The extension helps AI agents:
      `#layer-controls-list` when collapsed. The checkbox labels are
      inline-flex with a 4px column-gap (a leading space in the label's
      text node collapses at the start of its anonymous flex item, so
-     the gap renders instead). The panel layout: the follow-.tactica
-     setting sits at the panel top; each
+     the gap renders instead). The panel layout: each
      layer row CARRIES its own ⌖ orient control on the same line
      (Diamonds ⌖ on invocations ◆, Bagels ⌖ on dive ◯, the captions
      ⌖ with no second label), the layer order is invocations →
@@ -422,23 +447,20 @@ The extension helps AI agents:
      Raycaster does not skip invisible objects, so all four raycast
      sites go through `firstVisibleIntersect()`. Every label carries
      a thin grey LEADER LINE down to its mesh.
-   - **Invocation path filter**: a `.*` button in the top `#controls`
-     bar (there are no +/− zoom buttons — the wheel IS the zoom; the
-     renderer's `zoomIn`/`zoomOut` methods stay as automation API)
-     toggles a small non-draggable window docked left of the Layers &
-     Distances panel (`.invocation-filter`, right:240; the input spans
-     460px), pre-filled with `\.spec\.ts|\.test\.ts|/tests?/|__tests__`.
-     The input is a JS RegExp tested against each creation scope's
-     `filePath`; applied on open, on Enter and live (200ms debounce);
-     empty text means OFF; an invalid expression keeps the last good
-     one and marks the input `.invalid`. The mechanism is the gen
+   - **Invocation path filter**: the `mnemographica.invocationPathFilter`
+     setting (default `\.spec\.ts|\.test\.ts|/tests?/|__tests__`) — a
+     JS RegExp tested against each creation scope's `filePath`, pushed
+     to open panels with every updateGraph and again on every settings
+     change; empty text means OFF, an invalid expression keeps the last
+     good one. (There are no +/− zoom buttons — the wheel IS the zoom;
+     the renderer's `zoomIn`/`zoomOut` methods stay as automation API.)
+     The mechanism is the gen
      checkboxes' computed visibility: `invocationPathFiltered` composes
      with `scopeHiddenByGen` in the one `defineComputedVisible` call
      per scope mesh, the compiled expression rides the module
      `sessionInvocationFilter` (session-only — Save persists
      arrangement, not view filters), and the apply reaches the LIVE
-     renderer through module `renderer3D` (the window DOM hangs off
-     document.body, surviving panel rebuilds), flipping with one
+     renderer through module `renderer3D`, flipping with one
      updateLinkPositions + needsRender — batched call edges fold to
      degenerate vertices, captions and hosted bagels follow by reading
      their anchor mesh's .visible. Dive/wrappers are NOT filtered —
@@ -644,8 +666,12 @@ The extension helps AI agents:
      carrying the current value as the base. The window drag clamps
      to the viewport (48px grip — an off-screen window is a lost
      window). The × (20px glyph with padding) closes
-     the window and re-clicking the same row's ⌖ toggles it shut
-     (pointer-capture note: the header drag must not capture presses
+     the window and re-clicking the same row's ⌖ toggles it shut,
+     while a different row's ⌖ re-arms the OPEN window for that row
+     (the gen rows share one 'gen' mode — the depth discriminates),
+     and any click on the scene canvas dismisses it (the 4px
+     click/drag idiom keeps rotations from closing it).
+     (Pointer-capture note: the header drag must not capture presses
      landing on ×, or its click never fires). The footer is a
      distance SLIDER + numeric TEXTFIELD: both land in
      `setDistance`, which backs `wheelAcc` out of the target so the
@@ -782,7 +808,8 @@ The extension helps AI agents:
      click shows the knot tooltip with its source citation — no jump,
      the citation points into a sibling repo). A **legend**
      (`#dive-legend`, bottom-left) names every shape/color/edge kind —
-     16 rows. The legend header is both the collapse toggle and the
+     16 rows, starting collapsed — it is a reference, not a dashboard.
+     The legend header is both the collapse toggle and the
      drag handle: a press moving < 4px counts as a click and toggles
      the rows, a real drag repositions the panel (clamped to the
      viewport). The CSS bottom-anchor switches to explicit left/top
@@ -1026,10 +1053,12 @@ Automated (plain node, no VS Code host):
   hookup, census-driven grafts, never-created spheres and never-taken
   path-hits)
 - `test/collections.test.js` — one collection per payload: the default
-  selection, explicit selection, the `collections` inventory with
-  display names from collections.json, the per-universe instantiation
-  census, and both fallbacks (unknown id → defaultTypes; no default →
-  first-seen — also the absent-manifest pin), over the hand-written
+  selection (the combined `*` view when the inventory holds more than
+  one collection), explicit selection, the `collections` inventory
+  with display names from collections.json, the per-universe
+  instantiation census, and both fallbacks (unknown id → `*`;
+  single-collection project without a default → first-seen — also the
+  absent-manifest pin), over the hand-written
   `fixtures-collections` / `fixtures-collections-only` payloads
 - `test/scene-builder.test.js` — SceneBuilder → Scene3D: the scene
   census (spheres, links by kind, diamonds, bagel anchors, knots,

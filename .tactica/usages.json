@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-09-22T10:57:25.103Z",
+  "generatedAt": "2026-09-22T13:08:21.150Z",
   "usages": {
     "LoggerTab": [
       {
@@ -340,73 +340,73 @@
     ],
     "collection_2::Scene3D.Camera3D": [
       {
-        "location": "src/webview/panel.ts:536:24",
+        "location": "src/webview/panel.ts:563:24",
         "kind": "instantiation",
         "code": "new this.scene.Camera3D(cameraData)",
         "constructorText": "this.scene.Camera3D",
-        "holderScopeId": "src/webview/panel.ts:527:2"
+        "holderScopeId": "src/webview/panel.ts:554:2"
       },
       {
-        "location": "src/webview/panel.ts:536:28",
+        "location": "src/webview/panel.ts:563:28",
         "kind": "propertyAccess",
         "code": "this.scene.Camera3D",
-        "holderScopeId": "src/webview/panel.ts:527:2"
+        "holderScopeId": "src/webview/panel.ts:554:2"
       },
       {
-        "location": "src/webview/panel.ts:586:25",
+        "location": "src/webview/panel.ts:614:25",
         "kind": "instantiation",
         "code": "new this.scene.Camera3D(cameraData)",
         "constructorText": "this.scene.Camera3D",
-        "holderScopeId": "src/webview/panel.ts:578:2"
+        "holderScopeId": "src/webview/panel.ts:606:2"
       },
       {
-        "location": "src/webview/panel.ts:586:29",
+        "location": "src/webview/panel.ts:614:29",
         "kind": "propertyAccess",
         "code": "this.scene.Camera3D",
-        "holderScopeId": "src/webview/panel.ts:578:2"
+        "holderScopeId": "src/webview/panel.ts:606:2"
       },
       {
-        "location": "src/webview/panel.ts:635:19",
+        "location": "src/webview/panel.ts:663:19",
         "kind": "instantiation",
         "code": "new scene.Camera3D({\n\t\t\t\tx         : num(cam.pan?.x),\n\t\t\t\ty         : num(cam.pan?.y),\n\t\t\t\tz        ",
         "constructorText": "scene.Camera3D",
-        "holderScopeId": "src/webview/panel.ts:622:2"
+        "holderScopeId": "src/webview/panel.ts:650:2"
       },
       {
-        "location": "src/webview/panel.ts:635:23",
+        "location": "src/webview/panel.ts:663:23",
         "kind": "propertyAccess",
         "code": "scene.Camera3D",
-        "holderScopeId": "src/webview/panel.ts:622:2"
+        "holderScopeId": "src/webview/panel.ts:650:2"
       }
     ],
     "collection_2::Scene3D.Tube3D": [
       {
-        "location": "src/webview/panel.ts:611:16",
+        "location": "src/webview/panel.ts:639:16",
         "kind": "instantiation",
         "code": "new scene.Tube3D({ id, chain })",
         "constructorText": "scene.Tube3D",
-        "holderScopeId": "src/webview/panel.ts:604:2"
+        "holderScopeId": "src/webview/panel.ts:632:2"
       },
       {
-        "location": "src/webview/panel.ts:611:20",
+        "location": "src/webview/panel.ts:639:20",
         "kind": "propertyAccess",
         "code": "scene.Tube3D",
-        "holderScopeId": "src/webview/panel.ts:604:2"
+        "holderScopeId": "src/webview/panel.ts:632:2"
       }
     ],
     "collection_2::Scene3D.GraphNode3D.Tooltip3D": [
       {
-        "location": "src/webview/panel.ts:614:20",
+        "location": "src/webview/panel.ts:642:20",
         "kind": "instantiation",
         "code": "new sphere.Tooltip3D({ targetNode: id, content: name, visible: true })",
         "constructorText": "sphere.Tooltip3D",
-        "holderScopeId": "src/webview/panel.ts:604:2"
+        "holderScopeId": "src/webview/panel.ts:632:2"
       },
       {
-        "location": "src/webview/panel.ts:614:24",
+        "location": "src/webview/panel.ts:642:24",
         "kind": "propertyAccess",
         "code": "sphere.Tooltip3D",
-        "holderScopeId": "src/webview/panel.ts:604:2"
+        "holderScopeId": "src/webview/panel.ts:632:2"
       }
     ],
     "collection_1::Trie.GraphNodeTrie.ContextMenu": [

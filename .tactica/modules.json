@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-09-22T10:57:25.130Z",
+  "generatedAt": "2026-09-22T13:08:21.176Z",
   "modules": {
     "src/topologica/bootstrap.ts": {
       "filePath": "src/topologica/bootstrap.ts",
@@ -695,6 +695,12 @@
           "isReExport": false
         },
         {
+          "name": "ALL_COLLECTIONS",
+          "kind": "const",
+          "sourceModule": "src/utils/collections.ts",
+          "isReExport": false
+        },
+        {
           "name": "collectionOfPath",
           "kind": "function",
           "sourceModule": "src/utils/collections.ts",
@@ -941,6 +947,13 @@
         },
         {
           "name": "DEFAULT_COLLECTION",
+          "kind": "const",
+          "sourceModule": "src/utils/collections.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "ALL_COLLECTIONS",
           "kind": "const",
           "sourceModule": "src/utils/collections.ts",
           "importKind": "named",
