@@ -1,6 +1,6 @@
 'use strict';
 
-import { define } from 'mnemonica';
+import { Backend } from './collections';
 import { getLogger } from '../services/LoggerService';
 
 // One entry of tactica's instrumentation.json (framework lifecycle
@@ -55,7 +55,7 @@ export type rawCreationGraph = {
 
 export type InstrumentationPointInstance = InstanceType<typeof InstrumentationPoint>;
 
-export const Instrumentation = define('Instrumentation', class {
+export const Instrumentation = Backend.define('Instrumentation', class {
 	createdAt: number;
 	private points: InstrumentationPointInstance[] = [];
 	private creationGraph: rawCreationGraph | undefined;

@@ -2,14 +2,16 @@
 
 Guidance for AI agents working on the Mnemonica Graphica VS Code extension.
 
+**Three standing rules, all non-negotiable:**
 
-1. ASK BEFORE DOING !!!
-2. ASK BEFORE DOING !!!
-3. ASK BEFORE DOING !!!
-4. ASK BEFORE DOING !!!
-5. ASK BEFORE DOING !!!
-6. ASK BEFORE DOING !!!
-7. ASK BEFORE DOING !!!
+1. **Ask before doing.** When anything is unclear, surprising, or
+   irreversible — stop and ask first. One question is cheaper than a
+   wrong change.
+2. **A question is not a task.** Answer from what you know, zero tool
+   calls — investigation is for requested changes, never for answers.
+3. **Be lazy.** A lazy developer never builds what needs re-doing: no
+   half-work, no throwaway scaffolding, no "good enough for now" that a
+   later session must unpick. Do it once, complete — or don't start.
 
 
 ## Documentation style
@@ -77,6 +79,10 @@ The extension helps AI agents:
      model records WHY (`getCreationGraphAbsentReason()` → `missing` /
      `stale` / `v1`, set by the loader, cleared by `setCreationGraph` and
      `clear()`) so the Diamonds pane can give the right advice
+   - `collections.json` (tactica ≥ 0.4.1) loads tolerantly into an
+     id → display-name map (`getCollectionNames()`, keyed `defaultTypes`
+     for the manifest's null-id default entry); a missing or malformed
+     manifest only means collection labels fall back to raw ids
    - Other models (`Definitions`, `Types`, `Usages`, `EDS`, `Flow`, `Trie`) are
      pure data containers (`Map` wrappers with a nested `*Entry` subtype)
    - The Registry's own map is the flat type index: one `RegistryEntry`
@@ -85,6 +91,15 @@ The extension helps AI agents:
      same walk fills it with one `GraphNodeTrie` per type and one
      `LinkTrie` per parent→child edge; the Types tree's "Show on Graph"
      records one `ContextMenu` per invocation on its trie node
+   - Two Option-B collections split the models (`src/models/collections.ts`):
+     `Backend` holds the data/load models above, `Frontend` holds the
+     Scene3D tree; the infrastructure roots — `Main`, `Registry`,
+     `LoggerTab` — live in the DEFAULT collection instead (free
+     `define()` / `lookup()`). Collection models self-define via
+     `Backend.define`/`Frontend.define` and their runtime lookups go
+     collection-scoped (`Backend.lookup('Types')`,
+     `Frontend.lookup('Scene3D')`). The empty registry interfaces are
+     augmentation targets for tactica's generated `.tactica/registry.ts`
 
 3. **GraphBuilder + GraphConverter** (`src/core/GraphBuilder.ts`, `src/graph/converter.ts`)
    - Builds `GraphData { nodes, links, execflow }` from the Registry
@@ -198,6 +213,24 @@ The extension helps AI agents:
      (`GraphPanel.primarySource`); trace isolate/replay/flashes and
      state/query 'view' → the most recently active panel
      (`lastActivePanel`).
+   - **Collection selector**: tactica keys custom-collection types by a
+     `collectionId::`-prefixed fullPath; the panel renders ONE
+     collection's universe at a time. `GraphBuilder.buildFromRegistry`
+     takes the collection id (undefined → default collection when
+     present, else first-seen), filters at the type-node pass, and
+     every downstream section (path-hits, flow, creation anchors,
+     wrapper joins, grafts) drops cross-collection references by the
+     existing no-dangling-reference policy. The payload carries
+     `collection` (the actual pick) and `collections` (the inventory
+     with per-collection counts); the webview's `<select>` in
+     `#controls` hides until the inventory holds two or more, and its
+     `selectCollection` message re-reads the panel's .tactica through
+     the same path as Refresh (`GraphPanel.currentCollection` holds the
+     pick across reloads). Each collection renders as its own universe:
+     its roots sit on the gen-0 shell around the maroon marker. The
+     inventory entries and the marker label use the display names from
+     `collections.json` (tactica ≥ 0.4.1); older outputs without the
+     manifest show the raw ids (`collection_1`).
    - The `mnemographica.showTypeGraph` command ("Ψ 3D") opens an interactive
      Three.js scene of the current GraphData — 3D-only (the 2D view is
      retired; the dormant 2D renderer remains in webview.js but is
@@ -229,8 +262,9 @@ The extension helps AI agents:
      The creation layer (instrumentation.json v2): the main.ts starter as
      a gold DIAMOND tangent to the collection marker's right side (+X) —
      both graphs keep their own center side by side; the maroon marker
-     (labeled with the collection name, `defaultTypes` until tactica
-     emits collection ids) belongs to the types layer and never yields
+     (labeled with the shown collection's name from the payload —
+     `defaultTypes` for the default universe) belongs to the types
+     layer and never yields
      (`updateCenterMarkerVisibility` runs on render and on every Layers
      toggle). Other starters sit on normalized sub-rings between center
      and the gen-0 shell (one ring per hop from the center,
@@ -919,6 +953,16 @@ generated `types.ts`, whose type aliases are **underscore-joined**
 (`Scene2D_GraphNode2D`) — normalize with `.replace(/_/g, '.')` (or the reverse)
 exactly at that boundary, nowhere else.
 
+Custom collections ride the same keys: tactica prefixes the fullPath with
+`collectionId::` on the root segment (`collection_1::Product.Category`), so
+every join above keeps working string-exact — parse the collection off with
+`collectionOfPath` (`src/utils/collections.ts`), never by hand. The
+underscore-boundary caveat: an Option-B collection's types.ts aliases are
+prefixed with its REGISTRY INTERFACE name (`ShopRegistry_Product`), which
+normalizes to `ShopRegistry.Product` and intentionally does NOT join to
+`collection_1::Product` — collection types carry no parsed properties until
+tactica emits the interface↔id mapping.
+
 ## Location Convention (important)
 
 All stored locations are **1-based** `"file:line:column"` strings (tactica's
@@ -981,6 +1025,12 @@ Automated (plain node, no VS Code host):
   the internals backplane (6 declared knots, sink edges, the collection
   hookup, census-driven grafts, never-created spheres and never-taken
   path-hits)
+- `test/collections.test.js` — one collection per payload: the default
+  selection, explicit selection, the `collections` inventory with
+  display names from collections.json, the per-universe instantiation
+  census, and both fallbacks (unknown id → defaultTypes; no default →
+  first-seen — also the absent-manifest pin), over the hand-written
+  `fixtures-collections` / `fixtures-collections-only` payloads
 - `test/scene-builder.test.js` — SceneBuilder → Scene3D: the scene
   census (spheres, links by kind, diamonds, bagel anchors, knots,
   captions) for v2 and v1 payloads, the interactive shapes
@@ -1061,7 +1111,9 @@ src/
 │   └── StateManager.ts      # App state holder
 ├── graph/
 │   └── converter.ts      # TypeNode hierarchy → GraphData
-├── models/               # Pure mnemonica data types (Registry is the controller)
+├── models/               # Pure mnemonica data types (Registry is the controller);
+│                         # collections.ts holds the two Option-B collections:
+│                         # Backend (data/load models), Frontend (Scene3D tree)
 ├── providers/            # Definition (Ctrl+Click) and Reference (Shift+F12)
 ├── services/             # LoggerService, NavigationAdapter
 ├── strategy/             # MCP-shaped server (127.0.0.1 only), processManager

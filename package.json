@@ -404,13 +404,13 @@
 		"watch": "tsc -watch -p ./",
 		"pretest": "npm run compile && npm run lint",
 		"lint": "eslint src",
-		"test": "node test/registry-loading.test.js && node test/types-model.test.js && node test/types-parser.test.js && node test/trace-ingest.test.js && node test/logger-channel.test.js && node test/graph-builder.test.js",
+		"test": "node test/registry-loading.test.js && node test/types-model.test.js && node test/types-parser.test.js && node test/trace-ingest.test.js && node test/logger-channel.test.js && node test/graph-builder.test.js && node test/collections.test.js",
 		"package": "vsce package",
 		"tactica:generate": "tactica --generate --verbose",
 		"tactica:watch": "tactica --watch"
 	},
 	"devDependencies": {
-		"@mnemonica/tactica": "^0.4.0",
+		"@mnemonica/tactica": "^0.4.1",
 		"@types/node": "^20.19.43",
 		"@types/vscode": "1.74.0",
 		"@types/ws": "^8.18.1",

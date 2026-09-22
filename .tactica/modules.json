@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-09-22T02:50:34.547Z",
+  "generatedAt": "2026-09-22T10:57:25.130Z",
   "modules": {
     "src/topologica/bootstrap.ts": {
       "filePath": "src/topologica/bootstrap.ts",
@@ -684,11 +684,76 @@
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
+    "src/utils/collections.ts": {
+      "filePath": "src/utils/collections.ts",
+      "definedTypes": [],
+      "exportedBindings": [
+        {
+          "name": "DEFAULT_COLLECTION",
+          "kind": "const",
+          "sourceModule": "src/utils/collections.ts",
+          "isReExport": false
+        },
+        {
+          "name": "collectionOfPath",
+          "kind": "function",
+          "sourceModule": "src/utils/collections.ts",
+          "isReExport": false
+        }
+      ],
+      "importedBindings": [],
+      "dependencies": [],
+      "unresolvedSpecifiers": [],
+      "builtinSpecifiers": []
+    },
+    "src/models/collections.ts": {
+      "filePath": "src/models/collections.ts",
+      "definedTypes": [],
+      "exportedBindings": [
+        {
+          "name": "BackendRegistry",
+          "kind": "type",
+          "sourceModule": "src/models/collections.ts",
+          "isReExport": false
+        },
+        {
+          "name": "Backend",
+          "kind": "const",
+          "sourceModule": "src/models/collections.ts",
+          "isReExport": false
+        },
+        {
+          "name": "FrontendRegistry",
+          "kind": "type",
+          "sourceModule": "src/models/collections.ts",
+          "isReExport": false
+        },
+        {
+          "name": "Frontend",
+          "kind": "const",
+          "sourceModule": "src/models/collections.ts",
+          "isReExport": false
+        }
+      ],
+      "importedBindings": [
+        {
+          "name": "createTypesCollection",
+          "kind": "unknown",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
+          "importKind": "named",
+          "isReExport": false,
+          "external": true
+        }
+      ],
+      "dependencies": [],
+      "unresolvedSpecifiers": [],
+      "builtinSpecifiers": []
+    },
     "src/models/Instrumentation.ts": {
       "filePath": "src/models/Instrumentation.ts",
       "definedTypes": [
-        "Instrumentation",
-        "Instrumentation.InstrumentationPoint"
+        "collection_1::Instrumentation",
+        "collection_1::Instrumentation.InstrumentationPoint"
       ],
       "exportedBindings": [
         {
@@ -750,12 +815,11 @@
       ],
       "importedBindings": [
         {
-          "name": "define",
-          "kind": "unknown",
-          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
+          "name": "Backend",
+          "kind": "const",
+          "sourceModule": "src/models/collections.ts",
           "importKind": "named",
-          "isReExport": false,
-          "external": true
+          "isReExport": false
         },
         {
           "name": "getLogger",
@@ -766,6 +830,7 @@
         }
       ],
       "dependencies": [
+        "src/models/collections.ts",
         "src/services/LoggerService.ts"
       ],
       "unresolvedSpecifiers": [],
@@ -868,6 +933,20 @@
           "isReExport": false
         },
         {
+          "name": "collectionOfPath",
+          "kind": "function",
+          "sourceModule": "src/utils/collections.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "DEFAULT_COLLECTION",
+          "kind": "const",
+          "sourceModule": "src/utils/collections.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
           "name": "Registry",
           "kind": "unknown",
           "sourceModule": ".tactica/types.ts",
@@ -894,6 +973,7 @@
         "src/graph/converter.ts",
         "src/graph/internals-manifest.ts",
         "src/types/tactica-types.ts",
+        "src/utils/collections.ts",
         "src/models/Instrumentation.ts",
         "src/services/LoggerService.ts"
       ],
@@ -1094,7 +1174,8 @@
           "kind": "unknown",
           "sourceModule": ".tactica/types.ts",
           "importKind": "named",
-          "isReExport": false
+          "isReExport": false,
+          "importAlias": "BackendRegistry_Usages"
         },
         {
           "name": "MainOrchestrator",
@@ -1171,19 +1252,19 @@
       ],
       "importedBindings": [
         {
-          "name": "lookup",
-          "kind": "unknown",
-          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
+          "name": "Frontend",
+          "kind": "const",
+          "sourceModule": "src/models/collections.ts",
           "importKind": "named",
-          "isReExport": false,
-          "external": true
+          "isReExport": false
         },
         {
           "name": "Scene3D",
           "kind": "unknown",
           "sourceModule": ".tactica/types.ts",
           "importKind": "named",
-          "isReExport": false
+          "isReExport": false,
+          "importAlias": "FrontendRegistry_Scene3D"
         },
         {
           "name": "D3Node",
@@ -1201,6 +1282,7 @@
         }
       ],
       "dependencies": [
+        "src/models/collections.ts",
         "src/types/index.ts"
       ],
       "unresolvedSpecifiers": [],
@@ -1266,14 +1348,16 @@
           "kind": "unknown",
           "sourceModule": ".tactica/types.ts",
           "importKind": "named",
-          "isReExport": false
+          "isReExport": false,
+          "importAlias": "FrontendRegistry_Scene3D"
         },
         {
           "name": "Scene3D_GraphNode3D",
           "kind": "unknown",
           "sourceModule": ".tactica/types.ts",
           "importKind": "named",
-          "isReExport": false
+          "isReExport": false,
+          "importAlias": "FrontendRegistry_Scene3D_GraphNode3D"
         },
         {
           "name": "getLogger",
@@ -2163,7 +2247,8 @@
           "kind": "unknown",
           "sourceModule": ".tactica/types.ts",
           "importKind": "named",
-          "isReExport": false
+          "isReExport": false,
+          "importAlias": "BackendRegistry_Trie_GraphNodeTrie"
         },
         {
           "name": "GraphPanel",
@@ -2276,8 +2361,8 @@
     "src/models/Definition.ts": {
       "filePath": "src/models/Definition.ts",
       "definedTypes": [
-        "Definitions",
-        "Definitions.DefinitionEntry"
+        "collection_1::Definitions",
+        "collection_1::Definitions.DefinitionEntry"
       ],
       "exportedBindings": [
         {
@@ -2315,12 +2400,11 @@
       ],
       "importedBindings": [
         {
-          "name": "define",
-          "kind": "unknown",
-          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
+          "name": "Backend",
+          "kind": "const",
+          "sourceModule": "src/models/collections.ts",
           "importKind": "named",
-          "isReExport": false,
-          "external": true
+          "isReExport": false
         },
         {
           "name": "getLogger",
@@ -2331,6 +2415,7 @@
         }
       ],
       "dependencies": [
+        "src/models/collections.ts",
         "src/services/LoggerService.ts"
       ],
       "unresolvedSpecifiers": [],
@@ -2339,8 +2424,8 @@
     "src/models/EDS.ts": {
       "filePath": "src/models/EDS.ts",
       "definedTypes": [
-        "EDS",
-        "EDS.EDSEntry"
+        "collection_1::EDS",
+        "collection_1::EDS.EDSEntry"
       ],
       "exportedBindings": [
         {
@@ -2378,12 +2463,11 @@
       ],
       "importedBindings": [
         {
-          "name": "define",
-          "kind": "unknown",
-          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
+          "name": "Backend",
+          "kind": "const",
+          "sourceModule": "src/models/collections.ts",
           "importKind": "named",
-          "isReExport": false,
-          "external": true
+          "isReExport": false
         },
         {
           "name": "getLogger",
@@ -2394,6 +2478,7 @@
         }
       ],
       "dependencies": [
+        "src/models/collections.ts",
         "src/services/LoggerService.ts"
       ],
       "unresolvedSpecifiers": [],
@@ -2402,8 +2487,8 @@
     "src/models/Flow.ts": {
       "filePath": "src/models/Flow.ts",
       "definedTypes": [
-        "Flow",
-        "Flow.FlowEntry"
+        "collection_1::Flow",
+        "collection_1::Flow.FlowEntry"
       ],
       "exportedBindings": [
         {
@@ -2441,12 +2526,11 @@
       ],
       "importedBindings": [
         {
-          "name": "define",
-          "kind": "unknown",
-          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
+          "name": "Backend",
+          "kind": "const",
+          "sourceModule": "src/models/collections.ts",
           "importKind": "named",
-          "isReExport": false,
-          "external": true
+          "isReExport": false
         },
         {
           "name": "getLogger",
@@ -2457,6 +2541,7 @@
         }
       ],
       "dependencies": [
+        "src/models/collections.ts",
         "src/services/LoggerService.ts"
       ],
       "unresolvedSpecifiers": [],
@@ -2561,8 +2646,8 @@
     "src/models/Types.ts": {
       "filePath": "src/models/Types.ts",
       "definedTypes": [
-        "Types",
-        "Types.TypeEntry"
+        "collection_1::Types",
+        "collection_1::Types.TypeEntry"
       ],
       "exportedBindings": [
         {
@@ -2600,12 +2685,11 @@
       ],
       "importedBindings": [
         {
-          "name": "define",
-          "kind": "unknown",
-          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
+          "name": "Backend",
+          "kind": "const",
+          "sourceModule": "src/models/collections.ts",
           "importKind": "named",
-          "isReExport": false,
-          "external": true
+          "isReExport": false
         },
         {
           "name": "getLogger",
@@ -2616,6 +2700,7 @@
         }
       ],
       "dependencies": [
+        "src/models/collections.ts",
         "src/services/LoggerService.ts"
       ],
       "unresolvedSpecifiers": [],
@@ -2624,8 +2709,8 @@
     "src/models/Usages.ts": {
       "filePath": "src/models/Usages.ts",
       "definedTypes": [
-        "Usages",
-        "Usages.UsageEntry"
+        "collection_1::Usages",
+        "collection_1::Usages.UsageEntry"
       ],
       "exportedBindings": [
         {
@@ -2663,12 +2748,11 @@
       ],
       "importedBindings": [
         {
-          "name": "define",
-          "kind": "unknown",
-          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
+          "name": "Backend",
+          "kind": "const",
+          "sourceModule": "src/models/collections.ts",
           "importKind": "named",
-          "isReExport": false,
-          "external": true
+          "isReExport": false
         },
         {
           "name": "getLogger",
@@ -2679,6 +2763,7 @@
         }
       ],
       "dependencies": [
+        "src/models/collections.ts",
         "src/services/LoggerService.ts"
       ],
       "unresolvedSpecifiers": [],
@@ -2726,15 +2811,14 @@
       ],
       "importedBindings": [
         {
-          "name": "define",
-          "kind": "unknown",
-          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
+          "name": "Backend",
+          "kind": "const",
+          "sourceModule": "src/models/collections.ts",
           "importKind": "named",
-          "isReExport": false,
-          "external": true
+          "isReExport": false
         },
         {
-          "name": "lookup",
+          "name": "define",
           "kind": "unknown",
           "sourceModule": "node_modules/mnemonica/build/index.d.ts",
           "importKind": "named",
@@ -2756,53 +2840,67 @@
           "isReExport": false
         },
         {
+          "name": "DEFAULT_COLLECTION",
+          "kind": "const",
+          "sourceModule": "src/utils/collections.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
           "name": "Definitions",
           "kind": "unknown",
           "sourceModule": ".tactica/types.ts",
           "importKind": "named",
-          "isReExport": false
+          "isReExport": false,
+          "importAlias": "BackendRegistry_Definitions"
         },
         {
           "name": "Types",
           "kind": "unknown",
           "sourceModule": ".tactica/types.ts",
           "importKind": "named",
-          "isReExport": false
+          "isReExport": false,
+          "importAlias": "BackendRegistry_Types"
         },
         {
           "name": "Usages",
           "kind": "unknown",
           "sourceModule": ".tactica/types.ts",
           "importKind": "named",
-          "isReExport": false
+          "isReExport": false,
+          "importAlias": "BackendRegistry_Usages"
         },
         {
           "name": "Trie",
           "kind": "unknown",
           "sourceModule": ".tactica/types.ts",
           "importKind": "named",
-          "isReExport": false
+          "isReExport": false,
+          "importAlias": "BackendRegistry_Trie"
         },
         {
           "name": "EDS",
           "kind": "unknown",
           "sourceModule": ".tactica/types.ts",
           "importKind": "named",
-          "isReExport": false
+          "isReExport": false,
+          "importAlias": "BackendRegistry_EDS"
         },
         {
           "name": "Flow",
           "kind": "unknown",
           "sourceModule": ".tactica/types.ts",
           "importKind": "named",
-          "isReExport": false
+          "isReExport": false,
+          "importAlias": "BackendRegistry_Flow"
         },
         {
           "name": "Instrumentation",
           "kind": "unknown",
           "sourceModule": ".tactica/types.ts",
           "importKind": "named",
-          "isReExport": false
+          "isReExport": false,
+          "importAlias": "BackendRegistry_Instrumentation"
         },
         {
           "name": "RegistryModel",
@@ -2863,8 +2961,10 @@
         }
       ],
       "dependencies": [
+        "src/models/collections.ts",
         "src/services/LoggerService.ts",
         "src/utils/paths.ts",
+        "src/utils/collections.ts",
         "src/models/Definition.ts",
         "src/models/Types.ts",
         "src/models/Usages.ts",
@@ -2881,19 +2981,19 @@
     "src/models/Scene3D.ts": {
       "filePath": "src/models/Scene3D.ts",
       "definedTypes": [
-        "Scene3D",
-        "Scene3D.Camera3D",
-        "Scene3D.GraphNode3D",
-        "Scene3D.Link3D",
-        "Scene3D.GraphNode3D.Tooltip3D",
-        "Scene3D.Diamond3D",
-        "Scene3D.Bagel3D",
-        "Scene3D.Ring3D",
-        "Scene3D.Hub3D",
-        "Scene3D.Sink3D",
-        "Scene3D.Cone3D",
-        "Scene3D.Caption3D",
-        "Scene3D.Tube3D"
+        "collection_2::Scene3D",
+        "collection_2::Scene3D.Camera3D",
+        "collection_2::Scene3D.GraphNode3D",
+        "collection_2::Scene3D.Link3D",
+        "collection_2::Scene3D.GraphNode3D.Tooltip3D",
+        "collection_2::Scene3D.Diamond3D",
+        "collection_2::Scene3D.Bagel3D",
+        "collection_2::Scene3D.Ring3D",
+        "collection_2::Scene3D.Hub3D",
+        "collection_2::Scene3D.Sink3D",
+        "collection_2::Scene3D.Cone3D",
+        "collection_2::Scene3D.Caption3D",
+        "collection_2::Scene3D.Tube3D"
       ],
       "exportedBindings": [
         {
@@ -2985,25 +3085,26 @@
       ],
       "importedBindings": [
         {
-          "name": "define",
-          "kind": "unknown",
-          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
+          "name": "Frontend",
+          "kind": "const",
+          "sourceModule": "src/models/collections.ts",
           "importKind": "named",
-          "isReExport": false,
-          "external": true
+          "isReExport": false
         }
       ],
-      "dependencies": [],
+      "dependencies": [
+        "src/models/collections.ts"
+      ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
     "src/models/Trie.ts": {
       "filePath": "src/models/Trie.ts",
       "definedTypes": [
-        "Trie",
-        "Trie.GraphNodeTrie",
-        "Trie.GraphNodeTrie.LinkTrie",
-        "Trie.GraphNodeTrie.ContextMenu"
+        "collection_1::Trie",
+        "collection_1::Trie.GraphNodeTrie",
+        "collection_1::Trie.GraphNodeTrie.LinkTrie",
+        "collection_1::Trie.GraphNodeTrie.ContextMenu"
       ],
       "exportedBindings": [
         {
@@ -3041,15 +3142,16 @@
       ],
       "importedBindings": [
         {
-          "name": "define",
-          "kind": "unknown",
-          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
+          "name": "Backend",
+          "kind": "const",
+          "sourceModule": "src/models/collections.ts",
           "importKind": "named",
-          "isReExport": false,
-          "external": true
+          "isReExport": false
         }
       ],
-      "dependencies": [],
+      "dependencies": [
+        "src/models/collections.ts"
+      ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },

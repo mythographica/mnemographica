@@ -1,0 +1,12 @@
+{
+	"version": "1.0",
+	"generatedAt": "2026-09-22T00:00:00.000Z",
+	"usages": {
+		"Widget": [
+			{ "location": "src/main.ts:4:15", "kind": "instantiation", "code": "new Widget({ label: 'w' })" }
+		],
+		"collection_1::Product": [
+			{ "location": "src/main.ts:8:16", "kind": "instantiation", "code": "new Product({ productId: 'p' })" }
+		]
+	}
+}

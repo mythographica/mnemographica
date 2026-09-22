@@ -2,10 +2,12 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { define, lookup } from 'mnemonica';
+import { Backend } from './collections';
+import { define } from 'mnemonica';
 import { getLogger } from '../services/LoggerService';
 import { resolveWorkspacePaths } from '../utils/paths';
-import type { Definitions, Types, Usages, Trie, EDS, Flow, Instrumentation, Registry as RegistryModel } from '~tactica/types';
+import { DEFAULT_COLLECTION } from '../utils/collections';
+import type { BackendRegistry_Definitions as Definitions, BackendRegistry_Types as Types, BackendRegistry_Usages as Usages, BackendRegistry_Trie as Trie, BackendRegistry_EDS as EDS, BackendRegistry_Flow as Flow, BackendRegistry_Instrumentation as Instrumentation, Registry as RegistryModel } from '~tactica/types';
 
 import type { rawDefinitionEntry } from './Definition';
 import type { rawTypeEntry } from './Types';
@@ -28,6 +30,13 @@ type hierarchyNode = {
 	fullPath: string;
 	location?: string;
 	children?: hierarchyNode[];
+};
+
+// collections.json manifest entry shape, as written by tactica ≥ 0.4.1.
+// Only the fields the panel reads — the id and the display name.
+type collectionsManifestEntry = {
+	id: string | null;
+	name: string;
 };
 
 const parseLocationString = function (location?: string): { fileName: string; line: number; column: number } | undefined {
@@ -57,6 +66,11 @@ export const Registry = define('Registry', class {
 	private flowInstance: Flow | undefined;
 	private instrumentationInstance: Instrumentation | undefined;
 	private trieInstance: Trie | undefined;
+
+	// Collection id → display name, from collections.json (tactica
+	// ≥ 0.4.1). Empty when the manifest is absent — consumers fall back
+	// to raw ids.
+	private collectionNames: Map<string, string> = new Map();
 
 	// Workspace path for reload operations
 	private workspacePath: string | undefined;
@@ -99,6 +113,7 @@ export const Registry = define('Registry', class {
 		this.flowInstance = undefined;
 		this.instrumentationInstance = undefined;
 		this.trieInstance = undefined;
+		this.collectionNames.clear();
 		this.workspacePath = undefined;
 		this.logger.info('[Registry] : cleared all data');
 	}
@@ -142,6 +157,9 @@ export const Registry = define('Registry', class {
 			// Load Instrumentation (framework lifecycle crossroads, diamond graph)
 			await this.loadInstrumentation(tacticaPath);
 
+			// Load the collections manifest (id → display name labels)
+			await this.loadCollections(tacticaPath);
+
 			this.logger.info('[Registry] : all models loaded successfully');
 		} catch (error) {
 			this.logger.error('[Registry] : failed to load models',
@@ -157,7 +175,7 @@ export const Registry = define('Registry', class {
 		this.logger.info('[Registry] : loading Definitions');
 
 		try {
-			const DefinitionsConstructor = lookup('Definitions');
+			const DefinitionsConstructor = Backend.lookup('Definitions');
 			const definitionsInstance = new DefinitionsConstructor();
 			this.definitionsInstance = definitionsInstance;
 
@@ -202,7 +220,7 @@ export const Registry = define('Registry', class {
 		this.logger.info('[Registry] : loading Types');
 
 		try {
-			const TypesConstructor = lookup('Types');
+			const TypesConstructor = Backend.lookup('Types');
 			const typesInstance = new TypesConstructor();
 			this.typesInstance = typesInstance;
 
@@ -364,7 +382,7 @@ export const Registry = define('Registry', class {
 		this.logger.info('[Registry] : loading Usages');
 
 		try {
-			const UsagesConstructor = lookup('Usages');
+			const UsagesConstructor = Backend.lookup('Usages');
 			const usagesInstance = new UsagesConstructor();
 			this.usagesInstance = usagesInstance;
 
@@ -403,7 +421,7 @@ export const Registry = define('Registry', class {
 		this.logger.info('[Registry] : loading EDS');
 
 		try {
-			const EDSConstructor = lookup('EDS');
+			const EDSConstructor = Backend.lookup('EDS');
 			const edsInstance = new EDSConstructor();
 			this.edsInstance = edsInstance;
 
@@ -456,7 +474,7 @@ export const Registry = define('Registry', class {
 		this.logger.info('[Registry] : loading Flow');
 
 		try {
-			const FlowConstructor = lookup('Flow');
+			const FlowConstructor = Backend.lookup('Flow');
 			const flowInstance = new FlowConstructor();
 			this.flowInstance = flowInstance;
 
@@ -494,7 +512,7 @@ export const Registry = define('Registry', class {
 		this.logger.info('[Registry] : loading Instrumentation');
 
 		try {
-			const InstrumentationConstructor = lookup('Instrumentation');
+			const InstrumentationConstructor = Backend.lookup('Instrumentation');
 			const instrumentationInstance = new InstrumentationConstructor();
 			this.instrumentationInstance = instrumentationInstance;
 
@@ -566,13 +584,47 @@ export const Registry = define('Registry', class {
 	}
 
 	/**
+	 * Load the collections manifest from collections.json (collection id →
+	 * display name). Tolerant: tactica < 0.4.1 writes no such file and the
+	 * labels are cosmetic, so a missing or malformed manifest only means
+	 * the panel shows raw ids — never a failed load.
+	 */
+	private async loadCollections(tacticaPath: string): Promise<void> {
+		const collectionsPath = path.join(tacticaPath, 'collections.json');
+		if (!fs.existsSync(collectionsPath)) {
+			return;
+		}
+		try {
+			const content = fs.readFileSync(collectionsPath, 'utf-8');
+			const data = JSON.parse(content) as { collections?: unknown };
+			if (!Array.isArray(data.collections)) {
+				return;
+			}
+			const entries = data.collections as collectionsManifestEntry[];
+			for (const entry of entries) {
+				if (typeof entry.name !== 'string') {
+					continue;
+				}
+				// The default collection's manifest id is null; the graph
+				// keys it 'defaultTypes' (unprefixed fullPaths ARE its
+				// identity)
+				const key = entry.id === null ? DEFAULT_COLLECTION : entry.id;
+				this.collectionNames.set(key, entry.name);
+			}
+			this.logger.info(`[Registry] : collections manifest loaded with ${this.collectionNames.size} entries`);
+		} catch (error) {
+			this.logger.warn(`[Registry] : collections.json unreadable — labels fall back to raw ids (${(error as Error).message})`);
+		}
+	}
+
+	/**
 	 * Initialize Trie using lookup
 	 */
 	private async loadTrie(): Promise<void> {
 		this.logger.info('[Registry] : loading Trie');
 
 		try {
-			const TrieConstructor = lookup('Trie');
+			const TrieConstructor = Backend.lookup('Trie');
 			const trieInstance = new TrieConstructor();
 			this.trieInstance = trieInstance;
 			this.logger.info('[Registry] : Trie initialized');
@@ -629,6 +681,14 @@ export const Registry = define('Registry', class {
 	 */
 	getTrie(): Trie | undefined {
 		return this.trieInstance;
+	}
+
+	/**
+	 * Collection id → display name from collections.json. Empty when the
+	 * manifest is absent — consumers fall back to raw ids.
+	 */
+	getCollectionNames(): Map<string, string> {
+		return this.collectionNames;
 	}
 
 	/**

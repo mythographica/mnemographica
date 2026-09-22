@@ -1,68 +1,68 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-09-22T02:50:34.529Z",
+  "generatedAt": "2026-09-22T10:57:25.102Z",
   "definitions": {
-    "Instrumentation": {
+    "collection_1::Instrumentation": {
       "name": "Instrumentation",
-      "location": "src/models/Instrumentation.ts:58:32",
+      "location": "src/models/Instrumentation.ts:58:40",
       "kind": "define",
       "parent": null,
       "strictChain": true,
       "blockErrors": false
     },
-    "Instrumentation.InstrumentationPoint": {
+    "collection_1::Instrumentation.InstrumentationPoint": {
       "name": "InstrumentationPoint",
       "location": "src/models/Instrumentation.ts:119:53",
       "kind": "define",
-      "parent": "Instrumentation",
+      "parent": "collection_1::Instrumentation",
       "strictChain": true,
       "blockErrors": false
     },
-    "Definitions": {
+    "collection_1::Definitions": {
       "name": "Definitions",
-      "location": "src/models/Definition.ts:18:28",
+      "location": "src/models/Definition.ts:18:36",
       "kind": "define",
       "parent": null,
       "strictChain": true,
       "blockErrors": false
     },
-    "Definitions.DefinitionEntry": {
+    "collection_1::Definitions.DefinitionEntry": {
       "name": "DefinitionEntry",
       "location": "src/models/Definition.ts:70:44",
       "kind": "define",
-      "parent": "Definitions",
+      "parent": "collection_1::Definitions",
       "strictChain": true,
       "blockErrors": false
     },
-    "EDS": {
+    "collection_1::EDS": {
       "name": "EDS",
-      "location": "src/models/EDS.ts:29:20",
+      "location": "src/models/EDS.ts:29:28",
       "kind": "define",
       "parent": null,
       "strictChain": true,
       "blockErrors": false
     },
-    "EDS.EDSEntry": {
+    "collection_1::EDS.EDSEntry": {
       "name": "EDSEntry",
       "location": "src/models/EDS.ts:76:29",
       "kind": "define",
-      "parent": "EDS",
+      "parent": "collection_1::EDS",
       "strictChain": true,
       "blockErrors": false
     },
-    "Flow": {
+    "collection_1::Flow": {
       "name": "Flow",
-      "location": "src/models/Flow.ts:18:21",
+      "location": "src/models/Flow.ts:18:29",
       "kind": "define",
       "parent": null,
       "strictChain": true,
       "blockErrors": false
     },
-    "Flow.FlowEntry": {
+    "collection_1::Flow.FlowEntry": {
       "name": "FlowEntry",
       "location": "src/models/Flow.ts:65:31",
       "kind": "define",
-      "parent": "Flow",
+      "parent": "collection_1::Flow",
       "strictChain": true,
       "blockErrors": false
     },
@@ -98,41 +98,41 @@
       "strictChain": true,
       "blockErrors": false
     },
-    "Types": {
+    "collection_1::Types": {
       "name": "Types",
-      "location": "src/models/Types.ts:21:22",
+      "location": "src/models/Types.ts:21:30",
       "kind": "define",
       "parent": null,
       "strictChain": true,
       "blockErrors": false
     },
-    "Types.TypeEntry": {
+    "collection_1::Types.TypeEntry": {
       "name": "TypeEntry",
       "location": "src/models/Types.ts:75:32",
       "kind": "define",
-      "parent": "Types",
+      "parent": "collection_1::Types",
       "strictChain": true,
       "blockErrors": false
     },
-    "Usages": {
+    "collection_1::Usages": {
       "name": "Usages",
-      "location": "src/models/Usages.ts:16:23",
+      "location": "src/models/Usages.ts:16:31",
       "kind": "define",
       "parent": null,
       "strictChain": true,
       "blockErrors": false
     },
-    "Usages.UsageEntry": {
+    "collection_1::Usages.UsageEntry": {
       "name": "UsageEntry",
       "location": "src/models/Usages.ts:59:34",
       "kind": "define",
-      "parent": "Usages",
+      "parent": "collection_1::Usages",
       "strictChain": true,
       "blockErrors": false
     },
     "Registry": {
       "name": "Registry",
-      "location": "src/models/Registry.ts:44:25",
+      "location": "src/models/Registry.ts:53:25",
       "kind": "define",
       "parent": null,
       "strictChain": true,
@@ -140,145 +140,145 @@
     },
     "Registry.RegistryEntry": {
       "name": "RegistryEntry",
-      "location": "src/models/Registry.ts:654:39",
+      "location": "src/models/Registry.ts:714:39",
       "kind": "define",
       "parent": "Registry",
       "strictChain": true,
       "blockErrors": false
     },
-    "Scene3D": {
+    "collection_2::Scene3D": {
       "name": "Scene3D",
-      "location": "src/models/Scene3D.ts:19:24",
+      "location": "src/models/Scene3D.ts:19:33",
       "kind": "define",
       "parent": null,
       "strictChain": true,
       "blockErrors": false
     },
-    "Scene3D.Camera3D": {
+    "collection_2::Scene3D.Camera3D": {
       "name": "Camera3D",
       "location": "src/models/Scene3D.ts:99:33",
       "kind": "define",
-      "parent": "Scene3D",
+      "parent": "collection_2::Scene3D",
       "strictChain": true,
       "blockErrors": false
     },
-    "Scene3D.GraphNode3D": {
+    "collection_2::Scene3D.GraphNode3D": {
       "name": "GraphNode3D",
       "location": "src/models/Scene3D.ts:113:36",
       "kind": "define",
-      "parent": "Scene3D",
+      "parent": "collection_2::Scene3D",
       "strictChain": true,
       "blockErrors": false
     },
-    "Scene3D.Link3D": {
+    "collection_2::Scene3D.Link3D": {
       "name": "Link3D",
       "location": "src/models/Scene3D.ts:136:31",
       "kind": "define",
-      "parent": "Scene3D",
+      "parent": "collection_2::Scene3D",
       "strictChain": true,
       "blockErrors": false
     },
-    "Scene3D.GraphNode3D.Tooltip3D": {
+    "collection_2::Scene3D.GraphNode3D.Tooltip3D": {
       "name": "Tooltip3D",
       "location": "src/models/Scene3D.ts:148:38",
       "kind": "define",
-      "parent": "Scene3D.GraphNode3D",
+      "parent": "collection_2::Scene3D.GraphNode3D",
       "strictChain": true,
       "blockErrors": false
     },
-    "Scene3D.Diamond3D": {
+    "collection_2::Scene3D.Diamond3D": {
       "name": "Diamond3D",
       "location": "src/models/Scene3D.ts:159:34",
       "kind": "define",
-      "parent": "Scene3D",
+      "parent": "collection_2::Scene3D",
       "strictChain": true,
       "blockErrors": false
     },
-    "Scene3D.Bagel3D": {
+    "collection_2::Scene3D.Bagel3D": {
       "name": "Bagel3D",
       "location": "src/models/Scene3D.ts:188:32",
       "kind": "define",
-      "parent": "Scene3D",
+      "parent": "collection_2::Scene3D",
       "strictChain": true,
       "blockErrors": false
     },
-    "Scene3D.Ring3D": {
+    "collection_2::Scene3D.Ring3D": {
       "name": "Ring3D",
       "location": "src/models/Scene3D.ts:214:31",
       "kind": "define",
-      "parent": "Scene3D",
+      "parent": "collection_2::Scene3D",
       "strictChain": true,
       "blockErrors": false
     },
-    "Scene3D.Hub3D": {
+    "collection_2::Scene3D.Hub3D": {
       "name": "Hub3D",
       "location": "src/models/Scene3D.ts:224:30",
       "kind": "define",
-      "parent": "Scene3D",
+      "parent": "collection_2::Scene3D",
       "strictChain": true,
       "blockErrors": false
     },
-    "Scene3D.Sink3D": {
+    "collection_2::Scene3D.Sink3D": {
       "name": "Sink3D",
       "location": "src/models/Scene3D.ts:235:31",
       "kind": "define",
-      "parent": "Scene3D",
+      "parent": "collection_2::Scene3D",
       "strictChain": true,
       "blockErrors": false
     },
-    "Scene3D.Cone3D": {
+    "collection_2::Scene3D.Cone3D": {
       "name": "Cone3D",
       "location": "src/models/Scene3D.ts:245:31",
       "kind": "define",
-      "parent": "Scene3D",
+      "parent": "collection_2::Scene3D",
       "strictChain": true,
       "blockErrors": false
     },
-    "Scene3D.Caption3D": {
+    "collection_2::Scene3D.Caption3D": {
       "name": "Caption3D",
       "location": "src/models/Scene3D.ts:255:34",
       "kind": "define",
-      "parent": "Scene3D",
+      "parent": "collection_2::Scene3D",
       "strictChain": true,
       "blockErrors": false
     },
-    "Scene3D.Tube3D": {
+    "collection_2::Scene3D.Tube3D": {
       "name": "Tube3D",
       "location": "src/models/Scene3D.ts:265:31",
       "kind": "define",
-      "parent": "Scene3D",
+      "parent": "collection_2::Scene3D",
       "strictChain": true,
       "blockErrors": false
     },
-    "Trie": {
+    "collection_1::Trie": {
       "name": "Trie",
-      "location": "src/models/Trie.ts:12:21",
+      "location": "src/models/Trie.ts:12:29",
       "kind": "define",
       "parent": null,
       "strictChain": true,
       "blockErrors": false
     },
-    "Trie.GraphNodeTrie": {
+    "collection_1::Trie.GraphNodeTrie": {
       "name": "GraphNodeTrie",
       "location": "src/models/Trie.ts:53:35",
       "kind": "define",
-      "parent": "Trie",
+      "parent": "collection_1::Trie",
       "strictChain": true,
       "blockErrors": false
     },
-    "Trie.GraphNodeTrie.LinkTrie": {
+    "collection_1::Trie.GraphNodeTrie.LinkTrie": {
       "name": "LinkTrie",
       "location": "src/models/Trie.ts:64:39",
       "kind": "define",
-      "parent": "Trie.GraphNodeTrie",
+      "parent": "collection_1::Trie.GraphNodeTrie",
       "strictChain": true,
       "blockErrors": false
     },
-    "Trie.GraphNodeTrie.ContextMenu": {
+    "collection_1::Trie.GraphNodeTrie.ContextMenu": {
       "name": "ContextMenu",
       "location": "src/models/Trie.ts:75:42",
       "kind": "define",
-      "parent": "Trie.GraphNodeTrie",
+      "parent": "collection_1::Trie.GraphNodeTrie",
       "strictChain": true,
       "blockErrors": false
     }

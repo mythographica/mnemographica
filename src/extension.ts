@@ -14,7 +14,7 @@ import { getLogger } from './services/LoggerService';
 import { VSCodeNavigation } from './services/NavigationAdapter';
 import { loadModels, modelsLoaded } from './topologica/bootstrap';
 import { MainOrchestrator, traceEdge } from './core/MainOrchestrator';
-import type { Trie_GraphNodeTrie } from '../.tactica/types';
+import type { BackendRegistry_Trie_GraphNodeTrie as Trie_GraphNodeTrie } from '../.tactica/types';
 import { GraphPanel } from './webview/panel';
 import { StrategyPanel } from './webview/strategyPanel';
 import { AppChannelPanel } from './webview/appChannelPanel';

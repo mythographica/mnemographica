@@ -1,6 +1,6 @@
 'use strict';
 
-import { define } from 'mnemonica';
+import { Backend } from './collections';
 import { getLogger } from '../services/LoggerService';
 
 export type rawEDSEntry = {
@@ -26,7 +26,7 @@ export type rawEDSEntry = {
 
 export type EDSEntryInstance = InstanceType<typeof EDSEntry>;
 
-export const EDS = define('EDS', class {
+export const EDS = Backend.define('EDS', class {
 	createdAt: number;
 	private map: Map<string, EDSEntryInstance[]> = new Map();
 	private logger = getLogger();

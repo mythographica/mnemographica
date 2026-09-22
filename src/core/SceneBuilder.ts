@@ -1,7 +1,7 @@
 'use strict';
 
-import { lookup } from 'mnemonica';
-import type { Scene3D } from '../../.tactica/types';
+import { Frontend } from '../models/collections';
+import type { FrontendRegistry_Scene3D as Scene3D } from '../../.tactica/types';
 import type { D3Node, GraphData } from '../types';
 
 /**
@@ -24,7 +24,7 @@ const endpointId = function (end: string | D3Node): string {
 };
 
 export function buildSceneFor (sourceRoot: string, graphData: GraphData): Scene3D {
-	const Scene3DConstructor = lookup('Scene3D');
+	const Scene3DConstructor = Frontend.lookup('Scene3D');
 	const scene = new Scene3DConstructor();
 	scene.sourceRoot = sourceRoot;
 

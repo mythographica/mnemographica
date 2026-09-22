@@ -4,6 +4,7 @@ import { GraphData, D3CreationNode, D3CreationLink, D3WrapperNode, D3WrapperLink
 import { GraphConverter } from '../graph/converter';
 import { INTERNAL_KNOTS, INTERNAL_EDGES, COLLECTION_HOOKUP_EDGE } from '../graph/internals-manifest';
 import { TypeNode } from '../types/tactica-types';
+import { collectionOfPath, DEFAULT_COLLECTION } from '../utils/collections';
 import type { Registry } from '../../.tactica/types';
 import type { rawCreationGraph } from '../models/Instrumentation';
 import { getLogger } from '../services/LoggerService';
@@ -15,7 +16,7 @@ export class GraphBuilder {
 	/**
 	 * Build graph data from registry's type definitions
 	 */
-	static buildFromRegistry(registry: Registry): GraphData {
+	static buildFromRegistry(registry: Registry, collection?: string): GraphData {
 		const logger = getLogger();
 		const types = registry.getTypes();
 		if (!types) {
@@ -32,17 +33,58 @@ export class GraphBuilder {
 		}
 		logger.info(`[GraphBuilder] types.entries() count: ${typeCount}, types.size: ${(types as unknown as { size?: number }).size ?? 'unknown'}`);
 
-		// Pass 1: create all TypeNodes
+		// Collections inventory: tactica keys custom-collection types by a
+		// `collectionId::`-prefixed fullPath, default-collection types carry
+		// no prefix. The panel renders ONE collection's universe at a time;
+		// an unknown/absent selection falls to the default collection when
+		// present, else the first-seen one (types-walk order is the
+		// hierarchy order — deterministic).
+		const collectionNames = registry.getCollectionNames();
+		const collections: Array<{ id: string; count: number; name?: string }> = [];
+		const collectionIndex = new Map<string, number>();
+		for (const [name] of types.entries()) {
+			const id = collectionOfPath(name);
+			const slot = collectionIndex.get(id);
+			if (slot === undefined) {
+				collectionIndex.set(id, collections.length);
+				const entry: { id: string; count: number; name?: string } = { id, count: 1 };
+				// collections.json (tactica ≥ 0.4.1) carries the display
+				// name; older outputs leave it absent and the panel shows
+				// the raw id
+				const displayName = collectionNames.get(id);
+				if (displayName) {
+					entry.name = displayName;
+				}
+				collections.push(entry);
+			} else {
+				const known = collections[slot];
+				known.count++;
+			}
+		}
+		let selected = collection;
+		if (!selected || !collectionIndex.has(selected)) {
+			const fallback = collectionIndex.has(DEFAULT_COLLECTION)
+				? DEFAULT_COLLECTION
+				: collections[0]?.id ?? DEFAULT_COLLECTION;
+			selected = fallback;
+		}
+
+		// Pass 1: create all TypeNodes — of the selected collection only.
+		// Every downstream section resolves through this nodeMap
+		// (path-hits, flow, creation anchors, wrapper joins, grafts), so
+		// cross-collection references drop out by the existing
+		// no-dangling-reference policy.
 		const nodeMap = new Map<string, TypeNode>();
 		const typeNodes: TypeNode[] = [];
 		for (const [name, entry] of types.entries()) {
+			if (collectionOfPath(name) !== selected) { continue; }
 			const typeNode = this.buildTypeNode(name, entry as unknown as Record<string, unknown>);
 			if (typeNode) {
 				nodeMap.set(name, typeNode);
 				typeNodes.push(typeNode);
 			}
 		}
-		logger.info(`[GraphBuilder] built ${typeNodes.length} typeNodes`);
+		logger.info(`[GraphBuilder] built ${typeNodes.length} typeNodes for collection ${selected}`);
 
 		// Pass 2: wire parent-child relationships
 		for (const [name, entry] of types.entries()) {
@@ -239,6 +281,8 @@ export class GraphBuilder {
 			}
 		}
 
+		graphData.collection = selected;
+		graphData.collections = collections;
 		return graphData;
 	}
 

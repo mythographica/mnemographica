@@ -1,0 +1,38 @@
+{
+	"version": "1.0",
+	"generatedAt": "2026-09-22T00:00:00.000Z",
+	"definitions": {
+		"Widget": {
+			"name": "Widget",
+			"location": "src/widgets.ts:3:7",
+			"kind": "define",
+			"parent": null,
+			"strictChain": true,
+			"blockErrors": false
+		},
+		"Widget.Button": {
+			"name": "Button",
+			"location": "src/widgets.ts:9:16",
+			"kind": "define",
+			"parent": "Widget",
+			"strictChain": true,
+			"blockErrors": false
+		},
+		"collection_1::Product": {
+			"name": "Product",
+			"location": "src/models.ts:15:16",
+			"kind": "define",
+			"parent": null,
+			"strictChain": true,
+			"blockErrors": false
+		},
+		"collection_1::Product.Category": {
+			"name": "Category",
+			"location": "src/models.ts:19:16",
+			"kind": "define",
+			"parent": "collection_1::Product",
+			"strictChain": true,
+			"blockErrors": false
+		}
+	}
+}

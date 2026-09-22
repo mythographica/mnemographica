@@ -1,0 +1,12 @@
+{
+	"version": "1.0",
+	"generatedAt": "2026-09-22T00:00:00.000Z",
+	"roots": [
+		{
+			"name": "Product",
+			"fullPath": "collection_1::Product",
+			"location": "src/models.ts:15:16",
+			"children": []
+		}
+	]
+}

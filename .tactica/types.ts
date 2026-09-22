@@ -6,21 +6,21 @@
 
 import type { ProtoFlat } from 'mnemonica';
 
-export type Instrumentation = {
+export type BackendRegistry_Instrumentation = {
 	createdAt: number;
 	readonly size: void;
-	all: () => Array<Instrumentation_InstrumentationPoint>;
-	set: (points: Array<Instrumentation_InstrumentationPoint>) => void;
+	all: () => Array<BackendRegistry_Instrumentation_InstrumentationPoint>;
+	set: (points: Array<BackendRegistry_Instrumentation_InstrumentationPoint>) => void;
 	setCreationGraph: (graph: { nodes: Array<{ scopeId: string; name: string; kind: 'module' | 'function' | 'method' | 'arrow'; filePath: string; location: string; starter: boolean }>; edges: Array<{ caller: string; callee: string }>; anchors: Array<{ location: string; holderScopeId: string; typePath: string; constructorText?: string; rooted?: boolean; variable?: string; terminatedAt?: string }> }) => void;
 	getCreationGraph: () => { nodes: Array<{ scopeId: string; name: string; kind: 'module' | 'function' | 'method' | 'arrow'; filePath: string; location: string; starter: boolean }>; edges: Array<{ caller: string; callee: string }>; anchors: Array<{ location: string; holderScopeId: string; typePath: string; constructorText?: string; rooted?: boolean; variable?: string; terminatedAt?: string }> } | undefined;
 	hasCreationGraph: () => boolean;
 	setCreationGraphAbsentReason: (reason: 'missing' | 'stale' | 'v1') => void;
 	getCreationGraphAbsentReason: () => 'missing' | 'stale' | 'v1' | undefined;
 	clear: () => void;
-	InstrumentationPoint: new (data: { kind: string; className: string; location: string; code: string; scope: string; targets?: Array<string> }) => Instrumentation_InstrumentationPoint;
+	InstrumentationPoint: new (data: { kind: string; className: string; location: string; code: string; scope: string; targets?: Array<string> }) => BackendRegistry_Instrumentation_InstrumentationPoint;
 };
 
-export type Instrumentation_InstrumentationPoint = ProtoFlat<Instrumentation, {
+export type BackendRegistry_Instrumentation_InstrumentationPoint = ProtoFlat<BackendRegistry_Instrumentation, {
 	kind: string;
 	className: string;
 	location: string;
@@ -30,20 +30,20 @@ export type Instrumentation_InstrumentationPoint = ProtoFlat<Instrumentation, {
 	InstrumentationPoint: undefined;
 }>;
 
-export type Definitions = {
+export type BackendRegistry_Definitions = {
 	createdAt: number;
 	readonly size: number;
-	get: (name: string) => Definitions_DefinitionEntry | undefined;
+	get: (name: string) => BackendRegistry_Definitions_DefinitionEntry | undefined;
 	has: (name: string) => boolean;
-	set: (name: string, entry: Definitions_DefinitionEntry) => void;
+	set: (name: string, entry: BackendRegistry_Definitions_DefinitionEntry) => void;
 	keys: () => MapIterator<string>;
-	values: () => MapIterator<Definitions_DefinitionEntry>;
-	entries: () => MapIterator<[string, Definitions_DefinitionEntry]>;
+	values: () => MapIterator<BackendRegistry_Definitions_DefinitionEntry>;
+	entries: () => MapIterator<[string, BackendRegistry_Definitions_DefinitionEntry]>;
 	clear: () => void;
-	DefinitionEntry: new (data: { name: string; location: string; kind: string; parent: string | null; strictChain: boolean; blockErrors: boolean }) => Definitions_DefinitionEntry;
+	DefinitionEntry: new (data: { name: string; location: string; kind: string; parent: string | null; strictChain: boolean; blockErrors: boolean }) => BackendRegistry_Definitions_DefinitionEntry;
 };
 
-export type Definitions_DefinitionEntry = ProtoFlat<Definitions, {
+export type BackendRegistry_Definitions_DefinitionEntry = ProtoFlat<BackendRegistry_Definitions, {
 	name: string;
 	location: string;
 	kind: string;
@@ -53,20 +53,20 @@ export type Definitions_DefinitionEntry = ProtoFlat<Definitions, {
 	DefinitionEntry: undefined;
 }>;
 
-export type EDS = {
+export type BackendRegistry_EDS = {
 	createdAt: number;
 	readonly size: number;
-	get: (name: string) => Array<EDS_EDSEntry> | undefined;
+	get: (name: string) => Array<BackendRegistry_EDS_EDSEntry> | undefined;
 	has: (name: string) => boolean;
-	set: (name: string, entry: Array<EDS_EDSEntry>) => void;
+	set: (name: string, entry: Array<BackendRegistry_EDS_EDSEntry>) => void;
 	keys: () => MapIterator<string>;
-	values: () => MapIterator<Array<EDS_EDSEntry>>;
-	entries: () => MapIterator<[string, Array<EDS_EDSEntry>]>;
+	values: () => MapIterator<Array<BackendRegistry_EDS_EDSEntry>>;
+	entries: () => MapIterator<[string, Array<BackendRegistry_EDS_EDSEntry>]>;
 	clear: () => void;
-	EDSEntry: new (data: { typeName: string; location: string; kind: string; code: string; targetType?: string; scope?: string; via?: string; createsTypes?: Array<string>; label?: string; callbackScopeId?: string; instanceArg?: string; scopeId?: string; wrapsTypePath?: string }) => EDS_EDSEntry;
+	EDSEntry: new (data: { typeName: string; location: string; kind: string; code: string; targetType?: string; scope?: string; via?: string; createsTypes?: Array<string>; label?: string; callbackScopeId?: string; instanceArg?: string; scopeId?: string; wrapsTypePath?: string }) => BackendRegistry_EDS_EDSEntry;
 };
 
-export type EDS_EDSEntry = ProtoFlat<EDS, {
+export type BackendRegistry_EDS_EDSEntry = ProtoFlat<BackendRegistry_EDS, {
 	typeName: string;
 	location: string;
 	kind: string;
@@ -83,20 +83,20 @@ export type EDS_EDSEntry = ProtoFlat<EDS, {
 	EDSEntry: undefined;
 }>;
 
-export type Flow = {
+export type BackendRegistry_Flow = {
 	createdAt: number;
 	readonly size: number;
-	get: (name: string) => Array<Flow_FlowEntry> | undefined;
+	get: (name: string) => Array<BackendRegistry_Flow_FlowEntry> | undefined;
 	has: (name: string) => boolean;
-	set: (name: string, entry: Array<Flow_FlowEntry>) => void;
+	set: (name: string, entry: Array<BackendRegistry_Flow_FlowEntry>) => void;
 	keys: () => MapIterator<string>;
-	values: () => MapIterator<Array<Flow_FlowEntry>>;
-	entries: () => MapIterator<[string, Array<Flow_FlowEntry>]>;
+	values: () => MapIterator<Array<BackendRegistry_Flow_FlowEntry>>;
+	entries: () => MapIterator<[string, Array<BackendRegistry_Flow_FlowEntry>]>;
 	clear: () => void;
-	FlowEntry: new (data: { typeName: string; kind: string; code: string; location: string; propertyName?: string; context?: string; targetType?: string }) => Flow_FlowEntry;
+	FlowEntry: new (data: { typeName: string; kind: string; code: string; location: string; propertyName?: string; context?: string; targetType?: string }) => BackendRegistry_Flow_FlowEntry;
 };
 
-export type Flow_FlowEntry = ProtoFlat<Flow, {
+export type BackendRegistry_Flow_FlowEntry = ProtoFlat<BackendRegistry_Flow, {
 	typeName: string;
 	kind: string;
 	code: string;
@@ -141,21 +141,21 @@ export type Main_Adapter = ProtoFlat<Main, {
 	Adapter: undefined;
 }>;
 
-export type Types = {
+export type BackendRegistry_Types = {
 	createdAt: number;
 	readonly size: number;
-	get: (name: string) => Types_TypeEntry | undefined;
+	get: (name: string) => BackendRegistry_Types_TypeEntry | undefined;
 	has: (name: string) => boolean;
-	set: (name: string, entry: Types_TypeEntry) => void;
+	set: (name: string, entry: BackendRegistry_Types_TypeEntry) => void;
 	keys: () => MapIterator<string>;
-	values: () => MapIterator<Types_TypeEntry>;
-	entries: () => MapIterator<[string, Types_TypeEntry]>;
+	values: () => MapIterator<BackendRegistry_Types_TypeEntry>;
+	entries: () => MapIterator<[string, BackendRegistry_Types_TypeEntry]>;
 	clear: () => void;
 	getLineForType: (typeName: string) => number | undefined;
-	TypeEntry: new (data: { name: string; fullPath: string; parent?: string; properties: Map<string, { name: string; type: string; optional: boolean }>; lineNumber: number; location?: string }) => Types_TypeEntry;
+	TypeEntry: new (data: { name: string; fullPath: string; parent?: string; properties: Map<string, { name: string; type: string; optional: boolean }>; lineNumber: number; location?: string }) => BackendRegistry_Types_TypeEntry;
 };
 
-export type Types_TypeEntry = ProtoFlat<Types, {
+export type BackendRegistry_Types_TypeEntry = ProtoFlat<BackendRegistry_Types, {
 	name: string;
 	fullPath: string;
 	parent?: string;
@@ -165,20 +165,20 @@ export type Types_TypeEntry = ProtoFlat<Types, {
 	TypeEntry: undefined;
 }>;
 
-export type Usages = {
+export type BackendRegistry_Usages = {
 	createdAt: number;
 	readonly size: number;
-	get: (name: string) => Array<Usages_UsageEntry>;
+	get: (name: string) => Array<BackendRegistry_Usages_UsageEntry>;
 	has: (name: string) => boolean;
-	set: (name: string, entry: Array<Usages_UsageEntry>) => void;
+	set: (name: string, entry: Array<BackendRegistry_Usages_UsageEntry>) => void;
 	keys: () => MapIterator<string>;
-	values: () => MapIterator<Array<Usages_UsageEntry>>;
-	entries: () => MapIterator<[string, Array<Usages_UsageEntry>]>;
+	values: () => MapIterator<Array<BackendRegistry_Usages_UsageEntry>>;
+	entries: () => MapIterator<[string, Array<BackendRegistry_Usages_UsageEntry>]>;
 	clear: () => void;
-	UsageEntry: new (usages: { typeName: string; kind: string; code: string; location: string }) => Usages_UsageEntry;
+	UsageEntry: new (usages: { typeName: string; kind: string; code: string; location: string }) => BackendRegistry_Usages_UsageEntry;
 };
 
-export type Usages_UsageEntry = ProtoFlat<Usages, {
+export type BackendRegistry_Usages_UsageEntry = ProtoFlat<BackendRegistry_Usages, {
 	typeName: string;
 	kind: string;
 	code: string;
@@ -196,13 +196,14 @@ export type Registry = {
 	values: () => MapIterator<unknown>;
 	clear: () => void;
 	loadFromWorkspace: (workspacePath: string) => Promise<void>;
-	getDefinitions: () => Definitions | undefined;
-	getTypes: () => Types | undefined;
-	getUsages: () => Usages | undefined;
-	getEDS: () => EDS | undefined;
-	getFlow: () => Flow | undefined;
-	getInstrumentation: () => Instrumentation | undefined;
-	getTrie: () => Trie | undefined;
+	getDefinitions: () => BackendRegistry_Definitions | undefined;
+	getTypes: () => BackendRegistry_Types | undefined;
+	getUsages: () => BackendRegistry_Usages | undefined;
+	getEDS: () => BackendRegistry_EDS | undefined;
+	getFlow: () => BackendRegistry_Flow | undefined;
+	getInstrumentation: () => BackendRegistry_Instrumentation | undefined;
+	getTrie: () => BackendRegistry_Trie | undefined;
+	getCollectionNames: () => Map<string, string>;
 	refresh: () => Promise<void>;
 	RegistryEntry: new (data: { id: string; name: string; filePath: string; line: number; column: number }) => Registry_RegistryEntry;
 };
@@ -216,7 +217,7 @@ export type Registry_RegistryEntry = ProtoFlat<Registry, {
 	RegistryEntry: undefined;
 }>;
 
-export type Scene3D = {
+export type FrontendRegistry_Scene3D = {
 	createdAt: number;
 	sourceRoot: unknown;
 	ring: unknown | null;
@@ -238,20 +239,20 @@ export type Scene3D = {
 	readonly sinkCount: number;
 	addCaption: (id: string, caption: unknown) => void;
 	readonly captionCount: number;
-	Camera3D: new (data: { x: number; y: number; z: number; zoom: number; rotationX: number; rotationY: number }) => Scene3D_Camera3D;
-	GraphNode3D: new (data: { id: string; label: string; depth: number; isRoot: boolean; location?: { fileName: string; line: number; column: number } }) => Scene3D_GraphNode3D;
-	Link3D: new (data: { source: string; target: string; kind: string }) => Scene3D_Link3D;
-	Diamond3D: new (data: { id: string; name: string; kind: string; filePath: string; starter: boolean; creates: number }) => Scene3D_Diamond3D;
-	Bagel3D: new (data: { id: string; name: string; generation: number; anchor: string | null; wrapsTypePath?: string }) => Scene3D_Bagel3D;
-	Ring3D: new (data: { id: string; name: string; citation?: string }) => Scene3D_Ring3D;
-	Hub3D: new (data: { id: string; name: string; citation?: string }) => Scene3D_Hub3D;
-	Sink3D: new (data: { id: string; name: string; citation?: string }) => Scene3D_Sink3D;
-	Cone3D: new (data: { id: string; name: string }) => Scene3D_Cone3D;
-	Caption3D: new (data: { text: string; targetId: string }) => Scene3D_Caption3D;
-	Tube3D: new (data: { id: string; chain: Array<string> }) => Scene3D_Tube3D;
+	Camera3D: new (data: { x: number; y: number; z: number; zoom: number; rotationX: number; rotationY: number }) => FrontendRegistry_Scene3D_Camera3D;
+	GraphNode3D: new (data: { id: string; label: string; depth: number; isRoot: boolean; location?: { fileName: string; line: number; column: number } }) => FrontendRegistry_Scene3D_GraphNode3D;
+	Link3D: new (data: { source: string; target: string; kind: string }) => FrontendRegistry_Scene3D_Link3D;
+	Diamond3D: new (data: { id: string; name: string; kind: string; filePath: string; starter: boolean; creates: number }) => FrontendRegistry_Scene3D_Diamond3D;
+	Bagel3D: new (data: { id: string; name: string; generation: number; anchor: string | null; wrapsTypePath?: string }) => FrontendRegistry_Scene3D_Bagel3D;
+	Ring3D: new (data: { id: string; name: string; citation?: string }) => FrontendRegistry_Scene3D_Ring3D;
+	Hub3D: new (data: { id: string; name: string; citation?: string }) => FrontendRegistry_Scene3D_Hub3D;
+	Sink3D: new (data: { id: string; name: string; citation?: string }) => FrontendRegistry_Scene3D_Sink3D;
+	Cone3D: new (data: { id: string; name: string }) => FrontendRegistry_Scene3D_Cone3D;
+	Caption3D: new (data: { text: string; targetId: string }) => FrontendRegistry_Scene3D_Caption3D;
+	Tube3D: new (data: { id: string; chain: Array<string> }) => FrontendRegistry_Scene3D_Tube3D;
 };
 
-export type Scene3D_Camera3D = ProtoFlat<Scene3D, {
+export type FrontendRegistry_Scene3D_Camera3D = ProtoFlat<FrontendRegistry_Scene3D, {
 	x: number;
 	y: number;
 	z: number;
@@ -271,13 +272,13 @@ export type Scene3D_Camera3D = ProtoFlat<Scene3D, {
 	Tube3D: undefined;
 }>;
 
-export type Scene3D_GraphNode3D = ProtoFlat<Scene3D, {
+export type FrontendRegistry_Scene3D_GraphNode3D = ProtoFlat<FrontendRegistry_Scene3D, {
 	id: string;
 	label: string;
 	depth: number;
 	isRoot: boolean;
 	location?: { fileName: string; line: number; column: number };
-	Tooltip3D: new (data: { targetNode: string; content: string; visible: boolean }) => Scene3D_GraphNode3D_Tooltip3D;
+	Tooltip3D: new (data: { targetNode: string; content: string; visible: boolean }) => FrontendRegistry_Scene3D_GraphNode3D_Tooltip3D;
 	GraphNode3D: undefined;
 	Camera3D: undefined;
 	Link3D: undefined;
@@ -291,14 +292,14 @@ export type Scene3D_GraphNode3D = ProtoFlat<Scene3D, {
 	Tube3D: undefined;
 }>;
 
-export type Scene3D_GraphNode3D_Tooltip3D = ProtoFlat<Scene3D_GraphNode3D, {
+export type FrontendRegistry_Scene3D_GraphNode3D_Tooltip3D = ProtoFlat<FrontendRegistry_Scene3D_GraphNode3D, {
 	targetNode: string;
 	content: string;
 	visible: boolean;
 	Tooltip3D: undefined;
 }>;
 
-export type Scene3D_Link3D = ProtoFlat<Scene3D, {
+export type FrontendRegistry_Scene3D_Link3D = ProtoFlat<FrontendRegistry_Scene3D, {
 	source: string;
 	target: string;
 	kind: string;
@@ -315,7 +316,7 @@ export type Scene3D_Link3D = ProtoFlat<Scene3D, {
 	Tube3D: undefined;
 }>;
 
-export type Scene3D_Diamond3D = ProtoFlat<Scene3D, {
+export type FrontendRegistry_Scene3D_Diamond3D = ProtoFlat<FrontendRegistry_Scene3D, {
 	id: string;
 	name: string;
 	kind: string;
@@ -335,7 +336,7 @@ export type Scene3D_Diamond3D = ProtoFlat<Scene3D, {
 	Tube3D: undefined;
 }>;
 
-export type Scene3D_Bagel3D = ProtoFlat<Scene3D, {
+export type FrontendRegistry_Scene3D_Bagel3D = ProtoFlat<FrontendRegistry_Scene3D, {
 	id: string;
 	name: string;
 	generation: number;
@@ -354,7 +355,7 @@ export type Scene3D_Bagel3D = ProtoFlat<Scene3D, {
 	Tube3D: undefined;
 }>;
 
-export type Scene3D_Ring3D = ProtoFlat<Scene3D, {
+export type FrontendRegistry_Scene3D_Ring3D = ProtoFlat<FrontendRegistry_Scene3D, {
 	id: string;
 	name: string;
 	citation?: string;
@@ -371,7 +372,7 @@ export type Scene3D_Ring3D = ProtoFlat<Scene3D, {
 	Tube3D: undefined;
 }>;
 
-export type Scene3D_Hub3D = ProtoFlat<Scene3D, {
+export type FrontendRegistry_Scene3D_Hub3D = ProtoFlat<FrontendRegistry_Scene3D, {
 	id: string;
 	name: string;
 	citation?: string;
@@ -388,7 +389,7 @@ export type Scene3D_Hub3D = ProtoFlat<Scene3D, {
 	Tube3D: undefined;
 }>;
 
-export type Scene3D_Sink3D = ProtoFlat<Scene3D, {
+export type FrontendRegistry_Scene3D_Sink3D = ProtoFlat<FrontendRegistry_Scene3D, {
 	id: string;
 	name: string;
 	citation?: string;
@@ -405,7 +406,7 @@ export type Scene3D_Sink3D = ProtoFlat<Scene3D, {
 	Tube3D: undefined;
 }>;
 
-export type Scene3D_Cone3D = ProtoFlat<Scene3D, {
+export type FrontendRegistry_Scene3D_Cone3D = ProtoFlat<FrontendRegistry_Scene3D, {
 	id: string;
 	name: string;
 	Cone3D: undefined;
@@ -421,7 +422,7 @@ export type Scene3D_Cone3D = ProtoFlat<Scene3D, {
 	Tube3D: undefined;
 }>;
 
-export type Scene3D_Caption3D = ProtoFlat<Scene3D, {
+export type FrontendRegistry_Scene3D_Caption3D = ProtoFlat<FrontendRegistry_Scene3D, {
 	text: string;
 	targetId: string;
 	Caption3D: undefined;
@@ -437,7 +438,7 @@ export type Scene3D_Caption3D = ProtoFlat<Scene3D, {
 	Tube3D: undefined;
 }>;
 
-export type Scene3D_Tube3D = ProtoFlat<Scene3D, {
+export type FrontendRegistry_Scene3D_Tube3D = ProtoFlat<FrontendRegistry_Scene3D, {
 	id: string;
 	chain: Array<string>;
 	Tube3D: undefined;
@@ -453,7 +454,7 @@ export type Scene3D_Tube3D = ProtoFlat<Scene3D, {
 	Caption3D: undefined;
 }>;
 
-export type Trie = {
+export type BackendRegistry_Trie = {
 	createdAt: number;
 	addNode: (id: string, node: unknown) => void;
 	getNode: (id: string) => unknown | undefined;
@@ -462,21 +463,21 @@ export type Trie = {
 	readonly linkCount: number;
 	addMenu: (menu: unknown) => void;
 	readonly menuCount: number;
-	GraphNodeTrie: new (data: { id: string; name: string; path: string; depth: number; isLeaf: boolean }) => Trie_GraphNodeTrie;
+	GraphNodeTrie: new (data: { id: string; name: string; path: string; depth: number; isLeaf: boolean }) => BackendRegistry_Trie_GraphNodeTrie;
 };
 
-export type Trie_GraphNodeTrie = ProtoFlat<Trie, {
+export type BackendRegistry_Trie_GraphNodeTrie = ProtoFlat<BackendRegistry_Trie, {
 	id: string;
 	name: string;
 	path: string;
 	depth: number;
 	isLeaf: boolean;
-	LinkTrie: new (data: { parent: unknown; child: unknown; relation: 'subtype' | 'instance' }) => Trie_GraphNodeTrie_LinkTrie;
-	ContextMenu: new (data: { targetNode: unknown; items: Array<{ label: string; action: string }>; visible: boolean }) => Trie_GraphNodeTrie_ContextMenu;
+	LinkTrie: new (data: { parent: unknown; child: unknown; relation: 'subtype' | 'instance' }) => BackendRegistry_Trie_GraphNodeTrie_LinkTrie;
+	ContextMenu: new (data: { targetNode: unknown; items: Array<{ label: string; action: string }>; visible: boolean }) => BackendRegistry_Trie_GraphNodeTrie_ContextMenu;
 	GraphNodeTrie: undefined;
 }>;
 
-export type Trie_GraphNodeTrie_LinkTrie = ProtoFlat<Trie_GraphNodeTrie, {
+export type BackendRegistry_Trie_GraphNodeTrie_LinkTrie = ProtoFlat<BackendRegistry_Trie_GraphNodeTrie, {
 	parent: unknown;
 	child: unknown;
 	relation: 'subtype' | 'instance';
@@ -484,7 +485,7 @@ export type Trie_GraphNodeTrie_LinkTrie = ProtoFlat<Trie_GraphNodeTrie, {
 	ContextMenu: undefined;
 }>;
 
-export type Trie_GraphNodeTrie_ContextMenu = ProtoFlat<Trie_GraphNodeTrie, {
+export type BackendRegistry_Trie_GraphNodeTrie_ContextMenu = ProtoFlat<BackendRegistry_Trie_GraphNodeTrie, {
 	targetNode: unknown;
 	items: Array<{ label: string; action: string }>;
 	visible: boolean;

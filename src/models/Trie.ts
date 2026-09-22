@@ -1,6 +1,6 @@
 'use strict';
 
-import { define } from 'mnemonica';
+import { Backend } from './collections';
 
 // The type trie: the Registry fills it from hierarchy.json at load —
 // one GraphNodeTrie per type, one LinkTrie per parent→child edge — and
@@ -9,7 +9,7 @@ import { define } from 'mnemonica';
 // drops Map type arguments, so the collections stay private behind
 // accessor methods.
 
-export const Trie = define('Trie', class {
+export const Trie = Backend.define('Trie', class {
 	createdAt: number;
 
 	private nodeMap: Map<string, object> = new Map();

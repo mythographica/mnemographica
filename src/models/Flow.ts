@@ -1,6 +1,6 @@
 'use strict';
 
-import { define } from 'mnemonica';
+import { Backend } from './collections';
 import { getLogger } from '../services/LoggerService';
 
 export type rawFlowEntry = {
@@ -15,7 +15,7 @@ export type rawFlowEntry = {
 
 export type FlowEntryInstance = InstanceType<typeof FlowEntry>;
 
-export const Flow = define('Flow', class {
+export const Flow = Backend.define('Flow', class {
 	createdAt: number;
 	private map: Map<string, FlowEntryInstance[]> = new Map();
 	private logger = getLogger();

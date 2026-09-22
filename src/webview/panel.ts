@@ -5,7 +5,7 @@ import type { GraphData, WebviewMessage } from '../types/index.js';
 import type { traceEdge } from '../core/MainOrchestrator';
 import { loadGraphDataFor } from '../core/graphDataLoader';
 import { buildSceneFor } from '../core/SceneBuilder';
-import type { Scene3D, Scene3D_GraphNode3D } from '../../.tactica/types';
+import type { FrontendRegistry_Scene3D as Scene3D, FrontendRegistry_Scene3D_GraphNode3D as Scene3D_GraphNode3D } from '../../.tactica/types';
 import { getLogger } from '../services/LoggerService';
 
 // Get logger instance once at module level
@@ -74,6 +74,11 @@ export class GraphPanel {
 	// Mirrors the webview's render mode ('modeChanged' messages); the
 	// webview starts in 3D
 	private currentMode: '2D' | '3D' = '3D';
+	// The collection this panel renders ('defaultTypes' or a tactica
+	// `collectionId::` id). undefined until the first payload answers —
+	// the builder picks default-if-present, and every reload re-sends it
+	// so the webview's selector pick survives Refresh and follow-watches
+	private currentCollection: string | undefined;
 	// The panel's logical scene: the Scene3D model tree SceneBuilder
 	// derives from every pushed GraphData; camera/tooltip/tube update as
 	// view events arrive. queryViewState reports its census.
@@ -388,6 +393,15 @@ export class GraphPanel {
 					// and rebuild
 					await this.reloadGraph();
 					break;
+				case 'selectCollection':
+					// The collection selector: one universe per render —
+					// record the pick and re-read THIS panel's .tactica,
+					// the same path the Refresh button takes
+					if (message.data && typeof message.data === 'object' && 'id' in message.data) {
+						this.currentCollection = String(message.data.id);
+						await this.reloadGraph();
+					}
+					break;
 				case 'followTactica':
 					if (message.data && typeof message.data === 'object' && 'on' in message.data) {
 						this.setFollowTactica(Boolean(message.data.on));
@@ -479,11 +493,14 @@ export class GraphPanel {
 	// source keeps the tab's last render — an accidental regen wipe must
 	// never blank the user's arranged view
 	private async reloadGraph () {
-		const graphData = await loadGraphDataFor(this.sourceRoot);
+		const graphData = await loadGraphDataFor(this.sourceRoot, this.currentCollection);
 		if (!graphData) {
 			void vscode.window.showWarningMessage(`No .tactica found at ${this.sourceRoot} — the tab keeps its last render`);
 			return;
 		}
+		// The builder's actual pick (default-if-present fallback) becomes
+		// this panel's collection from now on
+		this.currentCollection = graphData.collection;
 		this.updateGraph(graphData);
 	}
 
@@ -686,6 +703,9 @@ export class GraphPanel {
 	<div id="controls">
 		<!-- the wheel is the zoom; the .* invocation-filter button sits
 		     where the +/− zoom buttons used to be -->
+		<!-- the collection selector stays hidden until a payload reports
+		     more than one collection (see updateCollectionSelect) -->
+		<select id="collection-select" title="Type collection (one universe per view)" style="display:none"></select>
 		<button id="invocation-filter" title="Filter invocations by path (regexp)">.*</button>
 		<button id="reset" title="Reset View">⟲</button>
 		<button id="save-layout" title="Save layout to .mnemographica/layout.json">Save</button>

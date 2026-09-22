@@ -7,7 +7,7 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import { getLogger } from '../services/LoggerService';
 
-import type { Usages } from '~tactica/types';
+import type { BackendRegistry_Usages as Usages } from '~tactica/types';
 import type { MainOrchestrator } from '../core/MainOrchestrator';
 
 // Type alias using a clean import from .tactica/types.ts

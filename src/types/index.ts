@@ -258,7 +258,7 @@ export type D3InternalLink = {
  */
 export type WebviewMessage = {
 	/** Command type */
-	command: 'goToDefinition' | 'nodeHover' | 'ready' | 'refresh' | 'log' | 'modeChanged' | 'focusNode' | 'viewState' | 'pickTrace' | 'traceModeExit' | 'saveLayout' | 'refreshGraph' | 'followTactica';
+	command: 'goToDefinition' | 'nodeHover' | 'ready' | 'refresh' | 'log' | 'modeChanged' | 'focusNode' | 'viewState' | 'pickTrace' | 'traceModeExit' | 'saveLayout' | 'refreshGraph' | 'followTactica' | 'selectCollection';
 	/** Optional payload */
 	data?: unknown;
 };
@@ -296,5 +296,16 @@ export type GraphData = {
 		 * through the hub (never-created types excluded) */
 		grafts: string[];
 	};
+	/** The collection this payload renders ('defaultTypes' when the
+	 * project has only the default collection). tactica keys
+	 * custom-collection types by a `collectionId::`-prefixed fullPath;
+	 * GraphBuilder renders ONE collection's universe per payload. */
+	collection?: string;
+	/** Inventory of every collection present in the source's .tactica, in
+	 * first-seen (types walk) order — feeds the panel's collection
+	 * selector, which hides itself when this holds fewer than two. `name`
+	 * is the display name from collections.json (tactica ≥ 0.4.1); absent
+	 * for older outputs — show the raw id then. */
+	collections?: Array<{ id: string; count: number; name?: string }>;
 };
 

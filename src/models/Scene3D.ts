@@ -1,6 +1,6 @@
 'use strict';
 
-import { define } from 'mnemonica';
+import { Frontend } from './collections';
 
 // The 3D scene vocabulary as mnemonica models: one Scene3D instance per
 // 3D panel (keyed by the panel's .tactica source root), every visual
@@ -16,7 +16,7 @@ import { define } from 'mnemonica';
 // `Map<string, object>` field emits a bare `Map`, TS2314), so the
 // collections stay PRIVATE behind accessor methods.
 
-export const Scene3D = define('Scene3D', class {
+export const Scene3D = Frontend.define('Scene3D', class {
 	createdAt: number;
 	// Set by the SceneBuilder right after construction — a class-based
 	// define keeps its constructor parameterless here, matching the

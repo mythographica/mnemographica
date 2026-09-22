@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-09-22T02:50:34.530Z",
+  "generatedAt": "2026-09-22T10:57:25.105Z",
   "eds": {
     "unknown": [
       {
@@ -9,7 +9,7 @@
         "code": "this.registry.getFlow()"
       },
       {
-        "location": "src/core/GraphBuilder.ts:196:16",
+        "location": "src/core/GraphBuilder.ts:238:16",
         "kind": "contextConsume",
         "code": "registry.getFlow()"
       },

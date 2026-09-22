@@ -1,0 +1,32 @@
+{
+	"version": "1.0",
+	"generatedAt": "2026-09-22T00:00:00.000Z",
+	"roots": [
+		{
+			"name": "Widget",
+			"fullPath": "Widget",
+			"location": "src/widgets.ts:3:7",
+			"children": [
+				{
+					"name": "Button",
+					"fullPath": "Widget.Button",
+					"location": "src/widgets.ts:9:16",
+					"children": []
+				}
+			]
+		},
+		{
+			"name": "Product",
+			"fullPath": "collection_1::Product",
+			"location": "src/models.ts:15:16",
+			"children": [
+				{
+					"name": "Category",
+					"fullPath": "collection_1::Product.Category",
+					"location": "src/models.ts:19:16",
+					"children": []
+				}
+			]
+		}
+	]
+}

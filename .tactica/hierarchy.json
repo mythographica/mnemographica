@@ -1,15 +1,15 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-09-22T02:50:34.611Z",
+  "generatedAt": "2026-09-22T10:57:25.250Z",
   "roots": [
     {
       "name": "Instrumentation",
-      "fullPath": "Instrumentation",
-      "location": "src/models/Instrumentation.ts:58:32",
+      "fullPath": "collection_1::Instrumentation",
+      "location": "src/models/Instrumentation.ts:58:40",
       "children": [
         {
           "name": "InstrumentationPoint",
-          "fullPath": "Instrumentation.InstrumentationPoint",
+          "fullPath": "collection_1::Instrumentation.InstrumentationPoint",
           "location": "src/models/Instrumentation.ts:119:53",
           "children": []
         }
@@ -17,12 +17,12 @@
     },
     {
       "name": "Definitions",
-      "fullPath": "Definitions",
-      "location": "src/models/Definition.ts:18:28",
+      "fullPath": "collection_1::Definitions",
+      "location": "src/models/Definition.ts:18:36",
       "children": [
         {
           "name": "DefinitionEntry",
-          "fullPath": "Definitions.DefinitionEntry",
+          "fullPath": "collection_1::Definitions.DefinitionEntry",
           "location": "src/models/Definition.ts:70:44",
           "children": []
         }
@@ -30,12 +30,12 @@
     },
     {
       "name": "EDS",
-      "fullPath": "EDS",
-      "location": "src/models/EDS.ts:29:20",
+      "fullPath": "collection_1::EDS",
+      "location": "src/models/EDS.ts:29:28",
       "children": [
         {
           "name": "EDSEntry",
-          "fullPath": "EDS.EDSEntry",
+          "fullPath": "collection_1::EDS.EDSEntry",
           "location": "src/models/EDS.ts:76:29",
           "children": []
         }
@@ -43,12 +43,12 @@
     },
     {
       "name": "Flow",
-      "fullPath": "Flow",
-      "location": "src/models/Flow.ts:18:21",
+      "fullPath": "collection_1::Flow",
+      "location": "src/models/Flow.ts:18:29",
       "children": [
         {
           "name": "FlowEntry",
-          "fullPath": "Flow.FlowEntry",
+          "fullPath": "collection_1::Flow.FlowEntry",
           "location": "src/models/Flow.ts:65:31",
           "children": []
         }
@@ -82,12 +82,12 @@
     },
     {
       "name": "Types",
-      "fullPath": "Types",
-      "location": "src/models/Types.ts:21:22",
+      "fullPath": "collection_1::Types",
+      "location": "src/models/Types.ts:21:30",
       "children": [
         {
           "name": "TypeEntry",
-          "fullPath": "Types.TypeEntry",
+          "fullPath": "collection_1::Types.TypeEntry",
           "location": "src/models/Types.ts:75:32",
           "children": []
         }
@@ -95,12 +95,12 @@
     },
     {
       "name": "Usages",
-      "fullPath": "Usages",
-      "location": "src/models/Usages.ts:16:23",
+      "fullPath": "collection_1::Usages",
+      "location": "src/models/Usages.ts:16:31",
       "children": [
         {
           "name": "UsageEntry",
-          "fullPath": "Usages.UsageEntry",
+          "fullPath": "collection_1::Usages.UsageEntry",
           "location": "src/models/Usages.ts:59:34",
           "children": []
         }
@@ -109,35 +109,35 @@
     {
       "name": "Registry",
       "fullPath": "Registry",
-      "location": "src/models/Registry.ts:44:25",
+      "location": "src/models/Registry.ts:53:25",
       "children": [
         {
           "name": "RegistryEntry",
           "fullPath": "Registry.RegistryEntry",
-          "location": "src/models/Registry.ts:654:39",
+          "location": "src/models/Registry.ts:714:39",
           "children": []
         }
       ]
     },
     {
       "name": "Scene3D",
-      "fullPath": "Scene3D",
-      "location": "src/models/Scene3D.ts:19:24",
+      "fullPath": "collection_2::Scene3D",
+      "location": "src/models/Scene3D.ts:19:33",
       "children": [
         {
           "name": "Camera3D",
-          "fullPath": "Scene3D.Camera3D",
+          "fullPath": "collection_2::Scene3D.Camera3D",
           "location": "src/models/Scene3D.ts:99:33",
           "children": []
         },
         {
           "name": "GraphNode3D",
-          "fullPath": "Scene3D.GraphNode3D",
+          "fullPath": "collection_2::Scene3D.GraphNode3D",
           "location": "src/models/Scene3D.ts:113:36",
           "children": [
             {
               "name": "Tooltip3D",
-              "fullPath": "Scene3D.GraphNode3D.Tooltip3D",
+              "fullPath": "collection_2::Scene3D.GraphNode3D.Tooltip3D",
               "location": "src/models/Scene3D.ts:148:38",
               "children": []
             }
@@ -145,55 +145,55 @@
         },
         {
           "name": "Link3D",
-          "fullPath": "Scene3D.Link3D",
+          "fullPath": "collection_2::Scene3D.Link3D",
           "location": "src/models/Scene3D.ts:136:31",
           "children": []
         },
         {
           "name": "Diamond3D",
-          "fullPath": "Scene3D.Diamond3D",
+          "fullPath": "collection_2::Scene3D.Diamond3D",
           "location": "src/models/Scene3D.ts:159:34",
           "children": []
         },
         {
           "name": "Bagel3D",
-          "fullPath": "Scene3D.Bagel3D",
+          "fullPath": "collection_2::Scene3D.Bagel3D",
           "location": "src/models/Scene3D.ts:188:32",
           "children": []
         },
         {
           "name": "Ring3D",
-          "fullPath": "Scene3D.Ring3D",
+          "fullPath": "collection_2::Scene3D.Ring3D",
           "location": "src/models/Scene3D.ts:214:31",
           "children": []
         },
         {
           "name": "Hub3D",
-          "fullPath": "Scene3D.Hub3D",
+          "fullPath": "collection_2::Scene3D.Hub3D",
           "location": "src/models/Scene3D.ts:224:30",
           "children": []
         },
         {
           "name": "Sink3D",
-          "fullPath": "Scene3D.Sink3D",
+          "fullPath": "collection_2::Scene3D.Sink3D",
           "location": "src/models/Scene3D.ts:235:31",
           "children": []
         },
         {
           "name": "Cone3D",
-          "fullPath": "Scene3D.Cone3D",
+          "fullPath": "collection_2::Scene3D.Cone3D",
           "location": "src/models/Scene3D.ts:245:31",
           "children": []
         },
         {
           "name": "Caption3D",
-          "fullPath": "Scene3D.Caption3D",
+          "fullPath": "collection_2::Scene3D.Caption3D",
           "location": "src/models/Scene3D.ts:255:34",
           "children": []
         },
         {
           "name": "Tube3D",
-          "fullPath": "Scene3D.Tube3D",
+          "fullPath": "collection_2::Scene3D.Tube3D",
           "location": "src/models/Scene3D.ts:265:31",
           "children": []
         }
@@ -201,23 +201,23 @@
     },
     {
       "name": "Trie",
-      "fullPath": "Trie",
-      "location": "src/models/Trie.ts:12:21",
+      "fullPath": "collection_1::Trie",
+      "location": "src/models/Trie.ts:12:29",
       "children": [
         {
           "name": "GraphNodeTrie",
-          "fullPath": "Trie.GraphNodeTrie",
+          "fullPath": "collection_1::Trie.GraphNodeTrie",
           "location": "src/models/Trie.ts:53:35",
           "children": [
             {
               "name": "LinkTrie",
-              "fullPath": "Trie.GraphNodeTrie.LinkTrie",
+              "fullPath": "collection_1::Trie.GraphNodeTrie.LinkTrie",
               "location": "src/models/Trie.ts:64:39",
               "children": []
             },
             {
               "name": "ContextMenu",
-              "fullPath": "Trie.GraphNodeTrie.ContextMenu",
+              "fullPath": "collection_1::Trie.GraphNodeTrie.ContextMenu",
               "location": "src/models/Trie.ts:75:42",
               "children": []
             }

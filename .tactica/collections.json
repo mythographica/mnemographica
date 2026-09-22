@@ -1,0 +1,24 @@
+{
+  "version": "1.0",
+  "generatedAt": "2026-09-22T10:57:25.251Z",
+  "collections": [
+    {
+      "id": null,
+      "name": "defaultTypes",
+      "registryInterface": "TypeRegistry",
+      "location": null
+    },
+    {
+      "id": "collection_1",
+      "name": "Backend",
+      "location": "src/models/collections.ts:22:14",
+      "registryInterface": "BackendRegistry"
+    },
+    {
+      "id": "collection_2",
+      "name": "Frontend",
+      "location": "src/models/collections.ts:26:14",
+      "registryInterface": "FrontendRegistry"
+    }
+  ]
+}

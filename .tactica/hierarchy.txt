@@ -1,36 +1,36 @@
 Type Hierarchy (Trie):
-├── Instrumentation
-│   └── Instrumentation_InstrumentationPoint
-├── Definitions
-│   └── Definitions_DefinitionEntry
-├── EDS
-│   └── EDS_EDSEntry
-├── Flow
-│   └── Flow_FlowEntry
 ├── LoggerTab
 │   └── LoggerTab_LogEntry
 ├── Main
 │   └── Main_Adapter
-├── Types
-│   └── Types_TypeEntry
-├── Usages
-│   └── Usages_UsageEntry
 ├── Registry
 │   └── Registry_RegistryEntry
-├── Scene3D
-│   ├── Scene3D_Camera3D
-│   ├── Scene3D_GraphNode3D
-│   │   └── Scene3D_GraphNode3D_Tooltip3D
-│   ├── Scene3D_Link3D
-│   ├── Scene3D_Diamond3D
-│   ├── Scene3D_Bagel3D
-│   ├── Scene3D_Ring3D
-│   ├── Scene3D_Hub3D
-│   ├── Scene3D_Sink3D
-│   ├── Scene3D_Cone3D
-│   ├── Scene3D_Caption3D
-│   └── Scene3D_Tube3D
-└── Trie
-    └── Trie_GraphNodeTrie
-        ├── Trie_GraphNodeTrie_LinkTrie
-        └── Trie_GraphNodeTrie_ContextMenu
+├── collection_1::Definitions
+│   └── collection_1::Definitions_DefinitionEntry
+├── collection_1::EDS
+│   └── collection_1::EDS_EDSEntry
+├── collection_1::Flow
+│   └── collection_1::Flow_FlowEntry
+├── collection_1::Instrumentation
+│   └── collection_1::Instrumentation_InstrumentationPoint
+├── collection_1::Trie
+│   └── collection_1::Trie_GraphNodeTrie
+│       ├── collection_1::Trie_GraphNodeTrie_ContextMenu
+│       └── collection_1::Trie_GraphNodeTrie_LinkTrie
+├── collection_1::Types
+│   └── collection_1::Types_TypeEntry
+├── collection_1::Usages
+│   └── collection_1::Usages_UsageEntry
+└── collection_2::Scene3D
+    ├── collection_2::Scene3D_Bagel3D
+    ├── collection_2::Scene3D_Camera3D
+    ├── collection_2::Scene3D_Caption3D
+    ├── collection_2::Scene3D_Cone3D
+    ├── collection_2::Scene3D_Diamond3D
+    ├── collection_2::Scene3D_GraphNode3D
+    │   └── collection_2::Scene3D_GraphNode3D_Tooltip3D
+    ├── collection_2::Scene3D_Hub3D
+    ├── collection_2::Scene3D_Link3D
+    ├── collection_2::Scene3D_Ring3D
+    ├── collection_2::Scene3D_Sink3D
+    └── collection_2::Scene3D_Tube3D

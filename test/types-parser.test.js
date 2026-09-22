@@ -44,7 +44,7 @@ function testTypesParser () {
 
 	// Test 1: Root types
 	console.log('Test 1: Root types (no parent)');
-	const rootTypes = ['Definitions', 'LoggerTab', 'Main', 'Registry', 'Scene3D', 'Trie', 'Types', 'Usages'];
+	const rootTypes = ['BackendRegistry_Definitions', 'LoggerTab', 'Main', 'Registry', 'FrontendRegistry_Scene3D', 'BackendRegistry_Trie', 'BackendRegistry_Types', 'BackendRegistry_Usages'];
 	for (const name of rootTypes) {
 		const type = types.get(name);
 		assert.ok(type, `Should have ${name}`);
@@ -54,21 +54,21 @@ function testTypesParser () {
 
 	// Test 2: Nested types
 	console.log('\nTest 2: Scene3D nested types');
-	const scene3dNested = ['Scene3D_Camera3D', 'Scene3D_GraphNode3D', 'Scene3D_Link3D'];
+	const scene3dNested = ['FrontendRegistry_Scene3D_Camera3D', 'FrontendRegistry_Scene3D_GraphNode3D', 'FrontendRegistry_Scene3D_Link3D'];
 	for (const name of scene3dNested) {
 		const type = types.get(name);
 		assert.ok(type, `Should have ${name}`);
-		assert.strictEqual(type.parent, 'Scene3D', `${name} parent should be Scene3D`);
+		assert.strictEqual(type.parent, 'FrontendRegistry_Scene3D', `${name} parent should be FrontendRegistry_Scene3D`);
 		console.log(`  ✓ ${name} → parent: ${type.parent}`);
 	}
 
 	// Test 3: Deep nested types
 	console.log('\nTest 3: GraphNode3D deep nested types');
-	const graphNode3dNested = ['Scene3D_GraphNode3D_Tooltip3D'];
+	const graphNode3dNested = ['FrontendRegistry_Scene3D_GraphNode3D_Tooltip3D'];
 	for (const name of graphNode3dNested) {
 		const type = types.get(name);
 		assert.ok(type, `Should have ${name}`);
-		assert.strictEqual(type.parent, 'Scene3D_GraphNode3D', `${name} parent should be Scene3D_GraphNode3D`);
+		assert.strictEqual(type.parent, 'FrontendRegistry_Scene3D_GraphNode3D', `${name} parent should be FrontendRegistry_Scene3D_GraphNode3D`);
 		console.log(`  ✓ ${name} → parent: ${type.parent}`);
 	}
 

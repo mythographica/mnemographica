@@ -1223,6 +1223,19 @@
 			});
 		}
 
+		// Collection selector: one collection's universe per render. The
+		// host owns the data — switching posts the pick and the host
+		// re-reads .tactica for that collection, the same path Refresh
+		// takes; options arrive with each updateGraph payload
+		const collectionSelect = document.getElementById('collection-select');
+		if (collectionSelect) {
+			collectionSelect.addEventListener('change', function () {
+				vscode.postMessage({ command: 'selectCollection', data: { id: collectionSelect.value } });
+				// Same focus rule as the Save button
+				collectionSelect.blur();
+			});
+		}
+
 		// 3D-only: the mode toggle buttons no longer exist in the DOM.
 	}
 
@@ -1342,12 +1355,45 @@
 		}
 	}
 
+	// The collection selector lists every collection tactica reported; a
+	// single-collection project has nothing to switch, so it hides.
+	// Options rebuild only when the inventory changes — a Refresh must
+	// not collapse an open dropdown or reset a mid-gesture pick
+	function updateCollectionSelect(data) {
+		const select = document.getElementById('collection-select');
+		if (!select) { return; }
+		const collections = data && data.collections;
+		if (!Array.isArray(collections) || collections.length < 2) {
+			select.style.display = 'none';
+			return;
+		}
+		const signature = collections.map(function (c) { return c.id + ':' + c.count + ':' + (c.name || ''); }).join('|');
+		if (select.dataset.signature !== signature) {
+			select.dataset.signature = signature;
+			select.innerHTML = '';
+			collections.forEach(function (c) {
+				const option = document.createElement('option');
+				option.value = c.id;
+				// collections.json (tactica ≥ 0.4.1) carries the display
+				// name; older outputs show the raw minted id
+				option.textContent = (c.name || c.id) + ' (' + c.count + ')';
+				select.appendChild(option);
+			});
+		}
+		const selected = data.collection || collections[0].id;
+		if (select.value !== selected) {
+			select.value = selected;
+		}
+		select.style.display = '';
+	}
+
 	// Handle messages from extension
 	window.addEventListener('message', function (event) {
 		const message = event.data;
 
 		if (message.command === 'updateGraph') {
 			currentData = message.data;
+			updateCollectionSelect(message.data);
 			// The host reads .mnemographica/layout.json and rides it along.
 			// null means "no save yet" — keep a layout we already hold in
 			// that case
@@ -5074,10 +5120,13 @@
 			centerSphere.position.set(0, 0, 0);
 			this.centerMarker = centerSphere;
 			this.scene.add(centerSphere);
-			// tactica emits no collection id yet and walks the default
-			// collection only — the future collection switcher will
-			// source this label from the payload
-			this.addLabel(centerSphere, 'defaultTypes', 0.6);
+			// The shown collection's display name: the collections.json
+			// name when the manifest exists, else the raw id
+			// ('defaultTypes' for the default universe)
+			const collectionsInventory = Array.isArray(data.collections) ? data.collections : [];
+			const shownCollection = collectionsInventory.find(function (c) { return c.id === data.collection; });
+			const centerLabel = (shownCollection && shownCollection.name) || data.collection || 'defaultTypes';
+			this.addLabel(centerSphere, centerLabel, 0.6);
 			if (centerSphere.userData.label) {
 				this.typesGroup.add(centerSphere.userData.label);
 				this.typesGroup.add(centerSphere.userData.leader);
