@@ -2,6 +2,16 @@
 
 Guidance for AI agents working on the Mnemonica Graphica VS Code extension.
 
+
+1. ASK BEFORE DOING !!!
+2. ASK BEFORE DOING !!!
+3. ASK BEFORE DOING !!!
+4. ASK BEFORE DOING !!!
+5. ASK BEFORE DOING !!!
+6. ASK BEFORE DOING !!!
+7. ASK BEFORE DOING !!!
+
+
 ## Documentation style
 
 AGENTS.md describes the present only: no dated history, no changelog
@@ -131,7 +141,17 @@ The extension helps AI agents:
      via MNEMOGRAPHICA_JAEGER_URL). Traces that aged out of the ring are
      Jaeger's job — the ring is "now".
    - `treeProvider.ts` — Definitions section (define() sites) and Types section
-     (generated aliases in types.ts)
+     (generated aliases in types.ts). Navigable items carry the
+     `mnemographica.treeItemClick` command: `onDidChangeSelection` never
+     fires for a re-click on the already-selected row, so the focus/usages
+     action rides the item command, which fires on EVERY click — clicking
+     the same element again re-selects its path in the 3D graph. The
+     command also UNFOLDS the clicked row one level via
+     `treeView.reveal(item, { expand: true })` — the provider caches
+     displayed items by their stable id (`itemsById`, cleared on
+     refresh) so the command's bare data payload resolves back to the
+     live instance reveal needs. Without a command, expansion would
+     stay twistie-only (double-click on the label still toggles)
    - `usagesTreeProvider.ts` — usages per selected type
    - `flowTreeProvider.ts` — flow.json grouped kind → type → entry;
      entry rows carry the `file.ts:line` tail as description so
@@ -462,17 +482,24 @@ The extension helps AI agents:
      sphere (leader lines keep attribution), and the whole dynamics
      chain (diamond shells, bagels, edges) follows through
      `updateLinkPositions()`.
-   - **Over-pole camera**: rotation drags no longer clamp
-     latitude at ±90° — the camera tumbles over the poles, full
-     north-to-south. `camera.up` flips sign past each pole in
-     `updateCameraPosition()` (must precede `lookAt`, which reads it),
-     so the roll stays continuous instead of a 180° snap at the pole;
-     the angle wraps into [−π, π] to keep the numbers small.
-     Programmatic focus (`focusNode`) still clamps its targets into the
-     upright band — a focus always lands right-side up.
-     The focus approach is the center→item
-     ray from OUTSIDE — the camera ends beyond the
-     sphere looking inward, so the item is the foreground and the
+   - **Arcball camera**: the orbit state is a single quaternion
+     (`orbitQuat`) — offset direction, up vector and Shift-roll all
+     ride it, so the tumble is pole-free and never snaps (no up-flip
+     machinery, no latitude clamp). Plain drags rotate in SCREEN
+     space: horizontal yaw around the screen's vertical axis,
+     vertical pitch around the screen's horizontal axis, composed as
+     local-frame postmultiplies — the axes follow the screen no
+     matter how the view was rolled before; a fresh drag behaves
+     like a fresh render. Programmatic focus (`focusNode`) still
+     searches targets in the retired spherical angles and clamps
+     them to the upright band — a focus always lands right-side up;
+     the target converts to a quaternion and the anim slerps. The
+     spherical {rotX, rotY} survive only at the edges: legacy
+     layout.json cameras (converted at restore) and the Camera3D
+     census fields (rotationX/rotationY, derived from the
+     quaternion). The focus approach is the center→item ray from
+     OUTSIDE — the camera ends beyond the sphere looking inward, so
+     the item is the foreground and the
      graph center reads behind it.
      **Fit-to-view on first render**: `fitCameraToView()` runs in
      `render3DGraph` right after `renderGraph`, ONLY when no saved or
@@ -495,9 +522,11 @@ The extension helps AI agents:
      right/up axes by cursor-delta × world-units-per-pixel at the target
      distance (`2·zoom·tan(fov/2) / canvasHeight`), so content follows
      the cursor 1:1 — including under rotation. Plain drag rotates (the
-     over-pole tumble above); Shift+drag ROLLS the view about its own
-     axis — or grabs a caption when one is under the cursor (the
-     texel-exact pick below runs first).
+     arcball above); Shift+drag ROLLS the view about its own axis — a
+     linear map where BOTH drag components count (dx + dy), so the
+     gesture works anywhere on the canvas rather than only on a
+     tangential sweep around the center — or grabs a caption when one
+     is under the cursor (the texel-exact pick below runs first).
    - **Save button**: the `#controls` Save
      button persists the current arrangement to
      `<sourceRoot>/.mnemographica/layout.json` — user-placed sphere
@@ -757,19 +786,36 @@ The extension helps AI agents:
      the census dim (never-created at 0.35) and the root glow survive
      a selection; a blanket opacity-1 restore would clobber them.
      Selection is a SEPARATE mode from trace mode (static structure
-     vs runtime lineage): entering trace mode clears it, Escape and
-     background click clear it, a renderer rebuild drops it (the tube
+     vs runtime lineage): entering trace mode clears it, a renderer
+     rebuild drops it (the tube
      hangs off the scene, so `clear()` disposes it explicitly), and
      the focused mesh keeps its gold pulse on top — pulse says "you
-     clicked THIS", green cone says "its path". A user-initiated clear
-     (Escape, background click) also glides the orbit center back to
-     the graph's origin — the maroon marker — through
-     `restoreGraphCenter()`: focus had animated `panOffset` onto the
-     selected sphere, so clearing without the restore would leave
-     rotation orbiting a sphere nothing points at anymore. The
-     restore is guarded — it fires only when a selection or trace
-     mode was actually live, and is a no-op when the center already
-     sits at home, so deliberate Ctrl+drag pans survive.
+     clicked THIS", green cone says "its path". The pulse retires
+     after 7 seconds (the sphere settles on its base glow and the
+     render loop goes idle again); the FOCUS stays — pivot and cone —
+     until a deliberate clear. Clearing is a DELIBERATE gesture: the
+     click handler measures press→release against the 4px click/drag
+     idiom, so a rotate/pan/grab release never reads as a background
+     click, and a true background click drops EVERYTHING at once —
+     the selection cone, the trace isolation and the focused sphere
+     (Escape does the same full drop). The orbit pivot is an
+     invariant: the focused sphere while one is focused, the graph's
+     origin — the maroon marker — otherwise.
+     `restoreGraphCenter(anchor)` enforces it silently — no animation,
+     no camera motion: the pivot snaps to its anchor while the
+     camera's position and orientation stay bit-identical, the
+     spherical state is re-derived from the live camera position so
+     the next gesture continues smoothly, and the AIM is decoupled
+     from the pivot (`aimAnchor`): the live orientation is anchored
+     and later gestures apply only the delta of the coupled
+     orientation, so the frame holds instead of jumping to center on
+     the first rotate; the aim re-couples on the next deliberate
+     `focusNode` and on `reset()`. The restore runs on every focus
+     drop, on trace-mode entry, and at the end of every drag gesture
+     — a Ctrl+drag pan translates the pivot along with the camera,
+     so the mouseup snaps it back to its anchor (a no-op when the
+     gesture never moved it): rotation ALWAYS orbits the anchor,
+     never a leftover pan point.
 
 5. **Navigation providers** (`src/providers/`)
    - `definitionProvider.ts` — Ctrl+Click for `lookup('X')` and type identifiers;

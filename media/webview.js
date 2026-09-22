@@ -70,6 +70,36 @@
 		return null;
 	}
 
+	// The orbit state is a single QUATERNION (arcball): the camera offset
+	// direction, the up vector and the Shift-roll all ride it, so plain
+	// drags always rotate around the CURRENT screen axes — horizontal
+	// stays horizontal and vertical stays vertical no matter how the view
+	// was rolled before. These helpers convert to/from the retired
+	// spherical { rotX, rotY } angles, which survive only at the edges:
+	// legacy layout.json cameras, the Camera3D census fields
+	// (rotationX/rotationY) and focusNode's upright-band target search
+	function quatFromOrbitAngles(rotX, rotY) {
+		const yaw = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), rotY);
+		const pitch = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), -rotX);
+		const result = yaw.multiply(pitch);
+		return result;
+	}
+
+	function orbitAnglesFromQuat(q) {
+		const dir = new THREE.Vector3(0, 0, 1).applyQuaternion(q);
+		const result = {
+			x : Math.asin(Math.max(-1, Math.min(1, dir.y))),
+			y : Math.atan2(dir.x, dir.z)
+		};
+		return result;
+	}
+
+	// Gesture axes in the orbit's LOCAL frame: yaw around screen
+	// vertical, pitch around screen horizontal, roll around the view axis
+	const ORBIT_YAW_AXIS = new THREE.Vector3(0, 1, 0);
+	const ORBIT_PITCH_AXIS = new THREE.Vector3(1, 0, 0);
+	const ORBIT_ROLL_AXIS = new THREE.Vector3(0, 0, 1);
+
 	const vscode = acquireVsCodeApi();
 	vscodeRef = vscode;
 	let simulation = null;
@@ -1214,7 +1244,12 @@
 				if (renderer3D) {
 					debugLog('Saving 3D camera state before switch...', 'log');
 					saved3DCameraState = {
-						cameraRotation: { ...renderer3D.cameraRotation },
+						orbitQuat: {
+							x : renderer3D.orbitQuat.x,
+							y : renderer3D.orbitQuat.y,
+							z : renderer3D.orbitQuat.z,
+							w : renderer3D.orbitQuat.w
+						},
 						zoom: renderer3D.zoom,
 						panOffset: { ...renderer3D.panOffset }
 					};
@@ -1446,9 +1481,12 @@
 				nodeCount   : 0
 			};
 			if (renderer3D) {
+				// Angle readback derived from the orbit quaternion — the
+				// shape the view-state consumer already speaks
+				const viewAngles = orbitAnglesFromQuat(renderer3D.orbitQuat);
 				state.camera = {
-					rotX : renderer3D.cameraRotation.x,
-					rotY : renderer3D.cameraRotation.y,
+					rotX : viewAngles.x,
+					rotY : viewAngles.y,
 					zoom : renderer3D.zoom,
 					pan  : {
 						x : renderer3D.panOffset.x,
@@ -1469,13 +1507,15 @@
 		}
 	});
 
-	// Escape leaves trace mode (names-first tracing) and drops the
-	// selection highlight; a lived selection/trace releases the orbit
-	// center back to the graph center
+	// Escape drops the focus state at once: the selection highlight,
+	// trace mode (names-first tracing) and the focused sphere; a lived
+	// selection/trace/focus releases the orbit center back to the
+	// graph center
 	window.addEventListener('keydown', function (event) {
 		if (event.key === 'Escape' && renderer3D) {
 			const hadSelection = !!renderer3D.selectionMode;
 			const hadTrace = !!renderer3D.traceMode;
+			const hadFocus = !!renderer3D.focusedMesh;
 			if (hadSelection) {
 				renderer3D.clearSelectionHighlight();
 			}
@@ -1486,7 +1526,10 @@
 					vscodeRef.postMessage({ command: 'traceModeExit' });
 				}
 			}
-			if (hadSelection || hadTrace) {
+			if (hadFocus) {
+				renderer3D.setFocusedMesh(null);
+			}
+			if (hadSelection || hadTrace || hadFocus) {
 				renderer3D.restoreGraphCenter();
 			}
 		}
@@ -2804,18 +2847,33 @@
 			// Restore saved camera state or use defaults
 			if (initialCameraState) {
 				debugLog('Restoring camera state: ' + JSON.stringify(initialCameraState), 'log');
-				this.cameraRotation = { ...initialCameraState.cameraRotation };
+				if (initialCameraState.orbitQuat) {
+					const q = initialCameraState.orbitQuat;
+					this.orbitQuat = new THREE.Quaternion(q.x, q.y, q.z, q.w);
+				} else {
+					// Legacy layout camera (pre-quaternion): the spherical
+					// angles convert; roll was never persisted, so none
+					// is lost
+					const legacy = initialCameraState.cameraRotation || { x: 0, y: 0 };
+					this.orbitQuat = quatFromOrbitAngles(legacy.x || 0, legacy.y || 0);
+				}
 				this.zoom = initialCameraState.zoom;
 				this.panOffset = { ...initialCameraState.panOffset };
-				debugLog('Restored cameraRotation: ' + JSON.stringify(this.cameraRotation), 'log');
 				debugLog('Restored zoom: ' + this.zoom, 'log');
 				debugLog('Restored panOffset: ' + JSON.stringify(this.panOffset), 'log');
 			} else {
 				debugLog('No saved camera state, using defaults', 'log');
-				this.cameraRotation = { x: 0, y: 0 };
+				this.orbitQuat = new THREE.Quaternion();
 				this.zoom = 500;
 				this.panOffset = { x: 0, y: 0, z: 0 };
 			}
+			// Aim/pivot decoupling (restoreGraphCenter): when the orbit
+			// center snaps home on a focus drop, the live orientation is
+			// anchored here and gestures apply only the DELTA of the
+			// coupled model — the maroon marker keeps its screen spot
+			// instead of jumping to center on the first rotate.
+			// { fromInv, quaternion } or null (aim rides the pivot)
+			this.aimAnchor = null;
 			this.depthRadii = null; // Will be initialized in renderGraph
 			// Session/saved shell radii render3DGraph hands in before
 			// renderGraph — they overlay the formula defaults at init
@@ -2897,6 +2955,18 @@
 			// to restore, chain orders the ancestor meshes root → self
 			// for the glow tube
 			this.selectionMode = null;
+			// The focused sphere's gold pulse marks the clicked spot for
+			// 7 seconds, then settles on the base glow — long enough to
+			// find it, short enough to stop blinking (and to let the
+			// render-on-demand loop go idle again). The FOCUS itself
+			// stays — only the blink retires
+			this.focusPulseStart = 0;
+			this.focusPulseSettled = true;
+			// The press point of the current gesture — the click handler
+			// compares the release against it: past the 4px click/drag
+			// idiom the gesture was a drag, and the browser click that
+			// still fires must not read as a background click
+			this.pressPosition = null;
 
 			// Render-on-demand: animate() keeps its rAF loop but paints
 			// only when this flag is set (scene mutation), a continuous
@@ -2935,11 +3005,9 @@
 			if (this.panOffset === undefined) this.panOffset = { x: 0, y: 0, z: 0 };
 			this.isPanning = false;
 			this.draggedNode = null;
-			// Shift+drag roll state: the angle applied in
-			// updateCameraPosition, and the live roll gesture flag — a
-			// Shift+drag that grabbed NO caption rolls the view instead
-			// of panning/node-dragging
-			this.cameraRoll = 0;
+			// Shift+drag roll gesture flag — a Shift+drag that grabbed NO
+			// caption rolls the view instead of panning/node-dragging.
+			// The roll itself rides the orbit quaternion
 			this.rollingView = false;
 			// Apply the camera position based on restored/default values
 			this.updateCameraPosition();
@@ -3002,11 +3070,17 @@
 				if (legendDragState || genControlsDragState) return;
 				e.preventDefault();
 				e.stopPropagation();
-				// User grabbed the scene — cancel any running focus animation
-				this.focusAnim = null;
+				// User grabbed the scene — cancel any running focus
+				// animation. A panOnly recenter glide is spared: it
+				// writes only panOffset, the drag writes the orbit
+				// quaternion — they compose and the pivot still lands home
+				if (this.focusAnim && !this.focusAnim.panOnly) {
+					this.focusAnim = null;
+				}
 				this.isDragging = false;
 				this.isPanning = e.ctrlKey;
 				this.previousMousePosition = { x: e.clientX, y: e.clientY };
+				this.pressPosition = { x: e.clientX, y: e.clientY };
 
 				// Check if clicking on a node for dragging
 				const rect = canvas.getBoundingClientRect();
@@ -3072,8 +3146,8 @@
 					}
 					// No caption under the cursor: Shift+drag ROLLS the
 					// view — never a node drag, never a pan; mousemove
-					// turns the swept angle around the viewport center
-					// into cameraRoll
+					// turns the drag delta into a roll around the view
+					// axis
 					this.rollingView = true;
 					canvas.style.cursor = 'grabbing';
 					return;
@@ -3137,21 +3211,15 @@
 					this.isDragging = true;
 
 					if (this.rollingView) {
-						// Roll: the angle the cursor sweeps around the
-						// viewport CENTER becomes camera roll — a
-						// clockwise/anticlockwise, 2D-like turn of the
-						// current view. Screen atan2 runs clockwise-positive
-						// (y grows down), so a counter-clockwise sweep
-						// yields a negative delta — negate it to make the
-						// world follow the cursor
-						const rect = canvas.getBoundingClientRect();
-						const cx = rect.left + rect.width / 2;
-						const cy = rect.top + rect.height / 2;
-						const a0 = Math.atan2(this.previousMousePosition.y - cy, this.previousMousePosition.x - cx);
-						const a1 = Math.atan2(e.clientY - cy, e.clientX - cx);
-						const TWO_PI = Math.PI * 2;
-						const sweep = ((a1 - a0 + Math.PI) % TWO_PI + TWO_PI) % TWO_PI - Math.PI;
-						this.cameraRoll -= sweep;
+						// Roll: spin the view around its own axis. Linear
+						// map — BOTH drag components count (horizontal and
+						// vertical), so the gesture works anywhere on the
+						// canvas; a pure sweep around the viewport center
+						// would leave straight radial drags dead. The
+						// local-frame postmultiply rolls around the
+						// CURRENT view axis
+						this.orbitQuat.multiply(
+							new THREE.Quaternion().setFromAxisAngle(ORBIT_ROLL_AXIS, (dx + dy) * 0.005));
 						this.updateCameraPosition();
 					} else if (this.draggedCaption) {
 						// Move the caption on its fixed-depth plane (the
@@ -3264,16 +3332,18 @@
 						this.panOffset.z = (this.panOffset.z || 0) + (-dx * right.z + dy * up.z) * wpp;
 						this.updateCameraPosition();
 					} else {
-						// Plain drag: rotate camera around center. No
-						// latitude clamp: full over-pole tumble. camera.up
-						// flips in updateCameraPosition past the poles, so
-						// the roll stays continuous (no 180° snap at the
-						// pole). Wrapped into [-π, π] to keep the numbers
-						// small.
-						this.cameraRotation.y += dx * 0.002;
-						this.cameraRotation.x += dy * 0.002;
-						const TWO_PI = Math.PI * 2;
-						this.cameraRotation.x = ((this.cameraRotation.x + Math.PI) % TWO_PI + TWO_PI) % TWO_PI - Math.PI;
+						// Plain drag: rotate the orbit in SCREEN space —
+						// horizontal drags yaw around the screen's vertical
+						// axis, vertical drags pitch around the screen's
+						// horizontal axis, no matter how the view was
+						// rolled before. The local-frame postmultiplies
+						// keep the axes screen-aligned: a fresh drag
+						// behaves like a fresh render, and a quaternion
+						// orbit has no poles — the tumble never snaps
+						this.orbitQuat.multiply(
+							new THREE.Quaternion().setFromAxisAngle(ORBIT_YAW_AXIS, dx * 0.002));
+						this.orbitQuat.multiply(
+							new THREE.Quaternion().setFromAxisAngle(ORBIT_PITCH_AXIS, -dy * 0.002));
 						this.updateCameraPosition();
 					}
 				}
@@ -3327,12 +3397,31 @@
 				}
 	
 				this.isDragging = false;
+				// A Ctrl+pan translated the orbit center along with the
+				// camera — now that the gesture is over, hand the pivot
+				// back to its anchor: the focused sphere while one is
+				// focused, the maroon origin otherwise. Silent (camera
+				// position and frame stay bit-identical), and a no-op
+				// when the gesture never moved the pivot
+				this.restoreGraphCenter(this.focusedMesh ? this.focusedMesh.position : null);
 			});
 	
 			// Single click on node - show tooltip, click elsewhere - hide tooltip
 			canvas.addEventListener('click', (e) => {
 				e.preventDefault();
 				e.stopPropagation();
+				// A release away from the press point was a drag (rotate,
+				// pan, node grab) — the browser fires click anyway, and it
+				// must not read as a background click that drops the
+				// selection the drag was aiming with
+				if (this.pressPosition) {
+					const pressDist = Math.hypot(
+						e.clientX - this.pressPosition.x,
+						e.clientY - this.pressPosition.y
+					);
+					this.pressPosition = null;
+					if (pressDist > 4) { return; }
+				}
 				const rect = canvas.getBoundingClientRect();
 				this.mouseVector.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
 				this.mouseVector.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
@@ -3358,23 +3447,24 @@
 						this.handleInternalClick(e, hitMesh.userData.internalNode);
 					}
 				} else {
-					// Click on background - hide tooltip, drop focus glow
-					// and the selection cone, leave trace mode
+					// Click on background - hide tooltip
 					d3.select('#tooltip').classed('visible', false);
-					// A lived selection/trace had pulled the orbit center onto
-					// its sphere — release it back to the graph center
-					const hadSelection = !!this.selectionMode;
-					const hadTrace = !!this.traceMode;
-					this.setFocusedMesh(null);
-					this.clearSelectionHighlight();
-					if (this.traceMode) {
-						this.exitTraceMode();
-						updateStatusLine();
-						if (vscodeRef) {
-							vscodeRef.postMessage({ command: 'traceModeExit' });
+					// A single background click drops EVERYTHING at once
+					// — the selection cone, the trace isolation and the
+					// focused sphere's marker — and hands the orbit center
+					// back to the maroon marker. Drags never reach this
+					// branch: the 4px press/release idiom above already
+					// returned, so rotating the scene never costs the focus
+					if (this.selectionMode || this.traceMode || this.focusedMesh) {
+						this.clearSelectionHighlight();
+						if (this.traceMode) {
+							this.exitTraceMode();
+							updateStatusLine();
+							if (vscodeRef) {
+								vscodeRef.postMessage({ command: 'traceModeExit' });
+							}
 						}
-					}
-					if (hadSelection || hadTrace) {
+						this.setFocusedMesh(null);
 						this.restoreGraphCenter();
 					}
 				}
@@ -3413,8 +3503,11 @@
 			canvas.addEventListener('wheel', (e) => {
 				e.preventDefault();
 				e.stopPropagation();
-				// Manual zoom cancels the focus animation
-				this.focusAnim = null;
+				// Manual zoom cancels the focus animation — a panOnly
+				// recenter glide survives (it never writes the zoom)
+				if (this.focusAnim && !this.focusAnim.panOnly) {
+					this.focusAnim = null;
+				}
 				this.zoom += e.deltaY * 0.5;
 				// The clamp follows the scene: fitCameraToView raises
 				// maxZoomOut so a huge graph can always be zoomed out
@@ -3475,26 +3568,44 @@
 			// panOffset.z is optional: saved camera states from before the
 			// z-aware orbit center do not carry it
 			const panZ = this.panOffset.z || 0;
-			const x = Math.sin(this.cameraRotation.y) * Math.cos(this.cameraRotation.x) * this.zoom + this.panOffset.x;
-			const y = Math.sin(this.cameraRotation.x) * this.zoom + this.panOffset.y;
-			const z = Math.cos(this.cameraRotation.y) * Math.cos(this.cameraRotation.x) * this.zoom + panZ;
-			// Flip the up vector past the poles (|latitude| > 90°): the
-			// over-pole tumble stays roll-continuous instead of snapping
-			// 180° at the pole. Must precede lookAt — lookAt reads `up`.
-			this.camera.up.set(0, Math.cos(this.cameraRotation.x) >= 0 ? 1 : -1, 0);
-			// Shift+drag ROLL: spin the up vector around the view axis —
-			// a pure screen-plane rotation (clockwise/anticlockwise, 2D-
-			// like, only X/Y of the current view) layered over the tumble
-			if (this.cameraRoll) {
-				const viewAxis = new THREE.Vector3(
-					this.panOffset.x - x, this.panOffset.y - y, panZ - z).normalize();
-				this.camera.up.applyAxisAngle(viewAxis, this.cameraRoll);
+			// The orbit quaternion is the whole rotational state: offset
+			// direction, up vector and Shift-roll all ride it
+			const offset = new THREE.Vector3(0, 0, this.zoom).applyQuaternion(this.orbitQuat);
+			this.camera.position.set(
+				offset.x + this.panOffset.x,
+				offset.y + this.panOffset.y,
+				offset.z + panZ);
+			if (this.aimAnchor) {
+				// Aim decoupled from the pivot (a focus drop snapped the
+				// orbit center home): keep the frame the user is looking
+				// at — apply only the DELTA of the coupled orientation
+				// since the snap, so the maroon marker holds its screen
+				// spot instead of jumping to center on the next gesture
+				const qTo = this.coupledAimQuaternion(this.orbitQuat);
+				this.camera.quaternion.copy(qTo)
+					.multiply(this.aimAnchor.fromInv)
+					.multiply(this.aimAnchor.quaternion);
+			} else {
+				this.camera.up.set(0, 1, 0).applyQuaternion(this.orbitQuat);
+				this.camera.lookAt(this.panOffset.x, this.panOffset.y, panZ);
 			}
-			this.camera.position.set(x, y, z);
-			this.camera.lookAt(this.panOffset.x, this.panOffset.y, panZ);
 			// Every camera mutation funnels here (rotate/pan/wheel/zoom/
 			// reset/focus-anim ticks), so one flag covers them all
 			this.needsRender = true;
+		}
+
+		// The orientation the coupled branch of updateCameraPosition
+		// produces for an orbit state — its up/lookAt math with the camera
+		// placed on the unit offset direction, aimed at the pivot. The
+		// decoupled branch quotients the live state against the anchor's
+		// snapshot, so both sides must stay the SAME math
+		coupledAimQuaternion(orbitQuat) {
+			const eye = new THREE.Vector3(0, 0, 1).applyQuaternion(orbitQuat);
+			const up = new THREE.Vector3(0, 1, 0).applyQuaternion(orbitQuat);
+			const target = new THREE.Vector3(0, 0, 0);
+			const matrix = new THREE.Matrix4().lookAt(eye, target, up);
+			const result = new THREE.Quaternion().setFromRotationMatrix(matrix);
+			return result;
 		}
 
 		focusNode(id, name) {
@@ -3510,6 +3621,10 @@
 				}
 			}
 			if (!mesh) return;
+
+			// A deliberate focus re-couples the aim to the pivot — the
+			// approach animation flies the coupled model onto the item
+			this.aimAnchor = null;
 
 			const node = mesh.userData.node;
 			// Every focus path (tree click, Show on Graph, By Generation)
@@ -3529,8 +3644,12 @@
 			// item anyway, which is the requested reading; outer-shell
 			// children may still block the ray — pickClearView steps
 			// around them.
-			let targetRotX = this.cameraRotation.x;
-			let targetRotY = this.cameraRotation.y;
+			// The upright-band target search below works in the retired
+			// spherical angles; the orbit itself is a quaternion — derive
+			// the current angles from it
+			const currentAngles = orbitAnglesFromQuat(this.orbitQuat);
+			let targetRotX = currentAngles.x;
+			let targetRotY = currentAngles.y;
 			const parentMesh = node && node.parent ? this.nodeMeshes.get(node.parent.id) : null;
 			const radialLen = Math.sqrt(pos.x * pos.x + pos.y * pos.y + pos.z * pos.z);
 			if (radialLen > 0.0001) {
@@ -3598,7 +3717,7 @@
 			const alreadyVisible = this.isNodeInCurrentView(mesh);
 			if (alreadyVisible) {
 				let stayZoom = targetZoom;
-				if (!this.isViewClear(this.cameraRotation.x, this.cameraRotation.y, stayZoom, pos, mesh)) {
+				if (!this.isViewClear(currentAngles.x, currentAngles.y, stayZoom, pos, mesh)) {
 					// Re-fit would push an occluder in front of the
 					// node — keep the current distance instead
 					stayZoom = this.zoom;
@@ -3607,14 +3726,13 @@
 					start : performance.now(),
 					duration : 900,
 					from : {
-						rotX : this.cameraRotation.x,
-						rotY : this.cameraRotation.y,
+						rotQ : this.orbitQuat.clone(),
 						zoom : this.zoom,
 						pan  : { x: this.panOffset.x, y: this.panOffset.y, z: this.panOffset.z || 0 }
 					},
 					to : {
-						rotX : this.cameraRotation.x,
-						rotY : this.cameraRotation.y,
+						// Highlight-only path: the orientation stays
+						rotQ : this.orbitQuat.clone(),
 						zoom : stayZoom,
 						pan  : { x: pos.x, y: pos.y, z: pos.z }
 					}
@@ -3641,14 +3759,14 @@
 				start : performance.now(),
 				duration : 900,
 				from : {
-					rotX : this.cameraRotation.x,
-					rotY : this.cameraRotation.y,
+					rotQ : this.orbitQuat.clone(),
 					zoom : this.zoom,
 					pan  : { x: this.panOffset.x, y: this.panOffset.y, z: this.panOffset.z || 0 }
 				},
 				to : {
-					rotX : targetRotX,
-					rotY : targetRotY,
+					// The angle-space target converts — a focus lands
+					// upright (no roll), same as the spherical model
+					rotQ : quatFromOrbitAngles(targetRotX, targetRotY),
 					zoom : targetZoom,
 					pan  : { x: pos.x, y: pos.y, z: pos.z }
 				}
@@ -3662,6 +3780,10 @@
 				this.restoreFocusGlow(this.focusedMesh);
 			}
 			this.focusedMesh = mesh || null;
+			// (Re)arm the pulse clock — re-clicking the focused sphere
+			// restarts its 7 seconds
+			this.focusPulseStart = performance.now();
+			this.focusPulseSettled = false;
 			// Unfocus (background click) restores the old glow while
 			// NOTHING is animating anymore — without the flag that
 			// restored state would never paint
@@ -3686,13 +3808,9 @@
 			const rotT = easeInOutCubic(Math.min(t / 0.55, 1));
 			const zoomT = easeInOutCubic(Math.max(0, (t - 0.45) / 0.55));
 
-			// Shortest path for the yaw angle (wraps across ±π)
-			let rotYDelta = anim.to.rotY - anim.from.rotY;
-			while (rotYDelta > Math.PI) rotYDelta -= 2 * Math.PI;
-			while (rotYDelta < -Math.PI) rotYDelta += 2 * Math.PI;
-
-			this.cameraRotation.x = lerp(anim.from.rotX, anim.to.rotX, rotT);
-			this.cameraRotation.y = anim.from.rotY + rotYDelta * rotT;
+			// Quaternion slerp takes the shortest arc by itself — the
+			// angle model's yaw wrap-around handling is unnecessary
+			this.orbitQuat.slerpQuaternions(anim.from.rotQ, anim.to.rotQ, rotT);
 			this.panOffset.x = lerp(anim.from.pan.x, anim.to.pan.x, rotT);
 			this.panOffset.y = lerp(anim.from.pan.y, anim.to.pan.y, rotT);
 			this.panOffset.z = lerp(anim.from.pan.z, anim.to.pan.z, rotT);
@@ -3704,8 +3822,9 @@
 				if (this.focusedMesh) {
 					// Self-check the landed view: is the focused sphere
 					// actually unoccluded from the final camera?
+					const landedAngles = orbitAnglesFromQuat(this.orbitQuat);
 					const landed = this.isViewClear(
-						this.cameraRotation.x, this.cameraRotation.y,
+						landedAngles.x, landedAngles.y,
 						this.zoom, this.focusedMesh.position, this.focusedMesh
 					);
 					debugLog('[focusNode] final view clear: ' + landed, landed ? 'log' : 'warn');
@@ -3716,6 +3835,16 @@
 		updateFocusPulse() {
 			const mesh = this.focusedMesh;
 			if (!mesh) return;
+			if (this.focusPulseSettled) return;
+			if (performance.now() - this.focusPulseStart >= 7000) {
+				// 7 seconds of blink is enough — settle on the base glow
+				// once. The focus itself stays; only the pulse retires,
+				// and with it the render loop's reason to stay awake
+				this.focusPulseSettled = true;
+				this.restoreFocusGlow(mesh);
+				this.needsRender = true;
+				return;
+			}
 			const node = mesh.userData.node;
 			const base = node && node.isRoot ? 0.3 : 0;
 			if (!node || !node.isRoot) {
@@ -4065,6 +4194,10 @@
 			this.exitTraceMode();
 			this.traceFlashes.clear();
 			this.setFocusedMesh(null);
+			// Trace mode carries no focused sphere — the orbit pivot
+			// belongs on the maroon origin. A pivot left on a
+			// previously focused sphere snaps home silently
+			this.restoreGraphCenter();
 			// Runtime lineage beats static structure: the selection's
 			// cone/tube would fight the trace's own dimming
 			this.clearSelectionHighlight();
@@ -5331,7 +5464,17 @@
 				// overlaid on the formula defaults at the next open
 				genRadii : this.depthRadii ? Array.from(this.depthRadii.entries()) : null,
 				camera  : {
-					cameraRotation : { ...this.cameraRotation },
+					// The quaternion is the exact orbit state; the
+					// derived spherical angles ride along for the
+					// Camera3D census (rotationX/rotationY) and for
+					// legacy readers of older layout files
+					orbitQuat      : {
+						x : this.orbitQuat.x,
+						y : this.orbitQuat.y,
+						z : this.orbitQuat.z,
+						w : this.orbitQuat.w
+					},
+					cameraRotation : orbitAnglesFromQuat(this.orbitQuat),
 					zoom           : this.zoom,
 					panOffset      : { ...this.panOffset }
 				},
@@ -7311,42 +7454,68 @@
 		}
 
 		reset() {
-			this.cameraRotation = { x: 0, y: 0 };
+			// Identity orbit: unrotated, unrolled — the fresh-render view
+			this.orbitQuat.identity();
 			this.panOffset = { x: 0, y: 0, z: 0 };
 			// Home is the FITTED view when a fit ran — the whole graph in
 			// frame, not an arbitrary 600
 			this.zoom = this.fitZoom || 600;
+			// Homing is a deliberate re-aim at the center — the decoupled
+			// aim anchor from a focus drop no longer applies
+			this.aimAnchor = null;
 			this.updateCameraPosition();
 		}
 
-		// The orbit center follows the focused sphere while a selection or
-		// trace lives (focusNode animates panOffset onto it). Clearing must
-		// hand the center back to the graph's own origin — the maroon
-		// collection marker — or rotation keeps orbiting a sphere that is
-		// no longer selected. Rotation and zoom stay untouched; only the
-		// center glides home through the focus animation channel. A no-op
-		// when the center is already home (deliberate Ctrl+drag pans with
-		// nothing selected are never yanked).
-		restoreGraphCenter() {
+		// Hand the orbit center back to its ANCHOR: the focused sphere
+		// while one is focused (rotation orbits the selection), the graph's
+		// own origin — the maroon collection marker — otherwise. The frame
+		// must NOT move: the camera keeps its exact position and
+		// orientation, only the pivot the NEXT gesture orbits changes. The
+		// spherical state is re-derived from the live camera position
+		// relative to the anchor, so the next updateCameraPosition()
+		// reproduces the same position; the aim is anchored to the live
+		// frame (aimAnchor), so that gesture orbits the anchor WITHOUT
+		// re-aiming at it — the frame holds its screen spot. No animation,
+		// no jump, no-op when the pivot already sits on the anchor.
+		restoreGraphCenter(anchor) {
+			const target = anchor || { x: 0, y: 0, z: 0 };
 			const pan = this.panOffset;
 			const atHome = !pan ||
-				(Math.abs(pan.x) < 0.001 && Math.abs(pan.y) < 0.001 && Math.abs(pan.z || 0) < 0.001);
+				(Math.abs(pan.x - target.x) < 0.001 &&
+					Math.abs(pan.y - target.y) < 0.001 &&
+					Math.abs((pan.z || 0) - target.z) < 0.001);
 			if (atHome) return;
-			this.focusAnim = {
-				start    : performance.now(),
-				duration : 600,
-				from : {
-					rotX : this.cameraRotation.x,
-					rotY : this.cameraRotation.y,
-					zoom : this.zoom,
-					pan  : { x: pan.x, y: pan.y, z: pan.z || 0 }
-				},
-				to : {
-					rotX : this.cameraRotation.x,
-					rotY : this.cameraRotation.y,
-					zoom : this.zoom,
-					pan  : { x: 0, y: 0, z: 0 }
-				}
+			const pos = this.camera.position;
+			const relX = pos.x - target.x;
+			const relY = pos.y - target.y;
+			const relZ = pos.z - target.z;
+			const dist = Math.sqrt(relX * relX + relY * relY + relZ * relZ);
+			this.panOffset = { x: target.x, y: target.y, z: target.z };
+			if (dist < 0.0001) {
+				// Degenerate: the camera sits ON the anchor — the pivot snap
+				// is all there is
+				return;
+			}
+			this.zoom = dist;
+			// Re-derive the orbit state for the new anchor: swing the
+			// offset direction onto the camera's live direction FROM the
+			// anchor with the minimal rotation — position math stays
+			// continuous across the pivot swap, and the dialed-in twist
+			// (roll) survives
+			const prevDir = new THREE.Vector3(0, 0, 1).applyQuaternion(this.orbitQuat);
+			const newDir = new THREE.Vector3(relX / dist, relY / dist, relZ / dist);
+			const swing = new THREE.Quaternion().setFromUnitVectors(prevDir, newDir);
+			this.orbitQuat.premultiply(swing);
+			// camera.position and camera.quaternion stay untouched — the
+			// frame the user is looking at is pixel-identical.
+			// Anchor the live orientation against the coupled orientation
+			// of THIS rotation state: the quotient is identity here, and
+			// later gestures apply only the coupled delta, so nothing on
+			// screen jumps when the pivot is already home
+			const qFrom = this.coupledAimQuaternion(this.orbitQuat);
+			this.aimAnchor = {
+				fromInv    : qFrom.invert(),
+				quaternion : this.camera.quaternion.clone()
 			};
 		}
 
@@ -7375,12 +7544,17 @@
 			// The "was" snapshot matters — the updaters below can END an
 			// animation on this very tick (last flash decayed, focus anim
 			// landing), and that settle frame must still paint
-			const wasAnimating = Boolean(this.focusAnim || this.focusedMesh ||
+			// A focused sphere keeps the loop awake only while its pulse
+			// is live — settled, it paints through needsRender like
+			// everything else
+			const pulseLive = Boolean(this.focusedMesh) && !this.focusPulseSettled;
+			const wasAnimating = Boolean(this.focusAnim || pulseLive ||
 				this.traceFlashes.size > 0 || this.replayFlashes.size > 0);
 			this.updateFocusAnimation();
 			this.updateFocusPulse();
 			this.updateTraceFlashes();
-			const animating = wasAnimating || Boolean(this.focusAnim || this.focusedMesh ||
+			const pulseLiveAfter = Boolean(this.focusedMesh) && !this.focusPulseSettled;
+			const animating = wasAnimating || Boolean(this.focusAnim || pulseLiveAfter ||
 				this.traceFlashes.size > 0 || this.replayFlashes.size > 0);
 			const now = performance.now();
 			// ~1Hz heartbeat: self-heal for an invalidation site that

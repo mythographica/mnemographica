@@ -12,8 +12,10 @@ import { getLogger } from '../services/LoggerService';
 const logger = getLogger();
 
 // layout.json's camera shape (the renderer's initialCameraState):
-// { cameraRotation: {x,y}, zoom, panOffset: {x,y,z} }. The Camera3D
-// model carries the same state as x/y/z pan + rotationX/rotationY + zoom
+// { orbitQuat: {x,y,z,w}, cameraRotation: {x,y} (derived from the
+// quaternion for census/legacy readers), zoom, panOffset: {x,y,z} }.
+// The Camera3D model carries the same state as x/y/z pan +
+// rotationX/rotationY + zoom
 const cameraDataFromLayout = function (layout: unknown): {
 	x: number; y: number; z: number; zoom: number; rotationX: number; rotationY: number;
 } | null {

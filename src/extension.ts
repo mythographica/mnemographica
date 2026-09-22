@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
-import { MnemonicaTreeProvider, MnemonicaTreeItem } from './views/treeProvider';
+import { MnemonicaTreeProvider, MnemonicaTreeItem, type MnemonicaTreeItemData } from './views/treeProvider';
 import { UsagesTreeProvider, UsageTreeItem } from './views/usagesTreeProvider';
 import { FlowTreeProvider, FlowTreeItem } from './views/flowTreeProvider';
 import { GenTreeProvider, GenTreeItem } from './views/genTreeProvider';
@@ -519,17 +519,19 @@ export function activate(context: vscode.ExtensionContext) {
 		})
 	);
 
-	// Navigate to definition when item is selected and update usages view
-	treeView.onDidChangeSelection(async (event) => {
-		const selected = event.selection[0];
-		if (!selected || !selected.data.fullPath) {
+	// The tree-click action, shared by onDidChangeSelection (first click on
+	// a row, keyboard navigation) and the mnemographica.treeItemClick item
+	// command below — re-clicks on the ALREADY-SELECTED row never fire the
+	// selection event, only the command does
+	const activateTreeItem = async (data: MnemonicaTreeItemData) => {
+		if (!data.fullPath) {
 			// Clear usages when nothing is selected
 			usagesProvider.clear();
 			return;
 		}
 
 		// Update usages view with usages for the selected type
-		const typeName = selected.data.fullName || selected.data.label;
+		const typeName = data.fullName || data.label;
 		const searchName = typeName.replace(/Instance$/, '').replace(/_/g, '.');
 		logger.info(`[Extension] Selection changed to: ${typeName}, searching usages for: ${searchName}`);
 
@@ -555,23 +557,47 @@ export function activate(context: vscode.ExtensionContext) {
 		// in which case rotate the graph to the node instead of stealing
 		// the editor (rotate when 3D open, jump to file when it is
 		// closed/hidden)
-		if (selected.data.fullPath) {
-			const nodeId = selected.data.fullName || selected.data.label;
-			const rotated = GraphPanel.focusNode({ id: nodeId, name: selected.data.label });
-			if (rotated) {
-				return;
-			}
-			try {
-				await VSCodeNavigation.goTo(
-					selected.data.fullPath,
-					selected.data.line ?? 0,
-					selected.data.column ?? 0
-				);
-			} catch (err) {
-				logger.error('Failed to navigate to:', selected.data.fullPath, err);
-			}
+		const nodeId = data.fullName || data.label;
+		const rotated = GraphPanel.focusNode({ id: nodeId, name: data.label });
+		if (rotated) {
+			return;
 		}
+		try {
+			await VSCodeNavigation.goTo(
+				data.fullPath,
+				data.line ?? 0,
+				data.column ?? 0
+			);
+		} catch (err) {
+			logger.error('Failed to navigate to:', data.fullPath, err);
+		}
+	};
+
+	// Navigate to definition when item is selected and update usages view
+	treeView.onDidChangeSelection(async (event) => {
+		const selected = event.selection[0];
+		if (!selected) {
+			// Clear usages when nothing is selected
+			usagesProvider.clear();
+			return;
+		}
+		await activateTreeItem(selected.data);
 	});
+
+	// The item command fires on EVERY row click, including the re-clicks
+	// the selection event skips — clicking the same element again
+	// re-selects its path in the 3D graph
+	context.subscriptions.push(
+		vscode.commands.registerCommand('mnemographica.treeItemClick', async (data: MnemonicaTreeItemData) => {
+			await activateTreeItem(data);
+			// A label click also unfolds the row one level — with an item
+			// command set, expansion is otherwise twistie-only
+			const item = treeProvider.getCachedItem(data);
+			if (item && item.collapsibleState !== vscode.TreeItemCollapsibleState.None) {
+				treeView.reveal(item, { select: false, focus: false, expand: true });
+			}
+		})
+	);
 
 	// Optional: Log expand/collapse events for debugging
 	treeView.onDidExpandElement((event) => {

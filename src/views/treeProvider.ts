@@ -9,7 +9,7 @@ import type { Registry } from '../../.tactica/types';
 
 type TreeNodeType = 'root' | 'type' | 'subtype' | 'definition';
 
-type MnemonicaTreeItemData = {
+export type MnemonicaTreeItemData = {
 	label: string;
 	type: TreeNodeType;
 	fullPath?: string;
@@ -19,6 +19,16 @@ type MnemonicaTreeItemData = {
 	isDefinition?: boolean;
 	// Full definition name for lookup (needed when label is shortened for display)
 	fullName?: string;
+};
+
+// The stable item id — shared by the MnemonicaTreeItem constructor and
+// the provider's click-to-expand lookup, which must reproduce the id
+// from the command's bare data payload
+const treeItemId = function (data: MnemonicaTreeItemData): string {
+	const id = data.type === 'root'
+		? `root:${data.label}`
+		: `${data.isDefinition ? 'def' : 'type'}:${data.fullName || data.label}`;
+	return id;
 };
 
 type DefinitionData = {
@@ -52,19 +62,29 @@ export class MnemonicaTreeItem extends vscode.TreeItem {
 
 		// Stable id: TreeView.reveal (used by agent automation via the
 		// debug handle) resolves items by identity
-		this.id = data.type === 'root'
-			? `root:${data.label}`
-			: `${data.isDefinition ? 'def' : 'type'}:${data.fullName || data.label}`;
+		this.id = treeItemId(data);
 
 		// Set contextValue for all navigable items (those with fullPath)
 		// Right-click context menu uses this
 		if (data.fullPath) {
 			// Types items use 'navigableType', Definitions use 'navigable'
 			this.contextValue = data.isDefinition ? 'navigable' : 'navigableType';
+			// onDidChangeSelection never fires when the ALREADY-SELECTED row
+			// is clicked again, so the focus/selection action also rides an
+			// item command — it executes on EVERY click, and a re-click
+			// re-selects the item's path in the 3D graph. The action itself
+			// lives in extension.ts behind 'mnemographica.treeItemClick'
+			this.command = {
+				command   : 'mnemographica.treeItemClick',
+				title     : 'Focus Type',
+				arguments : [data]
+			};
 		}
 
-		// Note: Double-click detection is handled in extension.ts via onDidChangeSelection
-		// Single clicks let VS Code handle selection and expand/collapse naturally
+		// Selection and the click action live in extension.ts
+		// (onDidChangeSelection + the treeItemClick command above). With a
+		// command set, single-click expansion is twistie-only — a
+		// double-click on the label still toggles it
 	}
 
 	private getIconPath (type: TreeNodeType): vscode.ThemeIcon {
@@ -89,6 +109,10 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 
 	private definitions: Map<string, DefinitionData> = new Map();
 	private types: Map<string, TypeData> = new Map();
+	// Displayed items by their stable id — the treeItemClick command
+	// carries only the data payload, so click-to-expand resolves the
+	// live item here (TreeView.reveal needs the instance)
+	private itemsById: Map<string, MnemonicaTreeItem> = new Map();
 	// Off by default: the gated per-item/per-expansion logs below are
 	// debug-era noise (hundreds of lines per boot). Flip to true when
 	// working on the tree itself.
@@ -98,6 +122,10 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 	private registry: Registry | undefined;
 
 	refresh (): void {
+		// The tree re-fetches displayed items after this — cached
+		// instances from before the refresh would fail reveal's
+		// identity resolution
+		this.itemsById.clear();
 		this._onDidChangeTreeData.fire();
 	}
 
@@ -339,6 +367,14 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 		return rootItem;
 	}
 
+	// The live item for a command's data payload, when currently
+	// displayed — TreeView.reveal resolves by instance identity, and
+	// the treeItemClick command carries only the data
+	getCachedItem (data: MnemonicaTreeItemData): MnemonicaTreeItem | undefined {
+		const item = this.itemsById.get(treeItemId(data));
+		return item;
+	}
+
 	async getChildren (element?: MnemonicaTreeItem): Promise<MnemonicaTreeItem[]> {
 		if (!element) {
 			// Root level - return section roots
@@ -440,7 +476,7 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 			this.logger.info(`[MnemonicaTree] createDefinitionItem: ${def.name} (short: ${shortName}), fullName: ${def.fullName}, hasChildren: ${hasChildren}`);
 		}
 
-		return new MnemonicaTreeItem(
+		const item = new MnemonicaTreeItem(
 			{
 				label: shortName,
 				type: hasChildren ? 'type' : 'definition',
@@ -452,6 +488,10 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 			},
 			hasChildren ? vscode.TreeItemCollapsibleState.Collapsed : vscode.TreeItemCollapsibleState.None
 		);
+		// Cache by stable id so the treeItemClick command's data payload
+		// can resolve back to the live instance for click-to-expand
+		this.itemsById.set(treeItemId(item.data), item);
+		return item;
 	}
 
 	private createTypeItem (type: TypeData): MnemonicaTreeItem {
@@ -461,7 +501,7 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 			? type.name.split('_').pop()!
 			: (type.name.includes('.') ? type.name.split('.').pop()! : type.name);
 		const hasChildren = this.getChildTypes(type.fullName).length > 0;
-		return new MnemonicaTreeItem(
+		const item = new MnemonicaTreeItem(
 			{
 				label: shortName,
 				type: hasChildren ? 'type' : 'subtype',
@@ -473,6 +513,10 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 			},
 			hasChildren ? vscode.TreeItemCollapsibleState.Collapsed : vscode.TreeItemCollapsibleState.None
 		);
+		// Cache by stable id so the treeItemClick command's data payload
+		// can resolve back to the live instance for click-to-expand
+		this.itemsById.set(treeItemId(item.data), item);
+		return item;
 	}
 
 	clear (): void {

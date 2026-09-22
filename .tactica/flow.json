@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-09-21T22:09:56.144Z",
+  "generatedAt": "2026-09-22T02:50:34.531Z",
   "flow": {
     "LoggerService": [
       {
@@ -441,31 +441,31 @@
     ],
     "vscode.ThemeIcon": [
       {
-        "location": "src/views/treeProvider.ts:73:12",
+        "location": "src/views/treeProvider.ts:93:12",
         "kind": "instantiation",
         "code": "new vscode.ThemeIcon('folder')",
         "context": "new expression"
       },
       {
-        "location": "src/views/treeProvider.ts:75:12",
+        "location": "src/views/treeProvider.ts:95:12",
         "kind": "instantiation",
         "code": "new vscode.ThemeIcon('symbol-class')",
         "context": "new expression"
       },
       {
-        "location": "src/views/treeProvider.ts:77:12",
+        "location": "src/views/treeProvider.ts:97:12",
         "kind": "instantiation",
         "code": "new vscode.ThemeIcon('symbol-type-parameter')",
         "context": "new expression"
       },
       {
-        "location": "src/views/treeProvider.ts:79:12",
+        "location": "src/views/treeProvider.ts:99:12",
         "kind": "instantiation",
         "code": "new vscode.ThemeIcon('symbol-method')",
         "context": "new expression"
       },
       {
-        "location": "src/views/treeProvider.ts:81:12",
+        "location": "src/views/treeProvider.ts:101:12",
         "kind": "instantiation",
         "code": "new vscode.ThemeIcon('symbol-misc')",
         "context": "new expression"
@@ -605,7 +605,7 @@
     ],
     "vscode.EventEmitter": [
       {
-        "location": "src/views/treeProvider.ts:87:33",
+        "location": "src/views/treeProvider.ts:107:33",
         "kind": "instantiation",
         "code": "new vscode.EventEmitter<MnemonicaTreeItem | undefined | null | void>()",
         "context": "new expression"
@@ -649,13 +649,19 @@
     ],
     "Map": [
       {
-        "location": "src/views/treeProvider.ts:90:53",
+        "location": "src/views/treeProvider.ts:110:53",
         "kind": "instantiation",
         "code": "new Map()",
         "context": "new expression"
       },
       {
-        "location": "src/views/treeProvider.ts:91:41",
+        "location": "src/views/treeProvider.ts:111:41",
+        "kind": "instantiation",
+        "code": "new Map()",
+        "context": "new expression"
+      },
+      {
+        "location": "src/views/treeProvider.ts:115:54",
         "kind": "instantiation",
         "code": "new Map()",
         "context": "new expression"
@@ -2864,13 +2870,13 @@
         "targetType": "Map"
       },
       {
-        "location": "src/webview/panel.ts:55:25",
+        "location": "src/webview/panel.ts:57:25",
         "kind": "instantiation",
         "code": "new Map<string, GraphPanel>()",
         "context": "new expression"
       },
       {
-        "location": "src/webview/panel.ts:278:37",
+        "location": "src/webview/panel.ts:280:37",
         "kind": "instantiation",
         "code": "new Map<number, {\n\t\tresolve: (data: unknown) => void;\n\t\ttimer: ReturnType<typeof setTimeout>;\n\t}>()",
         "context": "new expression"
@@ -3270,52 +3276,106 @@
     ],
     "MnemonicaTreeItem": [
       {
-        "location": "src/views/treeProvider.ts:327:21",
+        "location": "src/views/treeProvider.ts:355:21",
         "kind": "instantiation",
         "code": "new MnemonicaTreeItem({ label: 'Definitions', type: 'root' }, vscode.TreeItemCollapsibleState.Expand",
         "context": "new expression"
       },
       {
-        "location": "src/views/treeProvider.ts:328:4",
+        "location": "src/views/treeProvider.ts:356:4",
         "kind": "return",
         "code": "return rootItem;",
         "targetType": "MnemonicaTreeItem"
       },
       {
-        "location": "src/views/treeProvider.ts:338:20",
+        "location": "src/views/treeProvider.ts:366:20",
         "kind": "instantiation",
         "code": "new MnemonicaTreeItem({ label: 'Types', type: 'root' }, vscode.TreeItemCollapsibleState.Collapsed)",
         "context": "new expression"
       },
       {
-        "location": "src/views/treeProvider.ts:339:3",
+        "location": "src/views/treeProvider.ts:367:3",
         "kind": "return",
         "code": "return rootItem;",
         "targetType": "MnemonicaTreeItem"
       },
       {
-        "location": "src/views/treeProvider.ts:346:5",
+        "location": "src/views/treeProvider.ts:382:5",
         "kind": "instantiation",
         "code": "new MnemonicaTreeItem({ label: 'Definitions', type: 'root' }, vscode.TreeItemCollapsibleState.Expand",
         "context": "new expression"
       },
       {
-        "location": "src/views/treeProvider.ts:347:5",
+        "location": "src/views/treeProvider.ts:383:5",
         "kind": "instantiation",
         "code": "new MnemonicaTreeItem({ label: 'Types', type: 'root' }, vscode.TreeItemCollapsibleState.Collapsed)",
         "context": "new expression"
       },
       {
-        "location": "src/views/treeProvider.ts:443:10",
+        "location": "src/views/treeProvider.ts:479:16",
         "kind": "instantiation",
         "code": "new MnemonicaTreeItem(\n\t\t\t{\n\t\t\t\tlabel: shortName,\n\t\t\t\ttype: hasChildren ? 'type' : 'definition',\n\t\t\t",
         "context": "new expression"
       },
       {
-        "location": "src/views/treeProvider.ts:464:10",
+        "location": "src/views/treeProvider.ts:493:3",
+        "kind": "passAsArg",
+        "code": "this.itemsById.set(treeItemId(item.data), item)",
+        "targetType": "MnemonicaTreeItem",
+        "context": "arg 1 to set"
+      },
+      {
+        "location": "src/views/treeProvider.ts:493:22",
+        "kind": "passAsArg",
+        "code": "treeItemId(item.data)",
+        "targetType": "MnemonicaTreeItem",
+        "context": "arg 0 to treeItemId"
+      },
+      {
+        "location": "src/views/treeProvider.ts:493:33",
+        "kind": "propertyRead",
+        "code": "item.data",
+        "propertyName": "data",
+        "targetType": "MnemonicaTreeItem"
+      },
+      {
+        "location": "src/views/treeProvider.ts:494:3",
+        "kind": "return",
+        "code": "return item;",
+        "targetType": "MnemonicaTreeItem"
+      },
+      {
+        "location": "src/views/treeProvider.ts:504:16",
         "kind": "instantiation",
         "code": "new MnemonicaTreeItem(\n\t\t\t{\n\t\t\t\tlabel: shortName,\n\t\t\t\ttype: hasChildren ? 'type' : 'subtype',\n\t\t\t\tis",
         "context": "new expression"
+      },
+      {
+        "location": "src/views/treeProvider.ts:518:3",
+        "kind": "passAsArg",
+        "code": "this.itemsById.set(treeItemId(item.data), item)",
+        "targetType": "MnemonicaTreeItem",
+        "context": "arg 1 to set"
+      },
+      {
+        "location": "src/views/treeProvider.ts:518:22",
+        "kind": "passAsArg",
+        "code": "treeItemId(item.data)",
+        "targetType": "MnemonicaTreeItem",
+        "context": "arg 0 to treeItemId"
+      },
+      {
+        "location": "src/views/treeProvider.ts:518:33",
+        "kind": "propertyRead",
+        "code": "item.data",
+        "propertyName": "data",
+        "targetType": "MnemonicaTreeItem"
+      },
+      {
+        "location": "src/views/treeProvider.ts:519:3",
+        "kind": "return",
+        "code": "return item;",
+        "targetType": "MnemonicaTreeItem"
       }
     ],
     "vscode.TreeItem": [
@@ -3774,7 +3834,7 @@
         "targetType": "Set"
       },
       {
-        "location": "src/webview/panel.ts:335:3",
+        "location": "src/webview/panel.ts:337:3",
         "kind": "return",
         "code": "return result;",
         "targetType": "Set"
@@ -3884,27 +3944,27 @@
         "targetType": "Set"
       },
       {
-        "location": "src/extension.ts:688:16",
+        "location": "src/extension.ts:714:16",
         "kind": "instantiation",
         "code": "new Set<string>()",
         "context": "new expression"
       },
       {
-        "location": "src/extension.ts:690:3",
+        "location": "src/extension.ts:716:3",
         "kind": "methodCall",
         "code": "roots.add(path.dirname(path.dirname(uri.fsPath)))",
         "propertyName": "add",
         "targetType": "Set"
       },
       {
-        "location": "src/extension.ts:690:3",
+        "location": "src/extension.ts:716:3",
         "kind": "propertyRead",
         "code": "roots.add",
         "propertyName": "add",
         "targetType": "Set"
       },
       {
-        "location": "src/extension.ts:692:19",
+        "location": "src/extension.ts:718:19",
         "kind": "spread",
         "code": "...roots",
         "targetType": "Set"
@@ -4783,6 +4843,20 @@
         "kind": "return",
         "code": "return item;",
         "targetType": "LiveTraceTreeItem"
+      },
+      {
+        "location": "src/extension.ts:596:16",
+        "kind": "propertyRead",
+        "code": "item.collapsibleState",
+        "propertyName": "collapsibleState",
+        "targetType": "LiveTraceTreeItem"
+      },
+      {
+        "location": "src/extension.ts:597:5",
+        "kind": "passAsArg",
+        "code": "treeView.reveal(item, { select: false, focus: false, expand: true })",
+        "targetType": "LiveTraceTreeItem",
+        "context": "arg 0 to reveal"
       }
     ],
     "vscode.ThemeColor": [
@@ -4849,7 +4923,7 @@
         "context": "new expression"
       },
       {
-        "location": "src/webview/panel.ts:648:21",
+        "location": "src/webview/panel.ts:650:21",
         "kind": "instantiation",
         "code": "new vscode.Position(location.line - 1, location.column - 1)",
         "context": "new expression"
@@ -5269,77 +5343,77 @@
         "targetType": "Scene3D"
       },
       {
-        "location": "src/webview/panel.ts:592:3",
+        "location": "src/webview/panel.ts:594:3",
         "kind": "propertyWrite",
         "code": "scene.tube = new scene.Tube3D({ id, chain })",
         "propertyName": "tube",
         "targetType": "Scene3D"
       },
       {
-        "location": "src/webview/panel.ts:592:3",
+        "location": "src/webview/panel.ts:594:3",
         "kind": "propertyRead",
         "code": "scene.tube",
         "propertyName": "tube",
         "targetType": "Scene3D"
       },
       {
-        "location": "src/webview/panel.ts:592:20",
+        "location": "src/webview/panel.ts:594:20",
         "kind": "propertyRead",
         "code": "scene.Tube3D",
         "propertyName": "Tube3D",
         "targetType": "Scene3D"
       },
       {
-        "location": "src/webview/panel.ts:593:18",
+        "location": "src/webview/panel.ts:595:18",
         "kind": "methodCall",
         "code": "scene.getNode(id)",
         "propertyName": "getNode",
         "targetType": "Scene3D"
       },
       {
-        "location": "src/webview/panel.ts:593:18",
+        "location": "src/webview/panel.ts:595:18",
         "kind": "propertyRead",
         "code": "scene.getNode",
         "propertyName": "getNode",
         "targetType": "Scene3D"
       },
       {
-        "location": "src/webview/panel.ts:595:4",
+        "location": "src/webview/panel.ts:597:4",
         "kind": "propertyWrite",
         "code": "scene.tooltip = new sphere.Tooltip3D({ targetNode: id, content: name, visible: true })",
         "propertyName": "tooltip",
         "targetType": "Scene3D"
       },
       {
-        "location": "src/webview/panel.ts:595:4",
+        "location": "src/webview/panel.ts:597:4",
         "kind": "propertyRead",
         "code": "scene.tooltip",
         "propertyName": "tooltip",
         "targetType": "Scene3D"
       },
       {
-        "location": "src/webview/panel.ts:616:4",
+        "location": "src/webview/panel.ts:618:4",
         "kind": "propertyWrite",
         "code": "scene.camera = new scene.Camera3D({\n\t\t\t\tx         : num(cam.pan?.x),\n\t\t\t\ty         : num(cam.pan?.y)",
         "propertyName": "camera",
         "targetType": "Scene3D"
       },
       {
-        "location": "src/webview/panel.ts:616:4",
+        "location": "src/webview/panel.ts:618:4",
         "kind": "propertyRead",
         "code": "scene.camera",
         "propertyName": "camera",
         "targetType": "Scene3D"
       },
       {
-        "location": "src/webview/panel.ts:616:23",
+        "location": "src/webview/panel.ts:618:23",
         "kind": "propertyRead",
         "code": "scene.Camera3D",
         "propertyName": "Camera3D",
         "targetType": "Scene3D"
       },
       {
-        "location": "src/webview/panel.ts:637:3",
+        "location": "src/webview/panel.ts:639:3",
         "kind": "return",
         "code": "return scene;",
         "targetType": "Scene3D"
@@ -5360,7 +5434,7 @@
         "context": "arg 1 to addNode"
       },
       {
-        "location": "src/webview/panel.ts:595:24",
+        "location": "src/webview/panel.ts:597:24",
         "kind": "propertyRead",
         "code": "sphere.Tooltip3D",
         "propertyName": "Tooltip3D",
@@ -5692,13 +5766,13 @@
     ],
     "GraphPanel": [
       {
-        "location": "src/webview/panel.ts:106:22",
+        "location": "src/webview/panel.ts:108:22",
         "kind": "instantiation",
         "code": "new GraphPanel(panel, extensionUri, sourceRoot)",
         "context": "new expression"
       },
       {
-        "location": "src/webview/panel.ts:107:3",
+        "location": "src/webview/panel.ts:109:3",
         "kind": "passAsArg",
         "code": "GraphPanel.panels.set(sourceRoot, graphPanel)",
         "targetType": "GraphPanel",
@@ -5707,7 +5781,7 @@
     ],
     "Promise": [
       {
-        "location": "src/webview/panel.ts:323:22",
+        "location": "src/webview/panel.ts:325:22",
         "kind": "instantiation",
         "code": "new Promise<unknown>((resolve) => {\n\t\t\tconst timer = setTimeout(() => {\n\t\t\t\tGraphPanel.viewStateRequ",
         "context": "new expression"
@@ -5733,69 +5807,69 @@
     ],
     "vscode.RelativePattern": [
       {
-        "location": "src/webview/panel.ts:497:4",
+        "location": "src/webview/panel.ts:499:4",
         "kind": "instantiation",
         "code": "new vscode.RelativePattern(this.sourceRoot, '.tactica/types.ts')",
         "context": "new expression"
       },
       {
-        "location": "src/webview/panel.ts:499:3",
+        "location": "src/webview/panel.ts:501:3",
         "kind": "methodCall",
         "code": "watcher.onDidChange(() => {\n\t\t\tvoid this.reloadGraph();\n\t\t})",
         "propertyName": "onDidChange",
         "targetType": "vscode.RelativePattern"
       },
       {
-        "location": "src/webview/panel.ts:499:3",
+        "location": "src/webview/panel.ts:501:3",
         "kind": "propertyRead",
         "code": "watcher.onDidChange",
         "propertyName": "onDidChange",
         "targetType": "vscode.RelativePattern"
       },
       {
-        "location": "src/webview/panel.ts:502:3",
+        "location": "src/webview/panel.ts:504:3",
         "kind": "methodCall",
         "code": "watcher.onDidCreate(() => {\n\t\t\tvoid this.reloadGraph();\n\t\t})",
         "propertyName": "onDidCreate",
         "targetType": "vscode.RelativePattern"
       },
       {
-        "location": "src/webview/panel.ts:502:3",
+        "location": "src/webview/panel.ts:504:3",
         "kind": "propertyRead",
         "code": "watcher.onDidCreate",
         "propertyName": "onDidCreate",
         "targetType": "vscode.RelativePattern"
       },
       {
-        "location": "src/extension.ts:641:2",
+        "location": "src/extension.ts:667:2",
         "kind": "methodCall",
         "code": "watcher.onDidChange(async () => {\n\t\tawait handleFileChange(context);\n\t})",
         "propertyName": "onDidChange",
         "targetType": "vscode.RelativePattern"
       },
       {
-        "location": "src/extension.ts:641:2",
+        "location": "src/extension.ts:667:2",
         "kind": "propertyRead",
         "code": "watcher.onDidChange",
         "propertyName": "onDidChange",
         "targetType": "vscode.RelativePattern"
       },
       {
-        "location": "src/extension.ts:644:2",
+        "location": "src/extension.ts:670:2",
         "kind": "methodCall",
         "code": "watcher.onDidCreate(async () => {\n\t\tawait handleFileChange(context);\n\t})",
         "propertyName": "onDidCreate",
         "targetType": "vscode.RelativePattern"
       },
       {
-        "location": "src/extension.ts:644:2",
+        "location": "src/extension.ts:670:2",
         "kind": "propertyRead",
         "code": "watcher.onDidCreate",
         "propertyName": "onDidCreate",
         "targetType": "vscode.RelativePattern"
       },
       {
-        "location": "src/extension.ts:647:2",
+        "location": "src/extension.ts:673:2",
         "kind": "passAsArg",
         "code": "context.subscriptions.push(watcher)",
         "targetType": "vscode.RelativePattern",
@@ -5804,19 +5878,19 @@
     ],
     "Scene3D.Camera3D": [
       {
-        "location": "src/webview/panel.ts:517:24",
+        "location": "src/webview/panel.ts:519:24",
         "kind": "instantiation",
         "code": "new this.scene.Camera3D(cameraData)",
         "context": "new expression"
       },
       {
-        "location": "src/webview/panel.ts:567:25",
+        "location": "src/webview/panel.ts:569:25",
         "kind": "instantiation",
         "code": "new this.scene.Camera3D(cameraData)",
         "context": "new expression"
       },
       {
-        "location": "src/webview/panel.ts:616:19",
+        "location": "src/webview/panel.ts:618:19",
         "kind": "instantiation",
         "code": "new scene.Camera3D({\n\t\t\t\tx         : num(cam.pan?.x),\n\t\t\t\ty         : num(cam.pan?.y),\n\t\t\t\tz        ",
         "context": "new expression"
@@ -5824,7 +5898,7 @@
     ],
     "Scene3D.Tube3D": [
       {
-        "location": "src/webview/panel.ts:592:16",
+        "location": "src/webview/panel.ts:594:16",
         "kind": "instantiation",
         "code": "new scene.Tube3D({ id, chain })",
         "context": "new expression"
@@ -5832,7 +5906,7 @@
     ],
     "Scene3D.GraphNode3D.Tooltip3D": [
       {
-        "location": "src/webview/panel.ts:595:20",
+        "location": "src/webview/panel.ts:597:20",
         "kind": "instantiation",
         "code": "new sphere.Tooltip3D({ targetNode: id, content: name, visible: true })",
         "context": "new expression"
@@ -5840,7 +5914,7 @@
     ],
     "vscode.Selection": [
       {
-        "location": "src/webview/panel.ts:649:23",
+        "location": "src/webview/panel.ts:651:23",
         "kind": "instantiation",
         "code": "new vscode.Selection(position, position)",
         "context": "new expression"
@@ -5860,7 +5934,7 @@
     ],
     "vscode.Range": [
       {
-        "location": "src/webview/panel.ts:650:23",
+        "location": "src/webview/panel.ts:652:23",
         "kind": "instantiation",
         "code": "new vscode.Range(position, position)",
         "context": "new expression"
