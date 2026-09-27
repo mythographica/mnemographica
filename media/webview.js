@@ -6972,7 +6972,7 @@
 			// all three are convergence points keyed by paths. It
 			// ENCIRCLES the maroon sphere: dive records everything the
 			// collection constructs
-			const ringNode = internals.nodes.find(n => n.role === 'ring');
+			const ringNode = internals.nodes.find(n => n.role === 'store');
 			if (ringNode) {
 				const ringMesh = new THREE.Mesh(edsRingGeometry, diveMaterial);
 				ringMesh.position.set(0, 0, 0);

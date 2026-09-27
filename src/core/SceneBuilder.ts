@@ -104,7 +104,7 @@ export function buildSceneFor (sourceRoot: string, graphData: GraphData): Scene3
 
 	if (graphData.internals) {
 		for (const knot of graphData.internals.nodes) {
-			if (knot.role === 'ring') {
+			if (knot.role === 'store') {
 				scene.ring = new scene.Ring3D({ id: knot.id, name: knot.name, citation: knot.citation });
 			} else if (knot.role === 'hub') {
 				scene.hub = new scene.Hub3D({ id: knot.id, name: knot.name, citation: knot.citation });

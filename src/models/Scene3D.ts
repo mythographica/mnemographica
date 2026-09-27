@@ -215,7 +215,7 @@ export const Ring3D = Scene3D.define('Ring3D', function (
 	this: { id: string; name: string; citation?: string },
 	data: { id: string; name: string; citation?: string }
 ) {
-	// The EDS ring — dive's runtime storage, encircling the origin
+	// The EDS store — dive's runtime trace storage, encircling the origin
 	this.id = data.id;
 	this.name = data.name;
 	this.citation = data.citation;

@@ -51,7 +51,7 @@ The extension helps AI agents:
    - Starts the Strategy server, loads models via topologica
    - Owns `refreshTypeGraph()` — the single refresh path all watchers funnel into
    - Registers a URI handler: `vscode://mythographica.mnemographica/trace?root=N`
-     (exact dive root edge) or `?jaeger=<traceId>` (matches any ring edge's
+     (exact dive root edge) or `?jaeger=<traceId>` (matches any ingested edge's
      OTEL traceId — robust when the true root predates the push window).
      Jaeger's linkPatterns (tactica-nestjs/scripts/jaeger-ui.json) generate these
      links from span tags, closing the Jaeger → Live Trace → 3D loop.
@@ -124,7 +124,7 @@ The extension helps AI agents:
      nodes stay OUT of `nodes`, same isolation policy as creation nodes
 
 4. **Tree view providers** (`src/views/`)
-   - `liveTraceTreeProvider.ts` — Live Trace: the trace ring grouped into
+   - `liveTraceTreeProvider.ts` — Live Trace: the ring-bounded ingest buffer (5000 edges) grouped into
      recent traces, merged by root name AND trace shape (a pure name merge
      collides DISTINCT traces sharing a root: a trace ending at one wrap
      site is not the trace ending at another): the shape signature is the
@@ -468,7 +468,7 @@ The extension helps AI agents:
    - **Dive layer, wrappers half** (`diveGroup`):
      eds.json wrap entries render as amber TORUS rings — the dive "wrap"
      made visible. A bagel ENCIRCLES the element it wraps, drawn
-     VERTICAL (the EDS ring at the origin stays the horizontal-tilted
+     VERTICAL (the EDS store torus at the origin stays the horizontal-tilted
      one), SNUG — just bigger than the wrapped element's diameter:
      centered on the hosting scope's DIAMOND (the common case —
      wrap(fn, instance) wraps the callback fn; the instance is only
@@ -771,13 +771,16 @@ The extension helps AI agents:
      Declared, not discovered: the calls completing the fiber chain live
      inside the dive/adapter packages — `src/graph/internals-manifest.ts`
      mirrors them with a source citation per knot. Six knots by role:
-     the **EDS ring** (dive's runtime storage — every fiber lands
-     there) as a thin steel-blue (0x7aa2f7) torus ENCIRCLING the maroon
-     collection marker at the origin, Saturn-tilted, label below — the
+     the **EDS store** (dive's runtime trace storage — the recorded
+     edges and their object links, retained exactly as long as something
+     alive holds them) as a thin steel-blue (0x7aa2f7) torus ENCIRCLING
+     the maroon
+     collection marker at the origin, Saturn-tilted, label below ("Dive:
+     EDS") — the
      third convergence point alongside the collection marker
      (instances) and the main.ts diamond (invocations), all keyed by
      paths; the **attachHooks hub** as a steel-blue octahedron at the
-     ring's right side (+X, the same side convention as the creation
+     store's right side (+X, the same side convention as the creation
      center diamond); three **adapter sinks** (AsyncFlowProvider,
      DiveOtelProvider, TraceExceptionFilter) as violet (0xb48ead) boxes
      in a DETERMINISTIC compact vertical stack just outside the gen-0
@@ -786,7 +789,7 @@ The extension helps AI agents:
      (0xf0c674) cone leftmost of all (gen0 × 1.65). The sink zone
      never moves between renders, so the eye learns where every fiber
      ends. Sink edges are solid slate with arrowheads, directed as
-     DATA flows: ring → providers/filter (the filter's edge is labeled
+     DATA flows: store → providers/filter (the filter's edge is labeled
      `getFlow / getErrorInstance`) → Jaeger — and they ride
      internalsDynamics, so dragged sinks keep their edges (sticky). The
      collection → hub hookup is dashed slate. The **attachHooks

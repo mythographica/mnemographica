@@ -283,7 +283,7 @@ export class GraphBuilder {
 			if (wrappers.nodes.length > 0) {
 				graphData.wrappers = wrappers;
 				// Combined Dive backplane (declared —
-				// graph/internals-manifest.ts): the EDS ring, the
+				// graph/internals-manifest.ts): the EDS store, the
 				// attachHooks hub with its per-type grafts, and the
 				// adapter sinks. Emitted only when dive wiring is visible
 				// — no wraps, no backplane

@@ -58,7 +58,7 @@ async function runTests() {
 	assert.strictEqual(scene.diamondCount, 39, 'one Diamond3D per creation scope');
 	assert.strictEqual(scene.bagelCount, 14, 'one Bagel3D per wrap site');
 	assert.strictEqual(scene.sinkCount, 3, 'asyncFlow, otel, exceptionFilter sinks');
-	assert.ok(scene.ring, 'the EDS ring knot');
+	assert.ok(scene.ring, 'the EDS store knot');
 	assert.strictEqual(scene.ring.id, 'dive:edsRing');
 	assert.ok(scene.hub, 'the attachHooks hub knot');
 	assert.strictEqual(scene.hub.id, 'adapter:attachHooks');

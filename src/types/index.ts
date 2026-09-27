@@ -214,34 +214,35 @@ export type D3WrapperLink = {
 };
 
 /**
- * Combined-Dive-graph node (DECLARED, not discovered): the EDS ring, the
+ * Combined-Dive-graph node (DECLARED, not discovered): the EDS store, the
  * attachHooks hub, or an adapter sink. The knots are fixed knowledge
  * about our own packages — eds.json never sees them because the calls
  * live inside the packages, not the analyzed workspace. Kept OUT of
  * GraphData.nodes, same isolation policy as creation and wrapper nodes.
  *
- * Terminology: EDS is dive's ring storage
- * (runtime); a Fiber is one context segment of the ring; the Trace is
- * the bigger linear-order chain the Adapter constructs — Trace ⊃ Fiber
- * ⊃ EDS. The `dive:edsRing` knot is that ring made visible.
+ * Terminology: EDS is dive's runtime trace storage (the recorded edges
+ * and the object links that hold them); a Fiber is one context segment
+ * of the trace; the Trace is the bigger linear-order chain the Adapter
+ * constructs — Trace ⊃ Fiber ⊃ EDS. The `dive:edsRing` knot is that
+ * storage made visible (drawn as the torus encircling the origin).
  */
 export type D3InternalNode = {
 	/** Stable knot id: 'dive:edsRing', 'adapter:attachHooks', 'adapter:jaeger' */
 	id: string;
-	/** Display name ('Dive: EDS ring', 'Adapter: attachHooks', 'Jaeger (OTEL)') */
+	/** Display name ('Dive: EDS', 'Adapter: attachHooks', 'Jaeger (OTEL)') */
 	name: string;
-	/** Structural role: ring = EDS storage (center); hub = attachHooks
+	/** Structural role: store = EDS storage (center); hub = attachHooks
 	 * bootstrap wiring (grafts to every construction); sink = adapter
 	 * terminal a fiber's data leaves through; external = outside the
 	 * system (Jaeger) */
-	role: 'ring' | 'hub' | 'sink' | 'external';
+	role: 'store' | 'hub' | 'sink' | 'external';
 	/** Repo-relative source citation for the declared knot */
 	citation?: string;
 };
 
 /**
  * Combined-Dive-graph edge. `sink` links are the directed export path:
- * ring → providers/filter → Jaeger. `hookup` is the single anchor from
+ * store → providers/filter → Jaeger. `hookup` is the single anchor from
  * the special id 'collection' (the center marker) → adapter:attachHooks.
  * Bagel → bagel fiber edges are NOT here — they are D3WrapperLink.
  */

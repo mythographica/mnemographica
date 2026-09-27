@@ -756,7 +756,7 @@ export class GraphPanel {
 		<div class="legend-row"><span class="legend-swatch" style="color:#ffd54f">⇢</span> fiber via construction (T → W2)</div>
 		<div class="legend-row"><span class="legend-swatch" style="color:#f9a825">→</span> wrap produced by type's handler</div>
 		<div class="legend-row"><span class="legend-swatch" style="color:#da70d6">⇢</span> holder diamond creates this type (dashed)</div>
-		<div class="legend-row"><span class="legend-swatch" style="color:#7aa2f7">◎</span> EDS ring (dive storage)</div>
+		<div class="legend-row"><span class="legend-swatch" style="color:#7aa2f7">◎</span> EDS (dive storage)</div>
 		<div class="legend-row"><span class="legend-swatch" style="color:#7aa2f7">⬡</span> attachHooks — grafts fire per construction</div>
 		<div class="legend-row"><span class="legend-swatch" style="color:#b48ead">■</span> adapter sink (fiber data leaves)</div>
 		<div class="legend-row"><span class="legend-swatch" style="color:#f0c674">▲</span> Jaeger — outside the system</div>

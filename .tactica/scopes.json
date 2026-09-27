@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-09-22T13:08:21.181Z",
+  "generatedAt": "2026-09-27T20:53:04.682Z",
   "scopes": {
     "src/topologica/bootstrap.ts": {
       "scopeId": "src/topologica/bootstrap.ts",
@@ -8420,7 +8420,7 @@
     {
       "name": "CORE_KNOTS",
       "scopeId": "src/graph/internals-manifest.ts",
-      "declaration": "src/graph/internals-manifest.ts:57:7",
+      "declaration": "src/graph/internals-manifest.ts:60:7",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -8429,7 +8429,7 @@
     {
       "name": "SINK_KNOTS",
       "scopeId": "src/graph/internals-manifest.ts",
-      "declaration": "src/graph/internals-manifest.ts:69:7",
+      "declaration": "src/graph/internals-manifest.ts:72:7",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -8438,7 +8438,7 @@
     {
       "name": "INTERNAL_KNOTS",
       "scopeId": "src/graph/internals-manifest.ts",
-      "declaration": "src/graph/internals-manifest.ts:76:14",
+      "declaration": "src/graph/internals-manifest.ts:79:14",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -8447,7 +8447,7 @@
     {
       "name": "INTERNAL_EDGES",
       "scopeId": "src/graph/internals-manifest.ts",
-      "declaration": "src/graph/internals-manifest.ts:84:14",
+      "declaration": "src/graph/internals-manifest.ts:87:14",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -8456,7 +8456,7 @@
     {
       "name": "COLLECTION_HOOKUP_EDGE",
       "scopeId": "src/graph/internals-manifest.ts",
-      "declaration": "src/graph/internals-manifest.ts:93:14",
+      "declaration": "src/graph/internals-manifest.ts:96:14",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],

@@ -209,8 +209,8 @@ async function runTests() {
 	assert.ok(data.internals, 'internals section should be present when wraps exist');
 	assert.strictEqual(data.internals.nodes.length, 6, 'ring + hub + 3 sinks + the external');
 	const byRole = (role) => data.internals.nodes.filter(n => n.role === role);
-	assert.strictEqual(byRole('ring').length, 1, 'one ring knot');
-	assert.strictEqual(byRole('ring')[0].id, 'dive:edsRing', 'the ring is dive:edsRing');
+	assert.strictEqual(byRole('store').length, 1, 'one store knot');
+	assert.strictEqual(byRole('store')[0].id, 'dive:edsRing', 'the store is dive:edsRing');
 	assert.strictEqual(byRole('hub').length, 1, 'one hub knot');
 	assert.strictEqual(byRole('hub')[0].id, 'adapter:attachHooks', 'the hub is Adapter:attachHooks');
 	assert.strictEqual(byRole('sink').length, 3, 'asyncFlow, otel, exceptionFilter');

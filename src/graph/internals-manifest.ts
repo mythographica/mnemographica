@@ -12,20 +12,21 @@
  *
  * Shape: dive's internal functions are NOT knots — recordCreation / enterContext /
  * wrapConstructorArg / upgradeConstructorArg / wrapInstanceMethods /
- * isWrappedFunction / current / setTraceLimit are event chunks of the
+ * isWrappedFunction / current are event chunks of the
  * attachHooks hub firing (or bootstrap config), so they fold into the
  * per-type grafts the GraphBuilder computes. getFlow / getErrorInstance
  * survive only as the label on the filter's read-back edge. What remains
- * declared: the EDS ring (center storage), the attachHooks hub, and the
- * adapter sinks a fiber's data leaves through — Jaeger the only terminal
- * outside the system.
+ * declared: the EDS store (dive's runtime trace storage), the attachHooks
+ * hub, and the adapter sinks a fiber's data leaves through — Jaeger the
+ * only terminal outside the system.
  *
  * Every edge below was verified against the cited source.
  * When dive or the adapter change, update the manifest — it is a mirror,
  * not a derivation.
  *
- * Terminology: EDS = dive's ring storage (runtime);
- * Fiber = one context segment of the ring; Trace = the bigger
+ * Terminology: EDS = dive's runtime trace storage (the recorded edges and
+ * the object links that hold them);
+ * Fiber = one context segment of the trace; Trace = the bigger
  * linear-order chain the Adapter constructs. Trace ⊃ Fiber ⊃ EDS.
  */
 
@@ -35,7 +36,7 @@ export type rawInternalKnot = {
 	/** Display name */
 	name: string;
 	/** Structural role in the combined Dive graph */
-	role: 'ring' | 'hub' | 'sink' | 'external';
+	role: 'store' | 'hub' | 'sink' | 'external';
 	/** Repo-relative source citation (path:line); absent for the external */
 	citation?: string;
 };
@@ -48,22 +49,24 @@ export type rawInternalEdge = {
 };
 
 /**
- * The ring and the hub. The ring is dive's runtime storage — every fiber
- * lands there; the hub is attachHooks, bootstrap-time wiring whose hooks
- * fire at every construction of the collection (preCreation enters the
- * parent context and wraps function args; postCreation records the create
- * edge and wraps instance methods; creationError pins the failure).
+ * The store and the hub. The store is dive's runtime trace storage — the
+ * recorded edges and their object links, retained exactly as long as
+ * something alive holds them; the hub is attachHooks, bootstrap-time
+ * wiring whose hooks fire at every construction of the collection
+ * (preCreation enters the parent context and wraps function args;
+ * postCreation records the create edge and wraps instance methods;
+ * creationError pins the failure).
  */
 const CORE_KNOTS: rawInternalKnot[] = [
-	{ id: 'dive:edsRing',        name: 'Dive: EDS ring',        role: 'ring' },
-	{ id: 'adapter:attachHooks', name: 'Adapter: attachHooks',  role: 'hub', citation: 'otel/src/hooks/attach-hooks.ts' },
+	{ id: 'dive:edsRing',        name: 'Dive: EDS',            role: 'store' },
+	{ id: 'adapter:attachHooks', name: 'Adapter: attachHooks', role: 'hub', citation: 'otel/src/hooks/attach-hooks.ts' },
 ];
 
 /**
  * Adapter sinks — where a fiber's data leaves the trace system. The ALS
  * provider pins FlowFrames ("the adapter is the Node boundary where ALS
- * is free"), the OTEL provider turns ring events into spans, the
- * exception filter reads the ring back at the error boundary and emits
+ * is free"), the OTEL provider turns dive's edge events into spans, the
+ * exception filter reads the flow back at the error boundary and emits
  * its own span. Jaeger is outside the system — the only true terminal.
  */
 const SINK_KNOTS: rawInternalKnot[] = [
@@ -76,10 +79,10 @@ const SINK_KNOTS: rawInternalKnot[] = [
 export const INTERNAL_KNOTS: rawInternalKnot[] = [ ...CORE_KNOTS, ...SINK_KNOTS ];
 
 /**
- * The export path, directed as DATA flows: every fiber lands in the ring
- * (recorders write edges there); the providers consume ring events; the
- * filter reads the flow back via getFlow/getErrorInstance; spans leave
- * the process to Jaeger over HTTP.
+ * The export path, directed as DATA flows: every recorded edge lives in
+ * the store (recorders write edges there); the providers consume dive's
+ * edge events; the filter reads the flow back via getFlow/getErrorInstance;
+ * spans leave the process to Jaeger over HTTP.
  */
 export const INTERNAL_EDGES: rawInternalEdge[] = [
 	{ source: 'dive:edsRing', target: 'adapter:asyncFlow' },
