@@ -1,5 +1,5 @@
 /* eslint-env browser */
-/* global THREE, d3, acquireVsCodeApi */
+/* global THREE, d3, acquireVsCodeApi, SHOW_PROPERTIES_PLACEHOLDER */
 
 (function () {
 	'use strict';
@@ -121,6 +121,13 @@
 	let liveTraceCount = 0;
 	let liveTraceLast = null;
 	let lastStatusBase = '';
+
+	// Anonymised export (talk mode): the export boot sets
+	// window.__MNEMO_ANONYMIZE__ when the graph was exported with the
+	// captions flag OFF — the page then shows the graph as a pure shape:
+	// no captions, no tooltips, no names or paths anywhere (click and
+	// double-click do nothing). Never set in the live panel
+	const ANONYMIZE = Boolean(window.__MNEMO_ANONYMIZE__);
 	// Names that traced this session — a single click on such a sphere
 	// opens trace mode (names-first tracing)
 	const liveTraceNames = new Set();
@@ -138,17 +145,22 @@
 		const status = document.getElementById('status');
 		if (!status) return;
 		let text = lastStatusBase;
-		const traceNames = renderer3D && renderer3D.traceMode ? renderer3D.traceMode.names : null;
-		if (traceNames) {
-			const shown = traceNames.length > 4
-				? traceNames[0] + ' → … → ' + traceNames.slice(-2).join(' → ')
-				: traceNames.join(' → ');
-			text += ' · ⟁ TRACE ' + shown;
+		// Anonymised exports keep the counts, never the names
+		if (!ANONYMIZE) {
+			const traceNames = renderer3D && renderer3D.traceMode ? renderer3D.traceMode.names : null;
+			if (traceNames) {
+				const shown = traceNames.length > 4
+					? traceNames[0] + ' → … → ' + traceNames.slice(-2).join(' → ')
+					: traceNames.join(' → ');
+				text += ' · ⟁ TRACE ' + shown;
+			} else if (liveTraceCount > 0) {
+				text += ' · ⟁ live ' + liveTraceCount;
+				if (liveTraceLast) {
+					text += ' (last: ' + liveTraceLast + ')';
+				}
+			}
 		} else if (liveTraceCount > 0) {
 			text += ' · ⟁ live ' + liveTraceCount;
-			if (liveTraceLast) {
-				text += ' (last: ' + liveTraceLast + ')';
-			}
 		}
 		status.textContent = text;
 	}
@@ -205,6 +217,8 @@
 	// checkbox is rebuilt with the Layers & Distances panel, so the
 	// user's choice rides this module-level var
 	let sessionCaptionsVisible = true;
+	// Anonymised export: captions never come back, whatever the bundle says
+	if (ANONYMIZE) { sessionCaptionsVisible = false; }
 
 	// Per-generation visibility: every generation has its own show/hide
 	// checkbox, the same meaning as the layer ones. depth → false when
@@ -262,6 +276,133 @@
 	// collection <select> visible for single-collection projects so the
 	// feature stays discoverable
 	let sessionUiSettings = { alwaysShowCollectionSelector: true };
+
+	// The exported page runs outside VS Code, so the webview stylesheet's
+	// var(--vscode-*) theme references resolve to nothing and the panels
+	// go transparent — a :root fallback palette (a dark theme matching
+	// the in-extension look) is the export's "theme"
+	const EXPORT_CSS_FALLBACKS = `:root{
+	--vscode-editor-background:#1e1e1e;
+	--vscode-foreground:#cccccc;
+	--vscode-descriptionForeground:#9d9d9d;
+	--vscode-font-family:system-ui,'Segoe UI',sans-serif;
+	--vscode-editor-font-family:'Consolas','Courier New',monospace;
+	--vscode-panel-border:#454545;
+	--vscode-button-background:#2d2d2d;
+	--vscode-button-foreground:#cccccc;
+	--vscode-button-hoverBackground:#37373d;
+	--vscode-dropdown-background:#313131;
+	--vscode-dropdown-foreground:#cccccc;
+	--vscode-editorHoverWidget-background:#252526;
+	--vscode-editorHoverWidget-border:#454545;
+	--vscode-editorHoverWidget-foreground:#cccccc;
+	--vscode-editorWarning-foreground:#cca700;
+	--vscode-errorBackground:#5a1d1d;
+	--vscode-errorForeground:#f48771;
+	--vscode-focusBorder:#007fd4;
+	--vscode-titleBar-activeBackground:#1f1f1f;
+	--vscode-titleBar-activeForeground:#cccccc;
+}
+#controls{display:none!important}
+#collection-select{display:none!important}
+`;
+
+	// The exported page's host stand-in (see assembleExportHtml). The
+	// stub serves the recorded boot stream — settings, then updateGraph
+	// with the exported arrangement — when the app posts 'ready', and
+	// silently drops every other host-bound post: the export has no host
+	// behind it
+	const EXPORT_BOOT_STUB = `
+window.acquireVsCodeApi = function () {
+	let delivered = false;
+	return {
+		getState : function () { return null; },
+		setState : function () {},
+		postMessage : function (msg) {
+			if (!msg || msg.command !== 'ready' || delivered) { return; }
+			delivered = true;
+			const boot = window.__MNEMO_EXPORT_BOOT__ || {};
+			const stream = [];
+			if (boot.settings) {
+				stream.push({ command : 'settings', data : boot.settings });
+			}
+			if (boot.graphData) {
+				stream.push({ command : 'updateGraph', data : boot.graphData, layout : boot.layout, settings : boot.settings });
+			}
+			// window.postMessage is a queued task — the app's message
+			// listener registered during load, long before 'ready'
+			stream.forEach(function (m) { window.postMessage(m, '*'); });
+		}
+	};
+};`;
+
+	// The exported page's connect panel — bottom-right, export-only. A
+	// strategy-channel target in (a ws://…/?token=… URL, or the app's
+	// strategy-channel.json pasted), live bulbs out: every trace frame is
+	// posted back into the page as the SAME traceEvent message the
+	// extension host forwards, so the existing live-flash machinery does
+	// the lighting. There is no host behind the export — the browser
+	// talks to the app directly (the server checks only the token; a
+	// browser WebSocket connects fine)
+	const EXPORT_CONNECT_PANEL = `
+// The connect panel — live bulbs from a strategy channel (talk mode).
+// Accepts a ws://…/?token=… URL or a strategy-channel.json paste
+(function () {
+	var panel = document.createElement('div');
+	panel.style.cssText = 'position:fixed;right:10px;bottom:34px;z-index:20;background:#252526;border:1px solid #454545;border-radius:4px;padding:8px;display:flex;gap:6px;align-items:center;font:12px system-ui,sans-serif;color:#ccc';
+	var input = document.createElement('input');
+	input.placeholder = 'ws://127.0.0.1:PORT/?token=… or channel JSON';
+	input.style.cssText = 'width:260px;background:#313131;color:#ccc;border:1px solid #454545;border-radius:3px;padding:4px 6px;font:inherit';
+	var button = document.createElement('button');
+	button.textContent = 'Connect';
+	button.style.cssText = 'background:#2d2d2d;color:#ccc;border:1px solid #454545;border-radius:3px;padding:4px 10px;cursor:pointer;font:inherit';
+	var note = document.createElement('span');
+	note.style.cssText = 'color:#9d9d9d;font-size:11px;max-width:340px';
+	panel.appendChild(input); panel.appendChild(button); panel.appendChild(note);
+	document.body.appendChild(panel);
+	var socket = null; var edges = 0;
+	var setNote = function (t) { note.textContent = t; };
+	var parseTarget = function (raw) {
+		var text = raw.trim();
+		if (!text) { return null; }
+		if (/^wss?:\\/\\//.test(text)) { return text; }
+		try {
+			var parsed = JSON.parse(text);
+			if (parsed && parsed.host && parsed.port && parsed.token) {
+				return 'ws://' + parsed.host + ':' + parsed.port + '/?token=' + encodeURIComponent(parsed.token);
+			}
+		} catch (e) { /* not JSON */ }
+		return null;
+	};
+	var disconnect = function () {
+		if (socket) { try { socket.close(); } catch (e) {} socket = null; }
+		button.textContent = 'Connect';
+	};
+	button.addEventListener('click', function () {
+		if (socket) { disconnect(); setNote('disconnected'); return; }
+		var url = parseTarget(input.value);
+		if (!url) { setNote('paste a ws://…/?token=… URL or the strategy-channel.json contents'); return; }
+		setNote('connecting…');
+		try { socket = new WebSocket(url); } catch (e) { socket = null; setNote('connect failed: ' + e.message); return; }
+		socket.addEventListener('open', function () {
+			button.textContent = 'Disconnect';
+			setNote('connected — waiting for traces');
+			socket.send(JSON.stringify({ id: 1, op: 'traceSubscribe', params: { events: ['enter', 'create', 'leave', 'settle'] } }));
+		});
+		socket.addEventListener('message', function (event) {
+			var msg; try { msg = JSON.parse(event.data); } catch (e) { return; }
+			if (msg && msg.op === 'trace' && msg.params && Array.isArray(msg.params.edges)) {
+				edges += msg.params.edges.length;
+				setNote('connected — ' + edges + ' edges');
+				// the SAME frame the extension host forwards — the app's
+				// traceEvent handler lights the lineage bulbs
+				window.postMessage({ command : 'traceEvent', data : { edges : msg.params.edges } }, '*');
+			}
+		});
+		socket.addEventListener('close', function () { socket = null; button.textContent = 'Connect'; setNote('closed'); });
+		socket.addEventListener('error', function () { setNote('connection error'); });
+	});
+}());`;
 
 	// Orientation state picked with the vector-sphere control. Captions
 	// ride a VIEW-space unit vector — the sign sits at camera × vector ×
@@ -1198,6 +1339,25 @@
 			});
 		}
 
+		// Export button: pack the current graph + arrangement into a
+		// single self-contained HTML page (assembleExportHtml) and hand
+		// it to the host to write — the webview cannot write files
+		const exportButton = document.getElementById('export-html');
+		if (exportButton) {
+			exportButton.addEventListener('click', async function () {
+				// Same focus rule as the Save button
+				exportButton.blur();
+				if (!is3D || !renderer3D || !currentData) { return; }
+				setStatusBase('Packing the graph…');
+				try {
+					const html = await assembleExportHtml();
+					vscode.postMessage({ command : 'exportHtml', data : html });
+				} catch (err) {
+					setStatusBase('Export failed: ' + (err && err.message ? err.message : String(err)));
+				}
+			});
+		}
+
 		// Refresh button: the host re-reads THIS panel's .tactica and
 		// pushes a fresh updateGraph; the tab holds its render until
 		// asked. Camera/pins survive — the update rides the same
@@ -1225,6 +1385,256 @@
 		}
 
 		// 3D-only: the mode toggle buttons no longer exist in the DOM.
+	}
+
+	// The exported file must be shareable as-is (GitHub included), so the
+	// bundle is scrubbed: locations/file paths are garbage there and go
+	// in EVERY export; diamond/bagel ids ARE scope ids and call sites
+	// (paths), so they become indexed diamond_N/bagel_N in every export
+	// too. The anonymised export goes further — every real name becomes
+	// an indexed placeholder (sphere_N/knot_N, collections renamed) and
+	// properties/snippets/labels are wiped. Renames are applied
+	// consistently across the bundle AND the saved layout (pins and
+	// caption overrides key off the same ids)
+	function scrubExportBundle(data, layout, anonymize) {
+		const sphere = new Map();  // type fullPath -> sphere_N (anonymize only)
+		const diamond = new Map(); // scopeId -> diamond_N (always — ids ARE paths)
+		const bagel = new Map();   // wrap site -> bagel_N (always — ids ARE locations)
+		const knot = new Map();    // knot id -> knot_N (anonymize only)
+		const through = (map, value) => (map.has(value) ? map.get(value) : value);
+
+		data.nodes.forEach((node, index) => {
+			if (anonymize) { sphere.set(node.id, 'sphere_' + index); }
+		});
+		if (anonymize && data.internals && Array.isArray(data.internals.nodes)) {
+			data.internals.nodes.forEach((node, index) => {
+				knot.set(node.id, 'knot_' + index);
+			});
+		}
+		if (data.creation && Array.isArray(data.creation.nodes)) {
+			data.creation.nodes.forEach((node, index) => {
+				diamond.set(node.id, 'diamond_' + index);
+			});
+		}
+		if (data.wrappers && Array.isArray(data.wrappers.nodes)) {
+			data.wrappers.nodes.forEach((node, index) => {
+				bagel.set(node.id, 'bagel_' + index);
+			});
+		}
+		const sphereId = (old) => (anonymize ? through(sphere, old) : old);
+		const knotId = (old) => (anonymize ? through(knot, old) : old);
+
+		// type spheres: locations always; names and fields in anonymize
+		data.nodes.forEach((node, index) => {
+			delete node.location;
+			delete node.definitionLocation;
+			delete node.instrumentation; // className/scope/code payload
+			(node.edsEntries || []).forEach((entry) => {
+				delete entry.location;
+				delete entry.parsedLocation;
+				delete entry.code;
+				delete entry.scope; // a scope key is a path
+			});
+			if (anonymize) {
+				node.id = sphere.get(node.id);
+				node.name = node.id;
+				node.properties = [];
+				node.edsEntries = [];
+			}
+		});
+		data.links.forEach((link) => {
+			link.source = sphereId(link.source);
+			link.target = sphereId(link.target);
+		});
+		(data.execflow || []).forEach((edge) => {
+			delete edge.location;
+			edge.source = sphereId(typeof edge.source === 'object' ? edge.source.id : edge.source);
+			edge.target = sphereId(typeof edge.target === 'object' ? edge.target.id : edge.target);
+			if (anonymize) { delete edge.code; }
+		});
+
+		// creation diamonds: the id IS a scopeId — indexed in every export
+		if (data.creation) {
+			data.creation.nodes.forEach((node) => {
+				const id = diamond.get(node.id) || node.id;
+				node.id = id;
+				node.name = id; // scope basenames are path fragments
+				delete node.location;
+				delete node.filePath;
+				(node.creates || []).forEach((anchor) => {
+					anchor.typePath = sphereId(anchor.typePath);
+					if (anchor.terminatedAt) { anchor.terminatedAt = sphereId(anchor.terminatedAt); }
+					delete anchor.location;
+					if (anonymize) {
+						delete anchor.constructorText;
+						delete anchor.variable;
+					}
+				});
+			});
+			(data.creation.links || []).forEach((link) => {
+				link.source = through(diamond, link.source);
+				link.target = through(diamond, link.target);
+			});
+		}
+
+		// wrapper bagels: the id IS the call-site location — indexed always
+		if (data.wrappers) {
+			data.wrappers.nodes.forEach((node) => {
+				const id = bagel.get(node.id) || node.id;
+				node.id = id;
+				node.name = id; // "basename:line" is a path fragment
+				delete node.location;
+				if (node.callbackScopeId) { node.callbackScopeId = through(diamond, node.callbackScopeId); }
+				if (node.holderScopeId) { node.holderScopeId = through(diamond, node.holderScopeId); }
+				if (node.wrapsTypePath) { node.wrapsTypePath = sphereId(node.wrapsTypePath); }
+				if (node.hostTypePath) { node.hostTypePath = sphereId(node.hostTypePath); }
+				if (anonymize) {
+					delete node.code;
+					delete node.label;
+				}
+			});
+			(data.wrappers.links || []).forEach((link) => {
+				link.source = through(bagel, link.source);
+				link.target = through(bagel, link.target);
+				if (link.viaType) { link.viaType = sphereId(link.viaType); }
+			});
+		}
+
+		// internals knots: the citation points into a repo — always gone
+		if (data.internals) {
+			(data.internals.nodes || []).forEach((node) => {
+				delete node.citation;
+				if (anonymize) {
+					node.id = knotId(node.id);
+					node.name = node.id;
+				}
+			});
+			(data.internals.links || []).forEach((link) => {
+				link.source = knotId(link.source);
+				link.target = knotId(link.target);
+				if (anonymize) { delete link.label; }
+			});
+			// attachHooks graft endpoints are type ids — renamed with them
+			if (Array.isArray(data.internals.grafts)) {
+				data.internals.grafts = data.internals.grafts.map(sphereId);
+			}
+		}
+
+		// collections: inventory names can be as revealing as type names
+		if (anonymize && data.collection && data.collection !== '*' && Array.isArray(data.collections)) {
+			const index = data.collections.findIndex((c) => c.id === data.collection);
+			const renamed = 'collection_' + (index >= 0 ? index + 1 : 1);
+			data.collections.forEach((entry, i) => {
+				entry.id = 'collection_' + (i + 1);
+				entry.name = entry.id;
+			});
+			data.collection = renamed;
+		}
+
+		// the saved layout keys off the same ids — remap with the same maps
+		if (layout) {
+			if (anonymize && layout.nodes) {
+				const remapped = {};
+				Object.keys(layout.nodes).forEach((key) => {
+					remapped[through(sphere, key)] = layout.nodes[key];
+				});
+				layout.nodes = remapped;
+			}
+			if (layout.pins) {
+				const remapped = {};
+				Object.keys(layout.pins).forEach((key) => {
+					remapped[through(sphere, through(diamond, through(bagel, through(knot, key))))] = layout.pins[key];
+				});
+				layout.pins = remapped;
+			}
+			const overrides = layout.orient && layout.orient.captionOverrides;
+			if (overrides) {
+				const remapped = {};
+				Object.keys(overrides).forEach((key) => {
+					remapped[through(sphere, through(diamond, through(bagel, through(knot, key))))] = overrides[key];
+				});
+				layout.orient.captionOverrides = remapped;
+			}
+		}
+	}
+
+	// Export HTML (the ⤓ button): pack the CURRENT graph into a single
+	// self-contained page — this page's own script and stylesheet,
+	// three.js and d3 fetched from their CDNs and inlined, plus the
+	// current arrangement (collectLayout, the Save button's collector) —
+	// so it renders anywhere, offline, e.g. iframed into talk slides.
+	// The skeleton with its placeholders arrived embedded in this page
+	// (panel.ts derives it from the very template it serves); the host
+	// only writes the assembled file
+	async function assembleExportHtml() {
+		const skeleton = window.__MNEMO_EXPORT_SKELETON__;
+		if (typeof skeleton !== 'string' || skeleton.length === 0) {
+			throw new Error('export skeleton missing — reopen the panel');
+		}
+		const layout = renderer3D.collectLayout(currentData);
+		// A literal '</script' inside inlined JS would terminate the host
+		// script early; '<\/' is byte-identical inside JS strings and
+		// regexes and never occurs as live code
+		const inlineJs = (src) => src.replace(/<\/script/gi, '<\\/script');
+		const pickText = async (url) => {
+			const res = await fetch(url);
+			if (!res.ok) { throw new Error('could not fetch ' + url); }
+			return await res.text();
+		};
+		const cssLink = document.querySelector('link[rel="stylesheet"]');
+		const appScript = document.querySelector('script[src*="webview.js"]');
+		const d3Script = document.querySelector('script[src*="d3"]');
+		const threeScript = document.querySelector('script[src*="three"]');
+		if (!cssLink || !appScript || !d3Script || !threeScript) {
+			throw new Error('page resources not found');
+		}
+		const [css, app, d3src, threesrc] = await Promise.all([
+			pickText(cssLink.href),
+			pickText(appScript.src),
+			pickText(d3Script.src),
+			pickText(threeScript.src)
+		]);
+		// The exported page mirrors THIS view, minus the invocation path
+		// filter: its text is path-shaped and the filter is dead anyway
+		// once the bundle loses filePath (scrubExportBundle). The
+		// collection selector hides — switching collections is a host
+		// round-trip the export cannot serve; the current universe is
+		// frozen into the data
+		const settings = { alwaysShowCollectionSelector : false };
+		// renderGraph MUTATES the data it renders: nodes gain children
+		// arrays and parent back-references (source↔target cycles), link
+		// endpoints resolve to node objects. All of it is render-derived
+		// and rebuilt on every render — the bundle strips it (else
+		// JSON.stringify dies on the cycle) and normalizes link endpoints
+		// back to their id strings
+		const bundleData = JSON.parse(JSON.stringify(currentData, (key, value) => {
+			if (key === 'parent' || key === 'children') { return undefined; }
+			if ((key === 'source' || key === 'target') &&
+				value && typeof value === 'object' && typeof value.id === 'string') {
+				return value.id;
+			}
+			return value;
+		}));
+		// Anonymised export (talk mode): exported while the captions flag
+		// is OFF, the page becomes a pure shape — no captions, no names,
+		// no tooltips (webview.js reads the flag). The mode rides a bare
+		// global, not the data bundle
+		const anonymize = renderer3D ? !renderer3D.captionsVisible : false;
+		scrubExportBundle(bundleData, layout, anonymize);
+		const boot = 'const SHOW_PROPERTIES_PLACEHOLDER = ' + String(Boolean(SHOW_PROPERTIES_PLACEHOLDER)) + ';\n'
+			+ 'window.__MNEMO_ANONYMIZE__ = ' + String(anonymize) + ';\n'
+			+ 'window.__MNEMO_EXPORT_BOOT__ = ' + JSON.stringify({ graphData : bundleData, layout : layout, settings : settings }).replace(/</g, '\\u003c') + ';\n'
+			+ EXPORT_BOOT_STUB + (anonymize ? '' : '\n' + EXPORT_CONNECT_PANEL);
+		let html = skeleton
+			.replace('/*__MNEMO_CSS__*/', () => EXPORT_CSS_FALLBACKS + css)
+			.replace('/*__MNEMO_D3__*/', () => inlineJs(d3src))
+			.replace('/*__MNEMO_THREE__*/', () => inlineJs(threesrc))
+			.replace('/*__MNEMO_APP__*/', () => inlineJs(app))
+			.replace('/*__MNEMO_BOOT__*/', () => inlineJs(boot));
+		if (currentData.collection && !anonymize) {
+			html = html.replace('<title>Mnemonica Graph</title>', '<title>Mnemonica Graph — ' + String(currentData.collection) + '</title>');
+		}
+		return html;
 	}
 
 	function set3DMode(target3D) {
@@ -1447,6 +1857,12 @@
 			// Save-button confirmation from the host
 			const savedPath = message.data && message.data.path;
 			setStatusBase('Layout saved → ' + (savedPath || '.mnemographica/layout.json'));
+		}
+
+		if (message.command === 'exportSaved') {
+			// Export-button confirmation from the host
+			const savedPath = message.data && message.data.path;
+			setStatusBase('Graph exported → ' + (savedPath || 'graph.html'));
 		}
 
 		if (message.command === 'focusNode') {
@@ -2309,6 +2725,9 @@
 			}
 		}
 		sessionInvocationFilter = next;
+		// The export bundles the filter text (sessionUiSettings snapshot)
+		// so the exported page mirrors this view
+		sessionUiSettings.invocationPathFilter = trimmed;
 		if (renderer3D) {
 			// Instant flip, no rebuild (the gen-checkbox idiom): the
 			// creation scopes' computed .visible getters read the new
@@ -2406,7 +2825,12 @@
 				}
 			}
 		];
-		layers.forEach(layer => {
+		// Anonymised export: no captions exist, so the row that governs
+		// them is noise — the panel shows layers that are actually there
+		const visibleLayers = ANONYMIZE
+			? layers.filter(layer => layer.key !== 'captions')
+			: layers;
+		visibleLayers.forEach(layer => {
 			const header = document.createElement('div');
 			header.className = 'gen-control-row layer-header';
 
@@ -4589,6 +5013,7 @@
 		}
 
 		handleNodeClick3D(event, node) {
+			if (ANONYMIZE) { return; } // no names, no tooltips — shapes only
 			if (!node) return;
 
 			// Single click - show/hide tooltip
@@ -4635,6 +5060,7 @@
 		}
 
 		handleNodeDoubleClick3D(node, _event) {
+			if (ANONYMIZE) { return; } // no jump targets in a shapes-only page
 			// Double click - jump to definition
 			if ((node.location || node.definitionLocation) && this.onNodeClick) {
 				this.onNodeClick(node);
@@ -4647,6 +5073,7 @@
 		 * the same goToDefinition message the sphere EDS entries use
 		 */
 		handleCreationClick(event, node) {
+			if (ANONYMIZE) { return; } // shapes only — no scope names, no sites
 			const tooltip = d3.select('#tooltip');
 			const existingId = tooltip.attr('data-node-id');
 			if (tooltip.classed('visible') && existingId === node.id) {
@@ -4685,6 +5112,7 @@
 		 * terminal fibers with no wrapped descendants recorded
 		 */
 		handleWrapperClick(event, node) {
+			if (ANONYMIZE) { return; } // shapes only — no wrap sites, no types
 			const tooltip = d3.select('#tooltip');
 			const existingId = tooltip.attr('data-node-id');
 			if (tooltip.classed('visible') && existingId === node.id) {
@@ -4730,6 +5158,7 @@
 		 * outside the analyzed workspace
 		 */
 		handleInternalClick(event, knot) {
+			if (ANONYMIZE) { return; } // shapes only — no knot names/citations
 			const tooltip = d3.select('#tooltip');
 			const existingId = tooltip.attr('data-node-id');
 			if (tooltip.classed('visible') && existingId === knot.id) {
@@ -5082,7 +5511,9 @@
 			// ('defaultTypes' for the default universe). The combined
 			// all-collections view gets no label — the marker is the
 			// shared orientation anchor, not a collection's badge.
-			if (data.collection !== ALL_COLLECTIONS) {
+			// Anonymised exports get no badge either: a collection name
+			// is a name
+			if (data.collection !== ALL_COLLECTIONS && !ANONYMIZE) {
 				const collectionsInventory = Array.isArray(data.collections) ? data.collections : [];
 				const shownCollection = collectionsInventory.find(function (c) { return c.id === data.collection; });
 				const centerLabel = (shownCollection && shownCollection.name) || data.collection || 'defaultTypes';

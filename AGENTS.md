@@ -617,6 +617,69 @@ The extension helps AI agents:
      pins and orients).
      Untouched
      nodes are NOT saved — the deterministic layout reproduces them.
+   - **Export HTML button**: the `#controls` ⤓ button packs the
+     current graph into a single self-contained HTML page the webview
+     assembles and the host only writes (`exportHtml` message →
+     save dialog → `exportSaved` status). The page it writes is the
+     panel's own template with every external resource swapped for an
+     inline placeholder (`buildExportSkeleton` in panel.ts — the
+     skeleton derives from the served HTML, so the export cannot drift
+     from the page); the webview fills the placeholders at export time:
+     its own script and stylesheet (fetched from the webview origin),
+     three.js and d3 (fetched from their CDNs — the export moment needs
+     network once), and the boot script — `SHOW_PROPERTIES`, the
+     recorded stream (`graphData` + `collectLayout` arrangement +
+     UI settings snapshot, `</`-escaped) and `EXPORT_BOOT_STUB`, a
+     `window.acquireVsCodeApi` stand-in that replays the stream
+     (`settings`, then `updateGraph`) when the app posts `ready` and
+     silently drops every other host-bound post — the export has no
+     host behind it. The graphData in the bundle is the LIVE data, which
+     renderGraph mutates in place (children/parent back-references —
+     source↔target cycles — and link endpoints resolved to node objects):
+     the assembler strips those render-derived fields and normalizes link
+     endpoints back to id strings before stringify, or the bundle cannot
+     serialize (every render rebuilds them anyway). The stylesheet's `var(--vscode-*)` theme references
+     resolve to nothing outside the webview, so the export prepends
+     `EXPORT_CSS_FALLBACKS` — a `:root` dark-theme palette (the
+     `editorHoverWidget-*` pair colors the panels) as the export's
+     "theme". `#controls` and the collection selector hide (the
+     selector's switching is a host round-trip); orbit, zoom, layer
+     checkboxes, the legend, and the vector-sphere controls work
+     offline, so the page iframes into slides as-is. The boot also
+     builds the connect panel (EXPORT_CONNECT_PANEL, bottom-right):
+     a text input + Connect that takes a strategy channel target —
+     a ws://…/?token=… URL or the app's strategy-channel.json pasted —
+     opens a browser WebSocket (the server checks only the token, no
+     Origin), sends traceSubscribe, and reposts every {op:'trace'}
+     frame into the page as the SAME traceEvent message the extension
+     host forwards — the live-flash machinery lights the spheres with
+     no further code. Talk mode: kbTrainer runs with USE_STRATEGY=1,
+     the slide iframes the export, typing lights the bulbs. Serving
+     caveat: an https-served slide page blocks ws:// as mixed content —
+     file:// or http:// slides only. **Anonymised export (talk mode)**:
+     exporting while the captions flag is OFF produces a shapes-only page —
+     the boot carries `window.__MNEMO_ANONYMIZE__` (set from
+     `renderer3D.captionsVisible` at export time), and webview.js reads it
+     as the module `ANONYMIZE` flag to: force captions invisible, drop the
+     captions row from the Layers panel, no-op every click/double-click
+     handler (sphere, diamond, bagel, knot tooltips and the go-to-definition
+     jump), skip the center marker's collection-name badge, keep the
+     collection name out of the page title, and show only counts (never
+     trace names) in the status line. **Bundle scrub (every export,
+     `scrubExportBundle`)**: the file must be shareable as-is, so ALL
+     paths are stripped before it is written — node/creation/wrapper
+     `location`s, `filePath`, `definitionLocation`, EDS
+     `parsedLocation`/`scope`, internals `citation`, execflow
+     `location`, and the invocation filter (dead without filePath,
+     path-shaped itself). Diamond and bagel ids ARE scope ids/call
+     sites, so they become indexed `diamond_N`/`bagel_N` in EVERY
+     export, remapped consistently through links, cross-layer joins,
+     and the saved layout's pins/caption overrides. The anonymised
+     export additionally renames types to `sphere_N`, knots to
+     `knot_N`, collections to `collection_N` (inventory too), wipes
+     properties/snippets/EDS entries/graft labels, and omits the
+     connect panel entirely — no names left anywhere in the file,
+     GitHub-safe.
    - **Captions toggle**: a knob-less `captions` row in the
      Layers & Distances panel flips `renderer.captionsVisible` via
      `setCaptionsVisible()` — every sign sprite and leader line
@@ -951,8 +1014,11 @@ The extension helps AI agents:
    - `mnemographica.openAppChannelTab` ("Ψ App Channel") connects
      DIRECTLY to an app's embedded strategy WS channel: discovery via
      `GET <mnemographica.appChannelDiscoveryUrl>` (default
-     `http://127.0.0.1:3000/strategy/channel`) or manual host/port/token,
-     then `trace/subscribe`; edges land on the orchestrator as source
+     `http://127.0.0.1:3000/strategy/channel`) or the manual field, which
+     takes the ONE line the apps print on startup —
+     `ws://host:port/?token=…` — or the app's `strategy-channel.json`
+     pasted in (`parseChannelTarget` accepts both); then
+     `trace/subscribe`; edges land on the orchestrator as source
      `app-channel:<pid>`. No CDP anywhere on this path.
    - `WSSession` is loaded by **absolute path** from the resolved
      package root, not via the package root export — that would pull the

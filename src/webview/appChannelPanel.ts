@@ -17,15 +17,46 @@ import type { MainOrchestrator } from '../core/MainOrchestrator';
 
 interface ConnectMessage {
 	type: 'connect';
-	host: string;
-	port: number;
-	token: string;
+	url: string;
 }
 
 interface DiscoveryMessage {
 	type: 'discover';
 	url: string;
 }
+
+// The one-line channel target: a ws://host:port/?token=… URL, or the app's
+// strategy-channel.json contents ({host, port, token}) pasted in — the apps
+// print the URL line on startup, the exported graph pages accept the same
+const parseChannelTarget = (raw: string): { host: string; port: number; token: string } | null => {
+	const text = raw.trim();
+	if (!text) {
+		return null;
+	}
+	if (/^wss?:\/\//.test(text)) {
+		try {
+			const url = new URL(text);
+			const token = url.searchParams.get('token');
+			if (!url.hostname || !token) {
+				return null;
+			}
+			const result = { host: url.hostname, port: Number(url.port), token };
+			return result;
+		} catch {
+			return null;
+		}
+	}
+	try {
+		const parsed = JSON.parse(text) as { host?: unknown; port?: unknown; token?: unknown };
+		if (typeof parsed.host === 'string' && typeof parsed.port === 'number' && typeof parsed.token === 'string') {
+			const result = { host: parsed.host, port: parsed.port, token: parsed.token };
+			return result;
+		}
+	} catch {
+		// not JSON either
+	}
+	return null;
+};
 
 export class AppChannelPanel {
 	private static current: AppChannelPanel | undefined;
@@ -82,7 +113,18 @@ export class AppChannelPanel {
 	private async handleMessage (message: ConnectMessage | DiscoveryMessage | { type: string }): Promise<void> {
 		if (message.type === 'connect') {
 			const m = message as ConnectMessage;
-			await this.client.connect(m.host, m.port, m.token);
+			// ONE connection line, the same shape the apps print and the
+			// exported graph pages accept: ws://host:port/?token=…
+			const parsed = parseChannelTarget(m.url);
+			if (!parsed) {
+				void this.panel.webview.postMessage({
+					type : 'error',
+					text : 'paste the ws://…/?token=… channel line (or the app’s strategy-channel.json contents)'
+				});
+				this.pushState();
+				return;
+			}
+			await this.client.connect(parsed.host, parsed.port, parsed.token);
 			this.pushState();
 			return;
 		}
@@ -140,9 +182,7 @@ export class AppChannelPanel {
 	</fieldset>
 	<fieldset>
 		<legend>Manual</legend>
-		<input id="host" value="127.0.0.1" placeholder="host"><br>
-		<input id="port" placeholder="port"><br>
-		<input id="token" placeholder="token"><br>
+		<input id="channelUrl" style="width:72ch" placeholder="ws://127.0.0.1:PORT/?token=…  (or strategy-channel.json contents)"><br>
 		<button id="connect">Connect</button>
 	</fieldset>
 	<button id="disconnect">Disconnect</button>
@@ -158,12 +198,7 @@ export class AppChannelPanel {
 		});
 		document.getElementById('connect').addEventListener('click', () => {
 			errorEl.textContent = '';
-			vscode.postMessage({
-				type  : 'connect',
-				host  : document.getElementById('host').value,
-				port  : Number(document.getElementById('port').value),
-				token : document.getElementById('token').value,
-			});
+			vscode.postMessage({ type: 'connect', url: document.getElementById('channelUrl').value });
 		});
 		document.getElementById('disconnect').addEventListener('click', () => {
 			vscode.postMessage({ type: 'disconnect' });

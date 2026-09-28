@@ -490,6 +490,15 @@ export class GraphPanel {
 					// persists it
 					await this.handleSaveLayout(message.data);
 					break;
+				case 'exportHtml':
+					// The Export button: the webview assembled a
+					// self-contained page (its own script + stylesheet +
+					// three/d3 + the current graph and arrangement
+					// inlined) — the host only writes the file
+					if (typeof message.data === 'string' && message.data.length > 0) {
+						await this.handleExportHtml(message.data);
+					}
+					break;
 				case 'traceModeExit':
 					GraphPanel.traceMode = null;
 					break;
@@ -622,6 +631,27 @@ export class GraphPanel {
 		}
 	}
 
+	// The Export button's backing: the webview posts the assembled
+	// self-contained page; the host asks where to put it and writes it
+	private async handleExportHtml (html: string) {
+		const target = await vscode.window.showSaveDialog({
+			defaultUri : vscode.Uri.file(path.join(this.sourceRoot, `${this.sourceName}-graph.html`)),
+			filters    : { HTML: ['html'] }
+		});
+		if (!target) {
+			return;
+		}
+		try {
+			fs.writeFileSync(target.fsPath, html, 'utf-8');
+			void this.panel.webview.postMessage({
+				command : 'exportSaved',
+				data    : { path: target.fsPath }
+			});
+		} catch (error) {
+			void vscode.window.showErrorMessage(`Failed to export graph: ${String(error)}`);
+		}
+	}
+
 	/**
 	 * Record a focus event on the scene model: the selection glow tube
 	 * (the dot-joined id's prefixes ARE the ancestor chain it threads)
@@ -700,6 +730,30 @@ export class GraphPanel {
 		}
 	}
 
+	/**
+	 * The export page is the panel's own HTML with every external resource
+	 * swapped for an inline placeholder the webview fills at export time:
+	 * the stylesheet, three.js, d3, the app script itself, and the config
+	 * script (which becomes the boot stub + the recorded graph stream).
+	 * Keeping the skeleton derived from the live template means the export
+	 * can never drift from the page it packs.
+	 */
+	private buildExportSkeleton (
+		html: string,
+		styleUri: string,
+		d3Uri: string,
+		threeUri: string,
+		scriptUri: string,
+		configScript: string
+	): string {
+		return html
+			.replace(`<link rel="stylesheet" href="${styleUri}">`, '<style>\n/*__MNEMO_CSS__*/\n</style>')
+			.replace(`<script src="${d3Uri}"></script>`, '<script>\n/*__MNEMO_D3__*/\n</script>')
+			.replace(`<script src="${threeUri}"></script>`, '<script>\n/*__MNEMO_THREE__*/\n</script>')
+			.replace(`<script src="${scriptUri}"></script>`, '<script>\n/*__MNEMO_APP__*/\n</script>')
+			.replace(configScript, '<script>\n/*__MNEMO_BOOT__*/\n</script>');
+	}
+
 	private getWebviewContent (extensionUri: vscode.Uri): string {
 		const config = vscode.workspace.getConfiguration('mnemographica');
 		const showProperties = config.get<boolean>('showProperties', true);
@@ -717,7 +771,27 @@ export class GraphPanel {
 		// Three.js CDN
 		const threeUri = 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js';
 
-		return `<!DOCTYPE html>
+		// The config script the app reads (SHOW_PROPERTIES). Served as a
+		// constant so the export skeleton can swap it for the boot stub by
+		// exact match — one template, no duplicated markup
+		const configScript = `<script>
+		// Pass configuration to the webview script
+		const SHOW_PROPERTIES_PLACEHOLDER = ${showProperties};
+	</script>`;
+
+		// The export page is THIS page with every external resource swapped
+		// for an inline placeholder the webview fills at export time. The
+		// webview (which holds the current graph + arrangement) assembles
+		// the file; the host only writes it. The skeleton derives from the
+		// composed HTML below (same body markup, placeholders for resources)
+		// — build the html in two passes so both share one template
+		// The export page is THIS page with every external resource swapped
+		// for an inline placeholder the webview fills at export time (see
+		// buildExportSkeleton). The webview — which holds the current graph
+		// and arrangement — assembles the file; the host only writes it.
+		// The skeleton derives from the very HTML served here, so the
+		// export can never drift from the page it packs
+		const withSkeletonSlot = `<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
@@ -737,6 +811,7 @@ export class GraphPanel {
 		<button id="reset" title="Reset View">⟲ Reset</button>
 		<button id="refresh-graph" title="Re-read this project's .tactica and rebuild the graph">⟳ Refresh</button>
 		<button id="save-layout" title="Save layout to .mnemographica/layout.json">💾 Save</button>
+		<button id="export-html" title="Export the current graph as a single self-contained HTML page (embeddable in slides, works offline)">⤓ Export</button>
 	</div>
 	<div id="gen-controls" style="display: block;">
 		<div class="gen-controls-header" id="gen-controls-header"><span>Layers &amp; Distances</span><span id="gen-controls-toggle">▾</span></div>
@@ -766,13 +841,18 @@ export class GraphPanel {
 	<div id="tooltip"></div>
 	<div id="status"></div>
 
-	<script>
-		// Pass configuration to the webview script
-		const SHOW_PROPERTIES_PLACEHOLDER = ${showProperties};
-	</script>
+	<!--__MNEMO_SKELETON_SCRIPT__-->
+	${configScript}
 	<script src="${String(scriptUri)}"></script>
 </body>
 </html>`;
+
+		const skeleton = this.buildExportSkeleton(
+			withSkeletonSlot, String(styleUri), d3Uri, threeUri, String(scriptUri), configScript
+		);
+		const skeletonScript = `\t<script>\n\t\twindow.__MNEMO_EXPORT_SKELETON__ = ${JSON.stringify(skeleton).replace(/</g, '\\u003c')};\n\t</script>`;
+		const result = withSkeletonSlot.replace('<!--__MNEMO_SKELETON_SCRIPT__-->', () => skeletonScript);
+		return result;
 	}
 
 	public dispose () {

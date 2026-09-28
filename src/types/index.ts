@@ -259,7 +259,7 @@ export type D3InternalLink = {
  */
 export type WebviewMessage = {
 	/** Command type */
-	command: 'goToDefinition' | 'nodeHover' | 'ready' | 'refresh' | 'log' | 'modeChanged' | 'focusNode' | 'viewState' | 'pickTrace' | 'traceModeExit' | 'saveLayout' | 'refreshGraph' | 'followTactica' | 'selectCollection';
+	command: 'goToDefinition' | 'nodeHover' | 'ready' | 'refresh' | 'log' | 'modeChanged' | 'focusNode' | 'viewState' | 'pickTrace' | 'traceModeExit' | 'saveLayout' | 'refreshGraph' | 'followTactica' | 'selectCollection' | 'exportHtml';
 	/** Optional payload */
 	data?: unknown;
 };

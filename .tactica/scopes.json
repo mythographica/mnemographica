@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-09-27T20:53:04.682Z",
+  "generatedAt": "2026-09-28T01:29:03.619Z",
   "scopes": {
     "src/topologica/bootstrap.ts": {
       "scopeId": "src/topologica/bootstrap.ts",
@@ -2497,149 +2497,173 @@
       "filePath": "src/webview/panel.ts",
       "location": "src/webview/panel.ts:388:4"
     },
-    "src/webview/panel.ts:503:4": {
-      "scopeId": "src/webview/panel.ts:503:4",
-      "name": "src/webview/panel.ts:503",
-      "kind": "arrow",
-      "parentScopeId": "src/webview/panel.ts:373:2",
-      "filePath": "src/webview/panel.ts",
-      "location": "src/webview/panel.ts:503:4"
-    },
-    "src/webview/panel.ts:512:27": {
-      "scopeId": "src/webview/panel.ts:512:27",
+    "src/webview/panel.ts:512:4": {
+      "scopeId": "src/webview/panel.ts:512:4",
       "name": "src/webview/panel.ts:512",
       "kind": "arrow",
       "parentScopeId": "src/webview/panel.ts:373:2",
       "filePath": "src/webview/panel.ts",
-      "location": "src/webview/panel.ts:512:27"
+      "location": "src/webview/panel.ts:512:4"
     },
-    "src/webview/panel.ts:522:2": {
-      "scopeId": "src/webview/panel.ts:522:2",
+    "src/webview/panel.ts:521:27": {
+      "scopeId": "src/webview/panel.ts:521:27",
+      "name": "src/webview/panel.ts:521",
+      "kind": "arrow",
+      "parentScopeId": "src/webview/panel.ts:373:2",
+      "filePath": "src/webview/panel.ts",
+      "location": "src/webview/panel.ts:521:27"
+    },
+    "src/webview/panel.ts:531:2": {
+      "scopeId": "src/webview/panel.ts:531:2",
       "name": "GraphPanel.reloadGraph",
       "kind": "method",
       "parentScopeId": "src/webview/panel.ts",
       "filePath": "src/webview/panel.ts",
-      "location": "src/webview/panel.ts:522:2"
+      "location": "src/webview/panel.ts:531:2"
     },
-    "src/webview/panel.ts:534:2": {
-      "scopeId": "src/webview/panel.ts:534:2",
+    "src/webview/panel.ts:543:2": {
+      "scopeId": "src/webview/panel.ts:543:2",
       "name": "GraphPanel.setFollowTactica",
       "kind": "method",
       "parentScopeId": "src/webview/panel.ts",
       "filePath": "src/webview/panel.ts",
-      "location": "src/webview/panel.ts:534:2"
+      "location": "src/webview/panel.ts:543:2"
     },
-    "src/webview/panel.ts:545:23": {
-      "scopeId": "src/webview/panel.ts:545:23",
-      "name": "src/webview/panel.ts:545",
+    "src/webview/panel.ts:554:23": {
+      "scopeId": "src/webview/panel.ts:554:23",
+      "name": "src/webview/panel.ts:554",
       "kind": "arrow",
-      "parentScopeId": "src/webview/panel.ts:534:2",
+      "parentScopeId": "src/webview/panel.ts:543:2",
       "filePath": "src/webview/panel.ts",
-      "location": "src/webview/panel.ts:545:23"
+      "location": "src/webview/panel.ts:554:23"
     },
-    "src/webview/panel.ts:548:23": {
-      "scopeId": "src/webview/panel.ts:548:23",
-      "name": "src/webview/panel.ts:548",
+    "src/webview/panel.ts:557:23": {
+      "scopeId": "src/webview/panel.ts:557:23",
+      "name": "src/webview/panel.ts:557",
       "kind": "arrow",
-      "parentScopeId": "src/webview/panel.ts:534:2",
+      "parentScopeId": "src/webview/panel.ts:543:2",
       "filePath": "src/webview/panel.ts",
-      "location": "src/webview/panel.ts:548:23"
+      "location": "src/webview/panel.ts:557:23"
     },
-    "src/webview/panel.ts:554:2": {
-      "scopeId": "src/webview/panel.ts:554:2",
+    "src/webview/panel.ts:563:2": {
+      "scopeId": "src/webview/panel.ts:563:2",
       "name": "GraphPanel.updateGraph",
       "kind": "method",
       "parentScopeId": "src/webview/panel.ts",
       "filePath": "src/webview/panel.ts",
-      "location": "src/webview/panel.ts:554:2"
+      "location": "src/webview/panel.ts:563:2"
     },
-    "src/webview/panel.ts:576:2": {
-      "scopeId": "src/webview/panel.ts:576:2",
+    "src/webview/panel.ts:585:2": {
+      "scopeId": "src/webview/panel.ts:585:2",
       "name": "GraphPanel.getLayoutFilePath",
       "kind": "method",
       "parentScopeId": "src/webview/panel.ts",
       "filePath": "src/webview/panel.ts",
-      "location": "src/webview/panel.ts:576:2"
+      "location": "src/webview/panel.ts:585:2"
     },
-    "src/webview/panel.ts:581:2": {
-      "scopeId": "src/webview/panel.ts:581:2",
+    "src/webview/panel.ts:590:2": {
+      "scopeId": "src/webview/panel.ts:590:2",
       "name": "GraphPanel.readSavedLayout",
       "kind": "method",
       "parentScopeId": "src/webview/panel.ts",
       "filePath": "src/webview/panel.ts",
-      "location": "src/webview/panel.ts:581:2"
+      "location": "src/webview/panel.ts:590:2"
     },
-    "src/webview/panel.ts:606:2": {
-      "scopeId": "src/webview/panel.ts:606:2",
+    "src/webview/panel.ts:615:2": {
+      "scopeId": "src/webview/panel.ts:615:2",
       "name": "GraphPanel.handleSaveLayout",
       "kind": "method",
       "parentScopeId": "src/webview/panel.ts",
       "filePath": "src/webview/panel.ts",
-      "location": "src/webview/panel.ts:606:2"
+      "location": "src/webview/panel.ts:615:2"
     },
-    "src/webview/panel.ts:632:2": {
-      "scopeId": "src/webview/panel.ts:632:2",
+    "src/webview/panel.ts:636:2": {
+      "scopeId": "src/webview/panel.ts:636:2",
+      "name": "GraphPanel.handleExportHtml",
+      "kind": "method",
+      "parentScopeId": "src/webview/panel.ts",
+      "filePath": "src/webview/panel.ts",
+      "location": "src/webview/panel.ts:636:2"
+    },
+    "src/webview/panel.ts:662:2": {
+      "scopeId": "src/webview/panel.ts:662:2",
       "name": "GraphPanel.noteFocus",
       "kind": "method",
       "parentScopeId": "src/webview/panel.ts",
       "filePath": "src/webview/panel.ts",
-      "location": "src/webview/panel.ts:632:2"
+      "location": "src/webview/panel.ts:662:2"
     },
-    "src/webview/panel.ts:635:35": {
-      "scopeId": "src/webview/panel.ts:635:35",
-      "name": "src/webview/panel.ts:635",
+    "src/webview/panel.ts:665:35": {
+      "scopeId": "src/webview/panel.ts:665:35",
+      "name": "src/webview/panel.ts:665",
       "kind": "arrow",
-      "parentScopeId": "src/webview/panel.ts:632:2",
+      "parentScopeId": "src/webview/panel.ts:662:2",
       "filePath": "src/webview/panel.ts",
-      "location": "src/webview/panel.ts:635:35"
+      "location": "src/webview/panel.ts:665:35"
     },
-    "src/webview/panel.ts:650:2": {
-      "scopeId": "src/webview/panel.ts:650:2",
+    "src/webview/panel.ts:680:2": {
+      "scopeId": "src/webview/panel.ts:680:2",
       "name": "GraphPanel.noteViewState",
       "kind": "method",
       "parentScopeId": "src/webview/panel.ts",
       "filePath": "src/webview/panel.ts",
-      "location": "src/webview/panel.ts:650:2"
+      "location": "src/webview/panel.ts:680:2"
     },
-    "src/webview/panel.ts:657:15": {
-      "scopeId": "src/webview/panel.ts:657:15",
+    "src/webview/panel.ts:687:15": {
+      "scopeId": "src/webview/panel.ts:687:15",
       "name": "num",
       "kind": "arrow",
-      "parentScopeId": "src/webview/panel.ts:650:2",
+      "parentScopeId": "src/webview/panel.ts:680:2",
       "filePath": "src/webview/panel.ts",
-      "location": "src/webview/panel.ts:657:15"
+      "location": "src/webview/panel.ts:687:15"
     },
-    "src/webview/panel.ts:682:2": {
-      "scopeId": "src/webview/panel.ts:682:2",
+    "src/webview/panel.ts:712:2": {
+      "scopeId": "src/webview/panel.ts:712:2",
       "name": "GraphPanel.getScene",
       "kind": "method",
       "parentScopeId": "src/webview/panel.ts",
       "filePath": "src/webview/panel.ts",
-      "location": "src/webview/panel.ts:682:2"
+      "location": "src/webview/panel.ts:712:2"
     },
-    "src/webview/panel.ts:687:2": {
-      "scopeId": "src/webview/panel.ts:687:2",
+    "src/webview/panel.ts:717:2": {
+      "scopeId": "src/webview/panel.ts:717:2",
       "name": "GraphPanel.handleGoToDefinition",
       "kind": "method",
       "parentScopeId": "src/webview/panel.ts",
       "filePath": "src/webview/panel.ts",
-      "location": "src/webview/panel.ts:687:2"
+      "location": "src/webview/panel.ts:717:2"
     },
-    "src/webview/panel.ts:703:2": {
-      "scopeId": "src/webview/panel.ts:703:2",
+    "src/webview/panel.ts:741:2": {
+      "scopeId": "src/webview/panel.ts:741:2",
+      "name": "GraphPanel.buildExportSkeleton",
+      "kind": "method",
+      "parentScopeId": "src/webview/panel.ts",
+      "filePath": "src/webview/panel.ts",
+      "location": "src/webview/panel.ts:741:2"
+    },
+    "src/webview/panel.ts:757:2": {
+      "scopeId": "src/webview/panel.ts:757:2",
       "name": "GraphPanel.getWebviewContent",
       "kind": "method",
       "parentScopeId": "src/webview/panel.ts",
       "filePath": "src/webview/panel.ts",
-      "location": "src/webview/panel.ts:703:2"
+      "location": "src/webview/panel.ts:757:2"
     },
-    "src/webview/panel.ts:778:2": {
-      "scopeId": "src/webview/panel.ts:778:2",
+    "src/webview/panel.ts:854:79": {
+      "scopeId": "src/webview/panel.ts:854:79",
+      "name": "src/webview/panel.ts:854",
+      "kind": "arrow",
+      "parentScopeId": "src/webview/panel.ts:757:2",
+      "filePath": "src/webview/panel.ts",
+      "location": "src/webview/panel.ts:854:79"
+    },
+    "src/webview/panel.ts:858:2": {
+      "scopeId": "src/webview/panel.ts:858:2",
       "name": "GraphPanel.dispose",
       "kind": "method",
       "parentScopeId": "src/webview/panel.ts",
       "filePath": "src/webview/panel.ts",
-      "location": "src/webview/panel.ts:778:2"
+      "location": "src/webview/panel.ts:858:2"
     },
     "src/strategy/server.ts": {
       "scopeId": "src/strategy/server.ts",
@@ -3226,77 +3250,85 @@
       "filePath": "src/webview/appChannelPanel.ts",
       "location": "src/webview/appChannelPanel.ts:1:1"
     },
-    "src/webview/appChannelPanel.ts:37:2": {
-      "scopeId": "src/webview/appChannelPanel.ts:37:2",
+    "src/webview/appChannelPanel.ts:31:28": {
+      "scopeId": "src/webview/appChannelPanel.ts:31:28",
+      "name": "parseChannelTarget",
+      "kind": "arrow",
+      "parentScopeId": "src/webview/appChannelPanel.ts",
+      "filePath": "src/webview/appChannelPanel.ts",
+      "location": "src/webview/appChannelPanel.ts:31:28"
+    },
+    "src/webview/appChannelPanel.ts:68:2": {
+      "scopeId": "src/webview/appChannelPanel.ts:68:2",
       "name": "AppChannelPanel.setOrchestrator",
       "kind": "method",
       "parentScopeId": "src/webview/appChannelPanel.ts",
       "filePath": "src/webview/appChannelPanel.ts",
-      "location": "src/webview/appChannelPanel.ts:37:2"
+      "location": "src/webview/appChannelPanel.ts:68:2"
     },
-    "src/webview/appChannelPanel.ts:41:2": {
-      "scopeId": "src/webview/appChannelPanel.ts:41:2",
+    "src/webview/appChannelPanel.ts:72:2": {
+      "scopeId": "src/webview/appChannelPanel.ts:72:2",
       "name": "AppChannelPanel.createOrShow",
       "kind": "method",
       "parentScopeId": "src/webview/appChannelPanel.ts",
       "filePath": "src/webview/appChannelPanel.ts",
-      "location": "src/webview/appChannelPanel.ts:41:2"
+      "location": "src/webview/appChannelPanel.ts:72:2"
     },
-    "src/webview/appChannelPanel.ts:56:2": {
-      "scopeId": "src/webview/appChannelPanel.ts:56:2",
+    "src/webview/appChannelPanel.ts:87:2": {
+      "scopeId": "src/webview/appChannelPanel.ts:87:2",
       "name": "AppChannelPanel.constructor",
       "kind": "method",
       "parentScopeId": "src/webview/appChannelPanel.ts",
       "filePath": "src/webview/appChannelPanel.ts",
-      "location": "src/webview/appChannelPanel.ts:56:2"
+      "location": "src/webview/appChannelPanel.ts:87:2"
     },
-    "src/webview/appChannelPanel.ts:59:13": {
-      "scopeId": "src/webview/appChannelPanel.ts:59:13",
+    "src/webview/appChannelPanel.ts:90:13": {
+      "scopeId": "src/webview/appChannelPanel.ts:90:13",
       "name": "ingest",
       "kind": "arrow",
-      "parentScopeId": "src/webview/appChannelPanel.ts:56:2",
+      "parentScopeId": "src/webview/appChannelPanel.ts:87:2",
       "filePath": "src/webview/appChannelPanel.ts",
-      "location": "src/webview/appChannelPanel.ts:59:13"
+      "location": "src/webview/appChannelPanel.ts:90:13"
     },
-    "src/webview/appChannelPanel.ts:72:27": {
-      "scopeId": "src/webview/appChannelPanel.ts:72:27",
-      "name": "src/webview/appChannelPanel.ts:72",
+    "src/webview/appChannelPanel.ts:103:27": {
+      "scopeId": "src/webview/appChannelPanel.ts:103:27",
+      "name": "src/webview/appChannelPanel.ts:103",
       "kind": "arrow",
-      "parentScopeId": "src/webview/appChannelPanel.ts:56:2",
+      "parentScopeId": "src/webview/appChannelPanel.ts:87:2",
       "filePath": "src/webview/appChannelPanel.ts",
-      "location": "src/webview/appChannelPanel.ts:72:27"
+      "location": "src/webview/appChannelPanel.ts:103:27"
     },
-    "src/webview/appChannelPanel.ts:76:42": {
-      "scopeId": "src/webview/appChannelPanel.ts:76:42",
-      "name": "src/webview/appChannelPanel.ts:76",
+    "src/webview/appChannelPanel.ts:107:42": {
+      "scopeId": "src/webview/appChannelPanel.ts:107:42",
+      "name": "src/webview/appChannelPanel.ts:107",
       "kind": "arrow",
-      "parentScopeId": "src/webview/appChannelPanel.ts:56:2",
+      "parentScopeId": "src/webview/appChannelPanel.ts:87:2",
       "filePath": "src/webview/appChannelPanel.ts",
-      "location": "src/webview/appChannelPanel.ts:76:42"
+      "location": "src/webview/appChannelPanel.ts:107:42"
     },
-    "src/webview/appChannelPanel.ts:82:2": {
-      "scopeId": "src/webview/appChannelPanel.ts:82:2",
+    "src/webview/appChannelPanel.ts:113:2": {
+      "scopeId": "src/webview/appChannelPanel.ts:113:2",
       "name": "AppChannelPanel.handleMessage",
       "kind": "method",
       "parentScopeId": "src/webview/appChannelPanel.ts",
       "filePath": "src/webview/appChannelPanel.ts",
-      "location": "src/webview/appChannelPanel.ts:82:2"
+      "location": "src/webview/appChannelPanel.ts:113:2"
     },
-    "src/webview/appChannelPanel.ts:112:2": {
-      "scopeId": "src/webview/appChannelPanel.ts:112:2",
+    "src/webview/appChannelPanel.ts:154:2": {
+      "scopeId": "src/webview/appChannelPanel.ts:154:2",
       "name": "AppChannelPanel.pushState",
       "kind": "method",
       "parentScopeId": "src/webview/appChannelPanel.ts",
       "filePath": "src/webview/appChannelPanel.ts",
-      "location": "src/webview/appChannelPanel.ts:112:2"
+      "location": "src/webview/appChannelPanel.ts:154:2"
     },
-    "src/webview/appChannelPanel.ts:117:2": {
-      "scopeId": "src/webview/appChannelPanel.ts:117:2",
+    "src/webview/appChannelPanel.ts:159:2": {
+      "scopeId": "src/webview/appChannelPanel.ts:159:2",
       "name": "AppChannelPanel.getHtml",
       "kind": "method",
       "parentScopeId": "src/webview/appChannelPanel.ts",
       "filePath": "src/webview/appChannelPanel.ts",
-      "location": "src/webview/appChannelPanel.ts:117:2"
+      "location": "src/webview/appChannelPanel.ts:159:2"
     },
     "src/strategy/selfTrace.ts": {
       "scopeId": "src/strategy/selfTrace.ts",
@@ -12912,24 +12944,24 @@
     },
     {
       "name": "event",
-      "scopeId": "src/webview/panel.ts:503:4",
-      "declaration": "src/webview/panel.ts:503:5",
+      "scopeId": "src/webview/panel.ts:512:4",
+      "declaration": "src/webview/panel.ts:512:5",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "graphData",
-      "scopeId": "src/webview/panel.ts:522:2",
-      "declaration": "src/webview/panel.ts:523:9",
+      "scopeId": "src/webview/panel.ts:531:2",
+      "declaration": "src/webview/panel.ts:532:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "on",
-      "scopeId": "src/webview/panel.ts:534:2",
-      "declaration": "src/webview/panel.ts:534:28",
+      "scopeId": "src/webview/panel.ts:543:2",
+      "declaration": "src/webview/panel.ts:543:28",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -12937,16 +12969,16 @@
     },
     {
       "name": "watcher",
-      "scopeId": "src/webview/panel.ts:534:2",
-      "declaration": "src/webview/panel.ts:542:9",
+      "scopeId": "src/webview/panel.ts:543:2",
+      "declaration": "src/webview/panel.ts:551:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "graphData",
-      "scopeId": "src/webview/panel.ts:554:2",
-      "declaration": "src/webview/panel.ts:554:23",
+      "scopeId": "src/webview/panel.ts:563:2",
+      "declaration": "src/webview/panel.ts:563:23",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -12954,64 +12986,64 @@
     },
     {
       "name": "layout",
-      "scopeId": "src/webview/panel.ts:554:2",
-      "declaration": "src/webview/panel.ts:557:9",
+      "scopeId": "src/webview/panel.ts:563:2",
+      "declaration": "src/webview/panel.ts:566:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "cameraData",
-      "scopeId": "src/webview/panel.ts:554:2",
-      "declaration": "src/webview/panel.ts:561:9",
+      "scopeId": "src/webview/panel.ts:563:2",
+      "declaration": "src/webview/panel.ts:570:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "filePath",
-      "scopeId": "src/webview/panel.ts:576:2",
-      "declaration": "src/webview/panel.ts:577:9",
+      "scopeId": "src/webview/panel.ts:585:2",
+      "declaration": "src/webview/panel.ts:586:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "filePath",
-      "scopeId": "src/webview/panel.ts:581:2",
-      "declaration": "src/webview/panel.ts:582:9",
+      "scopeId": "src/webview/panel.ts:590:2",
+      "declaration": "src/webview/panel.ts:591:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "parsed",
-      "scopeId": "src/webview/panel.ts:581:2",
-      "declaration": "src/webview/panel.ts:587:10",
+      "scopeId": "src/webview/panel.ts:590:2",
+      "declaration": "src/webview/panel.ts:596:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "hierarchyPath",
-      "scopeId": "src/webview/panel.ts:581:2",
-      "declaration": "src/webview/panel.ts:591:10",
+      "scopeId": "src/webview/panel.ts:590:2",
+      "declaration": "src/webview/panel.ts:600:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "savedAtMs",
-      "scopeId": "src/webview/panel.ts:581:2",
-      "declaration": "src/webview/panel.ts:593:11",
+      "scopeId": "src/webview/panel.ts:590:2",
+      "declaration": "src/webview/panel.ts:602:11",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "data",
-      "scopeId": "src/webview/panel.ts:606:2",
-      "declaration": "src/webview/panel.ts:606:34",
+      "scopeId": "src/webview/panel.ts:615:2",
+      "declaration": "src/webview/panel.ts:615:34",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -13019,24 +13051,41 @@
     },
     {
       "name": "filePath",
-      "scopeId": "src/webview/panel.ts:606:2",
-      "declaration": "src/webview/panel.ts:607:9",
+      "scopeId": "src/webview/panel.ts:615:2",
+      "declaration": "src/webview/panel.ts:616:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "cameraData",
-      "scopeId": "src/webview/panel.ts:606:2",
-      "declaration": "src/webview/panel.ts:612:10",
+      "scopeId": "src/webview/panel.ts:615:2",
+      "declaration": "src/webview/panel.ts:621:10",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "html",
+      "scopeId": "src/webview/panel.ts:636:2",
+      "declaration": "src/webview/panel.ts:636:34",
+      "isParameter": true,
+      "isMutable": true,
+      "reassignments": [],
+      "inferredType": "string"
+    },
+    {
+      "name": "target",
+      "scopeId": "src/webview/panel.ts:636:2",
+      "declaration": "src/webview/panel.ts:637:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "id",
-      "scopeId": "src/webview/panel.ts:632:2",
-      "declaration": "src/webview/panel.ts:632:21",
+      "scopeId": "src/webview/panel.ts:662:2",
+      "declaration": "src/webview/panel.ts:662:21",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -13044,8 +13093,8 @@
     },
     {
       "name": "name",
-      "scopeId": "src/webview/panel.ts:632:2",
-      "declaration": "src/webview/panel.ts:632:33",
+      "scopeId": "src/webview/panel.ts:662:2",
+      "declaration": "src/webview/panel.ts:662:33",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -13053,56 +13102,56 @@
     },
     {
       "name": "scene",
-      "scopeId": "src/webview/panel.ts:632:2",
-      "declaration": "src/webview/panel.ts:633:9",
+      "scopeId": "src/webview/panel.ts:662:2",
+      "declaration": "src/webview/panel.ts:663:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "chain",
-      "scopeId": "src/webview/panel.ts:632:2",
-      "declaration": "src/webview/panel.ts:635:9",
+      "scopeId": "src/webview/panel.ts:662:2",
+      "declaration": "src/webview/panel.ts:665:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "segment",
-      "scopeId": "src/webview/panel.ts:635:35",
-      "declaration": "src/webview/panel.ts:635:36",
+      "scopeId": "src/webview/panel.ts:665:35",
+      "declaration": "src/webview/panel.ts:665:36",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "index",
-      "scopeId": "src/webview/panel.ts:635:35",
-      "declaration": "src/webview/panel.ts:635:45",
+      "scopeId": "src/webview/panel.ts:665:35",
+      "declaration": "src/webview/panel.ts:665:45",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "parts",
-      "scopeId": "src/webview/panel.ts:635:35",
-      "declaration": "src/webview/panel.ts:635:52",
+      "scopeId": "src/webview/panel.ts:665:35",
+      "declaration": "src/webview/panel.ts:665:52",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "sphere",
-      "scopeId": "src/webview/panel.ts:632:2",
-      "declaration": "src/webview/panel.ts:640:9",
+      "scopeId": "src/webview/panel.ts:662:2",
+      "declaration": "src/webview/panel.ts:670:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "data",
-      "scopeId": "src/webview/panel.ts:650:2",
-      "declaration": "src/webview/panel.ts:650:25",
+      "scopeId": "src/webview/panel.ts:680:2",
+      "declaration": "src/webview/panel.ts:680:25",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -13110,24 +13159,24 @@
     },
     {
       "name": "scene",
-      "scopeId": "src/webview/panel.ts:650:2",
-      "declaration": "src/webview/panel.ts:651:9",
+      "scopeId": "src/webview/panel.ts:680:2",
+      "declaration": "src/webview/panel.ts:681:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "state",
-      "scopeId": "src/webview/panel.ts:650:2",
-      "declaration": "src/webview/panel.ts:653:9",
+      "scopeId": "src/webview/panel.ts:680:2",
+      "declaration": "src/webview/panel.ts:683:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "num",
-      "scopeId": "src/webview/panel.ts:650:2",
-      "declaration": "src/webview/panel.ts:657:9",
+      "scopeId": "src/webview/panel.ts:680:2",
+      "declaration": "src/webview/panel.ts:687:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -13135,8 +13184,8 @@
     },
     {
       "name": "value",
-      "scopeId": "src/webview/panel.ts:657:15",
-      "declaration": "src/webview/panel.ts:657:16",
+      "scopeId": "src/webview/panel.ts:687:15",
+      "declaration": "src/webview/panel.ts:687:16",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -13144,40 +13193,40 @@
     },
     {
       "name": "n",
-      "scopeId": "src/webview/panel.ts:657:15",
-      "declaration": "src/webview/panel.ts:658:10",
+      "scopeId": "src/webview/panel.ts:687:15",
+      "declaration": "src/webview/panel.ts:688:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "cam",
-      "scopeId": "src/webview/panel.ts:650:2",
-      "declaration": "src/webview/panel.ts:662:10",
+      "scopeId": "src/webview/panel.ts:680:2",
+      "declaration": "src/webview/panel.ts:692:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "focused",
-      "scopeId": "src/webview/panel.ts:650:2",
-      "declaration": "src/webview/panel.ts:672:9",
+      "scopeId": "src/webview/panel.ts:680:2",
+      "declaration": "src/webview/panel.ts:702:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "scene",
-      "scopeId": "src/webview/panel.ts:682:2",
-      "declaration": "src/webview/panel.ts:683:9",
+      "scopeId": "src/webview/panel.ts:712:2",
+      "declaration": "src/webview/panel.ts:713:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "location",
-      "scopeId": "src/webview/panel.ts:687:2",
-      "declaration": "src/webview/panel.ts:687:38",
+      "scopeId": "src/webview/panel.ts:717:2",
+      "declaration": "src/webview/panel.ts:717:38",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -13185,32 +13234,86 @@
     },
     {
       "name": "document",
-      "scopeId": "src/webview/panel.ts:687:2",
-      "declaration": "src/webview/panel.ts:693:10",
+      "scopeId": "src/webview/panel.ts:717:2",
+      "declaration": "src/webview/panel.ts:723:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "editor",
-      "scopeId": "src/webview/panel.ts:687:2",
-      "declaration": "src/webview/panel.ts:694:10",
+      "scopeId": "src/webview/panel.ts:717:2",
+      "declaration": "src/webview/panel.ts:724:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "position",
-      "scopeId": "src/webview/panel.ts:687:2",
-      "declaration": "src/webview/panel.ts:695:10",
+      "scopeId": "src/webview/panel.ts:717:2",
+      "declaration": "src/webview/panel.ts:725:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
+      "name": "html",
+      "scopeId": "src/webview/panel.ts:741:2",
+      "declaration": "src/webview/panel.ts:742:3",
+      "isParameter": true,
+      "isMutable": true,
+      "reassignments": [],
+      "inferredType": "string"
+    },
+    {
+      "name": "styleUri",
+      "scopeId": "src/webview/panel.ts:741:2",
+      "declaration": "src/webview/panel.ts:743:3",
+      "isParameter": true,
+      "isMutable": true,
+      "reassignments": [],
+      "inferredType": "string"
+    },
+    {
+      "name": "d3Uri",
+      "scopeId": "src/webview/panel.ts:741:2",
+      "declaration": "src/webview/panel.ts:744:3",
+      "isParameter": true,
+      "isMutable": true,
+      "reassignments": [],
+      "inferredType": "string"
+    },
+    {
+      "name": "threeUri",
+      "scopeId": "src/webview/panel.ts:741:2",
+      "declaration": "src/webview/panel.ts:745:3",
+      "isParameter": true,
+      "isMutable": true,
+      "reassignments": [],
+      "inferredType": "string"
+    },
+    {
+      "name": "scriptUri",
+      "scopeId": "src/webview/panel.ts:741:2",
+      "declaration": "src/webview/panel.ts:746:3",
+      "isParameter": true,
+      "isMutable": true,
+      "reassignments": [],
+      "inferredType": "string"
+    },
+    {
+      "name": "configScript",
+      "scopeId": "src/webview/panel.ts:741:2",
+      "declaration": "src/webview/panel.ts:747:3",
+      "isParameter": true,
+      "isMutable": true,
+      "reassignments": [],
+      "inferredType": "string"
+    },
+    {
       "name": "extensionUri",
-      "scopeId": "src/webview/panel.ts:703:2",
-      "declaration": "src/webview/panel.ts:703:29",
+      "scopeId": "src/webview/panel.ts:757:2",
+      "declaration": "src/webview/panel.ts:757:29",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -13218,40 +13321,40 @@
     },
     {
       "name": "config",
-      "scopeId": "src/webview/panel.ts:703:2",
-      "declaration": "src/webview/panel.ts:704:9",
+      "scopeId": "src/webview/panel.ts:757:2",
+      "declaration": "src/webview/panel.ts:758:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "showProperties",
-      "scopeId": "src/webview/panel.ts:703:2",
-      "declaration": "src/webview/panel.ts:705:9",
+      "scopeId": "src/webview/panel.ts:757:2",
+      "declaration": "src/webview/panel.ts:759:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "styleUri",
-      "scopeId": "src/webview/panel.ts:703:2",
-      "declaration": "src/webview/panel.ts:708:9",
+      "scopeId": "src/webview/panel.ts:757:2",
+      "declaration": "src/webview/panel.ts:762:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "scriptUri",
-      "scopeId": "src/webview/panel.ts:703:2",
-      "declaration": "src/webview/panel.ts:711:9",
+      "scopeId": "src/webview/panel.ts:757:2",
+      "declaration": "src/webview/panel.ts:765:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "d3Uri",
-      "scopeId": "src/webview/panel.ts:703:2",
-      "declaration": "src/webview/panel.ts:716:9",
+      "scopeId": "src/webview/panel.ts:757:2",
+      "declaration": "src/webview/panel.ts:770:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -13259,17 +13362,60 @@
     },
     {
       "name": "threeUri",
-      "scopeId": "src/webview/panel.ts:703:2",
-      "declaration": "src/webview/panel.ts:718:9",
+      "scopeId": "src/webview/panel.ts:757:2",
+      "declaration": "src/webview/panel.ts:772:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
       "inferredType": "string"
     },
     {
+      "name": "configScript",
+      "scopeId": "src/webview/panel.ts:757:2",
+      "declaration": "src/webview/panel.ts:777:9",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": [],
+      "inferredType": "string"
+    },
+    {
+      "name": "withSkeletonSlot",
+      "scopeId": "src/webview/panel.ts:757:2",
+      "declaration": "src/webview/panel.ts:794:9",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": [],
+      "inferredType": "string"
+    },
+    {
+      "name": "skeleton",
+      "scopeId": "src/webview/panel.ts:757:2",
+      "declaration": "src/webview/panel.ts:850:9",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "skeletonScript",
+      "scopeId": "src/webview/panel.ts:757:2",
+      "declaration": "src/webview/panel.ts:853:9",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": [],
+      "inferredType": "string"
+    },
+    {
+      "name": "result",
+      "scopeId": "src/webview/panel.ts:757:2",
+      "declaration": "src/webview/panel.ts:854:9",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
       "name": "x",
-      "scopeId": "src/webview/panel.ts:778:2",
-      "declaration": "src/webview/panel.ts:793:10",
+      "scopeId": "src/webview/panel.ts:858:2",
+      "declaration": "src/webview/panel.ts:873:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
@@ -14359,9 +14505,68 @@
       "inferredType": "AppChannelStatus"
     },
     {
+      "name": "parseChannelTarget",
+      "scopeId": "src/webview/appChannelPanel.ts",
+      "declaration": "src/webview/appChannelPanel.ts:31:7",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": [],
+      "inferredType": "function"
+    },
+    {
+      "name": "raw",
+      "scopeId": "src/webview/appChannelPanel.ts:31:28",
+      "declaration": "src/webview/appChannelPanel.ts:31:29",
+      "isParameter": true,
+      "isMutable": true,
+      "reassignments": [],
+      "inferredType": "string"
+    },
+    {
+      "name": "text",
+      "scopeId": "src/webview/appChannelPanel.ts:31:28",
+      "declaration": "src/webview/appChannelPanel.ts:32:8",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "url",
+      "scopeId": "src/webview/appChannelPanel.ts:31:28",
+      "declaration": "src/webview/appChannelPanel.ts:38:10",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": [],
+      "inferredType": "URL"
+    },
+    {
+      "name": "token",
+      "scopeId": "src/webview/appChannelPanel.ts:31:28",
+      "declaration": "src/webview/appChannelPanel.ts:39:10",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "result",
+      "scopeId": "src/webview/appChannelPanel.ts:31:28",
+      "declaration": "src/webview/appChannelPanel.ts:52:10",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "parsed",
+      "scopeId": "src/webview/appChannelPanel.ts:31:28",
+      "declaration": "src/webview/appChannelPanel.ts:50:9",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
       "name": "orchestrator",
-      "scopeId": "src/webview/appChannelPanel.ts:37:2",
-      "declaration": "src/webview/appChannelPanel.ts:37:26",
+      "scopeId": "src/webview/appChannelPanel.ts:68:2",
+      "declaration": "src/webview/appChannelPanel.ts:68:26",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -14369,16 +14574,16 @@
     },
     {
       "name": "panel",
-      "scopeId": "src/webview/appChannelPanel.ts:41:2",
-      "declaration": "src/webview/appChannelPanel.ts:47:9",
+      "scopeId": "src/webview/appChannelPanel.ts:72:2",
+      "declaration": "src/webview/appChannelPanel.ts:78:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "panel",
-      "scopeId": "src/webview/appChannelPanel.ts:56:2",
-      "declaration": "src/webview/appChannelPanel.ts:56:23",
+      "scopeId": "src/webview/appChannelPanel.ts:87:2",
+      "declaration": "src/webview/appChannelPanel.ts:87:23",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -14386,8 +14591,8 @@
     },
     {
       "name": "edges",
-      "scopeId": "src/webview/appChannelPanel.ts:59:13",
-      "declaration": "src/webview/appChannelPanel.ts:59:14",
+      "scopeId": "src/webview/appChannelPanel.ts:90:13",
+      "declaration": "src/webview/appChannelPanel.ts:90:14",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -14395,8 +14600,8 @@
     },
     {
       "name": "session",
-      "scopeId": "src/webview/appChannelPanel.ts:59:13",
-      "declaration": "src/webview/appChannelPanel.ts:59:32",
+      "scopeId": "src/webview/appChannelPanel.ts:90:13",
+      "declaration": "src/webview/appChannelPanel.ts:90:32",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -14404,24 +14609,24 @@
     },
     {
       "name": "orchestrator",
-      "scopeId": "src/webview/appChannelPanel.ts:59:13",
-      "declaration": "src/webview/appChannelPanel.ts:60:11",
+      "scopeId": "src/webview/appChannelPanel.ts:90:13",
+      "declaration": "src/webview/appChannelPanel.ts:91:11",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "result",
-      "scopeId": "src/webview/appChannelPanel.ts:59:13",
-      "declaration": "src/webview/appChannelPanel.ts:65:11",
+      "scopeId": "src/webview/appChannelPanel.ts:90:13",
+      "declaration": "src/webview/appChannelPanel.ts:96:11",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "message",
-      "scopeId": "src/webview/appChannelPanel.ts:76:42",
-      "declaration": "src/webview/appChannelPanel.ts:76:43",
+      "scopeId": "src/webview/appChannelPanel.ts:107:42",
+      "declaration": "src/webview/appChannelPanel.ts:107:43",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -14429,8 +14634,8 @@
     },
     {
       "name": "message",
-      "scopeId": "src/webview/appChannelPanel.ts:82:2",
-      "declaration": "src/webview/appChannelPanel.ts:82:31",
+      "scopeId": "src/webview/appChannelPanel.ts:113:2",
+      "declaration": "src/webview/appChannelPanel.ts:113:31",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -14438,24 +14643,32 @@
     },
     {
       "name": "m",
-      "scopeId": "src/webview/appChannelPanel.ts:82:2",
-      "declaration": "src/webview/appChannelPanel.ts:90:10",
+      "scopeId": "src/webview/appChannelPanel.ts:113:2",
+      "declaration": "src/webview/appChannelPanel.ts:132:10",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "parsed",
+      "scopeId": "src/webview/appChannelPanel.ts:113:2",
+      "declaration": "src/webview/appChannelPanel.ts:118:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "discovery",
-      "scopeId": "src/webview/appChannelPanel.ts:82:2",
-      "declaration": "src/webview/appChannelPanel.ts:92:11",
+      "scopeId": "src/webview/appChannelPanel.ts:113:2",
+      "declaration": "src/webview/appChannelPanel.ts:134:11",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "url",
-      "scopeId": "src/webview/appChannelPanel.ts:82:2",
-      "declaration": "src/webview/appChannelPanel.ts:97:11",
+      "scopeId": "src/webview/appChannelPanel.ts:113:2",
+      "declaration": "src/webview/appChannelPanel.ts:139:11",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -14463,40 +14676,40 @@
     },
     {
       "name": "text",
-      "scopeId": "src/webview/appChannelPanel.ts:82:2",
-      "declaration": "src/webview/appChannelPanel.ts:100:11",
+      "scopeId": "src/webview/appChannelPanel.ts:113:2",
+      "declaration": "src/webview/appChannelPanel.ts:142:11",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "status",
-      "scopeId": "src/webview/appChannelPanel.ts:112:2",
-      "declaration": "src/webview/appChannelPanel.ts:113:9",
+      "scopeId": "src/webview/appChannelPanel.ts:154:2",
+      "declaration": "src/webview/appChannelPanel.ts:155:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "config",
-      "scopeId": "src/webview/appChannelPanel.ts:117:2",
-      "declaration": "src/webview/appChannelPanel.ts:118:9",
+      "scopeId": "src/webview/appChannelPanel.ts:159:2",
+      "declaration": "src/webview/appChannelPanel.ts:160:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "defaultDiscovery",
-      "scopeId": "src/webview/appChannelPanel.ts:117:2",
-      "declaration": "src/webview/appChannelPanel.ts:119:9",
+      "scopeId": "src/webview/appChannelPanel.ts:159:2",
+      "declaration": "src/webview/appChannelPanel.ts:161:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "html",
-      "scopeId": "src/webview/appChannelPanel.ts:117:2",
-      "declaration": "src/webview/appChannelPanel.ts:120:9",
+      "scopeId": "src/webview/appChannelPanel.ts:159:2",
+      "declaration": "src/webview/appChannelPanel.ts:162:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],

@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-09-27T20:53:04.662Z",
+  "generatedAt": "2026-09-28T01:29:03.602Z",
   "flow": {
     "LoggerService": [
       {
@@ -4006,6 +4006,12 @@
         "targetType": "Set"
       },
       {
+        "location": "src/webview/panel.ts:855:3",
+        "kind": "return",
+        "code": "return result;",
+        "targetType": "Set"
+      },
+      {
         "location": "src/strategy/server.ts:498:7",
         "kind": "propertyRead",
         "code": "result.sessionReset",
@@ -5095,7 +5101,7 @@
         "context": "new expression"
       },
       {
-        "location": "src/webview/panel.ts:695:21",
+        "location": "src/webview/panel.ts:725:21",
         "kind": "instantiation",
         "code": "new vscode.Position(location.line - 1, location.column - 1)",
         "context": "new expression"
@@ -5509,77 +5515,77 @@
         "targetType": "collection_2::Scene3D"
       },
       {
-        "location": "src/webview/panel.ts:639:3",
+        "location": "src/webview/panel.ts:669:3",
         "kind": "propertyWrite",
         "code": "scene.tube = new scene.Tube3D({ id, chain })",
         "propertyName": "tube",
         "targetType": "collection_2::Scene3D"
       },
       {
-        "location": "src/webview/panel.ts:639:3",
+        "location": "src/webview/panel.ts:669:3",
         "kind": "propertyRead",
         "code": "scene.tube",
         "propertyName": "tube",
         "targetType": "collection_2::Scene3D"
       },
       {
-        "location": "src/webview/panel.ts:639:20",
+        "location": "src/webview/panel.ts:669:20",
         "kind": "propertyRead",
         "code": "scene.Tube3D",
         "propertyName": "Tube3D",
         "targetType": "collection_2::Scene3D"
       },
       {
-        "location": "src/webview/panel.ts:640:18",
+        "location": "src/webview/panel.ts:670:18",
         "kind": "methodCall",
         "code": "scene.getNode(id)",
         "propertyName": "getNode",
         "targetType": "collection_2::Scene3D"
       },
       {
-        "location": "src/webview/panel.ts:640:18",
+        "location": "src/webview/panel.ts:670:18",
         "kind": "propertyRead",
         "code": "scene.getNode",
         "propertyName": "getNode",
         "targetType": "collection_2::Scene3D"
       },
       {
-        "location": "src/webview/panel.ts:642:4",
+        "location": "src/webview/panel.ts:672:4",
         "kind": "propertyWrite",
         "code": "scene.tooltip = new sphere.Tooltip3D({ targetNode: id, content: name, visible: true })",
         "propertyName": "tooltip",
         "targetType": "collection_2::Scene3D"
       },
       {
-        "location": "src/webview/panel.ts:642:4",
+        "location": "src/webview/panel.ts:672:4",
         "kind": "propertyRead",
         "code": "scene.tooltip",
         "propertyName": "tooltip",
         "targetType": "collection_2::Scene3D"
       },
       {
-        "location": "src/webview/panel.ts:663:4",
+        "location": "src/webview/panel.ts:693:4",
         "kind": "propertyWrite",
         "code": "scene.camera = new scene.Camera3D({\n\t\t\t\tx         : num(cam.pan?.x),\n\t\t\t\ty         : num(cam.pan?.y)",
         "propertyName": "camera",
         "targetType": "collection_2::Scene3D"
       },
       {
-        "location": "src/webview/panel.ts:663:4",
+        "location": "src/webview/panel.ts:693:4",
         "kind": "propertyRead",
         "code": "scene.camera",
         "propertyName": "camera",
         "targetType": "collection_2::Scene3D"
       },
       {
-        "location": "src/webview/panel.ts:663:23",
+        "location": "src/webview/panel.ts:693:23",
         "kind": "propertyRead",
         "code": "scene.Camera3D",
         "propertyName": "Camera3D",
         "targetType": "collection_2::Scene3D"
       },
       {
-        "location": "src/webview/panel.ts:684:3",
+        "location": "src/webview/panel.ts:714:3",
         "kind": "return",
         "code": "return scene;",
         "targetType": "collection_2::Scene3D"
@@ -5600,7 +5606,7 @@
         "context": "arg 1 to addNode"
       },
       {
-        "location": "src/webview/panel.ts:642:24",
+        "location": "src/webview/panel.ts:672:24",
         "kind": "propertyRead",
         "code": "sphere.Tooltip3D",
         "propertyName": "Tooltip3D",
@@ -5977,14 +5983,26 @@
         "targetType": "Promise"
       },
       {
-        "location": "src/webview/appChannelPanel.ts:66:5",
+        "location": "src/webview/appChannelPanel.ts:44:4",
+        "kind": "return",
+        "code": "return result;",
+        "targetType": "Promise"
+      },
+      {
+        "location": "src/webview/appChannelPanel.ts:53:4",
+        "kind": "return",
+        "code": "return result;",
+        "targetType": "Promise"
+      },
+      {
+        "location": "src/webview/appChannelPanel.ts:97:5",
         "kind": "passAsArg",
         "code": "GraphPanel.pushTraceEdges(result.edges)",
         "targetType": "Promise",
         "context": "arg 0 to pushTraceEdges"
       },
       {
-        "location": "src/webview/appChannelPanel.ts:66:31",
+        "location": "src/webview/appChannelPanel.ts:97:31",
         "kind": "propertyRead",
         "code": "result.edges",
         "propertyName": "edges",
@@ -6007,34 +6025,34 @@
     ],
     "vscode.RelativePattern": [
       {
-        "location": "src/webview/panel.ts:543:4",
+        "location": "src/webview/panel.ts:552:4",
         "kind": "instantiation",
         "code": "new vscode.RelativePattern(this.sourceRoot, '.tactica/types.ts')",
         "context": "new expression"
       },
       {
-        "location": "src/webview/panel.ts:545:3",
+        "location": "src/webview/panel.ts:554:3",
         "kind": "methodCall",
         "code": "watcher.onDidChange(() => {\n\t\t\tvoid this.reloadGraph();\n\t\t})",
         "propertyName": "onDidChange",
         "targetType": "vscode.RelativePattern"
       },
       {
-        "location": "src/webview/panel.ts:545:3",
+        "location": "src/webview/panel.ts:554:3",
         "kind": "propertyRead",
         "code": "watcher.onDidChange",
         "propertyName": "onDidChange",
         "targetType": "vscode.RelativePattern"
       },
       {
-        "location": "src/webview/panel.ts:548:3",
+        "location": "src/webview/panel.ts:557:3",
         "kind": "methodCall",
         "code": "watcher.onDidCreate(() => {\n\t\t\tvoid this.reloadGraph();\n\t\t})",
         "propertyName": "onDidCreate",
         "targetType": "vscode.RelativePattern"
       },
       {
-        "location": "src/webview/panel.ts:548:3",
+        "location": "src/webview/panel.ts:557:3",
         "kind": "propertyRead",
         "code": "watcher.onDidCreate",
         "propertyName": "onDidCreate",
@@ -6078,19 +6096,19 @@
     ],
     "collection_2::Scene3D.Camera3D": [
       {
-        "location": "src/webview/panel.ts:563:24",
+        "location": "src/webview/panel.ts:572:24",
         "kind": "instantiation",
         "code": "new this.scene.Camera3D(cameraData)",
         "context": "new expression"
       },
       {
-        "location": "src/webview/panel.ts:614:25",
+        "location": "src/webview/panel.ts:623:25",
         "kind": "instantiation",
         "code": "new this.scene.Camera3D(cameraData)",
         "context": "new expression"
       },
       {
-        "location": "src/webview/panel.ts:663:19",
+        "location": "src/webview/panel.ts:693:19",
         "kind": "instantiation",
         "code": "new scene.Camera3D({\n\t\t\t\tx         : num(cam.pan?.x),\n\t\t\t\ty         : num(cam.pan?.y),\n\t\t\t\tz        ",
         "context": "new expression"
@@ -6098,7 +6116,7 @@
     ],
     "collection_2::Scene3D.Tube3D": [
       {
-        "location": "src/webview/panel.ts:639:16",
+        "location": "src/webview/panel.ts:669:16",
         "kind": "instantiation",
         "code": "new scene.Tube3D({ id, chain })",
         "context": "new expression"
@@ -6106,7 +6124,7 @@
     ],
     "collection_2::Scene3D.GraphNode3D.Tooltip3D": [
       {
-        "location": "src/webview/panel.ts:642:20",
+        "location": "src/webview/panel.ts:672:20",
         "kind": "instantiation",
         "code": "new sphere.Tooltip3D({ targetNode: id, content: name, visible: true })",
         "context": "new expression"
@@ -6114,7 +6132,7 @@
     ],
     "vscode.Selection": [
       {
-        "location": "src/webview/panel.ts:696:23",
+        "location": "src/webview/panel.ts:726:23",
         "kind": "instantiation",
         "code": "new vscode.Selection(position, position)",
         "context": "new expression"
@@ -6134,7 +6152,7 @@
     ],
     "vscode.Range": [
       {
-        "location": "src/webview/panel.ts:697:23",
+        "location": "src/webview/panel.ts:727:23",
         "kind": "instantiation",
         "code": "new vscode.Range(position, position)",
         "context": "new expression"
@@ -6188,9 +6206,86 @@
         "context": "new expression"
       }
     ],
+    "URL": [
+      {
+        "location": "src/webview/appChannelPanel.ts:38:16",
+        "kind": "instantiation",
+        "code": "new URL(text)",
+        "context": "new expression"
+      },
+      {
+        "location": "src/webview/appChannelPanel.ts:39:18",
+        "kind": "methodCall",
+        "code": "url.searchParams.get('token')",
+        "propertyName": "get",
+        "targetType": "URL"
+      },
+      {
+        "location": "src/webview/appChannelPanel.ts:39:18",
+        "kind": "propertyRead",
+        "code": "url.searchParams.get",
+        "propertyName": "get",
+        "targetType": "URL"
+      },
+      {
+        "location": "src/webview/appChannelPanel.ts:39:18",
+        "kind": "propertyRead",
+        "code": "url.searchParams",
+        "propertyName": "searchParams",
+        "targetType": "URL"
+      },
+      {
+        "location": "src/webview/appChannelPanel.ts:40:9",
+        "kind": "propertyRead",
+        "code": "url.hostname",
+        "propertyName": "hostname",
+        "targetType": "URL"
+      },
+      {
+        "location": "src/webview/appChannelPanel.ts:43:27",
+        "kind": "propertyRead",
+        "code": "url.hostname",
+        "propertyName": "hostname",
+        "targetType": "URL"
+      },
+      {
+        "location": "src/webview/appChannelPanel.ts:43:47",
+        "kind": "passAsArg",
+        "code": "Number(url.port)",
+        "targetType": "URL",
+        "context": "arg 0 to Number"
+      },
+      {
+        "location": "src/webview/appChannelPanel.ts:43:54",
+        "kind": "propertyRead",
+        "code": "url.port",
+        "propertyName": "port",
+        "targetType": "URL"
+      },
+      {
+        "location": "src/webview/appChannelPanel.ts:139:17",
+        "kind": "instantiation",
+        "code": "new URL(m.url)",
+        "context": "new expression"
+      },
+      {
+        "location": "src/webview/appChannelPanel.ts:140:11",
+        "kind": "passAsArg",
+        "code": "this.client.connect(url.hostname, discovery.port, discovery.token, discovery.pid)",
+        "targetType": "URL",
+        "context": "arg 0 to connect"
+      },
+      {
+        "location": "src/webview/appChannelPanel.ts:140:31",
+        "kind": "propertyRead",
+        "code": "url.hostname",
+        "propertyName": "hostname",
+        "targetType": "URL"
+      }
+    ],
     "AppChannelPanel": [
       {
-        "location": "src/webview/appChannelPanel.ts:53:29",
+        "location": "src/webview/appChannelPanel.ts:84:29",
         "kind": "instantiation",
         "code": "new AppChannelPanel(panel)",
         "context": "new expression"
@@ -6198,32 +6293,10 @@
     ],
     "AppChannelClient": [
       {
-        "location": "src/webview/appChannelPanel.ts:58:17",
+        "location": "src/webview/appChannelPanel.ts:89:17",
         "kind": "instantiation",
         "code": "new AppChannelClient({\n\t\t\tingest : (edges: unknown[], session: string) => {\n\t\t\t\tconst orchestrator =",
         "context": "new expression"
-      }
-    ],
-    "URL": [
-      {
-        "location": "src/webview/appChannelPanel.ts:97:17",
-        "kind": "instantiation",
-        "code": "new URL(m.url)",
-        "context": "new expression"
-      },
-      {
-        "location": "src/webview/appChannelPanel.ts:98:11",
-        "kind": "passAsArg",
-        "code": "this.client.connect(url.hostname, discovery.port, discovery.token, discovery.pid)",
-        "targetType": "URL",
-        "context": "arg 0 to connect"
-      },
-      {
-        "location": "src/webview/appChannelPanel.ts:98:31",
-        "kind": "propertyRead",
-        "code": "url.hostname",
-        "propertyName": "hostname",
-        "targetType": "URL"
       }
     ],
     "MnemonicaTreeProvider": [
