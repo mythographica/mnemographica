@@ -1,70 +1,473 @@
 {
-  "version": "1.0",
-  "generatedAt": "2026-09-28T01:30:47.094Z",
+  "version": "1.2",
+  "generatedAt": "2026-10-12T05:56:53.036Z",
   "definitions": {
-    "collection_1::Instrumentation": {
-      "name": "Instrumentation",
-      "location": "src/models/Instrumentation.ts:58:40",
+    "collection_1::Control": {
+      "name": "Control",
+      "location": "src/models/Control.ts:67:32",
       "kind": "define",
       "parent": null,
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "createdAt",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "size",
+          "type": "void",
+          "optional": false
+        },
+        {
+          "name": "all",
+          "type": "() => Array<BackendRegistry_Control_ControlPoint>",
+          "optional": false
+        },
+        {
+          "name": "set",
+          "type": "(points: Array<BackendRegistry_Control_ControlPoint>) => void",
+          "optional": false
+        },
+        {
+          "name": "setCallers",
+          "type": "(callers: { nodes: Array<{ scopeId: string; name: string; kind: string; filePath: string; location: string; starter: boolean }>; edges: Array<{ caller: string; callee: string }>; anchors: Array<{ location: string; holderScopeId: string; typePath: string; constructorText?: string; rooted?: boolean; variable?: string; terminatedAt?: string }> }) => void",
+          "optional": false
+        },
+        {
+          "name": "getCallers",
+          "type": "() => { nodes: Array<{ scopeId: string; name: string; kind: string; filePath: string; location: string; starter: boolean }>; edges: Array<{ caller: string; callee: string }>; anchors: Array<{ location: string; holderScopeId: string; typePath: string; constructorText?: string; rooted?: boolean; variable?: string; terminatedAt?: string }> } | undefined",
+          "optional": false
+        },
+        {
+          "name": "hasCallers",
+          "type": "() => boolean",
+          "optional": false
+        },
+        {
+          "name": "setCallersAbsentReason",
+          "type": "(reason: 'missing' | 'stale') => void",
+          "optional": false
+        },
+        {
+          "name": "getCallersAbsentReason",
+          "type": "() => 'missing' | 'stale' | undefined",
+          "optional": false
+        },
+        {
+          "name": "clear",
+          "type": "() => void",
+          "optional": false
+        }
+      ],
+      "args": []
     },
-    "collection_1::Instrumentation.InstrumentationPoint": {
-      "name": "InstrumentationPoint",
-      "location": "src/models/Instrumentation.ts:119:53",
+    "collection_1::Control.ControlPoint": {
+      "name": "ControlPoint",
+      "location": "src/models/Control.ts:124:37",
       "kind": "define",
-      "parent": "collection_1::Instrumentation",
+      "parent": "collection_1::Control",
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "kind",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "location",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "scope",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "targets",
+          "type": "Array<string>",
+          "optional": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ kind: string; className: string; location: string; code: string; scope: string; targets: Array<string> }",
+          "optional": false
+        }
+      ]
     },
     "collection_1::Definitions": {
       "name": "Definitions",
-      "location": "src/models/Definition.ts:18:36",
+      "location": "src/models/Definition.ts:46:36",
       "kind": "define",
       "parent": null,
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "createdAt",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "get",
+          "type": "(name: string) => BackendRegistry_Definitions_DefinitionEntry | undefined",
+          "optional": false
+        },
+        {
+          "name": "has",
+          "type": "(name: string) => boolean",
+          "optional": false
+        },
+        {
+          "name": "set",
+          "type": "(name: string, entry: BackendRegistry_Definitions_DefinitionEntry) => void",
+          "optional": false
+        },
+        {
+          "name": "keys",
+          "type": "() => MapIterator<string>",
+          "optional": false
+        },
+        {
+          "name": "values",
+          "type": "() => MapIterator<BackendRegistry_Definitions_DefinitionEntry>",
+          "optional": false
+        },
+        {
+          "name": "entries",
+          "type": "() => MapIterator<[string, BackendRegistry_Definitions_DefinitionEntry]>",
+          "optional": false
+        },
+        {
+          "name": "clear",
+          "type": "() => void",
+          "optional": false
+        }
+      ],
+      "args": []
     },
     "collection_1::Definitions.DefinitionEntry": {
       "name": "DefinitionEntry",
-      "location": "src/models/Definition.ts:70:44",
+      "location": "src/models/Definition.ts:92:44",
       "kind": "define",
       "parent": "collection_1::Definitions",
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "location",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "kind",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "parent",
+          "type": "string | null",
+          "optional": false
+        },
+        {
+          "name": "strictChain",
+          "type": "boolean",
+          "optional": false
+        },
+        {
+          "name": "blockErrors",
+          "type": "boolean",
+          "optional": false
+        },
+        {
+          "name": "fields",
+          "type": "Array<{ name: string; type: string; optional: boolean }>",
+          "optional": true
+        },
+        {
+          "name": "args",
+          "type": "Array<{ name: string; type: string; optional?: boolean; kind?: string }>",
+          "optional": true
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ name: string; location: string; kind: string; parent: string | null; strictChain: boolean; blockErrors: boolean; fields?: Array<{ name: string; type: string; optional: boolean }>; args?: Array<{ name: string; type: string; optional?: boolean; kind?: string }> }",
+          "optional": false
+        }
+      ]
     },
     "collection_1::EDS": {
       "name": "EDS",
-      "location": "src/models/EDS.ts:29:28",
+      "location": "src/models/EDS.ts:37:28",
       "kind": "define",
       "parent": null,
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "createdAt",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "get",
+          "type": "(name: string) => Array<BackendRegistry_EDS_EDSEntry> | undefined",
+          "optional": false
+        },
+        {
+          "name": "has",
+          "type": "(name: string) => boolean",
+          "optional": false
+        },
+        {
+          "name": "set",
+          "type": "(name: string, entry: Array<BackendRegistry_EDS_EDSEntry>) => void",
+          "optional": false
+        },
+        {
+          "name": "keys",
+          "type": "() => MapIterator<string>",
+          "optional": false
+        },
+        {
+          "name": "values",
+          "type": "() => MapIterator<Array<BackendRegistry_EDS_EDSEntry>>",
+          "optional": false
+        },
+        {
+          "name": "entries",
+          "type": "() => MapIterator<[string, Array<BackendRegistry_EDS_EDSEntry>]>",
+          "optional": false
+        },
+        {
+          "name": "clear",
+          "type": "() => void",
+          "optional": false
+        }
+      ],
+      "args": []
     },
     "collection_1::EDS.EDSEntry": {
       "name": "EDSEntry",
-      "location": "src/models/EDS.ts:76:29",
+      "location": "src/models/EDS.ts:80:29",
       "kind": "define",
       "parent": "collection_1::EDS",
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "typeName",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "location",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "kind",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "targetType",
+          "type": "string",
+          "optional": true
+        },
+        {
+          "name": "scope",
+          "type": "string",
+          "optional": true
+        },
+        {
+          "name": "via",
+          "type": "string",
+          "optional": true
+        },
+        {
+          "name": "createsTypes",
+          "type": "Array<string>",
+          "optional": true
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "optional": true
+        },
+        {
+          "name": "callbackScopeId",
+          "type": "string",
+          "optional": true
+        },
+        {
+          "name": "instanceArg",
+          "type": "string",
+          "optional": true
+        },
+        {
+          "name": "scopeId",
+          "type": "string",
+          "optional": true
+        },
+        {
+          "name": "wrapsTypePath",
+          "type": "string",
+          "optional": true
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ typeName: string; location: string; kind: string; code: string; targetType?: string; scope?: string; via?: string; createsTypes?: Array<string>; label?: string; callbackScopeId?: string; instanceArg?: string; scopeId?: string; wrapsTypePath?: string }",
+          "optional": false
+        }
+      ]
     },
     "collection_1::Flow": {
       "name": "Flow",
-      "location": "src/models/Flow.ts:18:29",
+      "location": "src/models/Flow.ts:26:29",
       "kind": "define",
       "parent": null,
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "createdAt",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "get",
+          "type": "(name: string) => Array<BackendRegistry_Flow_FlowEntry> | undefined",
+          "optional": false
+        },
+        {
+          "name": "has",
+          "type": "(name: string) => boolean",
+          "optional": false
+        },
+        {
+          "name": "set",
+          "type": "(name: string, entry: Array<BackendRegistry_Flow_FlowEntry>) => void",
+          "optional": false
+        },
+        {
+          "name": "keys",
+          "type": "() => MapIterator<string>",
+          "optional": false
+        },
+        {
+          "name": "values",
+          "type": "() => MapIterator<Array<BackendRegistry_Flow_FlowEntry>>",
+          "optional": false
+        },
+        {
+          "name": "entries",
+          "type": "() => MapIterator<[string, Array<BackendRegistry_Flow_FlowEntry>]>",
+          "optional": false
+        },
+        {
+          "name": "clear",
+          "type": "() => void",
+          "optional": false
+        }
+      ],
+      "args": []
     },
     "collection_1::Flow.FlowEntry": {
       "name": "FlowEntry",
-      "location": "src/models/Flow.ts:65:31",
+      "location": "src/models/Flow.ts:69:31",
       "kind": "define",
       "parent": "collection_1::Flow",
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "typeName",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "kind",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "location",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "propertyName",
+          "type": "string",
+          "optional": true
+        },
+        {
+          "name": "context",
+          "type": "string",
+          "optional": true
+        },
+        {
+          "name": "targetType",
+          "type": "string",
+          "optional": true
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ typeName: string; kind: string; code: string; location: string; propertyName?: string; context?: string; targetType?: string }",
+          "optional": false
+        }
+      ]
     },
     "LoggerTab": {
       "name": "LoggerTab",
@@ -72,7 +475,15 @@
       "kind": "define",
       "parent": null,
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "createdAt",
+          "type": "number",
+          "optional": false
+        }
+      ],
+      "args": []
     },
     "LoggerTab.LogEntry": {
       "name": "LogEntry",
@@ -80,7 +491,46 @@
       "kind": "define",
       "parent": "LoggerTab",
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "level",
+          "type": "'info' | 'warning' | 'error'",
+          "optional": false
+        },
+        {
+          "name": "message",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "timestamp",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "typeName",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "error",
+          "type": "Error",
+          "optional": false
+        },
+        {
+          "name": "args",
+          "type": "Array<unknown>",
+          "optional": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ level: 'info' | 'warning' | 'error'; message: string; timestamp: number; typeName?: string; error?: Error; args?: Array<unknown> }",
+          "optional": false
+        }
+      ]
     },
     "Main": {
       "name": "Main",
@@ -88,7 +538,51 @@
       "kind": "define",
       "parent": null,
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "extensionVersion",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "createdAt",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "traceBuffer",
+          "type": "Array<{ id: number; parentId: number | null; name: string; kind: string; status: string; duration: number | null; ts: number; instanceType: string | null; instanceSource?: 'explicit' | 'ambient' | null }>",
+          "optional": false
+        },
+        {
+          "name": "traceLastId",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "traceReceivedTotal",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "traceSession",
+          "type": "string | undefined",
+          "optional": false
+        },
+        {
+          "name": "adapters",
+          "type": "Array<unknown>",
+          "optional": false
+        }
+      ],
+      "args": [
+        {
+          "name": "extensionVersion",
+          "type": "string",
+          "optional": false
+        }
+      ]
     },
     "Main.Adapter": {
       "name": "Adapter",
@@ -96,7 +590,36 @@
       "kind": "define",
       "parent": "Main",
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "domain",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "enabled",
+          "type": "boolean",
+          "optional": false
+        },
+        {
+          "name": "createdAt",
+          "type": "number",
+          "optional": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ name: string; domain: string; enabled: boolean }",
+          "optional": false
+        }
+      ]
     },
     "collection_1::Types": {
       "name": "Types",
@@ -104,47 +627,343 @@
       "kind": "define",
       "parent": null,
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "createdAt",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "get",
+          "type": "(name: string) => BackendRegistry_Types_TypeEntry | undefined",
+          "optional": false
+        },
+        {
+          "name": "has",
+          "type": "(name: string) => boolean",
+          "optional": false
+        },
+        {
+          "name": "set",
+          "type": "(name: string, entry: BackendRegistry_Types_TypeEntry) => void",
+          "optional": false
+        },
+        {
+          "name": "keys",
+          "type": "() => MapIterator<string>",
+          "optional": false
+        },
+        {
+          "name": "values",
+          "type": "() => MapIterator<BackendRegistry_Types_TypeEntry>",
+          "optional": false
+        },
+        {
+          "name": "entries",
+          "type": "() => MapIterator<[string, BackendRegistry_Types_TypeEntry]>",
+          "optional": false
+        },
+        {
+          "name": "clear",
+          "type": "() => void",
+          "optional": false
+        },
+        {
+          "name": "getLineForType",
+          "type": "(typeName: string) => number | undefined",
+          "optional": false
+        }
+      ],
+      "args": []
     },
     "collection_1::Types.TypeEntry": {
       "name": "TypeEntry",
-      "location": "src/models/Types.ts:75:32",
+      "location": "src/models/Types.ts:69:32",
       "kind": "define",
       "parent": "collection_1::Types",
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "fullPath",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "parent",
+          "type": "string",
+          "optional": true
+        },
+        {
+          "name": "properties",
+          "type": "Map<string, { name: string; type: string; optional: boolean }>",
+          "optional": false
+        },
+        {
+          "name": "lineNumber",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "location",
+          "type": "string",
+          "optional": true
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ name: string; fullPath: string; parent?: string; properties: Map<string, { name: string; type: string; optional: boolean }>; lineNumber: number; location?: string }",
+          "optional": false
+        }
+      ]
     },
     "collection_1::Usages": {
       "name": "Usages",
-      "location": "src/models/Usages.ts:16:31",
+      "location": "src/models/Usages.ts:24:31",
       "kind": "define",
       "parent": null,
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "createdAt",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "get",
+          "type": "(name: string) => Array<BackendRegistry_Usages_UsageEntry> | undefined",
+          "optional": false
+        },
+        {
+          "name": "has",
+          "type": "(name: string) => boolean",
+          "optional": false
+        },
+        {
+          "name": "set",
+          "type": "(name: string, entry: Array<BackendRegistry_Usages_UsageEntry>) => void",
+          "optional": false
+        },
+        {
+          "name": "keys",
+          "type": "() => MapIterator<string>",
+          "optional": false
+        },
+        {
+          "name": "values",
+          "type": "() => MapIterator<Array<BackendRegistry_Usages_UsageEntry>>",
+          "optional": false
+        },
+        {
+          "name": "entries",
+          "type": "() => MapIterator<[string, Array<BackendRegistry_Usages_UsageEntry>]>",
+          "optional": false
+        },
+        {
+          "name": "clear",
+          "type": "() => void",
+          "optional": false
+        }
+      ],
+      "args": []
     },
     "collection_1::Usages.UsageEntry": {
       "name": "UsageEntry",
-      "location": "src/models/Usages.ts:59:34",
+      "location": "src/models/Usages.ts:61:34",
       "kind": "define",
       "parent": "collection_1::Usages",
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "typeName",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "kind",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "location",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "args": [
+        {
+          "name": "usages",
+          "type": "{ typeName: string; kind: string; code: string; location: string }",
+          "optional": false
+        }
+      ]
     },
     "Registry": {
       "name": "Registry",
-      "location": "src/models/Registry.ts:53:25",
+      "location": "src/models/Registry.ts:60:25",
       "kind": "define",
       "parent": null,
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "createdAt",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "get",
+          "type": "(name: string) => unknown | undefined",
+          "optional": false
+        },
+        {
+          "name": "has",
+          "type": "(name: string) => boolean",
+          "optional": false
+        },
+        {
+          "name": "set",
+          "type": "(name: string, entry: unknown) => void",
+          "optional": false
+        },
+        {
+          "name": "keys",
+          "type": "() => MapIterator<string>",
+          "optional": false
+        },
+        {
+          "name": "values",
+          "type": "() => MapIterator<unknown>",
+          "optional": false
+        },
+        {
+          "name": "clear",
+          "type": "() => void",
+          "optional": false
+        },
+        {
+          "name": "getGeneratedAt",
+          "type": "(kind: 'hierarchy' | 'definitions' | 'collections' | 'usages' | 'flow' | 'eds' | 'control') => string | undefined",
+          "optional": false
+        },
+        {
+          "name": "loadFromWorkspace",
+          "type": "(workspacePath: string) => Promise<void>",
+          "optional": false
+        },
+        {
+          "name": "getDefinitions",
+          "type": "() => BackendRegistry_Definitions | undefined",
+          "optional": false
+        },
+        {
+          "name": "getTypes",
+          "type": "() => BackendRegistry_Types | undefined",
+          "optional": false
+        },
+        {
+          "name": "getUsages",
+          "type": "() => BackendRegistry_Usages | undefined",
+          "optional": false
+        },
+        {
+          "name": "getEDS",
+          "type": "() => BackendRegistry_EDS | undefined",
+          "optional": false
+        },
+        {
+          "name": "getFlow",
+          "type": "() => BackendRegistry_Flow | undefined",
+          "optional": false
+        },
+        {
+          "name": "getControl",
+          "type": "() => BackendRegistry_Control | undefined",
+          "optional": false
+        },
+        {
+          "name": "getTrie",
+          "type": "() => BackendRegistry_Trie | undefined",
+          "optional": false
+        },
+        {
+          "name": "getCollectionNames",
+          "type": "() => Map<string, string>",
+          "optional": false
+        }
+      ],
+      "args": []
     },
     "Registry.RegistryEntry": {
       "name": "RegistryEntry",
-      "location": "src/models/Registry.ts:714:39",
+      "location": "src/models/Registry.ts:654:39",
       "kind": "define",
       "parent": "Registry",
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "filePath",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "line",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "column",
+          "type": "number",
+          "optional": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ id: string; name: string; filePath: string; line: number; column: number }",
+          "optional": false
+        }
+      ]
     },
     "collection_2::Scene3D": {
       "name": "Scene3D",
@@ -152,7 +971,115 @@
       "kind": "define",
       "parent": null,
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "createdAt",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "sourceRoot",
+          "type": "unknown",
+          "optional": false
+        },
+        {
+          "name": "ring",
+          "type": "unknown | null",
+          "optional": false
+        },
+        {
+          "name": "hub",
+          "type": "unknown | null",
+          "optional": false
+        },
+        {
+          "name": "cone",
+          "type": "unknown | null",
+          "optional": false
+        },
+        {
+          "name": "camera",
+          "type": "unknown | null",
+          "optional": false
+        },
+        {
+          "name": "tooltip",
+          "type": "unknown | null",
+          "optional": false
+        },
+        {
+          "name": "tube",
+          "type": "unknown | null",
+          "optional": false
+        },
+        {
+          "name": "addNode",
+          "type": "(id: string, node: unknown) => void",
+          "optional": false
+        },
+        {
+          "name": "getNode",
+          "type": "(id: string) => unknown | undefined",
+          "optional": false
+        },
+        {
+          "name": "nodeCount",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "addLink",
+          "type": "(link: unknown) => void",
+          "optional": false
+        },
+        {
+          "name": "linkCount",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "addDiamond",
+          "type": "(id: string, diamond: unknown) => void",
+          "optional": false
+        },
+        {
+          "name": "diamondCount",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "addBagel",
+          "type": "(id: string, bagel: unknown) => void",
+          "optional": false
+        },
+        {
+          "name": "bagelCount",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "addSink",
+          "type": "(id: string, sink: unknown) => void",
+          "optional": false
+        },
+        {
+          "name": "sinkCount",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "addCaption",
+          "type": "(id: string, caption: unknown) => void",
+          "optional": false
+        },
+        {
+          "name": "captionCount",
+          "type": "number",
+          "optional": false
+        }
+      ],
+      "args": []
     },
     "collection_2::Scene3D.Camera3D": {
       "name": "Camera3D",
@@ -160,7 +1087,46 @@
       "kind": "define",
       "parent": "collection_2::Scene3D",
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "x",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "y",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "z",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "zoom",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "rotationX",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "rotationY",
+          "type": "number",
+          "optional": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ x: number; y: number; z: number; zoom: number; rotationX: number; rotationY: number }",
+          "optional": false
+        }
+      ]
     },
     "collection_2::Scene3D.GraphNode3D": {
       "name": "GraphNode3D",
@@ -168,7 +1134,41 @@
       "kind": "define",
       "parent": "collection_2::Scene3D",
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "depth",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "isRoot",
+          "type": "boolean",
+          "optional": false
+        },
+        {
+          "name": "location",
+          "type": "{ fileName: string; line: number; column: number }",
+          "optional": true
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ id: string; label: string; depth: number; isRoot: boolean; location?: { fileName: string; line: number; column: number } }",
+          "optional": false
+        }
+      ]
     },
     "collection_2::Scene3D.Link3D": {
       "name": "Link3D",
@@ -176,7 +1176,31 @@
       "kind": "define",
       "parent": "collection_2::Scene3D",
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "source",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "target",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "kind",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ source: string; target: string; kind: string }",
+          "optional": false
+        }
+      ]
     },
     "collection_2::Scene3D.GraphNode3D.Tooltip3D": {
       "name": "Tooltip3D",
@@ -184,7 +1208,31 @@
       "kind": "define",
       "parent": "collection_2::Scene3D.GraphNode3D",
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "targetNode",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "visible",
+          "type": "boolean",
+          "optional": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ targetNode: string; content: string; visible: boolean }",
+          "optional": false
+        }
+      ]
     },
     "collection_2::Scene3D.Diamond3D": {
       "name": "Diamond3D",
@@ -192,7 +1240,46 @@
       "kind": "define",
       "parent": "collection_2::Scene3D",
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "kind",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "filePath",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "starter",
+          "type": "boolean",
+          "optional": false
+        },
+        {
+          "name": "creates",
+          "type": "number",
+          "optional": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ id: string; name: string; kind: string; filePath: string; starter: boolean; creates: number }",
+          "optional": false
+        }
+      ]
     },
     "collection_2::Scene3D.Bagel3D": {
       "name": "Bagel3D",
@@ -200,7 +1287,41 @@
       "kind": "define",
       "parent": "collection_2::Scene3D",
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "generation",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "anchor",
+          "type": "string | null",
+          "optional": false
+        },
+        {
+          "name": "wrapsTypePath",
+          "type": "string",
+          "optional": true
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ id: string; name: string; generation: number; anchor: string | null; wrapsTypePath?: string }",
+          "optional": false
+        }
+      ]
     },
     "collection_2::Scene3D.Ring3D": {
       "name": "Ring3D",
@@ -208,7 +1329,31 @@
       "kind": "define",
       "parent": "collection_2::Scene3D",
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "citation",
+          "type": "string",
+          "optional": true
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ id: string; name: string; citation?: string }",
+          "optional": false
+        }
+      ]
     },
     "collection_2::Scene3D.Hub3D": {
       "name": "Hub3D",
@@ -216,7 +1361,31 @@
       "kind": "define",
       "parent": "collection_2::Scene3D",
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "citation",
+          "type": "string",
+          "optional": true
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ id: string; name: string; citation?: string }",
+          "optional": false
+        }
+      ]
     },
     "collection_2::Scene3D.Sink3D": {
       "name": "Sink3D",
@@ -224,7 +1393,31 @@
       "kind": "define",
       "parent": "collection_2::Scene3D",
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "citation",
+          "type": "string",
+          "optional": true
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ id: string; name: string; citation?: string }",
+          "optional": false
+        }
+      ]
     },
     "collection_2::Scene3D.Cone3D": {
       "name": "Cone3D",
@@ -232,7 +1425,26 @@
       "kind": "define",
       "parent": "collection_2::Scene3D",
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ id: string; name: string }",
+          "optional": false
+        }
+      ]
     },
     "collection_2::Scene3D.Caption3D": {
       "name": "Caption3D",
@@ -240,7 +1452,26 @@
       "kind": "define",
       "parent": "collection_2::Scene3D",
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "text",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "targetId",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ text: string; targetId: string }",
+          "optional": false
+        }
+      ]
     },
     "collection_2::Scene3D.Tube3D": {
       "name": "Tube3D",
@@ -248,7 +1479,26 @@
       "kind": "define",
       "parent": "collection_2::Scene3D",
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "chain",
+          "type": "Array<string>",
+          "optional": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ id: string; chain: Array<string> }",
+          "optional": false
+        }
+      ]
     },
     "collection_1::Trie": {
       "name": "Trie",
@@ -256,7 +1506,50 @@
       "kind": "define",
       "parent": null,
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "createdAt",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "addNode",
+          "type": "(id: string, node: unknown) => void",
+          "optional": false
+        },
+        {
+          "name": "getNode",
+          "type": "(id: string) => unknown | undefined",
+          "optional": false
+        },
+        {
+          "name": "nodeCount",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "addLink",
+          "type": "(link: unknown) => void",
+          "optional": false
+        },
+        {
+          "name": "linkCount",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "addMenu",
+          "type": "(menu: unknown) => void",
+          "optional": false
+        },
+        {
+          "name": "menuCount",
+          "type": "number",
+          "optional": false
+        }
+      ],
+      "args": []
     },
     "collection_1::Trie.GraphNodeTrie": {
       "name": "GraphNodeTrie",
@@ -264,7 +1557,41 @@
       "kind": "define",
       "parent": "collection_1::Trie",
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "path",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "depth",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "isLeaf",
+          "type": "boolean",
+          "optional": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ id: string; name: string; path: string; depth: number; isLeaf: boolean }",
+          "optional": false
+        }
+      ]
     },
     "collection_1::Trie.GraphNodeTrie.LinkTrie": {
       "name": "LinkTrie",
@@ -272,7 +1599,31 @@
       "kind": "define",
       "parent": "collection_1::Trie.GraphNodeTrie",
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "parent",
+          "type": "unknown",
+          "optional": false
+        },
+        {
+          "name": "child",
+          "type": "unknown",
+          "optional": false
+        },
+        {
+          "name": "relation",
+          "type": "'subtype' | 'instance'",
+          "optional": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ parent: unknown; child: unknown; relation: 'subtype' | 'instance' }",
+          "optional": false
+        }
+      ]
     },
     "collection_1::Trie.GraphNodeTrie.ContextMenu": {
       "name": "ContextMenu",
@@ -280,7 +1631,31 @@
       "kind": "define",
       "parent": "collection_1::Trie.GraphNodeTrie",
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "targetNode",
+          "type": "unknown",
+          "optional": false
+        },
+        {
+          "name": "items",
+          "type": "Array<{ label: string; action: string }>",
+          "optional": false
+        },
+        {
+          "name": "visible",
+          "type": "boolean",
+          "optional": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ targetNode: unknown; items: Array<{ label: string; action: string }>; visible: boolean }",
+          "optional": false
+        }
+      ]
     }
   }
 }

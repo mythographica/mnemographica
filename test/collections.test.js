@@ -31,6 +31,11 @@ Module.prototype.require = function(id) {
 	if (id.endsWith('LoggerService') || id.includes('/services/LoggerService')) {
 		return { getLogger: () => mockLogger };
 	}
+	// the reference provider imports vscode; the lookup tested below
+	// touches none of it
+	if (id === 'vscode') {
+		return {};
+	}
 	return originalRequire.apply(this, arguments);
 };
 
@@ -145,6 +150,23 @@ async function runTests() {
 	], 'every universe present');
 	assert.strictEqual(dataAll.links.length, 2, 'both universes keep their inheritance links');
 	console.log(`  ✓ ${dataAll.nodes.length} nodes, ${dataAll.links.length} links, one center\n`);
+
+	// Test 8: a collection type's usages are found by its exact
+	// definitions.json key — the `collection_1::` prefix is looked up as is,
+	// never rewritten (an underscore→dot rewrite once made it
+	// `collection.1::` and every collection type showed no usages)
+	console.log('Test 8: usages lookup by the exact collection-prefixed key');
+	const { MnemonicaReferenceProvider } = require('../out/src/providers/referenceProvider');
+	const registryUsages = new Registry();
+	await registryUsages.loadFromWorkspace(fixturesMixedPath);
+	const referenceProvider = new MnemonicaReferenceProvider();
+	referenceProvider.setOrchestrator({ getRegistry: () => registryUsages });
+	await referenceProvider.loadUsages();
+	const productUsages = referenceProvider.getUsagesForType('collection_1::Product');
+	assert.ok(productUsages.length > 0, 'collection_1::Product has usages');
+	assert.ok(productUsages.every(u => typeof u.filePath === 'string' && u.line > 0),
+		'each usage parsed into file and line');
+	console.log(`  ✓ collection_1::Product → ${productUsages.length} usages\n`);
 
 	console.log('=== All Tests Passed ===');
 }

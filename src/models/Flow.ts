@@ -1,6 +1,6 @@
 'use strict';
 
-import { Backend } from './collections';
+import { Backend, setProps } from './collections';
 import { getLogger } from '../services/LoggerService';
 
 export type rawFlowEntry = {
@@ -14,6 +14,14 @@ export type rawFlowEntry = {
 };
 
 export type FlowEntryInstance = InstanceType<typeof FlowEntry>;
+
+// flow.json file envelope (lethe contract); tactica's entries carry no
+// typeName — the map key is stamped on at load
+export type rawFlowFile = {
+	version: string;
+	generatedAt?: string;
+	flow: Record<string, Array<Omit<rawFlowEntry, 'typeName'>>>;
+};
 
 export const Flow = Backend.define('Flow', class {
 	createdAt: number;
@@ -30,7 +38,7 @@ export const Flow = Backend.define('Flow', class {
 	}
 
 	get (name: string): FlowEntryInstance[] | undefined {
-		return this.map.get(name) as unknown as FlowEntryInstance[];
+		return this.map.get(name);
 	}
 
 	has (name: string): boolean {
@@ -57,10 +65,6 @@ export const Flow = Backend.define('Flow', class {
 		return this.map.clear();
 	}
 });
-
-const setProps = (to: object, from: object) => {
-	Object.defineProperties(to, Object.getOwnPropertyDescriptors(from));
-};
 
 export const FlowEntry = Flow.define('FlowEntry', function (
 	this: rawFlowEntry,

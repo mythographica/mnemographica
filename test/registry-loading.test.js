@@ -6,9 +6,10 @@ const { define } = require('mnemonica');
 const topologicaLoader = require('@mnemonica/topologica');
 
 // We need a mock logger because LoggerService tries to use vscode
+const loggedWarnings = [];
 const mockLogger = {
 	info: () => {},
-	warn: () => {},
+	warn: (...args) => { loggedWarnings.push(args.join(' ')); },
 	error: () => {},
 	debug: () => {},
 	initialize: () => {},
@@ -38,7 +39,7 @@ const typeCount = result.topology ? Object.keys(result.topology).length : 0;
 console.log(`[Test Setup] Loaded ${typeCount} root types`);
 
 // Now require Registry (after topologica loaded models)
-const { Registry, registry } = require('../out/src/models/Registry');
+const { Registry } = require('../out/src/models/Registry');
 
 // Test fixture path
 const fixturesPath = path.join(__dirname, 'fixtures');
@@ -186,7 +187,6 @@ async function runTests() {
 	assert.ok(userEDS, 'UserEntity EDS should exist');
 	assert.strictEqual(userEDS.length, 2, 'UserEntity should have 2 EDS entries');
 	assert.strictEqual(userEDS[0].kind, 'wrap', 'First EDS should be wrap');
-	assert.strictEqual(userEDS[0].targetType, 'UserEntity', 'targetType should match');
 	assert.ok(userEDS[0].location, 'EDS entry should have location');
 	console.log('  ✓ EDS methods work correctly\n');
 
@@ -215,90 +215,95 @@ async function runTests() {
 	assert.strictEqual(reloadedTypes.size, 4, 'Should have 4 types after reload');
 	console.log('  ✓ Reload after clear works\n');
 
-	// Test 18: Instrumentation loaded (instrumentation.json, flat points list)
-	console.log('Test 18: Instrumentation loaded');
-	const instrumentation = testRegistry.getInstrumentation();
-	assert.ok(instrumentation, 'Instrumentation should be loaded');
-	assert.strictEqual(instrumentation.size, 3, 'Should have 3 instrumentation points');
-	const points = instrumentation.all();
+	// Test 18: Control loaded (control.json: callers graph + flat points list)
+	console.log('Test 18: Control loaded');
+	const control = testRegistry.getControl();
+	assert.ok(control, 'Control should be loaded');
+	assert.strictEqual(control.size, 3, 'Should have 3 control points');
+	const points = control.all();
 	assert.strictEqual(points[0].kind, 'pipe', 'First point should be a pipe');
 	assert.strictEqual(points[0].className, 'ValidationPipe', 'className should match');
 	assert.strictEqual(points[0].scope, 'method:UserController.createUser', 'scope should match');
 	assert.deepStrictEqual(points[1].targets, [], 'global interceptor has no targets');
-	console.log(`  ✓ Instrumentation loaded: ${instrumentation.size} points\n`);
+	console.log(`  ✓ Control loaded: ${control.size} points\n`);
 
-	// Test 19: clear() also drops instrumentation (the field must reset,
+	// Test 19: clear() also drops the control model (the field must reset,
 	// or a refresh keeps stale points from the previous workspace)
-	console.log('Test 19: clear() resets instrumentation');
+	console.log('Test 19: clear() resets control');
 	testRegistry.clear();
-	assert.strictEqual(testRegistry.getInstrumentation(), undefined, 'Instrumentation should be cleared');
-	console.log('  ✓ clear() resets instrumentation\n');
+	assert.strictEqual(testRegistry.getControl(), undefined, 'Control should be cleared');
+	console.log('  ✓ clear() resets control\n');
 
-	// Test 20: instrumentation.json v2 — the creationGraph section loads
-	// (fixtures-v2 mirrors real tactica v2 output from tactica-nestjs)
-	console.log('Test 20: creationGraph (instrumentation.json v2) loads');
+	// Test 20: control.json — the callers graph loads
+	// (fixtures-v2 mirrors real tactica 1.2 output from tactica-nestjs)
+	console.log('Test 20: callers (control.json) loads');
 	const fixturesV2Path = path.join(__dirname, 'fixtures-v2');
 	const registryV2 = new Registry();
 	await registryV2.loadFromWorkspace(fixturesV2Path);
-	const instrumentationV2 = registryV2.getInstrumentation();
-	assert.ok(instrumentationV2, 'Instrumentation should load from fixtures-v2');
-	assert.strictEqual(instrumentationV2.size, 9, 'Should have 9 instrumentation points');
-	assert.strictEqual(instrumentationV2.hasCreationGraph(), true, 'v2 payload should carry a creationGraph');
-	assert.strictEqual(instrumentationV2.getCreationGraphAbsentReason(), undefined, 'a loaded graph carries no absence reason');
-	const creationGraph = instrumentationV2.getCreationGraph();
-	assert.strictEqual(creationGraph.nodes.length, 39, 'creationGraph should have 39 nodes');
-	assert.strictEqual(creationGraph.edges.length, 57, 'creationGraph should have 57 edges');
-	assert.strictEqual(creationGraph.anchors.length, 46, 'creationGraph should have 46 anchors');
-	const starters = creationGraph.nodes.filter(n => n.starter);
-	assert.strictEqual(starters.length, 6, 'Should have 6 starter scopes');
+	const controlV2 = registryV2.getControl();
+	assert.ok(controlV2, 'Control should load from fixtures-v2');
+	assert.strictEqual(controlV2.size, 9, 'Should have 9 control points');
+	assert.strictEqual(controlV2.hasCallers(), true, 'control.json carries the callers graph');
+	assert.strictEqual(controlV2.getCallersAbsentReason(), undefined, 'a loaded graph carries no absence reason');
+	const callers = controlV2.getCallers();
+	assert.strictEqual(callers.nodes.length, 40, 'callers should have 40 nodes');
+	assert.strictEqual(callers.edges.length, 57, 'callers should have 57 edges');
+	assert.strictEqual(callers.anchors.length, 64, 'callers should have 64 anchors');
+	const starters = callers.nodes.filter(n => n.starter);
+	assert.strictEqual(starters.length, 7, 'Should have 7 starter scopes');
 	const mainStarter = starters.find(n => n.kind === 'module' && n.filePath.endsWith('/main.ts'));
 	assert.ok(mainStarter, 'main.ts module starter should exist');
-	console.log(`  ✓ creationGraph loaded: ${creationGraph.nodes.length} nodes, ${creationGraph.edges.length} edges, ${creationGraph.anchors.length} anchors\n`);
+	console.log(`  ✓ callers loaded: ${callers.nodes.length} nodes, ${callers.edges.length} edges, ${callers.anchors.length} anchors\n`);
 
-	// Test 21: a v1 payload carries no creationGraph key and loads
-	// exactly as before (backward compatibility)
-	console.log('Test 21: v1 instrumentation.json loads without creationGraph');
-	await testRegistry.loadFromWorkspace(fixturesPath);
-	const instrumentationV1 = testRegistry.getInstrumentation();
-	assert.ok(instrumentationV1, 'Instrumentation should reload');
-	assert.strictEqual(instrumentationV1.size, 3, 'v1 points still load');
-	assert.strictEqual(instrumentationV1.hasCreationGraph(), false, 'v1 payload has no creationGraph');
-	assert.strictEqual(instrumentationV1.getCreationGraph(), undefined, 'getCreationGraph() returns undefined');
-	assert.strictEqual(instrumentationV1.getCreationGraphAbsentReason(), 'v1', 'the v1 absence is explained');
-	console.log('  ✓ v1 payload loads exactly as before\n');
-
-	// Test 22: the stale guard covers v2 files too — an
-	// instrumentation.json older than definitions.json is skipped whole
-	console.log('Test 22: stale instrumentation.json is skipped (v2 included)');
+	// Test 21: no usable control.json — the absence reason is 'missing'
+	console.log('Test 21: missing control.json reads as missing');
 	const os = require('os');
 	const fs = require('fs');
+	const missingDir = fs.mkdtempSync(path.join(os.tmpdir(), 'mnemo-missing-'));
+	fs.mkdirSync(path.join(missingDir, '.tactica'));
+	fs.copyFileSync(
+		path.join(fixturesV2Path, '.tactica', 'definitions.json'),
+		path.join(missingDir, '.tactica', 'definitions.json')
+	);
+	const missingRegistry = new Registry();
+	await missingRegistry.loadFromWorkspace(missingDir);
+	const missingControl = missingRegistry.getControl();
+	assert.ok(missingControl, 'Control instance exists even with no control.json');
+	assert.strictEqual(missingControl.hasCallers(), false, 'no callers graph without control.json');
+	assert.strictEqual(missingControl.getCallers(), undefined, 'getCallers() returns undefined');
+	assert.strictEqual(missingControl.getCallersAbsentReason(), 'missing', 'the absence is explained');
+	console.log('  ✓ missing control.json explained\n');
+
+	// Test 22: the stale guard — a control.json older than
+	// definitions.json is skipped whole
+	console.log('Test 22: stale control.json is skipped');
 	const staleDir = fs.mkdtempSync(path.join(os.tmpdir(), 'mnemo-stale-'));
 	const staleTactica = path.join(staleDir, '.tactica');
 	fs.mkdirSync(staleTactica);
 	const staleDefs = JSON.parse(fs.readFileSync(path.join(fixturesV2Path, '.tactica', 'definitions.json'), 'utf-8'));
-	const staleInst = JSON.parse(fs.readFileSync(path.join(fixturesV2Path, '.tactica', 'instrumentation.json'), 'utf-8'));
+	const staleControl = JSON.parse(fs.readFileSync(path.join(fixturesV2Path, '.tactica', 'control.json'), 'utf-8'));
 	staleDefs.generatedAt = '2999-01-01T00:00:00.000Z';
-	staleInst.generatedAt = '2020-01-01T00:00:00.000Z';
+	staleControl.generatedAt = '2020-01-01T00:00:00.000Z';
 	fs.writeFileSync(path.join(staleTactica, 'definitions.json'), JSON.stringify(staleDefs));
-	fs.writeFileSync(path.join(staleTactica, 'instrumentation.json'), JSON.stringify(staleInst));
+	fs.writeFileSync(path.join(staleTactica, 'control.json'), JSON.stringify(staleControl));
 	const staleRegistry = new Registry();
 	await staleRegistry.loadFromWorkspace(staleDir);
-	const staleInstrumentation = staleRegistry.getInstrumentation();
-	assert.ok(staleInstrumentation, 'Instrumentation instance exists even when stale');
-	assert.strictEqual(staleInstrumentation.size, 0, 'Stale points are skipped');
-	assert.strictEqual(staleInstrumentation.hasCreationGraph(), false, 'Stale creationGraph is skipped');
-	assert.strictEqual(staleInstrumentation.getCreationGraphAbsentReason(), 'stale', 'the stale skip is explained');
-	console.log('  ✓ stale instrumentation.json skipped\n');
+	const staleControlModel = staleRegistry.getControl();
+	assert.ok(staleControlModel, 'Control instance exists even when stale');
+	assert.strictEqual(staleControlModel.size, 0, 'Stale points are skipped');
+	assert.strictEqual(staleControlModel.hasCallers(), false, 'Stale callers graph is skipped');
+	assert.strictEqual(staleControlModel.getCallersAbsentReason(), 'stale', 'the stale skip is explained');
+	console.log('  ✓ stale control.json skipped\n');
 
-	// Test 23: Instrumentation.clear() drops the creationGraph together
-	// with the points (the model-level reset behind Registry.clear())
-	console.log('Test 23: Instrumentation.clear() resets points and creationGraph');
-	instrumentationV2.clear();
-	assert.strictEqual(instrumentationV2.size, 0, 'Points should be cleared');
-	assert.strictEqual(instrumentationV2.hasCreationGraph(), false, 'creationGraph should be cleared');
-	assert.strictEqual(instrumentationV2.getCreationGraphAbsentReason(), undefined, 'the absence reason clears with the graph');
+	// Test 23: Control.clear() drops the callers graph together with the
+	// points (the model-level reset behind Registry.clear())
+	console.log('Test 23: Control.clear() resets points and callers');
+	controlV2.clear();
+	assert.strictEqual(controlV2.size, 0, 'Points should be cleared');
+	assert.strictEqual(controlV2.hasCallers(), false, 'callers should be cleared');
+	assert.strictEqual(controlV2.getCallersAbsentReason(), undefined, 'the absence reason clears with the graph');
 	registryV2.clear();
-	console.log('  ✓ model clear() resets the creationGraph\n');
+	console.log('  ✓ model clear() resets the callers graph\n');
 
 	// Test 24: relative paths (portable tactica output) resolve against
 	// the workspace root at load time; type-name keys stay untouched
@@ -308,7 +313,7 @@ async function runTests() {
 	fs.mkdirSync(relTactica);
 	const fixtureFiles = [
 		'definitions.json', 'hierarchy.json', 'usages.json',
-		'eds.json', 'flow.json', 'instrumentation.json', 'types.ts'
+		'eds.json', 'flow.json', 'control.json'
 	];
 	for (const file of fixtureFiles) {
 		const source = path.join(fixturesV2Path, '.tactica', file);
@@ -333,8 +338,8 @@ async function runTests() {
 		resolvedLocations++;
 	}
 	assert.ok(resolvedLocations > 0, 'at least one definition location was checked');
-	const relGraph = relRegistry.getInstrumentation().getCreationGraph();
-	assert.ok(relGraph, 'creationGraph loads from relative payloads');
+	const relGraph = relRegistry.getControl().getCallers();
+	assert.ok(relGraph, 'callers graph loads from relative payloads');
 	for (const node of relGraph.nodes) {
 		assert.ok(node.filePath.startsWith(relDir + path.sep), `node filePath resolves absolute: ${node.filePath}`);
 	}
@@ -342,6 +347,36 @@ async function runTests() {
 		assert.ok(anchor.location.startsWith(relDir + path.sep), `anchor location resolves absolute: ${anchor.location}`);
 	}
 	console.log(`  ✓ ${resolvedLocations} definitions + ${relGraph.nodes.length} creation nodes resolve against the workspace root\n`);
+
+	// Test 25: schema validation at load — an invalid contract file is
+	// rejected with a logged warning naming the file, its model stays
+	// empty, and the load never crashes
+	console.log('Test 25: invalid contract file is rejected with a warning');
+	const invalidDir = fs.mkdtempSync(path.join(os.tmpdir(), 'mnemo-invalid-'));
+	const invalidTactica = path.join(invalidDir, '.tactica');
+	fs.mkdirSync(invalidTactica);
+	// version is required and must be "1.2" — this file is pre-1.2 shaped
+	const invalidDefs = JSON.parse(fs.readFileSync(path.join(fixturesV2Path, '.tactica', 'definitions.json'), 'utf-8'));
+	delete invalidDefs.version;
+	fs.writeFileSync(path.join(invalidTactica, 'definitions.json'), JSON.stringify(invalidDefs));
+	// a valid control.json alongside proves the other models still load
+	fs.copyFileSync(
+		path.join(fixturesV2Path, '.tactica', 'control.json'),
+		path.join(invalidTactica, 'control.json')
+	);
+	loggedWarnings.length = 0;
+	const invalidRegistry = new Registry();
+	await invalidRegistry.loadFromWorkspace(invalidDir);
+	const invalidDefinitions = invalidRegistry.getDefinitions();
+	assert.ok(invalidDefinitions, 'Definitions instance exists');
+	assert.strictEqual(invalidDefinitions.size, 0, 'invalid definitions.json leaves the model empty');
+	assert.ok(
+		loggedWarnings.some(w => w.includes('definitions.json') && w.includes('failed the definitions schema')),
+		'the rejection warning names the file and the schema'
+	);
+	const invalidControl = invalidRegistry.getControl();
+	assert.ok(invalidControl.hasCallers(), 'a valid sibling file still loads');
+	console.log('  ✓ invalid definitions.json rejected, warning logged, no crash\n');
 
 	console.log('=== All Tests Passed ===');
 }

@@ -1,8 +1,18 @@
 {
-	"version": "1.0",
-	"generatedAt": "2026-09-22T00:00:00.000Z",
-	"collections": [
-		{ "id": null, "name": "defaultTypes", "registryInterface": "TypeRegistry", "location": null },
-		{ "id": "collection_1", "name": "Shop", "registryInterface": "ShopRegistry", "location": "src/models.ts:3:14" }
-	]
+  "version": "1.2",
+  "generatedAt": "2026-09-22T00:00:00.000Z",
+  "collections": [
+    {
+      "id": null,
+      "name": "defaultTypes",
+      "location": null,
+      "language": "typescript"
+    },
+    {
+      "id": "collection_1",
+      "name": "Shop",
+      "location": "src/models.ts:3:14",
+      "language": "typescript"
+    }
+  ]
 }

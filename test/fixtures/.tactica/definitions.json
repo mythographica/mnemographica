@@ -1,4 +1,5 @@
 {
+  "version": "1.2",
   "definitions": {
     "UserEntity": {
       "name": "UserEntity",
@@ -6,7 +7,25 @@
       "kind": "entity",
       "parent": null,
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "args": []
     },
     "AdminEntity": {
       "name": "AdminEntity",
@@ -14,7 +33,20 @@
       "kind": "entity",
       "parent": "UserEntity",
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "role",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "permissions",
+          "type": "string[]",
+          "optional": false
+        }
+      ],
+      "args": []
     },
     "OrderEntity": {
       "name": "OrderEntity",
@@ -22,7 +54,25 @@
       "kind": "entity",
       "parent": null,
       "strictChain": false,
-      "blockErrors": true
+      "blockErrors": true,
+      "fields": [
+        {
+          "name": "orderId",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "userId",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "items",
+          "type": "string[]",
+          "optional": false
+        }
+      ],
+      "args": []
     }
   }
 }

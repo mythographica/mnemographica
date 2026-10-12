@@ -6,31 +6,31 @@
 
 import type { ProtoFlat } from 'mnemonica';
 
-export type BackendRegistry_Instrumentation = {
+export type BackendRegistry_Control = {
 	createdAt: number;
 	readonly size: void;
-	all: () => Array<BackendRegistry_Instrumentation_InstrumentationPoint>;
-	set: (points: Array<BackendRegistry_Instrumentation_InstrumentationPoint>) => void;
-	setCreationGraph: (graph: { nodes: Array<{ scopeId: string; name: string; kind: 'module' | 'function' | 'method' | 'arrow'; filePath: string; location: string; starter: boolean }>; edges: Array<{ caller: string; callee: string }>; anchors: Array<{ location: string; holderScopeId: string; typePath: string; constructorText?: string; rooted?: boolean; variable?: string; terminatedAt?: string }> }) => void;
-	getCreationGraph: () => { nodes: Array<{ scopeId: string; name: string; kind: 'module' | 'function' | 'method' | 'arrow'; filePath: string; location: string; starter: boolean }>; edges: Array<{ caller: string; callee: string }>; anchors: Array<{ location: string; holderScopeId: string; typePath: string; constructorText?: string; rooted?: boolean; variable?: string; terminatedAt?: string }> } | undefined;
-	hasCreationGraph: () => boolean;
-	setCreationGraphAbsentReason: (reason: 'missing' | 'stale' | 'v1') => void;
-	getCreationGraphAbsentReason: () => 'missing' | 'stale' | 'v1' | undefined;
+	all: () => Array<BackendRegistry_Control_ControlPoint>;
+	set: (points: Array<BackendRegistry_Control_ControlPoint>) => void;
+	setCallers: (callers: { nodes: Array<{ scopeId: string; name: string; kind: string; filePath: string; location: string; starter: boolean }>; edges: Array<{ caller: string; callee: string }>; anchors: Array<{ location: string; holderScopeId: string; typePath: string; constructorText?: string; rooted?: boolean; variable?: string; terminatedAt?: string }> }) => void;
+	getCallers: () => { nodes: Array<{ scopeId: string; name: string; kind: string; filePath: string; location: string; starter: boolean }>; edges: Array<{ caller: string; callee: string }>; anchors: Array<{ location: string; holderScopeId: string; typePath: string; constructorText?: string; rooted?: boolean; variable?: string; terminatedAt?: string }> } | undefined;
+	hasCallers: () => boolean;
+	setCallersAbsentReason: (reason: 'missing' | 'stale') => void;
+	getCallersAbsentReason: () => 'missing' | 'stale' | undefined;
 	clear: () => void;
-	InstrumentationPoint: {
-		new (data: { kind: string; className: string; location: string; code: string; scope: string; targets?: Array<string> }): BackendRegistry_Instrumentation_InstrumentationPoint;
-		(data: { kind: string; className: string; location: string; code: string; scope: string; targets?: Array<string> }): BackendRegistry_Instrumentation_InstrumentationPoint;
+	ControlPoint: {
+		new (data: { kind: string; className: string; location: string; code: string; scope: string; targets: Array<string> }): BackendRegistry_Control_ControlPoint;
+		(data: { kind: string; className: string; location: string; code: string; scope: string; targets: Array<string> }): BackendRegistry_Control_ControlPoint;
 	};
 };
 
-export type BackendRegistry_Instrumentation_InstrumentationPoint = ProtoFlat<BackendRegistry_Instrumentation, {
+export type BackendRegistry_Control_ControlPoint = ProtoFlat<BackendRegistry_Control, {
 	kind: string;
 	className: string;
 	location: string;
 	code: string;
 	scope: string;
-	targets?: Array<string>;
-	InstrumentationPoint: undefined;
+	targets: Array<string>;
+	ControlPoint: undefined;
 }>;
 
 export type BackendRegistry_Definitions = {
@@ -44,8 +44,8 @@ export type BackendRegistry_Definitions = {
 	entries: () => MapIterator<[string, BackendRegistry_Definitions_DefinitionEntry]>;
 	clear: () => void;
 	DefinitionEntry: {
-		new (data: { name: string; location: string; kind: string; parent: string | null; strictChain: boolean; blockErrors: boolean }): BackendRegistry_Definitions_DefinitionEntry;
-		(data: { name: string; location: string; kind: string; parent: string | null; strictChain: boolean; blockErrors: boolean }): BackendRegistry_Definitions_DefinitionEntry;
+		new (data: { name: string; location: string; kind: string; parent: string | null; strictChain: boolean; blockErrors: boolean; fields?: Array<{ name: string; type: string; optional: boolean }>; args?: Array<{ name: string; type: string; optional?: boolean; kind?: string }> }): BackendRegistry_Definitions_DefinitionEntry;
+		(data: { name: string; location: string; kind: string; parent: string | null; strictChain: boolean; blockErrors: boolean; fields?: Array<{ name: string; type: string; optional: boolean }>; args?: Array<{ name: string; type: string; optional?: boolean; kind?: string }> }): BackendRegistry_Definitions_DefinitionEntry;
 	};
 };
 
@@ -56,6 +56,8 @@ export type BackendRegistry_Definitions_DefinitionEntry = ProtoFlat<BackendRegis
 	parent: string | null;
 	strictChain: boolean;
 	blockErrors: boolean;
+	fields?: Array<{ name: string; type: string; optional: boolean }>;
+	args?: Array<{ name: string; type: string; optional?: boolean; kind?: string }>;
 	DefinitionEntry: undefined;
 }>;
 
@@ -189,7 +191,7 @@ export type BackendRegistry_Types_TypeEntry = ProtoFlat<BackendRegistry_Types, {
 export type BackendRegistry_Usages = {
 	createdAt: number;
 	readonly size: number;
-	get: (name: string) => Array<BackendRegistry_Usages_UsageEntry>;
+	get: (name: string) => Array<BackendRegistry_Usages_UsageEntry> | undefined;
 	has: (name: string) => boolean;
 	set: (name: string, entry: Array<BackendRegistry_Usages_UsageEntry>) => void;
 	keys: () => MapIterator<string>;
@@ -219,16 +221,16 @@ export type Registry = {
 	keys: () => MapIterator<string>;
 	values: () => MapIterator<unknown>;
 	clear: () => void;
+	getGeneratedAt: (kind: 'hierarchy' | 'definitions' | 'collections' | 'usages' | 'flow' | 'eds' | 'control') => string | undefined;
 	loadFromWorkspace: (workspacePath: string) => Promise<void>;
 	getDefinitions: () => BackendRegistry_Definitions | undefined;
 	getTypes: () => BackendRegistry_Types | undefined;
 	getUsages: () => BackendRegistry_Usages | undefined;
 	getEDS: () => BackendRegistry_EDS | undefined;
 	getFlow: () => BackendRegistry_Flow | undefined;
-	getInstrumentation: () => BackendRegistry_Instrumentation | undefined;
+	getControl: () => BackendRegistry_Control | undefined;
 	getTrie: () => BackendRegistry_Trie | undefined;
 	getCollectionNames: () => Map<string, string>;
-	refresh: () => Promise<void>;
 	RegistryEntry: {
 		new (data: { id: string; name: string; filePath: string; line: number; column: number }): Registry_RegistryEntry;
 		(data: { id: string; name: string; filePath: string; line: number; column: number }): Registry_RegistryEntry;

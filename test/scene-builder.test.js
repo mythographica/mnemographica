@@ -54,8 +54,8 @@ async function runTests() {
 
 	// Test 1: the census — one scene entry per element the renderer draws
 	console.log('Test 1: scene census matches the GraphData sections');
-	assert.strictEqual(scene.nodeCount, 19, 'one GraphNode3D per type node');
-	assert.strictEqual(scene.diamondCount, 39, 'one Diamond3D per creation scope');
+	assert.strictEqual(scene.nodeCount, 26, 'one GraphNode3D per type node');
+	assert.strictEqual(scene.diamondCount, 40, 'one Diamond3D per creation scope');
 	assert.strictEqual(scene.bagelCount, 14, 'one Bagel3D per wrap site');
 	assert.strictEqual(scene.sinkCount, 3, 'asyncFlow, otel, exceptionFilter sinks');
 	assert.ok(scene.ring, 'the EDS store knot');
@@ -64,8 +64,8 @@ async function runTests() {
 	assert.strictEqual(scene.hub.id, 'adapter:attachHooks');
 	assert.ok(scene.cone, 'the Jaeger cone knot');
 	assert.strictEqual(scene.cone.id, 'adapter:jaeger');
-	// captions: 19 type nodes + 39 creation scopes + 14 wraps + 6 knots
-	assert.strictEqual(scene.captionCount, 78, 'one Caption3D per scene element');
+	// captions: 26 type nodes + 40 creation scopes + 14 wraps + 6 knots
+	assert.strictEqual(scene.captionCount, 86, 'one Caption3D per scene element');
 	assert.strictEqual(scene.sourceRoot, fixturesV2Path, 'the scene knows its .tactica source');
 	console.log(`  ✓ ${scene.nodeCount} nodes, ${scene.diamondCount} diamonds, ${scene.bagelCount} bagels, ${scene.captionCount} captions\n`);
 
@@ -73,14 +73,14 @@ async function runTests() {
 	// logic — TS `private` is a compile-time fence, and this plain-node
 	// test reads the runtime property to pin the kinds, not just the sum
 	console.log('Test 2: link census and kind mapping');
-	const linkTotal = 14 + data.execflow.length + 57 + 42 + 6;
+	const linkTotal = 16 + data.execflow.length + 57 + 42 + 6;
 	assert.strictEqual(scene.linkCount, linkTotal,
 		'inheritance + execflow + creation + fiber + internals links');
 	const byKind = new Map();
 	for (const link of scene.linkList) {
 		byKind.set(link.kind, (byKind.get(link.kind) || 0) + 1);
 	}
-	assert.strictEqual(byKind.get('inheritance'), 14, 'inheritance links');
+	assert.strictEqual(byKind.get('inheritance'), 16, 'inheritance links');
 	assert.strictEqual(byKind.get('creation'), 57, 'creation call links');
 	assert.strictEqual(byKind.get('fiber-via'), 1, 'the via generation chain');
 	assert.strictEqual(byKind.get('fiber-ctor'), 41, 'construction-mediated fiber hops');
@@ -159,15 +159,15 @@ async function runTests() {
 	console.log('Test 6: Trie model and RegistryEntry flat index');
 	const trie = registry.getTrie();
 	assert.ok(trie, 'the trie exists');
-	assert.strictEqual(trie.nodeCount, 19, 'one GraphNodeTrie per type');
-	assert.strictEqual(trie.linkCount, 14, 'one LinkTrie per parent edge');
+	assert.strictEqual(trie.nodeCount, 26, 'one GraphNodeTrie per type');
+	assert.strictEqual(trie.linkCount, 16, 'one LinkTrie per parent edge');
 	const trieNode = trie.getNode('Sentience.Consciousness');
 	assert.ok(trieNode, 'trie node for a nested type');
 	assert.strictEqual(trieNode.depth, 1);
 	assert.strictEqual(trieNode.isLeaf, false, 'Consciousness has children');
 	assert.strictEqual(trie.getNode('Sentience.Memory').isLeaf, true, 'Memory is a leaf');
 	assert.strictEqual(trie.getNode('UserEntity').isLeaf, false, 'UserEntity has children');
-	assert.strictEqual(registry.size, 19, 'one RegistryEntry per type');
+	assert.strictEqual(registry.size, 26, 'one RegistryEntry per type');
 	const entry = registry.get('UserEntity');
 	assert.ok(entry, 'RegistryEntry for UserEntity');
 	assert.strictEqual(entry.name, 'UserEntity');
@@ -175,24 +175,25 @@ async function runTests() {
 	assert.ok(entry.line > 0, 'entry line is 1-based positive');
 	console.log(`  ✓ trie ${trie.nodeCount} nodes / ${trie.linkCount} links, registry index ${registry.size} entries\n`);
 
-	// Test 7: v1 payloads build a scene without the creation section —
-	// no diamonds, no creation links; the backplane knots still assemble
-	console.log('Test 7: v1 payload builds a reduced scene');
-	const registryV1 = new Registry();
-	await registryV1.loadFromWorkspace(fixturesPath);
-	const dataV1 = GraphBuilder.buildFromRegistry(registryV1);
-	const sceneV1 = buildSceneFor(fixturesPath, dataV1);
-	assert.strictEqual(sceneV1.nodeCount, 4, 'v1 type graph');
-	assert.strictEqual(sceneV1.diamondCount, 0, 'no creation section in v1');
-	assert.strictEqual(sceneV1.bagelCount, 2, 'the two v1 wraps');
-	assert.strictEqual(sceneV1.sinkCount, 3, 'same declared sinks');
-	assert.ok(sceneV1.ring && sceneV1.hub && sceneV1.cone, 'same declared knots');
+	// Test 7: the hand fixture's control.json carries points but an empty
+	// callers graph — no diamonds, no creation links; the backplane knots
+	// still assemble
+	console.log('Test 7: hand fixture builds a reduced scene');
+	const registryHand = new Registry();
+	await registryHand.loadFromWorkspace(fixturesPath);
+	const dataHand = GraphBuilder.buildFromRegistry(registryHand);
+	const sceneHand = buildSceneFor(fixturesPath, dataHand);
+	assert.strictEqual(sceneHand.nodeCount, 4, 'hand-fixture type graph');
+	assert.strictEqual(sceneHand.diamondCount, 0, 'no creation diamonds without a callers graph');
+	assert.strictEqual(sceneHand.bagelCount, 2, 'the two hand-fixture wraps');
+	assert.strictEqual(sceneHand.sinkCount, 3, 'same declared sinks');
+	assert.ok(sceneHand.ring && sceneHand.hub && sceneHand.cone, 'same declared knots');
 	// captions: 4 type nodes + 2 wraps + 6 knots
-	assert.strictEqual(sceneV1.captionCount, 12, 'v1 caption census');
-	const v1LinkTotal = dataV1.links.length + dataV1.execflow.length + 0 + 0 + 6;
-	assert.strictEqual(sceneV1.linkCount, v1LinkTotal,
-		'no creation or fiber links in a v1 scene');
-	console.log(`  ✓ v1 scene: ${sceneV1.nodeCount} nodes, ${sceneV1.bagelCount} bagels, ${sceneV1.linkCount} links\n`);
+	assert.strictEqual(sceneHand.captionCount, 12, 'hand-fixture caption census');
+	const handLinkTotal = dataHand.links.length + dataHand.execflow.length + 0 + 0 + 6;
+	assert.strictEqual(sceneHand.linkCount, handLinkTotal,
+		'no creation or fiber links in the hand-fixture scene');
+	console.log(`  ✓ hand-fixture scene: ${sceneHand.nodeCount} nodes, ${sceneHand.bagelCount} bagels, ${sceneHand.linkCount} links\n`);
 
 	console.log('=== All Tests Passed ===');
 }

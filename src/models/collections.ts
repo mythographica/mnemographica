@@ -24,3 +24,12 @@ export const Backend = createTypesCollection<BackendRegistry>();
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type -- Option-B augmentation target: tactica's generated registry.ts merges the entries in
 export interface FrontendRegistry {}
 export const Frontend = createTypesCollection<FrontendRegistry>();
+
+/**
+ * Entry constructors copy the raw payload onto the instance, descriptors
+ * included (defineProperties, not assign — non-enumerables survive).
+ * Shared by every Backend *Entry subtype.
+ */
+export const setProps = function (to: object, from: object): void {
+	Object.defineProperties(to, Object.getOwnPropertyDescriptors(from));
+};

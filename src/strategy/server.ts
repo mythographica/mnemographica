@@ -35,6 +35,14 @@ interface StrategyTool {
 	inputSchema: unknown;
 }
 
+const ok = function (id: MCPRequest['id'], result: unknown): MCPResponse {
+	return { jsonrpc: '2.0', id, result };
+};
+
+const fail = function (id: MCPRequest['id'], code: number, message: string): MCPResponse {
+	return { jsonrpc: '2.0', id, error: { code, message } };
+};
+
 /**
  * StrategyServer - HTTP + WebSocket server for Strategy MCP integration
  * Runs inside the VS Code extension and exposes mnemonica analysis tools
@@ -196,14 +204,7 @@ export class StrategyServer {
 						this.handleWebSocketMessage(client, message);
 					} catch (err) {
 						this.logger.error('Failed to parse WebSocket message:', err);
-						client.send(JSON.stringify({
-							jsonrpc: '2.0',
-							id: null,
-							error: {
-								code: -32700,
-								message: 'Parse error'
-							}
-						}));
+						client.send(JSON.stringify(fail(null, -32700, 'Parse error')));
 					}
 				});
 
@@ -260,17 +261,9 @@ export class StrategyServer {
 				res.end(JSON.stringify(response));
 			} catch (err) {
 				this.logger.error('Failed to handle HTTP request:', err);
-				const errorResponse: MCPResponse = {
-					jsonrpc: '2.0',
-					id: null,
-					error: {
-						code: -32603,
-						message: 'Internal error'
-					}
-				};
 				res.setHeader('Content-Type', 'application/json');
 				res.writeHead(500);
-				res.end(JSON.stringify(errorResponse));
+				res.end(JSON.stringify(fail(null, -32603, 'Internal error')));
 			}
 		});
 	}
@@ -292,91 +285,44 @@ export class StrategyServer {
 		try {
 			switch (method) {
 				case 'tools/list':
-					return {
-						jsonrpc: '2.0',
-						id,
-						result: {
-							tools: Array.from(this.tools.values())
-						}
-					};
+					return ok(id, { tools: Array.from(this.tools.values()) });
 
 				case 'tools/call': {
 					const toolParams = params as { name: string; arguments?: Record<string, unknown> } | undefined;
 					if (!toolParams?.name) {
-						return {
-							jsonrpc: '2.0',
-							id,
-							error: {
-								code: -32602,
-								message: 'Invalid params: missing tool name'
-							}
-						};
+						return fail(id, -32602, 'Invalid params: missing tool name');
 					}
 					const result = await this.executeTool(toolParams.name, toolParams.arguments || {});
-					return {
-						jsonrpc: '2.0',
-						id,
-						result
-					};
+					return ok(id, result);
 				}
 
 				case 'initialize':
-					return {
-						jsonrpc: '2.0',
-						id,
-						result: {
-							protocolVersion: '2024-11-05',
-							serverInfo: {
-								name: 'mnemographica-strategy',
-								version: '0.1.0'
-							},
-							capabilities: {
-								tools: {}
-							}
+					return ok(id, {
+						protocolVersion: '2024-11-05',
+						serverInfo: {
+							name: 'mnemographica-strategy',
+							version: '0.1.0'
+						},
+						capabilities: {
+							tools: {}
 						}
-					};
+					});
 
 				case 'trace/ingest':
-					return {
-						jsonrpc : '2.0',
-						id,
-						result  : await this.handleTraceIngest(params)
-					};
+					return ok(id, await this.handleTraceIngest(params));
 
 				case 'trace/reset':
-					return {
-						jsonrpc : '2.0',
-						id,
-						result  : await this.handleTraceReset()
-					};
+					return ok(id, await this.handleTraceReset());
 
 				case 'state/query':
-					return {
-						jsonrpc : '2.0',
-						id,
-						result  : await this.handleStateQuery(params)
-					};
+					return ok(id, await this.handleStateQuery(params));
 
 				default:
-					return {
-						jsonrpc: '2.0',
-						id,
-						error: {
-							code: -32601,
-							message: `Method not found: ${method}`
-						}
-					};
+					return fail(id, -32601, `Method not found: ${method}`);
 			}
 		} catch (err) {
 			this.logger.error('Error handling MCP request:', err);
-			return {
-				jsonrpc: '2.0',
-				id,
-				error: {
-					code: -32603,
-					message: err instanceof Error ? err.message : 'Internal error'
-				}
-			};
+			return fail(id, -32603, err instanceof Error ? err.message : 'Internal error');
 		}
 	}
 

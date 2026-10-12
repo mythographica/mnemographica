@@ -1,134 +1,75 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
-import * as fs from 'fs';
-import { getLogger } from '../services/LoggerService';
+import { getProjectRegistry } from '../core/registryStore';
+import { parseTacticaLocation, tacticaRootOfFile } from '../utils/paths';
 
-const logger = getLogger();
-
-/**
- * Find .tactica directory by walking up from the given file path
- */
-function findTacticaDir(startPath: string): string | undefined {
-	let currentDir = path.dirname(startPath);
-	const root = path.parse(currentDir).root;
-
-	while (currentDir !== root) {
-		const tacticaPath = path.join(currentDir, '.tactica');
-		if (fs.existsSync(tacticaPath) && fs.statSync(tacticaPath).isDirectory()) {
-			return tacticaPath;
-		}
-		const parentDir = path.dirname(currentDir);
-		if (parentDir === currentDir) {
-			break;
-		}
-		currentDir = parentDir;
-	}
-
-	return undefined;
-}
+type definitionTarget = { filePath: string; line: number; column: number };
 
 /**
  * VS Code DefinitionProvider for mnemonica types
- * Enables Go to Definition (Ctrl+Click/F12) on:
- * 1. Type paths in lookup('TypeName') calls
- * 2. Type references that would navigate to generated .tactica/types.ts
+ * Enables Go to Definition (Ctrl+Click/F12) on type paths in
+ * lookup('TypeName') calls and on type identifiers. Navigation targets
+ * are always the define() sites from definitions.json — never the
+ * generated types.ts.
  */
 export class MnemonicaDefinitionProvider implements vscode.DefinitionProvider {
-	private definitionsCache: Map<string, Map<string, { filePath: string; line: number; column: number }>> = new Map();
-
 	/**
-	 * Load definitions from .tactica/definitions.json for the given file
+	 * Definitions for the project the file belongs to, from the
+	 * registryStore's loaded Registry — the store read and validated
+	 * definitions.json once; nothing is read or cached per file here
 	 */
-	private loadDefinitionsForFile(filePath: string): Map<string, { filePath: string; line: number; column: number }> {
-		// Check cache first
-		if (this.definitionsCache.has(filePath)) {
-			return this.definitionsCache.get(filePath)!;
-		}
+	private async loadDefinitionsForFile(filePath: string): Promise<Map<string, definitionTarget>> {
+		const definitionsMap = new Map<string, definitionTarget>();
 
-		// Find .tactica directory by walking up from the file
-		const tacticaDir = findTacticaDir(filePath);
+		// Find the .tactica directory by walking up from the file
+		const tacticaDir = tacticaRootOfFile(filePath);
 		if (!tacticaDir) {
-			return new Map();
+			return definitionsMap;
 		}
 
-		const definitionsPath = path.join(tacticaDir, 'definitions.json');
-		if (!fs.existsSync(definitionsPath)) {
-			return new Map();
+		const registry = await getProjectRegistry(path.dirname(tacticaDir));
+		const definitions = registry?.getDefinitions();
+		if (!definitions) {
+			return definitionsMap;
 		}
 
-		const definitionsMap = new Map<string, { filePath: string; line: number; column: number }>();
-
-		try {
-			const content = fs.readFileSync(definitionsPath, 'utf-8');
-			const data = JSON.parse(content);
-			if (data.definitions) {
-				for (const [typePath, def] of Object.entries(data.definitions)) {
-					const { location } = def as { location: string };
-					// Parse location format: file.ts:line:column
-					const match = location.match(/^(.+):(\d+):(\d+)$/);
-					if (match) {
-						const filePathFromLoc = match[1];
-						// Handle both absolute and relative paths
-						const resolvedPath = path.isAbsolute(filePathFromLoc)
-							? filePathFromLoc
-							: path.join(path.dirname(tacticaDir), filePathFromLoc);
-						definitionsMap.set(typePath, {
-							filePath: resolvedPath,
-							line: parseInt(match[2], 10),
-							column: parseInt(match[3], 10),
-						});
-					}
-				}
+		for (const [typePath, entry] of definitions.entries()) {
+			// Locations are already absolute — the Registry path-resolves at load
+			const parsed = parseTacticaLocation(entry.location);
+			if (parsed) {
+				definitionsMap.set(typePath, {
+					filePath : parsed.fileName,
+					line     : parsed.line,
+					column   : parsed.column,
+				});
 			}
-			logger.info(`[DefinitionProvider] Loaded ${definitionsMap.size} definitions`);
-		} catch (err) {
-			logger.error('[DefinitionProvider] Failed to load definitions:', err);
 		}
 
-		// Cache the result
-		this.definitionsCache.set(filePath, definitionsMap);
 		return definitionsMap;
-	}
-
-	/**
-	 * Convert instance type name to full type path
-	 * e.g., "Sentience_Memory" -> "Sentience.Memory"
-	 * e.g., "RootAsync_ResultFromDecorate" -> "RootAsync.ResultFromDecorate"
-	 */
-	private instanceTypeNameToPath(typeName: string): string | undefined {
-		// Split by underscore and join with dots
-		// Handle nested types like Sentience_Consciousness_Curiosity
-		return typeName.replace(/_/g, '.');
 	}
 
 	/**
 	 * Provide definition for various mnemonica type references
 	 */
-	public provideDefinition(
+	public async provideDefinition(
 		document: vscode.TextDocument,
 		position: vscode.Position,
 		_token: vscode.CancellationToken
-	): vscode.ProviderResult<vscode.Definition | vscode.LocationLink[]> {
+	): Promise<vscode.Definition | vscode.LocationLink[] | null> {
 		// No per-request logging here: VS Code calls this on every
 		// Ctrl+hover — per-request logging is pure noise. Detail is
 		// reachable via the inspector when needed.
 
+		const definitionsMap = await this.loadDefinitionsForFile(document.fileName);
+
 		// Case 1: Check if this is inside a lookup('TypeName') call
-		const lookupResult = this.handleLookup(document, position);
+		const lookupResult = this.handleLookup(document, position, definitionsMap);
 		if (lookupResult) {
 			return lookupResult;
 		}
 
-		// Case 2: Check if this is a type reference in .tactica/types.ts
-		if (document.fileName.includes('.tactica/types.ts')) {
-			const typeRefResult = this.handleTypeReferenceInGeneratedTypes(document, position);
-			if (typeRefResult) {
-				return typeRefResult;
-			}
-		}
-
-		// Case 3: Check if this is any type reference that might map to a mnemonica type
-		const generalTypeResult = this.handleGeneralTypeReference(document, position);
+		// Case 2: Check if this is any type reference that might map to a mnemonica type
+		const generalTypeResult = this.handleGeneralTypeReference(document, position, definitionsMap);
 		if (generalTypeResult) {
 			return generalTypeResult;
 		}
@@ -141,7 +82,8 @@ export class MnemonicaDefinitionProvider implements vscode.DefinitionProvider {
 	 */
 	private handleLookup(
 		document: vscode.TextDocument,
-		position: vscode.Position
+		position: vscode.Position,
+		definitionsMap: Map<string, definitionTarget>
 	): vscode.Location | null {
 		// Get the word range at position
 		const wordRange = document.getWordRangeAtPosition(position, /['"`][^'"`]*['"`]/);
@@ -158,47 +100,7 @@ export class MnemonicaDefinitionProvider implements vscode.DefinitionProvider {
 			return null;
 		}
 
-		// Load definitions for this file
-		const definitionsMap = this.loadDefinitionsForFile(document.fileName);
-
 		// Look up the definition
-		const definition = definitionsMap.get(typePath);
-		if (!definition) {
-			return null;
-		}
-
-		// Create location
-		const uri = vscode.Uri.file(definition.filePath);
-		const pos = new vscode.Position(definition.line - 1, definition.column - 1); // 0-based
-		return new vscode.Location(uri, pos);
-	}
-
-	/**
-	 * Handle type references in generated .tactica/types.ts file
-	 * Redirects to actual source definition
-	 */
-	private handleTypeReferenceInGeneratedTypes(
-		document: vscode.TextDocument,
-		position: vscode.Position
-	): vscode.Location | null {
-		// Get the word at position
-		const wordRange = document.getWordRangeAtPosition(position);
-		if (!wordRange) {
-			return null;
-		}
-
-		const typeName = document.getText(wordRange);
-
-		// Convert instance type name to full path
-		const typePath = this.instanceTypeNameToPath(typeName);
-		if (!typePath) {
-			return null;
-		}
-
-		// Load definitions
-		const definitionsMap = this.loadDefinitionsForFile(document.fileName);
-
-		// Try to find the definition
 		const definition = definitionsMap.get(typePath);
 		if (!definition) {
 			return null;
@@ -215,7 +117,8 @@ export class MnemonicaDefinitionProvider implements vscode.DefinitionProvider {
 	 */
 	private handleGeneralTypeReference(
 		document: vscode.TextDocument,
-		position: vscode.Position
+		position: vscode.Position,
+		definitionsMap: Map<string, definitionTarget>
 	): vscode.Location | null {
 		// Get the word at position
 		const wordRange = document.getWordRangeAtPosition(position);
@@ -225,23 +128,19 @@ export class MnemonicaDefinitionProvider implements vscode.DefinitionProvider {
 
 		const typeName = document.getText(wordRange);
 
-		// Load definitions
-		const definitionsMap = this.loadDefinitionsForFile(document.fileName);
 		if (definitionsMap.size === 0) {
 			return null;
 		}
 
-		// Try 1: Check if it looks like an instance type (contains underscores)
-		// e.g., Sentience_Memory, RootAsync_ResultFromDecorate
+		// Try 1: instance-style alias (underscores = nesting):
+		// Sentience_Memory → Sentience.Memory
 		if (typeName.includes('_')) {
-			const typePath = this.instanceTypeNameToPath(typeName);
-			if (typePath) {
-				const definition = definitionsMap.get(typePath);
-				if (definition) {
-					const uri = vscode.Uri.file(definition.filePath);
-					const pos = new vscode.Position(definition.line - 1, definition.column - 1);
-					return new vscode.Location(uri, pos);
-				}
+			const typePath = typeName.replace(/_/g, '.');
+			const definition = definitionsMap.get(typePath);
+			if (definition) {
+				const uri = vscode.Uri.file(definition.filePath);
+				const pos = new vscode.Position(definition.line - 1, definition.column - 1);
+				return new vscode.Location(uri, pos);
 			}
 		}
 
@@ -276,12 +175,5 @@ export class MnemonicaDefinitionProvider implements vscode.DefinitionProvider {
 		// Check if there's an opening paren after lookup
 		const afterLookupTyped = textBeforeCursor.substring(lookupIndex + 'lookup'.length);
 		return afterLookupTyped.trim().startsWith('(');
-	}
-
-	/**
-	 * Clear cache (call when .tactica/definitions.json changes)
-	 */
-	public clearCache(): void {
-		this.definitionsCache.clear();
 	}
 }

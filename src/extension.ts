@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
+import { lookup } from 'mnemonica';
 import { MnemonicaTreeProvider, MnemonicaTreeItem, type MnemonicaTreeItemData } from './views/treeProvider';
 import { UsagesTreeProvider, UsageTreeItem } from './views/usagesTreeProvider';
 import { FlowTreeProvider, FlowTreeItem } from './views/flowTreeProvider';
@@ -14,12 +15,14 @@ import { getLogger } from './services/LoggerService';
 import { VSCodeNavigation } from './services/NavigationAdapter';
 import { loadModels, modelsLoaded } from './topologica/bootstrap';
 import { MainOrchestrator, traceEdge } from './core/MainOrchestrator';
-import type { BackendRegistry_Trie_GraphNodeTrie as Trie_GraphNodeTrie } from '../.tactica/types';
+import type { BackendRegistry_Trie_GraphNodeTrie as Trie_GraphNodeTrie, Registry as RegistryModel } from '../.tactica/types';
 import { GraphPanel } from './webview/panel';
 import { StrategyPanel } from './webview/strategyPanel';
 import { AppChannelPanel } from './webview/appChannelPanel';
 import { stopStrategyProcess } from './strategy/processManager';
 import { startSelfTrace, stopSelfTrace, wrapForSelfTrace } from './strategy/selfTrace';
+import { onProjectRegistryReload, peekProjectRegistry, reloadProjectRegistry } from './core/registryStore';
+import { projectKey, projectRootOfContractFile } from './utils/paths';
 import { registerNavigationCommands } from './commands/navigationCommands';
 import { registerTreeCommands } from './commands/treeCommands';
 import { registerUtilityCommands } from './commands/utilityCommands';
@@ -46,6 +49,21 @@ let liveTraceProvider: LiveTraceTreeProvider;
 // refreshTypeGraph routed through dive's wrap once self-tracing is up;
 // until then the plain function
 let tracedRefresh: typeof refreshTypeGraph = refreshTypeGraph;
+
+// The first workspace folder's path — the extension's default project
+const firstWorkspacePath = function (): string | undefined {
+	const folder = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
+	return folder;
+};
+
+// Every sidebar tree reads the same store-owned Registry — one wiring for
+// the activation load, the store-reload listener and the global refresh
+function wireSidebarProviders (registry: RegistryModel): void {
+	treeProvider.setRegistry(registry);
+	flowProvider.setRegistry(registry);
+	diamondsProvider.setRegistry(registry);
+	bagelsProvider.setRegistry(registry);
+}
 
 export function activate(context: vscode.ExtensionContext) {
 	// Initialize logger first so we can capture all subsequent logs
@@ -154,12 +172,12 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(
 		vscode.commands.registerCommand('mnemographica.showFlows', (item: { data: { fullName?: string; label: string } }) => {
 			if (!item || !item.data) { return; }
+			// fullName is the exact definitions.json key — no name mangling
 			const typeName = item.data.fullName || item.data.label;
-			const searchName = typeName.replace(/Instance$/, '').replace(/_/g, '.');
-			flowProvider.setFilterType(searchName);
+			flowProvider.setFilterType(typeName);
 			// Focus the Flow panel
 			vscode.commands.executeCommand('mnemonicaFlow.focus');
-			logger.info(`[Extension] Show flows for: ${searchName}`);
+			logger.info(`[Extension] Show flows for: ${typeName}`);
 		})
 	);
 
@@ -179,10 +197,8 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(
 		vscode.commands.registerCommand('mnemographica.showOnGraph', (item: { data: { fullName?: string; label: string } }) => {
 			if (!item || !item.data) { return; }
-			const raw = item.data.fullName || item.data.label;
-			// Types-section rows may carry the types.ts alias spelling
-			// (underscore-joined); graph node ids are dot-joined fullPaths
-			const id = raw.includes('.') ? raw : raw.replace(/_/g, '.');
+			// definitions rows carry dot-joined fullNames — used as-is
+			const id = item.data.fullName || item.data.label;
 			const name = id.split('.').pop() || id;
 			const graphData = mainOrchestrator.getGraphData();
 			if (!graphData) {
@@ -191,7 +207,7 @@ export function activate(context: vscode.ExtensionContext) {
 			}
 			// The sidebar renders the primary Registry, so its nodes live
 			// in the primary source's panel — open THAT tab
-			const sourceRoot = treeProvider?.getCurrentWorkspace() || vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
+			const sourceRoot = treeProvider?.getCurrentWorkspace() || firstWorkspacePath();
 			if (!sourceRoot) {
 				logger.warn('[Extension] Show on Graph: no workspace folder');
 				return;
@@ -200,17 +216,16 @@ export function activate(context: vscode.ExtensionContext) {
 			GraphPanel.focusNode({ id, name });
 			// Record the menu invocation on the Trie model — the context
 			// menu is part of the trie's surface
-			const trie = mainOrchestrator.getRegistry().getTrie();
+			const trie = mainOrchestrator.getRegistry()?.getTrie();
 			const trieNode = trie?.getNode(id);
 			if (trie && trieNode) {
 				const menu = new (trieNode as Trie_GraphNodeTrie).ContextMenu({
 					targetNode : id,
 					items      : [
-						{ label: 'Open Type', action: 'mnemographica.openType' },
 						{ label: 'Open Definition', action: 'mnemographica.openTreeItem' },
+						{ label: 'Show on Graph', action: 'mnemographica.showOnGraph' },
 						{ label: 'Show Usages', action: 'mnemographica.showUsages' },
-						{ label: 'Show Flows', action: 'mnemographica.showFlows' },
-						{ label: 'Show on Graph', action: 'mnemographica.showOnGraph' }
+						{ label: 'Show Flows', action: 'mnemographica.showFlows' }
 					],
 					visible    : true
 				});
@@ -276,13 +291,32 @@ export function activate(context: vscode.ExtensionContext) {
 	strategyServer.setOrchestrator(mainOrchestrator);
 	// The App Channel tab's direct connection lands its edges the same way
 	AppChannelPanel.setOrchestrator(mainOrchestrator);
+	// A panel-initiated reload of the project the sidebar shows refreshes
+	// the sidebar too — the store reloaded the shared instance in place,
+	// the trees re-read it. Sidebar-originated reloads skip this (the
+	// refreshTypeGraph path already re-pulls the providers).
+	onProjectRegistryReload((sourceRoot, origin) => {
+		if (origin === 'sidebar') { return; }
+		const sidebarRoot = mainOrchestrator?.getStateManager().getState().workspacePath;
+		if (!sidebarRoot || projectKey(sidebarRoot) !== sourceRoot) { return; }
+		const registry = mainOrchestrator.getRegistry();
+		if (!registry || !treeProvider) { return; }
+		wireSidebarProviders(registry);
+		void treeProvider.loadFromRegistry();
+	});
+
 	// Self-instrumentation: dive runs in the extension host and its edges
 	// land on the same ingestTrace. The wrap context is the Registry
 	// mnemonica instance — getProps resolves its TypeName at runtime and
 	// tactica sees the wrap site for eds.json.
 	// Fire-and-forget: a dive load failure never blocks activation
 	void startSelfTrace(mainOrchestrator).then((started) => {
-		tracedRefresh = wrapForSelfTrace(refreshTypeGraph, mainOrchestrator.getRegistry(), 'refreshTypeGraph');
+		// The wrap context only carries the TypeName at runtime (getProps) —
+		// a context-only Registry instance does it; the sidebar's Registry
+		// comes from the registryStore per project
+		const RegistryType = lookup('Registry');
+		const traceContext = mainOrchestrator.getRegistry() ?? new RegistryType();
+		tracedRefresh = wrapForSelfTrace(refreshTypeGraph, traceContext, 'refreshTypeGraph');
 		mainOrchestrator.registerAdapter('self-trace', 'trace', started);
 	});
 	// The two reframe tabs: run/watch Strategy MCP, and connect directly to
@@ -341,7 +375,7 @@ export function activate(context: vscode.ExtensionContext) {
 			// Isolate the trace in the 3D panel; open the panel first when
 			// it is not on screen yet
 			if (!GraphPanel.hasOpenPanel()) {
-				const sourceRoot = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
+				const sourceRoot = firstWorkspacePath();
 				if (sourceRoot) {
 					GraphPanel.createOrShow(context.extensionUri, sourceRoot);
 				}
@@ -362,7 +396,7 @@ export function activate(context: vscode.ExtensionContext) {
 			const data = arg && arg.traceData ? arg.traceData : arg as { name: string; rootId?: number };
 			if (!data || typeof data.name !== 'string') { return; }
 			if (!GraphPanel.hasOpenPanel()) {
-				const sourceRoot = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
+				const sourceRoot = firstWorkspacePath();
 				if (sourceRoot) {
 					GraphPanel.createOrShow(context.extensionUri, sourceRoot);
 				}
@@ -424,7 +458,7 @@ export function activate(context: vscode.ExtensionContext) {
 			const group = found;
 			void vscode.commands.executeCommand('mnemonicaLiveTrace.focus');
 			if (!GraphPanel.hasOpenPanel()) {
-				const sourceRoot = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
+				const sourceRoot = firstWorkspacePath();
 				if (sourceRoot) {
 					GraphPanel.createOrShow(context.extensionUri, sourceRoot);
 				}
@@ -443,10 +477,10 @@ export function activate(context: vscode.ExtensionContext) {
 	logger.info('MainOrchestrator created');
 
 	// Register commands from command files (all deps now initialized)
-	const navigationCommands = registerNavigationCommands(treeProvider, usagesProvider);
+	const navigationCommands = registerNavigationCommands(usagesProvider);
 	const treeCommands = registerTreeCommands(treeProvider, usagesProvider, referenceProvider, mainOrchestrator);
 	const utilityCommands = registerUtilityCommands(strategyServer);
-	const workspaceCommands = registerWorkspaceCommands(treeProvider, referenceProvider, flowProvider, mainOrchestrator);
+	const workspaceCommands = registerWorkspaceCommands(treeProvider, referenceProvider, flowProvider, diamondsProvider, bagelsProvider, mainOrchestrator);
 
 	navigationCommands.forEach(cmd => context.subscriptions.push(cmd));
 	treeCommands.forEach(cmd => context.subscriptions.push(cmd));
@@ -498,7 +532,7 @@ export function activate(context: vscode.ExtensionContext) {
 			}
 			let sourceRoot = sources[0];
 			if (sources.length > 1) {
-				const workspaceRoot = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath ?? '';
+				const workspaceRoot = firstWorkspacePath() ?? '';
 				const picked = await vscode.window.showQuickPick(
 					sources.map(source => {
 						const relative = path.relative(workspaceRoot, source);
@@ -549,13 +583,14 @@ export function activate(context: vscode.ExtensionContext) {
 			return;
 		}
 
-		// Update usages view with usages for the selected type
+		// Update usages view with usages for the selected type. fullName is
+		// the exact definitions.json key (collection prefix included), the
+		// same key usages.json uses — looked up as is
 		const typeName = data.fullName || data.label;
-		const searchName = typeName.replace(/Instance$/, '').replace(/_/g, '.');
-		logger.info(`[Extension] Selection changed to: ${typeName}, searching usages for: ${searchName}`);
+		logger.info(`[Extension] Selection changed to: ${typeName}`);
 
 		// Get usages from reference provider
-		const usages = referenceProvider.getUsagesForType(searchName);
+		const usages = referenceProvider.getUsagesForType(typeName);
 		if (usages && usages.length > 0) {
 			// Convert to UsageItemData format
 			const usageItems = usages.map(u => ({
@@ -592,6 +627,21 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 	};
 
+	// A first click on a row fires BOTH onDidChangeSelection and the item
+	// command; keyboard navigation fires only the selection event, a re-click
+	// on the selected row only the command. The two activations of one click
+	// arrive together — collapse them into one
+	let lastActivation: { id: string; at: number } | undefined;
+	const activateTreeItemOnce = async (data: MnemonicaTreeItemData) => {
+		const id = data.fullName || data.label;
+		const now = Date.now();
+		if (lastActivation && lastActivation.id === id && now - lastActivation.at < 300) {
+			return;
+		}
+		lastActivation = { id, at: now };
+		await activateTreeItem(data);
+	};
+
 	// Navigate to definition when item is selected and update usages view
 	treeView.onDidChangeSelection(async (event) => {
 		const selected = event.selection[0];
@@ -600,7 +650,7 @@ export function activate(context: vscode.ExtensionContext) {
 			usagesProvider.clear();
 			return;
 		}
-		await activateTreeItem(selected.data);
+		await activateTreeItemOnce(selected.data);
 	});
 
 	// The item command fires on EVERY row click, including the re-clicks
@@ -608,7 +658,7 @@ export function activate(context: vscode.ExtensionContext) {
 	// re-selects its path in the 3D graph
 	context.subscriptions.push(
 		vscode.commands.registerCommand('mnemographica.treeItemClick', async (data: MnemonicaTreeItemData) => {
-			await activateTreeItem(data);
+			await activateTreeItemOnce(data);
 			// A label click also unfolds the row one level — with an item
 			// command set, expansion is otherwise twistie-only
 			const item = treeProvider.getCachedItem(data);
@@ -646,16 +696,14 @@ export function activate(context: vscode.ExtensionContext) {
 			logger.info('Loading navigation providers data...');
 			referenceProvider.loadUsages();
 
-			// Update tree provider with registry data
-			treeProvider.setWorkspace(workspacePath);
-			treeProvider.setRegistry(mainOrchestrator.getRegistry());
-			await treeProvider.loadFromRegistry();
-			treeProvider.refresh();
-			// Update flow provider
-			flowProvider.setRegistry(mainOrchestrator.getRegistry());
-			// Update the creation-scope and wrap-site tries
-			diamondsProvider.setRegistry(mainOrchestrator.getRegistry());
-			bagelsProvider.setRegistry(mainOrchestrator.getRegistry());
+			const registry = mainOrchestrator.getRegistry();
+			if (registry) {
+				// Update tree provider with registry data
+				treeProvider.setWorkspace(workspacePath);
+				wireSidebarProviders(registry);
+				await treeProvider.loadFromRegistry();
+				treeProvider.refresh();
+			}
 			// Feed the generation tree view. The 3D panel is NOT fed here:
 			// it loads its own bound source on open
 			const graphData = mainOrchestrator.getGraphData();
@@ -691,16 +739,23 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 	context.subscriptions.push(watcher);
 
-	// Set up watcher for .tactica output
-	const tacticaWatcher = vscode.workspace.createFileSystemWatcher('**/.tactica/types.ts');
-	tacticaWatcher.onDidChange(async () => {
-		logger.info('.tactica/types.ts changed, refreshing graph...');
-		await tracedRefresh(context);
-	});
-	tacticaWatcher.onDidCreate(async () => {
-		logger.info('.tactica/types.ts created, refreshing graph...');
-		await tracedRefresh(context);
-	});
+	// Set up watcher for .tactica output — the seven lethe contract files
+	// (types.ts / instrumentation.json are generator-internal and unread).
+	// One tactica run rewrites several files: the batch debounces into ONE
+	// reload per changed project — the store's listeners then rebuild the
+	// sidebar (when it shows that project) and every follow-ON panel on it.
+	const tacticaWatcher = vscode.workspace.createFileSystemWatcher('**/.tactica/{hierarchy,definitions,collections,usages,flow,eds,control}.json');
+	const onTacticaEvent = (uri: vscode.Uri) => {
+		tacticaChangedRoots.add(projectRootOfContractFile(uri.fsPath));
+		if (tacticaDebounceTimer) {
+			clearTimeout(tacticaDebounceTimer);
+		}
+		tacticaDebounceTimer = setTimeout(() => {
+			void flushTacticaChanges(context);
+		}, 2000);
+	};
+	tacticaWatcher.onDidChange(onTacticaEvent);
+	tacticaWatcher.onDidCreate(onTacticaEvent);
 	context.subscriptions.push(tacticaWatcher);
 
 	// Debug handle for agent-driven automation (Strategy/CDP channel).
@@ -732,7 +787,7 @@ async function discoverTacticaSources (): Promise<string[]> {
 	const found = await vscode.workspace.findFiles('**/.tactica/hierarchy.json', '**/node_modules/**');
 	const roots = new Set<string>();
 	for (const uri of found) {
-		roots.add(path.dirname(path.dirname(uri.fsPath)));
+		roots.add(projectRootOfContractFile(uri.fsPath));
 	}
 	const ordered = [...roots].sort((a, b) => a.length - b.length);
 	return ordered;
@@ -749,12 +804,13 @@ async function refreshTypeGraph(_context: vscode.ExtensionContext) {
 	if (treeProvider && mainOrchestrator) {
 		await mainOrchestrator.refresh();
 		treeProvider.refresh();
-		// MainOrchestrator.refresh() clears and reloads the SAME Registry
-		// instance — provider caches are stale afterwards, reload them
+		// The store reloaded the SAME Registry instance in place —
+		// provider caches are stale afterwards, reload them
 		// (flowProvider included: it used to keep pre-refresh flow data)
-		flowProvider.setRegistry(mainOrchestrator.getRegistry());
-		diamondsProvider.setRegistry(mainOrchestrator.getRegistry());
-		bagelsProvider.setRegistry(mainOrchestrator.getRegistry());
+		const registry = mainOrchestrator.getRegistry();
+		if (registry) {
+			wireSidebarProviders(registry);
+		}
 		const graphData = mainOrchestrator.getGraphData();
 		if (graphData) {
 			genProvider.setGraphData(graphData);
@@ -765,12 +821,7 @@ async function refreshTypeGraph(_context: vscode.ExtensionContext) {
 		}
 	}
 
-	// Refresh navigation providers. Both caches must go: the definition
-	// cache used to survive tactica regeneration, so Ctrl+Click resolved
-	// against stale locations until window reload (audit B5).
-	if (definitionProvider) {
-		definitionProvider.clearCache();
-	}
+	// Refresh the reference provider's read of the (reloaded) store entry.
 	if (referenceProvider) {
 		referenceProvider.clear();
 		await referenceProvider.loadUsages();
@@ -781,6 +832,29 @@ async function refreshTypeGraph(_context: vscode.ExtensionContext) {
 }
 
 let debounceTimer: NodeJS.Timeout | null = null;
+
+// The .tactica watcher's batch state: one tactica run rewrites several
+// contract files — the roots collect during the debounce window and each
+// changed project reloads exactly once
+const tacticaChangedRoots = new Set<string>();
+let tacticaDebounceTimer: NodeJS.Timeout | null = null;
+
+// Flush: the sidebar's project goes through the full sidebar refresh
+// (which reloads the store itself); other already-loaded projects reload
+// in the store so follow-ON panels rebuild — never-loaded projects stay
+// asleep (nobody watches their data)
+async function flushTacticaChanges(context: vscode.ExtensionContext) {
+	const roots = [...tacticaChangedRoots];
+	tacticaChangedRoots.clear();
+	const sidebarRoot = mainOrchestrator?.getStateManager().getState().workspacePath;
+	for (const root of roots) {
+		if (sidebarRoot && projectKey(root) === projectKey(sidebarRoot)) {
+			await tracedRefresh(context);
+		} else if (peekProjectRegistry(root)) {
+			await reloadProjectRegistry(root, 'watcher');
+		}
+	}
+}
 
 async function handleFileChange(context: vscode.ExtensionContext) {
 	const logger = getLogger();

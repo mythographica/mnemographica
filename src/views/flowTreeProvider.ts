@@ -2,6 +2,7 @@
 
 import * as vscode from 'vscode';
 import { getLogger } from '../services/LoggerService';
+import { parseTacticaLocation, shortLocation } from '../utils/paths';
 import type { Registry } from '../../.tactica/types';
 
 // Icon per flow kind
@@ -54,21 +55,19 @@ export class FlowTreeItem extends vscode.TreeItem {
 		this.contextValue = data.type === 'entry' ? 'navigable' : 'flowGroup';
 
 		if (data.type === 'entry' && data.location) {
-			// Parse location: file.ts:line:col
-			const match = data.location.match(/^(.+):(\d+):(\d+)$/);
-			if (match) {
+			const parsed = parseTacticaLocation(data.location);
+			if (parsed) {
 				// The location tail rides the row as description —
 				// otherwise identical labels (".value" × 8 under one
 				// type) carry no way to tell entries apart
-				const tail = match[1].split('/').pop() || match[1];
-				this.description = `${tail}:${match[2]}`;
+				this.description = shortLocation(data.location);
 				this.command = {
 					command: 'mnemographica.navigateToLocation',
 					title: 'Go to Flow',
 					arguments: [{
-						filePath: match[1],
-						line: parseInt(match[2], 10),
-						column: parseInt(match[3], 10)
+						filePath: parsed.fileName,
+						line: parsed.line,
+						column: parsed.column
 					}]
 				};
 			}
@@ -144,11 +143,10 @@ export class FlowTreeProvider implements vscode.TreeDataProvider<FlowTreeItem> {
 
 	// Filter by selected type (called from context menu)
 	setFilterType(typeName: string): void {
-		// Normalize type name: convert Scene2D_GraphNode2D → Scene2D.GraphNode2D
-		const normalized = typeName.replace(/_/g, '.');
-		this.filterType = normalized;
+		// typeName is the exact key the tree rows carry — used as is
+		this.filterType = typeName;
 		this.showAll = false;
-		this.logger.info(`[FlowTree] Filter set to: ${normalized}`);
+		this.logger.info(`[FlowTree] Filter set to: ${typeName}`);
 		this.refresh();
 	}
 
@@ -158,14 +156,6 @@ export class FlowTreeProvider implements vscode.TreeDataProvider<FlowTreeItem> {
 		this.showAll = true;
 		this.logger.info('[FlowTree] Filter cleared, showing all');
 		this.refresh();
-	}
-
-	getShowAll(): boolean {
-		return this.showAll;
-	}
-
-	getFilterType(): string {
-		return this.filterType;
 	}
 
 	getTreeItem(element: FlowTreeItem): vscode.TreeItem {
@@ -206,6 +196,15 @@ export class FlowTreeProvider implements vscode.TreeDataProvider<FlowTreeItem> {
 		return filtered;
 	}
 
+	// "Show Flows" for one type opens its tree fully — the filtered view is
+	// small and read whole; the unfiltered all-types view stays collapsed
+	private groupState(): vscode.TreeItemCollapsibleState {
+		const state = this.filterType && !this.showAll
+			? vscode.TreeItemCollapsibleState.Expanded
+			: vscode.TreeItemCollapsibleState.Collapsed;
+		return state;
+	}
+
 	private getRootKinds(): FlowTreeItem[] {
 		const activeData = this.getActiveFlowData();
 
@@ -222,7 +221,7 @@ export class FlowTreeProvider implements vscode.TreeDataProvider<FlowTreeItem> {
 		for (const [kind, count] of kindCounts) {
 			items.push(new FlowTreeItem(
 				{ label: `${kind} (${count})`, type: 'kind', kind },
-				vscode.TreeItemCollapsibleState.Collapsed
+				this.groupState()
 			));
 		}
 
@@ -252,7 +251,7 @@ export class FlowTreeProvider implements vscode.TreeDataProvider<FlowTreeItem> {
 					kind,
 					typeName
 				},
-				vscode.TreeItemCollapsibleState.Collapsed
+				this.groupState()
 			));
 		}
 

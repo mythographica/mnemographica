@@ -1,0 +1,12 @@
+{
+  "version": "1.2",
+  "generatedAt": "2026-10-11T16:55:27.966Z",
+  "collections": [
+    {
+      "id": null,
+      "name": "defaultTypes",
+      "location": null,
+      "language": "typescript"
+    }
+  ]
+}

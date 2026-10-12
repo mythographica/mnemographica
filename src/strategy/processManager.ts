@@ -1,7 +1,6 @@
 'use strict';
 
 import { spawn, ChildProcess } from 'node:child_process';
-import { Socket } from 'node:net';
 import * as net from 'node:net';
 
 /**
@@ -25,7 +24,7 @@ export interface StrategyProcessStatus {
 type LogListener = (line: string) => void;
 
 let child: ChildProcess | null = null;
-let logSocket: Socket | null = null;
+let logSocket: net.Socket | null = null;
 let logListener: LogListener | null = null;
 let currentLogPort = 0;
 let currentCommand: string | null = null;

@@ -5,14 +5,14 @@ Type Hierarchy (Trie):
 │   └── Main_Adapter
 ├── Registry
 │   └── Registry_RegistryEntry
+├── collection_1::Control
+│   └── collection_1::Control_ControlPoint
 ├── collection_1::Definitions
 │   └── collection_1::Definitions_DefinitionEntry
 ├── collection_1::EDS
 │   └── collection_1::EDS_EDSEntry
 ├── collection_1::Flow
 │   └── collection_1::Flow_FlowEntry
-├── collection_1::Instrumentation
-│   └── collection_1::Instrumentation_InstrumentationPoint
 ├── collection_1::Trie
 │   └── collection_1::Trie_GraphNodeTrie
 │       ├── collection_1::Trie_GraphNodeTrie_ContextMenu

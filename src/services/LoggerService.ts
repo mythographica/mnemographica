@@ -88,13 +88,6 @@ export class LoggerService {
 	/**
 	 * Log a message at info level
 	 */
-	log (message: string, ...args: unknown[]): void {
-		this.write('LOG', message, args);
-	}
-
-	/**
-	 * Log a message at info level
-	 */
 	info (message: string, ...args: unknown[]): void {
 		this.write('INFO', message, args);
 	}
@@ -130,25 +123,6 @@ export class LoggerService {
 	}
 
 	/**
-	 * Hide the output channel
-	 */
-	hide (): void {
-		if (this.outputChannel) {
-			// VS Code doesn't have a hide method, but we can show a different channel
-			// or just leave it visible
-		}
-	}
-
-	/**
-	 * Clear all log messages
-	 */
-	clear (): void {
-		if (this.outputChannel) {
-			this.outputChannel.clear();
-		}
-	}
-
-	/**
 	 * Dispose the logger
 	 * Phase 1: Also clears Mnemonica data
 	 */
@@ -160,25 +134,6 @@ export class LoggerService {
 		// Phase 1: Reset Mnemonica data
 		this.logEntries = [];
 		this.loggerTab = undefined;
-	}
-
-	/**
-	 * Get all log entries as Mnemonica instances
-	 * Phase 1: Allows introspection of logged data
-	 */
-	getLogEntries (): LoggerTab_LogEntry[] {
-		return [...this.logEntries];
-	}
-
-	/**
-	 * Get log entries by level
-	 * Phase 1: Filter logs by severity level
-	 * Levels are the CONSOLE names (log|info|warn|error|debug) — that
-	 * design is not ours, entries store them lowercased ('warning' never
-	 * matches a stored 'warn' entry).
-	 */
-	getLogsByLevel (level: 'log' | 'info' | 'warn' | 'error' | 'debug'): LoggerTab_LogEntry[] {
-		return this.logEntries.filter(entry => entry.level === level);
 	}
 
 	/**

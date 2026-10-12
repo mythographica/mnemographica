@@ -57,19 +57,6 @@ export type D3Node = {
 		line: number;
 		column: number;
 	};
-	/** Node class discriminator — spheres are types; 'instrumentation' is the
-	 * reserved slot for the upcoming EDS/instrumentation layer (no current
-	 * producer) */
-	nodeClass?: 'type' | 'instrumentation';
-	/** Instrumentation point payload (from instrumentation.json; consumed by
-	 * the upcoming layer, nothing emits it today) */
-	instrumentation?: {
-		kind: string;
-		className: string;
-		scope: string;
-		code: string;
-		targets?: string[];
-	};
 	/** Diagnostic: no instantiation of this type exists in usages.json —
 	 * the type never happens at runtime, and neither does anything only
 	 * reachable through it (the EdsProbe case). Absent when usages.json
@@ -108,7 +95,7 @@ export type D3ExecLink = {
 };
 
 /**
- * Creation-graph node (instrumentation.json v2): a scope on the static
+ * Creation-graph node (control.json callers): a scope on the static
  * call path from an entry point down to `new SomeType()` sites. Kept
  * OUT of GraphData.nodes — creation nodes are not types and must not
  * leak into depth stats, gen controls, or trace-mode mesh lookups.
@@ -119,7 +106,9 @@ export type D3CreationNode = {
 	id: string;
 	/** Display name (module names shortened to the file basename) */
 	name: string;
-	kind: 'module' | 'function' | 'method' | 'arrow';
+	/** tactica writes module/function/method/arrow; the lethe schema keeps
+	 * the kind an open string (other languages add their own) */
+	kind: string;
 	filePath: string;
 	/** Scope start, 1-based */
 	location?: {
@@ -274,8 +263,9 @@ export type GraphData = {
 	links: D3Link[];
 	/** Execution-flow links (muscle) */
 	execflow: D3ExecLink[];
-	/** Creation-chain graph from instrumentation.json v2. Absent for v1
-	 * payloads — every consumer must treat the section as optional. */
+	/** Creation-chain graph from control.json callers. Absent when the
+	 * project has no usable control.json — every consumer must treat the
+	 * section as optional. */
 	creation?: {
 		nodes: D3CreationNode[];
 		links: D3CreationLink[];

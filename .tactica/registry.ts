@@ -10,8 +10,8 @@
 //   // instance has full intellisense for the generated type
 
 import type {
-	BackendRegistry_Instrumentation,
-	BackendRegistry_Instrumentation_InstrumentationPoint,
+	BackendRegistry_Control,
+	BackendRegistry_Control_ControlPoint,
 	BackendRegistry_Definitions,
 	BackendRegistry_Definitions_DefinitionEntry,
 	BackendRegistry_EDS,
@@ -66,10 +66,10 @@ declare module 'mnemonica' {
 
 declare module '../src/models/collections' {
 	interface BackendRegistry {
-		'Instrumentation': new () => BackendRegistry_Instrumentation;
-		'Instrumentation.InstrumentationPoint': new (data: { kind: string; className: string; location: string; code: string; scope: string; targets?: Array<string> }) => BackendRegistry_Instrumentation_InstrumentationPoint;
+		'Control': new () => BackendRegistry_Control;
+		'Control.ControlPoint': new (data: { kind: string; className: string; location: string; code: string; scope: string; targets: Array<string> }) => BackendRegistry_Control_ControlPoint;
 		'Definitions': new () => BackendRegistry_Definitions;
-		'Definitions.DefinitionEntry': new (data: { name: string; location: string; kind: string; parent: string | null; strictChain: boolean; blockErrors: boolean }) => BackendRegistry_Definitions_DefinitionEntry;
+		'Definitions.DefinitionEntry': new (data: { name: string; location: string; kind: string; parent: string | null; strictChain: boolean; blockErrors: boolean; fields?: Array<{ name: string; type: string; optional: boolean }>; args?: Array<{ name: string; type: string; optional?: boolean; kind?: string }> }) => BackendRegistry_Definitions_DefinitionEntry;
 		'EDS': new () => BackendRegistry_EDS;
 		'EDS.EDSEntry': new (data: { typeName: string; location: string; kind: string; code: string; targetType?: string; scope?: string; via?: string; createsTypes?: Array<string>; label?: string; callbackScopeId?: string; instanceArg?: string; scopeId?: string; wrapsTypePath?: string }) => BackendRegistry_EDS_EDSEntry;
 		'Flow': new () => BackendRegistry_Flow;

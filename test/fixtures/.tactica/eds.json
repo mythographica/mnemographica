@@ -1,37 +1,30 @@
 {
+  "version": "1.2",
   "eds": {
     "UserEntity": [
       {
-        "typeName": "UserEntity",
         "location": "/test/project/src/services/user.ts:45:12",
         "kind": "wrap",
-        "code": "dive.wrap(handler)",
-        "targetType": "UserEntity"
+        "code": "dive.wrap(handler)"
       },
       {
-        "typeName": "UserEntity",
         "location": "/test/project/src/services/user.ts:50:8",
         "kind": "wrap",
-        "code": "dive.wrapInstanceMethods(user)",
-        "targetType": "UserEntity"
+        "code": "dive.wrapInstanceMethods(user)"
       }
     ],
     "AdminEntity": [
       {
-        "typeName": "AdminEntity",
         "location": "/test/project/src/services/admin.ts:22:5",
         "kind": "contextConsume",
-        "code": "dive.current()",
-        "targetType": "AdminEntity"
+        "code": "dive.current()"
       }
     ],
     "OrderEntity": [
       {
-        "typeName": "OrderEntity",
         "location": "/test/project/src/services/order.ts:30:10",
         "kind": "hookAttach",
-        "code": "attachHooks(orderCollection)",
-        "targetType": "OrderEntity"
+        "code": "attachHooks(orderCollection)"
       }
     ]
   }

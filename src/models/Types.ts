@@ -1,6 +1,6 @@
 'use strict';
 
-import { Backend } from './collections';
+import { Backend, setProps } from './collections';
 import { getLogger } from '../services/LoggerService';
 
 export type rawTypeEntry = {
@@ -33,8 +33,6 @@ export const Types = Backend.define('Types', class {
 	}
 
 	get (name: string): TypeEntryInstance | undefined {
-		this.logger.info('Types keys: ', ...this.map.keys());
-		this.logger.info('Types size: ', this.map.size);
 		return this.map.get(name);
 	}
 
@@ -67,10 +65,6 @@ export const Types = Backend.define('Types', class {
 		return entry?.lineNumber;
 	}
 });
-
-const setProps = (to: object, from: object) => {
-	Object.defineProperties(to, Object.getOwnPropertyDescriptors(from));
-};
 
 export const TypeEntry = Types.define('TypeEntry', function (
 	this: rawTypeEntry,

@@ -2,16 +2,18 @@
 
 import * as vscode from 'vscode';
 import { getLogger } from '../services/LoggerService';
+import { parseTacticaLocation, shortLocation } from '../utils/paths';
+import { PathTrieNode, findInPathTrie, insertIntoPathTrie, newPathTrieNode, subtreeEntryCount } from './pathTrie';
 import type { Registry } from '../../.tactica/types';
 
-// Mirrors rawCreationGraphNode / rawCreationGraphAnchor from
-// models/Instrumentation.ts — declared locally (same decoupling
+// Mirrors rawCallersNode / rawCallersAnchor from
+// models/Control.ts — declared locally (same decoupling
 // pattern as FlowTreeProvider's FlowEntryData) so the view layer does
 // not depend on model internals
 interface CreationScopeData {
 	scopeId: string;
 	name: string;
-	kind: 'module' | 'function' | 'method' | 'arrow';
+	kind: string;
 	filePath: string;
 	location: string;
 	starter: boolean;
@@ -27,12 +29,7 @@ interface CreationAnchorData {
 
 // Trie node: one segment of a dot-joined type path. Anchors (the `new`
 // sites) hang off the node whose fullPath IS the created type.
-interface TrieNode {
-	segment: string;
-	fullPath: string;
-	children: Map<string, TrieNode>;
-	anchors: CreationAnchorData[];
-}
+type TrieNode = PathTrieNode<CreationAnchorData>;
 
 type DiamondsNodeType = 'segment' | 'anchor' | 'info';
 
@@ -52,13 +49,6 @@ const scopeIcons: Record<string, string> = {
 	function: 'symbol-function',
 	method: 'symbol-method',
 	arrow: 'symbol-function'
-};
-
-const shortLocation = (location: string): string => {
-	const match = location.match(/^(.+):(\d+):(\d+)$/);
-	if (!match) { return location; }
-	const tail = match[1].split('/').pop() || match[1];
-	return `${tail}:${match[2]}`;
 };
 
 export class DiamondsTreeItem extends vscode.TreeItem {
@@ -93,15 +83,15 @@ export class DiamondsTreeItem extends vscode.TreeItem {
 			const codeLine = anchor.constructorText || `new ${anchor.typePath}(…)`;
 			this.tooltip = `${scopeLine}\n${codeLine}\n${anchor.location}`;
 			this.contextValue = 'navigable';
-			const match = anchor.location.match(/^(.+):(\d+):(\d+)$/);
-			if (match) {
+			const parsed = parseTacticaLocation(anchor.location);
+			if (parsed) {
 				this.command = {
 					command: 'mnemographica.navigateToLocation',
 					title: 'Go to Creation Site',
 					arguments: [{
-						filePath: match[1],
-						line: parseInt(match[2], 10),
-						column: parseInt(match[3], 10)
+						filePath: parsed.fileName,
+						line: parsed.line,
+						column: parsed.column
 					}]
 				};
 			}
@@ -118,12 +108,12 @@ export class DiamondsTreeProvider implements vscode.TreeDataProvider<DiamondsTre
 	private _onDidChangeTreeData = new vscode.EventEmitter<DiamondsTreeItem | undefined | null | void>();
 	readonly onDidChangeTreeData = this._onDidChangeTreeData.event;
 
-	private trieRoot: TrieNode = DiamondsTreeProvider.newTrieNode('', '');
+	private trieRoot: TrieNode = newPathTrieNode('', '');
 	private scopesById: Map<string, CreationScopeData> = new Map();
 	private status: 'ok' | 'no-registry' | 'no-graph' | 'empty' = 'no-registry';
-	// WHY there is no graph ('missing' | 'stale' | 'v1' | undefined) —
+	// WHY there is no graph ('missing' | 'stale' | undefined) —
 	// the empty pane must give the right advice for each
-	private noGraphReason: 'missing' | 'stale' | 'v1' | undefined;
+	private noGraphReason: 'missing' | 'stale' | undefined;
 	private registry: Registry | undefined;
 	private logger = getLogger();
 
@@ -136,13 +126,8 @@ export class DiamondsTreeProvider implements vscode.TreeDataProvider<DiamondsTre
 		this.loadFromRegistry();
 	}
 
-	private static newTrieNode(segment: string, fullPath: string): TrieNode {
-		const node: TrieNode = { segment, fullPath, children: new Map(), anchors: [] };
-		return node;
-	}
-
 	loadFromRegistry(): void {
-		this.trieRoot = DiamondsTreeProvider.newTrieNode('', '');
+		this.trieRoot = newPathTrieNode('', '');
 		this.scopesById.clear();
 
 		if (!this.registry) {
@@ -151,17 +136,17 @@ export class DiamondsTreeProvider implements vscode.TreeDataProvider<DiamondsTre
 			return;
 		}
 
-		const instrumentation = this.registry.getInstrumentation();
-		if (!instrumentation || !instrumentation.hasCreationGraph()) {
-			this.noGraphReason = instrumentation
-				? instrumentation.getCreationGraphAbsentReason()
+		const control = this.registry.getControl();
+		if (!control || !control.hasCallers()) {
+			this.noGraphReason = control
+				? control.getCallersAbsentReason()
 				: undefined;
 			this.status = 'no-graph';
 			this.refresh();
 			return;
 		}
 
-		const graph = instrumentation.getCreationGraph();
+		const graph = control.getCallers();
 		if (!graph) {
 			this.status = 'no-graph';
 			this.refresh();
@@ -183,33 +168,13 @@ export class DiamondsTreeProvider implements vscode.TreeDataProvider<DiamondsTre
 	}
 
 	private insertAnchor(anchor: CreationAnchorData): void {
-		const segments = anchor.typePath.split('.');
-		let node = this.trieRoot;
-		let path = '';
-		for (const segment of segments) {
-			path = path ? `${path}.${segment}` : segment;
-			let child = node.children.get(segment);
-			if (!child) {
-				child = DiamondsTreeProvider.newTrieNode(segment, path);
-				node.children.set(segment, child);
-			}
-			node = child;
-		}
-		node.anchors.push(anchor);
-	}
-
-	private subtreeAnchorCount(node: TrieNode): number {
-		let count = node.anchors.length;
-		for (const child of node.children.values()) {
-			count += this.subtreeAnchorCount(child);
-		}
-		return count;
+		insertIntoPathTrie(this.trieRoot, anchor.typePath, anchor);
 	}
 
 	private segmentItems(node: TrieNode): DiamondsTreeItem[] {
 		const items: DiamondsTreeItem[] = [];
 		for (const child of node.children.values()) {
-			const count = this.subtreeAnchorCount(child);
+			const count = subtreeEntryCount(child);
 			items.push(new DiamondsTreeItem(
 				{
 					label: `${child.segment} (${count})`,
@@ -221,16 +186,6 @@ export class DiamondsTreeProvider implements vscode.TreeDataProvider<DiamondsTre
 			));
 		}
 		return items.sort((a, b) => a.data.label.localeCompare(b.data.label));
-	}
-
-	private findNode(fullPath: string): TrieNode | undefined {
-		let node = this.trieRoot;
-		for (const segment of fullPath.split('.')) {
-			const child = node.children.get(segment);
-			if (!child) { return undefined; }
-			node = child;
-		}
-		return node;
 	}
 
 	getTreeItem(element: DiamondsTreeItem): vscode.TreeItem {
@@ -247,14 +202,11 @@ export class DiamondsTreeProvider implements vscode.TreeDataProvider<DiamondsTre
 			}
 			if (this.status === 'no-graph') {
 				// One row, but the RIGHT words: a stale file was skipped
-				// by the guard (regenerate as ONE batch), a missing file
-				// means tactica never ran here, v1 genuinely predates
-				// the creation graph
+				// by the guard (regenerate as ONE batch), a missing or
+				// invalid file means tactica never ran here (or ran old)
 				const label = this.noGraphReason === 'stale'
-					? 'Stale instrumentation.json — older than definitions.json; regenerate .tactica as one batch'
-					: this.noGraphReason === 'missing'
-						? 'No instrumentation.json — run tactica to generate .tactica'
-						: 'No creation graph — regenerate .tactica with tactica v2';
+					? 'Stale control.json — older than definitions.json; regenerate .tactica as one batch'
+					: 'No usable control.json — run a current tactica to generate .tactica';
 				return [new DiamondsTreeItem(
 					{ label, type: 'info' },
 					vscode.TreeItemCollapsibleState.None
@@ -271,12 +223,12 @@ export class DiamondsTreeProvider implements vscode.TreeDataProvider<DiamondsTre
 
 		const data = element.data;
 		if (data.type !== 'segment' || !data.fullPath) { return []; }
-		const node = this.findNode(data.fullPath);
+		const node = findInPathTrie(this.trieRoot, data.fullPath);
 		if (!node) { return []; }
 
 		// Child type segments first, then the scopes creating THIS type
 		const items = this.segmentItems(node);
-		for (const anchor of node.anchors) {
+		for (const anchor of node.entries) {
 			const scope = this.scopesById.get(anchor.holderScopeId);
 			items.push(new DiamondsTreeItem(
 				{
@@ -292,7 +244,7 @@ export class DiamondsTreeProvider implements vscode.TreeDataProvider<DiamondsTre
 	}
 
 	clear(): void {
-		this.trieRoot = DiamondsTreeProvider.newTrieNode('', '');
+		this.trieRoot = newPathTrieNode('', '');
 		this.scopesById.clear();
 		this.status = 'no-registry';
 		this.noGraphReason = undefined;

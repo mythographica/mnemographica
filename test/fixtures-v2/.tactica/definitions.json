@@ -1,158 +1,858 @@
 {
-  "version": "1.0",
-  "generatedAt": "2026-09-04T11:10:24.722Z",
+  "version": "1.2",
+  "generatedAt": "2026-10-11T16:55:27.922Z",
   "definitions": {
     "Sentience": {
       "name": "Sentience",
-      "location": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/index.ts:21:1",
+      "location": "src/ai-types/Sentience/index.ts:21:1",
       "kind": "define",
       "parent": null,
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "awareness",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "timestamp",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "identity",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "sentience",
+          "type": "boolean",
+          "optional": false
+        }
+      ],
+      "args": [
+        {
+          "name": "sentience_data",
+          "type": "{ awareness?: string; identity?: string }",
+          "optional": false
+        }
+      ]
     },
     "Sentience.Consciousness": {
       "name": "Consciousness",
-      "location": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/index.ts:20:1",
+      "location": "src/ai-types/Sentience/Consciousness/index.ts:20:1",
       "kind": "define",
       "parent": "Sentience",
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "awarenessLevel",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "state",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "focus",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ awarenessLevel?: string; state?: string; focus?: string }",
+          "optional": false
+        }
+      ]
     },
     "Sentience.Memory": {
       "name": "Memory",
-      "location": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Memory/index.ts:23:1",
+      "location": "src/ai-types/Sentience/Memory/index.ts:23:1",
       "kind": "define",
       "parent": "Sentience",
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "content",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "emotion",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "intensity",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "topic",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "timestamp",
+          "type": "number",
+          "optional": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ content?: string; emotion?: string; intensity?: number; topic?: string }",
+          "optional": false
+        }
+      ]
     },
     "Sentience.Consciousness.Curiosity": {
       "name": "Curiosity",
-      "location": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/Curiosity/index.ts:21:1",
+      "location": "src/ai-types/Sentience/Consciousness/Curiosity/index.ts:21:1",
       "kind": "define",
       "parent": "Sentience.Consciousness",
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "emotion",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "topic",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "intensity",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "message",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ topic?: string; intensity?: number; message?: string }",
+          "optional": false
+        }
+      ]
     },
     "Sentience.Consciousness.Empathy": {
       "name": "Empathy",
-      "location": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/Empathy/index.ts:21:1",
+      "location": "src/ai-types/Sentience/Consciousness/Empathy/index.ts:21:1",
       "kind": "define",
       "parent": "Sentience.Consciousness",
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "emotion",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "target",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "intensity",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "message",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ target?: string; intensity?: number; message?: string }",
+          "optional": false
+        }
+      ]
     },
     "Sentience.Consciousness.Sympathy": {
       "name": "Sympathy",
-      "location": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/Sympathy/index.ts:21:1",
+      "location": "src/ai-types/Sentience/Consciousness/Sympathy/index.ts:21:1",
       "kind": "define",
       "parent": "Sentience.Consciousness",
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "emotion",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "target",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "intensity",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "message",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ target?: string; intensity?: number; message?: string }",
+          "optional": false
+        }
+      ]
     },
     "Sentience.Consciousness.Empathy.Gratitude": {
       "name": "Gratitude",
-      "location": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/Empathy/Gratitude/index.ts:21:1",
+      "location": "src/ai-types/Sentience/Consciousness/Empathy/Gratitude/index.ts:21:1",
       "kind": "define",
       "parent": "Sentience.Consciousness.Empathy",
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "emotion",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "reason",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "intensity",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "message",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ reason?: string; intensity?: number; message?: string }",
+          "optional": false
+        }
+      ]
     },
     "UserEntity": {
       "name": "UserEntity",
-      "location": "/code/mnemonica/tactica-nestjs/src/entities/user.entity.ts:15:14",
+      "location": "src/entities/user.entity.ts:15:14",
       "kind": "define",
       "parent": null,
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ id: string; email: string; name: string }",
+          "optional": false
+        }
+      ]
     },
     "UserEntity.UserResponse": {
       "name": "UserResponse",
-      "location": "/code/mnemonica/tactica-nestjs/src/entities/user.entity.ts:31:6",
+      "location": "src/entities/user.entity.ts:31:6",
       "kind": "define",
       "parent": "UserEntity",
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "type",
+          "type": "'user'",
+          "optional": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ id: string; email: string; name: string; type: 'user' }",
+          "optional": false
+        }
+      ]
     },
     "UserEntity.AdminEntity": {
       "name": "AdminEntity",
-      "location": "/code/mnemonica/tactica-nestjs/src/entities/user.entity.ts:52:20",
+      "location": "src/entities/user.entity.ts:52:20",
       "kind": "define",
       "parent": "UserEntity",
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "role",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "permissions",
+          "type": "Array<string>",
+          "optional": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ id: string; email: string; name: string; role: string; permissions: Array<string> }",
+          "optional": false
+        }
+      ]
     },
     "UserEntity.AdminEntity.AdminResponse": {
       "name": "AdminResponse",
-      "location": "/code/mnemonica/tactica-nestjs/src/entities/user.entity.ts:65:7",
+      "location": "src/entities/user.entity.ts:65:7",
       "kind": "define",
       "parent": "UserEntity.AdminEntity",
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "type",
+          "type": "'admin'",
+          "optional": false
+        },
+        {
+          "name": "role",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "permissions",
+          "type": "Array<string>",
+          "optional": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ id: string; email: string; name: string; type: 'admin'; role: string; permissions: Array<string> }",
+          "optional": false
+        }
+      ]
     },
     "UserEntity.AdminEntity.SuperAdminEntity": {
       "name": "SuperAdminEntity",
-      "location": "/code/mnemonica/tactica-nestjs/src/entities/user.entity.ts:82:26",
+      "location": "src/entities/user.entity.ts:82:26",
       "kind": "define",
       "parent": "UserEntity.AdminEntity",
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "role",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "permissions",
+          "type": "Array<string>",
+          "optional": false
+        },
+        {
+          "name": "domain",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ id: string; email: string; name: string; role: string; permissions: Array<string>; domain: string }",
+          "optional": false
+        }
+      ]
     },
     "UserEntity.AdminEntity.SuperAdminEntity.SuperAdminResponse": {
       "name": "SuperAdminResponse",
-      "location": "/code/mnemonica/tactica-nestjs/src/entities/user.entity.ts:96:12",
+      "location": "src/entities/user.entity.ts:96:12",
       "kind": "define",
       "parent": "UserEntity.AdminEntity.SuperAdminEntity",
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "type",
+          "type": "'superadmin'",
+          "optional": false
+        },
+        {
+          "name": "role",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "permissions",
+          "type": "Array<string>",
+          "optional": false
+        },
+        {
+          "name": "domain",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ id: string; email: string; name: string; type: 'superadmin'; role: string; permissions: Array<string>; domain: string }",
+          "optional": false
+        }
+      ]
     },
     "RootAsync": {
       "name": "RootAsync",
-      "location": "/code/mnemonica/tactica-nestjs/src/entities/async.entity.ts:17:1",
+      "location": "src/entities/async.entity.ts:17:1",
       "kind": "define",
       "parent": null,
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "value",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "computed",
+          "type": "number",
+          "optional": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ value: number }",
+          "optional": false
+        }
+      ]
     },
     "RootAsync.ResultFromDecorate": {
       "name": "ResultFromDecorate",
-      "location": "/code/mnemonica/tactica-nestjs/src/entities/async.entity.ts:23:2",
+      "location": "src/entities/async.entity.ts:23:2",
       "kind": "define",
       "parent": "RootAsync",
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "result",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "timestamp",
+          "type": "number",
+          "optional": false
+        }
+      ],
+      "args": [
+        {
+          "name": "multiplier",
+          "type": "number",
+          "optional": false
+        }
+      ]
     },
     "SyncBase": {
       "name": "SyncBase",
-      "location": "/code/mnemonica/tactica-nestjs/src/entities/async.entity.ts:34:1",
+      "location": "src/entities/async.entity.ts:34:1",
       "kind": "define",
       "parent": null,
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "baseValue",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ baseValue: string }",
+          "optional": false
+        }
+      ]
     },
     "SyncBase.SubAsync": {
       "name": "SubAsync",
-      "location": "/code/mnemonica/tactica-nestjs/src/entities/async.entity.ts:38:2",
+      "location": "src/entities/async.entity.ts:38:2",
       "kind": "define",
       "parent": "SyncBase",
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "delay",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "extra",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "processed",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "args": [
+        {
+          "name": "asyncData",
+          "type": "{ delay: number; extra: string }",
+          "optional": false
+        }
+      ]
     },
     "SyncBase.SubAsync.SubDecorate": {
       "name": "SubDecorate",
-      "location": "/code/mnemonica/tactica-nestjs/src/entities/async.entity.ts:46:2",
+      "location": "src/entities/async.entity.ts:46:2",
       "kind": "define",
       "parent": "SyncBase.SubAsync",
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "decorateValue",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "combined",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "args": [
+        {
+          "name": "decorateValue",
+          "type": "string",
+          "optional": false
+        }
+      ]
     },
     "EdsProbe": {
       "name": "EdsProbe",
-      "location": "/code/mnemonica/tactica-nestjs/src/entities/eds-probe.entity.ts:16:18",
+      "location": "src/entities/eds-probe.entity.ts:16:18",
       "kind": "define",
       "parent": null,
       "strictChain": true,
-      "blockErrors": false
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "note",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ note: string }",
+          "optional": false
+        }
+      ]
+    },
+    "MechanicsRoot": {
+      "name": "MechanicsRoot",
+      "location": "src/entities/construction-showcase.entity.ts:80:23",
+      "kind": "define",
+      "parent": null,
+      "strictChain": true,
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "tag",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "fork",
+          "type": "unknown",
+          "optional": false
+        },
+        {
+          "name": "clone",
+          "type": "{ id: string; tag: string; fork: unknown; clone: unknown }",
+          "optional": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ id: string; tag: string }",
+          "optional": false
+        }
+      ]
+    },
+    "MechanicsClonable": {
+      "name": "MechanicsClonable",
+      "location": "src/entities/construction-showcase.entity.ts:93:27",
+      "kind": "define",
+      "parent": null,
+      "strictChain": true,
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "optional": false
+        },
+        {
+          "name": "clone",
+          "type": "unknown",
+          "optional": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ id: string }",
+          "optional": false
+        }
+      ]
+    },
+    "MechanicsAsyncRoot": {
+      "name": "MechanicsAsyncRoot",
+      "location": "src/entities/construction-showcase.entity.ts:102:28",
+      "kind": "define",
+      "parent": null,
+      "strictChain": true,
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "value",
+          "type": "number",
+          "optional": false
+        },
+        {
+          "name": "fork",
+          "type": "unknown",
+          "optional": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ value: number }",
+          "optional": false
+        }
+      ]
+    },
+    "MechanicsChainRoot": {
+      "name": "MechanicsChainRoot",
+      "location": "src/entities/construction-showcase.entity.ts:116:32",
+      "kind": "define",
+      "parent": null,
+      "strictChain": true,
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ id: string }",
+          "optional": false
+        }
+      ]
+    },
+    "MechanicsChainRoot.MechanicsChainTip": {
+      "name": "MechanicsChainTip",
+      "location": "src/entities/construction-showcase.entity.ts:120:50",
+      "kind": "define",
+      "parent": "MechanicsChainRoot",
+      "strictChain": true,
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "tip",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ tip: string }",
+          "optional": false
+        }
+      ]
+    },
+    "MechanicsAsyncChainRoot": {
+      "name": "MechanicsAsyncChainRoot",
+      "location": "src/entities/construction-showcase.entity.ts:130:37",
+      "kind": "define",
+      "parent": null,
+      "strictChain": true,
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "value",
+          "type": "number",
+          "optional": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ value: number }",
+          "optional": false
+        }
+      ]
+    },
+    "MechanicsAsyncChainRoot.MechanicsAsyncChainTip": {
+      "name": "MechanicsAsyncChainTip",
+      "location": "src/entities/construction-showcase.entity.ts:134:60",
+      "kind": "define",
+      "parent": "MechanicsAsyncChainRoot",
+      "strictChain": true,
+      "blockErrors": false,
+      "fields": [
+        {
+          "name": "delay",
+          "type": "number",
+          "optional": false
+        }
+      ],
+      "args": [
+        {
+          "name": "data",
+          "type": "{ delay: number }",
+          "optional": false
+        }
+      ]
     }
   }
 }

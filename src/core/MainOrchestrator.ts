@@ -1,10 +1,11 @@
 'use strict';
 
 import { lookup } from 'mnemonica';
-import type { Main as MainType, Main_Adapter, Registry } from '../../.tactica/types';
+import type { Main as MainType, Registry } from '../../.tactica/types';
 import { StateManager } from './StateManager';
 import { GraphBuilder } from './GraphBuilder';
 import { GraphData } from '../types';
+import { getProjectRegistry, reloadProjectRegistry } from './registryStore';
 
 // One edge of a dive execution-flow trace, as mapped by strategy's
 // cdp-scripts/dive-trace.js for the JSON crossing (live instance
@@ -36,15 +37,17 @@ export type traceEdge = {
 export class MainOrchestrator {
 	private main: MainType;
 	private stateManager: StateManager;
-	private registry: Registry;
+	// The sidebar's Registry is the registryStore entry for the current
+	// workspace — one loaded instance per project, shared with the panels.
+	// A project without .tactica gets an empty LOCAL instance (never
+	// cached by the store — tactica may generate one later)
+	private registry: Registry | undefined;
 	private currentGraphData: GraphData | undefined;
 
 	constructor(version: string) {
 		const Main = lookup('Main');
 		this.main = new Main(version);
 		this.stateManager = new StateManager();
-		const Registry = lookup('Registry');
-		this.registry = new Registry();
 	}
 
 	getStateManager(): StateManager {
@@ -61,7 +64,15 @@ export class MainOrchestrator {
 
 		try {
 			this.stateManager.setWorkspacePath(workspacePath);
-			await this.registry.loadFromWorkspace(workspacePath);
+			const storeRegistry = await getProjectRegistry(workspacePath);
+			if (storeRegistry) {
+				this.registry = storeRegistry;
+			} else {
+				// No .tactica yet — an empty local Registry keeps every
+				// consumer honest (trees show empty, no crash)
+				const RegistryType = lookup('Registry');
+				this.registry = new RegistryType();
+			}
 
 			this.currentGraphData = GraphBuilder.buildFromRegistry(this.registry);
 
@@ -77,8 +88,25 @@ export class MainOrchestrator {
 	async refresh(): Promise<void> {
 		const workspacePath = this.stateManager.getState().workspacePath;
 		if (!workspacePath) { return; }
-		this.registry.clear();
-		await this.loadWorkspace(workspacePath);
+		this.stateManager.setLoading(true);
+		this.stateManager.clearError();
+		try {
+			// The store reloads the entry IN PLACE — sidebar providers holding
+			// the instance see the fresh data on their next read
+			const reloaded = await reloadProjectRegistry(workspacePath, 'sidebar');
+			if (reloaded) {
+				this.registry = reloaded;
+			}
+			if (this.registry) {
+				this.currentGraphData = GraphBuilder.buildFromRegistry(this.registry);
+			}
+			this.stateManager.setLoading(false);
+		} catch (error) {
+			const message = error instanceof Error ? error.message : String(error);
+			this.stateManager.setError(message);
+			this.stateManager.setLoading(false);
+			throw error;
+		}
 	}
 
 	getGraphData(): GraphData | undefined {
@@ -88,10 +116,6 @@ export class MainOrchestrator {
 	getGraphStats(): { nodeCount: number; linkCount: number; maxDepth: number } | undefined {
 		if (!this.currentGraphData) { return undefined; }
 		return GraphBuilder.getStats(this.currentGraphData);
-	}
-
-	getMain(): MainType {
-		return this.main;
 	}
 
 	/**
@@ -105,13 +129,6 @@ export class MainOrchestrator {
 		const rest = (this.main.adapters as Array<{ name: string }>).filter((entry) => entry.name !== name);
 		rest.push(adapter);
 		this.main.adapters = rest;
-	}
-
-	setAdapterEnabled(name: string, enabled: boolean): void {
-		const adapter = (this.main.adapters as Array<Main_Adapter>).find((entry) => entry.name === name);
-		if (adapter) {
-			adapter.enabled = enabled;
-		}
 	}
 
 	getAdapters(): Array<{ name: string; domain: string; enabled: boolean }> {
@@ -130,6 +147,13 @@ export class MainOrchestrator {
 	// dedupe below would drop every completion as a replay and call
 	// edges would stay 'running' forever.
 	private traceById = new Map<number, traceEdge>();
+
+	// The ring, re-grounded: Main's generated type flattens it to
+	// Array<unknown> (tactica's printer drops the element shape), the cast
+	// lives in this ONE accessor — every consumer below reads traceEdge[].
+	private get traceBuffer(): traceEdge[] {
+		return this.main.traceBuffer as unknown as traceEdge[];
+	}
 
 	/**
 	 * Land a batch of trace edges pushed by strategy (trace/ingest).
@@ -164,7 +188,7 @@ export class MainOrchestrator {
 			}
 			main.traceSession = session;
 		}
-		const buffer = main.traceBuffer as unknown as traceEdge[];
+		const buffer = this.traceBuffer;
 		const acceptedEdges: traceEdge[] = [];
 		let updated = 0;
 		if (Array.isArray(edges)) {
@@ -245,7 +269,7 @@ export class MainOrchestrator {
 		latest: traceEdge[];
 	} {
 		const main = this.main;
-		const buffer = main.traceBuffer as unknown as traceEdge[];
+		const buffer = this.traceBuffer;
 		const latest = buffer.slice(-sample);
 		const result = {
 			buffered      : buffer.length,
@@ -266,7 +290,7 @@ export class MainOrchestrator {
 	 */
 	resetTrace(): { reset: true; dropped: number } {
 		const main = this.main;
-		const buffer = main.traceBuffer as unknown as traceEdge[];
+		const buffer = this.traceBuffer;
 		const dropped = buffer.length;
 		buffer.length = 0;
 		this.traceById.clear();
@@ -284,8 +308,7 @@ export class MainOrchestrator {
 	 * lineage; ids evicted from the ring simply truncate the walk.
 	 */
 	getTraceLineage(name: string): { selectedId: number; edges: traceEdge[] } | null {
-		const main = this.main;
-		const buffer = main.traceBuffer as unknown as traceEdge[];
+		const buffer = this.traceBuffer;
 		let selected: traceEdge | undefined;
 		for (let i = buffer.length - 1; i >= 0; i--) {
 			const edge = buffer[i];
@@ -295,17 +318,15 @@ export class MainOrchestrator {
 			}
 		}
 		if (!selected) { return null; }
-		const byId = new Map<number, traceEdge>();
-		for (const edge of buffer) { byId.set(edge.id, edge); }
 		const ancestors: traceEdge[] = [];
 		let cursor: traceEdge | undefined = selected;
 		while (cursor) {
 			ancestors.unshift(cursor);
-			cursor = cursor.parentId !== null ? byId.get(cursor.parentId) : undefined;
+			cursor = cursor.parentId !== null ? this.traceById.get(cursor.parentId) : undefined;
 		}
 		const selectedId = selected.id;
 		const descendants = buffer.filter(edge => {
-			const isDescendant = edge.id > selectedId && this.hasAncestor(edge, selectedId, byId);
+			const isDescendant = edge.id > selectedId && this.hasAncestor(edge, selectedId);
 			return isDescendant;
 		});
 		const result = { selectedId, edges: ancestors.concat(descendants) };
@@ -321,13 +342,10 @@ export class MainOrchestrator {
 	 * isolation would light the wrong branch.
 	 */
 	getTraceLineageByRoot(rootId: number): { selectedId: number; edges: traceEdge[] } | null {
-		const main = this.main;
-		const buffer = main.traceBuffer as unknown as traceEdge[];
+		const buffer = this.traceBuffer;
 		if (!this.traceById.has(rootId)) { return null; }
-		const byId = new Map<number, traceEdge>();
-		for (const edge of buffer) { byId.set(edge.id, edge); }
 		const members = buffer.filter(edge => {
-			const belongs = this.hasAncestor(edge, rootId, byId);
+			const belongs = this.hasAncestor(edge, rootId);
 			return belongs;
 		});
 		if (members.length === 0) { return null; }
@@ -342,22 +360,18 @@ export class MainOrchestrator {
 	 * parents against the buffer).
 	 */
 	getTraceContinuation(rootId: number, newEdges: traceEdge[]): traceEdge[] {
-		const main = this.main;
-		const buffer = main.traceBuffer as unknown as traceEdge[];
-		const byId = new Map<number, traceEdge>();
-		for (const edge of buffer) { byId.set(edge.id, edge); }
 		const result = newEdges.filter(edge => {
-			const belongs = this.hasAncestor(edge, rootId, byId);
+			const belongs = this.hasAncestor(edge, rootId);
 			return belongs;
 		});
 		return result;
 	}
 
-	private hasAncestor(edge: traceEdge, rootId: number, byId: Map<number, traceEdge>): boolean {
+	private hasAncestor(edge: traceEdge, rootId: number): boolean {
 		let cursor: traceEdge | undefined = edge;
 		while (cursor) {
 			if (cursor.id === rootId) { return true; }
-			cursor = cursor.parentId !== null ? byId.get(cursor.parentId) : undefined;
+			cursor = cursor.parentId !== null ? this.traceById.get(cursor.parentId) : undefined;
 		}
 		return false;
 	}
@@ -379,10 +393,10 @@ export class MainOrchestrator {
 		hasError: boolean;
 		unknownError: boolean;
 	}> {
-		const main = this.main;
-		const buffer = main.traceBuffer as unknown as traceEdge[];
-		const byId = new Map<number, traceEdge>();
-		for (const edge of buffer) { byId.set(edge.id, edge); }
+		const buffer = this.traceBuffer;
+		// traceById mirrors the ring exactly (ingest/evict/reset keep it in
+		// step) — no per-call rebuild
+		const byId = this.traceById;
 		const windowed = buffer.slice(-windowSize);
 		const groups = new Map<number, { rootId: number; name: string; count: number; latest: number; edges: traceEdge[]; hasError: boolean; unknownError: boolean }>();
 		for (const edge of windowed) {
@@ -449,6 +463,6 @@ export class MainOrchestrator {
 
 	dispose(): void {
 		this.currentGraphData = undefined;
-		this.registry.clear();
+		this.registry?.clear();
 	}
 }

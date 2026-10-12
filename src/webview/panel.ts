@@ -4,12 +4,21 @@ import * as path from 'path';
 import type { GraphData, WebviewMessage } from '../types/index.js';
 import type { traceEdge } from '../core/MainOrchestrator';
 import { loadGraphDataFor } from '../core/graphDataLoader';
+import { getProjectGeneratedAt, onProjectRegistryReload, reloadProjectRegistry } from '../core/registryStore';
+import { projectKey } from '../utils/paths';
 import { buildSceneFor } from '../core/SceneBuilder';
 import type { FrontendRegistry_Scene3D as Scene3D, FrontendRegistry_Scene3D_GraphNode3D as Scene3D_GraphNode3D } from '../../.tactica/types';
 import { getLogger } from '../services/LoggerService';
+import { VSCodeNavigation } from '../services/NavigationAdapter';
 
 // Get logger instance once at module level
 const logger = getLogger();
+
+// Number-or-zero for untrusted view payloads (layout.json, viewState)
+const finiteOrZero = function (value: unknown): number {
+	const n = typeof value === 'number' && Number.isFinite(value) ? value : 0;
+	return n;
+};
 
 // layout.json's camera shape (the renderer's initialCameraState):
 // { orbitQuat: {x,y,z,w}, cameraRotation: {x,y} (derived from the
@@ -33,17 +42,13 @@ const cameraDataFromLayout = function (layout: unknown): {
 		zoom?: unknown;
 		panOffset?: { x?: unknown; y?: unknown; z?: unknown };
 	};
-	const num = (value: unknown): number => {
-		const n = typeof value === 'number' && Number.isFinite(value) ? value : 0;
-		return n;
-	};
 	const data = {
-		x         : num(cam.panOffset?.x),
-		y         : num(cam.panOffset?.y),
-		z         : num(cam.panOffset?.z),
-		zoom      : num(cam.zoom),
-		rotationX : num(cam.cameraRotation?.x),
-		rotationY : num(cam.cameraRotation?.y)
+		x         : finiteOrZero(cam.panOffset?.x),
+		y         : finiteOrZero(cam.panOffset?.y),
+		z         : finiteOrZero(cam.panOffset?.z),
+		zoom      : finiteOrZero(cam.zoom),
+		rotationX : finiteOrZero(cam.cameraRotation?.x),
+		rotationY : finiteOrZero(cam.cameraRotation?.y)
 	};
 	return data;
 };
@@ -52,9 +57,10 @@ export class GraphPanel {
 	// Panels keyed by .tactica SOURCE ROOT: one tab per project, each
 	// bound for life to the graph it was opened for. Re-invoking on an
 	// open source reveals its tab instead of duplicating. A panel's data
-	// changes only via its own Refresh button or the follow watcher (the
-	// global `mnemographica.followTacticaChanges` setting); the global
-	// refresh path never touches panels.
+	// changes only via its own Refresh button or the follow setting (the
+	// global `mnemographica.followTacticaChanges`): follow panels rebuild
+	// from the store when their project reloads — the ONE debounced
+	// .tactica watcher in extension.ts owns all reloads.
 	public static panels = new Map<string, GraphPanel>();
 	// The workspace-primary source (the sidebar trees' Registry root).
 	// Sidebar-driven focus belongs to THIS panel — the sidebar renders
@@ -69,8 +75,9 @@ export class GraphPanel {
 	private readonly sourceRoot: string;
 	private readonly sourceName: string;
 	// Global persisted opt-in (`mnemographica.followTacticaChanges`):
-	// exists only while the setting is on, for THIS panel's source only
-	private followWatcher: vscode.FileSystemWatcher | undefined;
+	// a follow-ON panel rebuilds from the store when its project reloads
+	// (the debounced .tactica watcher owns the reload itself)
+	private followTactica = false;
 	private readonly disposables: vscode.Disposable[] = [];
 	// Mirrors the webview's render mode ('modeChanged' messages); the
 	// webview starts in 3D
@@ -86,18 +93,15 @@ export class GraphPanel {
 	private scene: Scene3D | undefined;
 
 	public static createOrShow (extensionUri: vscode.Uri, sourceRoot: string) {
+		const column = vscode.window.activeTextEditor
+			? vscode.window.activeTextEditor.viewColumn
+			: undefined;
 		const existing = GraphPanel.panels.get(sourceRoot);
 		if (existing) {
-			const column = vscode.window.activeTextEditor
-				? vscode.window.activeTextEditor.viewColumn
-				: undefined;
 			existing.panel.reveal(column);
 			return;
 		}
 
-		const column = vscode.window.activeTextEditor
-			? vscode.window.activeTextEditor.viewColumn
-			: undefined;
 		const panel = vscode.window.createWebviewPanel(
 			'mnemonicaGraph',
 			`Ψ ${path.basename(sourceRoot)}`,
@@ -114,6 +118,7 @@ export class GraphPanel {
 		const graphPanel = new GraphPanel(panel, extensionUri, sourceRoot);
 		GraphPanel.panels.set(sourceRoot, graphPanel);
 		GraphPanel.lastActivePanel = graphPanel;
+		GraphPanel.armFollowListener();
 	}
 
 	public static hasOpenPanel (): boolean {
@@ -370,6 +375,24 @@ export class GraphPanel {
 		}
 	}
 
+	// One store listener for all panels: a follow-ON panel rebuilds from
+	// the already-reloaded store entry when its project reloads (zero
+	// reads). Armed once, at the first panel.
+	private static followListenerArmed = false;
+	private static armFollowListener () {
+		if (GraphPanel.followListenerArmed) {
+			return;
+		}
+		GraphPanel.followListenerArmed = true;
+		onProjectRegistryReload((sourceRoot) => {
+			for (const panel of GraphPanel.panels.values()) {
+				if (panel.followTactica && projectKey(panel.sourceRoot) === sourceRoot) {
+					void panel.reloadGraph();
+				}
+			}
+		});
+	}
+
 	private constructor (
 		panel: vscode.WebviewPanel,
 		extensionUri: vscode.Uri,
@@ -401,9 +424,10 @@ export class GraphPanel {
 					}
 					break;
 				case 'ready':
-					// Webview is ready — load THIS panel's source and push.
-					// The tab holds its render afterwards; data changes only
-					// via the Refresh button or the follow opt-in
+					// Webview is ready — build from the store's entry
+					// (already-loaded projects read NOTHING here). The tab
+					// holds its render afterwards; data changes only via
+					// the Refresh button or the follow opt-in
 					await this.reloadGraph();
 					// Flush a focus request that predated the webview load
 					// (Show on Graph opened the panel just now)
@@ -417,14 +441,15 @@ export class GraphPanel {
 					}
 					break;
 				case 'refreshGraph':
-					// The Refresh button: re-read THIS panel's .tactica
-					// and rebuild
-					await this.reloadGraph();
+					// The Refresh button: reload THIS panel's project entry
+					// from disk (in place — the sidebar sees it too) and
+					// rebuild
+					await this.reloadGraph(true);
 					break;
 				case 'selectCollection':
 					// The collection selector: one universe per render —
-					// record the pick and re-read THIS panel's .tactica,
-					// the same path the Refresh button takes
+					// record the pick and rebuild from the ALREADY-LOADED
+					// store entry — zero file reads
 					if (message.data && typeof message.data === 'object' && 'id' in message.data) {
 						this.currentCollection = String(message.data.id);
 						await this.reloadGraph();
@@ -525,10 +550,16 @@ export class GraphPanel {
 		this.setFollowTactica(vscode.workspace.getConfiguration('mnemographica').get<boolean>('followTacticaChanges', false));
 	}
 
-	// (Re)read THIS panel's .tactica and push the fresh graph. A missing
-	// source keeps the tab's last render — an accidental regen wipe must
-	// never blank the user's arranged view
-	private async reloadGraph () {
+	// (Re)build THIS panel's graph from the registryStore's entry for its
+	// source. `reload: true` (the Refresh button) reloads the project entry
+	// from disk first — in place, so the sidebar sees the same fresh data
+	// when it shows the same project. A missing source keeps the tab's
+	// last render — an accidental regen wipe must never blank the user's
+	// arranged view
+	private async reloadGraph (reload = false) {
+		if (reload) {
+			await reloadProjectRegistry(this.sourceRoot, 'panel');
+		}
 		const graphData = await loadGraphDataFor(this.sourceRoot, this.currentCollection);
 		if (!graphData) {
 			void vscode.window.showWarningMessage(`No .tactica found at ${this.sourceRoot} — the tab keeps its last render`);
@@ -540,24 +571,12 @@ export class GraphPanel {
 		this.updateGraph(graphData);
 	}
 
+	// One tactica run rewrites several contract files — the debounced
+	// .tactica watcher (extension.ts) reloads the project ONCE; a
+	// follow-ON panel rebuilds from the store on that reload, reading
+	// nothing itself.
 	private setFollowTactica (on: boolean) {
-		if (this.followWatcher) {
-			this.followWatcher.dispose();
-			this.followWatcher = undefined;
-		}
-		if (!on) {
-			return;
-		}
-		const watcher = vscode.workspace.createFileSystemWatcher(
-			new vscode.RelativePattern(this.sourceRoot, '.tactica/types.ts')
-		);
-		watcher.onDidChange(() => {
-			void this.reloadGraph();
-		});
-		watcher.onDidCreate(() => {
-			void this.reloadGraph();
-		});
-		this.followWatcher = watcher;
+		this.followTactica = on;
 	}
 
 	private updateGraph (graphData: GraphData) {
@@ -594,13 +613,15 @@ export class GraphPanel {
 		}
 		try {
 			const parsed = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-			// Stale guard (the instrumentation.json idiom): a layout
-			// predating the last .tactica regeneration arranges a graph
-			// that no longer exists — skip it entirely
-			const hierarchyPath = path.join(this.sourceRoot, '.tactica', 'hierarchy.json');
-			if (fs.existsSync(hierarchyPath)) {
+			// Stale guard (the same idiom the Registry applies to eds.json /
+			// control.json): a layout predating the last .tactica
+			// regeneration arranges a graph that no longer exists — skip it
+			// entirely. The regeneration stamp is the loaded hierarchy's
+			// generatedAt (the store already read it — no file stat here)
+			const generatedAt = getProjectGeneratedAt(this.sourceRoot, 'hierarchy');
+			if (generatedAt) {
 				const savedAtMs = Date.parse(parsed?.savedAt as string) || fs.statSync(filePath).mtimeMs;
-				if (fs.statSync(hierarchyPath).mtimeMs > savedAtMs) {
+				if (Date.parse(generatedAt) > savedAtMs) {
 					logger.info('[GraphPanel] Saved layout predates the last .tactica regeneration — ignoring it');
 					return null;
 				}
@@ -684,19 +705,15 @@ export class GraphPanel {
 			camera?: { rotX?: unknown; rotY?: unknown; zoom?: unknown; pan?: { x?: unknown; y?: unknown; z?: unknown } };
 			focusedNode?: { id?: unknown; name?: unknown } | null;
 		};
-		const num = (value: unknown): number => {
-			const n = typeof value === 'number' && Number.isFinite(value) ? value : 0;
-			return n;
-		};
 		if (state.camera && typeof state.camera === 'object') {
 			const cam = state.camera;
 			scene.camera = new scene.Camera3D({
-				x         : num(cam.pan?.x),
-				y         : num(cam.pan?.y),
-				z         : num(cam.pan?.z),
-				zoom      : num(cam.zoom),
-				rotationX : num(cam.rotX),
-				rotationY : num(cam.rotY)
+				x         : finiteOrZero(cam.pan?.x),
+				y         : finiteOrZero(cam.pan?.y),
+				z         : finiteOrZero(cam.pan?.z),
+				zoom      : finiteOrZero(cam.zoom),
+				rotationX : finiteOrZero(cam.rotX),
+				rotationY : finiteOrZero(cam.rotY)
 			});
 		}
 		const focused = state.focusedNode;
@@ -705,26 +722,15 @@ export class GraphPanel {
 		}
 	}
 
-	/**
-	 * The panel's logical scene (automation/tests read its census through
-	 * queryViewState; direct access is for the debug handle)
-	 */
-	public getScene (): Scene3D | undefined {
-		const scene = this.scene;
-		return scene;
-	}
-
 	private async handleGoToDefinition (location: {
 		fileName: string;
 		line: number;
 		column: number;
 	}) {
+		// All editor navigation goes through the adapter (1-based in,
+		// 0-based internally)
 		try {
-			const document = await vscode.workspace.openTextDocument(location.fileName);
-			const editor = await vscode.window.showTextDocument(document);
-			const position = new vscode.Position(location.line - 1, location.column - 1);
-			editor.selection = new vscode.Selection(position, position);
-			editor.revealRange(new vscode.Range(position, position));
+			await VSCodeNavigation.goTo(location.fileName, location.line, location.column);
 		} catch (error) {
 			void vscode.window.showErrorMessage(`Failed to open file: ${String(error)}`);
 		}
@@ -822,7 +828,7 @@ export class GraphPanel {
 		<div class="gen-controls-header" id="dive-legend-header"><span>Legend</span><span id="dive-legend-toggle">▸</span></div>
 		<div class="legend-row"><span class="legend-swatch" style="color:#ef9a9a">●</span> type sphere (color = generation)</div>
 		<div class="legend-row"><span class="legend-swatch legend-dim" style="color:#ef9a9a">●</span> type never created (usages.json)</div>
-		<div class="legend-row"><span class="legend-swatch" style="color:#ce93d8">◆</span> creation scope (instrumentation)</div>
+		<div class="legend-row"><span class="legend-swatch" style="color:#ce93d8">◆</span> creation scope (control)</div>
 		<div class="legend-row"><span class="legend-swatch" style="color:#ffb300">◯</span> wrap site (dive) — encircles what it wraps</div>
 		<div class="legend-row"><span class="legend-swatch" style="color:#aaaaaa">→</span> inheritance / invocation</div>
 		<div class="legend-row"><span class="legend-swatch" style="color:#66ccff">─</span> path-hit: AoT-guaranteed construction</div>
@@ -859,10 +865,6 @@ export class GraphPanel {
 		GraphPanel.panels.delete(this.sourceRoot);
 		if (GraphPanel.lastActivePanel === this) {
 			GraphPanel.lastActivePanel = undefined;
-		}
-		if (this.followWatcher) {
-			this.followWatcher.dispose();
-			this.followWatcher = undefined;
 		}
 		GraphPanel.traceMode = null;
 		this.scene = undefined;

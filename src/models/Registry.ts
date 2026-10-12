@@ -2,19 +2,20 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { Backend } from './collections';
+import { Backend, setProps } from './collections';
 import { define } from 'mnemonica';
 import { getLogger } from '../services/LoggerService';
-import { resolveWorkspacePaths } from '../utils/paths';
+import { parseTacticaLocation, tacticaDirOf, resolveWorkspacePaths } from '../utils/paths';
+import { validateTacticaFile, type tacticaContractKind } from '../utils/letheValidation';
 import { DEFAULT_COLLECTION } from '../utils/collections';
-import type { BackendRegistry_Definitions as Definitions, BackendRegistry_Types as Types, BackendRegistry_Usages as Usages, BackendRegistry_Trie as Trie, BackendRegistry_EDS as EDS, BackendRegistry_Flow as Flow, BackendRegistry_Instrumentation as Instrumentation, Registry as RegistryModel } from '~tactica/types';
+import type { BackendRegistry_Definitions as Definitions, BackendRegistry_Types as Types, BackendRegistry_Usages as Usages, BackendRegistry_Trie as Trie, BackendRegistry_EDS as EDS, BackendRegistry_Flow as Flow, BackendRegistry_Control as Control, Registry as RegistryModel } from '~tactica/types';
 
-import type { rawDefinitionEntry } from './Definition';
+import type { rawDefinitionsFile } from './Definition';
 import type { rawTypeEntry } from './Types';
-import type { usage } from './Usages';
-import type { rawEDSEntry } from './EDS';
-import type { rawFlowEntry } from './Flow';
-import type { rawInstrumentationPoint, rawCreationGraph } from './Instrumentation';
+import type { rawUsagesFile } from './Usages';
+import type { rawEDSFile } from './EDS';
+import type { rawFlowFile } from './Flow';
+import type { rawControlFile } from './Control';
 
 export type registryEntry = {
 	id: string;
@@ -32,22 +33,28 @@ type hierarchyNode = {
 	children?: hierarchyNode[];
 };
 
-// collections.json manifest entry shape, as written by tactica ≥ 0.4.1.
-// Only the fields the panel reads — the id and the display name.
+// hierarchy.json file envelope (lethe contract)
+type hierarchyFile = {
+	version: string;
+	generatedAt?: string;
+	roots: hierarchyNode[];
+};
+
+// collections.json manifest entry (lethe contract, format 1.2: no
+// registryInterface, language required). Only the id and the display
+// name are read — the labels are cosmetic.
 type collectionsManifestEntry = {
 	id: string | null;
 	name: string;
+	location: string | null;
+	language: string;
 };
 
-const parseLocationString = function (location?: string): { fileName: string; line: number; column: number } | undefined {
-	if (!location) { return undefined; }
-	const match = location.match(/^(.+):(\d+):(\d+)$/);
-	if (!match) { return undefined; }
-	return {
-		fileName: match[1],
-		line: parseInt(match[2], 10),
-		column: parseInt(match[3], 10)
-	};
+// collections.json file envelope (lethe contract)
+type collectionsFile = {
+	version: string;
+	generatedAt?: string;
+	collections: collectionsManifestEntry[];
 };
 
 export const Registry = define('Registry', class {
@@ -64,7 +71,7 @@ export const Registry = define('Registry', class {
 	private usagesInstance: Usages | undefined;
 	private edsInstance: EDS | undefined;
 	private flowInstance: Flow | undefined;
-	private instrumentationInstance: Instrumentation | undefined;
+	private controlInstance: Control | undefined;
 	private trieInstance: Trie | undefined;
 
 	// Collection id → display name, from collections.json (tactica
@@ -72,8 +79,9 @@ export const Registry = define('Registry', class {
 	// to raw ids.
 	private collectionNames: Map<string, string> = new Map();
 
-	// Workspace path for reload operations
-	private workspacePath: string | undefined;
+	// Per-file generatedAt stamps, recorded by readTacticaJson — the
+	// freshness memory that keeps every file single-read per load
+	private generatedAts: Map<string, string> = new Map();
 
 	constructor() {
 		this.createdAt = Date.now();
@@ -111,19 +119,63 @@ export const Registry = define('Registry', class {
 		this.usagesInstance = undefined;
 		this.edsInstance = undefined;
 		this.flowInstance = undefined;
-		this.instrumentationInstance = undefined;
+		this.controlInstance = undefined;
 		this.trieInstance = undefined;
 		this.collectionNames.clear();
-		this.workspacePath = undefined;
+		this.generatedAts.clear();
 		this.logger.info('[Registry] : cleared all data');
+	}
+
+	/**
+	 * Read one .tactica contract file: existence check, JSON parse, lethe
+	 * schema validation. Returns undefined on any failure — a missing or
+	 * invalid file is a logged warning naming the file (and, for schema
+	 * failures, the first errors); the model for it stays empty and the
+	 * load never crashes. The parsed payload is path-resolved against the
+	 * directory holding .tactica before return.
+	 */
+	private readTacticaJson<T extends { generatedAt?: string }>(tacticaPath: string, kind: tacticaContractKind): T | undefined {
+		const filePath = path.join(tacticaPath, `${kind}.json`);
+		if (!fs.existsSync(filePath)) {
+			this.logger.warn(`[Registry] : ${kind}.json not found at ${filePath}`);
+			return undefined;
+		}
+		let data: T;
+		try {
+			const content = fs.readFileSync(filePath, 'utf-8');
+			// JSON.parse's any is the container boundary: the schema
+			// validation right below is what makes the T honest
+			data = JSON.parse(content);
+		} catch (error) {
+			this.logger.warn(`[Registry] : ${kind}.json unreadable at ${filePath} — skipping (${(error as Error).message})`);
+			return undefined;
+		}
+		if (!validateTacticaFile(kind, filePath, data)) {
+			return undefined;
+		}
+		// Every contract file is read exactly once per load: the freshness
+		// stamp stays on the instance so stale guards and the layout guard
+		// never re-read a file
+		if (typeof data.generatedAt === 'string') {
+			this.generatedAts.set(kind, data.generatedAt);
+		}
+		const resolved = resolveWorkspacePaths(data, path.dirname(tacticaPath));
+		return resolved;
+	}
+
+	/**
+	 * The loaded file's generatedAt stamp (set by readTacticaJson) —
+	 * freshness checks read this, never the file again
+	 */
+	getGeneratedAt(kind: tacticaContractKind): string | undefined {
+		return this.generatedAts.get(kind);
 	}
 
 	/**
 	 * Load all models from the .tactica/ directory in the workspace
 	 */
 	async loadFromWorkspace(workspacePath: string): Promise<void> {
-		this.workspacePath = workspacePath;
-		const tacticaPath = path.join(workspacePath, '.tactica');
+		const tacticaPath = tacticaDirOf(workspacePath);
 
 		this.logger.info(`[Registry] : loading from workspace ${workspacePath}`);
 		this.logger.info(`[Registry] : .tactica path ${tacticaPath}`);
@@ -136,29 +188,29 @@ export const Registry = define('Registry', class {
 
 		try {
 			// Load Definitions
-			await this.loadDefinitions(tacticaPath);
+			this.loadDefinitions(tacticaPath);
 
 			// Trie holds the hierarchy trie — it must exist before
 			// loadTypes walks hierarchy.json (it has no file of its own)
-			await this.loadTrie();
+			this.loadTrie();
 
 			// Load Types
-			await this.loadTypes(tacticaPath);
+			this.loadTypes(tacticaPath);
 
 			// Load Usages
-			await this.loadUsages(tacticaPath);
+			this.loadUsages(tacticaPath);
 
 			// Load EDS
-			await this.loadEDS(tacticaPath);
+			this.loadEDS(tacticaPath);
 
 			// Load Flow
-			await this.loadFlow(tacticaPath);
+			this.loadFlow(tacticaPath);
 
-			// Load Instrumentation (framework lifecycle crossroads, diamond graph)
-			await this.loadInstrumentation(tacticaPath);
+			// Load Control (callers graph + framework points, the diamond layer)
+			this.loadControl(tacticaPath);
 
 			// Load the collections manifest (id → display name labels)
-			await this.loadCollections(tacticaPath);
+			this.loadCollections(tacticaPath);
 
 			this.logger.info('[Registry] : all models loaded successfully');
 		} catch (error) {
@@ -171,7 +223,7 @@ export const Registry = define('Registry', class {
 	/**
 	 * Load Definitions from definitions.json using lookup
 	 */
-	private async loadDefinitions(tacticaPath: string): Promise<void> {
+	private loadDefinitions(tacticaPath: string): void {
 		this.logger.info('[Registry] : loading Definitions');
 
 		try {
@@ -179,14 +231,12 @@ export const Registry = define('Registry', class {
 			const definitionsInstance = new DefinitionsConstructor();
 			this.definitionsInstance = definitionsInstance;
 
-			const definitionsPath = path.join(tacticaPath, 'definitions.json');
-			if (fs.existsSync(definitionsPath)) {
-				const content = fs.readFileSync(definitionsPath, 'utf-8');
-				const data = resolveWorkspacePaths(JSON.parse(content), path.dirname(tacticaPath));
+			const data = this.readTacticaJson<rawDefinitionsFile>(tacticaPath, 'definitions');
+			if (data) {
 				if (data.definitions) {
 					for (const [key, value] of Object.entries(data.definitions)) {
 						try {
-							const entry = new definitionsInstance.DefinitionEntry(value as rawDefinitionEntry);
+							const entry = new definitionsInstance.DefinitionEntry(value);
 							definitionsInstance.set(key, entry);
 						} catch (error) {
 							const { stack } = error as Error;
@@ -195,8 +245,6 @@ export const Registry = define('Registry', class {
 					}
 				}
 				this.logger.info(`[Registry] : Definitions loaded with ${definitionsInstance.size} entries`);
-			} else {
-				this.logger.warn(`[Registry] : definitions.json not found at ${definitionsPath}`);
 			}
 		} catch (error) {
 			this.logger.error('[Registry] : failed to load Definitions',
@@ -210,13 +258,12 @@ export const Registry = define('Registry', class {
 	 *
 	 * hierarchy.json is authoritative for structure: dot-joined fullPaths
 	 * ("Scene2D.GraphNode2D", same convention as definitions/usages/flow
-	 * keys), parents, and 1-based define()-site locations. The former
-	 * types.ts regex parse produced underscore keys, missed properties
-	 * entirely, and stored 0-based lines pointing at the generated file
-	 * (audit B4/B9/B10). Property signatures are still read from the
-	 * generated types.ts bodies, the only place they exist (audit B2).
+	 * keys), parents, and 1-based define()-site locations. Property
+	 * signatures come from definitions.json `fields` (the type's own
+	 * fields in declaration order — the same source tactica renders
+	 * types.ts from).
 	 */
-	private async loadTypes(tacticaPath: string): Promise<void> {
+	private loadTypes(tacticaPath: string): void {
 		this.logger.info('[Registry] : loading Types');
 
 		try {
@@ -224,19 +271,13 @@ export const Registry = define('Registry', class {
 			const typesInstance = new TypesConstructor();
 			this.typesInstance = typesInstance;
 
-			const hierarchyPath = path.join(tacticaPath, 'hierarchy.json');
-			if (!fs.existsSync(hierarchyPath)) {
-				this.logger.warn(`[Registry] : hierarchy.json not found at ${hierarchyPath} — regenerate .tactica with a current tactica`);
+			const hierarchy = this.readTacticaJson<hierarchyFile>(tacticaPath, 'hierarchy');
+			if (!hierarchy) {
+				this.logger.warn('[Registry] : no usable hierarchy.json — regenerate .tactica with a current tactica');
 				return;
 			}
 
-			const propertiesByType = this.parseTypesProperties(tacticaPath);
-
-			const hierarchyContent = fs.readFileSync(hierarchyPath, 'utf-8');
-			const hierarchy = resolveWorkspacePaths(
-				JSON.parse(hierarchyContent),
-				path.dirname(tacticaPath)
-			) as { roots?: hierarchyNode[] };
+			const propertiesByType = this.readDefinitionsFields();
 
 			const visit = (node: hierarchyNode, parent: string | undefined): void => {
 				// Validate: self-referential entries are a bug, skip them
@@ -245,7 +286,7 @@ export const Registry = define('Registry', class {
 					return;
 				}
 
-				const parsed = parseLocationString(node.location);
+				const parsed = parseTacticaLocation(node.location);
 				try {
 					const entry = new typesInstance.TypeEntry({
 						name: node.name,
@@ -319,57 +360,31 @@ export const Registry = define('Registry', class {
 	}
 
 	/**
-	 * Parse property signatures from the generated types.ts bodies.
-	 * Type aliases there are underscore-joined ("Scene2D_GraphNode2D");
-	 * the returned map is keyed by dot-joined full path so it joins with
-	 * hierarchy.json fullPaths.
+	 * Property signatures from the already-loaded Definitions model
+	 * (`fields` — the type's own fields in declaration order, the same
+	 * source tactica renders types.ts from). Zero file reads: definitions
+	 * load before types in loadFromWorkspace. Keyed by the definitions map
+	 * key (the dot-joined fullPath), so it joins with hierarchy.json
+	 * fullPaths.
 	 */
-	private parseTypesProperties(
-		tacticaPath: string
-	): Map<string, Map<string, { name: string; type: string; optional: boolean }>> {
+	private readDefinitionsFields(): Map<string, Map<string, { name: string; type: string; optional: boolean }>> {
 		const result = new Map<string, Map<string, { name: string; type: string; optional: boolean }>>();
 
-		const typesPath = path.join(tacticaPath, 'types.ts');
-		if (!fs.existsSync(typesPath)) {
-			this.logger.warn(`[Registry] : types.ts not found at ${typesPath}, properties skipped`);
+		const definitions = this.definitionsInstance;
+		if (!definitions) {
 			return result;
 		}
 
-		const content = fs.readFileSync(typesPath, 'utf-8');
-		const lines = content.split('\n');
-
-		// export type TypeName = ProtoFlat<Parent, { ... }>
-		// OR: export type TypeName = Parent & { ... }
-		// OR: export type TypeName = { ... } (root types, no parent)
-		const typeRegex = /export\s+type\s+(\w+)\s*=\s*(?:(?:ProtoFlat<(\w+),)|(?:(\w+)\s*&))?[\s\n]*\{/;
-		const propertyRegex = /^\s*(\w+)(\?)?\s*:\s*([^;]+);?\s*$/;
-
-		for (let i = 0; i < lines.length; i++) {
-			const match = typeRegex.exec(lines[i]);
-			if (!match) { continue; }
-
-			const alias = match[1];
+		for (const [key, entry] of definitions.entries()) {
 			const properties = new Map<string, { name: string; type: string; optional: boolean }>();
-
-			// Walk the body until its closing brace; depth is tracked so
-			// inline object types do not end the block early
-			let depth = 1;
-			for (let j = i + 1; j < lines.length && depth > 0; j++) {
-				const bodyLine = lines[j];
-				depth += (bodyLine.match(/\{/g) || []).length;
-				depth -= (bodyLine.match(/\}/g) || []).length;
-				if (depth <= 0) { break; }
-				const propertyMatch = propertyRegex.exec(bodyLine);
-				if (propertyMatch) {
-					properties.set(propertyMatch[1], {
-						name: propertyMatch[1],
-						type: propertyMatch[3].trim(),
-						optional: Boolean(propertyMatch[2])
-					});
-				}
+			for (const field of entry.fields ?? []) {
+				properties.set(field.name, {
+					name     : field.name,
+					type     : field.type,
+					optional : field.optional
+				});
 			}
-
-			result.set(alias.replace(/_/g, '.'), properties);
+			result.set(key, properties);
 		}
 
 		return result;
@@ -378,7 +393,7 @@ export const Registry = define('Registry', class {
 	/**
 	 * Load Usages from usages.json using lookup
 	 */
-	private async loadUsages(tacticaPath: string): Promise<void> {
+	private loadUsages(tacticaPath: string): void {
 		this.logger.info('[Registry] : loading Usages');
 
 		try {
@@ -387,26 +402,12 @@ export const Registry = define('Registry', class {
 			this.usagesInstance = usagesInstance;
 
 			// Note: Usages doesn't have loadFromFile, we need to populate it manually
-			const usagesPath = path.join(tacticaPath, 'usages.json');
-			if (fs.existsSync(usagesPath)) {
-				const content = fs.readFileSync(usagesPath, 'utf-8');
-				const data = resolveWorkspacePaths(JSON.parse(content), path.dirname(tacticaPath));
-
-				if (data.usages) {
-					for (const [key, value] of Object.entries(data.usages)) {
-						// Stamp the map key as typeName and wrap entries as
-						// UsageEntry instances — the same shape the reference
-						// provider builds (audit B8)
-						const entries = (value as Array<object>).map((u) => {
-							const stamped = Object.assign({ typeName: key }, u) as usage;
-							return new usagesInstance.UsageEntry(stamped);
-						});
-						usagesInstance.set(key, entries);
-					}
-				}
-				this.logger.info(`[Registry] : Usages loaded with ${usagesInstance.size} entries`);
-			} else {
-				this.logger.warn(`[Registry] : usages.json not found at ${usagesPath}`);
+			const data = this.readTacticaJson<rawUsagesFile>(tacticaPath, 'usages');
+			if (data) {
+				this.loadKeyedEntries('Usages', data.usages, usagesInstance, (raw) => {
+					const entry = new usagesInstance.UsageEntry(raw);
+					return entry;
+				});
 			}
 		} catch (error) {
 			this.logger.error('[Registry] : failed to load Usages', error);
@@ -417,7 +418,7 @@ export const Registry = define('Registry', class {
 	/**
 	 * Load EDS from eds.json using lookup
 	 */
-	private async loadEDS(tacticaPath: string): Promise<void> {
+	private loadEDS(tacticaPath: string): void {
 		this.logger.info('[Registry] : loading EDS');
 
 		try {
@@ -425,42 +426,28 @@ export const Registry = define('Registry', class {
 			const edsInstance = new EDSConstructor();
 			this.edsInstance = edsInstance;
 
-			const edsPath = path.join(tacticaPath, 'eds.json');
-			if (fs.existsSync(edsPath)) {
-				const content = fs.readFileSync(edsPath, 'utf-8');
-				const data = resolveWorkspacePaths(JSON.parse(content), path.dirname(tacticaPath));
-
-				// tactica only writes eds.json when EDS data exists, so a
-				// stale file can linger after the data is gone (audit B11).
-				// When both files carry generatedAt, an eds.json older
-				// than definitions.json is skipped as stale.
-				if (data.generatedAt) {
-					const definitionsPath = path.join(tacticaPath, 'definitions.json');
-					if (fs.existsSync(definitionsPath)) {
-						const definitionsData = JSON.parse(fs.readFileSync(definitionsPath, 'utf-8'));
-						if (definitionsData.generatedAt && data.generatedAt < definitionsData.generatedAt) {
-							this.logger.warn('[Registry] : eds.json is older than definitions.json — skipping as stale');
-							return;
-						}
-					}
-				}
-
-				if (data.eds) {
-					for (const [key, value] of Object.entries(data.eds)) {
-						const entries = (value as rawEDSEntry[]).map((e: rawEDSEntry) => {
-							// Stamp the map key as typeName — tactica's EDSInfo
-							// has no typeName field (audit B7)
-							return new edsInstance.EDSEntry(
-								Object.assign({ typeName: key }, e)
-							);
-						});
-						edsInstance.set(key, entries);
-					}
-				}
-				this.logger.info(`[Registry] : EDS loaded with ${edsInstance.size} entries`);
-			} else {
-				this.logger.warn(`[Registry] : eds.json not found at ${edsPath}`);
+			const data = this.readTacticaJson<rawEDSFile>(tacticaPath, 'eds');
+			if (!data) {
+				return;
 			}
+
+			// tactica only writes eds.json when EDS data exists, so a
+			// stale file can linger after the data is gone (audit B11).
+			// When both files carry generatedAt, an eds.json older
+			// than definitions.json is skipped as stale. The stamp of
+			// the already-loaded definitions.json is reused — no re-read.
+			if (data.generatedAt) {
+				const definitionsGeneratedAt = this.generatedAts.get('definitions');
+				if (definitionsGeneratedAt && data.generatedAt < definitionsGeneratedAt) {
+					this.logger.warn('[Registry] : eds.json is older than definitions.json — skipping as stale');
+					return;
+				}
+			}
+
+			this.loadKeyedEntries('EDS', data.eds, edsInstance, (raw) => {
+				const entry = new edsInstance.EDSEntry(raw);
+				return entry;
+			});
 		} catch (error) {
 			this.logger.error('[Registry] : failed to load EDS', error);
 			throw error;
@@ -470,7 +457,7 @@ export const Registry = define('Registry', class {
 	/**
 	 * Load Flow from flow.json using lookup
 	 */
-	private async loadFlow(tacticaPath: string): Promise<void> {
+	private loadFlow(tacticaPath: string): void {
 		this.logger.info('[Registry] : loading Flow');
 
 		try {
@@ -478,26 +465,12 @@ export const Registry = define('Registry', class {
 			const flowInstance = new FlowConstructor();
 			this.flowInstance = flowInstance;
 
-			const flowPath = path.join(tacticaPath, 'flow.json');
-			if (fs.existsSync(flowPath)) {
-				const content = fs.readFileSync(flowPath, 'utf-8');
-				const data = resolveWorkspacePaths(JSON.parse(content), path.dirname(tacticaPath));
-
-				if (data.flow) {
-					for (const [key, value] of Object.entries(data.flow)) {
-						const entries = (value as rawFlowEntry[]).map((e: rawFlowEntry) => {
-							// Stamp the map key as typeName — tactica's FlowInfo
-							// has no typeName field (audit B7)
-							return new flowInstance.FlowEntry(
-								Object.assign({ typeName: key }, e)
-							);
-						});
-						flowInstance.set(key, entries);
-					}
-				}
-				this.logger.info(`[Registry] : Flow loaded with ${flowInstance.size} entries`);
-			} else {
-				this.logger.warn(`[Registry] : flow.json not found at ${flowPath}`);
+			const data = this.readTacticaJson<rawFlowFile>(tacticaPath, 'flow');
+			if (data) {
+				this.loadKeyedEntries('Flow', data.flow, flowInstance, (raw) => {
+					const entry = new flowInstance.FlowEntry(raw);
+					return entry;
+				});
 			}
 		} catch (error) {
 			this.logger.error('[Registry] : failed to load Flow', error);
@@ -506,105 +479,91 @@ export const Registry = define('Registry', class {
 	}
 
 	/**
-	 * Load Instrumentation from instrumentation.json using lookup
+	 * One body for the type-keyed contract files (usages / eds / flow):
+	 * tactica's entries carry no typeName (audit B7) — the map key is
+	 * stamped on; each entry is wrapped as the model's *Entry subtype and
+	 * set under the key (the same shape the reference provider builds, B8).
 	 */
-	private async loadInstrumentation(tacticaPath: string): Promise<void> {
-		this.logger.info('[Registry] : loading Instrumentation');
+	private loadKeyedEntries<Entry, Raw extends object>(
+		label: string,
+		section: Record<string, Array<Raw>> | undefined,
+		model: { set (key: string, entries: Entry[]): void; readonly size: number },
+		makeEntry: (stamped: Raw & { typeName: string }) => Entry
+	): void {
+		if (!section) {
+			return;
+		}
+		for (const [key, value] of Object.entries(section)) {
+			const entries = value.map((raw) => makeEntry(Object.assign({ typeName: key }, raw)));
+			model.set(key, entries);
+		}
+		this.logger.info(`[Registry] : ${label} loaded with ${model.size} entries`);
+	}
+
+	/**
+	 * Load Control from control.json using lookup: the callers graph (call
+	 * paths from entry points down to every `new` site) and the
+	 * plugin-supplied framework points. instrumentation.json is never read
+	 * — control.json is the lethe-contract rendering of that data.
+	 */
+	private loadControl(tacticaPath: string): void {
+		this.logger.info('[Registry] : loading Control');
 
 		try {
-			const InstrumentationConstructor = Backend.lookup('Instrumentation');
-			const instrumentationInstance = new InstrumentationConstructor();
-			this.instrumentationInstance = instrumentationInstance;
+			const ControlConstructor = Backend.lookup('Control');
+			const controlInstance = new ControlConstructor();
+			this.controlInstance = controlInstance;
 
-			const instrumentationPath = path.join(tacticaPath, 'instrumentation.json');
-			if (fs.existsSync(instrumentationPath)) {
-				const content = fs.readFileSync(instrumentationPath, 'utf-8');
-				const data = resolveWorkspacePaths(JSON.parse(content), path.dirname(tacticaPath));
-
-				// Same stale guard as eds.json: a file older than
-				// definitions.json belongs to a previous analysis pass.
-				if (data.generatedAt) {
-					const definitionsPath = path.join(tacticaPath, 'definitions.json');
-					if (fs.existsSync(definitionsPath)) {
-						const definitionsData = JSON.parse(fs.readFileSync(definitionsPath, 'utf-8'));
-						if (definitionsData.generatedAt && data.generatedAt < definitionsData.generatedAt) {
-							this.logger.warn('[Registry] : instrumentation.json is older than definitions.json — skipping as stale');
-							instrumentationInstance.setCreationGraphAbsentReason('stale');
-							return;
-						}
-					}
-				}
-
-				if (Array.isArray(data.points)) {
-					const entries = (data.points as rawInstrumentationPoint[]).map((p: rawInstrumentationPoint) => {
-						return new instrumentationInstance.InstrumentationPoint(p);
-					});
-					instrumentationInstance.set(entries);
-				}
-
-				// v2 creationGraph section: optional — a v1 file has no such
-				// key and loads exactly as before, with no graph attached
-				if (data.creationGraph && typeof data.creationGraph === 'object') {
-					const raw = data.creationGraph as Partial<rawCreationGraph>;
-					if (Array.isArray(raw.nodes) && Array.isArray(raw.edges) && Array.isArray(raw.anchors)) {
-						const graph: rawCreationGraph = {
-							nodes: raw.nodes.filter((n) => {
-								return typeof n.scopeId === 'string' && typeof n.name === 'string' &&
-									typeof n.filePath === 'string' && typeof n.location === 'string';
-							}),
-							edges: raw.edges.filter((e) => {
-								return typeof e.caller === 'string' && typeof e.callee === 'string';
-							}),
-							anchors: raw.anchors.filter((a) => {
-								return typeof a.holderScopeId === 'string' && typeof a.typePath === 'string' &&
-									typeof a.location === 'string';
-							})
-						};
-						instrumentationInstance.setCreationGraph(graph);
-						this.logger.info(`[Registry] : creationGraph loaded with ${graph.nodes.length} nodes, ${graph.edges.length} edges, ${graph.anchors.length} anchors`);
-					} else {
-						this.logger.warn('[Registry] : creationGraph skipped — nodes/edges/anchors must be arrays');
-					}
-				}
-				// A loaded file without a usable creationGraph predates
-				// tactica v2 (or its graph section was malformed) — the
-				// Diamonds pane reads this reason to say so honestly
-				if (!instrumentationInstance.hasCreationGraph()) {
-					instrumentationInstance.setCreationGraphAbsentReason('v1');
-				}
-				this.logger.info(`[Registry] : Instrumentation loaded with ${instrumentationInstance.size} points`);
-			} else {
-				this.logger.warn(`[Registry] : instrumentation.json not found at ${instrumentationPath}`);
-				instrumentationInstance.setCreationGraphAbsentReason('missing');
+			const data = this.readTacticaJson<rawControlFile>(tacticaPath, 'control');
+			if (!data) {
+				controlInstance.setCallersAbsentReason('missing');
+				return;
 			}
+
+			// Same stale guard as eds.json: a file older than
+			// definitions.json belongs to a previous analysis pass. The
+			// stamp of the already-loaded definitions.json is reused — no
+			// re-read.
+			if (data.generatedAt) {
+				const definitionsGeneratedAt = this.generatedAts.get('definitions');
+				if (definitionsGeneratedAt && data.generatedAt < definitionsGeneratedAt) {
+					this.logger.warn('[Registry] : control.json is older than definitions.json — skipping as stale');
+					controlInstance.setCallersAbsentReason('stale');
+					return;
+				}
+			}
+
+			if (Array.isArray(data.points)) {
+				const entries = data.points.map((p) => {
+					return new controlInstance.ControlPoint(p);
+				});
+				controlInstance.set(entries);
+			}
+
+			// The schema guarantees callers.nodes/edges/anchors — a file
+			// without them failed validation above and never reaches here
+			controlInstance.setCallers(data.callers);
+			this.logger.info(`[Registry] : callers loaded with ${data.callers.nodes.length} nodes, ${data.callers.edges.length} edges, ${data.callers.anchors.length} anchors`);
+			this.logger.info(`[Registry] : Control loaded with ${controlInstance.size} points`);
 		} catch (error) {
-			this.logger.error('[Registry] : failed to load Instrumentation', error);
+			this.logger.error('[Registry] : failed to load Control', error);
 			throw error;
 		}
 	}
 
 	/**
 	 * Load the collections manifest from collections.json (collection id →
-	 * display name). Tolerant: tactica < 0.4.1 writes no such file and the
-	 * labels are cosmetic, so a missing or malformed manifest only means
-	 * the panel shows raw ids — never a failed load.
+	 * display name). Tolerant: the labels are cosmetic, so a missing or
+	 * invalid manifest only means the panel shows raw ids — never a failed
+	 * load.
 	 */
-	private async loadCollections(tacticaPath: string): Promise<void> {
-		const collectionsPath = path.join(tacticaPath, 'collections.json');
-		if (!fs.existsSync(collectionsPath)) {
+	private loadCollections(tacticaPath: string): void {
+		const data = this.readTacticaJson<collectionsFile>(tacticaPath, 'collections');
+		if (!data) {
 			return;
 		}
 		try {
-			const content = fs.readFileSync(collectionsPath, 'utf-8');
-			const data = JSON.parse(content) as { collections?: unknown };
-			if (!Array.isArray(data.collections)) {
-				return;
-			}
-			const entries = data.collections as collectionsManifestEntry[];
-			for (const entry of entries) {
-				if (typeof entry.name !== 'string') {
-					continue;
-				}
+			for (const entry of data.collections) {
 				// The default collection's manifest id is null; the graph
 				// keys it 'defaultTypes' (unprefixed fullPaths ARE its
 				// identity)
@@ -620,7 +579,7 @@ export const Registry = define('Registry', class {
 	/**
 	 * Initialize Trie using lookup
 	 */
-	private async loadTrie(): Promise<void> {
+	private loadTrie(): void {
 		this.logger.info('[Registry] : loading Trie');
 
 		try {
@@ -670,10 +629,10 @@ export const Registry = define('Registry', class {
 	}
 
 	/**
-	 * Get the Instrumentation instance
+	 * Get the Control instance
 	 */
-	getInstrumentation(): Instrumentation | undefined {
-		return this.instrumentationInstance;
+	getControl(): Control | undefined {
+		return this.controlInstance;
 	}
 
 	/**
@@ -690,26 +649,7 @@ export const Registry = define('Registry', class {
 	getCollectionNames(): Map<string, string> {
 		return this.collectionNames;
 	}
-
-	/**
-	 * Refresh all models by reloading from workspace
-	 */
-	async refresh(): Promise<void> {
-		if (!this.workspacePath) {
-			this.logger.warn('[Registry] : cannot refresh, no workspace path set');
-			return;
-		}
-
-		this.logger.info('[Registry] : refreshing all models');
-		this.clear();
-		await this.loadFromWorkspace(this.workspacePath);
-		this.logger.info('[Registry] : refresh complete');
-	}
 });
-
-const setProps = (to: object, from: object) => {
-	Object.defineProperties(to, Object.getOwnPropertyDescriptors(from));
-};
 
 export const RegistryEntry = Registry.define('RegistryEntry', function (
 	this: registryEntry,
@@ -717,8 +657,5 @@ export const RegistryEntry = Registry.define('RegistryEntry', function (
 ) {
 	setProps(this, data);
 });
-
-// Export singleton instance
-export const registry = new Registry();
 
 export default Registry;

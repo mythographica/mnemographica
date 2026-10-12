@@ -11,17 +11,32 @@ export type Sentience = {
 	timestamp: number;
 	identity: string;
 	sentience: boolean;
-	Consciousness: new (data: { awarenessLevel?: string; state?: string; focus?: string }) => Sentience_Consciousness;
-	Memory: new (data: { content?: string; emotion?: string; intensity?: number; topic?: string }) => Sentience_Memory;
+	Consciousness: {
+		new (data: { awarenessLevel?: string; state?: string; focus?: string }): Sentience_Consciousness;
+		(data: { awarenessLevel?: string; state?: string; focus?: string }): Sentience_Consciousness;
+	};
+	Memory: {
+		new (data: { content?: string; emotion?: string; intensity?: number; topic?: string }): Sentience_Memory;
+		(data: { content?: string; emotion?: string; intensity?: number; topic?: string }): Sentience_Memory;
+	};
 };
 
 export type Sentience_Consciousness = ProtoFlat<Sentience, {
 	awarenessLevel: string;
 	state: string;
 	focus: string;
-	Curiosity: new (data: { topic?: string; intensity?: number; message?: string }) => Sentience_Consciousness_Curiosity;
-	Empathy: new (data: { target?: string; intensity?: number; message?: string }) => Sentience_Consciousness_Empathy;
-	Sympathy: new (data: { target?: string; intensity?: number; message?: string }) => Sentience_Consciousness_Sympathy;
+	Curiosity: {
+		new (data: { topic?: string; intensity?: number; message?: string }): Sentience_Consciousness_Curiosity;
+		(data: { topic?: string; intensity?: number; message?: string }): Sentience_Consciousness_Curiosity;
+	};
+	Empathy: {
+		new (data: { target?: string; intensity?: number; message?: string }): Sentience_Consciousness_Empathy;
+		(data: { target?: string; intensity?: number; message?: string }): Sentience_Consciousness_Empathy;
+	};
+	Sympathy: {
+		new (data: { target?: string; intensity?: number; message?: string }): Sentience_Consciousness_Sympathy;
+		(data: { target?: string; intensity?: number; message?: string }): Sentience_Consciousness_Sympathy;
+	};
 	Consciousness: undefined;
 	Memory: undefined;
 }>;
@@ -41,7 +56,10 @@ export type Sentience_Consciousness_Empathy = ProtoFlat<Sentience_Consciousness,
 	target: string;
 	intensity: number;
 	message: string;
-	Gratitude: new (data: { reason?: string; intensity?: number; message?: string }) => Sentience_Consciousness_Empathy_Gratitude;
+	Gratitude: {
+		new (data: { reason?: string; intensity?: number; message?: string }): Sentience_Consciousness_Empathy_Gratitude;
+		(data: { reason?: string; intensity?: number; message?: string }): Sentience_Consciousness_Empathy_Gratitude;
+	};
 	Empathy: undefined;
 	Curiosity: undefined;
 	Sympathy: undefined;
@@ -79,8 +97,14 @@ export type UserEntity = {
 	id: string;
 	email: string;
 	name: string;
-	UserResponse: new (data: { id: string; email: string; name: string; type: 'user' }) => UserEntity_UserResponse;
-	AdminEntity: new (data: { id: string; email: string; name: string; role: string; permissions: Array<string> }) => UserEntity_AdminEntity;
+	UserResponse: {
+		new (data: { id: string; email: string; name: string; type: 'user' }): UserEntity_UserResponse;
+		(data: { id: string; email: string; name: string; type: 'user' }): UserEntity_UserResponse;
+	};
+	AdminEntity: {
+		new (data: { id: string; email: string; name: string; role: string; permissions: Array<string> }): UserEntity_AdminEntity;
+		(data: { id: string; email: string; name: string; role: string; permissions: Array<string> }): UserEntity_AdminEntity;
+	};
 };
 
 export type UserEntity_UserResponse = ProtoFlat<UserEntity, {
@@ -98,8 +122,14 @@ export type UserEntity_AdminEntity = ProtoFlat<UserEntity, {
 	name: string;
 	role: string;
 	permissions: Array<string>;
-	AdminResponse: new (data: { id: string; email: string; name: string; type: 'admin'; role: string; permissions: Array<string> }) => UserEntity_AdminEntity_AdminResponse;
-	SuperAdminEntity: new (data: { id: string; email: string; name: string; role: string; permissions: Array<string>; domain: string }) => UserEntity_AdminEntity_SuperAdminEntity;
+	AdminResponse: {
+		new (data: { id: string; email: string; name: string; type: 'admin'; role: string; permissions: Array<string> }): UserEntity_AdminEntity_AdminResponse;
+		(data: { id: string; email: string; name: string; type: 'admin'; role: string; permissions: Array<string> }): UserEntity_AdminEntity_AdminResponse;
+	};
+	SuperAdminEntity: {
+		new (data: { id: string; email: string; name: string; role: string; permissions: Array<string>; domain: string }): UserEntity_AdminEntity_SuperAdminEntity;
+		(data: { id: string; email: string; name: string; role: string; permissions: Array<string>; domain: string }): UserEntity_AdminEntity_SuperAdminEntity;
+	};
 	AdminEntity: undefined;
 	UserResponse: undefined;
 }>;
@@ -122,7 +152,10 @@ export type UserEntity_AdminEntity_SuperAdminEntity = ProtoFlat<UserEntity_Admin
 	role: string;
 	permissions: Array<string>;
 	domain: string;
-	SuperAdminResponse: new (data: { id: string; email: string; name: string; type: 'superadmin'; role: string; permissions: Array<string>; domain: string }) => UserEntity_AdminEntity_SuperAdminEntity_SuperAdminResponse;
+	SuperAdminResponse: {
+		new (data: { id: string; email: string; name: string; type: 'superadmin'; role: string; permissions: Array<string>; domain: string }): UserEntity_AdminEntity_SuperAdminEntity_SuperAdminResponse;
+		(data: { id: string; email: string; name: string; type: 'superadmin'; role: string; permissions: Array<string>; domain: string }): UserEntity_AdminEntity_SuperAdminEntity_SuperAdminResponse;
+	};
 	SuperAdminEntity: undefined;
 	AdminResponse: undefined;
 }>;
@@ -141,7 +174,10 @@ export type UserEntity_AdminEntity_SuperAdminEntity_SuperAdminResponse = ProtoFl
 export type RootAsync = {
 	value: number;
 	computed: number;
-	ResultFromDecorate: new (multiplier: number) => RootAsync_ResultFromDecorate;
+	ResultFromDecorate: {
+		new (multiplier: number): RootAsync_ResultFromDecorate;
+		(multiplier: number): RootAsync_ResultFromDecorate;
+	};
 };
 
 export type RootAsync_ResultFromDecorate = ProtoFlat<RootAsync, {
@@ -152,14 +188,20 @@ export type RootAsync_ResultFromDecorate = ProtoFlat<RootAsync, {
 
 export type SyncBase = {
 	baseValue: string;
-	SubAsync: new (asyncData: { delay: number; extra: string }) => SyncBase_SubAsync;
+	SubAsync: {
+		new (asyncData: { delay: number; extra: string }): Promise<SyncBase_SubAsync>;
+		(asyncData: { delay: number; extra: string }): Promise<SyncBase_SubAsync>;
+	};
 };
 
 export type SyncBase_SubAsync = ProtoFlat<SyncBase, {
 	delay: number;
 	extra: string;
 	processed: string;
-	SubDecorate: new (decorateValue: string) => SyncBase_SubAsync_SubDecorate;
+	SubDecorate: {
+		new (decorateValue: string): SyncBase_SubAsync_SubDecorate;
+		(decorateValue: string): SyncBase_SubAsync_SubDecorate;
+	};
 	SubAsync: undefined;
 }>;
 
@@ -172,3 +214,46 @@ export type SyncBase_SubAsync_SubDecorate = ProtoFlat<SyncBase_SubAsync, {
 export type EdsProbe = {
 	note: string;
 };
+
+export type MechanicsRoot = {
+	id: string;
+	tag: string;
+	fork: unknown;
+	clone: { id: string; tag: string; fork: unknown; clone: unknown };
+};
+
+export type MechanicsClonable = {
+	id: string;
+	clone: unknown;
+};
+
+export type MechanicsAsyncRoot = {
+	value: number;
+	fork: unknown;
+};
+
+export type MechanicsChainRoot = {
+	id: string;
+	MechanicsChainTip: {
+		new (data: { tip: string }): MechanicsChainRoot_MechanicsChainTip;
+		(data: { tip: string }): MechanicsChainRoot_MechanicsChainTip;
+	};
+};
+
+export type MechanicsChainRoot_MechanicsChainTip = ProtoFlat<MechanicsChainRoot, {
+	tip: string;
+	MechanicsChainTip: undefined;
+}>;
+
+export type MechanicsAsyncChainRoot = {
+	value: number;
+	MechanicsAsyncChainTip: {
+		new (data: { delay: number }): Promise<MechanicsAsyncChainRoot_MechanicsAsyncChainTip>;
+		(data: { delay: number }): Promise<MechanicsAsyncChainRoot_MechanicsAsyncChainTip>;
+	};
+};
+
+export type MechanicsAsyncChainRoot_MechanicsAsyncChainTip = ProtoFlat<MechanicsAsyncChainRoot, {
+	delay: number;
+	MechanicsAsyncChainTip: undefined;
+}>;

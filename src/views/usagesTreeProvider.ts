@@ -75,14 +75,7 @@ export class UsagesTreeProvider implements vscode.TreeDataProvider<UsageTreeItem
 	refresh(): void {
 		this._onDidChangeTreeData.fire();
 	}
-	
-	setUsages(typeName: string, usages: UsageInfo[], workspacePath: string): void {
-		this.currentTypeName = typeName;
-		this.usages = usages;
-		this.workspacePath = workspacePath;
-		this.refresh();
-	}
-	
+
 	setType(typeName: string, usages: { filePath: string; line: number; column: number; context: string; kind: string }[], workspacePath?: string): void {
 		this.currentTypeName = typeName;
 		this.usages = usages.map(u => ({
@@ -131,10 +124,6 @@ export class UsagesTreeProvider implements vscode.TreeDataProvider<UsageTreeItem
 		return Promise.resolve(
 			visible.map(usage => new UsageTreeItem(usage, this.workspacePath, this.currentTypeName))
 		);
-	}
-	
-	getSelectedType(): string {
-		return this.currentTypeName;
 	}
 	
 	getWorkspacePath(): string {

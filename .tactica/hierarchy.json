@@ -1,16 +1,16 @@
 {
-  "version": "1.0",
-  "generatedAt": "2026-09-28T01:30:47.181Z",
+  "version": "1.2",
+  "generatedAt": "2026-10-12T05:56:53.145Z",
   "roots": [
     {
-      "name": "Instrumentation",
-      "fullPath": "collection_1::Instrumentation",
-      "location": "src/models/Instrumentation.ts:58:40",
+      "name": "Control",
+      "fullPath": "collection_1::Control",
+      "location": "src/models/Control.ts:67:32",
       "children": [
         {
-          "name": "InstrumentationPoint",
-          "fullPath": "collection_1::Instrumentation.InstrumentationPoint",
-          "location": "src/models/Instrumentation.ts:119:53",
+          "name": "ControlPoint",
+          "fullPath": "collection_1::Control.ControlPoint",
+          "location": "src/models/Control.ts:124:37",
           "children": []
         }
       ]
@@ -18,12 +18,12 @@
     {
       "name": "Definitions",
       "fullPath": "collection_1::Definitions",
-      "location": "src/models/Definition.ts:18:36",
+      "location": "src/models/Definition.ts:46:36",
       "children": [
         {
           "name": "DefinitionEntry",
           "fullPath": "collection_1::Definitions.DefinitionEntry",
-          "location": "src/models/Definition.ts:70:44",
+          "location": "src/models/Definition.ts:92:44",
           "children": []
         }
       ]
@@ -31,12 +31,12 @@
     {
       "name": "EDS",
       "fullPath": "collection_1::EDS",
-      "location": "src/models/EDS.ts:29:28",
+      "location": "src/models/EDS.ts:37:28",
       "children": [
         {
           "name": "EDSEntry",
           "fullPath": "collection_1::EDS.EDSEntry",
-          "location": "src/models/EDS.ts:76:29",
+          "location": "src/models/EDS.ts:80:29",
           "children": []
         }
       ]
@@ -44,12 +44,12 @@
     {
       "name": "Flow",
       "fullPath": "collection_1::Flow",
-      "location": "src/models/Flow.ts:18:29",
+      "location": "src/models/Flow.ts:26:29",
       "children": [
         {
           "name": "FlowEntry",
           "fullPath": "collection_1::Flow.FlowEntry",
-          "location": "src/models/Flow.ts:65:31",
+          "location": "src/models/Flow.ts:69:31",
           "children": []
         }
       ]
@@ -88,7 +88,7 @@
         {
           "name": "TypeEntry",
           "fullPath": "collection_1::Types.TypeEntry",
-          "location": "src/models/Types.ts:75:32",
+          "location": "src/models/Types.ts:69:32",
           "children": []
         }
       ]
@@ -96,12 +96,12 @@
     {
       "name": "Usages",
       "fullPath": "collection_1::Usages",
-      "location": "src/models/Usages.ts:16:31",
+      "location": "src/models/Usages.ts:24:31",
       "children": [
         {
           "name": "UsageEntry",
           "fullPath": "collection_1::Usages.UsageEntry",
-          "location": "src/models/Usages.ts:59:34",
+          "location": "src/models/Usages.ts:61:34",
           "children": []
         }
       ]
@@ -109,12 +109,12 @@
     {
       "name": "Registry",
       "fullPath": "Registry",
-      "location": "src/models/Registry.ts:53:25",
+      "location": "src/models/Registry.ts:60:25",
       "children": [
         {
           "name": "RegistryEntry",
           "fullPath": "Registry.RegistryEntry",
-          "location": "src/models/Registry.ts:714:39",
+          "location": "src/models/Registry.ts:654:39",
           "children": []
         }
       ]

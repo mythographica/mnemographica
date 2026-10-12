@@ -6,6 +6,7 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import { getLogger } from '../services/LoggerService';
+import { parseTacticaLocation } from '../utils/paths';
 
 import type { BackendRegistry_Usages as Usages } from '~tactica/types';
 import type { MainOrchestrator } from '../core/MainOrchestrator';
@@ -37,6 +38,10 @@ export class MnemonicaReferenceProvider implements vscode.ReferenceProvider {
 			return;
 		}
 		const registry = this.orchestrator.getRegistry();
+		if (!registry) {
+			this.logger.warn('[Usages] no Registry loaded yet');
+			return;
+		}
 		const loaded = registry.getUsages();
 		if (!loaded) {
 			this.logger.warn('[Usages] Registry has no Usages instance yet');
@@ -82,17 +87,19 @@ export class MnemonicaReferenceProvider implements vscode.ReferenceProvider {
 
 		const workspaceFolder = vscode.workspace.getWorkspaceFolder(document.uri);
 
-		const locations: vscode.Location[] = usageList.map(usage => {
+		const locations: vscode.Location[] = [];
+		for (const usage of usageList) {
+			const parsed = parseTacticaLocation(usage.location);
+			if (!parsed) { continue; }
 			// Resolve relative paths
-			const [_filePath, line, column] = usage.location.split(':') as [string, string, string];
-			let filePath = _filePath;
+			let filePath = parsed.fileName;
 			if (workspaceFolder && !path.isAbsolute(filePath)) {
 				filePath = path.join(workspaceFolder.uri.fsPath, filePath);
 			}
 			const uri = vscode.Uri.file(filePath);
-			const pos = new vscode.Position(Number(line) - 1, Number(column));
-			return new vscode.Location(uri, pos);
-		});
+			const pos = new vscode.Position(parsed.line - 1, parsed.column);
+			locations.push(new vscode.Location(uri, pos));
+		}
 
 		return locations;
 	}
@@ -119,18 +126,21 @@ export class MnemonicaReferenceProvider implements vscode.ReferenceProvider {
 	getUsagesForType(typeName: string): Array<{ filePath: string; line: number; column: number; context?: string }> {
 		if (!this.usages) { return []; }
 
-		const usageList = this.usages.get(typeName.replace('_', '.'));
+		const usageList = this.usages.get(typeName);
 		if (!usageList) { return []; }
 
-		return usageList.map(usage => {
-			const [filePath, line, column] = usage.location.split(':') as [string, string, string];
-			return {
-				filePath,
-				line: Number(line),
-				column: Number(column),
-				context: usage.typeName
-			}
-		});
+		const result: Array<{ filePath: string; line: number; column: number; context?: string }> = [];
+		for (const usage of usageList) {
+			const parsed = parseTacticaLocation(usage.location);
+			if (!parsed) { continue; }
+			result.push({
+				filePath : parsed.fileName,
+				line     : parsed.line,
+				column   : parsed.column,
+				context  : usage.typeName
+			});
+		}
+		return result;
 	}
 
 	clear(): void {

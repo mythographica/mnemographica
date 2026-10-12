@@ -1,12 +1,14 @@
 'use strict';
 
+import * as path from 'path';
 import { GraphData, D3CreationNode, D3CreationLink, D3WrapperNode, D3WrapperLink, D3InternalNode, D3InternalLink } from '../types';
 import { GraphConverter } from '../graph/converter';
 import { INTERNAL_KNOTS, INTERNAL_EDGES, COLLECTION_HOOKUP_EDGE } from '../graph/internals-manifest';
 import { TypeNode } from '../types/tactica-types';
 import { collectionOfPath, DEFAULT_COLLECTION, ALL_COLLECTIONS } from '../utils/collections';
+import { parseTacticaLocation } from '../utils/paths';
 import type { Registry } from '../../.tactica/types';
-import type { rawCreationGraph } from '../models/Instrumentation';
+import type { rawCallers } from '../models/Control';
 import { getLogger } from '../services/LoggerService';
 
 /**
@@ -24,14 +26,7 @@ export class GraphBuilder {
 			return { nodes: [], links: [], execflow: [] };
 		}
 
-		let typeCount = 0;
-		try {
-			// eslint-disable-next-line @typescript-eslint/no-unused-vars
-			for (const _entry of types.entries()) { typeCount++; }
-		} catch {
-			// some mnemonica entries() may not be iterable directly
-		}
-		logger.info(`[GraphBuilder] types.entries() count: ${typeCount}, types.size: ${(types as unknown as { size?: number }).size ?? 'unknown'}`);
+		logger.info(`[GraphBuilder] types count: ${types.size}`);
 
 		// Collections inventory: tactica keys custom-collection types by a
 		// `collectionId::`-prefixed fullPath, default-collection types carry
@@ -152,7 +147,7 @@ export class GraphBuilder {
 							kind: entry.kind,
 							location: entry.location,
 							code: entry.code,
-							parsedLocation: this.parseLocation(entry.location)
+							parsedLocation: parseTacticaLocation(entry.location)
 						};
 					});
 					// Guaranteed path hits (tactica createsTypes): types this
@@ -210,7 +205,7 @@ export class GraphBuilder {
 							location : location ?? '',
 							code     : (info.code as string) ?? '',
 							scope,
-							parsedLocation : location ? this.parseLocation(location) : undefined
+							parsedLocation : location ? parseTacticaLocation(location) : undefined
 						};
 						targetNode.edsEntries = targetNode.edsEntries ?? [];
 						targetNode.edsEntries.push(row);
@@ -232,7 +227,7 @@ export class GraphBuilder {
 				if (def) {
 					const info = def as unknown as { location?: string };
 					if (info.location) {
-						const parsed = this.parseLocation(info.location);
+						const parsed = parseTacticaLocation(info.location);
 						if (parsed) {
 							node.definitionLocation = parsed;
 						}
@@ -264,12 +259,12 @@ export class GraphBuilder {
 			}
 		}
 
-		// Creation graph (instrumentation.json v2): static call chains from
-		// entry points to `new` sites. Optional — a v1 instrumentation
-		// payload carries no creationGraph and the section stays absent,
-		// leaving every existing consumer unaffected.
-		const instrumentation = registry.getInstrumentation();
-		const creationGraph = instrumentation?.getCreationGraph();
+		// Creation graph (control.json callers): static call chains from
+		// entry points to `new` sites. Absent when control.json is missing,
+		// stale, or failed validation — every consumer treats the section
+		// as optional.
+		const control = registry.getControl();
+		const creationGraph = control?.getCallers();
 		if (creationGraph) {
 			graphData.creation = this.buildCreationSection(creationGraph, nodeMap);
 		}
@@ -336,14 +331,14 @@ export class GraphBuilder {
 	}
 
 	/**
-	 * Convert the raw creationGraph into the GraphData creation section.
-	 * Anchors join to the type graph by dot-joined fullPath; anchors
-	 * naming types absent from the hierarchy are dropped (same policy as
-	 * the execflow layer — no dangling references), and edges whose
-	 * endpoints are not known scopes are skipped.
+	 * Convert the raw callers graph (control.json) into the GraphData
+	 * creation section. Anchors join to the type graph by dot-joined
+	 * fullPath; anchors naming types absent from the hierarchy are dropped
+	 * (same policy as the execflow layer — no dangling references), and
+	 * edges whose endpoints are not known scopes are skipped.
 	 */
 	private static buildCreationSection(
-		graph: rawCreationGraph,
+		graph: rawCallers,
 		nodeMap: Map<string, TypeNode>
 	): { nodes: D3CreationNode[]; links: D3CreationLink[] } {
 		const createsByHolder = new Map<string, D3CreationNode['creates']>();
@@ -356,7 +351,7 @@ export class GraphBuilder {
 			}
 			list.push({
 				typePath        : anchor.typePath,
-				location        : this.parseLocation(anchor.location),
+				location        : parseTacticaLocation(anchor.location),
 				constructorText : anchor.constructorText,
 				variable        : anchor.variable,
 				rooted          : anchor.rooted,
@@ -368,20 +363,28 @@ export class GraphBuilder {
 			// Module scope names are full file paths — the basename is the
 			// displayable name. Anonymous function scopes arrive named
 			// "filePath:line" — shorten those to "basename:line" too
-			// (named functions/methods arrive short already).
-			const baseName = node.filePath.split('/').pop() || node.name;
+			// (named functions/methods arrive short already). The name keeps
+			// the payload's path form (project-relative with current
+			// tactica) while filePath is resolved absolute at load — match
+			// the basename, not the prefix.
+			const baseName = path.basename(node.filePath) || node.name;
 			let name = node.name;
 			if (node.kind === 'module') {
 				name = baseName;
 			} else if (name.startsWith(node.filePath)) {
 				name = baseName + name.slice(node.filePath.length);
+			} else {
+				const anonymous = /^(.+):(\d+)$/.exec(name);
+				if (anonymous && (anonymous[1] === baseName || anonymous[1].endsWith('/' + baseName))) {
+					name = `${baseName}:${anonymous[2]}`;
+				}
 			}
 			const creationNode: D3CreationNode = {
 				id       : node.scopeId,
 				name,
 				kind     : node.kind,
 				filePath : node.filePath,
-				location : this.parseLocation(node.location),
+				location : parseTacticaLocation(node.location),
 				starter  : Boolean(node.starter),
 				creates  : createsByHolder.get(node.scopeId) ?? []
 			};
@@ -411,7 +414,7 @@ export class GraphBuilder {
 	private static buildWrappersSection(
 		eds: { entries(): IterableIterator<[string, unknown[]]> },
 		nodeMap: Map<string, TypeNode>,
-		creationGraph?: rawCreationGraph
+		creationGraph?: rawCallers
 	): { nodes: D3WrapperNode[]; links: D3WrapperLink[] } {
 		const creationScopeIds = new Set<string>(
 			(creationGraph?.nodes ?? []).map((node) => node.scopeId)
@@ -430,9 +433,9 @@ export class GraphBuilder {
 				const info = e as Record<string, unknown>;
 				if (info.kind !== 'wrap' || typeof info.location !== 'string') { continue; }
 				if (byId.has(info.location)) { continue; }
-				const parsed = this.parseLocation(info.location);
+				const parsed = parseTacticaLocation(info.location);
 				const label = typeof info.label === 'string' ? info.label : undefined;
-				const baseName = parsed ? parsed.fileName.split('/').pop() : undefined;
+				const baseName = parsed ? path.basename(parsed.fileName) : undefined;
 				const name = label ?? (baseName && parsed ? `${baseName}:${parsed.line}` : info.location);
 				const node: D3WrapperNode = {
 					id         : info.location,
@@ -526,16 +529,6 @@ export class GraphBuilder {
 		return section;
 	}
 
-	private static parseLocation(location: string): { fileName: string; line: number; column: number } | undefined {
-		const match = location.match(/^(.+):(\d+):(\d+)$/);
-		if (!match) { return undefined; }
-		return {
-			fileName: match[1],
-			line: parseInt(match[2], 10),
-			column: parseInt(match[3], 10)
-		};
-	}
-
 	private static mapEDSKind(kind: string): 'wrap' | 'link' | 'context' | 'hook' | 'error' | 'adapter' {
 		switch (kind) {
 			case 'wrap': return 'wrap';
@@ -569,9 +562,9 @@ export class GraphBuilder {
 
 		// entry.location (from hierarchy.json) points at the real
 		// define() site, 1-based
-		const location = this.parseLocation(String(entry.location || ''));
+		const location = parseTacticaLocation(String(entry.location || ''));
 
-		return {
+		const typeNode: TypeNode = {
 			name: String(entry.name || name),
 			fullPath: name,
 			properties,
@@ -580,7 +573,8 @@ export class GraphBuilder {
 			sourceFile: location ? location.fileName : '',
 			line: location ? location.line : Number(entry.lineNumber || 0),
 			column: location ? location.column : 0
-		} as TypeNode;
+		};
+		return typeNode;
 	}
 
 	static getStats(graphData: GraphData): {

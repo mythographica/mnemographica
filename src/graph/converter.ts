@@ -103,11 +103,4 @@ export class GraphConverter {
 
 		return { maxDepth, averageDepth, typeCountByDepth };
 	}
-
-	/**
-	 * Get total property count across all nodes
-	 */
-	static getTotalProperties (nodes: D3Node[]): number {
-		return nodes.reduce((sum, node) => sum + node.properties.length, 0);
-	}
 }

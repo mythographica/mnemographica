@@ -6,13 +6,16 @@ import * as fs from 'fs';
 import { MnemonicaTreeProvider } from '../views/treeProvider';
 import { MnemonicaReferenceProvider } from '../providers/referenceProvider';
 import { FlowTreeProvider } from '../views/flowTreeProvider';
+import { DiamondsTreeProvider } from '../views/diamondsTreeProvider';
+import { BagelsTreeProvider } from '../views/bagelsTreeProvider';
 import { MainOrchestrator } from '../core/MainOrchestrator';
 import { getLogger } from '../services/LoggerService';
+import { tacticaDirOf } from '../utils/paths';
 
 type WorkspaceQuickPickItem = {
 	label: string;
 	description: string;
-	detail: string;
+	detail?: string;
 	workspacePath: string;
 };
 
@@ -20,13 +23,15 @@ export function registerWorkspaceCommands(
 	treeProvider: MnemonicaTreeProvider,
 	referenceProvider: MnemonicaReferenceProvider,
 	flowProvider: FlowTreeProvider,
+	diamondsProvider: DiamondsTreeProvider,
+	bagelsProvider: BagelsTreeProvider,
 	mainOrchestrator: MainOrchestrator
 ): vscode.Disposable[] {
 	const disposables: vscode.Disposable[] = [];
 
 	disposables.push(
 		vscode.commands.registerCommand('mnemographica.selectWorkspace', async () => {
-			await selectWorkspace(treeProvider, referenceProvider, flowProvider, mainOrchestrator);
+			await selectWorkspace(treeProvider, referenceProvider, flowProvider, diamondsProvider, bagelsProvider, mainOrchestrator);
 		})
 	);
 
@@ -37,6 +42,8 @@ async function selectWorkspace(
 	treeProvider: MnemonicaTreeProvider,
 	referenceProvider: MnemonicaReferenceProvider,
 	flowProvider: FlowTreeProvider,
+	diamondsProvider: DiamondsTreeProvider,
+	bagelsProvider: BagelsTreeProvider,
 	mainOrchestrator: MainOrchestrator
 ): Promise<void> {
 	const workspaces = await vscode.window.withProgress(
@@ -66,17 +73,19 @@ async function selectWorkspace(
 	if (!selected) { return; }
 
 	if (selected.workspacePath === '__browse__') {
-		await browseForWorkspace(treeProvider, referenceProvider, flowProvider, mainOrchestrator);
+		await browseForWorkspace(treeProvider, referenceProvider, flowProvider, diamondsProvider, bagelsProvider, mainOrchestrator);
 		return;
 	}
 
-	await loadWorkspace(selected.workspacePath, selected.label, treeProvider, referenceProvider, flowProvider, mainOrchestrator);
+	await loadWorkspace(selected.workspacePath, selected.label, treeProvider, referenceProvider, flowProvider, diamondsProvider, bagelsProvider, mainOrchestrator);
 }
 
 async function browseForWorkspace(
 	treeProvider: MnemonicaTreeProvider,
 	referenceProvider: MnemonicaReferenceProvider,
 	flowProvider: FlowTreeProvider,
+	diamondsProvider: DiamondsTreeProvider,
+	bagelsProvider: BagelsTreeProvider,
 	mainOrchestrator: MainOrchestrator
 ): Promise<void> {
 	const folderUri = await vscode.window.showOpenDialog({
@@ -92,7 +101,7 @@ async function browseForWorkspace(
 	let selectedPath = folderUri[0].fsPath;
 	const tacticaPath = path.basename(selectedPath) === '.tactica'
 		? selectedPath
-		: path.join(selectedPath, '.tactica');
+		: tacticaDirOf(selectedPath);
 
 	if (path.basename(selectedPath) === '.tactica') {
 		selectedPath = path.dirname(selectedPath);
@@ -103,7 +112,7 @@ async function browseForWorkspace(
 		return;
 	}
 
-	await loadWorkspace(selectedPath, path.basename(selectedPath), treeProvider, referenceProvider, flowProvider, mainOrchestrator);
+	await loadWorkspace(selectedPath, path.basename(selectedPath), treeProvider, referenceProvider, flowProvider, diamondsProvider, bagelsProvider, mainOrchestrator);
 }
 
 async function loadWorkspace(
@@ -112,6 +121,8 @@ async function loadWorkspace(
 	treeProvider: MnemonicaTreeProvider,
 	referenceProvider: MnemonicaReferenceProvider,
 	flowProvider: FlowTreeProvider,
+	diamondsProvider: DiamondsTreeProvider,
+	bagelsProvider: BagelsTreeProvider,
 	mainOrchestrator: MainOrchestrator
 ): Promise<void> {
 	const logger = getLogger();
@@ -119,12 +130,17 @@ async function loadWorkspace(
 	try {
 		treeProvider.setWorkspace(workspacePath);
 		await mainOrchestrator.loadWorkspace(workspacePath);
-		treeProvider.setRegistry(mainOrchestrator.getRegistry());
-		await treeProvider.loadFromRegistry();
-		treeProvider.refresh();
+		const registry = mainOrchestrator.getRegistry();
+		if (registry) {
+			treeProvider.setRegistry(registry);
+			await treeProvider.loadFromRegistry();
+			treeProvider.refresh();
 
-		// Update flow provider
-		flowProvider.setRegistry(mainOrchestrator.getRegistry());
+			// The registry-driven trees all follow the workspace switch
+			flowProvider.setRegistry(registry);
+			diamondsProvider.setRegistry(registry);
+			bagelsProvider.setRegistry(registry);
+		}
 
 		if (referenceProvider) {
 			referenceProvider.clear();
@@ -171,17 +187,19 @@ async function findWorkspacesWithTactica(treeProvider: MnemonicaTreeProvider): P
 				if (!entry.isDirectory()) { continue; }
 
 				const fullPath = path.join(scanRoot, entry.name);
-				const tacticaPath = path.join(fullPath, '.tactica');
+				const tacticaPath = tacticaDirOf(fullPath);
 
 				if (fs.existsSync(tacticaPath)) {
-					const hasTypes = fs.existsSync(path.join(tacticaPath, 'types.ts'));
+					// a project is its hierarchy (structure) or its
+					// definitions — the contract json files; generated
+					// TypeScript is not a detection signal
+					const hasHierarchy = fs.existsSync(path.join(tacticaPath, 'hierarchy.json'));
 					const hasDefinitions = fs.existsSync(path.join(tacticaPath, 'definitions.json'));
 
-					if (hasTypes || hasDefinitions) {
+					if (hasHierarchy || hasDefinitions) {
 						workspaces.push({
 							label: entry.name,
 							description: fullPath,
-							detail: hasTypes && hasDefinitions ? 'Types + Definitions' : (hasTypes ? 'Types only' : 'Definitions only'),
 							workspacePath: fullPath
 						});
 					}

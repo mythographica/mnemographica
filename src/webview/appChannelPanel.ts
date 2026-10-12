@@ -15,14 +15,9 @@ import type { MainOrchestrator } from '../core/MainOrchestrator';
  * strategy-driven push uses (orchestrator → 3D panel + Live Trace).
  */
 
-interface ConnectMessage {
-	type: 'connect';
-	url: string;
-}
-
-interface DiscoveryMessage {
-	type: 'discover';
-	url: string;
+interface ChannelMessage {
+	type: string;
+	url?: string;
 }
 
 // The one-line channel target: a ws://host:port/?token=… URL, or the app's
@@ -104,18 +99,17 @@ export class AppChannelPanel {
 			this.client.disconnect();
 			AppChannelPanel.current = undefined;
 		}, null, this.disposables);
-		this.panel.webview.onDidReceiveMessage((message: ConnectMessage | DiscoveryMessage | { type: string }) => {
+		this.panel.webview.onDidReceiveMessage((message: ChannelMessage) => {
 			void this.handleMessage(message);
 		}, null, this.disposables);
 		this.pushState();
 	}
 
-	private async handleMessage (message: ConnectMessage | DiscoveryMessage | { type: string }): Promise<void> {
+	private async handleMessage (message: ChannelMessage): Promise<void> {
 		if (message.type === 'connect') {
-			const m = message as ConnectMessage;
 			// ONE connection line, the same shape the apps print and the
 			// exported graph pages accept: ws://host:port/?token=…
-			const parsed = parseChannelTarget(m.url);
+			const parsed = message.url ? parseChannelTarget(message.url) : null;
 			if (!parsed) {
 				void this.panel.webview.postMessage({
 					type : 'error',
@@ -129,14 +123,13 @@ export class AppChannelPanel {
 			return;
 		}
 		if (message.type === 'discover') {
-			const m = message as DiscoveryMessage;
 			try {
-				const discovery = await fetchDiscovery(m.url);
+				const discovery = await fetchDiscovery(message.url ?? '');
 				if (!discovery.available || typeof discovery.port !== 'number' || !discovery.token) {
-					void this.panel.webview.postMessage({ type: 'error', text: 'channel not available at ' + m.url });
+					void this.panel.webview.postMessage({ type: 'error', text: 'channel not available at ' + message.url });
 					return;
 				}
-				const url = new URL(m.url);
+				const url = new URL(message.url ?? '');
 				await this.client.connect(url.hostname, discovery.port, discovery.token, discovery.pid);
 			} catch (err) {
 				const text = err instanceof Error ? err.message : String(err);

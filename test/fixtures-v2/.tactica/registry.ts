@@ -29,6 +29,13 @@ import type {
 	SyncBase_SubAsync,
 	SyncBase_SubAsync_SubDecorate,
 	EdsProbe,
+	MechanicsRoot,
+	MechanicsClonable,
+	MechanicsAsyncRoot,
+	MechanicsChainRoot,
+	MechanicsChainRoot_MechanicsChainTip,
+	MechanicsAsyncChainRoot,
+	MechanicsAsyncChainRoot_MechanicsAsyncChainTip,
 } from './types';
 
 /**
@@ -52,12 +59,19 @@ declare module 'mnemonica' {
 		'UserEntity.AdminEntity.AdminResponse': new (data: { id: string; email: string; name: string; type: 'admin'; role: string; permissions: Array<string> }) => UserEntity_AdminEntity_AdminResponse;
 		'UserEntity.AdminEntity.SuperAdminEntity': new (data: { id: string; email: string; name: string; role: string; permissions: Array<string>; domain: string }) => UserEntity_AdminEntity_SuperAdminEntity;
 		'UserEntity.AdminEntity.SuperAdminEntity.SuperAdminResponse': new (data: { id: string; email: string; name: string; type: 'superadmin'; role: string; permissions: Array<string>; domain: string }) => UserEntity_AdminEntity_SuperAdminEntity_SuperAdminResponse;
-		'RootAsync': new (data: { value: number }) => RootAsync;
+		'RootAsync': new (data: { value: number }) => Promise<RootAsync>;
 		'RootAsync.ResultFromDecorate': new (multiplier: number) => RootAsync_ResultFromDecorate;
 		'SyncBase': new (data: { baseValue: string }) => SyncBase;
-		'SyncBase.SubAsync': new (asyncData: { delay: number; extra: string }) => SyncBase_SubAsync;
+		'SyncBase.SubAsync': new (asyncData: { delay: number; extra: string }) => Promise<SyncBase_SubAsync>;
 		'SyncBase.SubAsync.SubDecorate': new (decorateValue: string) => SyncBase_SubAsync_SubDecorate;
 		'EdsProbe': new (data: { note: string }) => EdsProbe;
+		'MechanicsRoot': new (data: { id: string; tag: string }) => MechanicsRoot;
+		'MechanicsClonable': new (data: { id: string }) => MechanicsClonable;
+		'MechanicsAsyncRoot': new (data: { value: number }) => Promise<MechanicsAsyncRoot>;
+		'MechanicsChainRoot': new (data: { id: string }) => MechanicsChainRoot;
+		'MechanicsChainRoot.MechanicsChainTip': new (data: { tip: string }) => MechanicsChainRoot_MechanicsChainTip;
+		'MechanicsAsyncChainRoot': new (data: { value: number }) => MechanicsAsyncChainRoot;
+		'MechanicsAsyncChainRoot.MechanicsAsyncChainTip': new (data: { delay: number }) => Promise<MechanicsAsyncChainRoot_MechanicsAsyncChainTip>;
 	}
 }
 

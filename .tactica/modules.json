@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-09-28T01:30:47.109Z",
+  "generatedAt": "2026-10-12T05:56:53.058Z",
   "modules": {
     "src/topologica/bootstrap.ts": {
       "filePath": "src/topologica/bootstrap.ts",
@@ -116,6 +116,42 @@
       "definedTypes": [],
       "exportedBindings": [
         {
+          "name": "projectKey",
+          "kind": "function",
+          "sourceModule": "src/utils/paths.ts",
+          "isReExport": false
+        },
+        {
+          "name": "tacticaDirOf",
+          "kind": "function",
+          "sourceModule": "src/utils/paths.ts",
+          "isReExport": false
+        },
+        {
+          "name": "projectRootOfContractFile",
+          "kind": "function",
+          "sourceModule": "src/utils/paths.ts",
+          "isReExport": false
+        },
+        {
+          "name": "tacticaRootOfFile",
+          "kind": "function",
+          "sourceModule": "src/utils/paths.ts",
+          "isReExport": false
+        },
+        {
+          "name": "parseTacticaLocation",
+          "kind": "function",
+          "sourceModule": "src/utils/paths.ts",
+          "isReExport": false
+        },
+        {
+          "name": "shortLocation",
+          "kind": "function",
+          "sourceModule": "src/utils/paths.ts",
+          "isReExport": false
+        },
+        {
           "name": "resolveWorkspacePaths",
           "kind": "function",
           "sourceModule": "src/utils/paths.ts",
@@ -126,6 +162,7 @@
       "dependencies": [],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": [
+        "fs",
         "path"
       ]
     },
@@ -169,7 +206,7 @@
           "isReExport": false
         },
         {
-          "name": "resolveWorkspacePaths",
+          "name": "parseTacticaLocation",
           "kind": "function",
           "sourceModule": "src/utils/paths.ts",
           "importKind": "named",
@@ -188,10 +225,7 @@
         "src/utils/paths.ts"
       ],
       "unresolvedSpecifiers": [],
-      "builtinSpecifiers": [
-        "fs",
-        "path"
-      ]
+      "builtinSpecifiers": []
     },
     "src/views/usagesTreeProvider.ts": {
       "filePath": "src/views/usagesTreeProvider.ts",
@@ -260,6 +294,20 @@
           "isReExport": false
         },
         {
+          "name": "parseTacticaLocation",
+          "kind": "function",
+          "sourceModule": "src/utils/paths.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "shortLocation",
+          "kind": "function",
+          "sourceModule": "src/utils/paths.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
           "name": "Registry",
           "kind": "unknown",
           "sourceModule": ".tactica/types.ts",
@@ -268,7 +316,8 @@
         }
       ],
       "dependencies": [
-        "src/services/LoggerService.ts"
+        "src/services/LoggerService.ts",
+        "src/utils/paths.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
@@ -285,30 +334,6 @@
         },
         {
           "name": "TypeNode",
-          "kind": "type",
-          "sourceModule": "src/types/tactica-types.ts",
-          "isReExport": false
-        },
-        {
-          "name": "TypeGraph",
-          "kind": "type",
-          "sourceModule": "src/types/tactica-types.ts",
-          "isReExport": false
-        },
-        {
-          "name": "AnalyzeResult",
-          "kind": "type",
-          "sourceModule": "src/types/tactica-types.ts",
-          "isReExport": false
-        },
-        {
-          "name": "AnalyzeError",
-          "kind": "type",
-          "sourceModule": "src/types/tactica-types.ts",
-          "isReExport": false
-        },
-        {
-          "name": "GeneratedTypes",
           "kind": "type",
           "sourceModule": "src/types/tactica-types.ts",
           "isReExport": false
@@ -481,6 +506,46 @@
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
+    "src/views/pathTrie.ts": {
+      "filePath": "src/views/pathTrie.ts",
+      "definedTypes": [],
+      "exportedBindings": [
+        {
+          "name": "PathTrieNode",
+          "kind": "type",
+          "sourceModule": "src/views/pathTrie.ts",
+          "isReExport": false
+        },
+        {
+          "name": "newPathTrieNode",
+          "kind": "function",
+          "sourceModule": "src/views/pathTrie.ts",
+          "isReExport": false
+        },
+        {
+          "name": "insertIntoPathTrie",
+          "kind": "function",
+          "sourceModule": "src/views/pathTrie.ts",
+          "isReExport": false
+        },
+        {
+          "name": "findInPathTrie",
+          "kind": "function",
+          "sourceModule": "src/views/pathTrie.ts",
+          "isReExport": false
+        },
+        {
+          "name": "subtreeEntryCount",
+          "kind": "function",
+          "sourceModule": "src/views/pathTrie.ts",
+          "isReExport": false
+        }
+      ],
+      "importedBindings": [],
+      "dependencies": [],
+      "unresolvedSpecifiers": [],
+      "builtinSpecifiers": []
+    },
     "src/views/diamondsTreeProvider.ts": {
       "filePath": "src/views/diamondsTreeProvider.ts",
       "definedTypes": [],
@@ -515,6 +580,55 @@
           "isReExport": false
         },
         {
+          "name": "parseTacticaLocation",
+          "kind": "function",
+          "sourceModule": "src/utils/paths.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "shortLocation",
+          "kind": "function",
+          "sourceModule": "src/utils/paths.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "PathTrieNode",
+          "kind": "type",
+          "sourceModule": "src/views/pathTrie.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "findInPathTrie",
+          "kind": "function",
+          "sourceModule": "src/views/pathTrie.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "insertIntoPathTrie",
+          "kind": "function",
+          "sourceModule": "src/views/pathTrie.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "newPathTrieNode",
+          "kind": "function",
+          "sourceModule": "src/views/pathTrie.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "subtreeEntryCount",
+          "kind": "function",
+          "sourceModule": "src/views/pathTrie.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
           "name": "Registry",
           "kind": "unknown",
           "sourceModule": ".tactica/types.ts",
@@ -523,7 +637,9 @@
         }
       ],
       "dependencies": [
-        "src/services/LoggerService.ts"
+        "src/services/LoggerService.ts",
+        "src/utils/paths.ts",
+        "src/views/pathTrie.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
@@ -562,6 +678,55 @@
           "isReExport": false
         },
         {
+          "name": "parseTacticaLocation",
+          "kind": "function",
+          "sourceModule": "src/utils/paths.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "shortLocation",
+          "kind": "function",
+          "sourceModule": "src/utils/paths.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "PathTrieNode",
+          "kind": "type",
+          "sourceModule": "src/views/pathTrie.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "findInPathTrie",
+          "kind": "function",
+          "sourceModule": "src/views/pathTrie.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "insertIntoPathTrie",
+          "kind": "function",
+          "sourceModule": "src/views/pathTrie.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "newPathTrieNode",
+          "kind": "function",
+          "sourceModule": "src/views/pathTrie.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "subtreeEntryCount",
+          "kind": "function",
+          "sourceModule": "src/views/pathTrie.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
           "name": "Registry",
           "kind": "unknown",
           "sourceModule": ".tactica/types.ts",
@@ -570,7 +735,9 @@
         }
       ],
       "dependencies": [
-        "src/services/LoggerService.ts"
+        "src/services/LoggerService.ts",
+        "src/utils/paths.ts",
+        "src/views/pathTrie.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
@@ -739,6 +906,12 @@
           "kind": "const",
           "sourceModule": "src/models/collections.ts",
           "isReExport": false
+        },
+        {
+          "name": "setProps",
+          "kind": "function",
+          "sourceModule": "src/models/collections.ts",
+          "isReExport": false
         }
       ],
       "importedBindings": [
@@ -755,74 +928,87 @@
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "src/models/Instrumentation.ts": {
-      "filePath": "src/models/Instrumentation.ts",
+    "src/models/Control.ts": {
+      "filePath": "src/models/Control.ts",
       "definedTypes": [
-        "collection_1::Instrumentation",
-        "collection_1::Instrumentation.InstrumentationPoint"
+        "collection_1::Control",
+        "collection_1::Control.ControlPoint"
       ],
       "exportedBindings": [
         {
-          "name": "rawInstrumentationPoint",
+          "name": "rawControlPoint",
           "kind": "type",
-          "sourceModule": "src/models/Instrumentation.ts",
+          "sourceModule": "src/models/Control.ts",
           "isReExport": false
         },
         {
-          "name": "rawCreationGraphNode",
+          "name": "rawCallersNode",
           "kind": "type",
-          "sourceModule": "src/models/Instrumentation.ts",
+          "sourceModule": "src/models/Control.ts",
           "isReExport": false
         },
         {
-          "name": "rawCreationGraphEdge",
+          "name": "rawCallersEdge",
           "kind": "type",
-          "sourceModule": "src/models/Instrumentation.ts",
+          "sourceModule": "src/models/Control.ts",
           "isReExport": false
         },
         {
-          "name": "rawCreationGraphAnchor",
+          "name": "rawCallersAnchor",
           "kind": "type",
-          "sourceModule": "src/models/Instrumentation.ts",
+          "sourceModule": "src/models/Control.ts",
           "isReExport": false
         },
         {
-          "name": "rawCreationGraph",
+          "name": "rawCallers",
           "kind": "type",
-          "sourceModule": "src/models/Instrumentation.ts",
+          "sourceModule": "src/models/Control.ts",
           "isReExport": false
         },
         {
-          "name": "InstrumentationPointInstance",
+          "name": "ControlPointInstance",
           "kind": "type",
-          "sourceModule": "src/models/Instrumentation.ts",
+          "sourceModule": "src/models/Control.ts",
           "isReExport": false
         },
         {
-          "name": "Instrumentation",
+          "name": "rawControlFile",
+          "kind": "type",
+          "sourceModule": "src/models/Control.ts",
+          "isReExport": false
+        },
+        {
+          "name": "Control",
           "kind": "const",
-          "sourceModule": "src/models/Instrumentation.ts",
+          "sourceModule": "src/models/Control.ts",
           "isReExport": false
         },
         {
-          "name": "InstrumentationPoint",
+          "name": "ControlPoint",
           "kind": "const",
-          "sourceModule": "src/models/Instrumentation.ts",
+          "sourceModule": "src/models/Control.ts",
           "isReExport": false
         },
         {
           "name": "default",
           "kind": "const",
-          "sourceModule": "src/models/Instrumentation.ts",
+          "sourceModule": "src/models/Control.ts",
           "importKind": "default",
           "isReExport": false,
-          "importAlias": "Instrumentation"
+          "importAlias": "Control"
         }
       ],
       "importedBindings": [
         {
           "name": "Backend",
           "kind": "const",
+          "sourceModule": "src/models/collections.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "setProps",
+          "kind": "function",
           "sourceModule": "src/models/collections.ts",
           "importKind": "named",
           "isReExport": false
@@ -960,6 +1146,13 @@
           "isReExport": false
         },
         {
+          "name": "parseTacticaLocation",
+          "kind": "function",
+          "sourceModule": "src/utils/paths.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
           "name": "Registry",
           "kind": "unknown",
           "sourceModule": ".tactica/types.ts",
@@ -967,9 +1160,9 @@
           "isReExport": false
         },
         {
-          "name": "rawCreationGraph",
+          "name": "rawCallers",
           "kind": "type",
-          "sourceModule": "src/models/Instrumentation.ts",
+          "sourceModule": "src/models/Control.ts",
           "importKind": "named",
           "isReExport": false
         },
@@ -987,11 +1180,153 @@
         "src/graph/internals-manifest.ts",
         "src/types/tactica-types.ts",
         "src/utils/collections.ts",
-        "src/models/Instrumentation.ts",
+        "src/utils/paths.ts",
+        "src/models/Control.ts",
         "src/services/LoggerService.ts"
       ],
       "unresolvedSpecifiers": [],
-      "builtinSpecifiers": []
+      "builtinSpecifiers": [
+        "path"
+      ]
+    },
+    "src/utils/letheValidation.ts": {
+      "filePath": "src/utils/letheValidation.ts",
+      "definedTypes": [],
+      "exportedBindings": [
+        {
+          "name": "tacticaContractKind",
+          "kind": "type",
+          "sourceModule": "src/utils/letheValidation.ts",
+          "isReExport": false
+        },
+        {
+          "name": "validateTacticaFile",
+          "kind": "function",
+          "sourceModule": "src/utils/letheValidation.ts",
+          "isReExport": false
+        }
+      ],
+      "importedBindings": [
+        {
+          "name": "Ajv2020",
+          "kind": "unknown",
+          "sourceModule": "node_modules/ajv/dist/2020.d.ts",
+          "importKind": "default",
+          "isReExport": false,
+          "external": true
+        },
+        {
+          "name": "ValidateFunction",
+          "kind": "unknown",
+          "sourceModule": "node_modules/ajv/dist/ajv.d.ts",
+          "importKind": "named",
+          "isReExport": false,
+          "external": true
+        },
+        {
+          "name": "getLogger",
+          "kind": "function",
+          "sourceModule": "src/services/LoggerService.ts",
+          "importKind": "named",
+          "isReExport": false
+        }
+      ],
+      "dependencies": [
+        "src/services/LoggerService.ts"
+      ],
+      "unresolvedSpecifiers": [],
+      "builtinSpecifiers": [
+        "fs",
+        "path"
+      ]
+    },
+    "src/core/registryStore.ts": {
+      "filePath": "src/core/registryStore.ts",
+      "definedTypes": [],
+      "exportedBindings": [
+        {
+          "name": "getProjectRegistry",
+          "kind": "function",
+          "sourceModule": "src/core/registryStore.ts",
+          "isReExport": false
+        },
+        {
+          "name": "peekProjectRegistry",
+          "kind": "function",
+          "sourceModule": "src/core/registryStore.ts",
+          "isReExport": false
+        },
+        {
+          "name": "reloadProjectRegistry",
+          "kind": "function",
+          "sourceModule": "src/core/registryStore.ts",
+          "isReExport": false
+        },
+        {
+          "name": "onProjectRegistryReload",
+          "kind": "function",
+          "sourceModule": "src/core/registryStore.ts",
+          "isReExport": false
+        },
+        {
+          "name": "getProjectGeneratedAt",
+          "kind": "function",
+          "sourceModule": "src/core/registryStore.ts",
+          "isReExport": false
+        },
+        {
+          "name": "clearProjectRegistries",
+          "kind": "function",
+          "sourceModule": "src/core/registryStore.ts",
+          "isReExport": false
+        }
+      ],
+      "importedBindings": [
+        {
+          "name": "lookup",
+          "kind": "unknown",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
+          "importKind": "named",
+          "isReExport": false,
+          "external": true
+        },
+        {
+          "name": "Registry",
+          "kind": "unknown",
+          "sourceModule": ".tactica/types.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "tacticaContractKind",
+          "kind": "type",
+          "sourceModule": "src/utils/letheValidation.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "projectKey",
+          "kind": "function",
+          "sourceModule": "src/utils/paths.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "tacticaDirOf",
+          "kind": "function",
+          "sourceModule": "src/utils/paths.ts",
+          "importKind": "named",
+          "isReExport": false
+        }
+      ],
+      "dependencies": [
+        "src/utils/letheValidation.ts",
+        "src/utils/paths.ts"
+      ],
+      "unresolvedSpecifiers": [],
+      "builtinSpecifiers": [
+        "fs"
+      ]
     },
     "src/core/MainOrchestrator.ts": {
       "filePath": "src/core/MainOrchestrator.ts",
@@ -1028,13 +1363,6 @@
           "importAlias": "Main"
         },
         {
-          "name": "Main_Adapter",
-          "kind": "unknown",
-          "sourceModule": ".tactica/types.ts",
-          "importKind": "named",
-          "isReExport": false
-        },
-        {
           "name": "Registry",
           "kind": "unknown",
           "sourceModule": ".tactica/types.ts",
@@ -1061,12 +1389,27 @@
           "sourceModule": "src/types/index.ts",
           "importKind": "named",
           "isReExport": false
+        },
+        {
+          "name": "getProjectRegistry",
+          "kind": "function",
+          "sourceModule": "src/core/registryStore.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "reloadProjectRegistry",
+          "kind": "function",
+          "sourceModule": "src/core/registryStore.ts",
+          "importKind": "named",
+          "isReExport": false
         }
       ],
       "dependencies": [
         "src/core/StateManager.ts",
         "src/core/GraphBuilder.ts",
-        "src/types/index.ts"
+        "src/types/index.ts",
+        "src/core/registryStore.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
@@ -1110,10 +1453,18 @@
           "sourceModule": "src/core/MainOrchestrator.ts",
           "importKind": "named",
           "isReExport": false
+        },
+        {
+          "name": "parseTacticaLocation",
+          "kind": "function",
+          "sourceModule": "src/utils/paths.ts",
+          "importKind": "named",
+          "isReExport": false
         }
       ],
       "dependencies": [
-        "src/core/MainOrchestrator.ts"
+        "src/core/MainOrchestrator.ts",
+        "src/utils/paths.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
@@ -1139,20 +1490,34 @@
           "external": true
         },
         {
-          "name": "getLogger",
+          "name": "getProjectRegistry",
           "kind": "function",
-          "sourceModule": "src/services/LoggerService.ts",
+          "sourceModule": "src/core/registryStore.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "parseTacticaLocation",
+          "kind": "function",
+          "sourceModule": "src/utils/paths.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "tacticaRootOfFile",
+          "kind": "function",
+          "sourceModule": "src/utils/paths.ts",
           "importKind": "named",
           "isReExport": false
         }
       ],
       "dependencies": [
-        "src/services/LoggerService.ts"
+        "src/core/registryStore.ts",
+        "src/utils/paths.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": [
-        "path",
-        "fs"
+        "path"
       ]
     },
     "src/providers/referenceProvider.ts": {
@@ -1183,6 +1548,13 @@
           "isReExport": false
         },
         {
+          "name": "parseTacticaLocation",
+          "kind": "function",
+          "sourceModule": "src/utils/paths.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
           "name": "Usages",
           "kind": "unknown",
           "sourceModule": ".tactica/types.ts",
@@ -1200,6 +1572,7 @@
       ],
       "dependencies": [
         "src/services/LoggerService.ts",
+        "src/utils/paths.ts",
         "src/core/MainOrchestrator.ts"
       ],
       "unresolvedSpecifiers": [],
@@ -1220,17 +1593,16 @@
       ],
       "importedBindings": [
         {
-          "name": "lookup",
-          "kind": "unknown",
-          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
-          "importKind": "named",
-          "isReExport": false,
-          "external": true
-        },
-        {
           "name": "GraphBuilder",
           "kind": "class",
           "sourceModule": "src/core/GraphBuilder.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "getProjectRegistry",
+          "kind": "function",
+          "sourceModule": "src/core/registryStore.ts",
           "importKind": "named",
           "isReExport": false
         },
@@ -1244,13 +1616,11 @@
       ],
       "dependencies": [
         "src/core/GraphBuilder.ts",
+        "src/core/registryStore.ts",
         "src/types/index.ts"
       ],
       "unresolvedSpecifiers": [],
-      "builtinSpecifiers": [
-        "fs",
-        "path"
-      ]
+      "builtinSpecifiers": []
     },
     "src/core/SceneBuilder.ts": {
       "filePath": "src/core/SceneBuilder.ts",
@@ -1298,6 +1668,31 @@
         "src/models/collections.ts",
         "src/types/index.ts"
       ],
+      "unresolvedSpecifiers": [],
+      "builtinSpecifiers": []
+    },
+    "src/services/NavigationAdapter.ts": {
+      "filePath": "src/services/NavigationAdapter.ts",
+      "definedTypes": [],
+      "exportedBindings": [
+        {
+          "name": "VSCodeNavigation",
+          "kind": "class",
+          "sourceModule": "src/services/NavigationAdapter.ts",
+          "isReExport": false
+        }
+      ],
+      "importedBindings": [
+        {
+          "name": "vscode",
+          "kind": "unknown",
+          "sourceModule": "node_modules/@types/vscode/index.d.ts",
+          "importKind": "namespace",
+          "isReExport": false,
+          "external": true
+        }
+      ],
+      "dependencies": [],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
@@ -1350,6 +1745,34 @@
           "isReExport": false
         },
         {
+          "name": "getProjectGeneratedAt",
+          "kind": "function",
+          "sourceModule": "src/core/registryStore.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "onProjectRegistryReload",
+          "kind": "function",
+          "sourceModule": "src/core/registryStore.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "reloadProjectRegistry",
+          "kind": "function",
+          "sourceModule": "src/core/registryStore.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "projectKey",
+          "kind": "function",
+          "sourceModule": "src/utils/paths.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
           "name": "buildSceneFor",
           "kind": "function",
           "sourceModule": "src/core/SceneBuilder.ts",
@@ -1378,14 +1801,24 @@
           "sourceModule": "src/services/LoggerService.ts",
           "importKind": "named",
           "isReExport": false
+        },
+        {
+          "name": "VSCodeNavigation",
+          "kind": "class",
+          "sourceModule": "src/services/NavigationAdapter.ts",
+          "importKind": "named",
+          "isReExport": false
         }
       ],
       "dependencies": [
         "src/types/index.ts",
         "src/core/MainOrchestrator.ts",
         "src/core/graphDataLoader.ts",
+        "src/core/registryStore.ts",
+        "src/utils/paths.ts",
         "src/core/SceneBuilder.ts",
-        "src/services/LoggerService.ts"
+        "src/services/LoggerService.ts",
+        "src/services/NavigationAdapter.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": [
@@ -1493,31 +1926,6 @@
       "dependencies": [
         "src/strategy/server.ts"
       ],
-      "unresolvedSpecifiers": [],
-      "builtinSpecifiers": []
-    },
-    "src/services/NavigationAdapter.ts": {
-      "filePath": "src/services/NavigationAdapter.ts",
-      "definedTypes": [],
-      "exportedBindings": [
-        {
-          "name": "VSCodeNavigation",
-          "kind": "class",
-          "sourceModule": "src/services/NavigationAdapter.ts",
-          "isReExport": false
-        }
-      ],
-      "importedBindings": [
-        {
-          "name": "vscode",
-          "kind": "unknown",
-          "sourceModule": "node_modules/@types/vscode/index.d.ts",
-          "importKind": "namespace",
-          "isReExport": false,
-          "external": true
-        }
-      ],
-      "dependencies": [],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
@@ -1844,13 +2252,6 @@
           "isReExport": false
         },
         {
-          "name": "MnemonicaTreeProvider",
-          "kind": "class",
-          "sourceModule": "src/views/treeProvider.ts",
-          "importKind": "named",
-          "isReExport": false
-        },
-        {
           "name": "MnemonicaTreeItem",
           "kind": "class",
           "sourceModule": "src/views/treeProvider.ts",
@@ -1879,7 +2280,14 @@
           "isReExport": false
         },
         {
-          "name": "resolveWorkspacePaths",
+          "name": "getProjectRegistry",
+          "kind": "function",
+          "sourceModule": "src/core/registryStore.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "parseTacticaLocation",
           "kind": "function",
           "sourceModule": "src/utils/paths.ts",
           "importKind": "named",
@@ -1891,13 +2299,11 @@
         "src/views/treeProvider.ts",
         "src/views/usagesTreeProvider.ts",
         "src/services/LoggerService.ts",
+        "src/core/registryStore.ts",
         "src/utils/paths.ts"
       ],
       "unresolvedSpecifiers": [],
-      "builtinSpecifiers": [
-        "path",
-        "fs"
-      ]
+      "builtinSpecifiers": []
     },
     "src/commands/treeCommands.ts": {
       "filePath": "src/commands/treeCommands.ts",
@@ -1955,7 +2361,9 @@
         "src/core/MainOrchestrator.ts"
       ],
       "unresolvedSpecifiers": [],
-      "builtinSpecifiers": []
+      "builtinSpecifiers": [
+        "path"
+      ]
     },
     "src/commands/utilityCommands.ts": {
       "filePath": "src/commands/utilityCommands.ts",
@@ -2041,6 +2449,20 @@
           "isReExport": false
         },
         {
+          "name": "DiamondsTreeProvider",
+          "kind": "class",
+          "sourceModule": "src/views/diamondsTreeProvider.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "BagelsTreeProvider",
+          "kind": "class",
+          "sourceModule": "src/views/bagelsTreeProvider.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
           "name": "MainOrchestrator",
           "kind": "class",
           "sourceModule": "src/core/MainOrchestrator.ts",
@@ -2053,14 +2475,24 @@
           "sourceModule": "src/services/LoggerService.ts",
           "importKind": "named",
           "isReExport": false
+        },
+        {
+          "name": "tacticaDirOf",
+          "kind": "function",
+          "sourceModule": "src/utils/paths.ts",
+          "importKind": "named",
+          "isReExport": false
         }
       ],
       "dependencies": [
         "src/views/treeProvider.ts",
         "src/providers/referenceProvider.ts",
         "src/views/flowTreeProvider.ts",
+        "src/views/diamondsTreeProvider.ts",
+        "src/views/bagelsTreeProvider.ts",
         "src/core/MainOrchestrator.ts",
-        "src/services/LoggerService.ts"
+        "src/services/LoggerService.ts",
+        "src/utils/paths.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": [
@@ -2091,6 +2523,14 @@
           "kind": "unknown",
           "sourceModule": "node_modules/@types/vscode/index.d.ts",
           "importKind": "namespace",
+          "isReExport": false,
+          "external": true
+        },
+        {
+          "name": "lookup",
+          "kind": "unknown",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
+          "importKind": "named",
           "isReExport": false,
           "external": true
         },
@@ -2264,6 +2704,14 @@
           "importAlias": "BackendRegistry_Trie_GraphNodeTrie"
         },
         {
+          "name": "RegistryModel",
+          "kind": "unknown",
+          "sourceModule": ".tactica/types.ts",
+          "importKind": "named",
+          "isReExport": false,
+          "importAlias": "Registry"
+        },
+        {
           "name": "GraphPanel",
           "kind": "class",
           "sourceModule": "src/webview/panel.ts",
@@ -2309,6 +2757,41 @@
           "name": "wrapForSelfTrace",
           "kind": "function",
           "sourceModule": "src/strategy/selfTrace.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "onProjectRegistryReload",
+          "kind": "function",
+          "sourceModule": "src/core/registryStore.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "peekProjectRegistry",
+          "kind": "function",
+          "sourceModule": "src/core/registryStore.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "reloadProjectRegistry",
+          "kind": "function",
+          "sourceModule": "src/core/registryStore.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "projectKey",
+          "kind": "function",
+          "sourceModule": "src/utils/paths.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "projectRootOfContractFile",
+          "kind": "function",
+          "sourceModule": "src/utils/paths.ts",
           "importKind": "named",
           "isReExport": false
         },
@@ -2361,6 +2844,8 @@
         "src/webview/appChannelPanel.ts",
         "src/strategy/processManager.ts",
         "src/strategy/selfTrace.ts",
+        "src/core/registryStore.ts",
+        "src/utils/paths.ts",
         "src/commands/navigationCommands.ts",
         "src/commands/treeCommands.ts",
         "src/commands/utilityCommands.ts",
@@ -2379,7 +2864,25 @@
       ],
       "exportedBindings": [
         {
+          "name": "rawDefinitionField",
+          "kind": "type",
+          "sourceModule": "src/models/Definition.ts",
+          "isReExport": false
+        },
+        {
+          "name": "rawDefinitionArg",
+          "kind": "type",
+          "sourceModule": "src/models/Definition.ts",
+          "isReExport": false
+        },
+        {
           "name": "rawDefinitionEntry",
+          "kind": "type",
+          "sourceModule": "src/models/Definition.ts",
+          "isReExport": false
+        },
+        {
+          "name": "rawDefinitionsFile",
           "kind": "type",
           "sourceModule": "src/models/Definition.ts",
           "isReExport": false
@@ -2420,6 +2923,13 @@
           "isReExport": false
         },
         {
+          "name": "setProps",
+          "kind": "function",
+          "sourceModule": "src/models/collections.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
           "name": "getLogger",
           "kind": "function",
           "sourceModule": "src/services/LoggerService.ts",
@@ -2454,6 +2964,12 @@
           "isReExport": false
         },
         {
+          "name": "rawEDSFile",
+          "kind": "type",
+          "sourceModule": "src/models/EDS.ts",
+          "isReExport": false
+        },
+        {
           "name": "EDS",
           "kind": "const",
           "sourceModule": "src/models/EDS.ts",
@@ -2478,6 +2994,13 @@
         {
           "name": "Backend",
           "kind": "const",
+          "sourceModule": "src/models/collections.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "setProps",
+          "kind": "function",
           "sourceModule": "src/models/collections.ts",
           "importKind": "named",
           "isReExport": false
@@ -2517,6 +3040,12 @@
           "isReExport": false
         },
         {
+          "name": "rawFlowFile",
+          "kind": "type",
+          "sourceModule": "src/models/Flow.ts",
+          "isReExport": false
+        },
+        {
           "name": "Flow",
           "kind": "const",
           "sourceModule": "src/models/Flow.ts",
@@ -2541,6 +3070,13 @@
         {
           "name": "Backend",
           "kind": "const",
+          "sourceModule": "src/models/collections.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "setProps",
+          "kind": "function",
           "sourceModule": "src/models/collections.ts",
           "importKind": "named",
           "isReExport": false
@@ -2705,6 +3241,13 @@
           "isReExport": false
         },
         {
+          "name": "setProps",
+          "kind": "function",
+          "sourceModule": "src/models/collections.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
           "name": "getLogger",
           "kind": "function",
           "sourceModule": "src/services/LoggerService.ts",
@@ -2728,6 +3271,12 @@
       "exportedBindings": [
         {
           "name": "usage",
+          "kind": "type",
+          "sourceModule": "src/models/Usages.ts",
+          "isReExport": false
+        },
+        {
+          "name": "rawUsagesFile",
           "kind": "type",
           "sourceModule": "src/models/Usages.ts",
           "isReExport": false
@@ -2763,6 +3312,13 @@
         {
           "name": "Backend",
           "kind": "const",
+          "sourceModule": "src/models/collections.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "setProps",
+          "kind": "function",
           "sourceModule": "src/models/collections.ts",
           "importKind": "named",
           "isReExport": false
@@ -2808,12 +3364,6 @@
           "isReExport": false
         },
         {
-          "name": "registry",
-          "kind": "const",
-          "sourceModule": "src/models/Registry.ts",
-          "isReExport": false
-        },
-        {
           "name": "default",
           "kind": "const",
           "sourceModule": "src/models/Registry.ts",
@@ -2826,6 +3376,13 @@
         {
           "name": "Backend",
           "kind": "const",
+          "sourceModule": "src/models/collections.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "setProps",
+          "kind": "function",
           "sourceModule": "src/models/collections.ts",
           "importKind": "named",
           "isReExport": false
@@ -2846,9 +3403,37 @@
           "isReExport": false
         },
         {
+          "name": "parseTacticaLocation",
+          "kind": "function",
+          "sourceModule": "src/utils/paths.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "tacticaDirOf",
+          "kind": "function",
+          "sourceModule": "src/utils/paths.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
           "name": "resolveWorkspacePaths",
           "kind": "function",
           "sourceModule": "src/utils/paths.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "validateTacticaFile",
+          "kind": "function",
+          "sourceModule": "src/utils/letheValidation.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "tacticaContractKind",
+          "kind": "type",
+          "sourceModule": "src/utils/letheValidation.ts",
           "importKind": "named",
           "isReExport": false
         },
@@ -2908,12 +3493,12 @@
           "importAlias": "BackendRegistry_Flow"
         },
         {
-          "name": "Instrumentation",
+          "name": "Control",
           "kind": "unknown",
           "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false,
-          "importAlias": "BackendRegistry_Instrumentation"
+          "importAlias": "BackendRegistry_Control"
         },
         {
           "name": "RegistryModel",
@@ -2924,7 +3509,7 @@
           "importAlias": "Registry"
         },
         {
-          "name": "rawDefinitionEntry",
+          "name": "rawDefinitionsFile",
           "kind": "type",
           "sourceModule": "src/models/Definition.ts",
           "importKind": "named",
@@ -2938,37 +3523,30 @@
           "isReExport": false
         },
         {
-          "name": "usage",
+          "name": "rawUsagesFile",
           "kind": "type",
           "sourceModule": "src/models/Usages.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
-          "name": "rawEDSEntry",
+          "name": "rawEDSFile",
           "kind": "type",
           "sourceModule": "src/models/EDS.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
-          "name": "rawFlowEntry",
+          "name": "rawFlowFile",
           "kind": "type",
           "sourceModule": "src/models/Flow.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
-          "name": "rawInstrumentationPoint",
+          "name": "rawControlFile",
           "kind": "type",
-          "sourceModule": "src/models/Instrumentation.ts",
-          "importKind": "named",
-          "isReExport": false
-        },
-        {
-          "name": "rawCreationGraph",
-          "kind": "type",
-          "sourceModule": "src/models/Instrumentation.ts",
+          "sourceModule": "src/models/Control.ts",
           "importKind": "named",
           "isReExport": false
         }
@@ -2977,13 +3555,14 @@
         "src/models/collections.ts",
         "src/services/LoggerService.ts",
         "src/utils/paths.ts",
+        "src/utils/letheValidation.ts",
         "src/utils/collections.ts",
         "src/models/Definition.ts",
         "src/models/Types.ts",
         "src/models/Usages.ts",
         "src/models/EDS.ts",
         "src/models/Flow.ts",
-        "src/models/Instrumentation.ts"
+        "src/models/Control.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": [

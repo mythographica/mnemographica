@@ -2,6 +2,7 @@
 
 import * as vscode from 'vscode';
 import type { MainOrchestrator, traceEdge } from '../core/MainOrchestrator';
+import { parseTacticaLocation } from '../utils/paths';
 
 /**
  * Live Trace view.
@@ -32,8 +33,6 @@ type traceGroup = {
 	hasError: boolean;
 	unknownError: boolean;
 };
-
-const CALLSITE_RE = /^(.*):(\d+):(\d+)$/;
 
 // Max individual trace rows shown inside one merged group row
 const MAX_GROUP_ROWS = 100;
@@ -323,22 +322,22 @@ export class LiveTraceTreeProvider implements vscode.TreeDataProvider<LiveTraceT
 
 	private shortName(edge: traceEdge): string {
 		// call/method edges carry the callsite as name — show its tail
-		const match = CALLSITE_RE.exec(edge.name);
-		if (match) {
-			const tail = match[1].split('/').slice(-2).join('/');
-			const result = `${tail}:${match[2]}`;
+		const parsed = parseTacticaLocation(edge.name);
+		if (parsed) {
+			const tail = parsed.fileName.split('/').slice(-2).join('/');
+			const result = `${tail}:${parsed.line}`;
 			return result;
 		}
 		return edge.instanceType || edge.name;
 	}
 
 	private locationFor(edge: traceEdge): { filePath: string; line: number; column: number } | null {
-		const match = CALLSITE_RE.exec(edge.name);
-		if (match) {
+		const parsed = parseTacticaLocation(edge.name);
+		if (parsed) {
 			const result = {
-				filePath : match[1],
-				line     : parseInt(match[2], 10),
-				column   : parseInt(match[3], 10)
+				filePath : parsed.fileName,
+				line     : parsed.line,
+				column   : parsed.column
 			};
 			return result;
 		}

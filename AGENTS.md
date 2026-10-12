@@ -23,7 +23,7 @@ code does and its invariants, not when or why a change happened.
 
 ## Project Overview
 
-Mnemonica Graphica is a VS Code extension for exploring mnemonica type hierarchies. It reads the `.tactica/` artifacts of a workspace (`hierarchy.json`, `definitions.json`, `usages.json`, `eds.json`, `flow.json`, `types.ts`) into mnemonica model instances and exposes them as tree views with navigation.
+Mnemonica Graphica is a VS Code extension for exploring mnemonica type hierarchies. It reads the `.tactica/` artifacts of a workspace — the seven lethe contract files (`hierarchy.json`, `definitions.json`, `collections.json`, `usages.json`, `flow.json`, `eds.json`, `control.json`), each validated against its `@mnemonica/lethe` schema at load — into mnemonica model instances and exposes them as tree views with navigation.
 
 ### Purpose
 
@@ -58,27 +58,42 @@ The extension helps AI agents:
 
 2. **Registry** (`src/models/Registry.ts`) — the controller
    - The only model doing file I/O: `loadFromWorkspace()` reads `.tactica/*`
+   - **Contract-only reads**: the extension reads exactly the seven lethe
+     contract files (`hierarchy`, `definitions`, `collections`, `usages`,
+     `flow`, `eds`, `control`) — never `types.ts` / `registry.ts` /
+     `modules.json` / `scopes.json` / `instrumentation.json`.
+   - **Validation + read-once**: every parsed payload is validated at
+     load against its `@mnemonica/lethe` schema
+     (`tactica/*.schema.json`, ajv draft 2020-12) by
+     `src/utils/letheValidation.ts`; an invalid or unparseable file is a
+     logged warning naming the file and the first errors, and its model
+     stays empty — never a crash. Format `"1.2"` is required (`version`
+     is mandatory); an older `.tactica/` fails validation and is meant to
+     be regenerated, not read. Each contract file is read, parsed and
+     validated ONCE per load (`readTacticaJson` records the file's
+     `generatedAt` on the instance — stale guards and the panel's layout
+     guard reuse the stamp instead of re-reading); every consumer (the
+     sidebar via MainOrchestrator, the 3D panels, the navigation
+     providers, the commands) reads from the shared per-project instance
+     in the registryStore (`src/core/registryStore.ts`), never from disk.
    - tactica emits project-relative paths (portable output); every parsed
      payload passes through `resolveWorkspacePaths` (`src/utils/paths.ts`)
      at load time, anchored at the directory holding `.tactica`, so all
      downstream code sees absolute paths. Legacy absolute payloads pass
-     through unchanged. The same resolver covers the scattered readers
-     (`navigationCommands`, `treeProvider` fallback); `definitionProvider`
-     resolves per-file on its own
+     through unchanged.
    - Types are loaded from `hierarchy.json` (structure, dot-joined fullPaths,
-     1-based define()-site locations); property signatures are parsed from the
-     generated `types.ts` bodies, the only place they exist
-   - `instrumentation.json` (framework lifecycle crossroads) loads through the
-     same stale guard as `eds.json` — a file older than `definitions.json`
-     is skipped. The `Instrumentation` model holds a FLAT points list
-     (`all()`), not a per-type Map. v2 payloads also carry `creationGraph`
-     (static call chains from entry points down to every `new` site):
-     stored as plain transfer data (`getCreationGraph()` /
-     `hasCreationGraph()`), absent for v1 files, dropped by the model's
-     `clear()` together with the points. When no graph is attached the
-     model records WHY (`getCreationGraphAbsentReason()` → `missing` /
-     `stale` / `v1`, set by the loader, cleared by `setCreationGraph` and
-     `clear()`) so the Diamonds pane can give the right advice
+     1-based define()-site locations); property signatures come from
+     `definitions.json` `fields` (the type's own fields in declaration
+     order — the same source tactica renders types.ts from)
+   - `control.json` (the callers graph + plugin-supplied framework points)
+     loads through the same stale guard as `eds.json` — a file older than
+     `definitions.json` is skipped. The `Control` model holds a FLAT points
+     list (`all()`) plus the callers graph as plain transfer data
+     (`getCallers()` / `hasCallers()`). When no graph is attached the
+     model records WHY (`getCallersAbsentReason()` → `missing` / `stale`,
+     set by the loader, cleared by `setCallers` and `clear()`) so the
+     Diamonds pane can give the right advice. `instrumentation.json` is
+     never read — control.json is the contract rendering of that data.
    - `collections.json` (tactica ≥ 0.4.1) loads tolerantly into an
      id → display-name map (`getCollectionNames()`, keyed `defaultTypes`
      for the manifest's null-id default entry); a missing or malformed
@@ -109,7 +124,7 @@ The extension helps AI agents:
    - Populates `execflow` from flow.json: edges between known graph nodes only
      (entries whose key or `targetType` doesn't resolve — natives like `Date` —
      are skipped)
-   - When the Instrumentation model carries a creationGraph (v2), attaches an
+   - When the Control model carries a callers graph (control.json), attaches an
      optional `creation { nodes, links }` section: scopes keyed by tactica
      scopeId, caller→callee links, and per-holder `creates` anchors joined to
      graph nodes by dot-joined fullPath (anchors naming unknown types are
@@ -155,8 +170,8 @@ The extension helps AI agents:
      `traceId` forwarded by strategy's push mapper; base URL overridable
      via MNEMOGRAPHICA_JAEGER_URL). Traces that aged out of the ring are
      Jaeger's job — the ring is "now".
-   - `treeProvider.ts` — Definitions section (define() sites) and Types section
-     (generated aliases in types.ts). Navigable items carry the
+   - `treeProvider.ts` — the Definitions section (define() sites). Navigable
+     items carry the
      `mnemographica.treeItemClick` command: `onDidChangeSelection` never
      fires for a re-click on the already-selected row, so the focus/usages
      action rides the item command, which fires on EVERY click — clicking
@@ -179,13 +194,13 @@ The extension helps AI agents:
      explain the generation rule in their tooltip, node rows show the
      immediate parent as `← Parent` description (the dot-joined id IS
      the define() chain — the parent path is the prefix)
-   - `diamondsTreeProvider.ts` — Diamonds: the instrumentation.json v2
-     creationGraph as a type-path trie → the scopes holding each
+   - `diamondsTreeProvider.ts` — Diamonds: the control.json callers graph
+     as a type-path trie → the scopes holding each
      `new` site (click jumps to the site). An absent graph gets a
      REASON-SPECIFIC row instead of an empty pane:
      `stale` — the file was skipped by the guard, regenerate as one
-     batch; `missing` — tactica never ran here; `v1` — the payload
-     predates the creation graph
+     batch; `missing` — no usable control.json (tactica never ran here,
+     or the file failed validation)
    - `bagelsTreeProvider.ts` — Bagels: eds.json wrap sites as a
      type-path trie keyed by the type the bagel belongs to
      (`wrapsTypePath`, else the EDS scope key when it names a known
@@ -203,15 +218,19 @@ The extension helps AI agents:
      panel(s) open → the `**/.tactica/hierarchy.json` discovery
      QuickPicks when several exist (the open-another-project flow).
      Re-invoking on an open source reveals its tab, never a duplicate.
-     Each panel owns its data pipeline
-     (`graphDataLoader.loadGraphDataFor(sourceRoot)` — a fresh Registry
-     per source; the MainOrchestrator's primary Registry serves the
-     sidebar only). There is no auto-refresh for panels — a tab re-reads
+     All panels and the sidebar read through the registryStore
+     (`src/core/registryStore.ts`): ONE loaded Registry per project
+     directory, so an open/collection-switch reads nothing and the
+     ⟳ Refresh button reloads that project's entry in place (the
+     sidebar's trees re-read it too when it shows the same project,
+     via the store's reload listener). There is no auto-refresh for
+     panels — a tab re-reads
      its source only via its ⟳ Refresh button, or via the global
      `mnemographica.followTacticaChanges` setting, which creates a
      per-source watcher on every open panel while on (host-side
-     `followWatcher`, applied at panel birth and on every settings
-     change, disposed on off/close). Save writes per
+     `followWatcher`, debounced — one tactica run rewrites several
+     contract files and lands ONE reload; applied at panel birth and on
+     every settings change, disposed on off/close). Save writes per
      project: `<sourceRoot>/.mnemographica/layout.json`. Routing:
      sidebar-driven focus → the primary source's panel
      (`GraphPanel.primarySource`); trace isolate/replay/flashes and
@@ -285,7 +304,7 @@ The extension helps AI agents:
      combined Dive layer (wrappers and the internals backplane under one
      `dive ◯` toggle). The creation layer's panel row reads
      `invocations ◆`; the code ids keep `instrumentation`.
-     The creation layer (instrumentation.json v2): the main.ts starter as
+     The creation layer (control.json callers): the main.ts starter as
      a gold DIAMOND tangent to the collection marker's right side (+X) —
      both graphs keep their own center side by side; the maroon marker
      (labeled with the shown collection's name from the payload —
@@ -594,10 +613,11 @@ The extension helps AI agents:
      webview cannot write files: it posts `saveLayout` and panel.ts
      persists it (reply `layoutSaved` → status line). panel.ts reads
      the file on EVERY updateGraph and rides it along, with a STALE
-     GUARD (the Registry's instrumentation.json idiom): a layout whose
-     `savedAt` (file mtime as fallback) predates its source's
-     `.tactica/hierarchy.json` mtime arranges a graph that no longer
-     exists and is skipped entirely — a tactica regeneration, even a
+     GUARD (the Registry's eds/control idiom): a layout whose
+     `savedAt` (file mtime as fallback) predates the loaded hierarchy's
+     `generatedAt` (read from the store — no file stat) arranges a graph
+     that no longer exists and is skipped entirely — a tactica
+     regeneration, even a
      content-identical one, invalidates the save. render3DGraph
      applies it around renderGraph — positions before (calculatePosition
      honors x3d, relaxTypeShells skips), pins after (`applySavedPins`,
@@ -946,7 +966,8 @@ The extension helps AI agents:
 
 5. **Navigation providers** (`src/providers/`)
    - `definitionProvider.ts` — Ctrl+Click for `lookup('X')` and type identifiers;
-     its per-file cache is cleared on every `refreshTypeGraph()`
+     reads the store's loaded Registry (no per-file reads, no cache to
+     invalidate — a store reload covers it)
    - `referenceProvider.ts` — Shift+F12, backed by its own `Usages` instance
 
 6. **Services** (`src/services/`)
@@ -1043,57 +1064,36 @@ The extension helps AI agents:
 ## Identity Convention (important)
 
 Everything semantic is keyed by **dot-joined full path**: `definitions.json`,
-`usages.json`, `eds.json`, `flow.json`, `hierarchy.json`, the Registry's Types
-map, and `GraphData` node ids all agree on it. The one exception is the
-generated `types.ts`, whose type aliases are **underscore-joined**
-(`Scene2D_GraphNode2D`) — normalize with `.replace(/_/g, '.')` (or the reverse)
-exactly at that boundary, nowhere else.
+`usages.json`, `eds.json`, `flow.json`, `hierarchy.json`, `control.json`, the
+Registry's Types
+map, and `GraphData` node ids all agree on it. The generated `types.ts` /
+`registry.ts` (underscore-joined aliases) are generator-internal —
+mnemographica never reads them.
 
 Custom collections ride the same keys: tactica prefixes the fullPath with
 `collectionId::` on the root segment (`collection_1::Product.Category`), so
 every join above keeps working string-exact — parse the collection off with
-`collectionOfPath` (`src/utils/collections.ts`), never by hand. The
-underscore-boundary caveat: an Option-B collection's types.ts aliases are
-prefixed with its REGISTRY INTERFACE name (`ShopRegistry_Product`), which
-normalizes to `ShopRegistry.Product` and intentionally does NOT join to
-`collection_1::Product` — collection types carry no parsed properties until
-tactica emits the interface↔id mapping.
+`collectionOfPath` (`src/utils/collections.ts`), never by hand. Properties
+come from `definitions.json` `fields`, whose keys carry the same prefix —
+collection types join exactly like default-collection types.
 
 ## Location Convention (important)
 
 All stored locations are **1-based** `"file:line:column"` strings (tactica's
 format). `VSCodeNavigation.goTo()` converts to 0-based internally — **never
-pre-decrement** a line before calling it.
+pre-decrement** a line before calling it. Parse the strings with
+`parseTacticaLocation` (`src/utils/paths.ts`), never a hand-rolled regex or
+`split(':')` — the greedy prefix keeps paths containing `:` intact.
 
 ## Key Patterns
 
 ### Types Loading (Registry.loadTypes)
 
 Structure comes from `hierarchy.json` (flattened recursively, with self-reference
-guard). Properties come from parsing the body of each `export type` block in
-`types.ts`:
-
-```typescript
-export type UserEntity = {
-	id: string;
-	email: string;
-	UserResponse: new (data: { status: number; body: string }) => UserEntity_UserResponse;
-}
-```
-
-**Important**: Type definitions end with `}` not `;`. The body walk is
-depth-tracked so inline object types don't end the block early.
-
-### Inheritance Detection
-
-In `types.ts`, extending types use `&` or `ProtoFlat`:
-```typescript
-export type AdminEntityInstance = UserEntityInstance & {
-	role: string;
-}
-```
-This is only needed for the alias-name boundary; hierarchy.json already carries
-the parent fullPath.
+guard). Properties come from `definitions.json` `fields` — the type's own
+fields in declaration order, keyed by the same dot-joined fullPath, so the
+join is a plain map lookup. `definitions.json` also carries `args` (the
+constructor's parameters); the model holds them, nothing displays them yet.
 
 ## Build Commands
 
@@ -1109,15 +1109,15 @@ npm test           # pretest (compile + lint) + node test/*.test.js
 Automated (plain node, no VS Code host):
 - `test/registry-loading.test.js` — Registry + fixtures, incl. the
   `clear()`/reload regression (getter-only properties break refresh),
-  the instrumentation.json load/clear pins, and the v2
-  creationGraph load / v1 absence / stale-guard / model-clear pins
+  the control.json load/clear pins (callers graph counts, starter
+  scopes), the missing / stale absence reasons, and the schema-gate pin:
+  an invalid contract file is rejected with a logged warning naming the
+  file while the model stays empty and sibling files still load
 - `test/types-model.test.js` — Types model as pure data container
-- `test/types-parser.test.js` — types.ts alias/parent regex against the repo's
-  own `.tactica/types.ts`
-- `test/graph-builder.test.js` — GraphBuilder → GraphData: the v2
-  creation section (counts, anchor joins, display names, stats
-  isolation) and its absence for v1 payloads; the wrappers section
-  (`via` generation chain + `ctor` construction-mediated fiber hops);
+- `test/graph-builder.test.js` — GraphBuilder → GraphData: the creation
+  section from control.json callers (counts, anchor joins, display names,
+  stats isolation) and its absence without control.json; the wrappers
+  section (`via` generation chain + `ctor` construction-mediated fiber hops);
   the internals backplane (6 declared knots, sink edges, the collection
   hookup, census-driven grafts, never-created spheres and never-taken
   path-hits)
@@ -1129,18 +1129,24 @@ Automated (plain node, no VS Code host):
   single-collection project without a default → first-seen — also the
   absent-manifest pin), over the hand-written
   `fixtures-collections` / `fixtures-collections-only` payloads
+- `test/registry-store.test.js` — the read-once law, instrumented at
+  `fs.readFileSync`: one load with sidebar + panel + graph rebuild +
+  collection switch reads each of the seven contract files exactly once
+  and the generator-internal files never; a store reload re-reads each
+  exactly once on the SAME instance; a missing .tactica resolves
+  undefined and is not cached
 - `test/scene-builder.test.js` — SceneBuilder → Scene3D: the scene
   census (spheres, links by kind, diamonds, bagel anchors, knots,
-  captions) for v2 and v1 payloads, the interactive shapes
-  (Camera3D/Tooltip3D/Tube3D) constructing from their parent instances,
-  and the Registry's load-time side effects (the Trie fill and the
-  RegistryEntry flat index)
+  captions) for fixtures-v2 and the hand-written fixtures payload, the
+  interactive shapes (Camera3D/Tooltip3D/Tube3D) constructing from their
+  parent instances, and the Registry's load-time side effects (the Trie
+  fill and the RegistryEntry flat index)
 
-The fixtures live in `test/fixtures/.tactica/` (v1 instrumentation payload)
-and `test/fixtures-v2/.tactica/` (real tactica v2 output, regenerated from
-tactica-nestjs with `tactica -p <tactica-nestjs>/tsconfig.json -o
-test/fixtures-v2/.tactica`), both mirroring real tactica output (including
-`hierarchy.json`).
+The fixtures live in `test/fixtures/.tactica/` (hand-written 1.2 payload:
+points but an empty callers graph) and `test/fixtures-v2/.tactica/` (real
+tactica 1.2 output, regenerated from tactica-nestjs with `tactica -p
+<tactica-nestjs>/tsconfig.json -o test/fixtures-v2/.tactica`). Both
+validate against the lethe 1.2 schemas.
 
 Manual testing:
 1. Press `F5` to launch extension host
@@ -1203,7 +1209,10 @@ src/
 ├── webview/              # + strategyPanel.ts / appChannelPanel.ts — the two Ψ tabs
 ├── commands/             # Command registrations (navigation, tree, utility, workspace)
 ├── core/
-│   ├── MainOrchestrator.ts  # Owns Registry instance + StateManager + GraphData
+│   ├── MainOrchestrator.ts  # StateManager + GraphData; the sidebar's Registry
+│   │                        # is the registryStore entry for the workspace
+│   ├── registryStore.ts     # ONE loaded Registry per project directory —
+│   │                        # the read-once law; every consumer reads here
 │   ├── GraphBuilder.ts      # Registry → GraphData (nodes, links, execflow)
 │   ├── SceneBuilder.ts      # GraphData → Scene3D model tree (the logical scene)
 │   └── StateManager.ts      # App state holder
@@ -1229,6 +1238,9 @@ src/
 ## Dependencies
 
 - **mnemonica**: The type system itself (models are mnemonica types)
+- **@mnemonica/lethe**: ships the `tactica/*.schema.json` contract schemas
+  that load-time validation runs against
+- **ajv**: the schema validator (`ajv/dist/2020`, draft 2020-12)
 - **@mnemonica/topologica**: Module loader that self-defines model types
 - **@mnemonica/tactica**: Type analysis (dev-time `.tactica` generation)
 - **ws**: Strategy server WebSocket transport

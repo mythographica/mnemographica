@@ -1,6 +1,6 @@
 'use strict';
 
-import { Backend } from './collections';
+import { Backend, setProps } from './collections';
 import { getLogger } from '../services/LoggerService';
 
 export type usage = {
@@ -10,12 +10,20 @@ export type usage = {
 	location: string
 };
 
+// usages.json file envelope (lethe contract); tactica's entries carry no
+// typeName — the map key is stamped on at load
+export type rawUsagesFile = {
+	version: string;
+	generatedAt?: string;
+	usages: Record<string, Array<Omit<usage, 'typeName'>>>;
+};
+
 export type usageEntry = InstanceType<typeof UsageEntry>;
 
 
 export const Usages = Backend.define('Usages', class {
 	createdAt: number;
-	private map: Map<string, Array<object>> = new Map();
+	private map: Map<string, usageEntry[]> = new Map();
 	private logger = getLogger()
 	constructor() {
 		this.createdAt = Date.now();
@@ -24,26 +32,24 @@ export const Usages = Backend.define('Usages', class {
 	get size() {
 		return this.map.size;
 	}
-	get(name: string): Array<usageEntry> {
-		this.logger.info('Usages keys: ', ...this.map.keys());
-		this.logger.info('Usages size: ', this.map.size);
-		return this.map.get(name) as unknown as Array<usageEntry>;
+	get(name: string): usageEntry[] | undefined {
+		return this.map.get(name);
 	}
 	has(name: string) {
 		return this.map.has(name);
 	}
-	set(name: string, entry: Array<usageEntry>) {
+	set(name: string, entry: usageEntry[]) {
 		this.map.set(name, entry);
 	}
 	keys(): MapIterator<string> {
 		return this.map.keys() as unknown as MapIterator<string>;
 	}
-	values(): MapIterator<Array<usageEntry>> {
-		return this.map.values() as unknown as MapIterator<Array<usageEntry>>;
+	values(): MapIterator<usageEntry[]> {
+		return this.map.values() as unknown as MapIterator<usageEntry[]>;
 	}
 
-	entries(): MapIterator<[string, Array<usageEntry>]> {
-		return this.map.entries() as unknown as MapIterator<[string, Array<usageEntry>]>;
+	entries(): MapIterator<[string, usageEntry[]]> {
+		return this.map.entries() as unknown as MapIterator<[string, usageEntry[]]>;
 	}
 
 	clear(): void {
@@ -51,10 +57,6 @@ export const Usages = Backend.define('Usages', class {
 	}
 
 });
-
-const setProps = (to: object, from: object) => {
-	Object.defineProperties(to, Object.getOwnPropertyDescriptors(from));
-}
 
 export const UsageEntry = Usages.define('UsageEntry', function (
 	this: usage,

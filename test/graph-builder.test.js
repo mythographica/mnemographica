@@ -1,11 +1,11 @@
 'use strict';
 
 // GraphBuilder → GraphData: the optional sections sourced from
-// instrumentation.json v2 (`creation`), eds.json (`wrappers` fiber links)
-// and the declared internals backplane (`internals` — knots, sink edges,
-// attachHooks grafts, the never-created usages census). v2 fixtures are
-// real tactica output from tactica-nestjs; v1 fixtures pin the absence
-// of the newer sections.
+// control.json (`creation`, from the callers graph), eds.json (`wrappers`
+// fiber links) and the declared internals backplane (`internals` — knots,
+// sink edges, attachHooks grafts, the never-created usages census).
+// fixtures-v2 is real tactica output from tactica-nestjs; the hand-written
+// fixtures/ payload pins the reduced shapes (empty callers, no fiber links).
 
 const assert = require('assert');
 const path = require('path');
@@ -51,20 +51,20 @@ async function runTests() {
 
 	// Test 1: the type graph is built as before, with creation attached
 	console.log('Test 1: GraphData carries the creation section');
-	assert.strictEqual(data.nodes.length, 19, 'Should have 19 type nodes');
-	assert.strictEqual(data.links.length, 14, 'Should have 14 inheritance links');
+	assert.strictEqual(data.nodes.length, 26, 'Should have 26 type nodes');
+	assert.strictEqual(data.links.length, 16, 'Should have 16 inheritance links');
 	assert.ok(data.execflow.length > 0, 'Should have execflow edges');
-	assert.ok(data.creation, 'creation section should be present for v2 payloads');
-	assert.strictEqual(data.creation.nodes.length, 39, 'Should have 39 creation nodes');
+	assert.ok(data.creation, 'creation section should be present with a callers graph');
+	assert.strictEqual(data.creation.nodes.length, 40, 'Should have 40 creation nodes');
 	assert.strictEqual(data.creation.links.length, 57, 'Should have 57 creation links');
 	console.log(`  ✓ creation: ${data.creation.nodes.length} nodes, ${data.creation.links.length} links\n`);
 
 	// Test 2: anchors join to holders, nothing dangles
 	console.log('Test 2: holder anchors join to graph nodes');
 	const holders = data.creation.nodes.filter(n => n.creates.length > 0);
-	assert.strictEqual(holders.length, 33, 'Should have 33 holder scopes');
+	assert.strictEqual(holders.length, 34, 'Should have 34 holder scopes');
 	const totalCreates = data.creation.nodes.reduce((sum, n) => sum + n.creates.length, 0);
-	assert.strictEqual(totalCreates, 46, 'All 46 anchors resolve to known types');
+	assert.strictEqual(totalCreates, 64, 'All 64 anchors resolve to known types');
 	const typeIds = new Set(data.nodes.map(n => n.id));
 	data.creation.nodes.forEach(n => {
 		n.creates.forEach(c => {
@@ -81,9 +81,9 @@ async function runTests() {
 	assert.ok(mainModule, 'main.ts module node should exist');
 	assert.strictEqual(mainModule.name, 'main.ts', 'Module name should be the file basename');
 	assert.strictEqual(mainModule.starter, true, 'main.ts module is a starter');
-	const anonFn = data.creation.nodes.find(n => n.id.endsWith('/main.ts:153:33'));
+	const anonFn = data.creation.nodes.find(n => n.id.endsWith('/main.ts:101:33'));
 	assert.ok(anonFn, 'anonymous function scope should exist');
-	assert.strictEqual(anonFn.name, 'main.ts:153', 'Anonymous function name should be basename:line');
+	assert.strictEqual(anonFn.name, 'main.ts:101', 'Anonymous function name should be basename:line');
 	const methodNode = data.creation.nodes.find(n => n.id.endsWith('/async.controller.ts:196:2'));
 	assert.strictEqual(methodNode.name, 'AsyncController.getSubDecorate', 'Method names stay untouched');
 	console.log('  ✓ names shortened for modules and anonymous scopes\n');
@@ -91,7 +91,7 @@ async function runTests() {
 	// Test 4: creation nodes do not leak into type stats or node ids
 	console.log('Test 4: creation nodes stay out of the type graph');
 	const stats = GraphBuilder.getStats(data);
-	assert.strictEqual(stats.nodeCount, 19, 'getStats counts type nodes only');
+	assert.strictEqual(stats.nodeCount, 26, 'getStats counts type nodes only');
 	assert.strictEqual(stats.maxDepth, 3, 'maxDepth unaffected by creation nodes');
 	const creationIds = new Set(data.creation.nodes.map(n => n.id));
 	data.nodes.forEach(n => {
@@ -107,14 +107,24 @@ async function runTests() {
 	});
 	console.log('  ✓ all link endpoints resolve\n');
 
-	// Test 6: v1 payloads leave the section absent (backward compatibility)
-	console.log('Test 6: v1 payload builds without a creation section');
-	const registryV1 = new Registry();
-	await registryV1.loadFromWorkspace(fixturesPath);
-	const dataV1 = GraphBuilder.buildFromRegistry(registryV1);
-	assert.strictEqual(dataV1.creation, undefined, 'creation section must be absent for v1 payloads');
-	assert.strictEqual(dataV1.nodes.length, 4, 'v1 type graph still builds');
-	console.log('  ✓ v1 build unchanged\n');
+	// Test 6: without control.json the section stays absent
+	console.log('Test 6: no control.json — no creation section');
+	const os = require('os');
+	const fs = require('fs');
+	const noControlDir = fs.mkdtempSync(path.join(os.tmpdir(), 'mnemo-nocontrol-'));
+	fs.mkdirSync(path.join(noControlDir, '.tactica'));
+	for (const file of [ 'definitions.json', 'hierarchy.json', 'usages.json', 'eds.json' ]) {
+		fs.copyFileSync(
+			path.join(fixturesPath, '.tactica', file),
+			path.join(noControlDir, '.tactica', file)
+		);
+	}
+	const registryHand = new Registry();
+	await registryHand.loadFromWorkspace(noControlDir);
+	const dataHand = GraphBuilder.buildFromRegistry(registryHand);
+	assert.strictEqual(dataHand.creation, undefined, 'creation section must be absent without control.json');
+	assert.strictEqual(dataHand.nodes.length, 4, 'the type graph still builds');
+	console.log('  ✓ absent control.json leaves the section out\n');
 
 	// Test 7: the module-importer bridge survives the GraphData mapping —
 	// main.ts hands AppModule to the framework as a VALUE, so only the
@@ -192,10 +202,11 @@ async function runTests() {
 		assert.ok(typeIds.has(n.wrapsTypePath), `wrapper ${n.name} type join ${n.wrapsTypePath} should be a type node`);
 	});
 	const withHostJoin = data.wrappers.nodes.filter(n => n.hostTypePath);
-	assert.strictEqual(withHostJoin.length, 1, 'one wrap is hosted by a known type scope');
-	assert.strictEqual(withHostJoin[0].name, 'probe:fire', 'the EdsProbe probe wrap');
-	assert.strictEqual(withHostJoin[0].hostTypePath, 'EdsProbe');
-	assert.ok(typeIds.has(withHostJoin[0].hostTypePath), 'hostTypePath should resolve to a type node');
+	assert.strictEqual(withHostJoin.length, 12, 'twelve wraps are hosted by a known type scope');
+	const probeFire = withHostJoin.find(n => n.name === 'probe:fire');
+	assert.ok(probeFire, 'the EdsProbe probe wrap carries a host join');
+	assert.strictEqual(probeFire.hostTypePath, 'EdsProbe');
+	assert.ok(typeIds.has(probeFire.hostTypePath), 'hostTypePath should resolve to a type node');
 	const joinless = data.wrappers.nodes.filter(n => !n.callbackScopeId && !n.holderScopeId && !n.wrapsTypePath && !n.hostTypePath);
 	assert.deepStrictEqual(joinless.map(n => n.name).sort(), [ 'chaos:mid-sleep-timer', 'chaos:pure-error' ], 'only the two deliberate no-instance wraps stay ambient');
 	console.log(`  ✓ ${withCreationJoin.length} creation joins, ${withTypeJoin.length} type joins, ${withHostJoin.length} host join, 0 dangling, 2 ambient\n`);
@@ -238,9 +249,9 @@ async function runTests() {
 		const sourceOk = knotIds.has(l.source) || l.source === 'collection';
 		assert.ok(sourceOk, `internals link source ${l.source} should resolve (knot or collection)`);
 	});
-	// Grafts + the instantiation census: 13 constructed types get a graft;
+	// Grafts + the instantiation census: 20 constructed types get a graft;
 	// the 6 never-created ones (the Consciousness subtree, EdsProbe) do not
-	assert.strictEqual(data.internals.grafts.length, 13, 'one graft per really-constructed type');
+	assert.strictEqual(data.internals.grafts.length, 20, 'one graft per really-constructed type');
 	const neverCreated = data.nodes.filter(n => n.neverCreated).map(n => n.id).sort();
 	assert.deepStrictEqual(neverCreated, [
 		'EdsProbe',
@@ -256,26 +267,31 @@ async function runTests() {
 	});
 	assert.ok(data.internals.grafts.includes('Sentience'), 'Sentience is constructed — grafted');
 	// The EdsProbe diagnostic: its wrap provably creates UserEntity, yet the
-	// path-hit is never taken — EdsProbe itself is never constructed
+	// path-hit is never taken — EdsProbe itself is never constructed. The
+	// second path-hit (UserEntity → UserEntity) is taken.
 	const pathHits = data.execflow.filter(e => e.kind === 'edsPathHit');
-	assert.strictEqual(pathHits.length, 1, 'one graph-node-sourced path-hit');
-	assert.strictEqual(pathHits[0].source, 'EdsProbe');
-	assert.strictEqual(pathHits[0].target, 'UserEntity');
-	assert.strictEqual(pathHits[0].neverTaken, true, 'the EdsProbe path-hit is flagged never-taken');
+	assert.strictEqual(pathHits.length, 2, 'two graph-node-sourced path-hits');
+	const probeHit = pathHits.find(e => e.source === 'EdsProbe');
+	assert.ok(probeHit, 'the EdsProbe path-hit exists');
+	assert.strictEqual(probeHit.target, 'UserEntity');
+	assert.strictEqual(probeHit.neverTaken, true, 'the EdsProbe path-hit is flagged never-taken');
+	const takenHit = pathHits.find(e => e.source === 'UserEntity');
+	assert.ok(takenHit, 'the UserEntity path-hit exists');
+	assert.ok(!takenHit.neverTaken, 'a taken path-hit is not flagged');
 	console.log(`  ✓ ${data.internals.nodes.length} knots, ${sinkLinks.length} sink + ${hookupLinks.length} hookup edges, ${data.internals.grafts.length} grafts, ${neverCreated.length} never-created\n`);
 
-	// Test 11: v1 payloads assemble the same backplane — no via/ctor fiber
-	// links exist (the v1 fixture carries 2 unrelated wraps), grafts cover
-	// exactly the constructed types (backward compatibility)
-	console.log('Test 11: v1 payload builds the backplane without fiber links');
-	assert.ok(dataV1.internals, 'v1 fixtures carry 2 wraps, so the backplane assembles');
-	assert.strictEqual(dataV1.internals.nodes.length, 6, 'same declared knots');
-	assert.strictEqual(dataV1.internals.links.length, 6, '5 sink + 1 hookup');
-	assert.strictEqual(dataV1.wrappers.links.length, 0, 'no via/ctor links in the v1 fixture');
-	assert.deepStrictEqual(dataV1.internals.grafts.sort(), [ 'OrderEntity', 'UserEntity' ], 'grafts cover the constructed roots only');
-	const v1Never = dataV1.nodes.filter(n => n.neverCreated).map(n => n.id).sort();
-	assert.deepStrictEqual(v1Never, [ 'OrderEntity.OrderItem', 'UserEntity.AdminEntity' ], 'v1 nested types stay never-created');
-	console.log('  ✓ v1 backplane assembled, grafts census-driven\n');
+	// Test 11: the hand fixture assembles the same backplane — no via/ctor
+	// fiber links exist (it carries 2 unrelated wraps), grafts cover
+	// exactly the constructed types
+	console.log('Test 11: hand fixture builds the backplane without fiber links');
+	assert.ok(dataHand.internals, 'the hand fixture carries 2 wraps, so the backplane assembles');
+	assert.strictEqual(dataHand.internals.nodes.length, 6, 'same declared knots');
+	assert.strictEqual(dataHand.internals.links.length, 6, '5 sink + 1 hookup');
+	assert.strictEqual(dataHand.wrappers.links.length, 0, 'no via/ctor links in the hand fixture');
+	assert.deepStrictEqual(dataHand.internals.grafts.sort(), [ 'OrderEntity', 'UserEntity' ], 'grafts cover the constructed roots only');
+	const handNever = dataHand.nodes.filter(n => n.neverCreated).map(n => n.id).sort();
+	assert.deepStrictEqual(handNever, [ 'OrderEntity.OrderItem', 'UserEntity.AdminEntity' ], 'hand-fixture nested types stay never-created');
+	console.log('  ✓ backplane assembled, grafts census-driven\n');
 
 	console.log('=== All Tests Passed ===');
 }

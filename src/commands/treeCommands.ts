@@ -1,5 +1,6 @@
 'use strict';
 
+import * as path from 'path';
 import * as vscode from 'vscode';
 import { MnemonicaTreeProvider } from '../views/treeProvider';
 import { UsagesTreeProvider } from '../views/usagesTreeProvider';
@@ -35,10 +36,10 @@ export function registerTreeCommands(
 		vscode.commands.registerCommand('mnemographica.showUsages', async (item: { data: { fullName?: string; label: string } }) => {
 			if (!item) { return; }
 
+			// fullName is the exact definitions.json key — looked up as is
 			const typeName = item.data.fullName || item.data.label;
-			const searchName = typeName.replace(/Instance$/, '');
 
-			const usages = referenceProvider.getUsagesForType(searchName);
+			const usages = referenceProvider.getUsagesForType(typeName);
 
 			if (!usages || usages.length === 0) {
 				vscode.window.showInformationMessage(`No usages found for ${typeName}`);
@@ -46,7 +47,7 @@ export function registerTreeCommands(
 			}
 
 			const quickPickItems = usages.map((usage, index) => ({
-				label: `$(file-code) ${usage.filePath.split('/').pop() || usage.filePath}`,
+				label: `$(file-code) ${path.basename(usage.filePath) || usage.filePath}`,
 				description: `${usage.filePath}:${usage.line}:${usage.column}`,
 				detail: usage.context || 'No context available',
 				index,

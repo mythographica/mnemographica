@@ -174,7 +174,7 @@ export const Diamond3D = Scene3D.define('Diamond3D', function (
 		creates: number;
 	}
 ) {
-	// A creation scope (instrumentation.json v2); creates is the count of
+	// A creation scope (control.json callers); creates is the count of
 	// `new` sites the scope holds — the per-anchor detail stays in the
 	// Diamonds sidebar, the scene needs the census
 	this.id = data.id;

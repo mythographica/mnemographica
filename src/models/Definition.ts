@@ -1,8 +1,25 @@
 'use strict';
 
 
-import { Backend } from './collections';
+import { Backend, setProps } from './collections';
 import { getLogger } from '../services/LoggerService';
+
+// One own field of a type (definitions.json `fields`), declaration order
+export type rawDefinitionField = {
+	name: string;
+	type: string;
+	optional: boolean;
+};
+
+// One constructor parameter (definitions.json `args`), declaration order;
+// the receiver is never listed, a rest parameter carries kind 'rest' and
+// no optional
+export type rawDefinitionArg = {
+	name: string;
+	type: string;
+	optional?: boolean;
+	kind?: string;
+};
 
 export type rawDefinitionEntry = {
 	name: string;
@@ -11,6 +28,17 @@ export type rawDefinitionEntry = {
 	parent: string | null;
 	strictChain: boolean;
 	blockErrors: boolean;
+	// Absent means the generator did not record them; empty means none.
+	// args are carried for the model, not displayed (display is undecided)
+	fields?: rawDefinitionField[];
+	args?: rawDefinitionArg[];
+};
+
+// definitions.json file envelope (lethe contract)
+export type rawDefinitionsFile = {
+	version: string;
+	generatedAt?: string;
+	definitions: Record<string, rawDefinitionEntry>;
 };
 
 export type DefinitionEntryInstance = InstanceType<typeof DefinitionEntry>;
@@ -31,8 +59,6 @@ export const Definitions = Backend.define('Definitions', class {
 	}
 
 	get (name: string): DefinitionEntryInstance | undefined {
-		this.logger.info('Definitions keys: ', ...this.map.keys());
-		this.logger.info('Definitions size: ', this.map.size);
 		return this.map.get(name);
 	}
 
@@ -62,10 +88,6 @@ export const Definitions = Backend.define('Definitions', class {
 
 	// Note: loadFromFile action moved to Registry - Definitions is pure data container
 });
-
-const setProps = (to: object, from: object) => {
-	Object.defineProperties(to, Object.getOwnPropertyDescriptors(from));
-};
 
 export const DefinitionEntry = Definitions.define('DefinitionEntry', function (
 	this: rawDefinitionEntry,

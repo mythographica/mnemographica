@@ -1,6 +1,6 @@
 'use strict';
 
-import { Backend } from './collections';
+import { Backend, setProps } from './collections';
 import { getLogger } from '../services/LoggerService';
 
 export type rawEDSEntry = {
@@ -25,6 +25,14 @@ export type rawEDSEntry = {
 };
 
 export type EDSEntryInstance = InstanceType<typeof EDSEntry>;
+
+// eds.json file envelope (lethe contract); tactica's entries carry no
+// typeName — the map key is stamped on at load
+export type rawEDSFile = {
+	version: string;
+	generatedAt?: string;
+	eds: Record<string, Array<Omit<rawEDSEntry, 'typeName'>>>;
+};
 
 export const EDS = Backend.define('EDS', class {
 	createdAt: number;
@@ -68,10 +76,6 @@ export const EDS = Backend.define('EDS', class {
 		return this.map.clear();
 	}
 });
-
-const setProps = (to: object, from: object) => {
-	Object.defineProperties(to, Object.getOwnPropertyDescriptors(from));
-};
 
 export const EDSEntry = EDS.define('EDSEntry', function (
 	this: rawEDSEntry,

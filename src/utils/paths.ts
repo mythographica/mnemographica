@@ -1,6 +1,69 @@
 'use strict';
 
+import * as fs from 'fs';
 import * as path from 'path';
+
+/** The canonical key for a project directory — the store, the panels and
+ *  the navigation providers must never key one project two ways */
+export const projectKey = function (sourceRoot: string): string {
+	return path.resolve(sourceRoot);
+};
+
+/** The .tactica directory of a project root */
+export const tacticaDirOf = function (projectRoot: string): string {
+	return path.join(projectRoot, '.tactica');
+};
+
+/** A contract file event is <projectRoot>/.tactica/<kind>.json — the
+ *  project root is two levels up */
+export const projectRootOfContractFile = function (fsPath: string): string {
+	return path.dirname(path.dirname(fsPath));
+};
+
+/**
+ * The nearest .tactica directory above a source file (the Ctrl+Click
+ * provider's file → project resolution). Walking covers files outside any
+ * workspace folder; vscode.workspace.getWorkspaceFolder cannot.
+ */
+export const tacticaRootOfFile = function (startPath: string): string | undefined {
+	let currentDir = path.dirname(startPath);
+	const root = path.parse(currentDir).root;
+	while (currentDir !== root) {
+		const tacticaPath = tacticaDirOf(currentDir);
+		if (fs.existsSync(tacticaPath) && fs.statSync(tacticaPath).isDirectory()) {
+			return tacticaPath;
+		}
+		const parentDir = path.dirname(currentDir);
+		if (parentDir === currentDir) {
+			break;
+		}
+		currentDir = parentDir;
+	}
+	return undefined;
+};
+
+/**
+ * One parsed tactica location ("file:line:column", 1-based — the Location
+ * Convention in AGENTS.md). The greedy prefix keeps paths containing ':'
+ * intact. undefined when the string is not a location.
+ */
+export const parseTacticaLocation = function (location: string | undefined): { fileName: string; line: number; column: number } | undefined {
+	if (!location) { return undefined; }
+	const match = location.match(/^(.+):(\d+):(\d+)$/);
+	if (!match) { return undefined; }
+	return {
+		fileName : match[1],
+		line     : parseInt(match[2], 10),
+		column   : parseInt(match[3], 10)
+	};
+};
+
+/** "basename:line" for tree rows; the input back when it is not a location */
+export const shortLocation = function (location: string): string {
+	const parsed = parseTacticaLocation(location);
+	if (!parsed) { return location; }
+	return `${path.basename(parsed.fileName) || parsed.fileName}:${parsed.line}`;
+};
 
 // tactica emits project-relative paths (portable .tactica output);
 // older payloads carry absolute ones. A string counts as a path only

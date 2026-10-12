@@ -1,10 +1,8 @@
 'use strict';
 
 import * as vscode from 'vscode';
-import * as fs from 'fs';
-import * as path from 'path';
 import { getLogger } from '../services/LoggerService';
-import { resolveWorkspacePaths } from '../utils/paths';
+import { parseTacticaLocation } from '../utils/paths';
 import type { Registry } from '../../.tactica/types';
 
 type TreeNodeType = 'root' | 'type' | 'subtype' | 'definition';
@@ -15,8 +13,6 @@ export type MnemonicaTreeItemData = {
 	fullPath?: string;
 	line?: number;
 	column?: number;
-	// Track which section this item belongs to for proper child lookup
-	isDefinition?: boolean;
 	// Full definition name for lookup (needed when label is shortened for display)
 	fullName?: string;
 };
@@ -27,7 +23,7 @@ export type MnemonicaTreeItemData = {
 const treeItemId = function (data: MnemonicaTreeItemData): string {
 	const id = data.type === 'root'
 		? `root:${data.label}`
-		: `${data.isDefinition ? 'def' : 'type'}:${data.fullName || data.label}`;
+		: `def:${data.fullName || data.label}`;
 	return id;
 };
 
@@ -40,15 +36,6 @@ type DefinitionData = {
 	column: number;
 	// Full hierarchical name for child lookups (e.g., "Scene2D.GraphNode2D")
 	fullName: string;
-};
-
-type TypeData = {
-	name: string;
-	fullName: string;  // Full hierarchical name for usage lookup
-	parent?: string;
-	fullPath?: string;
-	line?: number;
-	column?: number;
 };
 
 export class MnemonicaTreeItem extends vscode.TreeItem {
@@ -67,8 +54,7 @@ export class MnemonicaTreeItem extends vscode.TreeItem {
 		// Set contextValue for all navigable items (those with fullPath)
 		// Right-click context menu uses this
 		if (data.fullPath) {
-			// Types items use 'navigableType', Definitions use 'navigable'
-			this.contextValue = data.isDefinition ? 'navigable' : 'navigableType';
+			this.contextValue = 'navigable';
 			// onDidChangeSelection never fires when the ALREADY-SELECTED row
 			// is clicked again, so the focus/selection action also rides an
 			// item command — it executes on EVERY click, and a re-click
@@ -108,7 +94,6 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 	readonly onDidChangeTreeData = this._onDidChangeTreeData.event;
 
 	private definitions: Map<string, DefinitionData> = new Map();
-	private types: Map<string, TypeData> = new Map();
 	// Displayed items by their stable id — the treeItemClick command
 	// carries only the data payload, so click-to-expand resolves the
 	// live item here (TreeView.reveal needs the instance)
@@ -150,7 +135,6 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 		}
 
 		this.definitions.clear();
-		this.types.clear();
 
 		// Load definitions from registry
 		const definitionsModel = this.registry.getDefinitions();
@@ -163,11 +147,12 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 					parent: string | unknown;
 				};
 
-				// Parse location: "/path/to/file.ts:line:column"
-				const locationMatch = info.location.match(/^(.+):(\d+):(\d+)$/);
-				const filePath = locationMatch ? locationMatch[1] : info.location;
-				const line = locationMatch ? parseInt(locationMatch[2], 10) : 0;
-				const column = locationMatch ? parseInt(locationMatch[3], 10) : 0;
+				// Parse location: "/path/to/file.ts:line:column"; a bare
+				// path (no :line:col) still navigates, from the top
+				const parsed = parseTacticaLocation(info.location);
+				const filePath = parsed ? parsed.fileName : info.location;
+				const line = parsed ? parsed.line : 0;
+				const column = parsed ? parsed.column : 0;
 
 				// Store with the full key as fullName for proper hierarchical lookups
 				this.definitions.set(key, {
@@ -186,150 +171,6 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 			}
 		}
 
-		// Load types from registry (keyed by dot-joined full path)
-		const typesModel = this.registry.getTypes();
-		if (typesModel) {
-			for (const [key, entry] of typesModel.entries()) {
-				// Type from .tactica/types.ts: Types_TypeEntry
-				const info = entry as unknown as {
-					name: string;
-					fullPath: string;
-					parent?: string;
-				};
-
-				this.types.set(key, {
-					name: info.name,
-					fullName: key,  // Dot-joined full path, same convention as definitions/usages/flow
-					parent: info.parent,
-					// Types section items navigate to the generated alias
-					// in types.ts; the define() site is one cross-click away
-					// via the Definitions section
-					fullPath: path.join(this.currentWorkspacePath || '', '.tactica', 'types.ts'),
-					line: 0  // Will be populated from types.ts parsing below
-				});
-			}
-
-			if (this.debug) {
-				this.logger.info(`[MnemonicaTree] Loaded ${this.types.size} types from registry`);
-			}
-		}
-
-		// Parse types.ts for line numbers of the generated aliases.
-		// Registry keys are dot-joined full paths; aliases in types.ts
-		// are underscore-joined — normalize when joining the two.
-		const typesPath = path.join(this.currentWorkspacePath || '', '.tactica', 'types.ts');
-		if (fs.existsSync(typesPath)) {
-			const content = fs.readFileSync(typesPath, 'utf-8');
-			const lines = content.split('\n');
-
-			// Parse: export type TypeName = { ... }
-			const typeRegex = /export\s+type\s+(\w+)\s*=/;
-
-			for (let i = 0; i < lines.length; i++) {
-				const match = typeRegex.exec(lines[i]);
-				if (match) {
-					const aliasName = match[1];
-					// Update existing type entry with line and column numbers
-					const existingType = this.types.get(aliasName) || this.types.get(aliasName.replace(/_/g, '.'));
-					if (existingType) {
-						existingType.line = i + 1; // 1-based line number
-						existingType.column = 14;  // Position after "export type "
-					}
-				}
-			}
-
-			if (this.debug) {
-				this.logger.info(`[MnemonicaTree] Parsed line numbers from ${typesPath}`);
-			}
-		}
-
-		this.refresh();
-	}
-
-	async loadDefinitions (workspacePath: string): Promise<void> {
-		this.currentWorkspacePath = workspacePath;
-
-		// If registry is set, use registry data
-		if (this.registry) {
-			await this.loadFromRegistry();
-			return;
-		}
-
-		// Fallback to direct file parsing
-		this.definitions.clear();
-		this.types.clear();
-
-		// Load definitions
-		const definitionsPath = path.join(workspacePath, '.tactica', 'definitions.json');
-		if (fs.existsSync(definitionsPath)) {
-			const content = fs.readFileSync(definitionsPath, 'utf-8');
-			const data = resolveWorkspacePaths(JSON.parse(content), workspacePath) as {
-				definitions: Record<string, {
-					name: string;
-					location: string;
-					kind: string;
-					parent: string | null;
-					strictChain: boolean;
-					blockErrors: boolean;
-				}>
-			};
-
-			for (const [key, info] of Object.entries(data.definitions)) {
-				// Parse location: "/path/to/file.ts:line:column"
-				const locationMatch = info.location.match(/^(.+):(\d+):(\d+)$/);
-				const filePath = locationMatch ? locationMatch[1] : info.location;
-				const line = locationMatch ? parseInt(locationMatch[2], 10) : 0;
-				const column = locationMatch ? parseInt(locationMatch[3], 10) : 0;
-
-				// Store with the full key as fullName for proper hierarchical lookups
-				this.definitions.set(key, {
-					id: `${key}:${line}:${column}`,
-					name: info.name,
-					fullPath: filePath,
-					parent: info.parent || undefined,
-					line,
-					column,
-					fullName: key  // This is the full hierarchical name like "Scene2D.GraphNode2D"
-				});
-			}
-
-			if (this.debug) {
-				this.logger.info(`[MnemonicaTree] Loaded ${this.definitions.size} definitions`);
-				this.logger.info(`[MnemonicaTree] Definitions: ${Array.from(this.definitions.keys()).join(', ')}`);
-			}
-		}
-
-		// Load types hierarchy from types.ts
-		const typesPath = path.join(workspacePath, '.tactica', 'types.ts');
-		if (fs.existsSync(typesPath)) {
-			const content = fs.readFileSync(typesPath, 'utf-8');
-			const lines = content.split('\n');
-
-			// Parse: export type TypeName = { ... } (root types)
-			// OR: export type TypeName = ProtoFlat<Parent, { ... }>
-			// OR: export type TypeName = Parent & { ... }
-			const typeRegex = /export\s+type\s+(\w+)\s*=\s*(?:(?:ProtoFlat<(\w+),)|(?:(\w+)\s*&))?[\s\n]*\{/;
-
-			for (let i = 0; i < lines.length; i++) {
-				const match = typeRegex.exec(lines[i]);
-				if (match) {
-					// match[2] = ProtoFlat parent, match[3] = & parent
-					const parent = match[2] || match[3] || undefined;
-					this.types.set(match[1], {
-						name: match[1],
-						fullName: match[1],  // Root types use name as fullName
-						parent,
-						fullPath: typesPath,
-						line: i + 1  // 1-based line number for navigation
-					});
-				}
-			}
-
-			if (this.debug) {
-				this.logger.info(`[MnemonicaTree] Loaded ${this.types.size} types`);
-			}
-		}
-
 		this.refresh();
 	}
 
@@ -343,27 +184,15 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 		if (element.data.type === 'root') {
 			return undefined;
 		}
-		if (element.data.isDefinition) {
-			const def = this.definitions.get(element.data.fullName || element.data.label);
-			if (def && def.parent) {
-				const parentDef = this.definitions.get(def.parent);
-				if (parentDef) {
-					const parentItem = this.createDefinitionItem(parentDef);
-					return parentItem;
-				}
-			}
-			const rootItem = new MnemonicaTreeItem({ label: 'Definitions', type: 'root' }, vscode.TreeItemCollapsibleState.Expanded);
-			return rootItem;
-		}
-		const type = this.types.get(element.data.fullName || element.data.label);
-		if (type && type.parent) {
-			const parentType = this.types.get(type.parent);
-			if (parentType) {
-				const parentItem = this.createTypeItem(parentType);
+		const def = this.definitions.get(element.data.fullName || element.data.label);
+		if (def && def.parent) {
+			const parentDef = this.definitions.get(def.parent);
+			if (parentDef) {
+				const parentItem = this.createDefinitionItem(parentDef);
 				return parentItem;
 			}
 		}
-		const rootItem = new MnemonicaTreeItem({ label: 'Types', type: 'root' }, vscode.TreeItemCollapsibleState.Collapsed);
+		const rootItem = new MnemonicaTreeItem({ label: 'Definitions', type: 'root' }, vscode.TreeItemCollapsibleState.Expanded);
 		return rootItem;
 	}
 
@@ -377,10 +206,9 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 
 	async getChildren (element?: MnemonicaTreeItem): Promise<MnemonicaTreeItem[]> {
 		if (!element) {
-			// Root level - return section roots
+			// Root level - the Definitions section (define() sites)
 			return [
-				new MnemonicaTreeItem({ label: 'Definitions', type: 'root' }, vscode.TreeItemCollapsibleState.Expanded),
-				new MnemonicaTreeItem({ label: 'Types', type: 'root' }, vscode.TreeItemCollapsibleState.Collapsed)
+				new MnemonicaTreeItem({ label: 'Definitions', type: 'root' }, vscode.TreeItemCollapsibleState.Expanded)
 			];
 		}
 
@@ -393,38 +221,17 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 			return roots.map(def => this.createDefinitionItem(def));
 		}
 
-		// Types section root - only match if type is 'root'
-		if (element.data.label === 'Types' && element.data.type === 'root') {
-			return this.getRootTypes().map(type => this.createTypeItem(type));
-		}
-
 		// For Definition items - check using definition parent relationships
 		// Use fullName for lookup, fallback to label if fullName not set
-		if (element.data.isDefinition) {
-			const lookupName = element.data.fullName || element.data.label;
-			const defChildren = this.getChildDefinitions(lookupName);
-
-			if (this.debug) {
-				this.logger.info(`[MnemonicaTree] getChildren for definition "${lookupName}": found ${defChildren.length} children`);
-				this.logger.info(`[MnemonicaTree]   Children: ${defChildren.map(c => c.name).join(', ')}`);
-			}
-
-			if (defChildren.length > 0) {
-				return defChildren.map(def => this.createDefinitionItem(def));
-			}
-			// Definition items should not fall through to type lookup
-			return [];
-		}
-
-		// For Type items - check using type parent relationships
-		// Use fullName for lookup (types use full names like Scene2D_GraphNode2D)
 		const lookupName = element.data.fullName || element.data.label;
-		const typeChildren = this.getChildTypes(lookupName);
-		if (typeChildren.length > 0) {
-			return typeChildren.map(type => this.createTypeItem(type));
+		const defChildren = this.getChildDefinitions(lookupName);
+
+		if (this.debug) {
+			this.logger.info(`[MnemonicaTree] getChildren for definition "${lookupName}": found ${defChildren.length} children`);
+			this.logger.info(`[MnemonicaTree]   Children: ${defChildren.map(c => c.name).join(', ')}`);
 		}
 
-		return [];
+		return defChildren.map(def => this.createDefinitionItem(def));
 	}
 
 	private getRootDefinitions (): DefinitionData[] {
@@ -447,27 +254,6 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 		return children.sort((a, b) => a.name.localeCompare(b.name));
 	}
 
-	private getRootTypes (): TypeData[] {
-		const roots: TypeData[] = [];
-		for (const type of this.types.values()) {
-			if (!type.parent) {
-				roots.push(type);
-			}
-		}
-		return roots.sort((a, b) => a.name.localeCompare(b.name));
-	}
-
-	private getChildTypes (parentName: string): TypeData[] {
-		const children: TypeData[] = [];
-		for (const type of this.types.values()) {
-			// Match by exact parent name (types use full Instance names)
-			if (type.parent === parentName) {
-				children.push(type);
-			}
-		}
-		return children.sort((a, b) => a.name.localeCompare(b.name));
-	}
-
 	private createDefinitionItem (def: DefinitionData): MnemonicaTreeItem {
 		const shortName = def.name.includes('.') ? def.name.split('.').pop()! : def.name;
 		const hasChildren = this.getChildDefinitions(def.fullName).length > 0;
@@ -483,33 +269,7 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 				fullPath: def.fullPath,
 				line: def.line,
 				column: def.column + 9, // define(' === 9
-				isDefinition: true,
 				fullName: def.fullName  // Use fullName (the key) for lookups
-			},
-			hasChildren ? vscode.TreeItemCollapsibleState.Collapsed : vscode.TreeItemCollapsibleState.None
-		);
-		// Cache by stable id so the treeItemClick command's data payload
-		// can resolve back to the live instance for click-to-expand
-		this.itemsById.set(treeItemId(item.data), item);
-		return item;
-	}
-
-	private createTypeItem (type: TypeData): MnemonicaTreeItem {
-		// name is the simple name on the registry path; the direct-file
-		// fallback still stores the underscore-joined alias
-		const shortName = type.name.includes('_')
-			? type.name.split('_').pop()!
-			: (type.name.includes('.') ? type.name.split('.').pop()! : type.name);
-		const hasChildren = this.getChildTypes(type.fullName).length > 0;
-		const item = new MnemonicaTreeItem(
-			{
-				label: shortName,
-				type: hasChildren ? 'type' : 'subtype',
-				isDefinition: false,
-				fullPath: type.fullPath,
-				line: type.line ?? 0,
-				column: type.column ?? 0,
-				fullName: type.fullName  // Pass fullName for usage lookup
 			},
 			hasChildren ? vscode.TreeItemCollapsibleState.Collapsed : vscode.TreeItemCollapsibleState.None
 		);
@@ -521,23 +281,6 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 
 	clear (): void {
 		this.definitions.clear();
-		this.types.clear();
 		this.refresh();
-	}
-
-	/**
-	 * Get a definition by its full name (e.g., "Scene2D.GraphNode2D")
-	 * Used to look up definition locations for Types items
-	 */
-	getDefinition (fullName: string): DefinitionData | undefined {
-		return this.definitions.get(fullName);
-	}
-
-	/**
-	 * Get a type by its name (e.g., "Scene2D_GraphNode2D")
-	 * Used to look up type locations for Definitions items
-	 */
-	getType (typeName: string): TypeData | undefined {
-		return this.types.get(typeName);
 	}
 }

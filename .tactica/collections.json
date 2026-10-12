@@ -1,24 +1,24 @@
 {
-  "version": "1.0",
-  "generatedAt": "2026-09-28T01:30:47.182Z",
+  "version": "1.2",
+  "generatedAt": "2026-10-12T05:56:53.146Z",
   "collections": [
     {
       "id": null,
       "name": "defaultTypes",
-      "registryInterface": "TypeRegistry",
-      "location": null
+      "location": null,
+      "language": "typescript"
     },
     {
       "id": "collection_1",
       "name": "Backend",
       "location": "src/models/collections.ts:22:14",
-      "registryInterface": "BackendRegistry"
+      "language": "typescript"
     },
     {
       "id": "collection_2",
       "name": "Frontend",
       "location": "src/models/collections.ts:26:14",
-      "registryInterface": "FrontendRegistry"
+      "language": "typescript"
     }
   ]
 }

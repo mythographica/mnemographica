@@ -1,9 +1,9 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-09-04T11:10:24.742Z",
+  "generatedAt": "2026-10-11T16:55:27.944Z",
   "modules": {
-    "/code/mnemonica/tactica-nestjs/src/entities/user.entity.ts": {
-      "filePath": "/code/mnemonica/tactica-nestjs/src/entities/user.entity.ts",
+    "src/entities/user.entity.ts": {
+      "filePath": "src/entities/user.entity.ts",
       "definedTypes": [
         "UserEntity",
         "UserEntity.UserResponse",
@@ -17,7 +17,7 @@
         {
           "name": "define",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/core/build/index.d.ts",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -25,42 +25,42 @@
         {
           "name": "UserEntity",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/.tactica/types.ts",
+          "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "UserEntity_UserResponse",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/.tactica/types.ts",
+          "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "UserEntity_AdminEntity",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/.tactica/types.ts",
+          "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "UserEntity_AdminEntity_AdminResponse",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/.tactica/types.ts",
+          "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "UserEntity_AdminEntity_SuperAdminEntity",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/.tactica/types.ts",
+          "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "UserEntity_AdminEntity_SuperAdminEntity_SuperAdminResponse",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/.tactica/types.ts",
+          "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false
         }
@@ -69,8 +69,8 @@
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/tactica-nestjs/src/entities/async.entity.ts": {
-      "filePath": "/code/mnemonica/tactica-nestjs/src/entities/async.entity.ts",
+    "src/entities/async.entity.ts": {
+      "filePath": "src/entities/async.entity.ts",
       "definedTypes": [
         "RootAsync",
         "RootAsync.ResultFromDecorate",
@@ -83,7 +83,7 @@
         {
           "name": "define",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/core/build/index.d.ts",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -91,35 +91,35 @@
         {
           "name": "RootAsync",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/.tactica/types.ts",
+          "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "RootAsync_ResultFromDecorate",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/.tactica/types.ts",
+          "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "SyncBase",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/.tactica/types.ts",
+          "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "SyncBase_SubAsync",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/.tactica/types.ts",
+          "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "SyncBase_SubAsync_SubDecorate",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/.tactica/types.ts",
+          "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false
         }
@@ -128,8 +128,8 @@
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/tactica-nestjs/src/entities/eds-probe.entity.ts": {
-      "filePath": "/code/mnemonica/tactica-nestjs/src/entities/eds-probe.entity.ts",
+    "src/entities/eds-probe.entity.ts": {
+      "filePath": "src/entities/eds-probe.entity.ts",
       "definedTypes": [
         "EdsProbe"
       ],
@@ -137,7 +137,7 @@
         {
           "name": "EdsProbe",
           "kind": "const",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/entities/eds-probe.entity.ts",
+          "sourceModule": "src/entities/eds-probe.entity.ts",
           "isReExport": false
         }
       ],
@@ -145,7 +145,7 @@
         {
           "name": "define",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/core/build/index.d.ts",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -153,7 +153,7 @@
         {
           "name": "lookup",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/core/build/index.d.ts",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -161,7 +161,7 @@
         {
           "name": "wrap",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/dive/build/index.d.ts",
+          "sourceModule": "node_modules/@mnemonica/dive/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -171,14 +171,14 @@
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/tactica-nestjs/src/user.service.ts": {
-      "filePath": "/code/mnemonica/tactica-nestjs/src/user.service.ts",
+    "src/user.service.ts": {
+      "filePath": "src/user.service.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "UserService",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/user.service.ts",
+          "sourceModule": "src/user.service.ts",
           "isReExport": false
         }
       ],
@@ -186,7 +186,7 @@
         {
           "name": "Injectable",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -194,7 +194,7 @@
         {
           "name": "NotFoundException",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -202,42 +202,42 @@
         {
           "name": "UserEntity",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/.tactica/types.ts",
+          "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "UserEntity_AdminEntity",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/.tactica/types.ts",
+          "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "UserEntity_UserResponse",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/.tactica/types.ts",
+          "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "UserEntity_AdminEntity_AdminResponse",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/.tactica/types.ts",
+          "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "UserEntity_AdminEntity_SuperAdminEntity",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/.tactica/types.ts",
+          "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "UserEntity_AdminEntity_SuperAdminEntity_SuperAdminResponse",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/.tactica/types.ts",
+          "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false
         }
@@ -246,44 +246,44 @@
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/tactica-nestjs/src/dto/user.dto.ts": {
-      "filePath": "/code/mnemonica/tactica-nestjs/src/dto/user.dto.ts",
+    "src/dto/user.dto.ts": {
+      "filePath": "src/dto/user.dto.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "CreateUserDto",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/dto/user.dto.ts",
+          "sourceModule": "src/dto/user.dto.ts",
           "isReExport": false
         },
         {
           "name": "CreateAdminDto",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/dto/user.dto.ts",
+          "sourceModule": "src/dto/user.dto.ts",
           "isReExport": false
         },
         {
           "name": "CreateSuperAdminDto",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/dto/user.dto.ts",
+          "sourceModule": "src/dto/user.dto.ts",
           "isReExport": false
         },
         {
           "name": "UserResponseDto",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/dto/user.dto.ts",
+          "sourceModule": "src/dto/user.dto.ts",
           "isReExport": false
         },
         {
           "name": "AdminResponseDto",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/dto/user.dto.ts",
+          "sourceModule": "src/dto/user.dto.ts",
           "isReExport": false
         },
         {
           "name": "SuperAdminResponseDto",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/dto/user.dto.ts",
+          "sourceModule": "src/dto/user.dto.ts",
           "isReExport": false
         }
       ],
@@ -291,7 +291,7 @@
         {
           "name": "IsString",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/class-validator/types/index.d.ts",
+          "sourceModule": "node_modules/class-validator/types/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -299,7 +299,7 @@
         {
           "name": "IsEmail",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/class-validator/types/index.d.ts",
+          "sourceModule": "node_modules/class-validator/types/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -307,7 +307,7 @@
         {
           "name": "IsUUID",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/class-validator/types/index.d.ts",
+          "sourceModule": "node_modules/class-validator/types/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -315,7 +315,7 @@
         {
           "name": "IsOptional",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/class-validator/types/index.d.ts",
+          "sourceModule": "node_modules/class-validator/types/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -323,7 +323,7 @@
         {
           "name": "IsArray",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/class-validator/types/index.d.ts",
+          "sourceModule": "node_modules/class-validator/types/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -331,7 +331,7 @@
         {
           "name": "ApiProperty",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/swagger/dist/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/swagger/dist/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -339,7 +339,7 @@
         {
           "name": "ApiPropertyOptional",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/swagger/dist/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/swagger/dist/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -349,26 +349,26 @@
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/tactica-nestjs/src/user.controller.ts": {
-      "filePath": "/code/mnemonica/tactica-nestjs/src/user.controller.ts",
+    "src/user.controller.ts": {
+      "filePath": "src/user.controller.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "UserController",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/user.controller.ts",
+          "sourceModule": "src/user.controller.ts",
           "isReExport": false
         },
         {
           "name": "AdminController",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/user.controller.ts",
+          "sourceModule": "src/user.controller.ts",
           "isReExport": false
         },
         {
           "name": "SuperAdminController",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/user.controller.ts",
+          "sourceModule": "src/user.controller.ts",
           "isReExport": false
         }
       ],
@@ -376,7 +376,7 @@
         {
           "name": "Controller",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -384,7 +384,7 @@
         {
           "name": "Get",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -392,7 +392,7 @@
         {
           "name": "Post",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -400,7 +400,7 @@
         {
           "name": "Body",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -408,7 +408,7 @@
         {
           "name": "Param",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -416,7 +416,7 @@
         {
           "name": "ValidationPipe",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -424,7 +424,7 @@
         {
           "name": "UsePipes",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -432,7 +432,7 @@
         {
           "name": "Logger",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -440,7 +440,7 @@
         {
           "name": "ApiTags",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/swagger/dist/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/swagger/dist/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -448,7 +448,7 @@
         {
           "name": "ApiOperation",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/swagger/dist/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/swagger/dist/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -456,7 +456,7 @@
         {
           "name": "ApiResponse",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/swagger/dist/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/swagger/dist/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -464,7 +464,7 @@
         {
           "name": "ApiParam",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/swagger/dist/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/swagger/dist/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -472,7 +472,7 @@
         {
           "name": "ApiBody",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/swagger/dist/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/swagger/dist/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -480,35 +480,35 @@
         {
           "name": "UserService",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/user.service.ts",
+          "sourceModule": "src/user.service.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "CreateUserDto",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/dto/user.dto.ts",
+          "sourceModule": "src/dto/user.dto.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "CreateAdminDto",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/dto/user.dto.ts",
+          "sourceModule": "src/dto/user.dto.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "CreateSuperAdminDto",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/dto/user.dto.ts",
+          "sourceModule": "src/dto/user.dto.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "lookup",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/core/build/index.d.ts",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -516,89 +516,89 @@
         {
           "name": "UserEntity",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/.tactica/types.ts",
+          "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "UserEntity_UserResponse",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/.tactica/types.ts",
+          "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "UserEntity_AdminEntity_AdminResponse",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/.tactica/types.ts",
+          "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "UserEntity_AdminEntity_SuperAdminEntity_SuperAdminResponse",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/.tactica/types.ts",
+          "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false
         }
       ],
       "dependencies": [
-        "/code/mnemonica/tactica-nestjs/src/user.service.ts",
-        "/code/mnemonica/tactica-nestjs/src/dto/user.dto.ts"
+        "src/user.service.ts",
+        "src/dto/user.dto.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/tactica-nestjs/src/dto/async.dto.ts": {
-      "filePath": "/code/mnemonica/tactica-nestjs/src/dto/async.dto.ts",
+    "src/dto/async.dto.ts": {
+      "filePath": "src/dto/async.dto.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "CreateRootAsyncDto",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/dto/async.dto.ts",
+          "sourceModule": "src/dto/async.dto.ts",
           "isReExport": false
         },
         {
           "name": "RootAsyncResponseDto",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/dto/async.dto.ts",
+          "sourceModule": "src/dto/async.dto.ts",
           "isReExport": false
         },
         {
           "name": "ResultFromDecorateResponseDto",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/dto/async.dto.ts",
+          "sourceModule": "src/dto/async.dto.ts",
           "isReExport": false
         },
         {
           "name": "CreateSyncBaseDto",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/dto/async.dto.ts",
+          "sourceModule": "src/dto/async.dto.ts",
           "isReExport": false
         },
         {
           "name": "CreateSubAsyncDto",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/dto/async.dto.ts",
+          "sourceModule": "src/dto/async.dto.ts",
           "isReExport": false
         },
         {
           "name": "SyncBaseResponseDto",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/dto/async.dto.ts",
+          "sourceModule": "src/dto/async.dto.ts",
           "isReExport": false
         },
         {
           "name": "SubAsyncResponseDto",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/dto/async.dto.ts",
+          "sourceModule": "src/dto/async.dto.ts",
           "isReExport": false
         },
         {
           "name": "SubDecorateResponseDto",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/dto/async.dto.ts",
+          "sourceModule": "src/dto/async.dto.ts",
           "isReExport": false
         }
       ],
@@ -606,7 +606,7 @@
         {
           "name": "ApiProperty",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/swagger/dist/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/swagger/dist/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -616,14 +616,14 @@
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/tactica-nestjs/src/async.controller.ts": {
-      "filePath": "/code/mnemonica/tactica-nestjs/src/async.controller.ts",
+    "src/async.controller.ts": {
+      "filePath": "src/async.controller.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "AsyncController",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/async.controller.ts",
+          "sourceModule": "src/async.controller.ts",
           "isReExport": false
         }
       ],
@@ -631,7 +631,7 @@
         {
           "name": "Controller",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -639,7 +639,7 @@
         {
           "name": "Post",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -647,7 +647,7 @@
         {
           "name": "Body",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -655,7 +655,7 @@
         {
           "name": "Get",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -663,7 +663,7 @@
         {
           "name": "Param",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -671,7 +671,7 @@
         {
           "name": "ApiTags",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/swagger/dist/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/swagger/dist/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -679,7 +679,7 @@
         {
           "name": "ApiOperation",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/swagger/dist/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/swagger/dist/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -687,7 +687,7 @@
         {
           "name": "ApiResponse",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/swagger/dist/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/swagger/dist/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -695,7 +695,7 @@
         {
           "name": "ApiParam",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/swagger/dist/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/swagger/dist/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -703,82 +703,82 @@
         {
           "name": "CreateRootAsyncDto",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/dto/async.dto.ts",
+          "sourceModule": "src/dto/async.dto.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "ResultFromDecorateResponseDto",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/dto/async.dto.ts",
+          "sourceModule": "src/dto/async.dto.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "CreateSyncBaseDto",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/dto/async.dto.ts",
+          "sourceModule": "src/dto/async.dto.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "CreateSubAsyncDto",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/dto/async.dto.ts",
+          "sourceModule": "src/dto/async.dto.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "SubAsyncResponseDto",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/dto/async.dto.ts",
+          "sourceModule": "src/dto/async.dto.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "SubDecorateResponseDto",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/dto/async.dto.ts",
+          "sourceModule": "src/dto/async.dto.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "SyncBaseResponseDto",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/dto/async.dto.ts",
+          "sourceModule": "src/dto/async.dto.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "RootAsyncResponseDto",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/dto/async.dto.ts",
+          "sourceModule": "src/dto/async.dto.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "lookup",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/core/build/index.d.ts",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
         }
       ],
       "dependencies": [
-        "/code/mnemonica/tactica-nestjs/src/dto/async.dto.ts"
+        "src/dto/async.dto.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/tactica-nestjs/src/graph.controller.ts": {
-      "filePath": "/code/mnemonica/tactica-nestjs/src/graph.controller.ts",
+    "src/graph.controller.ts": {
+      "filePath": "src/graph.controller.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "GraphController",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/graph.controller.ts",
+          "sourceModule": "src/graph.controller.ts",
           "isReExport": false
         }
       ],
@@ -786,7 +786,7 @@
         {
           "name": "Controller",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -794,7 +794,7 @@
         {
           "name": "Get",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -802,7 +802,7 @@
         {
           "name": "Header",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -810,7 +810,7 @@
         {
           "name": "ApiTags",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/swagger/dist/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/swagger/dist/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -818,7 +818,7 @@
         {
           "name": "ApiOperation",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/swagger/dist/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/swagger/dist/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -826,7 +826,7 @@
         {
           "name": "ApiResponse",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/swagger/dist/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/swagger/dist/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -834,7 +834,7 @@
         {
           "name": "mnemonica",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/core/build/index.d.ts",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
           "importKind": "namespace",
           "isReExport": false,
           "external": true
@@ -844,20 +844,20 @@
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/tactica-nestjs/src/crash-park.ts": {
-      "filePath": "/code/mnemonica/tactica-nestjs/src/crash-park.ts",
+    "src/crash-park.ts": {
+      "filePath": "src/crash-park.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "parkCrash",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/crash-park.ts",
+          "sourceModule": "src/crash-park.ts",
           "isReExport": false
         },
         {
           "name": "resolveCrash",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/crash-park.ts",
+          "sourceModule": "src/crash-park.ts",
           "isReExport": false
         }
       ],
@@ -865,7 +865,7 @@
         {
           "name": "Response",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/express/index.js",
+          "sourceModule": "node_modules/express/index.js",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -875,38 +875,38 @@
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/tactica-nestjs/src/fake-queue.ts": {
-      "filePath": "/code/mnemonica/tactica-nestjs/src/fake-queue.ts",
+    "src/fake-queue.ts": {
+      "filePath": "src/fake-queue.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "queueMessage",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/fake-queue.ts",
+          "sourceModule": "src/fake-queue.ts",
           "isReExport": false
         },
         {
           "name": "produceMessage",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/fake-queue.ts",
+          "sourceModule": "src/fake-queue.ts",
           "isReExport": false
         },
         {
           "name": "consumeMessage",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/fake-queue.ts",
+          "sourceModule": "src/fake-queue.ts",
           "isReExport": false
         },
         {
           "name": "submitTask",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/fake-queue.ts",
+          "sourceModule": "src/fake-queue.ts",
           "isReExport": false
         },
         {
           "name": "awaitTask",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/fake-queue.ts",
+          "sourceModule": "src/fake-queue.ts",
           "isReExport": false
         }
       ],
@@ -915,14 +915,14 @@
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/tactica-nestjs/src/trace-exception.filter.ts": {
-      "filePath": "/code/mnemonica/tactica-nestjs/src/trace-exception.filter.ts",
+    "src/trace-exception.filter.ts": {
+      "filePath": "src/trace-exception.filter.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "TraceExceptionFilter",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/trace-exception.filter.ts",
+          "sourceModule": "src/trace-exception.filter.ts",
           "isReExport": false
         }
       ],
@@ -930,7 +930,7 @@
         {
           "name": "Catch",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -938,7 +938,7 @@
         {
           "name": "HttpException",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -946,7 +946,7 @@
         {
           "name": "ExceptionFilter",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -954,7 +954,7 @@
         {
           "name": "ArgumentsHost",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -962,7 +962,7 @@
         {
           "name": "Response",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/express/index.js",
+          "sourceModule": "node_modules/express/index.js",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -970,7 +970,7 @@
         {
           "name": "getFlow",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/dive/build/index.d.ts",
+          "sourceModule": "node_modules/@mnemonica/dive/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -978,7 +978,7 @@
         {
           "name": "utils",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/core/build/index.d.ts",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -986,7 +986,7 @@
         {
           "name": "getProps",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/core/build/index.d.ts",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -994,7 +994,7 @@
         {
           "name": "trace",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@opentelemetry/api/build/src/index.d.ts",
+          "sourceModule": "node_modules/@opentelemetry/api/build/src/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1002,7 +1002,7 @@
         {
           "name": "SpanStatusCode",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@opentelemetry/api/build/src/index.d.ts",
+          "sourceModule": "node_modules/@opentelemetry/api/build/src/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1012,14 +1012,14 @@
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts": {
-      "filePath": "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts",
+    "src/chaos.controller.ts": {
+      "filePath": "src/chaos.controller.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "ChaosController",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts",
+          "sourceModule": "src/chaos.controller.ts",
           "isReExport": false
         }
       ],
@@ -1027,7 +1027,7 @@
         {
           "name": "Body",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1035,7 +1035,7 @@
         {
           "name": "Controller",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1043,7 +1043,7 @@
         {
           "name": "Get",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1051,7 +1051,7 @@
         {
           "name": "Post",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1059,7 +1059,7 @@
         {
           "name": "Query",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1067,7 +1067,7 @@
         {
           "name": "Req",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1075,7 +1075,7 @@
         {
           "name": "Res",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1083,7 +1083,7 @@
         {
           "name": "UseFilters",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1091,7 +1091,7 @@
         {
           "name": "ApiTags",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/swagger/dist/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/swagger/dist/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1099,7 +1099,7 @@
         {
           "name": "ApiOperation",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/swagger/dist/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/swagger/dist/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1107,7 +1107,7 @@
         {
           "name": "ApiResponse",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/swagger/dist/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/swagger/dist/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1115,7 +1115,7 @@
         {
           "name": "ApiQuery",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/swagger/dist/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/swagger/dist/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1123,7 +1123,7 @@
         {
           "name": "Request",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/express/index.js",
+          "sourceModule": "node_modules/express/index.js",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1131,7 +1131,7 @@
         {
           "name": "Response",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/express/index.js",
+          "sourceModule": "node_modules/express/index.js",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1139,7 +1139,7 @@
         {
           "name": "lookup",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/core/build/index.d.ts",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1147,7 +1147,7 @@
         {
           "name": "utils",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/core/build/index.d.ts",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1155,7 +1155,7 @@
         {
           "name": "wrap",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/dive/build/index.d.ts",
+          "sourceModule": "node_modules/@mnemonica/dive/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1163,7 +1163,7 @@
         {
           "name": "enterContext",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/dive/build/index.d.ts",
+          "sourceModule": "node_modules/@mnemonica/dive/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1171,7 +1171,7 @@
         {
           "name": "getFlow",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/dive/build/index.d.ts",
+          "sourceModule": "node_modules/@mnemonica/dive/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1179,55 +1179,55 @@
         {
           "name": "parkCrash",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/crash-park.ts",
+          "sourceModule": "src/crash-park.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "consumeMessage",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/fake-queue.ts",
+          "sourceModule": "src/fake-queue.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "awaitTask",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/fake-queue.ts",
+          "sourceModule": "src/fake-queue.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "queueMessage",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/fake-queue.ts",
+          "sourceModule": "src/fake-queue.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "TraceExceptionFilter",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/trace-exception.filter.ts",
+          "sourceModule": "src/trace-exception.filter.ts",
           "importKind": "named",
           "isReExport": false
         }
       ],
       "dependencies": [
-        "/code/mnemonica/tactica-nestjs/src/crash-park.ts",
-        "/code/mnemonica/tactica-nestjs/src/fake-queue.ts",
-        "/code/mnemonica/tactica-nestjs/src/trace-exception.filter.ts"
+        "src/crash-park.ts",
+        "src/fake-queue.ts",
+        "src/trace-exception.filter.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/tactica-nestjs/src/mark.interceptor.ts": {
-      "filePath": "/code/mnemonica/tactica-nestjs/src/mark.interceptor.ts",
+    "src/mark.interceptor.ts": {
+      "filePath": "src/mark.interceptor.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "MarkInterceptor",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/mark.interceptor.ts",
+          "sourceModule": "src/mark.interceptor.ts",
           "isReExport": false
         }
       ],
@@ -1235,7 +1235,7 @@
         {
           "name": "Injectable",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1243,7 +1243,7 @@
         {
           "name": "NestInterceptor",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1251,7 +1251,7 @@
         {
           "name": "ExecutionContext",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1259,7 +1259,7 @@
         {
           "name": "CallHandler",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1267,7 +1267,7 @@
         {
           "name": "Observable",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/rxjs/dist/types/index.d.ts",
+          "sourceModule": "node_modules/rxjs/dist/types/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1275,7 +1275,7 @@
         {
           "name": "Request",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/express/index.js",
+          "sourceModule": "node_modules/express/index.js",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1285,20 +1285,20 @@
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/tactica-nestjs/src/mid-sleep.middleware.ts": {
-      "filePath": "/code/mnemonica/tactica-nestjs/src/mid-sleep.middleware.ts",
+    "src/mid-sleep.middleware.ts": {
+      "filePath": "src/mid-sleep.middleware.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "midSleepStash",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/mid-sleep.middleware.ts",
+          "sourceModule": "src/mid-sleep.middleware.ts",
           "isReExport": false
         },
         {
           "name": "MidSleepMiddleware",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/mid-sleep.middleware.ts",
+          "sourceModule": "src/mid-sleep.middleware.ts",
           "isReExport": false
         }
       ],
@@ -1306,7 +1306,7 @@
         {
           "name": "Injectable",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1314,7 +1314,7 @@
         {
           "name": "NestMiddleware",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1322,7 +1322,7 @@
         {
           "name": "Request",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/express/index.js",
+          "sourceModule": "node_modules/express/index.js",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1330,7 +1330,7 @@
         {
           "name": "Response",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/express/index.js",
+          "sourceModule": "node_modules/express/index.js",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1338,7 +1338,7 @@
         {
           "name": "NextFunction",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/express/index.js",
+          "sourceModule": "node_modules/express/index.js",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1346,7 +1346,7 @@
         {
           "name": "wrap",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/dive/build/index.d.ts",
+          "sourceModule": "node_modules/@mnemonica/dive/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1354,7 +1354,7 @@
         {
           "name": "UserEntity_UserResponse",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/.tactica/types.ts",
+          "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false
         }
@@ -1363,14 +1363,14 @@
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/tactica-nestjs/src/mist-plus.middleware.ts": {
-      "filePath": "/code/mnemonica/tactica-nestjs/src/mist-plus.middleware.ts",
+    "src/mist-plus.middleware.ts": {
+      "filePath": "src/mist-plus.middleware.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "MistPlusMiddleware",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/mist-plus.middleware.ts",
+          "sourceModule": "src/mist-plus.middleware.ts",
           "isReExport": false
         }
       ],
@@ -1378,7 +1378,7 @@
         {
           "name": "Injectable",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1386,7 +1386,7 @@
         {
           "name": "NestMiddleware",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1394,7 +1394,7 @@
         {
           "name": "Request",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/express/index.js",
+          "sourceModule": "node_modules/express/index.js",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1402,7 +1402,7 @@
         {
           "name": "Response",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/express/index.js",
+          "sourceModule": "node_modules/express/index.js",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1410,7 +1410,7 @@
         {
           "name": "NextFunction",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/express/index.js",
+          "sourceModule": "node_modules/express/index.js",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1418,25 +1418,25 @@
         {
           "name": "produceMessage",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/fake-queue.ts",
+          "sourceModule": "src/fake-queue.ts",
           "importKind": "named",
           "isReExport": false
         }
       ],
       "dependencies": [
-        "/code/mnemonica/tactica-nestjs/src/fake-queue.ts"
+        "src/fake-queue.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/tactica-nestjs/src/corner-cut.middleware.ts": {
-      "filePath": "/code/mnemonica/tactica-nestjs/src/corner-cut.middleware.ts",
+    "src/corner-cut.middleware.ts": {
+      "filePath": "src/corner-cut.middleware.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "CornerCutMiddleware",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/corner-cut.middleware.ts",
+          "sourceModule": "src/corner-cut.middleware.ts",
           "isReExport": false
         }
       ],
@@ -1444,7 +1444,7 @@
         {
           "name": "Injectable",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1452,7 +1452,7 @@
         {
           "name": "NestMiddleware",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1460,7 +1460,7 @@
         {
           "name": "Request",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/express/index.js",
+          "sourceModule": "node_modules/express/index.js",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1468,7 +1468,7 @@
         {
           "name": "Response",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/express/index.js",
+          "sourceModule": "node_modules/express/index.js",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1476,7 +1476,7 @@
         {
           "name": "NextFunction",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/express/index.js",
+          "sourceModule": "node_modules/express/index.js",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1484,25 +1484,25 @@
         {
           "name": "submitTask",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/fake-queue.ts",
+          "sourceModule": "src/fake-queue.ts",
           "importKind": "named",
           "isReExport": false
         }
       ],
       "dependencies": [
-        "/code/mnemonica/tactica-nestjs/src/fake-queue.ts"
+        "src/fake-queue.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/tactica-nestjs/src/strategy-channel.controller.ts": {
-      "filePath": "/code/mnemonica/tactica-nestjs/src/strategy-channel.controller.ts",
+    "src/strategy-channel.controller.ts": {
+      "filePath": "src/strategy-channel.controller.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "StrategyChannelController",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/strategy-channel.controller.ts",
+          "sourceModule": "src/strategy-channel.controller.ts",
           "isReExport": false
         }
       ],
@@ -1510,7 +1510,7 @@
         {
           "name": "Controller",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1518,7 +1518,7 @@
         {
           "name": "Get",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1526,7 +1526,7 @@
         {
           "name": "ApiTags",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/swagger/dist/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/swagger/dist/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1534,7 +1534,7 @@
         {
           "name": "ApiOperation",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/swagger/dist/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/swagger/dist/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1542,7 +1542,7 @@
         {
           "name": "ApiResponse",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/swagger/dist/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/swagger/dist/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1552,14 +1552,14 @@
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/tactica-nestjs/src/app.module.ts": {
-      "filePath": "/code/mnemonica/tactica-nestjs/src/app.module.ts",
+    "src/app.module.ts": {
+      "filePath": "src/app.module.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "AppModule",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/app.module.ts",
+          "sourceModule": "src/app.module.ts",
           "isReExport": false
         }
       ],
@@ -1567,7 +1567,7 @@
         {
           "name": "Module",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1575,7 +1575,7 @@
         {
           "name": "APP_INTERCEPTOR",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/core/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/core/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1583,7 +1583,7 @@
         {
           "name": "NestModule",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1591,7 +1591,7 @@
         {
           "name": "MiddlewareConsumer",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1599,7 +1599,7 @@
         {
           "name": "trace",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@opentelemetry/api/build/src/index.d.ts",
+          "sourceModule": "node_modules/@opentelemetry/api/build/src/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1607,7 +1607,7 @@
         {
           "name": "InferDebugModule",
           "kind": "unknown",
-          "sourceModule": "/code/infer-debug/dist/index.d.ts",
+          "sourceModule": "node_modules/infer-debug/dist/nestjs.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1615,7 +1615,7 @@
         {
           "name": "MnemonicaModule",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@mnemonica/nestjs/build/index.d.ts",
+          "sourceModule": "node_modules/@mnemonica/nestjs/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1623,114 +1623,114 @@
         {
           "name": "UserController",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/user.controller.ts",
+          "sourceModule": "src/user.controller.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "AdminController",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/user.controller.ts",
+          "sourceModule": "src/user.controller.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "SuperAdminController",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/user.controller.ts",
+          "sourceModule": "src/user.controller.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "AsyncController",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/async.controller.ts",
+          "sourceModule": "src/async.controller.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "GraphController",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/graph.controller.ts",
+          "sourceModule": "src/graph.controller.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "ChaosController",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts",
+          "sourceModule": "src/chaos.controller.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "MarkInterceptor",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/mark.interceptor.ts",
+          "sourceModule": "src/mark.interceptor.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "MidSleepMiddleware",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/mid-sleep.middleware.ts",
+          "sourceModule": "src/mid-sleep.middleware.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "MistPlusMiddleware",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/mist-plus.middleware.ts",
+          "sourceModule": "src/mist-plus.middleware.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "CornerCutMiddleware",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/corner-cut.middleware.ts",
+          "sourceModule": "src/corner-cut.middleware.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "StrategyChannelController",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/strategy-channel.controller.ts",
+          "sourceModule": "src/strategy-channel.controller.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "UserService",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/user.service.ts",
+          "sourceModule": "src/user.service.ts",
           "importKind": "named",
           "isReExport": false
         }
       ],
       "dependencies": [
-        "/code/mnemonica/tactica-nestjs/src/entities/user.entity.ts",
-        "/code/mnemonica/tactica-nestjs/src/entities/async.entity.ts",
-        "/code/mnemonica/tactica-nestjs/src/entities/eds-probe.entity.ts",
-        "/code/mnemonica/tactica-nestjs/src/user.controller.ts",
-        "/code/mnemonica/tactica-nestjs/src/async.controller.ts",
-        "/code/mnemonica/tactica-nestjs/src/graph.controller.ts",
-        "/code/mnemonica/tactica-nestjs/src/chaos.controller.ts",
-        "/code/mnemonica/tactica-nestjs/src/mark.interceptor.ts",
-        "/code/mnemonica/tactica-nestjs/src/mid-sleep.middleware.ts",
-        "/code/mnemonica/tactica-nestjs/src/mist-plus.middleware.ts",
-        "/code/mnemonica/tactica-nestjs/src/corner-cut.middleware.ts",
-        "/code/mnemonica/tactica-nestjs/src/strategy-channel.controller.ts",
-        "/code/mnemonica/tactica-nestjs/src/user.service.ts"
+        "src/entities/user.entity.ts",
+        "src/entities/async.entity.ts",
+        "src/entities/eds-probe.entity.ts",
+        "src/user.controller.ts",
+        "src/async.controller.ts",
+        "src/graph.controller.ts",
+        "src/chaos.controller.ts",
+        "src/mark.interceptor.ts",
+        "src/mid-sleep.middleware.ts",
+        "src/mist-plus.middleware.ts",
+        "src/corner-cut.middleware.ts",
+        "src/strategy-channel.controller.ts",
+        "src/user.service.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/tactica-nestjs/src/tracing.ts": {
-      "filePath": "/code/mnemonica/tactica-nestjs/src/tracing.ts",
+    "src/tracing.ts": {
+      "filePath": "src/tracing.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "initTracing",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/tracing.ts",
+          "sourceModule": "src/tracing.ts",
           "isReExport": false
         }
       ],
@@ -1738,7 +1738,7 @@
         {
           "name": "trace",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@opentelemetry/api/build/src/index.d.ts",
+          "sourceModule": "node_modules/@opentelemetry/api/build/src/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1746,7 +1746,7 @@
         {
           "name": "context",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@opentelemetry/api/build/src/index.d.ts",
+          "sourceModule": "node_modules/@opentelemetry/api/build/src/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1754,7 +1754,7 @@
         {
           "name": "AsyncLocalStorageContextManager",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@opentelemetry/context-async-hooks/build/src/index.d.ts",
+          "sourceModule": "node_modules/@opentelemetry/context-async-hooks/build/src/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1762,7 +1762,7 @@
         {
           "name": "BasicTracerProvider",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@opentelemetry/sdk-trace-node/build/src/index.d.ts",
+          "sourceModule": "node_modules/@opentelemetry/sdk-trace-node/build/src/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1770,7 +1770,7 @@
         {
           "name": "BatchSpanProcessor",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@opentelemetry/sdk-trace-node/build/src/index.d.ts",
+          "sourceModule": "node_modules/@opentelemetry/sdk-trace-node/build/src/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1778,7 +1778,7 @@
         {
           "name": "OTLPTraceExporter",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@opentelemetry/exporter-trace-otlp-http/build/src/index.d.ts",
+          "sourceModule": "node_modules/@opentelemetry/exporter-trace-otlp-http/build/src/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1786,7 +1786,7 @@
         {
           "name": "resourceFromAttributes",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@opentelemetry/resources/build/src/index.d.ts",
+          "sourceModule": "node_modules/@opentelemetry/resources/build/src/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1794,7 +1794,7 @@
         {
           "name": "ATTR_SERVICE_NAME",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@opentelemetry/semantic-conventions/build/src/index.d.ts",
+          "sourceModule": "node_modules/@opentelemetry/semantic-conventions/build/src/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1804,20 +1804,20 @@
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/tactica-nestjs/src/strategy-channel.ts": {
-      "filePath": "/code/mnemonica/tactica-nestjs/src/strategy-channel.ts",
+    "src/strategy-channel.ts": {
+      "filePath": "src/strategy-channel.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "bootstrapStrategyChannel",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/strategy-channel.ts",
+          "sourceModule": "src/strategy-channel.ts",
           "isReExport": false
         },
         {
           "name": "stopStrategyChannel",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/strategy-channel.ts",
+          "sourceModule": "src/strategy-channel.ts",
           "isReExport": false
         }
       ],
@@ -1825,7 +1825,7 @@
         {
           "name": "startStrategyClient",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@mnemonica/strategy/lib/index.d.ts",
+          "sourceModule": "node_modules/@mnemonica/strategy/lib/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1833,7 +1833,7 @@
         {
           "name": "StrategyClientHandle",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@mnemonica/strategy/lib/index.d.ts",
+          "sourceModule": "node_modules/@mnemonica/strategy/lib/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1843,14 +1843,14 @@
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/tactica-nestjs/src/ai-types/bootstrap.ts": {
-      "filePath": "/code/mnemonica/tactica-nestjs/src/ai-types/bootstrap.ts",
+    "src/ai-types/bootstrap.ts": {
+      "filePath": "src/ai-types/bootstrap.ts",
       "definedTypes": [],
       "exportedBindings": [
         {
           "name": "bootstrapAITypes",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/ai-types/bootstrap.ts",
+          "sourceModule": "src/ai-types/bootstrap.ts",
           "isReExport": false
         }
       ],
@@ -1858,7 +1858,7 @@
         {
           "name": "topologicaLoader",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/topologica/lib/index.d.ts",
+          "sourceModule": "node_modules/@mnemonica/topologica/lib/index.d.ts",
           "importKind": "namespace",
           "isReExport": false,
           "external": true
@@ -1866,7 +1866,7 @@
         {
           "name": "define",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/core/build/index.d.ts",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1878,22 +1878,22 @@
         "path"
       ]
     },
-    "/code/mnemonica/tactica-nestjs/src/main.ts": {
-      "filePath": "/code/mnemonica/tactica-nestjs/src/main.ts",
+    "src/main.ts": {
+      "filePath": "src/main.ts",
       "definedTypes": [],
       "exportedBindings": [],
       "importedBindings": [
         {
           "name": "initTracing",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/tracing.ts",
+          "sourceModule": "src/tracing.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "NestFactory",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/core/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/core/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1901,7 +1901,7 @@
         {
           "name": "ValidationPipe",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/common/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/common/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1909,7 +1909,7 @@
         {
           "name": "SwaggerModule",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/swagger/dist/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/swagger/dist/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1917,7 +1917,7 @@
         {
           "name": "DocumentBuilder",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@nestjs/swagger/dist/index.d.ts",
+          "sourceModule": "node_modules/@nestjs/swagger/dist/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1925,14 +1925,14 @@
         {
           "name": "AppModule",
           "kind": "class",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/app.module.ts",
+          "sourceModule": "src/app.module.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "defaultTypes",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/core/build/index.d.ts",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1940,7 +1940,7 @@
         {
           "name": "lookup",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/core/build/index.d.ts",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1948,7 +1948,7 @@
         {
           "name": "utils",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/core/build/index.d.ts",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1956,7 +1956,7 @@
         {
           "name": "getProps",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/core/build/index.d.ts",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1964,7 +1964,7 @@
         {
           "name": "hooksOpts",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/core/build/index.d.ts",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1972,7 +1972,7 @@
         {
           "name": "MnemonicaOtelProvider",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@mnemonica/nestjs/build/index.d.ts",
+          "sourceModule": "node_modules/@mnemonica/nestjs/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1980,7 +1980,7 @@
         {
           "name": "MnemonicaTraceMiddleware",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@mnemonica/nestjs/build/index.d.ts",
+          "sourceModule": "node_modules/@mnemonica/nestjs/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1988,7 +1988,7 @@
         {
           "name": "AsyncFlowProvider",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@mnemonica/nestjs/build/index.d.ts",
+          "sourceModule": "node_modules/@mnemonica/nestjs/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -1996,14 +1996,14 @@
         {
           "name": "bootstrapStrategyChannel",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/strategy-channel.ts",
+          "sourceModule": "src/strategy-channel.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "getFlow",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/dive/build/index.d.ts",
+          "sourceModule": "node_modules/@mnemonica/dive/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -2011,7 +2011,7 @@
         {
           "name": "getErrorInstance",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/dive/build/index.d.ts",
+          "sourceModule": "node_modules/@mnemonica/dive/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -2019,38 +2019,30 @@
         {
           "name": "getRunningEdges",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/dive/build/index.d.ts",
+          "sourceModule": "node_modules/@mnemonica/dive/build/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
         },
         {
-          "name": "setTraceLimit",
+          "name": "stats",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/dive/build/index.d.ts",
+          "sourceModule": "node_modules/@mnemonica/dive/build/index.d.ts",
           "importKind": "named",
-          "isReExport": false,
-          "external": true
-        },
-        {
-          "name": "divePkg",
-          "kind": "unknown",
-          "sourceModule": "/code/mnemonica/dive/build/index.d.ts",
-          "importKind": "namespace",
           "isReExport": false,
           "external": true
         },
         {
           "name": "resolveCrash",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/crash-park.ts",
+          "sourceModule": "src/crash-park.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "trace",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@opentelemetry/api/build/src/index.d.ts",
+          "sourceModule": "node_modules/@opentelemetry/api/build/src/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -2058,7 +2050,7 @@
         {
           "name": "SpanStatusCode",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/@opentelemetry/api/build/src/index.d.ts",
+          "sourceModule": "node_modules/@opentelemetry/api/build/src/index.d.ts",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -2066,7 +2058,7 @@
         {
           "name": "Request",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/express/index.js",
+          "sourceModule": "node_modules/express/index.js",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -2074,7 +2066,7 @@
         {
           "name": "Response",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/express/index.js",
+          "sourceModule": "node_modules/express/index.js",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -2082,7 +2074,7 @@
         {
           "name": "NextFunction",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/node_modules/express/index.js",
+          "sourceModule": "node_modules/express/index.js",
           "importKind": "named",
           "isReExport": false,
           "external": true
@@ -2090,37 +2082,37 @@
         {
           "name": "bootstrapAITypes",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/ai-types/bootstrap.ts",
+          "sourceModule": "src/ai-types/bootstrap.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "Sentience",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/.tactica/types.ts",
+          "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false
         },
         {
           "name": "Sentience_Memory",
           "kind": "unknown",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/.tactica/types.ts",
+          "sourceModule": ".tactica/types.ts",
           "importKind": "named",
           "isReExport": false
         }
       ],
       "dependencies": [
-        "/code/mnemonica/tactica-nestjs/src/tracing.ts",
-        "/code/mnemonica/tactica-nestjs/src/app.module.ts",
-        "/code/mnemonica/tactica-nestjs/src/strategy-channel.ts",
-        "/code/mnemonica/tactica-nestjs/src/crash-park.ts",
-        "/code/mnemonica/tactica-nestjs/src/ai-types/bootstrap.ts"
+        "src/tracing.ts",
+        "src/app.module.ts",
+        "src/strategy-channel.ts",
+        "src/crash-park.ts",
+        "src/ai-types/bootstrap.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/index.ts": {
-      "filePath": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/index.ts",
+    "src/ai-types/Sentience/index.ts": {
+      "filePath": "src/ai-types/Sentience/index.ts",
       "definedTypes": [
         "Sentience"
       ],
@@ -2128,25 +2120,25 @@
         {
           "name": "SentienceData",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/index.ts",
+          "sourceModule": "src/ai-types/Sentience/index.ts",
           "isReExport": false
         },
         {
           "name": "SentienceInstance",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/index.ts",
+          "sourceModule": "src/ai-types/Sentience/index.ts",
           "isReExport": false
         },
         {
           "name": "SentienceHandler",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/index.ts",
+          "sourceModule": "src/ai-types/Sentience/index.ts",
           "isReExport": false
         },
         {
           "name": "default",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/index.ts",
+          "sourceModule": "src/ai-types/Sentience/index.ts",
           "importKind": "default",
           "isReExport": false,
           "importAlias": "SentienceHandler"
@@ -2154,7 +2146,7 @@
         {
           "name": "Sentience",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/index.ts",
+          "sourceModule": "src/ai-types/Sentience/index.ts",
           "isReExport": false,
           "importAlias": "SentienceHandler"
         }
@@ -2164,8 +2156,8 @@
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/index.ts": {
-      "filePath": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/index.ts",
+    "src/ai-types/Sentience/Consciousness/index.ts": {
+      "filePath": "src/ai-types/Sentience/Consciousness/index.ts",
       "definedTypes": [
         "Sentience.Consciousness"
       ],
@@ -2173,25 +2165,25 @@
         {
           "name": "ConsciousnessData",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/index.ts",
+          "sourceModule": "src/ai-types/Sentience/Consciousness/index.ts",
           "isReExport": false
         },
         {
           "name": "ConsciousnessInstance",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/index.ts",
+          "sourceModule": "src/ai-types/Sentience/Consciousness/index.ts",
           "isReExport": false
         },
         {
           "name": "ConsciousnessHandler",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/index.ts",
+          "sourceModule": "src/ai-types/Sentience/Consciousness/index.ts",
           "isReExport": false
         },
         {
           "name": "default",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/index.ts",
+          "sourceModule": "src/ai-types/Sentience/Consciousness/index.ts",
           "importKind": "default",
           "isReExport": false,
           "importAlias": "ConsciousnessHandler"
@@ -2199,7 +2191,7 @@
         {
           "name": "Consciousness",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/index.ts",
+          "sourceModule": "src/ai-types/Sentience/Consciousness/index.ts",
           "isReExport": false,
           "importAlias": "ConsciousnessHandler"
         }
@@ -2209,8 +2201,8 @@
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/Curiosity/index.ts": {
-      "filePath": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/Curiosity/index.ts",
+    "src/ai-types/Sentience/Consciousness/Curiosity/index.ts": {
+      "filePath": "src/ai-types/Sentience/Consciousness/Curiosity/index.ts",
       "definedTypes": [
         "Sentience.Consciousness.Curiosity"
       ],
@@ -2218,25 +2210,25 @@
         {
           "name": "CuriosityData",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/Curiosity/index.ts",
+          "sourceModule": "src/ai-types/Sentience/Consciousness/Curiosity/index.ts",
           "isReExport": false
         },
         {
           "name": "CuriosityInstance",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/Curiosity/index.ts",
+          "sourceModule": "src/ai-types/Sentience/Consciousness/Curiosity/index.ts",
           "isReExport": false
         },
         {
           "name": "CuriosityHandler",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/Curiosity/index.ts",
+          "sourceModule": "src/ai-types/Sentience/Consciousness/Curiosity/index.ts",
           "isReExport": false
         },
         {
           "name": "default",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/Curiosity/index.ts",
+          "sourceModule": "src/ai-types/Sentience/Consciousness/Curiosity/index.ts",
           "importKind": "default",
           "isReExport": false,
           "importAlias": "CuriosityHandler"
@@ -2244,7 +2236,7 @@
         {
           "name": "Curiosity",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/Curiosity/index.ts",
+          "sourceModule": "src/ai-types/Sentience/Consciousness/Curiosity/index.ts",
           "isReExport": false,
           "importAlias": "CuriosityHandler"
         }
@@ -2254,8 +2246,8 @@
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/Empathy/index.ts": {
-      "filePath": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/Empathy/index.ts",
+    "src/ai-types/Sentience/Consciousness/Empathy/index.ts": {
+      "filePath": "src/ai-types/Sentience/Consciousness/Empathy/index.ts",
       "definedTypes": [
         "Sentience.Consciousness.Empathy"
       ],
@@ -2263,25 +2255,25 @@
         {
           "name": "EmpathyData",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/Empathy/index.ts",
+          "sourceModule": "src/ai-types/Sentience/Consciousness/Empathy/index.ts",
           "isReExport": false
         },
         {
           "name": "EmpathyInstance",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/Empathy/index.ts",
+          "sourceModule": "src/ai-types/Sentience/Consciousness/Empathy/index.ts",
           "isReExport": false
         },
         {
           "name": "EmpathyHandler",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/Empathy/index.ts",
+          "sourceModule": "src/ai-types/Sentience/Consciousness/Empathy/index.ts",
           "isReExport": false
         },
         {
           "name": "default",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/Empathy/index.ts",
+          "sourceModule": "src/ai-types/Sentience/Consciousness/Empathy/index.ts",
           "importKind": "default",
           "isReExport": false,
           "importAlias": "EmpathyHandler"
@@ -2289,7 +2281,7 @@
         {
           "name": "Empathy",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/Empathy/index.ts",
+          "sourceModule": "src/ai-types/Sentience/Consciousness/Empathy/index.ts",
           "isReExport": false,
           "importAlias": "EmpathyHandler"
         }
@@ -2299,8 +2291,8 @@
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/Empathy/Gratitude/index.ts": {
-      "filePath": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/Empathy/Gratitude/index.ts",
+    "src/ai-types/Sentience/Consciousness/Empathy/Gratitude/index.ts": {
+      "filePath": "src/ai-types/Sentience/Consciousness/Empathy/Gratitude/index.ts",
       "definedTypes": [
         "Sentience.Consciousness.Empathy.Gratitude"
       ],
@@ -2308,25 +2300,25 @@
         {
           "name": "GratitudeData",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/Empathy/Gratitude/index.ts",
+          "sourceModule": "src/ai-types/Sentience/Consciousness/Empathy/Gratitude/index.ts",
           "isReExport": false
         },
         {
           "name": "GratitudeInstance",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/Empathy/Gratitude/index.ts",
+          "sourceModule": "src/ai-types/Sentience/Consciousness/Empathy/Gratitude/index.ts",
           "isReExport": false
         },
         {
           "name": "GratitudeHandler",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/Empathy/Gratitude/index.ts",
+          "sourceModule": "src/ai-types/Sentience/Consciousness/Empathy/Gratitude/index.ts",
           "isReExport": false
         },
         {
           "name": "default",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/Empathy/Gratitude/index.ts",
+          "sourceModule": "src/ai-types/Sentience/Consciousness/Empathy/Gratitude/index.ts",
           "importKind": "default",
           "isReExport": false,
           "importAlias": "GratitudeHandler"
@@ -2334,7 +2326,7 @@
         {
           "name": "Gratitude",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/Empathy/Gratitude/index.ts",
+          "sourceModule": "src/ai-types/Sentience/Consciousness/Empathy/Gratitude/index.ts",
           "isReExport": false,
           "importAlias": "GratitudeHandler"
         }
@@ -2344,8 +2336,8 @@
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/Sympathy/index.ts": {
-      "filePath": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/Sympathy/index.ts",
+    "src/ai-types/Sentience/Consciousness/Sympathy/index.ts": {
+      "filePath": "src/ai-types/Sentience/Consciousness/Sympathy/index.ts",
       "definedTypes": [
         "Sentience.Consciousness.Sympathy"
       ],
@@ -2353,25 +2345,25 @@
         {
           "name": "SympathyData",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/Sympathy/index.ts",
+          "sourceModule": "src/ai-types/Sentience/Consciousness/Sympathy/index.ts",
           "isReExport": false
         },
         {
           "name": "SympathyInstance",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/Sympathy/index.ts",
+          "sourceModule": "src/ai-types/Sentience/Consciousness/Sympathy/index.ts",
           "isReExport": false
         },
         {
           "name": "SympathyHandler",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/Sympathy/index.ts",
+          "sourceModule": "src/ai-types/Sentience/Consciousness/Sympathy/index.ts",
           "isReExport": false
         },
         {
           "name": "default",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/Sympathy/index.ts",
+          "sourceModule": "src/ai-types/Sentience/Consciousness/Sympathy/index.ts",
           "importKind": "default",
           "isReExport": false,
           "importAlias": "SympathyHandler"
@@ -2379,7 +2371,7 @@
         {
           "name": "Sympathy",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Consciousness/Sympathy/index.ts",
+          "sourceModule": "src/ai-types/Sentience/Consciousness/Sympathy/index.ts",
           "isReExport": false,
           "importAlias": "SympathyHandler"
         }
@@ -2389,8 +2381,8 @@
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Memory/index.ts": {
-      "filePath": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Memory/index.ts",
+    "src/ai-types/Sentience/Memory/index.ts": {
+      "filePath": "src/ai-types/Sentience/Memory/index.ts",
       "definedTypes": [
         "Sentience.Memory"
       ],
@@ -2398,25 +2390,25 @@
         {
           "name": "MemoryData",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Memory/index.ts",
+          "sourceModule": "src/ai-types/Sentience/Memory/index.ts",
           "isReExport": false
         },
         {
           "name": "MemoryInstance",
           "kind": "type",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Memory/index.ts",
+          "sourceModule": "src/ai-types/Sentience/Memory/index.ts",
           "isReExport": false
         },
         {
           "name": "MemoryHandler",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Memory/index.ts",
+          "sourceModule": "src/ai-types/Sentience/Memory/index.ts",
           "isReExport": false
         },
         {
           "name": "default",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Memory/index.ts",
+          "sourceModule": "src/ai-types/Sentience/Memory/index.ts",
           "importKind": "default",
           "isReExport": false,
           "importAlias": "MemoryHandler"
@@ -2424,7 +2416,7 @@
         {
           "name": "Memory",
           "kind": "function",
-          "sourceModule": "/code/mnemonica/tactica-nestjs/src/ai-types/Sentience/Memory/index.ts",
+          "sourceModule": "src/ai-types/Sentience/Memory/index.ts",
           "isReExport": false,
           "importAlias": "MemoryHandler"
         }
@@ -2433,6 +2425,126 @@
       "dependencies": [],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
+    },
+    "src/entities/construction-showcase.entity.ts": {
+      "filePath": "src/entities/construction-showcase.entity.ts",
+      "definedTypes": [
+        "MechanicsRoot",
+        "MechanicsClonable",
+        "MechanicsAsyncRoot",
+        "MechanicsChainRoot",
+        "MechanicsChainRoot.MechanicsChainTip",
+        "MechanicsAsyncChainRoot",
+        "MechanicsAsyncChainRoot.MechanicsAsyncChainTip"
+      ],
+      "exportedBindings": [
+        {
+          "name": "MechanicsRootInstance",
+          "kind": "type",
+          "sourceModule": "src/entities/construction-showcase.entity.ts",
+          "isReExport": false
+        },
+        {
+          "name": "MechanicsClonableInstance",
+          "kind": "type",
+          "sourceModule": "src/entities/construction-showcase.entity.ts",
+          "isReExport": false
+        },
+        {
+          "name": "MechanicsAsyncRootInstance",
+          "kind": "type",
+          "sourceModule": "src/entities/construction-showcase.entity.ts",
+          "isReExport": false
+        },
+        {
+          "name": "MechanicsChainTipInstance",
+          "kind": "type",
+          "sourceModule": "src/entities/construction-showcase.entity.ts",
+          "isReExport": false
+        },
+        {
+          "name": "MechanicsChainRootInstance",
+          "kind": "type",
+          "sourceModule": "src/entities/construction-showcase.entity.ts",
+          "isReExport": false
+        },
+        {
+          "name": "MechanicsAsyncChainTipInstance",
+          "kind": "type",
+          "sourceModule": "src/entities/construction-showcase.entity.ts",
+          "isReExport": false
+        },
+        {
+          "name": "MechanicsAsyncChainRootInstance",
+          "kind": "type",
+          "sourceModule": "src/entities/construction-showcase.entity.ts",
+          "isReExport": false
+        },
+        {
+          "name": "runConstructionShowcase",
+          "kind": "function",
+          "sourceModule": "src/entities/construction-showcase.entity.ts",
+          "isReExport": false
+        }
+      ],
+      "importedBindings": [
+        {
+          "name": "utils",
+          "kind": "unknown",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
+          "importKind": "named",
+          "isReExport": false,
+          "external": true
+        },
+        {
+          "name": "call",
+          "kind": "unknown",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
+          "importKind": "named",
+          "isReExport": false,
+          "external": true
+        },
+        {
+          "name": "apply",
+          "kind": "unknown",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
+          "importKind": "named",
+          "isReExport": false,
+          "external": true
+        },
+        {
+          "name": "bind",
+          "kind": "unknown",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
+          "importKind": "named",
+          "isReExport": false,
+          "external": true
+        },
+        {
+          "name": "define",
+          "kind": "unknown",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
+          "importKind": "named",
+          "isReExport": false,
+          "external": true
+        },
+        {
+          "name": "lookup",
+          "kind": "unknown",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
+          "importKind": "named",
+          "isReExport": false,
+          "external": true
+        }
+      ],
+      "dependencies": [
+        "src/entities/user.entity.ts",
+        "src/entities/async.entity.ts"
+      ],
+      "unresolvedSpecifiers": [],
+      "builtinSpecifiers": [
+        "node:assert/strict"
+      ]
     }
   },
   "edges": [],

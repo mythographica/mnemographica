@@ -2,6 +2,8 @@
 
 import * as vscode from 'vscode';
 import { getLogger } from '../services/LoggerService';
+import { parseTacticaLocation, shortLocation } from '../utils/paths';
+import { PathTrieNode, findInPathTrie, insertIntoPathTrie, newPathTrieNode, subtreeEntryCount } from './pathTrie';
 import type { Registry } from '../../.tactica/types';
 
 // Mirrors rawEDSEntry from models/EDS.ts (wrap-kind fields only) —
@@ -24,12 +26,7 @@ interface WrapEntryData {
 
 // Trie node: one segment of a dot-joined type path. Wrap sites hang
 // off the node whose fullPath is the type the bagel belongs to.
-interface TrieNode {
-	segment: string;
-	fullPath: string;
-	children: Map<string, TrieNode>;
-	wraps: WrapEntryData[];
-}
+type TrieNode = PathTrieNode<WrapEntryData>;
 
 type BagelsNodeType = 'segment' | 'wrap' | 'info';
 
@@ -46,13 +43,6 @@ interface BagelsTreeNodeData {
 
 // Trie bucket for wraps with no attributable type context
 const UNGROUPED = '(no type context)';
-
-const shortLocation = (location: string): string => {
-	const match = location.match(/^(.+):(\d+):(\d+)$/);
-	if (!match) { return location; }
-	const tail = match[1].split('/').pop() || match[1];
-	return `${tail}:${match[2]}`;
-};
 
 export class BagelsTreeItem extends vscode.TreeItem {
 	constructor(
@@ -87,15 +77,15 @@ export class BagelsTreeItem extends vscode.TreeItem {
 			lines.push(wrap.location);
 			this.tooltip = lines.join('\n');
 			this.contextValue = 'navigable';
-			const match = wrap.location.match(/^(.+):(\d+):(\d+)$/);
-			if (match) {
+			const parsed = parseTacticaLocation(wrap.location);
+			if (parsed) {
 				this.command = {
 					command: 'mnemographica.navigateToLocation',
 					title: 'Go to Wrap Site',
 					arguments: [{
-						filePath: match[1],
-						line: parseInt(match[2], 10),
-						column: parseInt(match[3], 10)
+						filePath: parsed.fileName,
+						line: parsed.line,
+						column: parsed.column
 					}]
 				};
 			}
@@ -112,7 +102,7 @@ export class BagelsTreeProvider implements vscode.TreeDataProvider<BagelsTreeIte
 	private _onDidChangeTreeData = new vscode.EventEmitter<BagelsTreeItem | undefined | null | void>();
 	readonly onDidChangeTreeData = this._onDidChangeTreeData.event;
 
-	private trieRoot: TrieNode = BagelsTreeProvider.newTrieNode('', '');
+	private trieRoot: TrieNode = newPathTrieNode('', '');
 	private generations: Map<string, number> = new Map();
 	private status: 'ok' | 'no-registry' | 'no-eds' | 'empty' = 'no-registry';
 	private registry: Registry | undefined;
@@ -127,13 +117,8 @@ export class BagelsTreeProvider implements vscode.TreeDataProvider<BagelsTreeIte
 		this.loadFromRegistry();
 	}
 
-	private static newTrieNode(segment: string, fullPath: string): TrieNode {
-		const node: TrieNode = { segment, fullPath, children: new Map(), wraps: [] };
-		return node;
-	}
-
 	loadFromRegistry(): void {
-		this.trieRoot = BagelsTreeProvider.newTrieNode('', '');
+		this.trieRoot = newPathTrieNode('', '');
 		this.generations.clear();
 
 		if (!this.registry) {
@@ -223,33 +208,13 @@ export class BagelsTreeProvider implements vscode.TreeDataProvider<BagelsTreeIte
 			path = UNGROUPED;
 		}
 
-		const segments = path.split('.');
-		let node = this.trieRoot;
-		let currentPath = '';
-		for (const segment of segments) {
-			currentPath = currentPath ? `${currentPath}.${segment}` : segment;
-			let child = node.children.get(segment);
-			if (!child) {
-				child = BagelsTreeProvider.newTrieNode(segment, currentPath);
-				node.children.set(segment, child);
-			}
-			node = child;
-		}
-		node.wraps.push(wrap);
-	}
-
-	private subtreeWrapCount(node: TrieNode): number {
-		let count = node.wraps.length;
-		for (const child of node.children.values()) {
-			count += this.subtreeWrapCount(child);
-		}
-		return count;
+		insertIntoPathTrie(this.trieRoot, path, wrap);
 	}
 
 	private segmentItems(node: TrieNode): BagelsTreeItem[] {
 		const items: BagelsTreeItem[] = [];
 		for (const child of node.children.values()) {
-			const count = this.subtreeWrapCount(child);
+			const count = subtreeEntryCount(child);
 			items.push(new BagelsTreeItem(
 				{
 					label: `${child.segment} (${count})`,
@@ -261,16 +226,6 @@ export class BagelsTreeProvider implements vscode.TreeDataProvider<BagelsTreeIte
 			));
 		}
 		return items.sort((a, b) => a.data.label.localeCompare(b.data.label));
-	}
-
-	private findNode(fullPath: string): TrieNode | undefined {
-		let node = this.trieRoot;
-		for (const segment of fullPath.split('.')) {
-			const child = node.children.get(segment);
-			if (!child) { return undefined; }
-			node = child;
-		}
-		return node;
 	}
 
 	getTreeItem(element: BagelsTreeItem): vscode.TreeItem {
@@ -302,12 +257,12 @@ export class BagelsTreeProvider implements vscode.TreeDataProvider<BagelsTreeIte
 
 		const data = element.data;
 		if (data.type !== 'segment' || !data.fullPath) { return []; }
-		const node = this.findNode(data.fullPath);
+		const node = findInPathTrie(this.trieRoot, data.fullPath);
 		if (!node) { return []; }
 
 		// Child type segments first, then the wrap sites of THIS type
 		const items = this.segmentItems(node);
-		const sortedWraps = [...node.wraps].sort((a, b) => a.location.localeCompare(b.location));
+		const sortedWraps = [...node.entries].sort((a, b) => a.location.localeCompare(b.location));
 		for (const wrap of sortedWraps) {
 			items.push(new BagelsTreeItem(
 				{
@@ -323,7 +278,7 @@ export class BagelsTreeProvider implements vscode.TreeDataProvider<BagelsTreeIte
 	}
 
 	clear(): void {
-		this.trieRoot = BagelsTreeProvider.newTrieNode('', '');
+		this.trieRoot = newPathTrieNode('', '');
 		this.generations.clear();
 		this.status = 'no-registry';
 		this.refresh();

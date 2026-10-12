@@ -6416,7 +6416,7 @@ window.acquireVsCodeApi = function () {
 		}
 
 		/**
-		 * Creation graph layer (instrumentation.json v2). Nodes are scopes
+		 * Creation graph layer (control.json callers). Nodes are scopes
 		 * on the static call path to `new` sites, edges run caller → callee
 		 * with the callee one hop closer to creation. Deterministic pinned
 		 * layout mirroring the type shells:
