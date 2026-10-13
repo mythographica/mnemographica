@@ -1,11 +1,17 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-10-12T05:56:53.058Z",
+  "generatedAt": "2026-10-13T11:14:15.139Z",
   "modules": {
     "src/topologica/bootstrap.ts": {
       "filePath": "src/topologica/bootstrap.ts",
       "definedTypes": [],
       "exportedBindings": [
+        {
+          "name": "modelsLoaded",
+          "kind": "const",
+          "sourceModule": "src/topologica/bootstrap.ts",
+          "isReExport": false
+        },
         {
           "name": "loadModels",
           "kind": "function",
@@ -82,7 +88,7 @@
         },
         {
           "name": "modelsLoaded",
-          "kind": "unknown",
+          "kind": "const",
           "sourceModule": "src/topologica/bootstrap.ts",
           "importKind": "named",
           "isReExport": false
@@ -742,28 +748,6 @@
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
     },
-    "src/core/StateManager.ts": {
-      "filePath": "src/core/StateManager.ts",
-      "definedTypes": [],
-      "exportedBindings": [
-        {
-          "name": "AppState",
-          "kind": "type",
-          "sourceModule": "src/core/StateManager.ts",
-          "isReExport": false
-        },
-        {
-          "name": "StateManager",
-          "kind": "class",
-          "sourceModule": "src/core/StateManager.ts",
-          "isReExport": false
-        }
-      ],
-      "importedBindings": [],
-      "dependencies": [],
-      "unresolvedSpecifiers": [],
-      "builtinSpecifiers": []
-    },
     "src/graph/converter.ts": {
       "filePath": "src/graph/converter.ts",
       "definedTypes": [],
@@ -1370,13 +1354,6 @@
           "isReExport": false
         },
         {
-          "name": "StateManager",
-          "kind": "class",
-          "sourceModule": "src/core/StateManager.ts",
-          "importKind": "named",
-          "isReExport": false
-        },
-        {
           "name": "GraphBuilder",
           "kind": "class",
           "sourceModule": "src/core/GraphBuilder.ts",
@@ -1406,7 +1383,6 @@
         }
       ],
       "dependencies": [
-        "src/core/StateManager.ts",
         "src/core/GraphBuilder.ts",
         "src/types/index.ts",
         "src/core/registryStore.ts"
@@ -1420,7 +1396,7 @@
       "exportedBindings": [
         {
           "name": "LiveTraceTreeItem",
-          "kind": "class",
+          "kind": "type",
           "sourceModule": "src/views/liveTraceTreeProvider.ts",
           "isReExport": false
         },
@@ -2333,13 +2309,6 @@
           "isReExport": false
         },
         {
-          "name": "UsagesTreeProvider",
-          "kind": "class",
-          "sourceModule": "src/views/usagesTreeProvider.ts",
-          "importKind": "named",
-          "isReExport": false
-        },
-        {
           "name": "MnemonicaReferenceProvider",
           "kind": "class",
           "sourceModule": "src/providers/referenceProvider.ts",
@@ -2356,7 +2325,6 @@
       ],
       "dependencies": [
         "src/views/treeProvider.ts",
-        "src/views/usagesTreeProvider.ts",
         "src/providers/referenceProvider.ts",
         "src/core/MainOrchestrator.ts"
       ],
@@ -2676,7 +2644,7 @@
         },
         {
           "name": "modelsLoaded",
-          "kind": "unknown",
+          "kind": "const",
           "sourceModule": "src/topologica/bootstrap.ts",
           "importKind": "named",
           "isReExport": false

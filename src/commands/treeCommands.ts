@@ -3,13 +3,11 @@
 import * as path from 'path';
 import * as vscode from 'vscode';
 import { MnemonicaTreeProvider } from '../views/treeProvider';
-import { UsagesTreeProvider } from '../views/usagesTreeProvider';
 import { MnemonicaReferenceProvider } from '../providers/referenceProvider';
 import { MainOrchestrator } from '../core/MainOrchestrator';
 
 export function registerTreeCommands(
 	treeProvider: MnemonicaTreeProvider,
-	_usagesProvider: UsagesTreeProvider,
 	referenceProvider: MnemonicaReferenceProvider,
 	mainOrchestrator: MainOrchestrator
 ): vscode.Disposable[] {

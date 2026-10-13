@@ -80,27 +80,4 @@ export class GraphConverter {
 			this.processNode(child, depth + 1, nodes, links, visited);
 		}
 	}
-
-	/**
-	 * Calculate depth statistics for the graph
-	 */
-	static getDepthStats (nodes: D3Node[]): {
-		maxDepth: number;
-		averageDepth: number;
-		typeCountByDepth: Map<number, number>;
-	} {
-		const depths = nodes.map(n => n.depth);
-		const maxDepth = Math.max(...depths, 0);
-		const averageDepth = depths.length > 0
-			? depths.reduce((a, b) => a + b, 0) / depths.length
-			: 0;
-
-		const typeCountByDepth = new Map<number, number>();
-		for (const node of nodes) {
-			const count = typeCountByDepth.get(node.depth) || 0;
-			typeCountByDepth.set(node.depth, count + 1);
-		}
-
-		return { maxDepth, averageDepth, typeCountByDepth };
-	}
 }

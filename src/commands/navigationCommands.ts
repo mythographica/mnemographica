@@ -52,21 +52,12 @@ export function registerNavigationCommands(
 			}
 
 			try {
-				const typeName = item.typeName.replace(/Instance$/, '');
-
-				let entry = definitions.get(typeName) || definitions.get(`${typeName}Instance`);
-
-				if (!entry && typeName.includes('.')) {
-					const parts = typeName.split('.');
-					for (let i = 0; i < parts.length; i++) {
-						const candidate = parts.slice(i).join('.');
-						entry = definitions.get(candidate) || definitions.get(`${candidate}Instance`);
-						if (entry) { break; }
-					}
-				}
+				// item.typeName IS the exact definitions.json key (the
+				// tree rows carry it) — a direct lookup, no probing
+				const entry = definitions.get(item.typeName);
 
 				if (!entry?.location) {
-					vscode.window.showWarningMessage(`Definition not found for ${typeName}`);
+					vscode.window.showWarningMessage(`Definition not found for ${item.typeName}`);
 					return;
 				}
 

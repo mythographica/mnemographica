@@ -1,6 +1,6 @@
 {
   "version": "1.2",
-  "generatedAt": "2026-10-12T05:56:53.038Z",
+  "generatedAt": "2026-10-13T11:14:15.121Z",
   "usages": {
     "LoggerTab": [
       {
@@ -19,17 +19,11 @@
     ],
     "LoggerTab.LogEntry": [
       {
-        "location": "src/services/LoggerService.ts:200:18",
+        "location": "src/services/LoggerService.ts:186:18",
         "kind": "instantiation",
         "code": "new this.loggerTab.LogEntry({\n\t\t\t\tlevel: level.toLowerCase() as 'info' | 'warning' | 'error',\n\t\t\t\tme",
         "constructorText": "this.loggerTab.LogEntry",
-        "holderScopeId": "src/services/LoggerService.ts:174:2"
-      },
-      {
-        "location": "src/services/LoggerService.ts:200:22",
-        "kind": "propertyAccess",
-        "code": "this.loggerTab.LogEntry",
-        "holderScopeId": "src/services/LoggerService.ts:174:2"
+        "holderScopeId": "src/services/LoggerService.ts:160:2"
       }
     ],
     "Registry": [
@@ -47,13 +41,13 @@
         "holderScopeId": "src/core/registryStore.ts:31:21"
       },
       {
-        "location": "src/core/MainOrchestrator.ts:73:26",
+        "location": "src/core/MainOrchestrator.ts:69:25",
         "kind": "lookup",
         "code": "lookup('Registry')",
         "holderScopeId": "src/core/MainOrchestrator.ts:61:2"
       },
       {
-        "location": "src/core/MainOrchestrator.ts:74:21",
+        "location": "src/core/MainOrchestrator.ts:70:20",
         "kind": "instantiation",
         "code": "new RegistryType()",
         "constructorText": "RegistryType",
@@ -75,32 +69,26 @@
     ],
     "Main": [
       {
-        "location": "src/core/MainOrchestrator.ts:48:16",
+        "location": "src/core/MainOrchestrator.ts:49:16",
         "kind": "lookup",
         "code": "lookup('Main')",
-        "holderScopeId": "src/core/MainOrchestrator.ts:47:2"
+        "holderScopeId": "src/core/MainOrchestrator.ts:48:2"
       },
       {
-        "location": "src/core/MainOrchestrator.ts:49:15",
+        "location": "src/core/MainOrchestrator.ts:50:15",
         "kind": "instantiation",
         "code": "new Main(version)",
         "constructorText": "Main",
-        "holderScopeId": "src/core/MainOrchestrator.ts:47:2"
+        "holderScopeId": "src/core/MainOrchestrator.ts:48:2"
       }
     ],
     "Main.Adapter": [
       {
-        "location": "src/core/MainOrchestrator.ts:127:19",
+        "location": "src/core/MainOrchestrator.ts:104:19",
         "kind": "instantiation",
         "code": "new this.main.Adapter({ name, domain, enabled })",
         "constructorText": "this.main.Adapter",
-        "holderScopeId": "src/core/MainOrchestrator.ts:126:2"
-      },
-      {
-        "location": "src/core/MainOrchestrator.ts:127:23",
-        "kind": "propertyAccess",
-        "code": "this.main.Adapter",
-        "holderScopeId": "src/core/MainOrchestrator.ts:126:2"
+        "holderScopeId": "src/core/MainOrchestrator.ts:103:2"
       }
     ],
     "collection_2::Scene3D": [
@@ -125,12 +113,6 @@
         "code": "new scene.GraphNode3D({\n\t\t\tid       : node.id,\n\t\t\tlabel    : node.name,\n\t\t\tdepth    : node.depth,\n\t\t",
         "constructorText": "scene.GraphNode3D",
         "holderScopeId": "src/core/SceneBuilder.ts:26:1"
-      },
-      {
-        "location": "src/core/SceneBuilder.ts:32:22",
-        "kind": "propertyAccess",
-        "code": "scene.GraphNode3D",
-        "holderScopeId": "src/core/SceneBuilder.ts:26:1"
       }
     ],
     "collection_2::Scene3D.Caption3D": [
@@ -142,22 +124,10 @@
         "holderScopeId": "src/core/SceneBuilder.ts:26:1"
       },
       {
-        "location": "src/core/SceneBuilder.ts:40:23",
-        "kind": "propertyAccess",
-        "code": "scene.Caption3D",
-        "holderScopeId": "src/core/SceneBuilder.ts:26:1"
-      },
-      {
         "location": "src/core/SceneBuilder.ts:73:20",
         "kind": "instantiation",
         "code": "new scene.Caption3D({ text: scope.name, targetId: scope.id })",
         "constructorText": "scene.Caption3D",
-        "holderScopeId": "src/core/SceneBuilder.ts:26:1"
-      },
-      {
-        "location": "src/core/SceneBuilder.ts:73:24",
-        "kind": "propertyAccess",
-        "code": "scene.Caption3D",
         "holderScopeId": "src/core/SceneBuilder.ts:26:1"
       },
       {
@@ -168,22 +138,10 @@
         "holderScopeId": "src/core/SceneBuilder.ts:26:1"
       },
       {
-        "location": "src/core/SceneBuilder.ts:96:24",
-        "kind": "propertyAccess",
-        "code": "scene.Caption3D",
-        "holderScopeId": "src/core/SceneBuilder.ts:26:1"
-      },
-      {
         "location": "src/core/SceneBuilder.ts:118:20",
         "kind": "instantiation",
         "code": "new scene.Caption3D({ text: knot.name, targetId: knot.id })",
         "constructorText": "scene.Caption3D",
-        "holderScopeId": "src/core/SceneBuilder.ts:26:1"
-      },
-      {
-        "location": "src/core/SceneBuilder.ts:118:24",
-        "kind": "propertyAccess",
-        "code": "scene.Caption3D",
         "holderScopeId": "src/core/SceneBuilder.ts:26:1"
       }
     ],
@@ -196,22 +154,10 @@
         "holderScopeId": "src/core/SceneBuilder.ts:26:1"
       },
       {
-        "location": "src/core/SceneBuilder.ts:45:20",
-        "kind": "propertyAccess",
-        "code": "scene.Link3D",
-        "holderScopeId": "src/core/SceneBuilder.ts:26:1"
-      },
-      {
         "location": "src/core/SceneBuilder.ts:53:16",
         "kind": "instantiation",
         "code": "new scene.Link3D({\n\t\t\tsource : endpointId(link.source),\n\t\t\ttarget : endpointId(link.target),\n\t\t\t// e",
         "constructorText": "scene.Link3D",
-        "holderScopeId": "src/core/SceneBuilder.ts:26:1"
-      },
-      {
-        "location": "src/core/SceneBuilder.ts:53:20",
-        "kind": "propertyAccess",
-        "code": "scene.Link3D",
         "holderScopeId": "src/core/SceneBuilder.ts:26:1"
       },
       {
@@ -222,12 +168,6 @@
         "holderScopeId": "src/core/SceneBuilder.ts:26:1"
       },
       {
-        "location": "src/core/SceneBuilder.ts:77:21",
-        "kind": "propertyAccess",
-        "code": "scene.Link3D",
-        "holderScopeId": "src/core/SceneBuilder.ts:26:1"
-      },
-      {
         "location": "src/core/SceneBuilder.ts:100:17",
         "kind": "instantiation",
         "code": "new scene.Link3D({ source: link.source, target: link.target, kind: `fiber-${link.kind}` })",
@@ -235,22 +175,10 @@
         "holderScopeId": "src/core/SceneBuilder.ts:26:1"
       },
       {
-        "location": "src/core/SceneBuilder.ts:100:21",
-        "kind": "propertyAccess",
-        "code": "scene.Link3D",
-        "holderScopeId": "src/core/SceneBuilder.ts:26:1"
-      },
-      {
         "location": "src/core/SceneBuilder.ts:122:17",
         "kind": "instantiation",
         "code": "new scene.Link3D({ source: link.source, target: link.target, kind: link.kind })",
         "constructorText": "scene.Link3D",
-        "holderScopeId": "src/core/SceneBuilder.ts:26:1"
-      },
-      {
-        "location": "src/core/SceneBuilder.ts:122:21",
-        "kind": "propertyAccess",
-        "code": "scene.Link3D",
         "holderScopeId": "src/core/SceneBuilder.ts:26:1"
       }
     ],
@@ -261,12 +189,6 @@
         "code": "new scene.Diamond3D({\n\t\t\t\tid       : scope.id,\n\t\t\t\tname     : scope.name,\n\t\t\t\tkind     : scope.kind,",
         "constructorText": "scene.Diamond3D",
         "holderScopeId": "src/core/SceneBuilder.ts:26:1"
-      },
-      {
-        "location": "src/core/SceneBuilder.ts:64:24",
-        "kind": "propertyAccess",
-        "code": "scene.Diamond3D",
-        "holderScopeId": "src/core/SceneBuilder.ts:26:1"
       }
     ],
     "collection_2::Scene3D.Bagel3D": [
@@ -275,12 +197,6 @@
         "kind": "instantiation",
         "code": "new scene.Bagel3D({\n\t\t\t\tid            : wrap.id,\n\t\t\t\tname          : wrap.name,\n\t\t\t\tgeneration    : ",
         "constructorText": "scene.Bagel3D",
-        "holderScopeId": "src/core/SceneBuilder.ts:26:1"
-      },
-      {
-        "location": "src/core/SceneBuilder.ts:88:22",
-        "kind": "propertyAccess",
-        "code": "scene.Bagel3D",
         "holderScopeId": "src/core/SceneBuilder.ts:26:1"
       }
     ],
@@ -291,12 +207,6 @@
         "code": "new scene.Ring3D({ id: knot.id, name: knot.name, citation: knot.citation })",
         "constructorText": "scene.Ring3D",
         "holderScopeId": "src/core/SceneBuilder.ts:26:1"
-      },
-      {
-        "location": "src/core/SceneBuilder.ts:108:22",
-        "kind": "propertyAccess",
-        "code": "scene.Ring3D",
-        "holderScopeId": "src/core/SceneBuilder.ts:26:1"
       }
     ],
     "collection_2::Scene3D.Hub3D": [
@@ -305,12 +215,6 @@
         "kind": "instantiation",
         "code": "new scene.Hub3D({ id: knot.id, name: knot.name, citation: knot.citation })",
         "constructorText": "scene.Hub3D",
-        "holderScopeId": "src/core/SceneBuilder.ts:26:1"
-      },
-      {
-        "location": "src/core/SceneBuilder.ts:110:21",
-        "kind": "propertyAccess",
-        "code": "scene.Hub3D",
         "holderScopeId": "src/core/SceneBuilder.ts:26:1"
       }
     ],
@@ -321,12 +225,6 @@
         "code": "new scene.Sink3D({ id: knot.id, name: knot.name, citation: knot.citation })",
         "constructorText": "scene.Sink3D",
         "holderScopeId": "src/core/SceneBuilder.ts:26:1"
-      },
-      {
-        "location": "src/core/SceneBuilder.ts:112:22",
-        "kind": "propertyAccess",
-        "code": "scene.Sink3D",
-        "holderScopeId": "src/core/SceneBuilder.ts:26:1"
       }
     ],
     "collection_2::Scene3D.Cone3D": [
@@ -336,83 +234,47 @@
         "code": "new scene.Cone3D({ id: knot.id, name: knot.name })",
         "constructorText": "scene.Cone3D",
         "holderScopeId": "src/core/SceneBuilder.ts:26:1"
-      },
-      {
-        "location": "src/core/SceneBuilder.ts:116:22",
-        "kind": "propertyAccess",
-        "code": "scene.Cone3D",
-        "holderScopeId": "src/core/SceneBuilder.ts:26:1"
       }
     ],
     "collection_2::Scene3D.Camera3D": [
       {
-        "location": "src/webview/panel.ts:591:24",
+        "location": "src/webview/panel.ts:580:24",
         "kind": "instantiation",
         "code": "new this.scene.Camera3D(cameraData)",
         "constructorText": "this.scene.Camera3D",
-        "holderScopeId": "src/webview/panel.ts:582:2"
+        "holderScopeId": "src/webview/panel.ts:571:2"
       },
       {
-        "location": "src/webview/panel.ts:591:28",
-        "kind": "propertyAccess",
-        "code": "this.scene.Camera3D",
-        "holderScopeId": "src/webview/panel.ts:582:2"
-      },
-      {
-        "location": "src/webview/panel.ts:644:25",
+        "location": "src/webview/panel.ts:633:25",
         "kind": "instantiation",
         "code": "new this.scene.Camera3D(cameraData)",
         "constructorText": "this.scene.Camera3D",
-        "holderScopeId": "src/webview/panel.ts:636:2"
+        "holderScopeId": "src/webview/panel.ts:625:2"
       },
       {
-        "location": "src/webview/panel.ts:644:29",
-        "kind": "propertyAccess",
-        "code": "this.scene.Camera3D",
-        "holderScopeId": "src/webview/panel.ts:636:2"
-      },
-      {
-        "location": "src/webview/panel.ts:710:19",
+        "location": "src/webview/panel.ts:699:19",
         "kind": "instantiation",
         "code": "new scene.Camera3D({\n\t\t\t\tx         : finiteOrZero(cam.pan?.x),\n\t\t\t\ty         : finiteOrZero(cam.pan?",
         "constructorText": "scene.Camera3D",
-        "holderScopeId": "src/webview/panel.ts:701:2"
-      },
-      {
-        "location": "src/webview/panel.ts:710:23",
-        "kind": "propertyAccess",
-        "code": "scene.Camera3D",
-        "holderScopeId": "src/webview/panel.ts:701:2"
+        "holderScopeId": "src/webview/panel.ts:690:2"
       }
     ],
     "collection_2::Scene3D.Tube3D": [
       {
-        "location": "src/webview/panel.ts:690:16",
+        "location": "src/webview/panel.ts:679:16",
         "kind": "instantiation",
         "code": "new scene.Tube3D({ id, chain })",
         "constructorText": "scene.Tube3D",
-        "holderScopeId": "src/webview/panel.ts:683:2"
-      },
-      {
-        "location": "src/webview/panel.ts:690:20",
-        "kind": "propertyAccess",
-        "code": "scene.Tube3D",
-        "holderScopeId": "src/webview/panel.ts:683:2"
+        "holderScopeId": "src/webview/panel.ts:672:2"
       }
     ],
     "collection_2::Scene3D.GraphNode3D.Tooltip3D": [
       {
-        "location": "src/webview/panel.ts:693:20",
+        "location": "src/webview/panel.ts:682:20",
         "kind": "instantiation",
         "code": "new sphere.Tooltip3D({ targetNode: id, content: name, visible: true })",
         "constructorText": "sphere.Tooltip3D",
-        "holderScopeId": "src/webview/panel.ts:683:2"
-      },
-      {
-        "location": "src/webview/panel.ts:693:24",
-        "kind": "propertyAccess",
-        "code": "sphere.Tooltip3D",
-        "holderScopeId": "src/webview/panel.ts:683:2"
+        "holderScopeId": "src/webview/panel.ts:672:2"
       }
     ],
     "collection_1::Trie.GraphNodeTrie.ContextMenu": [
@@ -422,252 +284,192 @@
         "code": "new (trieNode as Trie_GraphNodeTrie).ContextMenu({\n\t\t\t\t\ttargetNode : id,\n\t\t\t\t\titems      : [\n\t\t\t\t\t\t{",
         "constructorText": "(trieNode as Trie_GraphNodeTrie).ContextMenu",
         "holderScopeId": "src/extension.ts:198:64"
-      },
-      {
-        "location": "src/extension.ts:222:22",
-        "kind": "propertyAccess",
-        "code": "(trieNode as Trie_GraphNodeTrie).ContextMenu",
-        "holderScopeId": "src/extension.ts:198:64"
       }
     ],
     "collection_1::Definitions": [
       {
-        "location": "src/models/Registry.ts:230:35",
+        "location": "src/models/Registry.ts:218:35",
         "kind": "lookup",
         "code": "Backend.lookup('Definitions')",
-        "holderScopeId": "src/models/Registry.ts:226:2"
+        "holderScopeId": "src/models/Registry.ts:214:2"
       },
       {
-        "location": "src/models/Registry.ts:231:32",
+        "location": "src/models/Registry.ts:219:32",
         "kind": "instantiation",
         "code": "new DefinitionsConstructor()",
         "constructorText": "DefinitionsConstructor",
-        "holderScopeId": "src/models/Registry.ts:226:2"
+        "holderScopeId": "src/models/Registry.ts:214:2"
       }
     ],
     "collection_1::Definitions.DefinitionEntry": [
       {
-        "location": "src/models/Registry.ts:239:22",
+        "location": "src/models/Registry.ts:227:22",
         "kind": "instantiation",
         "code": "new definitionsInstance.DefinitionEntry(value)",
         "constructorText": "definitionsInstance.DefinitionEntry",
-        "holderScopeId": "src/models/Registry.ts:226:2"
-      },
-      {
-        "location": "src/models/Registry.ts:239:26",
-        "kind": "propertyAccess",
-        "code": "definitionsInstance.DefinitionEntry",
-        "holderScopeId": "src/models/Registry.ts:226:2"
+        "holderScopeId": "src/models/Registry.ts:214:2"
       }
     ],
     "collection_1::Types": [
       {
-        "location": "src/models/Registry.ts:270:29",
+        "location": "src/models/Registry.ts:258:29",
         "kind": "lookup",
         "code": "Backend.lookup('Types')",
-        "holderScopeId": "src/models/Registry.ts:266:2"
+        "holderScopeId": "src/models/Registry.ts:254:2"
       },
       {
-        "location": "src/models/Registry.ts:271:26",
+        "location": "src/models/Registry.ts:259:26",
         "kind": "instantiation",
         "code": "new TypesConstructor()",
         "constructorText": "TypesConstructor",
-        "holderScopeId": "src/models/Registry.ts:266:2"
+        "holderScopeId": "src/models/Registry.ts:254:2"
       }
     ],
     "collection_1::Types.TypeEntry": [
       {
-        "location": "src/models/Registry.ts:291:20",
+        "location": "src/models/Registry.ts:279:20",
         "kind": "instantiation",
         "code": "new typesInstance.TypeEntry({\n\t\t\t\t\t\tname: node.name,\n\t\t\t\t\t\tfullPath: node.fullPath,\n\t\t\t\t\t\tparent,\n\t\t",
         "constructorText": "typesInstance.TypeEntry",
-        "holderScopeId": "src/models/Registry.ts:282:18"
-      },
-      {
-        "location": "src/models/Registry.ts:291:24",
-        "kind": "propertyAccess",
-        "code": "typesInstance.TypeEntry",
-        "holderScopeId": "src/models/Registry.ts:282:18"
+        "holderScopeId": "src/models/Registry.ts:270:18"
       }
     ],
     "collection_1::Trie.GraphNodeTrie": [
       {
-        "location": "src/models/Registry.ts:311:23",
+        "location": "src/models/Registry.ts:299:23",
         "kind": "instantiation",
         "code": "new trie.GraphNodeTrie({\n\t\t\t\t\t\tid     : node.fullPath,\n\t\t\t\t\t\tname   : node.name,\n\t\t\t\t\t\tpath   : node",
         "constructorText": "trie.GraphNodeTrie",
-        "holderScopeId": "src/models/Registry.ts:282:18"
-      },
-      {
-        "location": "src/models/Registry.ts:311:27",
-        "kind": "propertyAccess",
-        "code": "trie.GraphNodeTrie",
-        "holderScopeId": "src/models/Registry.ts:282:18"
+        "holderScopeId": "src/models/Registry.ts:270:18"
       }
     ],
     "collection_1::Trie.GraphNodeTrie.LinkTrie": [
       {
-        "location": "src/models/Registry.ts:320:20",
+        "location": "src/models/Registry.ts:308:20",
         "kind": "instantiation",
         "code": "new trieNode.LinkTrie({\n\t\t\t\t\t\t\tparent,\n\t\t\t\t\t\t\tchild    : node.fullPath,\n\t\t\t\t\t\t\trelation : 'subtype'\n",
         "constructorText": "trieNode.LinkTrie",
-        "holderScopeId": "src/models/Registry.ts:282:18"
-      },
-      {
-        "location": "src/models/Registry.ts:320:24",
-        "kind": "propertyAccess",
-        "code": "trieNode.LinkTrie",
-        "holderScopeId": "src/models/Registry.ts:282:18"
+        "holderScopeId": "src/models/Registry.ts:270:18"
       }
     ],
     "Registry.RegistryEntry": [
       {
-        "location": "src/models/Registry.ts:336:27",
+        "location": "src/models/Registry.ts:324:27",
         "kind": "instantiation",
         "code": "new self.RegistryEntry({\n\t\t\t\t\tid       : node.fullPath,\n\t\t\t\t\tname     : node.name,\n\t\t\t\t\tfilePath : p",
         "constructorText": "self.RegistryEntry",
-        "holderScopeId": "src/models/Registry.ts:282:18"
-      },
-      {
-        "location": "src/models/Registry.ts:336:31",
-        "kind": "propertyAccess",
-        "code": "self.RegistryEntry",
-        "holderScopeId": "src/models/Registry.ts:282:18"
+        "holderScopeId": "src/models/Registry.ts:270:18"
       }
     ],
     "collection_1::Usages": [
       {
-        "location": "src/models/Registry.ts:400:30",
+        "location": "src/models/Registry.ts:388:30",
         "kind": "lookup",
         "code": "Backend.lookup('Usages')",
-        "holderScopeId": "src/models/Registry.ts:396:2"
+        "holderScopeId": "src/models/Registry.ts:384:2"
       },
       {
-        "location": "src/models/Registry.ts:401:27",
+        "location": "src/models/Registry.ts:389:27",
         "kind": "instantiation",
         "code": "new UsagesConstructor()",
         "constructorText": "UsagesConstructor",
-        "holderScopeId": "src/models/Registry.ts:396:2"
+        "holderScopeId": "src/models/Registry.ts:384:2"
       }
     ],
     "collection_1::Usages.UsageEntry": [
       {
-        "location": "src/models/Registry.ts:408:20",
+        "location": "src/models/Registry.ts:396:20",
         "kind": "instantiation",
         "code": "new usagesInstance.UsageEntry(raw)",
         "constructorText": "usagesInstance.UsageEntry",
-        "holderScopeId": "src/models/Registry.ts:407:66"
-      },
-      {
-        "location": "src/models/Registry.ts:408:24",
-        "kind": "propertyAccess",
-        "code": "usagesInstance.UsageEntry",
-        "holderScopeId": "src/models/Registry.ts:407:66"
+        "holderScopeId": "src/models/Registry.ts:395:66"
       }
     ],
     "collection_1::EDS": [
       {
-        "location": "src/models/Registry.ts:425:27",
+        "location": "src/models/Registry.ts:413:27",
         "kind": "lookup",
         "code": "Backend.lookup('EDS')",
-        "holderScopeId": "src/models/Registry.ts:421:2"
+        "holderScopeId": "src/models/Registry.ts:409:2"
       },
       {
-        "location": "src/models/Registry.ts:426:24",
+        "location": "src/models/Registry.ts:414:24",
         "kind": "instantiation",
         "code": "new EDSConstructor()",
         "constructorText": "EDSConstructor",
-        "holderScopeId": "src/models/Registry.ts:421:2"
+        "holderScopeId": "src/models/Registry.ts:409:2"
       }
     ],
     "collection_1::EDS.EDSEntry": [
       {
-        "location": "src/models/Registry.ts:448:19",
+        "location": "src/models/Registry.ts:436:19",
         "kind": "instantiation",
         "code": "new edsInstance.EDSEntry(raw)",
         "constructorText": "edsInstance.EDSEntry",
-        "holderScopeId": "src/models/Registry.ts:447:56"
-      },
-      {
-        "location": "src/models/Registry.ts:448:23",
-        "kind": "propertyAccess",
-        "code": "edsInstance.EDSEntry",
-        "holderScopeId": "src/models/Registry.ts:447:56"
+        "holderScopeId": "src/models/Registry.ts:435:56"
       }
     ],
     "collection_1::Flow": [
       {
-        "location": "src/models/Registry.ts:464:28",
+        "location": "src/models/Registry.ts:452:28",
         "kind": "lookup",
         "code": "Backend.lookup('Flow')",
-        "holderScopeId": "src/models/Registry.ts:460:2"
+        "holderScopeId": "src/models/Registry.ts:448:2"
       },
       {
-        "location": "src/models/Registry.ts:465:25",
+        "location": "src/models/Registry.ts:453:25",
         "kind": "instantiation",
         "code": "new FlowConstructor()",
         "constructorText": "FlowConstructor",
-        "holderScopeId": "src/models/Registry.ts:460:2"
+        "holderScopeId": "src/models/Registry.ts:448:2"
       }
     ],
     "collection_1::Flow.FlowEntry": [
       {
-        "location": "src/models/Registry.ts:471:20",
+        "location": "src/models/Registry.ts:459:20",
         "kind": "instantiation",
         "code": "new flowInstance.FlowEntry(raw)",
         "constructorText": "flowInstance.FlowEntry",
-        "holderScopeId": "src/models/Registry.ts:470:60"
-      },
-      {
-        "location": "src/models/Registry.ts:471:24",
-        "kind": "propertyAccess",
-        "code": "flowInstance.FlowEntry",
-        "holderScopeId": "src/models/Registry.ts:470:60"
+        "holderScopeId": "src/models/Registry.ts:458:60"
       }
     ],
     "collection_1::Control": [
       {
-        "location": "src/models/Registry.ts:513:31",
+        "location": "src/models/Registry.ts:501:31",
         "kind": "lookup",
         "code": "Backend.lookup('Control')",
-        "holderScopeId": "src/models/Registry.ts:509:2"
+        "holderScopeId": "src/models/Registry.ts:497:2"
       },
       {
-        "location": "src/models/Registry.ts:514:28",
+        "location": "src/models/Registry.ts:502:28",
         "kind": "instantiation",
         "code": "new ControlConstructor()",
         "constructorText": "ControlConstructor",
-        "holderScopeId": "src/models/Registry.ts:509:2"
+        "holderScopeId": "src/models/Registry.ts:497:2"
       }
     ],
     "collection_1::Control.ControlPoint": [
       {
-        "location": "src/models/Registry.ts:538:13",
+        "location": "src/models/Registry.ts:526:13",
         "kind": "instantiation",
         "code": "new controlInstance.ControlPoint(p)",
         "constructorText": "controlInstance.ControlPoint",
-        "holderScopeId": "src/models/Registry.ts:537:37"
-      },
-      {
-        "location": "src/models/Registry.ts:538:17",
-        "kind": "propertyAccess",
-        "code": "controlInstance.ControlPoint",
-        "holderScopeId": "src/models/Registry.ts:537:37"
+        "holderScopeId": "src/models/Registry.ts:525:37"
       }
     ],
     "collection_1::Trie": [
       {
-        "location": "src/models/Registry.ts:586:28",
+        "location": "src/models/Registry.ts:574:28",
         "kind": "lookup",
         "code": "Backend.lookup('Trie')",
-        "holderScopeId": "src/models/Registry.ts:582:2"
+        "holderScopeId": "src/models/Registry.ts:570:2"
       },
       {
-        "location": "src/models/Registry.ts:587:25",
+        "location": "src/models/Registry.ts:575:25",
         "kind": "instantiation",
         "code": "new TrieConstructor()",
         "constructorText": "TrieConstructor",
-        "holderScopeId": "src/models/Registry.ts:582:2"
+        "holderScopeId": "src/models/Registry.ts:570:2"
       }
     ]
   }

@@ -102,9 +102,8 @@ export class FlowTreeProvider implements vscode.TreeDataProvider<FlowTreeItem> {
 	private registry: Registry | undefined;
 	private logger = getLogger();
 
-	// Filter state
-	private filterType: string = '';  // empty = no filter (show all)
-	private showAll: boolean = true;  // when true, ignore filterType
+	// Filter state — empty filterType means no filter (show all)
+	private filterType = '';
 
 	refresh(): void {
 		this._onDidChangeTreeData.fire();
@@ -145,7 +144,6 @@ export class FlowTreeProvider implements vscode.TreeDataProvider<FlowTreeItem> {
 	setFilterType(typeName: string): void {
 		// typeName is the exact key the tree rows carry — used as is
 		this.filterType = typeName;
-		this.showAll = false;
 		this.logger.info(`[FlowTree] Filter set to: ${typeName}`);
 		this.refresh();
 	}
@@ -153,7 +151,6 @@ export class FlowTreeProvider implements vscode.TreeDataProvider<FlowTreeItem> {
 	// Clear filter and show all
 	clearFilter(): void {
 		this.filterType = '';
-		this.showAll = true;
 		this.logger.info('[FlowTree] Filter cleared, showing all');
 		this.refresh();
 	}
@@ -182,7 +179,7 @@ export class FlowTreeProvider implements vscode.TreeDataProvider<FlowTreeItem> {
 	}
 
 	private getActiveFlowData(): Map<string, FlowEntryData[]> {
-		if (this.showAll || !this.filterType) {
+		if (!this.filterType) {
 			return this.flowData;
 		}
 
@@ -199,7 +196,7 @@ export class FlowTreeProvider implements vscode.TreeDataProvider<FlowTreeItem> {
 	// "Show Flows" for one type opens its tree fully — the filtered view is
 	// small and read whole; the unfiltered all-types view stays collapsed
 	private groupState(): vscode.TreeItemCollapsibleState {
-		const state = this.filterType && !this.showAll
+		const state = this.filterType
 			? vscode.TreeItemCollapsibleState.Expanded
 			: vscode.TreeItemCollapsibleState.Collapsed;
 		return state;
@@ -283,7 +280,6 @@ export class FlowTreeProvider implements vscode.TreeDataProvider<FlowTreeItem> {
 	clear(): void {
 		this.flowData.clear();
 		this.filterType = '';
-		this.showAll = true;
 		this.refresh();
 	}
 }

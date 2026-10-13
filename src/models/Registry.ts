@@ -96,20 +96,8 @@ export const Registry = define('Registry', class {
 		return this.map.get(name);
 	}
 
-	has(name: string): boolean {
-		return this.map.has(name);
-	}
-
 	set(name: string, entry: object): void {
 		this.map.set(name, entry);
-	}
-
-	keys(): MapIterator<string> {
-		return this.map.keys() as unknown as MapIterator<string>;
-	}
-
-	values(): MapIterator<object> {
-		return this.map.values() as unknown as MapIterator<object>;
 	}
 
 	clear(): void {

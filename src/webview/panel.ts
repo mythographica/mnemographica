@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
-import type { GraphData, WebviewMessage } from '../types/index.js';
+import type { GraphData, WebviewMessage } from '../types';
 import type { traceEdge } from '../core/MainOrchestrator';
 import { loadGraphDataFor } from '../core/graphDataLoader';
 import { getProjectGeneratedAt, onProjectRegistryReload, reloadProjectRegistry } from '../core/registryStore';
@@ -79,9 +79,6 @@ export class GraphPanel {
 	// (the debounced .tactica watcher owns the reload itself)
 	private followTactica = false;
 	private readonly disposables: vscode.Disposable[] = [];
-	// Mirrors the webview's render mode ('modeChanged' messages); the
-	// webview starts in 3D
-	private currentMode: '2D' | '3D' = '3D';
 	// The collection this panel renders ('defaultTypes' or a tactica
 	// `collectionId::` id). undefined until the first payload answers —
 	// the builder picks default-if-present, and every reload re-sends it
@@ -141,7 +138,7 @@ export class GraphPanel {
 
 	public static focusNode (data: { id: string; name: string }): boolean {
 		const target = GraphPanel.focusTarget();
-		if (!target || !target.panel.visible || target.currentMode !== '3D') {
+		if (!target || !target.panel.visible) {
 			return false;
 		}
 		GraphPanel.pendingFocus = { panel: target, id: data.id, name: data.name };
@@ -309,7 +306,6 @@ export class GraphPanel {
 		const facts = {
 			open    : true,
 			visible : current.panel.visible,
-			mode    : current.currentMode,
 			// Which project's graph answered — with N panels the caller
 			// cannot otherwise tell
 			source  : current.sourceRoot,
@@ -328,7 +324,7 @@ export class GraphPanel {
 				camera   : current.scene.camera !== null
 			} : null
 		};
-		if (!current.panel.visible || current.currentMode !== '3D') {
+		if (!current.panel.visible) {
 			const noView = Object.assign({ view: null }, facts);
 			return noView;
 		}
@@ -469,13 +465,6 @@ export class GraphPanel {
 						} else {
 							logger.info('[Webview]', logMsg);
 						}
-					}
-					break;
-				case 'modeChanged':
-					if (message.data && typeof message.data === 'object' && 'mode' in message.data) {
-						const mode = String(message.data.mode);
-						this.currentMode = mode === '3D' ? '3D' : '2D';
-						this.panel.title = mode === '3D' ? `Ψ ${this.sourceName}` : `${this.sourceName} 2D`;
 					}
 					break;
 				case 'viewState':
@@ -785,12 +774,6 @@ export class GraphPanel {
 		const SHOW_PROPERTIES_PLACEHOLDER = ${showProperties};
 	</script>`;
 
-		// The export page is THIS page with every external resource swapped
-		// for an inline placeholder the webview fills at export time. The
-		// webview (which holds the current graph + arrangement) assembles
-		// the file; the host only writes it. The skeleton derives from the
-		// composed HTML below (same body markup, placeholders for resources)
-		// — build the html in two passes so both share one template
 		// The export page is THIS page with every external resource swapped
 		// for an inline placeholder the webview fills at export time (see
 		// buildExportSkeleton). The webview — which holds the current graph

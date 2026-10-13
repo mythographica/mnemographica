@@ -100,7 +100,6 @@ export class GenTreeProvider implements vscode.TreeDataProvider<GenTreeItem> {
 		if (!element) {
 			// Root level: generation groups
 			const maxGen = this.getMaxGen(this.graphData);
-			this.logger.info(`[GenTree] Building groups: ${this.graphData.nodes.length} nodes, maxGen=${maxGen}`);
 			const items: GenTreeItem[] = [];
 			for (let g = 0; g <= maxGen; g++) {
 				const nodesAtGen = this.graphData.nodes.filter(n => (n.depth || 0) === g);

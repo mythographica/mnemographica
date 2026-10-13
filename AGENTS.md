@@ -277,9 +277,8 @@ The extension helps AI agents:
      applies the follow flag (`applyFollowSetting`), and refreshes the
      Usages tree.
    - The `mnemographica.showTypeGraph` command ("Ψ 3D") opens an interactive
-     Three.js scene of the current GraphData — 3D-only (the 2D view is
-     retired; the dormant 2D renderer remains in webview.js but is
-     never entered). Loads d3/three from CDN, so it needs network access.
+     Three.js scene of the current GraphData — 3D-only, there is no other
+     mode. Loads d3/three from CDN, so it needs network access.
    - **Host-side logical scene** (`src/core/SceneBuilder.ts` +
      `src/models/Scene3D.ts`): every panel owns one `Scene3D` instance
      tree, rebuilt by `buildSceneFor` on each `updateGraph` from the

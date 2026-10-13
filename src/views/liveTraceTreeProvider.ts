@@ -37,14 +37,18 @@ type traceGroup = {
 // Max individual trace rows shown inside one merged group row
 const MAX_GROUP_ROWS = 100;
 
-export class LiveTraceTreeItem extends vscode.TreeItem {
-	constructor(
-		label: string,
-		collapsibleState: vscode.TreeItemCollapsibleState
-	) {
-		super(label, collapsibleState);
-	}
-}
+// A plain TreeItem plus the payloads rows carry between getChildren and
+// the click commands (attached directly, no subclass needed)
+export type LiveTraceTreeItem = vscode.TreeItem & {
+	traceEdges?: traceEdge[];
+	traceMembers?: traceGroup[];
+	traceData?: unknown;
+};
+
+const treeRow = function (label: string, collapsibleState: vscode.TreeItemCollapsibleState): LiveTraceTreeItem {
+	const item: LiveTraceTreeItem = new vscode.TreeItem(label, collapsibleState);
+	return item;
+};
 
 export class LiveTraceTreeProvider implements vscode.TreeDataProvider<LiveTraceTreeItem> {
 	private _onDidChangeTreeData = new vscode.EventEmitter<LiveTraceTreeItem | undefined | null | void>();
@@ -82,8 +86,8 @@ export class LiveTraceTreeProvider implements vscode.TreeDataProvider<LiveTraceT
 
 	getChildren(element?: LiveTraceTreeItem): LiveTraceTreeItem[] {
 		if (element) {
-			const edges = (element as LiveTraceTreeItem & { traceEdges?: traceEdge[] }).traceEdges;
-			const members = (element as LiveTraceTreeItem & { traceMembers?: traceGroup[] }).traceMembers;
+			const edges = element.traceEdges;
+			const members = element.traceMembers;
 			if (!edges && members) {
 				// Group row → the individual traces (exact-pick while
 				// they live in the ring). Cap the fan-out: under load a
@@ -92,7 +96,7 @@ export class LiveTraceTreeProvider implements vscode.TreeDataProvider<LiveTraceT
 				const rows = shown.map(member => this.traceItem(member, true));
 				const hidden = members.length - shown.length;
 				if (hidden > 0) {
-					const more = new LiveTraceTreeItem(
+					const more = treeRow(
 						`… ${hidden} more — search Jaeger for the full history`,
 						vscode.TreeItemCollapsibleState.None
 					);
@@ -208,7 +212,7 @@ export class LiveTraceTreeProvider implements vscode.TreeDataProvider<LiveTraceT
 		// Channel tab's target; untagged means the strategy/CDP path
 		if (items.length > 0) {
 			const session = this.orchestrator.getTraceSession();
-			const sourceRow = new LiveTraceTreeItem(
+			const sourceRow = treeRow(
 				`source: ${session || 'strategy (untagged)'}`,
 				vscode.TreeItemCollapsibleState.None
 			);
@@ -226,7 +230,7 @@ export class LiveTraceTreeProvider implements vscode.TreeDataProvider<LiveTraceT
 		const latest = members.reduce((acc, member) => Math.max(acc, member.latest), 0);
 		// Same-name shapes are told apart by where the trace ENDS
 		const label = `[${members[0].count}][×${members.length}] ${name}${endpoint ? ` → ${endpoint}` : ''}`;
-		const item = new LiveTraceTreeItem(
+		const item = treeRow(
 			label,
 			vscode.TreeItemCollapsibleState.Collapsed
 		);
@@ -242,7 +246,7 @@ export class LiveTraceTreeProvider implements vscode.TreeDataProvider<LiveTraceT
 				? new vscode.ThemeIcon('pulse', new vscode.ThemeColor('errorForeground'))
 				: new vscode.ThemeIcon('pulse');
 		item.contextValue = 'mnemTraceGroup';
-		(item as LiveTraceTreeItem & { traceMembers?: traceGroup[] }).traceMembers = members;
+		item.traceMembers = members;
 		return item;
 	}
 
@@ -260,7 +264,7 @@ export class LiveTraceTreeProvider implements vscode.TreeDataProvider<LiveTraceT
 		// A top-level row appends the endpoint when its root name is
 		// shared by another shape
 		const label = asChild ? `[${group.count}] #${group.rootId}` : `[${group.count}] ${group.name}${endpoint ? ` → ${endpoint}` : ''}`;
-		const item = new LiveTraceTreeItem(
+		const item = treeRow(
 			label,
 			vscode.TreeItemCollapsibleState.Collapsed
 		);
@@ -285,15 +289,15 @@ export class LiveTraceTreeProvider implements vscode.TreeDataProvider<LiveTraceT
 			// alone could bind to a different trace ending on the same type
 			arguments : [{ name: group.name, rootId: group.rootId }]
 		};
-		(item as LiveTraceTreeItem & { traceEdges?: traceEdge[] }).traceEdges = group.edges;
-		(item as LiveTraceTreeItem & { traceData?: unknown }).traceData = { name: group.name, rootId: group.rootId, traceId };
+		item.traceEdges = group.edges;
+		item.traceData = { name: group.name, rootId: group.rootId, traceId };
 		return item;
 	}
 
 	private edgeItem(edge: traceEdge, count = 1, hasError = false): LiveTraceTreeItem {
 		const shortName = this.shortName(edge);
 		const merged = count > 1 ? ` ×${count}` : '';
-		const item = new LiveTraceTreeItem(
+		const item = treeRow(
 			`${edge.kind}: ${shortName}${merged}`,
 			vscode.TreeItemCollapsibleState.None
 		);

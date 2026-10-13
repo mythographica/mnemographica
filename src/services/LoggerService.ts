@@ -123,20 +123,6 @@ export class LoggerService {
 	}
 
 	/**
-	 * Dispose the logger
-	 * Phase 1: Also clears Mnemonica data
-	 */
-	dispose (): void {
-		if (this.outputChannel) {
-			this.outputChannel.dispose();
-		}
-		this.isInitialized = false;
-		// Phase 1: Reset Mnemonica data
-		this.logEntries = [];
-		this.loggerTab = undefined;
-	}
-
-	/**
 	 * Get count of stored log entries
 	 * Phase 1: Statistics for the Mnemonica data
 	 */

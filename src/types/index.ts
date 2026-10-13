@@ -244,11 +244,12 @@ export type D3InternalLink = {
 };
 
 /**
- * Messages passed between the 2D/3D graph webview and the extension
+ * Messages passed between the graph webview and the extension (only the
+ * commands the host's message switch actually handles)
  */
 export type WebviewMessage = {
 	/** Command type */
-	command: 'goToDefinition' | 'nodeHover' | 'ready' | 'refresh' | 'log' | 'modeChanged' | 'focusNode' | 'viewState' | 'pickTrace' | 'traceModeExit' | 'saveLayout' | 'refreshGraph' | 'followTactica' | 'selectCollection' | 'exportHtml';
+	command: 'goToDefinition' | 'ready' | 'log' | 'viewState' | 'pickTrace' | 'traceModeExit' | 'saveLayout' | 'refreshGraph' | 'selectCollection' | 'exportHtml';
 	/** Optional payload */
 	data?: unknown;
 };

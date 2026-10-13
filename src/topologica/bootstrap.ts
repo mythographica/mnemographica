@@ -5,7 +5,9 @@ import { define } from 'mnemonica';
 import * as topologicaLoader from '@mnemonica/topologica';
 import { getLogger } from '../services/LoggerService';
 
-let isInitialized = false;
+/** True once loadModels() finished — LoggerService resolves its LoggerTab
+ *  lazily against this, extension.ts gates the first load on it */
+export let modelsLoaded = false;
 
 /**
  * Bootstrap mnemonica models using topologica loader
@@ -29,15 +31,5 @@ export function loadModels (extensionPath: string): void {
 	const typeCount = result.topology ? Object.keys(result.topology).length : 0;
 	logger.info(`[Topologica Bootstrap] Loaded ${typeCount} root types`);
 
-	isInitialized = true;
-}
-
-// Export getter for initialization state - always returns current value
-Object.defineProperty(module.exports, 'modelsLoaded', {
-	get () { return isInitialized; }
-});
-
-// TypeScript declaration for the exported getter
-declare module './bootstrap' {
-	export const modelsLoaded: boolean;
+	modelsLoaded = true;
 }

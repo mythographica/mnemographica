@@ -7,16 +7,8 @@
 	// Placeholder for vscode reference (set after acquireVsCodeApi)
 	let vscodeRef = null;
 
-	// Generate radii array for any number of generations
-	// 2D: root=80, each gen adds 80px -> [80, 160, 240, ...]
-	// 3D: root=105, gen1=180 (+75), gen2=245 (+65) -> [105, 180, 245, 310, ...]
-	function get2D_Radii(maxDepth) {
-		const radii = [];
-		for (let i = 0; i <= maxDepth; i++) {
-			radii.push(80 + i * 80);
-		}
-		return radii;
-	}
+	// Shell radii for any number of generations:
+	// root=105, gen1=180 (+75), gen2=245 (+65) -> [105, 180, 245, 310, ...]
 	function get3D_Radii(maxDepth) {
 		const radii = [];
 		for (let i = 0; i <= maxDepth; i++) {
@@ -102,18 +94,9 @@
 
 	const vscode = acquireVsCodeApi();
 	vscodeRef = vscode;
-	let simulation = null;
-	let svg = null;
-	let g = null;
-	let zoom = null;
 	let currentData = null;
-	// 3D-only mode: the 2D view is retired. The 2D renderer code
-	// remains below but is never entered — is3D starts true and no UI
-	// flips it.
-	let is3D = true;
 	let renderer3D = null;
 	let resizeHandler3D = null;
-	let saved3DCameraState = null; // Stores camera state when switching to 2D
 
 	// Live trace stream state: strategy pushes dive-trace deltas as
 	// 'traceEvent' messages; the counter/last-name feed the status line,
@@ -1305,22 +1288,8 @@ window.acquireVsCodeApi = function () {
 		// Control buttons (the wheel IS the zoom; the renderer's
 		// zoomIn/zoomOut methods stay as automation API)
 		document.getElementById('reset').addEventListener('click', function () {
-			if (is3D && renderer3D) {
+			if (renderer3D) {
 				renderer3D.reset();
-			} else {
-				if (svg && zoom) svg.transition().call(zoom.transform, d3.zoomIdentity);
-				if (simulation) {
-					// Release all fixed positions and restart simulation briefly
-					currentData.nodes.forEach(function (d) {
-						d.fx = null;
-						d.fy = null;
-					});
-					simulation.alpha(1).restart();
-					// Stop after 2 seconds
-					setTimeout(function () {
-						if (simulation) simulation.stop();
-					}, 2000);
-				}
 			}
 		});
 
@@ -1330,7 +1299,7 @@ window.acquireVsCodeApi = function () {
 		const saveButton = document.getElementById('save-layout');
 		if (saveButton) {
 			saveButton.addEventListener('click', function () {
-				if (!is3D || !renderer3D || !currentData) { return; }
+				if (!renderer3D || !currentData) { return; }
 				const layout = renderer3D.collectLayout(currentData);
 				vscode.postMessage({ command: 'saveLayout', data: layout });
 				// Same focus rule as the layer checkboxes — a focused
@@ -1347,7 +1316,7 @@ window.acquireVsCodeApi = function () {
 			exportButton.addEventListener('click', async function () {
 				// Same focus rule as the Save button
 				exportButton.blur();
-				if (!is3D || !renderer3D || !currentData) { return; }
+				if (!renderer3D || !currentData) { return; }
 				setStatusBase('Packing the graph…');
 				try {
 					const html = await assembleExportHtml();
@@ -1637,122 +1606,6 @@ window.acquireVsCodeApi = function () {
 		return html;
 	}
 
-	function set3DMode(target3D) {
-		if (is3D === target3D) return;
-		// Determine what mode we're LEAVING (before flipping is3D)
-		const was3D = is3D;
-
-		// Save state of the mode we're leaving
-		if (currentData) {
-			if (was3D) {
-				// Leaving 3D mode - save 3D coordinates
-				currentData.nodes.forEach(function (node) {
-					if (node.x !== undefined) node.x3d = node.x;
-					if (node.y !== undefined) node.y3d = node.y;
-					if (node.z !== undefined) node.z3d = node.z;
-				});
-				// Save 3D camera state
-				if (renderer3D) {
-					debugLog('Saving 3D camera state before switch...', 'log');
-					saved3DCameraState = {
-						orbitQuat: {
-							x : renderer3D.orbitQuat.x,
-							y : renderer3D.orbitQuat.y,
-							z : renderer3D.orbitQuat.z,
-							w : renderer3D.orbitQuat.w
-						},
-						zoom: renderer3D.zoom,
-						panOffset: { ...renderer3D.panOffset }
-					};
-					debugLog('Saved: ' + JSON.stringify(saved3DCameraState), 'log');
-				}
-			} else {
-				// Leaving 2D mode - save 2D coordinates
-				currentData.nodes.forEach(function (node) {
-					if (node.x !== undefined) node.x2d = node.x;
-					if (node.y !== undefined) node.y2d = node.y;
-				});
-			}
-		}
-
-		// NOW flip the mode
-		is3D = target3D;
-		const btn2d = document.getElementById('mode-2d');
-		const btn3d = document.getElementById('mode-3d');
-		if (btn2d) btn2d.classList.toggle('active', !is3D);
-		if (btn3d) btn3d.classList.toggle('active', is3D);
-
-		// Notify extension of mode change
-		vscode.postMessage({ command: 'modeChanged', data: { mode: is3D ? '3D' : '2D' } });
-
-		// Hide any visible tooltip
-		d3.select('#tooltip').classed('visible', false);
-
-		// Show/hide generation controls
-		const genControls = document.getElementById('gen-controls');
-		if (genControls) {
-			genControls.style.display = is3D ? 'block' : 'none';
-		}
-
-		const container = document.getElementById('graph');
-
-		// Clean up previous mode BEFORE clearing container
-		if (simulation) {
-			simulation.stop();
-			simulation = null;
-		}
-		if (svg) {
-			svg = null;
-		}
-		if (g) {
-			g = null;
-		}
-		if (renderer3D) {
-			renderer3D.dispose();
-			renderer3D = null;
-		}
-
-		// Remove 3D resize handler
-		if (resizeHandler3D) {
-			window.removeEventListener('resize', resizeHandler3D);
-			resizeHandler3D = null;
-		}
-
-		// NOW clear the container after cleanup
-		container.innerHTML = '';
-
-		// Re-render in new mode
-		try {
-			if (currentData) {
-				if (is3D) {
-					// Wait for THREE to be ready
-					if (typeof THREE !== 'undefined') {
-						render3DGraph(currentData, saved3DCameraState);
-					} else {
-						container.innerHTML = '<div class="loading">Loading 3D engine...</div>';
-						const checkThree = setInterval(function () {
-							if (typeof THREE !== 'undefined') {
-								clearInterval(checkThree);
-								render3DGraph(currentData, saved3DCameraState);
-							}
-						}, 100);
-						setTimeout(function () {
-							clearInterval(checkThree);
-							if (typeof THREE === 'undefined') {
-								container.innerHTML = '<div class="loading">3D engine failed to load (timeout)</div>';
-							}
-						}, 5000);
-					}
-				} else {
-					render2DGraph(currentData);
-				}
-			}
-		} catch (err) {
-			debugLog('[Mnemonica] Error toggling mode:', err, 'error');
-			container.innerHTML = '<div class="loading">Error: ' + err.message + '</div>';
-		}
-	}
-
 	// Selector value for the combined all-collections view — mirrors
 	// ALL_COLLECTIONS in src/utils/collections.ts (the webview loads no
 	// project modules)
@@ -1846,11 +1699,7 @@ window.acquireVsCodeApi = function () {
 			if (message.layout) {
 				savedLayout = message.layout;
 			}
-			if (is3D) {
-				render3DGraph(message.data);
-			} else {
-				render2DGraph(message.data);
-			}
+			render3DGraph(message.data);
 		}
 
 		if (message.command === 'layoutSaved') {
@@ -1870,7 +1719,7 @@ window.acquireVsCodeApi = function () {
 			// of jumping to the file (extension gates on 3D being visible).
 			// A focus landing before the first render (freshly opened
 			// panel) is stashed and flushed at the end of render3DGraph.
-			if (is3D && renderer3D && message.data) {
+			if (renderer3D && message.data) {
 				renderer3D.focusNode(message.data.id, message.data.name);
 			} else if (message.data) {
 				pendingFocusNode = message.data;
@@ -1928,7 +1777,7 @@ window.acquireVsCodeApi = function () {
 						}
 						cursor = liveEdgeIndex.get(cursor.parentId);
 					}
-					if (lineageNames.length > 0 && is3D && renderer3D) {
+					if (lineageNames.length > 0 && renderer3D) {
 						renderer3D.flashTraceLineage(lineageNames, erroredNames);
 					}
 				}
@@ -1940,7 +1789,7 @@ window.acquireVsCodeApi = function () {
 			// Trace mode (names-first tracing): isolate the resolved
 			// lineage — green path, everything else dimmed
 			const data = message.data || {};
-			if (is3D && renderer3D && Array.isArray(data.edges)) {
+			if (renderer3D && Array.isArray(data.edges)) {
 				renderer3D.enterTraceMode(data.edges, data.name);
 				updateStatusLine();
 			}
@@ -1950,7 +1799,7 @@ window.acquireVsCodeApi = function () {
 			// Mid-flight continuation: the open trace is still running
 			// and these fresh edges belong to it
 			const data = message.data || {};
-			if (is3D && renderer3D && renderer3D.traceMode && Array.isArray(data.edges)) {
+			if (renderer3D && renderer3D.traceMode && Array.isArray(data.edges)) {
 				renderer3D.extendTraceMode(data.edges);
 				updateStatusLine();
 			}
@@ -1960,7 +1809,7 @@ window.acquireVsCodeApi = function () {
 			// Replay: isolate the trace, then re-walk its spheres at
 			// human speed
 			const data = message.data || {};
-			if (is3D && renderer3D && Array.isArray(data.edges)) {
+			if (renderer3D && Array.isArray(data.edges)) {
 				renderer3D.enterTraceMode(data.edges, data.name);
 				renderer3D.replayTrace(data.edges);
 				updateStatusLine();
@@ -1973,7 +1822,6 @@ window.acquireVsCodeApi = function () {
 			const requestId = message.data && message.data.requestId;
 			const state = {
 				requestId   : requestId,
-				mode        : is3D ? '3D' : '2D',
 				focusedNode : null,
 				camera      : null,
 				nodeCount   : 0
@@ -2032,394 +1880,6 @@ window.acquireVsCodeApi = function () {
 			}
 		}
 	});
-
-	function render2DGraph(data) {
-		debugLog('[Mnemonica] Rendering 2D graph with ' + data.nodes.length + ' nodes and ' + data.links.length + ' links', 'log');
-
-		if (!data || data.nodes.length === 0) {
-			debugLog('[Mnemonica] No data to render', 'warn');
-			document.getElementById('graph').innerHTML = '<div class="loading">No type data found</div>';
-			return;
-		}
-
-		// Show generation controls in 2D mode too
-		const genControls = document.getElementById('gen-controls');
-		if (genControls) {
-			genControls.style.display = 'block';
-		}
-
-		// Check if we have saved 2D coordinates
-		const hasSaved2D = data.nodes.some(n => n.x2d !== undefined && n.y2d !== undefined);
-
-		if (!hasSaved2D) {
-			// First time in 2D - calculate concentric circle positions
-			calculate2DPositions(data);
-		}
-
-		// Restore 2D coordinates
-		data.nodes.forEach(function (node) {
-			if (node.x2d !== undefined && node.y2d !== undefined) {
-				node.x = node.x2d;
-				node.y = node.y2d;
-			}
-		});
-
-		const container = document.getElementById('graph');
-		if (!container) {
-			debugLog('[Mnemonica] Graph container not found!', 'error');
-			return;
-		}
-
-		container.innerHTML = '';
-
-		const width = container.clientWidth || 800;
-		const height = container.clientHeight || 600;
-
-		debugLog('[Mnemonica] Container size:', width, 'x', height, 'log');
-
-		// Create SVG
-		svg = d3.select('#graph')
-			.append('svg')
-			.attr('width', width)
-			.attr('height', height)
-			.attr('viewBox', [0, 0, width, height])
-			.style('width', '100%')
-			.style('height', '100%');
-
-		// Center the graph in the viewport - store globally for drag calculations
-		const offsetX = (width - 800) / 2;
-		const offsetY = (height - 600) / 2;
-		window.graphOffsetX = offsetX;
-		window.graphOffsetY = offsetY;
-		g = svg.append('g')
-			.attr('transform', 'translate(' + offsetX + ',' + offsetY + ')');
-
-		zoom = d3.zoom()
-			.scaleExtent([0.1, 4])
-			.on('zoom', function (event) {
-				g.attr('transform', 'translate(' + (offsetX + event.transform.x) + ',' +
-					(offsetY + event.transform.y) + ') scale(' + event.transform.k + ')');
-			});
-
-		svg.call(zoom);
-
-		// Handle resize
-		window.addEventListener('resize', function () {
-			if (is3D) return;
-			const newWidth = container.clientWidth || 800;
-			const newHeight = container.clientHeight || 600;
-			svg.attr('width', newWidth).attr('height', newHeight)
-				.attr('viewBox', [0, 0, newWidth, newHeight]);
-			// Recenter
-			const newOffsetX = (newWidth - 800) / 2;
-			const newOffsetY = (newHeight - 600) / 2;
-			window.graphOffsetX = newOffsetX;
-			window.graphOffsetY = newOffsetY;
-			g.attr('transform', 'translate(' + newOffsetX + ',' + newOffsetY + ')');
-		});
-
-		// Color scale
-		const colors = ['#4e79a7', '#f28e2c', '#e15759', '#76b7b2', '#59a14f',
-			'#edc949', '#af7aa1', '#ff9da7', '#9c755f', '#bab0ab'];
-
-		// NO force simulation - use fixed concentric positions
-		// Links will be updated after they're created
-
-		// Resolve link source/target to node objects
-		const nodeMap = new Map();
-		data.nodes.forEach(node => {
-			nodeMap.set(node.id, node);
-		});
-		data.links.forEach(link => {
-			if (typeof link.source === 'string') {
-				link.source = nodeMap.get(link.source);
-			}
-			if (typeof link.target === 'string') {
-				link.target = nodeMap.get(link.target);
-			}
-		});
-
-		// Add arrow marker
-		svg.append('defs').append('marker')
-			.attr('id', 'arrowhead')
-			.attr('viewBox', '0 -5 10 10')
-			.attr('refX', 25)
-			.attr('refY', 0)
-			.attr('markerWidth', 6)
-			.attr('markerHeight', 6)
-			.attr('orient', 'auto')
-			.append('path')
-			.attr('d', 'M0,-5L10,0L0,5')
-			.attr('fill', 'var(--vscode-foreground)');
-
-		// Draw links (behind nodes)
-		const link = g.insert('g', ':first-child')
-			.attr('class', 'links')
-			.selectAll('line')
-			.data(data.links)
-			.enter().append('line')
-			.attr('class', 'link')
-			.attr('marker-end', 'url(#arrowhead)');
-
-		// Track drag state
-		let isDragging2D = false;
-		let draggedNode2D = null;
-
-		// Draw nodes
-		const node = g.append('g')
-			.attr('class', 'nodes')
-			.selectAll('g')
-			.data(data.nodes)
-			.enter().append('g')
-			.attr('class', 'node')
-			.attr('transform', function (d) {
-				return 'translate(' + d.x + ',' + d.y + ')';
-			})
-			.style('cursor', 'pointer');
-
-		// Add root class to root nodes
-		node.filter(function (d) { return d.isRoot; })
-			.classed('root', true);
-
-		// Node circles - uniform size
-		node.append('circle')
-			.attr('r', 15)
-			.attr('fill', function (d) { return colors[d.depth % colors.length]; })
-			.style('cursor', 'pointer');
-
-		// Node labels
-		node.append('text')
-			.attr('dx', 15)
-			.attr('dy', 4)
-			.text(function (d) { return d.name; })
-			.style('pointer-events', 'none');
-
-		// Add drag behavior using raw mouse events
-		node.on('mousedown', function (event, d) {
-			event.stopPropagation();
-			isDragging2D = true;
-			draggedNode2D = d;
-			d3.select(this).style('cursor', 'move');
-		});
-
-		// Global mouse handlers for dragging
-		svg.on('mousemove', function (event) {
-			if (isDragging2D && draggedNode2D) {
-				const transform = d3.zoomTransform(svg.node());
-				// Account for centering offset in drag calculations
-				const offsetX = window.graphOffsetX || 0;
-				const offsetY = window.graphOffsetY || 0;
-				const x = (event.offsetX - offsetX - transform.x) / transform.k;
-				const y = (event.offsetY - offsetY - transform.y) / transform.k;
-
-				draggedNode2D.x = x;
-				draggedNode2D.y = y;
-				draggedNode2D.fx = x;
-				draggedNode2D.fy = y;
-				// Save to 2D coordinates
-				draggedNode2D.x2d = x;
-				draggedNode2D.y2d = y;
-
-				// Update visual position
-				const nodeSelection = node.filter(function (n) { return n.id === draggedNode2D.id; });
-				nodeSelection.attr('transform', 'translate(' + x + ',' + y + ')');
-
-				// Update links
-				updateLinks();
-			}
-		});
-
-		svg.on('mouseup', function () {
-			isDragging2D = false;
-			draggedNode2D = null;
-			node.style('cursor', 'pointer');
-		});
-
-		// Single click on node - show tooltip
-		node.on('click', function (event, d) {
-			event.stopPropagation();
-			const tooltip = d3.select('#tooltip');
-			const props = (d.properties || [])
-				.map(function (p) { return p.name + ': ' + p.type; })
-				.join('<br>');
-			const genLabel = d.depth === 0 ? 'Root' : 'Gen ' + d.depth;
-			const edsLabel = d.edsStatus && d.edsStatus !== 'none' ? ' · ' + d.edsStatus : '';
-			const edsEntries = d.edsEntries || [];
-			const edsRows = edsEntries.map(function (e, i) {
-				const site = e.parsedLocation;
-				const siteHint = site ? ' ' + site.fileName.split('/').pop() + ':' + site.line : '';
-				// External scope = the wrap site lives outside the type graph
-				// (module scope or a non-mnemonica class); 'unknown' is
-				// tactica's module-scope key.
-				const scopeHint = e.scope ? ' [' + (e.scope === 'unknown' ? 'module' : e.scope) + ']' : '';
-				return '<span class="eds-entry" data-eds-index="' + i + '" style="cursor:pointer;text-decoration:underline">' +
-					e.kind + siteHint + scopeHint + '</span>';
-			}).join('<br>');
-			const loc = d.definitionLocation || d.location;
-			const fileHint = loc ? '<br><span style="opacity:0.6;font-size:11px">' + loc.fileName.split('/').pop() + ':' + loc.line + '</span>' : '';
-			tooltip
-				.attr('data-node-id', d.id)
-				.classed('visible', true)
-				.html('<strong>' + d.name + '</strong><span style="float:right;opacity:0.5">' + genLabel + edsLabel + '</span>' +
-					fileHint +
-					(props ? '<hr>' + props : '') +
-					(edsRows ? '<hr>' + edsRows : '') +
-					'<br><span style="opacity:0.5;font-size:11px">Double-click to go to definition</span>')
-				.style('left', (event.pageX + 10) + 'px')
-				.style('top', (event.pageY - 10) + 'px');
-
-			// Jump to the EDS (wrap/consume/hook) site on entry click
-			tooltip.selectAll('.eds-entry').on('click', function (event) {
-				event.stopPropagation();
-				const entry = edsEntries[+this.getAttribute('data-eds-index')];
-				if (entry && entry.parsedLocation) {
-					d3.select('#tooltip').classed('visible', false);
-					vscode.postMessage({
-						command: 'goToDefinition',
-						data: entry.parsedLocation
-					});
-				}
-			});
-		});
-
-		// Double-click on node - go to definition (prefer actual define() site)
-		node.on('dblclick', function (event, d) {
-			event.stopPropagation();
-			// Hide tooltip on navigation
-			d3.select('#tooltip').classed('visible', false);
-			const loc = d.definitionLocation || d.location;
-			if (loc) {
-				vscode.postMessage({
-					command: 'goToDefinition',
-					data: loc
-				});
-			}
-		});
-
-		svg.on('mouseleave', function () {
-			isDragging2D = false;
-			draggedNode2D = null;
-			node.style('cursor', 'pointer');
-		});
-
-		// Click on background to close tooltip
-		svg.on('click', function (event) {
-			// Only close if clicking on the svg background, not a node
-			if (event.target.tagName === 'svg' || event.target.id === 'graph-container') {
-				d3.select('#tooltip').classed('visible', false);
-			}
-		});
-
-		function updateLinks() {
-			link
-				.attr('x1', function (d) { return d.source.x; })
-				.attr('y1', function (d) { return d.source.y; })
-				.attr('x2', function (d) { return d.target.x; })
-				.attr('y2', function (d) { return d.target.y; });
-		}
-
-		// Initial draw of links (no simulation, fixed positions)
-		updateLinks();
-
-		// Update status
-		setStatusBase(data.nodes.length + ' types | ' +
-			data.links.length + ' relationships');
-
-		// Create generation distance controls for 2D too
-		createGenControls(data, null);
-
-		debugLog('[Mnemonica] 2D Graph rendered successfully', 'log');
-	}
-
-	/**
-		* Calculate 2D concentric circle positions
-		* Uses space-filling angular sectors based on subtree sizes
-		* Prevents line crossings by allocating exclusive angular wedges
-		*/
-	function calculate2DPositions(data) {
-		const layoutWidth = 800;
-		const layoutHeight = 600;
-		const centerX = layoutWidth / 2;
-		const centerY = layoutHeight / 2;
-
-		// Build parent-child relationships first
-		const nodeMap = new Map();
-		data.nodes.forEach(node => {
-			nodeMap.set(node.id, node);
-			node.children = [];
-		});
-		data.links.forEach(link => {
-			const source = typeof link.source === 'object' ? link.source : nodeMap.get(link.source);
-			const target = typeof link.target === 'object' ? link.target : nodeMap.get(link.target);
-			if (source && target) {
-				source.children.push(target);
-				target.parent = source;
-			}
-		});
-
-		// Fixed radii for each generation
-		const maxDepth = Math.max(...data.nodes.map(n => n.depth || 0));
-		const radii = get3D_Radii(maxDepth);
-		const depthRadii = new Map(radii.map((r, i) => [i, r]));
-
-		// Calculate subtree sizes (total descendants including self)
-		function calculateSubtreeSize(node) {
-			let size = 1; // Count self
-			if (node.children && node.children.length > 0) {
-				for (const child of node.children) {
-					size += calculateSubtreeSize(child);
-				}
-			}
-			node.subtreeSize = size;
-			return size;
-		}
-
-		// Calculate subtree sizes for all roots
-		data.nodes.filter(n => !n.parent).forEach(calculateSubtreeSize);
-
-		// Assign angular sectors using space-filling approach
-		// Each node gets [startAngle, endAngle] sector proportional to its subtree size
-		function assignSectors(node, startAngle, endAngle) {
-			node.startAngle = startAngle;
-			node.endAngle = endAngle;
-			node.angle2d = (startAngle + endAngle) / 2; // Center angle for positioning
-
-			if (node.children && node.children.length > 0) {
-				const totalChildSize = node.children.reduce((sum, c) => sum + c.subtreeSize, 0);
-				const sectorSize = endAngle - startAngle;
-
-				let currentAngle = startAngle;
-				for (const child of node.children) {
-					const childSectorSize = (child.subtreeSize / totalChildSize) * sectorSize;
-					assignSectors(child, currentAngle, currentAngle + childSectorSize);
-					currentAngle += childSectorSize;
-				}
-			}
-		}
-
-		// Assign sectors to roots (distribute full circle proportionally)
-		const roots = data.nodes.filter(n => !n.parent);
-		const totalRootSize = roots.reduce((sum, r) => sum + r.subtreeSize, 0);
-		let currentAngle = 0;
-
-		for (const root of roots) {
-			const rootSectorSize = (root.subtreeSize / totalRootSize) * 2 * Math.PI;
-			assignSectors(root, currentAngle, currentAngle + rootSectorSize);
-			currentAngle += rootSectorSize;
-		}
-
-		// Position nodes at their center angles
-		for (let depth = 0; depth <= maxDepth; depth++) {
-			const nodesAtDepth = data.nodes.filter(n => (n.depth || 0) === depth);
-			const radius = depthRadii.get(depth) || (105 + depth * 65);
-
-			nodesAtDepth.forEach(node => {
-				const angle = node.angle2d || 0;
-				node.x2d = centerX + radius * Math.cos(angle);
-				node.y2d = centerY + radius * Math.sin(angle);
-			});
-		}
-	}
 
 	function render3DGraph(data, initialCameraState = null) {
 		debugLog('[Mnemonica] Rendering 3D graph with', data.nodes.length, 'nodes and', data.links.length, 'links', 'log');
@@ -2585,7 +2045,7 @@ window.acquireVsCodeApi = function () {
 
 		// Handle resize
 		resizeHandler3D = function () {
-			if (!is3D || !renderer3D) return;
+			if (!renderer3D) return;
 			const newWidth = container.clientWidth || 800;
 			const newHeight = container.clientHeight || 600;
 			renderer3D.resize(newWidth, newHeight);
@@ -2994,207 +2454,7 @@ window.acquireVsCodeApi = function () {
 		}
 	}
 
-	/**
-		* Create generation distance control panel
-		*/
-	function createGenControls(data, renderer) {
-		const container = document.getElementById('gen-controls-list');
-		if (!container) return;
-
-		// Clear existing controls
-		container.innerHTML = '';
-
-		// Get max depth
-		const maxDepth = Math.max(...data.nodes.map(n => n.depth || 0));
-
-		// Create controls for each generation
-		for (let depth = 0; depth <= maxDepth; depth++) {
-			const row = document.createElement('div');
-			row.className = 'gen-control-row';
-
-			// Label
-			const label = document.createElement('span');
-			label.className = 'gen-control-label';
-			label.textContent = depth === 0 ? 'Roots' : 'Gen ' + depth;
-			row.appendChild(label);
-
-			// Value display
-			const valueDisplay = document.createElement('span');
-			valueDisplay.className = 'gen-control-value';
-			let currentRadius;
-			if (window.genRadii && window.genRadii[depth] !== undefined) {
-				currentRadius = window.genRadii[depth];
-			} else if (is3D && renderer && renderer.depthRadii) {
-				currentRadius = renderer.depthRadii.get(depth);
-			} else {
-				const radii2D = get2D_Radii(maxDepth);
-				currentRadius = radii2D[depth] || (80 + depth * 80);
-			}
-			valueDisplay.textContent = Math.round(currentRadius) + 'px';
-			row.appendChild(valueDisplay);
-
-			// Buttons
-			const buttons = document.createElement('div');
-			buttons.className = 'gen-control-buttons';
-
-			const minusBtn = document.createElement('button');
-			minusBtn.className = 'gen-control-btn';
-			minusBtn.textContent = '-15pt';
-			minusBtn.onclick = function () {
-				adjustGenRadius(depth, -15, renderer, valueDisplay, data);
-			};
-			buttons.appendChild(minusBtn);
-
-			const plusBtn = document.createElement('button');
-			plusBtn.className = 'gen-control-btn';
-			plusBtn.textContent = '+15pt';
-			plusBtn.onclick = function () {
-				adjustGenRadius(depth, 15, renderer, valueDisplay, data);
-			};
-			buttons.appendChild(plusBtn);
-
-			row.appendChild(buttons);
-			container.appendChild(row);
-		}
-	}
-
-	/**
-		* Adjust generation radius and cascade to subsequent generations
-		*/
-	function adjustGenRadius(depth, delta, renderer, display, data) {
-		// Initialize genRadii if not exists
-		if (!window.genRadii) {
-			window.genRadii = {};
-		}
-
-		// Get max depth
-		const maxDepth = Math.max(...data.nodes.map(n => n.depth || 0));
-
-		// Apply delta to this generation and all subsequent generations
-		for (let d = depth; d <= maxDepth; d++) {
-			// Get current or default value
-			let currentValue;
-			if (is3D && renderer) {
-				currentValue = window.genRadii[d] !== undefined
-					? window.genRadii[d]
-					: renderer.depthRadii.get(d);
-			} else {
-				// 2D mode - use stored radii or defaults
-				const radii = get2D_Radii(maxDepth);
-				currentValue = window.genRadii[d] !== undefined
-					? window.genRadii[d]
-					: radii[d] || (80 + d * 80);
-			}
-
-			// Calculate new value (min 10px)
-			const newValue = Math.max(10, currentValue + delta);
-			window.genRadii[d] = newValue;
-
-			// Update display for this generation
-			const row = display.parentElement.parentElement.parentElement;
-			const displays = row.parentElement.querySelectorAll('.gen-control-value');
-			if (displays[d]) {
-				displays[d].textContent = Math.round(newValue) + 'px';
-			}
-
-			// Update renderer's depthRadii for 3D
-			if (is3D && renderer && renderer.depthRadii) {
-				renderer.depthRadii.set(d, newValue);
-			}
-		}
-
-		// Recalculate positions and re-render
-		if (is3D && renderer) {
-			renderer.renderGraph(data);
-		} else {
-			// 2D mode - recalculate positions
-			calculate2DPositionsWithRadii(data);
-			// Restore coordinates and redraw
-			data.nodes.forEach(node => {
-				if (node.x2d !== undefined && node.y2d !== undefined) {
-					node.x = node.x2d;
-					node.y = node.y2d;
-				}
-			});
-			// Re-render 2D
-			render2DGraph(data);
-		}
-	}
-
-	/**
-		* Calculate 2D positions using stored genRadii
-		* Uses space-filling angular sectors based on subtree sizes
-		*/
-	function calculate2DPositionsWithRadii(data) {
-		const layoutWidth = 800;
-		const layoutHeight = 600;
-		const centerX = layoutWidth / 2;
-		const centerY = layoutHeight / 2;
-
-
-		// Calculate subtree sizes (total descendants including self)
-		function calculateSubtreeSize(node) {
-			let size = 1;
-			if (node.children && node.children.length > 0) {
-				for (const child of node.children) {
-					size += calculateSubtreeSize(child);
-				}
-			}
-			node.subtreeSize = size;
-			return size;
-		}
-
-		// Calculate subtree sizes for all roots
-		data.nodes.filter(n => !n.parent).forEach(calculateSubtreeSize);
-
-		// Assign angular sectors
-		function assignSectors(node, startAngle, endAngle) {
-			node.startAngle = startAngle;
-			node.endAngle = endAngle;
-			node.angle2d = (startAngle + endAngle) / 2;
-
-			if (node.children && node.children.length > 0) {
-				const totalChildSize = node.children.reduce((sum, c) => sum + c.subtreeSize, 0);
-				const sectorSize = endAngle - startAngle;
-
-				let currentAngle = startAngle;
-				for (const child of node.children) {
-					const childSectorSize = (child.subtreeSize / totalChildSize) * sectorSize;
-					assignSectors(child, currentAngle, currentAngle + childSectorSize);
-					currentAngle += childSectorSize;
-				}
-			}
-		}
-
-		// Assign sectors to roots
-		const roots = data.nodes.filter(n => !n.parent);
-		const totalRootSize = roots.reduce((sum, r) => sum + r.subtreeSize, 0);
-		let currentAngle = 0;
-
-		for (const root of roots) {
-			const rootSectorSize = (root.subtreeSize / totalRootSize) * 2 * Math.PI;
-			assignSectors(root, currentAngle, currentAngle + rootSectorSize);
-			currentAngle += rootSectorSize;
-		}
-
-		// Position nodes at their center angles
-		const maxDepth = Math.max(...data.nodes.map(n => n.depth || 0));
-		const radii = get2D_Radii(maxDepth);
-		for (let depth = 0; depth <= maxDepth; depth++) {
-			const nodesAtDepth = data.nodes.filter(n => (n.depth || 0) === depth);
-			const radius = window.genRadii && window.genRadii[depth] !== undefined
-				? window.genRadii[depth]
-				: (radii[depth] || 80 + depth * 80);
-
-			nodesAtDepth.forEach(node => {
-				const angle = node.angle2d || 0;
-				node.x2d = centerX + radius * Math.cos(angle);
-				node.y2d = centerY + radius * Math.sin(angle);
-			});
-		}
-	}
-
-	// 3D Renderer Class with human-readable layout
+		// 3D Renderer Class with human-readable layout
 	class Graph3DRenderer {
 		constructor(container, initialCameraState = null) {
 			this.container = container;
@@ -3607,7 +2867,6 @@ window.acquireVsCodeApi = function () {
 					this.camera.getWorldDirection(cameraDirection);
 					const camToNode = new THREE.Vector3().subVectors(nodePos, this.camera.position);
 					this.dragPlaneDistance = camToNode.dot(cameraDirection);
-					if (this.simulation) this.simulation.alphaTarget(0).stop();
 					canvas.style.cursor = 'move';
 				} else {
 					canvas.style.cursor = 'grabbing';
@@ -3667,11 +2926,6 @@ window.acquireVsCodeApi = function () {
 							this.needsRender = true;
 						}
 					} else if (this.draggedNode) {
-						// Stop simulation completely during drag
-						if (this.simulation) {
-							this.simulation.stop();
-						}
-
 						// Get mouse ray
 						const rect = canvas.getBoundingClientRect();
 						this.mouseVector.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
@@ -5029,7 +4283,6 @@ window.acquireVsCodeApi = function () {
 				const edsRows = edsEntries.map((e, i) => {
 					const site = e.parsedLocation;
 					const siteHint = site ? ' ' + site.fileName.split('/').pop() + ':' + site.line : '';
-					// Same external-scope marker as the 2D tooltip above.
 					const scopeHint = e.scope ? ' [' + (e.scope === 'unknown' ? 'module' : e.scope) + ']' : '';
 					return '<span class="eds-entry" data-eds-index="' + i + '" style="cursor:pointer;text-decoration:underline">' +
 						e.kind + siteHint + scopeHint + '</span>';
@@ -8210,11 +7463,6 @@ window.acquireVsCodeApi = function () {
 			if (this.diveGroup) {
 				this.scene.remove(this.diveGroup);
 				this.diveGroup = null;
-			}
-
-			if (this.simulation) {
-				this.simulation.stop();
-				this.simulation = null;
 			}
 		}
 

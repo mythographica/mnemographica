@@ -56,7 +56,7 @@ import type {
 declare module 'mnemonica' {
 	interface TypeRegistry {
 		'LoggerTab': new () => LoggerTab;
-		'LoggerTab.LogEntry': new (data: { level: 'info' | 'warning' | 'error'; message: string; timestamp: number; typeName?: string; error?: Error; args?: Array<unknown> }) => LoggerTab_LogEntry;
+		'LoggerTab.LogEntry': new (data: { level: 'info' | 'warning' | 'error'; message: string; timestamp: number; args?: Array<unknown> }) => LoggerTab_LogEntry;
 		'Main': new (extensionVersion: string) => Main;
 		'Main.Adapter': new (data: { name: string; domain: string; enabled: boolean }) => Main_Adapter;
 		'Registry': new () => Registry;

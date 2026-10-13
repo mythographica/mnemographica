@@ -84,10 +84,8 @@ export class GraphBuilder {
 		for (const [name, entry] of types.entries()) {
 			if (selected !== ALL_COLLECTIONS && collectionOfPath(name) !== selected) { continue; }
 			const typeNode = this.buildTypeNode(name, entry as unknown as Record<string, unknown>);
-			if (typeNode) {
-				nodeMap.set(name, typeNode);
-				typeNodes.push(typeNode);
-			}
+			nodeMap.set(name, typeNode);
+			typeNodes.push(typeNode);
 		}
 		logger.info(`[GraphBuilder] built ${typeNodes.length} typeNodes for collection ${selected}`);
 
@@ -541,11 +539,7 @@ export class GraphBuilder {
 		}
 	}
 
-	private static buildTypeNode(name: string, entry: Record<string, unknown>): TypeNode | undefined {
-		if (!entry) {
-			return undefined;
-		}
-
+	private static buildTypeNode(name: string, entry: Record<string, unknown>): TypeNode {
 		const properties = new Map<string, { name: string; type: string; optional: boolean }>();
 		if (entry.properties instanceof Map) {
 			for (const [propName, propValue] of entry.properties.entries()) {
@@ -582,11 +576,11 @@ export class GraphBuilder {
 		linkCount: number;
 		maxDepth: number;
 	} {
-		const stats = GraphConverter.getDepthStats(graphData.nodes);
+		const maxDepth = Math.max(0, ...graphData.nodes.map(n => n.depth));
 		return {
 			nodeCount: graphData.nodes.length,
 			linkCount: graphData.links.length,
-			maxDepth: stats.maxDepth
+			maxDepth
 		};
 	}
 }

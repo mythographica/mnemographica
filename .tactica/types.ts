@@ -124,8 +124,8 @@ export type BackendRegistry_Flow_FlowEntry = ProtoFlat<BackendRegistry_Flow, {
 export type LoggerTab = {
 	createdAt: number;
 	LogEntry: {
-		new (data: { level: 'info' | 'warning' | 'error'; message: string; timestamp: number; typeName?: string; error?: Error; args?: Array<unknown> }): LoggerTab_LogEntry;
-		(data: { level: 'info' | 'warning' | 'error'; message: string; timestamp: number; typeName?: string; error?: Error; args?: Array<unknown> }): LoggerTab_LogEntry;
+		new (data: { level: 'info' | 'warning' | 'error'; message: string; timestamp: number; args?: Array<unknown> }): LoggerTab_LogEntry;
+		(data: { level: 'info' | 'warning' | 'error'; message: string; timestamp: number; args?: Array<unknown> }): LoggerTab_LogEntry;
 	};
 };
 
@@ -133,8 +133,6 @@ export type LoggerTab_LogEntry = ProtoFlat<LoggerTab, {
 	level: 'info' | 'warning' | 'error';
 	message: string;
 	timestamp: number;
-	typeName: string;
-	error: Error;
 	args: Array<unknown>;
 	LogEntry: undefined;
 }>;
@@ -216,10 +214,7 @@ export type Registry = {
 	createdAt: number;
 	readonly size: number;
 	get: (name: string) => unknown | undefined;
-	has: (name: string) => boolean;
 	set: (name: string, entry: unknown) => void;
-	keys: () => MapIterator<string>;
-	values: () => MapIterator<unknown>;
 	clear: () => void;
 	getGeneratedAt: (kind: 'hierarchy' | 'definitions' | 'collections' | 'usages' | 'flow' | 'eds' | 'control') => string | undefined;
 	loadFromWorkspace: (workspacePath: string) => Promise<void>;

@@ -6,8 +6,6 @@ export type LogEntryData = {
 	level: 'info' | 'warning' | 'error';
 	message: string;
 	timestamp: number;
-	typeName?: string;
-	error?: Error;
 	args?: Array<unknown>;
 };
 

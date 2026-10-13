@@ -2,7 +2,6 @@
 
 import { lookup } from 'mnemonica';
 import type { Main as MainType, Registry } from '../../.tactica/types';
-import { StateManager } from './StateManager';
 import { GraphBuilder } from './GraphBuilder';
 import { GraphData } from '../types';
 import { getProjectRegistry, reloadProjectRegistry } from './registryStore';
@@ -36,7 +35,9 @@ export type traceEdge = {
 
 export class MainOrchestrator {
 	private main: MainType;
-	private stateManager: StateManager;
+	// The sidebar's project (the workspace the user loaded). Written by
+	// loadWorkspace, re-read by refresh and the watchers' routing.
+	private workspacePath: string | undefined;
 	// The sidebar's Registry is the registryStore entry for the current
 	// workspace — one loaded instance per project, shared with the panels.
 	// A project without .tactica gets an empty LOCAL instance (never
@@ -47,11 +48,10 @@ export class MainOrchestrator {
 	constructor(version: string) {
 		const Main = lookup('Main');
 		this.main = new Main(version);
-		this.stateManager = new StateManager();
 	}
 
-	getStateManager(): StateManager {
-		return this.stateManager;
+	getWorkspacePath(): string | undefined {
+		return this.workspacePath;
 	}
 
 	getRegistry() {
@@ -59,53 +59,30 @@ export class MainOrchestrator {
 	}
 
 	async loadWorkspace(workspacePath: string): Promise<void> {
-		this.stateManager.setLoading(true);
-		this.stateManager.clearError();
-
-		try {
-			this.stateManager.setWorkspacePath(workspacePath);
-			const storeRegistry = await getProjectRegistry(workspacePath);
-			if (storeRegistry) {
-				this.registry = storeRegistry;
-			} else {
-				// No .tactica yet — an empty local Registry keeps every
-				// consumer honest (trees show empty, no crash)
-				const RegistryType = lookup('Registry');
-				this.registry = new RegistryType();
-			}
-
-			this.currentGraphData = GraphBuilder.buildFromRegistry(this.registry);
-
-			this.stateManager.setLoading(false);
-		} catch (error) {
-			const message = error instanceof Error ? error.message : String(error);
-			this.stateManager.setError(message);
-			this.stateManager.setLoading(false);
-			throw error;
+		this.workspacePath = workspacePath;
+		const storeRegistry = await getProjectRegistry(workspacePath);
+		if (storeRegistry) {
+			this.registry = storeRegistry;
+		} else {
+			// No .tactica yet — an empty local Registry keeps every
+			// consumer honest (trees show empty, no crash)
+			const RegistryType = lookup('Registry');
+			this.registry = new RegistryType();
 		}
+
+		this.currentGraphData = GraphBuilder.buildFromRegistry(this.registry);
 	}
 
 	async refresh(): Promise<void> {
-		const workspacePath = this.stateManager.getState().workspacePath;
-		if (!workspacePath) { return; }
-		this.stateManager.setLoading(true);
-		this.stateManager.clearError();
-		try {
-			// The store reloads the entry IN PLACE — sidebar providers holding
-			// the instance see the fresh data on their next read
-			const reloaded = await reloadProjectRegistry(workspacePath, 'sidebar');
-			if (reloaded) {
-				this.registry = reloaded;
-			}
-			if (this.registry) {
-				this.currentGraphData = GraphBuilder.buildFromRegistry(this.registry);
-			}
-			this.stateManager.setLoading(false);
-		} catch (error) {
-			const message = error instanceof Error ? error.message : String(error);
-			this.stateManager.setError(message);
-			this.stateManager.setLoading(false);
-			throw error;
+		if (!this.workspacePath) { return; }
+		// The store reloads the entry IN PLACE — sidebar providers holding
+		// the instance see the fresh data on their next read
+		const reloaded = await reloadProjectRegistry(this.workspacePath, 'sidebar');
+		if (reloaded) {
+			this.registry = reloaded;
+		}
+		if (this.registry) {
+			this.currentGraphData = GraphBuilder.buildFromRegistry(this.registry);
 		}
 	}
 
@@ -454,7 +431,7 @@ export class MainOrchestrator {
 			return summary;
 		});
 		const result = {
-			workspacePath : this.stateManager.getState().workspacePath,
+			workspacePath : this.workspacePath,
 			stats         : this.getGraphStats(),
 			nodes
 		};

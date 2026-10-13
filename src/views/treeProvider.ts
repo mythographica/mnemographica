@@ -5,7 +5,7 @@ import { getLogger } from '../services/LoggerService';
 import { parseTacticaLocation } from '../utils/paths';
 import type { Registry } from '../../.tactica/types';
 
-type TreeNodeType = 'root' | 'type' | 'subtype' | 'definition';
+type TreeNodeType = 'root' | 'type' | 'definition';
 
 export type MnemonicaTreeItemData = {
 	label: string;
@@ -28,7 +28,6 @@ const treeItemId = function (data: MnemonicaTreeItemData): string {
 };
 
 type DefinitionData = {
-	id: string;
 	name: string;
 	fullPath: string;
 	parent?: string;
@@ -79,8 +78,6 @@ export class MnemonicaTreeItem extends vscode.TreeItem {
 				return new vscode.ThemeIcon('folder');
 			case 'type':
 				return new vscode.ThemeIcon('symbol-class');
-			case 'subtype':
-				return new vscode.ThemeIcon('symbol-type-parameter');
 			case 'definition':
 				return new vscode.ThemeIcon('symbol-method');
 			default:
@@ -128,7 +125,7 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 		this.logger.info('[MnemonicaTree] Registry set');
 	}
 
-	async loadFromRegistry (): Promise<void> {
+	loadFromRegistry (): void {
 		if (!this.registry) {
 			this.logger.warn('[MnemonicaTree] No registry set, cannot load');
 			return;
@@ -156,7 +153,6 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 
 				// Store with the full key as fullName for proper hierarchical lookups
 				this.definitions.set(key, {
-					id: `${key}:${line}:${column}`,
 					name: info.name,
 					fullPath: filePath,
 					parent: typeof info.parent === 'string' ? info.parent : undefined,
@@ -180,7 +176,7 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 
 	// Required for TreeView.reveal — walks the same parent links the
 	// children lookups use
-	async getParent (element: MnemonicaTreeItem): Promise<MnemonicaTreeItem | undefined> {
+	getParent (element: MnemonicaTreeItem): MnemonicaTreeItem | undefined {
 		if (element.data.type === 'root') {
 			return undefined;
 		}

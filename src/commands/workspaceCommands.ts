@@ -133,7 +133,7 @@ async function loadWorkspace(
 		const registry = mainOrchestrator.getRegistry();
 		if (registry) {
 			treeProvider.setRegistry(registry);
-			await treeProvider.loadFromRegistry();
+			treeProvider.loadFromRegistry();
 			treeProvider.refresh();
 
 			// The registry-driven trees all follow the workspace switch

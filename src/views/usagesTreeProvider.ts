@@ -76,14 +76,9 @@ export class UsagesTreeProvider implements vscode.TreeDataProvider<UsageTreeItem
 		this._onDidChangeTreeData.fire();
 	}
 
-	setType(typeName: string, usages: { filePath: string; line: number; column: number; context: string; kind: string }[], workspacePath?: string): void {
+	setType(typeName: string, usages: UsageInfo[], workspacePath?: string): void {
 		this.currentTypeName = typeName;
-		this.usages = usages.map(u => ({
-			filePath: u.filePath,
-			line: u.line,
-			column: u.column,
-			context: u.context
-		}));
+		this.usages = usages;
 		if (workspacePath) {
 			this.workspacePath = workspacePath;
 		}
@@ -100,11 +95,11 @@ export class UsagesTreeProvider implements vscode.TreeDataProvider<UsageTreeItem
 		return element;
 	}
 	
-	getChildren(element?: UsageTreeItem): Thenable<UsageTreeItem[]> {
+	getChildren(element?: UsageTreeItem): UsageTreeItem[] {
 		if (element) {
-			return Promise.resolve([]);
+			return [];
 		}
-		
+
 		const filter = activePathFilter();
 		const visible = filter
 			? this.usages.filter(usage => !filter.test(usage.filePath))
@@ -116,14 +111,12 @@ export class UsagesTreeProvider implements vscode.TreeDataProvider<UsageTreeItem
 				const label = this.usages.length > 0 ? 'All usages are in filtered (test) files' : 'No usages found';
 				const emptyItem = new vscode.TreeItem(label);
 				emptyItem.description = this.currentTypeName;
-				return Promise.resolve([emptyItem as UsageTreeItem]);
+				return [emptyItem as UsageTreeItem];
 			}
-			return Promise.resolve([]);
+			return [];
 		}
 
-		return Promise.resolve(
-			visible.map(usage => new UsageTreeItem(usage, this.workspacePath, this.currentTypeName))
-		);
+		return visible.map(usage => new UsageTreeItem(usage, this.workspacePath, this.currentTypeName));
 	}
 	
 	getWorkspacePath(): string {

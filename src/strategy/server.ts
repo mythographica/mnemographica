@@ -74,39 +74,6 @@ export class StrategyServer {
 	 * Register built-in tools
 	 */
 	private registerDefaultTools (): void {
-		this.tools.set('execute', {
-			name: 'execute',
-			description: 'Execute a command in specified context (MCP, RPC, RUN)',
-			inputSchema: {
-				type: 'object',
-				properties: {
-					context: {
-						type: 'string',
-						enum: ['MCP', 'RPC', 'RUN'],
-						description: 'Execution context'
-					},
-					command: {
-						type: 'string',
-						description: 'Command name to execute'
-					},
-					message: {
-						type: 'string',
-						description: 'Command message or arguments'
-					}
-				},
-				required: ['context', 'command', 'message']
-			}
-		});
-
-		this.tools.set('list', {
-			name: 'list',
-			description: 'List all available commands grouped by context and folder',
-			inputSchema: {
-				type: 'object',
-				properties: {}
-			}
-		});
-
 		this.tools.set('help', {
 			name: 'help',
 			description: 'Get help for a specific command',
@@ -331,12 +298,6 @@ export class StrategyServer {
 	 */
 	private async executeTool (name: string, args: Record<string, unknown>): Promise<unknown> {
 		switch (name) {
-			case 'execute':
-				return this.handleExecute(args);
-
-			case 'list':
-				return this.handleList();
-
 			case 'help':
 				return this.handleHelp(args);
 
@@ -346,40 +307,6 @@ export class StrategyServer {
 			default:
 				throw new Error(`Unknown tool: ${name}`);
 		}
-	}
-
-	/**
-	 * Handle execute tool
-	 */
-	private async handleExecute (args: Record<string, unknown>): Promise<unknown> {
-		const context = args.context as string;
-		const command = args.command as string;
-		const message = args.message as string;
-
-		this.logger.info(`Executing command: ${command} in context: ${context}`);
-
-		// TODO: Integrate with actual command execution from strategy module
-		// For now, return a placeholder
-		return {
-			context,
-			command,
-			message,
-			status: 'executed',
-			timestamp: Date.now()
-		};
-	}
-
-	/**
-	 * Handle list tool
-	 */
-	private async handleList (): Promise<unknown> {
-		return {
-			contexts: {
-				MCP: ['execute', 'list', 'help'],
-				RPC: ['discover-types', 'analyze-hierarchy', 'fetch-memories'],
-				RUN: ['go-to-definition', 'find-references', 'refresh-graph']
-			}
-		};
 	}
 
 	/**
@@ -431,7 +358,7 @@ export class StrategyServer {
 
 	/**
 	 * trace/ingest (B1.3): strategy pushes dive-trace deltas here.
-	 * Params: { edges: traceEdge[], source?: string }. The edges land
+	 * Params: { edges: traceEdge[], session?: string }. The edges land
 	 * on the Main instance (root data holder) via the orchestrator;
 	 * parsing the stream into structure is a future design session.
 	 */
@@ -519,7 +446,7 @@ export class StrategyServer {
 			case 'view': {
 				// Roundtrip into the 3D webview (camera + focus live
 				// there); GraphPanel answers panel facts itself when the
-				// panel is closed, hidden, or in 2D mode
+				// panel is closed or hidden
 				const result = await GraphPanel.queryViewState();
 				return result;
 			}
