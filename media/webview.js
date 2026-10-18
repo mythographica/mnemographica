@@ -465,6 +465,9 @@ window.acquireVsCodeApi = function () {
 			// a big jump; coarse moves ride the slider/textfield
 			this.K = 1.007;
 			this.CYCLE = 100;
+			// Ctrl+wheel spread: one notch widens the sibling angles by 4%
+			this.SPREAD_K = 1.04;
+			this.onSpread = null;
 			// The visual sweep's period, DE-ALIASED from CYCLE: at
 			// CYCLE = 100 the standard mouse notch (deltaY ≈ 100)
 			// phase-locked the odometer — one notch = exactly one wrap =
@@ -683,6 +686,14 @@ window.acquireVsCodeApi = function () {
 			// VIS_CYCLE px while emit() keeps the VALUE accumulating
 			canvas.addEventListener('wheel', (event) => {
 				event.preventDefault();
+				// Ctrl+wheel goes to the consumer's SPREAD instead (the gen
+				// shells: siblings apart, radius untouched) — a per-event
+				// factor, SPREAD_K per notch; the distance odometer holds
+				if (event.ctrlKey && this.onSpread) {
+					const factor = Math.pow(this.SPREAD_K, -event.deltaY / this.CYCLE);
+					this.onSpread(factor);
+					return;
+				}
 				this.wheelAcc -= event.deltaY;
 				this.reseat();
 				this.emit();
@@ -817,6 +828,8 @@ window.acquireVsCodeApi = function () {
 			this.ensureBuilt();
 			this.sizeCanvas();
 			this.onChange = opts.onChange;
+			this.onSpread = opts.onSpread || null;
+			this.renderer3d.domElement.title = opts.hint || '';
 			this.toLinear = opts.toLinear || ((d) => d);
 			this.fromLinear = opts.fromLinear || ((d) => d);
 			this.distToReadout = opts.distToReadout || ((d) => '×' + d.toFixed(2));
@@ -843,6 +856,7 @@ window.acquireVsCodeApi = function () {
 		close() {
 			if (this.root) { this.root.style.display = 'none'; }
 			this.onChange = null;
+			this.onSpread = null;
 		}
 
 		isOpen() {
@@ -1026,6 +1040,13 @@ window.acquireVsCodeApi = function () {
 				floorLinear   : 10,
 				distToReadout : (d) => Math.round(d) + 'px',
 				distToInput   : (d) => String(Math.round(d)),
+				hint          : 'Wheel: shell radius · Ctrl+wheel: spread siblings apart',
+				onSpread      : (factor) => {
+					spreadLevel(renderer, genSpec.depth, factor);
+					renderer.updateLinkPositions();
+					renderer.labeledMeshes.forEach(m => renderer.updateLabelPosition(m));
+					renderer.needsRender = true;
+				},
 				onChange      : (dirScreen, dist) => {
 					const current = (renderer.depthRadii && renderer.depthRadii.get(genSpec.depth)) || 0;
 					const delta = dist - current;
@@ -2155,6 +2176,72 @@ window.acquireVsCodeApi = function () {
 		});
 	}
 
+	// Sibling spread at one depth (Ctrl+wheel on a gen Ø window): every
+	// sphere at that depth turns away from its sibling group's axis —
+	// its parent's direction, or the roots' common center for depth 0 —
+	// multiplying its angle from that axis by `factor`, radius kept. Its
+	// subtree TRANSLATES by the same displacement (the Ctrl+drag rule:
+	// carried along, not spread). Every moved sphere is written
+	// user-placed, so Save and relayouts keep the spread. Widening stops
+	// at 90° from the axis: past it a larger angle walks toward the far
+	// pole and siblings would CONVERGE there. A roots group spread over
+	// its whole shell (common center under a tenth of the radius) has no
+	// side to spread from and stays put
+	function spreadLevel(renderer, depth, factor) {
+		const groups = new Map();
+		renderer.nodeMeshes.forEach(mesh => {
+			const node = mesh.userData.node;
+			if (!node || (node.depth || 0) !== depth) { return; }
+			const key = node.parent || null;
+			if (!groups.has(key)) { groups.set(key, []); }
+			groups.get(key).push(mesh);
+		});
+		const MAX_ANGLE = Math.PI / 2;
+		groups.forEach((members, parentNode) => {
+			let axis;
+			if (parentNode) {
+				const parentMesh = renderer.nodeMeshes.get(parentNode.id);
+				axis = parentMesh ? parentMesh.position.clone() : new THREE.Vector3();
+			} else {
+				axis = new THREE.Vector3();
+				let radiusSum = 0;
+				members.forEach(m => {
+					axis.add(m.position);
+					radiusSum += m.position.length();
+				});
+				if (axis.length() < 0.1 * radiusSum / members.length) { return; }
+			}
+			if (axis.lengthSq() < 1e-9) { return; }
+			axis.normalize();
+			members.forEach(mesh => {
+				const radius = mesh.position.length();
+				if (radius < 1e-9) { return; }
+				const dir = mesh.position.clone().divideScalar(radius);
+				const angle = Math.acos(Math.min(1, Math.max(-1, dir.dot(axis))));
+				// On the axis there is no direction to turn toward
+				const side = dir.clone().addScaledVector(axis, -Math.cos(angle));
+				if (side.lengthSq() < 1e-12) { return; }
+				side.normalize();
+				// Narrowing always applies; widening caps at MAX_ANGLE and
+				// never pulls a sphere already past it back
+				const next = factor < 1
+					? angle * factor
+					: Math.max(angle, Math.min(angle * factor, MAX_ANGLE));
+				if (next === angle) { return; }
+				const nextPos = axis.clone().multiplyScalar(Math.cos(next) * radius)
+					.addScaledVector(side, Math.sin(next) * radius);
+				const displacement = new THREE.Vector3().subVectors(nextPos, mesh.position);
+				const subtree = renderer.collectSubtreeMeshes(mesh);
+				mesh.position.copy(nextPos);
+				renderer.placeNodeData(mesh.userData.node, mesh.position);
+				subtree.forEach(({ mesh: descendant }) => {
+					descendant.position.add(displacement);
+					renderer.placeNodeData(descendant.userData.node, descendant.position);
+				});
+			});
+		});
+	}
+
 	// The gen rows' px readouts ride the radii — update in place now
 	// that control gestures no longer rebuild the panel. Row order IS
 	// the depth order (createLayerControls pushes Roots, Gen 1, …)
@@ -2683,6 +2770,9 @@ window.acquireVsCodeApi = function () {
 			if (this.panOffset === undefined) this.panOffset = { x: 0, y: 0, z: 0 };
 			this.isPanning = false;
 			this.draggedNode = null;
+			// Ctrl+drag on a sphere: [{ mesh, offset }] for every
+			// descendant sphere, offset from the dragged one; null otherwise
+			this.draggedSubtree = null;
 			// Shift+drag roll gesture flag — a Shift+drag that grabbed NO
 			// caption rolls the view instead of panning/node-dragging.
 			// The roll itself rides the orbit quaternion
@@ -2854,6 +2944,11 @@ window.acquireVsCodeApi = function () {
 								pinAnchor.position
 							);
 						}
+					} else if (e.ctrlKey) {
+						// Ctrl+drag on a sphere carries its whole subtree
+						// (every descendant, all depths). Their diamonds and
+						// bagels follow through their relative pins
+						this.draggedSubtree = this.collectSubtreeMeshes(this.draggedNode);
 					}
 					// Store the intersection point offset from node center
 					const intersectPoint = dragHit.point;
@@ -2965,18 +3060,16 @@ window.acquireVsCodeApi = function () {
 							// Update node data
 							const draggedNodeData = this.draggedNode.userData.node;
 							if (draggedNodeData) {
-								draggedNodeData.x = newPos.x;
-								draggedNodeData.y = newPos.y;
-								draggedNodeData.z = newPos.z;
-								draggedNodeData.fx = newPos.x;
-								draggedNodeData.fy = newPos.y;
-								draggedNodeData.fz = newPos.z;
-								// Persist as USER-PLACED so a knob relayout
-								// keeps this spot: calculatePosition honors
-								// x3d, relaxTypeShells skips it
-								draggedNodeData.x3d = newPos.x;
-								draggedNodeData.y3d = newPos.y;
-								draggedNodeData.z3d = newPos.z;
+								this.placeNodeData(draggedNodeData, newPos);
+							}
+							// Ctrl+drag on a sphere: the whole subtree rides
+							// along, each descendant at its grab-time offset
+							if (this.draggedSubtree) {
+								this.draggedSubtree.forEach(({ mesh, offset }) => {
+									mesh.position.copy(newPos).add(offset);
+									this.placeNodeData(mesh.userData.node, mesh.position);
+									this.updateLabelPosition(mesh);
+								});
 							}
 
 							// Update link positions to follow the node
@@ -3065,6 +3158,7 @@ window.acquireVsCodeApi = function () {
 					}
 					this.draggedNode.userData.isDragging = false;
 					this.draggedNode = null;
+					this.draggedSubtree = null;
 					// Don't restart simulation - keep it stopped
 				}
 	
@@ -3202,6 +3296,49 @@ window.acquireVsCodeApi = function () {
 				e.preventDefault();
 				e.stopPropagation();
 			});
+		}
+
+		/**
+		 * Writes a sphere's position into its node data as USER-PLACED,
+		 * so a knob relayout keeps this spot: calculatePosition honors
+		 * x3d, relaxTypeShells skips it, and Save persists it
+		 */
+		placeNodeData(nodeData, pos) {
+			nodeData.x = pos.x;
+			nodeData.y = pos.y;
+			nodeData.z = pos.z;
+			nodeData.fx = pos.x;
+			nodeData.fy = pos.y;
+			nodeData.fz = pos.z;
+			nodeData.x3d = pos.x;
+			nodeData.y3d = pos.y;
+			nodeData.z3d = pos.z;
+		}
+
+		/**
+		 * Every descendant sphere of a type sphere (the inheritance
+		 * subtree, all depths) with its offset from that sphere — the
+		 * Ctrl+drag set. Descendants without a mesh in the current
+		 * world are skipped
+		 */
+		collectSubtreeMeshes(rootMesh) {
+			const subtree = [];
+			const seen = new Set();
+			const pending = [ ...rootMesh.userData.node.children ];
+			while (pending.length > 0) {
+				const node = pending.pop();
+				if (seen.has(node)) { continue; }
+				seen.add(node);
+				const mesh = this.nodeMeshes.get(node.id);
+				if (mesh && mesh !== rootMesh) {
+					subtree.push({
+						mesh,
+						offset : new THREE.Vector3().subVectors(mesh.position, rootMesh.position),
+					});
+				}
+				pending.push(...node.children);
+			}
+			return subtree;
 		}
 
 		/**

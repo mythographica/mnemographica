@@ -601,6 +601,14 @@ The extension helps AI agents:
      gesture works anywhere on the canvas rather than only on a
      tangential sweep around the center — or grabs a caption when one
      is under the cursor (the texel-exact pick below runs first).
+   - **Subtree drag**: Ctrl+drag that starts ON a type sphere moves the
+     sphere and its whole inheritance subtree (every descendant, all
+     depths, via `node.children`) — `collectSubtreeMeshes()` records
+     each descendant's offset at grab time and the move re-applies it.
+     Every moved sphere is written USER-PLACED through `placeNodeData()`
+     (the same x3d fields a plain drag writes), so Save and knob
+     relayouts keep the group; descendants' diamonds and bagels follow
+     through their relative pins. Ctrl+drag on empty canvas stays the pan.
    - **Save button**: the `#controls` Save
      button persists the current arrangement to
      `<sourceRoot>/.mnemographica/layout.json` — user-placed sphere
@@ -792,7 +800,16 @@ The extension helps AI agents:
      clicked generation's shell AND cascades the deeper shells
      instantly through the shared `cascadeShellRadii` (the x3d
      user-sphere scaling lives there too), reseated LIVE (see the
-     Layers bullet). World consumers capture the main
+     Layers bullet). Ctrl+wheel in a gen window SPREADS instead
+     (`onSpread` → `spreadLevel`): every sphere at that depth turns
+     away from its sibling group's axis — the parent's direction, or
+     the roots' common center — its angle × `SPREAD_K` per notch,
+     radius kept, widening capped at 90° from the axis (past it
+     siblings would converge at the far pole); a roots group with no
+     common center (under a tenth of the radius) stays put. Each
+     sphere's subtree TRANSLATES by its displacement (the Ctrl+drag
+     rule), and every moved sphere is written user-placed via
+     `placeNodeData`. The canvas tooltip names both gestures. World consumers capture the main
      camera AT OPEN — the main scene is not rotated while the
      tool window is up. Per-caption Shift+drag stores a view-relative
      override in `userData.captionViewOffset`; the grab is TEXEL-EXACT:
