@@ -412,9 +412,14 @@ The extension helps AI agents:
      kinds) carry no per-edge object: their position writers emit
      DEGENERATE vertices (zero-length rasterizes nothing) for a
      pair whose endpoints read hidden, and the writer-owned
-     arrowheads (holder connectors, call arrows, fiber arrows) fold
-     the same `pair.from.visible && pair.to.visible` read into
-     their length test — visibility decided in the regular update
+     arrowheads (holder connectors, fiber arrows) fold the same
+     `pair.from.visible && pair.to.visible` read into their length
+     test. The call-edge arrowheads are ONE `InstancedMesh` (a real
+     callers graph has thousands of call edges — a mesh each was
+     most of the scene's draw calls, doubled per eye in VR): a
+     hidden arrow writes a ZERO-SCALE instance matrix, the
+     instanced twin of the degenerate vertex, and the batch is not
+     frustum-culled (its instances move) — visibility decided in the regular update
      pass, never by a flip-time walk. The checkbox handler is
      `sessionGenVisibility.set` + ONE `updateLinkPositions()` +
      `needsRender`: the panel does not rebuild, the layout does not
@@ -667,9 +672,10 @@ The extension helps AI agents:
      endpoints back to id strings before stringify, or the bundle cannot
      serialize (every render rebuilds them anyway). The stylesheet's `var(--vscode-*)` theme references
      resolve to nothing outside the webview, so the export prepends
-     `EXPORT_CSS_FALLBACKS` — a `:root` dark-theme palette (the
-     `editorHoverWidget-*` pair colors the panels) as the export's
-     "theme". `#controls` and the collection selector hide (the
+     `EXPORT_CSS_FALLBACKS` — `THEME_CSS_FALLBACKS`, a `:root`
+     dark-theme palette (the `editorHoverWidget-*` pair colors the
+     panels) shared with the VR bridge page, as the export's "theme",
+     plus the export-only hiding rules. `#controls` and the collection selector hide (the
      selector's switching is a host round-trip); orbit, zoom, layer
      checkboxes, the legend, and the vector-sphere controls work
      offline, so the page iframes into slides as-is. The boot also
@@ -707,6 +713,78 @@ The extension helps AI agents:
      properties/snippets/EDS entries/graft labels, and omits the
      connect panel entirely — no names left anywhere in the file,
      GitHub-safe.
+   - **VR (WebXR)**: the graph draws under `renderer.graphRoot`, never
+     the scene itself (the lights stay on the scene), and the render
+     loop runs through `renderer.setAnimationLoop` — the XRSession's
+     frame loop takes over by itself during a session. The `#controls`
+     🥽 button (`setupVrButton`) enters `immersive-vr` where the page
+     supports it (`isSessionSupported`) and otherwise posts `openVR`;
+     editor webviews never do — VS Code's webview iframe withholds the
+     `xr-spatial-tracking` permission. `openVR` (and the
+     `mnemographica.openGraphInVR` command, for the active panel)
+     opens the panel's **VR bridge page** in the system browser:
+     `src/webview/vrBridge.ts` is a loopback HTTP + WebSocket server
+     (127.0.0.1, started on first use, one per extension host; port
+     `mnemographica.vrBridgePort`, 0 = a free one, a change restarts
+     the bridge and a panel whose token it forgot re-registers) that
+     registers a session per panel under a random token — page
+     `/vr/<token>`, socket `/ws/<token>`, `media/webview.{js,css}`
+     under `/media/`, d3/three under `/lib/` (`VR_LIBRARIES`, pinned
+     versions with sha256: the extension's `vendor/` copy — the OpenIDE
+     port ships one — else a verified one-time download into
+     `globalStorage/vr-lib`; the page falls back to the CDN only when
+     neither exists, `libraryUrl`). The download never holds the click
+     up: `open()` waits at most `VR_LIBRARY_WAIT_MS` (3 s) for it, each
+     fetch times out after `VR_LIBRARY_FETCH_TIMEOUT_MS`, concurrent
+     opens share ONE pass (no two writers on a `.part` file), and a
+     pass that leaves a library missing is retried by the next open;
+     `pageHtml` runs per page request, so a page requested after the
+     download lands points at `/lib/`. The page is the panel's own template
+     (`GraphPanel.pageHtml`) with `VR_PAGE_BOOT`, a WebSocket-backed
+     `acquireVsCodeApi`, in place of the webview host, and Save/Export
+     hidden; it mirrors the panel both ways — `GraphPanel.post` reaches
+     the webview and every bridge page, and page messages run through
+     the panel's `handleMessage` with the page as `client` ('ready'
+     replays the panel's last updateGraph; Save, Export, viewState and
+     openVR are panel-only). Gates: token, Host header (DNS rebinding),
+     Origin (cross-site sockets); the page sends no Referer. A closed
+     panel closes its pages with `VR_SESSION_CLOSED` and they stop
+     reconnecting. For a Quest on USB without Link (any OS) the
+     open-in-VR notification offers **Open on Quest (adb)** and **Copy
+     adb command**, both built from `questAdbSteps`: `adb reverse`
+     forwards the bridge port, so the same 127.0.0.1 URL — a secure
+     context — opens in Quest Browser (`adb shell am start` with
+     `com.oculus.browser`). The button runs the steps through
+     `execFile` (no shell; adb missing or a failing step is reported);
+     the copied text (`questAdbCommand`) is one command per line with
+     no `&&` and no quotes, so cmd, PowerShell 5.1 and POSIX shells all
+     paste it as-is. A fixed port makes the forward last across editor
+     restarts. Entering VR reports progress on the button and status
+     line (`toggleVr`): the button disables to "Entering VR…" while
+     `requestSession` is pending (a second click is ignored, not a
+     second request — Quest Link has taken 30–45 s), a hint follows
+     after `XR_SLOW_REQUEST_MS`, and once in, `startXrWatchdog` reports
+     a VISIBLE session that paints no frame for `XR_NO_FRAMES_MS`
+     (Link was seen reporting FOCUSED while delivering none) — the
+     frame clock is `xr.frames`/`xr.lastFrameAt`, written by
+     `updateXR`; a hidden session (headset off) pauses frames
+     legitimately. The graph's own status line returns when the VR
+     messages end (`restoreVrStatus`). In Chrome/Edge with an OpenXR runtime (Meta Quest
+     Link) the page enters VR (`enterXR`): graphRoot scales so the
+     graph's largest extent is 1.2 m, centred 1.3 m up and 1 m ahead
+     (`local-floor`), fog off, captions depth-test (stereo), and
+     captions orient by `captionViewQuaternion` — the camera's rotation
+     in graphRoot space, which is the plain camera quaternion on the
+     desktop. Controllers (three's target-ray groups) ray-pick
+     `interactive`: trigger/pinch selects (sphere focus glow + a canvas
+     info card on that hand; empty space clears), grip grabs the model
+     rigidly, the thumbstick turns (←→) and scales (↑↓) it about its
+     centre, A/X opens the selection's code (`openMeshSource`, shared
+     with double-click), B/Y re-seats it (`fitXR`). An updateGraph
+     arriving mid-session is held in `deferredGraphUpdate` and replayed
+     on exit — a rebuild swaps the WebGL renderer, which the session
+     cannot follow. `exitXR` restores graphRoot, fog, caption depth
+     test and the desktop camera.
    - **Captions toggle**: a knob-less `captions` row in the
      Layers & Distances panel flips `renderer.captionsVisible` via
      `setCaptionsVisible()` — every sign sprite and leader line
@@ -1151,6 +1229,17 @@ Automated (plain node, no VS Code host):
   and the generator-internal files never; a store reload re-reads each
   exactly once on the SAME instance; a missing .tactica resolves
   undefined and is not cached
+- `test/vr-bridge.test.js` — the VR bridge: page and media routes
+  (whitelist, no traversal, no-referrer), the token / Host / Origin
+  gates, the two-way mirror (per-page replies, session broadcast,
+  non-JSON frames dropped), `VR_SESSION_CLOSED` on panel close, the
+  `/lib/` libraries (verified vendor copy, wrong-hash copy replaced by
+  a verified cached download, tampered or failed download → CDN, the
+  cache reused offline; a stalled download never holds `open()` past
+  `libraryWaitMs`, concurrent opens share one download, the timeout
+  lets the next open retry), the fixed port (EADDRINUSE, then retry)
+  and the Quest adb steps (argv for `execFile`, paste-able text with
+  no shell-specific syntax)
 - `test/scene-builder.test.js` — SceneBuilder → Scene3D: the scene
   census (spheres, links by kind, diamonds, bagel anchors, knots,
   captions) for fixtures-v2 and the hand-written fixtures payload, the
@@ -1222,6 +1311,7 @@ Notes:
 src/
 ├── extension.ts          # Main extension entry
 ├── webview/panel.ts      # 3D graph panel (renderer: media/webview.js, CDN libs)
+├── webview/vrBridge.ts   # loopback server mirroring a panel to the browser for WebXR
 ├── webview/              # + strategyPanel.ts / appChannelPanel.ts — the two Ψ tabs
 ├── commands/             # Command registrations (navigation, tree, utility, workspace)
 ├── core/
