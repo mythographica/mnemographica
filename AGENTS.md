@@ -181,7 +181,24 @@ The extension helps AI agents:
      displayed items by their stable id (`itemsById`, cleared on
      refresh) so the command's bare data payload resolves back to the
      live instance reveal needs. Without a command, expansion would
-     stay twistie-only (double-click on the label still toggles)
+     stay twistie-only (double-click on the label still toggles).
+     **Filter** (`mnemographica.filterTypes` / `clearTypesFilter`, the
+     Types title bar): a case-insensitive substring of the dotted
+     fullName. A match shows with its ancestors (opened) and, since a
+     descendant's fullName extends its ancestor's, its whole subtree.
+     Definition ids carry the filter text: VS Code keeps expansion state
+     by id and ignores `collapsibleState` for an id it knows, so a
+     filtered tree gets fresh ids and clearing restores the unfiltered
+     rows' own state. A reload keeps the filter. The view description
+     shows `"text" · N`; the context key `mnemographica.typesFiltered`
+     shows the clear button.
+     **Reveal from 3D** (`mnemographica.revealInTypes`): Ctrl+click on a
+     sphere or the sphere tooltip's `ø` posts `revealInTypes` with the
+     sphere id (the same dotted fullName). Only the primary source's
+     panel is honored, since the tree renders the primary Registry. A
+     filter that hides the type is cleared first. The selection it
+     causes updates Usages only, with no camera move and no file jump.
+     Not Alt+click: window managers take Alt+button to move the window
    - `usagesTreeProvider.ts` — usages per selected type, with
      test-file filtering: `mnemographica.usagesPathFilter` when set,
      else the 3D `invocationPathFilter`; an invalid expression filters
@@ -896,7 +913,10 @@ The extension helps AI agents:
      QuadraticBezier curves bowed outward, one per REALLY constructed
      type, landing just past the type's sphere — never-created types
      get none (hooks never fire for them). The **usages census**
-     (usages.json `instantiation` entries) also dims never-created
+     (usages.json `instantiation` and `propertyAccess` entries: an
+     `instance.Sub` access is the subtype constructor, read into a table
+     and built through a computed key, or called bare on a receiver
+     tactica cannot resolve) also dims never-created
      spheres (opacity 0.35) and flags their path-hit edges
      `neverTaken` (rendered at 0.12 instead of 0.5). dive's internal
      functions (recordCreation/enterContext/…) are NOT knots — they

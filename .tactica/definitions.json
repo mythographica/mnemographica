@@ -1,6 +1,6 @@
 {
   "version": "1.2",
-  "generatedAt": "2026-10-18T23:57:47.168Z",
+  "generatedAt": "2026-11-17T13:17:20.574Z",
   "definitions": {
     "collection_1::Control": {
       "name": "Control",
@@ -511,7 +511,7 @@
         {
           "name": "args",
           "type": "Array<unknown>",
-          "optional": false
+          "optional": true
         }
       ],
       "args": [
@@ -955,7 +955,7 @@
         },
         {
           "name": "sourceRoot",
-          "type": "unknown",
+          "type": "string",
           "optional": false
         },
         {

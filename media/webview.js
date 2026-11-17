@@ -111,6 +111,9 @@
 	// no captions, no tooltips, no names or paths anywhere (click and
 	// double-click do nothing). Never set in the live panel
 	const ANONYMIZE = Boolean(window.__MNEMO_ANONYMIZE__);
+	// An exported page has no host and no Types tree: no ø button, no
+	// Ctrl+click reveal there
+	const IN_EXPORT = Boolean(window.__MNEMO_EXPORT_BOOT__);
 	// Names that traced this session — a single click on such a sphere
 	// opens trace mode (names-first tracing)
 	const liveTraceNames = new Set();
@@ -3207,7 +3210,15 @@ window.acquireVsCodeApi = function () {
 					const hitMesh = clickHit.object;
 					const node = hitMesh.userData.node;
 					if (node) {
-						if (liveTraceNames.has(node.name) && vscodeRef) {
+						if (e.ctrlKey && vscodeRef && !IN_EXPORT && !ANONYMIZE) {
+							// Ctrl+click: select the sphere's type in the
+							// Types tree (the plain click keeps its tooltip).
+							// Not Alt: window managers take Alt+button to
+							// move the window. A Ctrl+click passes the 4px
+							// press/release check above, so it never moves
+							// the subtree a Ctrl+drag would carry
+							vscodeRef.postMessage({ command: 'revealInTypes', data: { id: node.id } });
+						} else if (liveTraceNames.has(node.name) && vscodeRef) {
 							// Sphere with live trace activity: single click
 							// picks the trace instead of showing the tooltip
 							vscodeRef.postMessage({ command: 'pickTrace', data: { name: node.name } });
@@ -4424,15 +4435,24 @@ window.acquireVsCodeApi = function () {
 					return '<span class="eds-entry" data-eds-index="' + i + '" style="cursor:pointer;text-decoration:underline">' +
 						e.kind + siteHint + scopeHint + '</span>';
 				}).join('<br>');
+				// ø — the same reveal as Ctrl+click on the sphere
+				const revealButton = IN_EXPORT
+					? ''
+					: '<button class="tooltip-reveal" title="Reveal in Types">ø</button>';
 				tooltip
 					.attr('data-node-id', node.id)
 					.classed('visible', true)
-					.html('<strong>' + node.name + '</strong><br>' +
+					.html(revealButton + '<strong>' + node.name + '</strong><br>' +
 						'<em>depth: ' + node.depth + '</em><br>' +
 						(props ? '<hr>' + props : '') +
 						(edsRows ? '<hr>' + edsRows : ''))
 					.style('left', (event.pageX + 10) + 'px')
 					.style('top', (event.pageY - 10) + 'px');
+
+				tooltip.selectAll('.tooltip-reveal').on('click', (ev) => {
+					ev.stopPropagation();
+					vscode.postMessage({ command: 'revealInTypes', data: { id: node.id } });
+				});
 
 				// Jump to the EDS (wrap/consume/hook) site on entry click
 				tooltip.selectAll('.eds-entry').on('click', (event) => {
@@ -4965,8 +4985,9 @@ window.acquireVsCodeApi = function () {
 					material.emissiveIntensity = 0.3;
 				}
 
-				// Diagnostic: no instantiation in usages.json — the type
-				// never happens at runtime (the EdsProbe case); dim the
+				// Diagnostic: no instantiation and no constructor access
+				// in usages.json (GraphBuilder's census) — the type never
+				// happens at runtime (the EdsProbe case); dim the
 				// sphere. Its outgoing path-hits are never-taken too
 				if (node.neverCreated) {
 					material.transparent = true;
@@ -5066,8 +5087,8 @@ window.acquireVsCodeApi = function () {
 			// EDS path-hit edges (createsTypes): guaranteed runtime paths from
 			// a wrapped scope to the types it constructs. Thin cyan lines with
 			// small arrowheads — wrap scope → constructed type. Never-taken
-			// hits (the SOURCE type has no instantiation in usages.json — the
-			// EdsProbe diagnostic) ride a dimmer material
+			// hits (the SOURCE type is never created by GraphBuilder's
+			// census — the EdsProbe diagnostic) ride a dimmer material
 			this.nodeRadius3d = nodeRadius;
 			const pathHitMaterial = new THREE.LineBasicMaterial({
 				color: 0x66ccff,
@@ -5482,6 +5503,21 @@ window.acquireVsCodeApi = function () {
 				}
 				if (maxPush < EPSILON) { break; }
 			}
+
+			// The relaxation moved the MESHES; the edge writers and the
+			// creation/wrapper dynamics read node.x/y/z — write the
+			// relaxed seats back (as reseatTypeSpheresLive does), or every
+			// edge into a slid sphere ends at its pre-relax spot
+			meshes.forEach(mesh => {
+				const node = mesh.userData.node;
+				if (!node) { return; }
+				node.x = mesh.position.x;
+				node.y = mesh.position.y;
+				node.z = mesh.position.z;
+				node.fx = node.x;
+				node.fy = node.y;
+				node.fz = node.z;
+			});
 
 			// Labels alternate above/below their sphere so neighbouring
 			// signs don't stack; the leader lines keep attribution

@@ -106,17 +106,22 @@ export class GraphBuilder {
 
 		const graphData = GraphConverter.convert(typeNodes);
 
-		// Instantiation census (usages.json): a type with zero `new` sites
-		// is never created at runtime — the EdsProbe diagnostic. Path-hits
-		// sourced on such types are never taken, and attachHooks grafts
-		// skip them (hooks only fire on real constructions).
+		// Construction census (usages.json): a type that is neither
+		// instantiated nor reached as a constructor value is never created
+		// at runtime — the EdsProbe diagnostic. Path-hits sourced on such
+		// types are never taken, and attachHooks grafts skip them (hooks
+		// only fire on real constructions). A `propertyAccess` counts:
+		// `instance.Sub` is the subtype constructor. A read of it is how
+		// tactica sees a constructor put into a table and built through a
+		// computed key, or a bare `instance.Sub(…)` call on a receiver it
+		// cannot resolve
 		const usages = registry.getUsages();
 		const instantiated = new Set<string>();
 		if (usages) {
 			for (const [typeName, usageEntries] of usages.entries()) {
 				const list = usageEntries as unknown as Array<Record<string, unknown>>;
 				if (!Array.isArray(list)) { continue; }
-				if (list.some((u) => u.kind === 'instantiation')) {
+				if (list.some((u) => u.kind === 'instantiation' || u.kind === 'propertyAccess')) {
 					instantiated.add(typeName);
 				}
 			}

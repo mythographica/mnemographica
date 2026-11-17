@@ -481,6 +481,21 @@ export class GraphPanel {
 						this.noteViewState(message.data);
 					}
 					break;
+				case 'revealInTypes': {
+					// Ctrl+click on a sphere, or the tooltip's ø button:
+					// select the type's row in the Types tree. The tree
+					// renders the PRIMARY source's Registry, so only that
+					// panel's spheres have rows there
+					if (message.data && typeof message.data === 'object' && 'id' in message.data) {
+						const id = String(message.data.id);
+						if (this.sourceRoot !== GraphPanel.primarySource) {
+							logger.warn(`[GraphPanel] Reveal in Types: ${id} is in ${this.sourceName}, the Types tree shows the primary source`);
+							break;
+						}
+						void vscode.commands.executeCommand('mnemographica.revealInTypes', id);
+					}
+					break;
+				}
 				case 'pickTrace': {
 					// Trace mode: user clicked a sphere with live trace
 					// activity — resolve the lineage and open the isolated

@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-10-18T23:57:47.187Z",
+  "generatedAt": "2026-11-17T13:17:20.614Z",
   "scopes": {
     "src/topologica/bootstrap.ts": {
       "scopeId": "src/topologica/bootstrap.ts",
@@ -254,181 +254,237 @@
       "filePath": "src/views/treeProvider.ts",
       "location": "src/views/treeProvider.ts:1:1"
     },
-    "src/views/treeProvider.ts:23:20": {
-      "scopeId": "src/views/treeProvider.ts:23:20",
+    "src/views/treeProvider.ts:29:20": {
+      "scopeId": "src/views/treeProvider.ts:29:20",
       "name": "treeItemId",
       "kind": "function",
       "parentScopeId": "src/views/treeProvider.ts",
       "filePath": "src/views/treeProvider.ts",
-      "location": "src/views/treeProvider.ts:23:20"
+      "location": "src/views/treeProvider.ts:29:20"
     },
-    "src/views/treeProvider.ts:41:2": {
-      "scopeId": "src/views/treeProvider.ts:41:2",
+    "src/views/treeProvider.ts:51:2": {
+      "scopeId": "src/views/treeProvider.ts:51:2",
       "name": "MnemonicaTreeItem.constructor",
       "kind": "method",
       "parentScopeId": "src/views/treeProvider.ts",
       "filePath": "src/views/treeProvider.ts",
-      "location": "src/views/treeProvider.ts:41:2"
+      "location": "src/views/treeProvider.ts:51:2"
     },
-    "src/views/treeProvider.ts:75:2": {
-      "scopeId": "src/views/treeProvider.ts:75:2",
+    "src/views/treeProvider.ts:85:2": {
+      "scopeId": "src/views/treeProvider.ts:85:2",
       "name": "MnemonicaTreeItem.getIconPath",
       "kind": "method",
       "parentScopeId": "src/views/treeProvider.ts",
       "filePath": "src/views/treeProvider.ts",
-      "location": "src/views/treeProvider.ts:75:2"
+      "location": "src/views/treeProvider.ts:85:2"
     },
-    "src/views/treeProvider.ts:106:2": {
-      "scopeId": "src/views/treeProvider.ts:106:2",
+    "src/views/treeProvider.ts:124:2": {
+      "scopeId": "src/views/treeProvider.ts:124:2",
       "name": "MnemonicaTreeProvider.refresh",
       "kind": "method",
       "parentScopeId": "src/views/treeProvider.ts",
       "filePath": "src/views/treeProvider.ts",
-      "location": "src/views/treeProvider.ts:106:2"
+      "location": "src/views/treeProvider.ts:124:2"
     },
-    "src/views/treeProvider.ts:114:2": {
-      "scopeId": "src/views/treeProvider.ts:114:2",
+    "src/views/treeProvider.ts:132:2": {
+      "scopeId": "src/views/treeProvider.ts:132:2",
       "name": "MnemonicaTreeProvider.setWorkspace",
       "kind": "method",
       "parentScopeId": "src/views/treeProvider.ts",
       "filePath": "src/views/treeProvider.ts",
-      "location": "src/views/treeProvider.ts:114:2"
+      "location": "src/views/treeProvider.ts:132:2"
     },
-    "src/views/treeProvider.ts:119:2": {
-      "scopeId": "src/views/treeProvider.ts:119:2",
+    "src/views/treeProvider.ts:137:2": {
+      "scopeId": "src/views/treeProvider.ts:137:2",
       "name": "MnemonicaTreeProvider.getCurrentWorkspace",
       "kind": "method",
       "parentScopeId": "src/views/treeProvider.ts",
       "filePath": "src/views/treeProvider.ts",
-      "location": "src/views/treeProvider.ts:119:2"
+      "location": "src/views/treeProvider.ts:137:2"
     },
-    "src/views/treeProvider.ts:123:2": {
-      "scopeId": "src/views/treeProvider.ts:123:2",
+    "src/views/treeProvider.ts:141:2": {
+      "scopeId": "src/views/treeProvider.ts:141:2",
       "name": "MnemonicaTreeProvider.setRegistry",
       "kind": "method",
       "parentScopeId": "src/views/treeProvider.ts",
       "filePath": "src/views/treeProvider.ts",
-      "location": "src/views/treeProvider.ts:123:2"
+      "location": "src/views/treeProvider.ts:141:2"
     },
-    "src/views/treeProvider.ts:128:2": {
-      "scopeId": "src/views/treeProvider.ts:128:2",
+    "src/views/treeProvider.ts:146:2": {
+      "scopeId": "src/views/treeProvider.ts:146:2",
       "name": "MnemonicaTreeProvider.loadFromRegistry",
       "kind": "method",
       "parentScopeId": "src/views/treeProvider.ts",
       "filePath": "src/views/treeProvider.ts",
-      "location": "src/views/treeProvider.ts:128:2"
+      "location": "src/views/treeProvider.ts:146:2"
     },
-    "src/views/treeProvider.ts:173:2": {
-      "scopeId": "src/views/treeProvider.ts:173:2",
-      "name": "MnemonicaTreeProvider.getTreeItem",
+    "src/views/treeProvider.ts:193:2": {
+      "scopeId": "src/views/treeProvider.ts:193:2",
+      "name": "MnemonicaTreeProvider.setFilter",
       "kind": "method",
       "parentScopeId": "src/views/treeProvider.ts",
       "filePath": "src/views/treeProvider.ts",
-      "location": "src/views/treeProvider.ts:173:2"
+      "location": "src/views/treeProvider.ts:193:2"
     },
-    "src/views/treeProvider.ts:179:2": {
-      "scopeId": "src/views/treeProvider.ts:179:2",
-      "name": "MnemonicaTreeProvider.getParent",
+    "src/views/treeProvider.ts:199:2": {
+      "scopeId": "src/views/treeProvider.ts:199:2",
+      "name": "MnemonicaTreeProvider.getFilter",
       "kind": "method",
       "parentScopeId": "src/views/treeProvider.ts",
       "filePath": "src/views/treeProvider.ts",
-      "location": "src/views/treeProvider.ts:179:2"
-    },
-    "src/views/treeProvider.ts:198:2": {
-      "scopeId": "src/views/treeProvider.ts:198:2",
-      "name": "MnemonicaTreeProvider.getCachedItem",
-      "kind": "method",
-      "parentScopeId": "src/views/treeProvider.ts",
-      "filePath": "src/views/treeProvider.ts",
-      "location": "src/views/treeProvider.ts:198:2"
+      "location": "src/views/treeProvider.ts:199:2"
     },
     "src/views/treeProvider.ts:203:2": {
       "scopeId": "src/views/treeProvider.ts:203:2",
-      "name": "MnemonicaTreeProvider.getChildren",
+      "name": "MnemonicaTreeProvider.getFilterMatchCount",
       "kind": "method",
       "parentScopeId": "src/views/treeProvider.ts",
       "filePath": "src/views/treeProvider.ts",
       "location": "src/views/treeProvider.ts:203:2"
     },
-    "src/views/treeProvider.ts:215:69": {
-      "scopeId": "src/views/treeProvider.ts:215:69",
-      "name": "src/views/treeProvider.ts:215",
-      "kind": "arrow",
-      "parentScopeId": "src/views/treeProvider.ts:203:2",
+    "src/views/treeProvider.ts:210:2": {
+      "scopeId": "src/views/treeProvider.ts:210:2",
+      "name": "MnemonicaTreeProvider.getItemForName",
+      "kind": "method",
+      "parentScopeId": "src/views/treeProvider.ts",
       "filePath": "src/views/treeProvider.ts",
-      "location": "src/views/treeProvider.ts:215:69"
+      "location": "src/views/treeProvider.ts:210:2"
     },
-    "src/views/treeProvider.ts:217:21": {
-      "scopeId": "src/views/treeProvider.ts:217:21",
-      "name": "src/views/treeProvider.ts:217",
-      "kind": "arrow",
-      "parentScopeId": "src/views/treeProvider.ts:203:2",
+    "src/views/treeProvider.ts:218:2": {
+      "scopeId": "src/views/treeProvider.ts:218:2",
+      "name": "MnemonicaTreeProvider.hasType",
+      "kind": "method",
+      "parentScopeId": "src/views/treeProvider.ts",
       "filePath": "src/views/treeProvider.ts",
-      "location": "src/views/treeProvider.ts:217:21"
+      "location": "src/views/treeProvider.ts:218:2"
     },
-    "src/views/treeProvider.ts:227:68": {
-      "scopeId": "src/views/treeProvider.ts:227:68",
-      "name": "src/views/treeProvider.ts:227",
-      "kind": "arrow",
-      "parentScopeId": "src/views/treeProvider.ts:203:2",
+    "src/views/treeProvider.ts:223:2": {
+      "scopeId": "src/views/treeProvider.ts:223:2",
+      "name": "MnemonicaTreeProvider.computeFilter",
+      "kind": "method",
+      "parentScopeId": "src/views/treeProvider.ts",
       "filePath": "src/views/treeProvider.ts",
-      "location": "src/views/treeProvider.ts:227:68"
+      "location": "src/views/treeProvider.ts:223:2"
     },
-    "src/views/treeProvider.ts:230:26": {
-      "scopeId": "src/views/treeProvider.ts:230:26",
-      "name": "src/views/treeProvider.ts:230",
-      "kind": "arrow",
-      "parentScopeId": "src/views/treeProvider.ts:203:2",
+    "src/views/treeProvider.ts:254:2": {
+      "scopeId": "src/views/treeProvider.ts:254:2",
+      "name": "MnemonicaTreeProvider.getTreeItem",
+      "kind": "method",
+      "parentScopeId": "src/views/treeProvider.ts",
       "filePath": "src/views/treeProvider.ts",
-      "location": "src/views/treeProvider.ts:230:26"
+      "location": "src/views/treeProvider.ts:254:2"
     },
-    "src/views/treeProvider.ts:233:2": {
-      "scopeId": "src/views/treeProvider.ts:233:2",
+    "src/views/treeProvider.ts:260:2": {
+      "scopeId": "src/views/treeProvider.ts:260:2",
+      "name": "MnemonicaTreeProvider.getParent",
+      "kind": "method",
+      "parentScopeId": "src/views/treeProvider.ts",
+      "filePath": "src/views/treeProvider.ts",
+      "location": "src/views/treeProvider.ts:260:2"
+    },
+    "src/views/treeProvider.ts:279:2": {
+      "scopeId": "src/views/treeProvider.ts:279:2",
+      "name": "MnemonicaTreeProvider.getCachedItem",
+      "kind": "method",
+      "parentScopeId": "src/views/treeProvider.ts",
+      "filePath": "src/views/treeProvider.ts",
+      "location": "src/views/treeProvider.ts:279:2"
+    },
+    "src/views/treeProvider.ts:284:2": {
+      "scopeId": "src/views/treeProvider.ts:284:2",
+      "name": "MnemonicaTreeProvider.getChildren",
+      "kind": "method",
+      "parentScopeId": "src/views/treeProvider.ts",
+      "filePath": "src/views/treeProvider.ts",
+      "location": "src/views/treeProvider.ts:284:2"
+    },
+    "src/views/treeProvider.ts:296:69": {
+      "scopeId": "src/views/treeProvider.ts:296:69",
+      "name": "src/views/treeProvider.ts:296",
+      "kind": "arrow",
+      "parentScopeId": "src/views/treeProvider.ts:284:2",
+      "filePath": "src/views/treeProvider.ts",
+      "location": "src/views/treeProvider.ts:296:69"
+    },
+    "src/views/treeProvider.ts:298:21": {
+      "scopeId": "src/views/treeProvider.ts:298:21",
+      "name": "src/views/treeProvider.ts:298",
+      "kind": "arrow",
+      "parentScopeId": "src/views/treeProvider.ts:284:2",
+      "filePath": "src/views/treeProvider.ts",
+      "location": "src/views/treeProvider.ts:298:21"
+    },
+    "src/views/treeProvider.ts:308:68": {
+      "scopeId": "src/views/treeProvider.ts:308:68",
+      "name": "src/views/treeProvider.ts:308",
+      "kind": "arrow",
+      "parentScopeId": "src/views/treeProvider.ts:284:2",
+      "filePath": "src/views/treeProvider.ts",
+      "location": "src/views/treeProvider.ts:308:68"
+    },
+    "src/views/treeProvider.ts:311:26": {
+      "scopeId": "src/views/treeProvider.ts:311:26",
+      "name": "src/views/treeProvider.ts:311",
+      "kind": "arrow",
+      "parentScopeId": "src/views/treeProvider.ts:284:2",
+      "filePath": "src/views/treeProvider.ts",
+      "location": "src/views/treeProvider.ts:311:26"
+    },
+    "src/views/treeProvider.ts:314:2": {
+      "scopeId": "src/views/treeProvider.ts:314:2",
       "name": "MnemonicaTreeProvider.getRootDefinitions",
       "kind": "method",
       "parentScopeId": "src/views/treeProvider.ts",
       "filePath": "src/views/treeProvider.ts",
-      "location": "src/views/treeProvider.ts:233:2"
+      "location": "src/views/treeProvider.ts:314:2"
     },
-    "src/views/treeProvider.ts:240:21": {
-      "scopeId": "src/views/treeProvider.ts:240:21",
-      "name": "src/views/treeProvider.ts:240",
+    "src/views/treeProvider.ts:321:21": {
+      "scopeId": "src/views/treeProvider.ts:321:21",
+      "name": "src/views/treeProvider.ts:321",
       "kind": "arrow",
-      "parentScopeId": "src/views/treeProvider.ts:233:2",
+      "parentScopeId": "src/views/treeProvider.ts:314:2",
       "filePath": "src/views/treeProvider.ts",
-      "location": "src/views/treeProvider.ts:240:21"
+      "location": "src/views/treeProvider.ts:321:21"
     },
-    "src/views/treeProvider.ts:243:2": {
-      "scopeId": "src/views/treeProvider.ts:243:2",
+    "src/views/treeProvider.ts:324:2": {
+      "scopeId": "src/views/treeProvider.ts:324:2",
       "name": "MnemonicaTreeProvider.getChildDefinitions",
       "kind": "method",
       "parentScopeId": "src/views/treeProvider.ts",
       "filePath": "src/views/treeProvider.ts",
-      "location": "src/views/treeProvider.ts:243:2"
+      "location": "src/views/treeProvider.ts:324:2"
     },
-    "src/views/treeProvider.ts:250:24": {
-      "scopeId": "src/views/treeProvider.ts:250:24",
-      "name": "src/views/treeProvider.ts:250",
+    "src/views/treeProvider.ts:331:24": {
+      "scopeId": "src/views/treeProvider.ts:331:24",
+      "name": "src/views/treeProvider.ts:331",
       "kind": "arrow",
-      "parentScopeId": "src/views/treeProvider.ts:243:2",
+      "parentScopeId": "src/views/treeProvider.ts:324:2",
       "filePath": "src/views/treeProvider.ts",
-      "location": "src/views/treeProvider.ts:250:24"
+      "location": "src/views/treeProvider.ts:331:24"
     },
-    "src/views/treeProvider.ts:253:2": {
-      "scopeId": "src/views/treeProvider.ts:253:2",
+    "src/views/treeProvider.ts:334:2": {
+      "scopeId": "src/views/treeProvider.ts:334:2",
+      "name": "MnemonicaTreeProvider.isFilterVisible",
+      "kind": "method",
+      "parentScopeId": "src/views/treeProvider.ts",
+      "filePath": "src/views/treeProvider.ts",
+      "location": "src/views/treeProvider.ts:334:2"
+    },
+    "src/views/treeProvider.ts:339:2": {
+      "scopeId": "src/views/treeProvider.ts:339:2",
       "name": "MnemonicaTreeProvider.createDefinitionItem",
       "kind": "method",
       "parentScopeId": "src/views/treeProvider.ts",
       "filePath": "src/views/treeProvider.ts",
-      "location": "src/views/treeProvider.ts:253:2"
+      "location": "src/views/treeProvider.ts:339:2"
     },
-    "src/views/treeProvider.ts:278:2": {
-      "scopeId": "src/views/treeProvider.ts:278:2",
+    "src/views/treeProvider.ts:370:2": {
+      "scopeId": "src/views/treeProvider.ts:370:2",
       "name": "MnemonicaTreeProvider.clear",
       "kind": "method",
       "parentScopeId": "src/views/treeProvider.ts",
       "filePath": "src/views/treeProvider.ts",
-      "location": "src/views/treeProvider.ts:278:2"
+      "location": "src/views/treeProvider.ts:370:2"
     },
     "src/views/usagesTreeProvider.ts": {
       "scopeId": "src/views/usagesTreeProvider.ts",
@@ -1224,141 +1280,141 @@
       "filePath": "src/core/GraphBuilder.ts",
       "location": "src/core/GraphBuilder.ts:21:2"
     },
-    "src/core/GraphBuilder.ts:119:19": {
-      "scopeId": "src/core/GraphBuilder.ts:119:19",
-      "name": "src/core/GraphBuilder.ts:119",
+    "src/core/GraphBuilder.ts:124:19": {
+      "scopeId": "src/core/GraphBuilder.ts:124:19",
+      "name": "src/core/GraphBuilder.ts:124",
       "kind": "arrow",
       "parentScopeId": "src/core/GraphBuilder.ts:21:2",
       "filePath": "src/core/GraphBuilder.ts",
-      "location": "src/core/GraphBuilder.ts:119:19"
+      "location": "src/core/GraphBuilder.ts:124:19"
     },
-    "src/core/GraphBuilder.ts:142:39": {
-      "scopeId": "src/core/GraphBuilder.ts:142:39",
-      "name": "src/core/GraphBuilder.ts:142",
+    "src/core/GraphBuilder.ts:147:39": {
+      "scopeId": "src/core/GraphBuilder.ts:147:39",
+      "name": "src/core/GraphBuilder.ts:147",
       "kind": "arrow",
       "parentScopeId": "src/core/GraphBuilder.ts:21:2",
       "filePath": "src/core/GraphBuilder.ts",
-      "location": "src/core/GraphBuilder.ts:142:39"
+      "location": "src/core/GraphBuilder.ts:147:39"
     },
-    "src/core/GraphBuilder.ts:185:47": {
-      "scopeId": "src/core/GraphBuilder.ts:185:47",
-      "name": "src/core/GraphBuilder.ts:185",
+    "src/core/GraphBuilder.ts:190:47": {
+      "scopeId": "src/core/GraphBuilder.ts:190:47",
+      "name": "src/core/GraphBuilder.ts:190",
       "kind": "arrow",
       "parentScopeId": "src/core/GraphBuilder.ts:21:2",
       "filePath": "src/core/GraphBuilder.ts",
-      "location": "src/core/GraphBuilder.ts:185:47"
+      "location": "src/core/GraphBuilder.ts:190:47"
     },
-    "src/core/GraphBuilder.ts:301:2": {
-      "scopeId": "src/core/GraphBuilder.ts:301:2",
+    "src/core/GraphBuilder.ts:306:2": {
+      "scopeId": "src/core/GraphBuilder.ts:306:2",
       "name": "GraphBuilder.buildInternalsSection",
       "kind": "method",
       "parentScopeId": "src/core/GraphBuilder.ts",
       "filePath": "src/core/GraphBuilder.ts",
-      "location": "src/core/GraphBuilder.ts:301:2"
+      "location": "src/core/GraphBuilder.ts:306:2"
     },
-    "src/core/GraphBuilder.ts:305:54": {
-      "scopeId": "src/core/GraphBuilder.ts:305:54",
-      "name": "src/core/GraphBuilder.ts:305",
+    "src/core/GraphBuilder.ts:310:54": {
+      "scopeId": "src/core/GraphBuilder.ts:310:54",
+      "name": "src/core/GraphBuilder.ts:310",
       "kind": "arrow",
-      "parentScopeId": "src/core/GraphBuilder.ts:301:2",
+      "parentScopeId": "src/core/GraphBuilder.ts:306:2",
       "filePath": "src/core/GraphBuilder.ts",
-      "location": "src/core/GraphBuilder.ts:305:54"
+      "location": "src/core/GraphBuilder.ts:310:54"
     },
-    "src/core/GraphBuilder.ts:311:54": {
-      "scopeId": "src/core/GraphBuilder.ts:311:54",
-      "name": "src/core/GraphBuilder.ts:311",
+    "src/core/GraphBuilder.ts:316:54": {
+      "scopeId": "src/core/GraphBuilder.ts:316:54",
+      "name": "src/core/GraphBuilder.ts:316",
       "kind": "arrow",
-      "parentScopeId": "src/core/GraphBuilder.ts:301:2",
+      "parentScopeId": "src/core/GraphBuilder.ts:306:2",
       "filePath": "src/core/GraphBuilder.ts",
-      "location": "src/core/GraphBuilder.ts:311:54"
+      "location": "src/core/GraphBuilder.ts:316:54"
     },
-    "src/core/GraphBuilder.ts:338:2": {
-      "scopeId": "src/core/GraphBuilder.ts:338:2",
+    "src/core/GraphBuilder.ts:343:2": {
+      "scopeId": "src/core/GraphBuilder.ts:343:2",
       "name": "GraphBuilder.buildCreationSection",
       "kind": "method",
       "parentScopeId": "src/core/GraphBuilder.ts",
       "filePath": "src/core/GraphBuilder.ts",
-      "location": "src/core/GraphBuilder.ts:338:2"
+      "location": "src/core/GraphBuilder.ts:343:2"
     },
-    "src/core/GraphBuilder.ts:360:51": {
-      "scopeId": "src/core/GraphBuilder.ts:360:51",
-      "name": "src/core/GraphBuilder.ts:360",
+    "src/core/GraphBuilder.ts:365:51": {
+      "scopeId": "src/core/GraphBuilder.ts:365:51",
+      "name": "src/core/GraphBuilder.ts:365",
       "kind": "arrow",
-      "parentScopeId": "src/core/GraphBuilder.ts:338:2",
+      "parentScopeId": "src/core/GraphBuilder.ts:343:2",
       "filePath": "src/core/GraphBuilder.ts",
-      "location": "src/core/GraphBuilder.ts:360:51"
+      "location": "src/core/GraphBuilder.ts:365:51"
     },
-    "src/core/GraphBuilder.ts:392:35": {
-      "scopeId": "src/core/GraphBuilder.ts:392:35",
-      "name": "src/core/GraphBuilder.ts:392",
+    "src/core/GraphBuilder.ts:397:35": {
+      "scopeId": "src/core/GraphBuilder.ts:397:35",
+      "name": "src/core/GraphBuilder.ts:397",
       "kind": "arrow",
-      "parentScopeId": "src/core/GraphBuilder.ts:338:2",
+      "parentScopeId": "src/core/GraphBuilder.ts:343:2",
       "filePath": "src/core/GraphBuilder.ts",
-      "location": "src/core/GraphBuilder.ts:392:35"
+      "location": "src/core/GraphBuilder.ts:397:35"
     },
-    "src/core/GraphBuilder.ts:412:2": {
-      "scopeId": "src/core/GraphBuilder.ts:412:2",
+    "src/core/GraphBuilder.ts:417:2": {
+      "scopeId": "src/core/GraphBuilder.ts:417:2",
       "name": "GraphBuilder.buildWrappersSection",
       "kind": "method",
       "parentScopeId": "src/core/GraphBuilder.ts",
       "filePath": "src/core/GraphBuilder.ts",
-      "location": "src/core/GraphBuilder.ts:412:2"
+      "location": "src/core/GraphBuilder.ts:417:2"
     },
-    "src/core/GraphBuilder.ts:418:37": {
-      "scopeId": "src/core/GraphBuilder.ts:418:37",
-      "name": "src/core/GraphBuilder.ts:418",
+    "src/core/GraphBuilder.ts:423:37": {
+      "scopeId": "src/core/GraphBuilder.ts:423:37",
+      "name": "src/core/GraphBuilder.ts:423",
       "kind": "arrow",
-      "parentScopeId": "src/core/GraphBuilder.ts:412:2",
+      "parentScopeId": "src/core/GraphBuilder.ts:417:2",
       "filePath": "src/core/GraphBuilder.ts",
-      "location": "src/core/GraphBuilder.ts:418:37"
+      "location": "src/core/GraphBuilder.ts:423:37"
     },
-    "src/core/GraphBuilder.ts:468:47": {
-      "scopeId": "src/core/GraphBuilder.ts:468:47",
-      "name": "src/core/GraphBuilder.ts:468",
+    "src/core/GraphBuilder.ts:473:47": {
+      "scopeId": "src/core/GraphBuilder.ts:473:47",
+      "name": "src/core/GraphBuilder.ts:473",
       "kind": "arrow",
-      "parentScopeId": "src/core/GraphBuilder.ts:412:2",
+      "parentScopeId": "src/core/GraphBuilder.ts:417:2",
       "filePath": "src/core/GraphBuilder.ts",
-      "location": "src/core/GraphBuilder.ts:468:47"
+      "location": "src/core/GraphBuilder.ts:473:47"
     },
-    "src/core/GraphBuilder.ts:481:24": {
-      "scopeId": "src/core/GraphBuilder.ts:481:24",
+    "src/core/GraphBuilder.ts:486:24": {
+      "scopeId": "src/core/GraphBuilder.ts:486:24",
       "name": "generationOf",
       "kind": "arrow",
-      "parentScopeId": "src/core/GraphBuilder.ts:412:2",
+      "parentScopeId": "src/core/GraphBuilder.ts:417:2",
       "filePath": "src/core/GraphBuilder.ts",
-      "location": "src/core/GraphBuilder.ts:481:24"
+      "location": "src/core/GraphBuilder.ts:486:24"
     },
-    "src/core/GraphBuilder.ts:530:2": {
-      "scopeId": "src/core/GraphBuilder.ts:530:2",
+    "src/core/GraphBuilder.ts:535:2": {
+      "scopeId": "src/core/GraphBuilder.ts:535:2",
       "name": "GraphBuilder.mapEDSKind",
       "kind": "method",
       "parentScopeId": "src/core/GraphBuilder.ts",
       "filePath": "src/core/GraphBuilder.ts",
-      "location": "src/core/GraphBuilder.ts:530:2"
+      "location": "src/core/GraphBuilder.ts:535:2"
     },
-    "src/core/GraphBuilder.ts:542:2": {
-      "scopeId": "src/core/GraphBuilder.ts:542:2",
+    "src/core/GraphBuilder.ts:547:2": {
+      "scopeId": "src/core/GraphBuilder.ts:547:2",
       "name": "GraphBuilder.buildTypeNode",
       "kind": "method",
       "parentScopeId": "src/core/GraphBuilder.ts",
       "filePath": "src/core/GraphBuilder.ts",
-      "location": "src/core/GraphBuilder.ts:542:2"
+      "location": "src/core/GraphBuilder.ts:547:2"
     },
-    "src/core/GraphBuilder.ts:574:2": {
-      "scopeId": "src/core/GraphBuilder.ts:574:2",
+    "src/core/GraphBuilder.ts:579:2": {
+      "scopeId": "src/core/GraphBuilder.ts:579:2",
       "name": "GraphBuilder.getStats",
       "kind": "method",
       "parentScopeId": "src/core/GraphBuilder.ts",
       "filePath": "src/core/GraphBuilder.ts",
-      "location": "src/core/GraphBuilder.ts:574:2"
+      "location": "src/core/GraphBuilder.ts:579:2"
     },
-    "src/core/GraphBuilder.ts:579:55": {
-      "scopeId": "src/core/GraphBuilder.ts:579:55",
-      "name": "src/core/GraphBuilder.ts:579",
+    "src/core/GraphBuilder.ts:584:55": {
+      "scopeId": "src/core/GraphBuilder.ts:584:55",
+      "name": "src/core/GraphBuilder.ts:584",
       "kind": "arrow",
-      "parentScopeId": "src/core/GraphBuilder.ts:574:2",
+      "parentScopeId": "src/core/GraphBuilder.ts:579:2",
       "filePath": "src/core/GraphBuilder.ts",
-      "location": "src/core/GraphBuilder.ts:579:55"
+      "location": "src/core/GraphBuilder.ts:584:55"
     },
     "src/utils/letheValidation.ts": {
       "scopeId": "src/utils/letheValidation.ts",
@@ -2294,141 +2350,141 @@
       "filePath": "src/webview/panel.ts",
       "location": "src/webview/panel.ts:407:4"
     },
-    "src/webview/panel.ts:526:4": {
-      "scopeId": "src/webview/panel.ts:526:4",
-      "name": "src/webview/panel.ts:526",
+    "src/webview/panel.ts:541:4": {
+      "scopeId": "src/webview/panel.ts:541:4",
+      "name": "src/webview/panel.ts:541",
       "kind": "arrow",
       "parentScopeId": "src/webview/panel.ts:392:2",
       "filePath": "src/webview/panel.ts",
-      "location": "src/webview/panel.ts:526:4"
+      "location": "src/webview/panel.ts:541:4"
     },
-    "src/webview/panel.ts:535:27": {
-      "scopeId": "src/webview/panel.ts:535:27",
-      "name": "src/webview/panel.ts:535",
+    "src/webview/panel.ts:550:27": {
+      "scopeId": "src/webview/panel.ts:550:27",
+      "name": "src/webview/panel.ts:550",
       "kind": "arrow",
       "parentScopeId": "src/webview/panel.ts:392:2",
       "filePath": "src/webview/panel.ts",
-      "location": "src/webview/panel.ts:535:27"
+      "location": "src/webview/panel.ts:550:27"
     },
-    "src/webview/panel.ts:548:2": {
-      "scopeId": "src/webview/panel.ts:548:2",
+    "src/webview/panel.ts:563:2": {
+      "scopeId": "src/webview/panel.ts:563:2",
       "name": "GraphPanel.reloadGraph",
       "kind": "method",
       "parentScopeId": "src/webview/panel.ts",
       "filePath": "src/webview/panel.ts",
-      "location": "src/webview/panel.ts:548:2"
+      "location": "src/webview/panel.ts:563:2"
     },
-    "src/webview/panel.ts:567:2": {
-      "scopeId": "src/webview/panel.ts:567:2",
+    "src/webview/panel.ts:582:2": {
+      "scopeId": "src/webview/panel.ts:582:2",
       "name": "GraphPanel.setFollowTactica",
       "kind": "method",
       "parentScopeId": "src/webview/panel.ts",
       "filePath": "src/webview/panel.ts",
-      "location": "src/webview/panel.ts:567:2"
+      "location": "src/webview/panel.ts:582:2"
     },
-    "src/webview/panel.ts:571:2": {
-      "scopeId": "src/webview/panel.ts:571:2",
+    "src/webview/panel.ts:586:2": {
+      "scopeId": "src/webview/panel.ts:586:2",
       "name": "GraphPanel.updateGraph",
       "kind": "method",
       "parentScopeId": "src/webview/panel.ts",
       "filePath": "src/webview/panel.ts",
-      "location": "src/webview/panel.ts:571:2"
+      "location": "src/webview/panel.ts:586:2"
     },
-    "src/webview/panel.ts:593:2": {
-      "scopeId": "src/webview/panel.ts:593:2",
+    "src/webview/panel.ts:608:2": {
+      "scopeId": "src/webview/panel.ts:608:2",
       "name": "GraphPanel.getLayoutFilePath",
       "kind": "method",
       "parentScopeId": "src/webview/panel.ts",
       "filePath": "src/webview/panel.ts",
-      "location": "src/webview/panel.ts:593:2"
+      "location": "src/webview/panel.ts:608:2"
     },
-    "src/webview/panel.ts:598:2": {
-      "scopeId": "src/webview/panel.ts:598:2",
+    "src/webview/panel.ts:613:2": {
+      "scopeId": "src/webview/panel.ts:613:2",
       "name": "GraphPanel.readSavedLayout",
       "kind": "method",
       "parentScopeId": "src/webview/panel.ts",
       "filePath": "src/webview/panel.ts",
-      "location": "src/webview/panel.ts:598:2"
+      "location": "src/webview/panel.ts:613:2"
     },
-    "src/webview/panel.ts:625:2": {
-      "scopeId": "src/webview/panel.ts:625:2",
+    "src/webview/panel.ts:640:2": {
+      "scopeId": "src/webview/panel.ts:640:2",
       "name": "GraphPanel.handleSaveLayout",
       "kind": "method",
       "parentScopeId": "src/webview/panel.ts",
       "filePath": "src/webview/panel.ts",
-      "location": "src/webview/panel.ts:625:2"
+      "location": "src/webview/panel.ts:640:2"
     },
-    "src/webview/panel.ts:646:2": {
-      "scopeId": "src/webview/panel.ts:646:2",
+    "src/webview/panel.ts:661:2": {
+      "scopeId": "src/webview/panel.ts:661:2",
       "name": "GraphPanel.handleExportHtml",
       "kind": "method",
       "parentScopeId": "src/webview/panel.ts",
       "filePath": "src/webview/panel.ts",
-      "location": "src/webview/panel.ts:646:2"
+      "location": "src/webview/panel.ts:661:2"
     },
-    "src/webview/panel.ts:672:2": {
-      "scopeId": "src/webview/panel.ts:672:2",
+    "src/webview/panel.ts:687:2": {
+      "scopeId": "src/webview/panel.ts:687:2",
       "name": "GraphPanel.noteFocus",
       "kind": "method",
       "parentScopeId": "src/webview/panel.ts",
       "filePath": "src/webview/panel.ts",
-      "location": "src/webview/panel.ts:672:2"
+      "location": "src/webview/panel.ts:687:2"
     },
-    "src/webview/panel.ts:675:35": {
-      "scopeId": "src/webview/panel.ts:675:35",
-      "name": "src/webview/panel.ts:675",
+    "src/webview/panel.ts:690:35": {
+      "scopeId": "src/webview/panel.ts:690:35",
+      "name": "src/webview/panel.ts:690",
       "kind": "arrow",
-      "parentScopeId": "src/webview/panel.ts:672:2",
+      "parentScopeId": "src/webview/panel.ts:687:2",
       "filePath": "src/webview/panel.ts",
-      "location": "src/webview/panel.ts:675:35"
+      "location": "src/webview/panel.ts:690:35"
     },
-    "src/webview/panel.ts:690:2": {
-      "scopeId": "src/webview/panel.ts:690:2",
+    "src/webview/panel.ts:705:2": {
+      "scopeId": "src/webview/panel.ts:705:2",
       "name": "GraphPanel.noteViewState",
       "kind": "method",
       "parentScopeId": "src/webview/panel.ts",
       "filePath": "src/webview/panel.ts",
-      "location": "src/webview/panel.ts:690:2"
+      "location": "src/webview/panel.ts:705:2"
     },
-    "src/webview/panel.ts:714:2": {
-      "scopeId": "src/webview/panel.ts:714:2",
+    "src/webview/panel.ts:729:2": {
+      "scopeId": "src/webview/panel.ts:729:2",
       "name": "GraphPanel.handleGoToDefinition",
       "kind": "method",
       "parentScopeId": "src/webview/panel.ts",
       "filePath": "src/webview/panel.ts",
-      "location": "src/webview/panel.ts:714:2"
+      "location": "src/webview/panel.ts:729:2"
     },
-    "src/webview/panel.ts:736:2": {
-      "scopeId": "src/webview/panel.ts:736:2",
+    "src/webview/panel.ts:751:2": {
+      "scopeId": "src/webview/panel.ts:751:2",
       "name": "GraphPanel.buildExportSkeleton",
       "kind": "method",
       "parentScopeId": "src/webview/panel.ts",
       "filePath": "src/webview/panel.ts",
-      "location": "src/webview/panel.ts:736:2"
+      "location": "src/webview/panel.ts:751:2"
     },
-    "src/webview/panel.ts:752:2": {
-      "scopeId": "src/webview/panel.ts:752:2",
+    "src/webview/panel.ts:767:2": {
+      "scopeId": "src/webview/panel.ts:767:2",
       "name": "GraphPanel.getWebviewContent",
       "kind": "method",
       "parentScopeId": "src/webview/panel.ts",
       "filePath": "src/webview/panel.ts",
-      "location": "src/webview/panel.ts:752:2"
+      "location": "src/webview/panel.ts:767:2"
     },
-    "src/webview/panel.ts:843:79": {
-      "scopeId": "src/webview/panel.ts:843:79",
-      "name": "src/webview/panel.ts:843",
+    "src/webview/panel.ts:858:79": {
+      "scopeId": "src/webview/panel.ts:858:79",
+      "name": "src/webview/panel.ts:858",
       "kind": "arrow",
-      "parentScopeId": "src/webview/panel.ts:752:2",
+      "parentScopeId": "src/webview/panel.ts:767:2",
       "filePath": "src/webview/panel.ts",
-      "location": "src/webview/panel.ts:843:79"
+      "location": "src/webview/panel.ts:858:79"
     },
-    "src/webview/panel.ts:847:2": {
-      "scopeId": "src/webview/panel.ts:847:2",
+    "src/webview/panel.ts:862:2": {
+      "scopeId": "src/webview/panel.ts:862:2",
       "name": "GraphPanel.dispose",
       "kind": "method",
       "parentScopeId": "src/webview/panel.ts",
       "filePath": "src/webview/panel.ts",
-      "location": "src/webview/panel.ts:847:2"
+      "location": "src/webview/panel.ts:862:2"
     },
     "src/strategy/server.ts": {
       "scopeId": "src/strategy/server.ts",
@@ -3418,381 +3474,413 @@
       "filePath": "src/extension.ts",
       "location": "src/extension.ts:186:68"
     },
-    "src/extension.ts:198:64": {
-      "scopeId": "src/extension.ts:198:64",
-      "name": "src/extension.ts:198",
+    "src/extension.ts:194:26": {
+      "scopeId": "src/extension.ts:194:26",
+      "name": "showTypesFilter",
       "kind": "arrow",
       "parentScopeId": "src/extension.ts:68:1",
       "filePath": "src/extension.ts",
-      "location": "src/extension.ts:198:64"
+      "location": "src/extension.ts:194:26"
     },
-    "src/extension.ts:267:31": {
-      "scopeId": "src/extension.ts:267:31",
-      "name": "src/extension.ts:267",
+    "src/extension.ts:206:64": {
+      "scopeId": "src/extension.ts:206:64",
+      "name": "src/extension.ts:206",
       "kind": "arrow",
       "parentScopeId": "src/extension.ts:68:1",
       "filePath": "src/extension.ts",
-      "location": "src/extension.ts:267:31"
+      "location": "src/extension.ts:206:64"
     },
-    "src/extension.ts:273:12": {
-      "scopeId": "src/extension.ts:273:12",
+    "src/extension.ts:221:69": {
+      "scopeId": "src/extension.ts:221:69",
+      "name": "src/extension.ts:221",
+      "kind": "arrow",
+      "parentScopeId": "src/extension.ts:68:1",
+      "filePath": "src/extension.ts",
+      "location": "src/extension.ts:221:69"
+    },
+    "src/extension.ts:233:64": {
+      "scopeId": "src/extension.ts:233:64",
+      "name": "src/extension.ts:233",
+      "kind": "arrow",
+      "parentScopeId": "src/extension.ts:68:1",
+      "filePath": "src/extension.ts",
+      "location": "src/extension.ts:233:64"
+    },
+    "src/extension.ts:302:31": {
+      "scopeId": "src/extension.ts:302:31",
+      "name": "src/extension.ts:302",
+      "kind": "arrow",
+      "parentScopeId": "src/extension.ts:68:1",
+      "filePath": "src/extension.ts",
+      "location": "src/extension.ts:302:31"
+    },
+    "src/extension.ts:308:12": {
+      "scopeId": "src/extension.ts:308:12",
       "name": "dispose",
       "kind": "arrow",
       "parentScopeId": "src/extension.ts:68:1",
       "filePath": "src/extension.ts",
-      "location": "src/extension.ts:273:12"
+      "location": "src/extension.ts:308:12"
     },
-    "src/extension.ts:298:26": {
-      "scopeId": "src/extension.ts:298:26",
-      "name": "src/extension.ts:298",
-      "kind": "arrow",
-      "parentScopeId": "src/extension.ts:68:1",
-      "filePath": "src/extension.ts",
-      "location": "src/extension.ts:298:26"
-    },
-    "src/extension.ts:313:45": {
-      "scopeId": "src/extension.ts:313:45",
-      "name": "src/extension.ts:313",
-      "kind": "arrow",
-      "parentScopeId": "src/extension.ts:68:1",
-      "filePath": "src/extension.ts",
-      "location": "src/extension.ts:313:45"
-    },
-    "src/extension.ts:325:68": {
-      "scopeId": "src/extension.ts:325:68",
-      "name": "src/extension.ts:325",
-      "kind": "arrow",
-      "parentScopeId": "src/extension.ts:68:1",
-      "filePath": "src/extension.ts",
-      "location": "src/extension.ts:325:68"
-    },
-    "src/extension.ts:328:70": {
-      "scopeId": "src/extension.ts:328:70",
-      "name": "src/extension.ts:328",
-      "kind": "arrow",
-      "parentScopeId": "src/extension.ts:68:1",
-      "filePath": "src/extension.ts",
-      "location": "src/extension.ts:328:70"
-    },
-    "src/extension.ts:333:65": {
-      "scopeId": "src/extension.ts:333:65",
+    "src/extension.ts:333:26": {
+      "scopeId": "src/extension.ts:333:26",
       "name": "src/extension.ts:333",
       "kind": "arrow",
       "parentScopeId": "src/extension.ts:68:1",
       "filePath": "src/extension.ts",
-      "location": "src/extension.ts:333:65"
+      "location": "src/extension.ts:333:26"
     },
-    "src/extension.ts:339:45": {
-      "scopeId": "src/extension.ts:339:45",
-      "name": "src/extension.ts:339",
+    "src/extension.ts:348:45": {
+      "scopeId": "src/extension.ts:348:45",
+      "name": "src/extension.ts:348",
       "kind": "arrow",
       "parentScopeId": "src/extension.ts:68:1",
       "filePath": "src/extension.ts",
-      "location": "src/extension.ts:339:45"
+      "location": "src/extension.ts:348:45"
     },
-    "src/extension.ts:350:14": {
-      "scopeId": "src/extension.ts:350:14",
+    "src/extension.ts:360:68": {
+      "scopeId": "src/extension.ts:360:68",
+      "name": "src/extension.ts:360",
+      "kind": "arrow",
+      "parentScopeId": "src/extension.ts:68:1",
+      "filePath": "src/extension.ts",
+      "location": "src/extension.ts:360:68"
+    },
+    "src/extension.ts:363:70": {
+      "scopeId": "src/extension.ts:363:70",
+      "name": "src/extension.ts:363",
+      "kind": "arrow",
+      "parentScopeId": "src/extension.ts:68:1",
+      "filePath": "src/extension.ts",
+      "location": "src/extension.ts:363:70"
+    },
+    "src/extension.ts:368:65": {
+      "scopeId": "src/extension.ts:368:65",
+      "name": "src/extension.ts:368",
+      "kind": "arrow",
+      "parentScopeId": "src/extension.ts:68:1",
+      "filePath": "src/extension.ts",
+      "location": "src/extension.ts:368:65"
+    },
+    "src/extension.ts:374:45": {
+      "scopeId": "src/extension.ts:374:45",
+      "name": "src/extension.ts:374",
+      "kind": "arrow",
+      "parentScopeId": "src/extension.ts:68:1",
+      "filePath": "src/extension.ts",
+      "location": "src/extension.ts:374:45"
+    },
+    "src/extension.ts:385:14": {
+      "scopeId": "src/extension.ts:385:14",
       "name": "dispose",
       "kind": "arrow",
       "parentScopeId": "src/extension.ts:68:1",
       "filePath": "src/extension.ts",
-      "location": "src/extension.ts:350:14"
+      "location": "src/extension.ts:385:14"
     },
-    "src/extension.ts:355:14": {
-      "scopeId": "src/extension.ts:355:14",
+    "src/extension.ts:390:14": {
+      "scopeId": "src/extension.ts:390:14",
       "name": "resolve",
       "kind": "arrow",
       "parentScopeId": "src/extension.ts:68:1",
       "filePath": "src/extension.ts",
-      "location": "src/extension.ts:355:14"
+      "location": "src/extension.ts:390:14"
     },
-    "src/extension.ts:356:19": {
-      "scopeId": "src/extension.ts:356:19",
+    "src/extension.ts:391:19": {
+      "scopeId": "src/extension.ts:391:19",
       "name": "resolveByRoot",
       "kind": "arrow",
       "parentScopeId": "src/extension.ts:68:1",
       "filePath": "src/extension.ts",
-      "location": "src/extension.ts:356:19"
+      "location": "src/extension.ts:391:19"
     },
-    "src/extension.ts:357:14": {
-      "scopeId": "src/extension.ts:357:14",
+    "src/extension.ts:392:14": {
+      "scopeId": "src/extension.ts:392:14",
       "name": "continue",
       "kind": "arrow",
       "parentScopeId": "src/extension.ts:68:1",
       "filePath": "src/extension.ts",
-      "location": "src/extension.ts:357:14"
+      "location": "src/extension.ts:392:14"
     },
-    "src/extension.ts:376:25": {
-      "scopeId": "src/extension.ts:376:25",
+    "src/extension.ts:411:25": {
+      "scopeId": "src/extension.ts:411:25",
       "name": "withTracePanel",
       "kind": "arrow",
       "parentScopeId": "src/extension.ts:68:1",
       "filePath": "src/extension.ts",
-      "location": "src/extension.ts:376:25"
+      "location": "src/extension.ts:411:25"
     },
-    "src/extension.ts:383:14": {
-      "scopeId": "src/extension.ts:383:14",
-      "name": "src/extension.ts:383",
-      "kind": "arrow",
-      "parentScopeId": "src/extension.ts:376:25",
-      "filePath": "src/extension.ts",
-      "location": "src/extension.ts:383:14"
-    },
-    "src/extension.ts:390:62": {
-      "scopeId": "src/extension.ts:390:62",
-      "name": "src/extension.ts:390",
-      "kind": "arrow",
-      "parentScopeId": "src/extension.ts:68:1",
-      "filePath": "src/extension.ts",
-      "location": "src/extension.ts:390:62"
-    },
-    "src/extension.ts:393:5": {
-      "scopeId": "src/extension.ts:393:5",
-      "name": "src/extension.ts:393",
-      "kind": "arrow",
-      "parentScopeId": "src/extension.ts:390:62",
-      "filePath": "src/extension.ts",
-      "location": "src/extension.ts:393:5"
-    },
-    "src/extension.ts:397:64": {
-      "scopeId": "src/extension.ts:397:64",
-      "name": "src/extension.ts:397",
-      "kind": "arrow",
-      "parentScopeId": "src/extension.ts:68:1",
-      "filePath": "src/extension.ts",
-      "location": "src/extension.ts:397:64"
-    },
-    "src/extension.ts:404:5": {
-      "scopeId": "src/extension.ts:404:5",
-      "name": "src/extension.ts:404",
-      "kind": "arrow",
-      "parentScopeId": "src/extension.ts:397:64",
-      "filePath": "src/extension.ts",
-      "location": "src/extension.ts:404:5"
-    },
-    "src/extension.ts:408:68": {
-      "scopeId": "src/extension.ts:408:68",
-      "name": "src/extension.ts:408",
-      "kind": "arrow",
-      "parentScopeId": "src/extension.ts:68:1",
-      "filePath": "src/extension.ts",
-      "location": "src/extension.ts:408:68"
-    },
-    "src/extension.ts:418:66": {
-      "scopeId": "src/extension.ts:418:66",
+    "src/extension.ts:418:14": {
+      "scopeId": "src/extension.ts:418:14",
       "name": "src/extension.ts:418",
       "kind": "arrow",
+      "parentScopeId": "src/extension.ts:411:25",
+      "filePath": "src/extension.ts",
+      "location": "src/extension.ts:418:14"
+    },
+    "src/extension.ts:425:62": {
+      "scopeId": "src/extension.ts:425:62",
+      "name": "src/extension.ts:425",
+      "kind": "arrow",
       "parentScopeId": "src/extension.ts:68:1",
       "filePath": "src/extension.ts",
-      "location": "src/extension.ts:418:66"
+      "location": "src/extension.ts:425:62"
     },
-    "src/extension.ts:432:14": {
-      "scopeId": "src/extension.ts:432:14",
+    "src/extension.ts:428:5": {
+      "scopeId": "src/extension.ts:428:5",
+      "name": "src/extension.ts:428",
+      "kind": "arrow",
+      "parentScopeId": "src/extension.ts:425:62",
+      "filePath": "src/extension.ts",
+      "location": "src/extension.ts:428:5"
+    },
+    "src/extension.ts:432:64": {
+      "scopeId": "src/extension.ts:432:64",
+      "name": "src/extension.ts:432",
+      "kind": "arrow",
+      "parentScopeId": "src/extension.ts:68:1",
+      "filePath": "src/extension.ts",
+      "location": "src/extension.ts:432:64"
+    },
+    "src/extension.ts:439:5": {
+      "scopeId": "src/extension.ts:439:5",
+      "name": "src/extension.ts:439",
+      "kind": "arrow",
+      "parentScopeId": "src/extension.ts:432:64",
+      "filePath": "src/extension.ts",
+      "location": "src/extension.ts:439:5"
+    },
+    "src/extension.ts:443:68": {
+      "scopeId": "src/extension.ts:443:68",
+      "name": "src/extension.ts:443",
+      "kind": "arrow",
+      "parentScopeId": "src/extension.ts:68:1",
+      "filePath": "src/extension.ts",
+      "location": "src/extension.ts:443:68"
+    },
+    "src/extension.ts:453:66": {
+      "scopeId": "src/extension.ts:453:66",
+      "name": "src/extension.ts:453",
+      "kind": "arrow",
+      "parentScopeId": "src/extension.ts:68:1",
+      "filePath": "src/extension.ts",
+      "location": "src/extension.ts:453:66"
+    },
+    "src/extension.ts:467:14": {
+      "scopeId": "src/extension.ts:467:14",
       "name": "handleUri",
       "kind": "arrow",
       "parentScopeId": "src/extension.ts:68:1",
       "filePath": "src/extension.ts",
-      "location": "src/extension.ts:432:14"
+      "location": "src/extension.ts:467:14"
     },
-    "src/extension.ts:445:25": {
-      "scopeId": "src/extension.ts:445:25",
-      "name": "src/extension.ts:445",
+    "src/extension.ts:480:25": {
+      "scopeId": "src/extension.ts:480:25",
+      "name": "src/extension.ts:480",
       "kind": "arrow",
-      "parentScopeId": "src/extension.ts:432:14",
+      "parentScopeId": "src/extension.ts:467:14",
       "filePath": "src/extension.ts",
-      "location": "src/extension.ts:445:25"
+      "location": "src/extension.ts:480:25"
     },
-    "src/extension.ts:449:25": {
-      "scopeId": "src/extension.ts:449:25",
-      "name": "src/extension.ts:449",
+    "src/extension.ts:484:25": {
+      "scopeId": "src/extension.ts:484:25",
+      "name": "src/extension.ts:484",
       "kind": "arrow",
-      "parentScopeId": "src/extension.ts:432:14",
+      "parentScopeId": "src/extension.ts:467:14",
       "filePath": "src/extension.ts",
-      "location": "src/extension.ts:449:25"
+      "location": "src/extension.ts:484:25"
     },
-    "src/extension.ts:449:43": {
-      "scopeId": "src/extension.ts:449:43",
-      "name": "src/extension.ts:449",
+    "src/extension.ts:484:43": {
+      "scopeId": "src/extension.ts:484:43",
+      "name": "src/extension.ts:484",
       "kind": "arrow",
-      "parentScopeId": "src/extension.ts:449:25",
+      "parentScopeId": "src/extension.ts:484:25",
       "filePath": "src/extension.ts",
-      "location": "src/extension.ts:449:43"
+      "location": "src/extension.ts:484:43"
     },
-    "src/extension.ts:458:5": {
-      "scopeId": "src/extension.ts:458:5",
-      "name": "src/extension.ts:458",
+    "src/extension.ts:493:5": {
+      "scopeId": "src/extension.ts:493:5",
+      "name": "src/extension.ts:493",
       "kind": "arrow",
-      "parentScopeId": "src/extension.ts:432:14",
+      "parentScopeId": "src/extension.ts:467:14",
       "filePath": "src/extension.ts",
-      "location": "src/extension.ts:458:5"
+      "location": "src/extension.ts:493:5"
     },
-    "src/extension.ts:474:29": {
-      "scopeId": "src/extension.ts:474:29",
-      "name": "src/extension.ts:474",
-      "kind": "arrow",
-      "parentScopeId": "src/extension.ts:68:1",
-      "filePath": "src/extension.ts",
-      "location": "src/extension.ts:474:29"
-    },
-    "src/extension.ts:475:23": {
-      "scopeId": "src/extension.ts:475:23",
-      "name": "src/extension.ts:475",
+    "src/extension.ts:509:29": {
+      "scopeId": "src/extension.ts:509:29",
+      "name": "src/extension.ts:509",
       "kind": "arrow",
       "parentScopeId": "src/extension.ts:68:1",
       "filePath": "src/extension.ts",
-      "location": "src/extension.ts:475:23"
+      "location": "src/extension.ts:509:29"
     },
-    "src/extension.ts:476:26": {
-      "scopeId": "src/extension.ts:476:26",
-      "name": "src/extension.ts:476",
+    "src/extension.ts:510:23": {
+      "scopeId": "src/extension.ts:510:23",
+      "name": "src/extension.ts:510",
       "kind": "arrow",
       "parentScopeId": "src/extension.ts:68:1",
       "filePath": "src/extension.ts",
-      "location": "src/extension.ts:476:26"
+      "location": "src/extension.ts:510:23"
     },
-    "src/extension.ts:477:28": {
-      "scopeId": "src/extension.ts:477:28",
-      "name": "src/extension.ts:477",
+    "src/extension.ts:511:26": {
+      "scopeId": "src/extension.ts:511:26",
+      "name": "src/extension.ts:511",
       "kind": "arrow",
       "parentScopeId": "src/extension.ts:68:1",
       "filePath": "src/extension.ts",
-      "location": "src/extension.ts:477:28"
+      "location": "src/extension.ts:511:26"
     },
-    "src/extension.ts:489:66": {
-      "scopeId": "src/extension.ts:489:66",
-      "name": "src/extension.ts:489",
+    "src/extension.ts:512:28": {
+      "scopeId": "src/extension.ts:512:28",
+      "name": "src/extension.ts:512",
       "kind": "arrow",
       "parentScopeId": "src/extension.ts:68:1",
       "filePath": "src/extension.ts",
-      "location": "src/extension.ts:489:66"
+      "location": "src/extension.ts:512:28"
     },
-    "src/extension.ts:526:18": {
-      "scopeId": "src/extension.ts:526:18",
-      "name": "src/extension.ts:526",
-      "kind": "arrow",
-      "parentScopeId": "src/extension.ts:489:66",
-      "filePath": "src/extension.ts",
-      "location": "src/extension.ts:526:18"
-    },
-    "src/extension.ts:547:65": {
-      "scopeId": "src/extension.ts:547:65",
-      "name": "src/extension.ts:547",
+    "src/extension.ts:524:66": {
+      "scopeId": "src/extension.ts:524:66",
+      "name": "src/extension.ts:524",
       "kind": "arrow",
       "parentScopeId": "src/extension.ts:68:1",
       "filePath": "src/extension.ts",
-      "location": "src/extension.ts:547:65"
+      "location": "src/extension.ts:524:66"
     },
-    "src/extension.ts:552:67": {
-      "scopeId": "src/extension.ts:552:67",
-      "name": "src/extension.ts:552",
+    "src/extension.ts:561:18": {
+      "scopeId": "src/extension.ts:561:18",
+      "name": "src/extension.ts:561",
+      "kind": "arrow",
+      "parentScopeId": "src/extension.ts:524:66",
+      "filePath": "src/extension.ts",
+      "location": "src/extension.ts:561:18"
+    },
+    "src/extension.ts:582:65": {
+      "scopeId": "src/extension.ts:582:65",
+      "name": "src/extension.ts:582",
       "kind": "arrow",
       "parentScopeId": "src/extension.ts:68:1",
       "filePath": "src/extension.ts",
-      "location": "src/extension.ts:552:67"
+      "location": "src/extension.ts:582:65"
     },
-    "src/extension.ts:568:27": {
-      "scopeId": "src/extension.ts:568:27",
+    "src/extension.ts:587:67": {
+      "scopeId": "src/extension.ts:587:67",
+      "name": "src/extension.ts:587",
+      "kind": "arrow",
+      "parentScopeId": "src/extension.ts:68:1",
+      "filePath": "src/extension.ts",
+      "location": "src/extension.ts:587:67"
+    },
+    "src/extension.ts:605:27": {
+      "scopeId": "src/extension.ts:605:27",
       "name": "activateTreeItem",
       "kind": "arrow",
       "parentScopeId": "src/extension.ts:68:1",
       "filePath": "src/extension.ts",
-      "location": "src/extension.ts:568:27"
+      "location": "src/extension.ts:605:27"
     },
-    "src/extension.ts:616:31": {
-      "scopeId": "src/extension.ts:616:31",
+    "src/extension.ts:657:31": {
+      "scopeId": "src/extension.ts:657:31",
       "name": "activateTreeItemOnce",
       "kind": "arrow",
       "parentScopeId": "src/extension.ts:68:1",
       "filePath": "src/extension.ts",
-      "location": "src/extension.ts:616:31"
+      "location": "src/extension.ts:657:31"
     },
-    "src/extension.ts:627:32": {
-      "scopeId": "src/extension.ts:627:32",
-      "name": "src/extension.ts:627",
+    "src/extension.ts:673:32": {
+      "scopeId": "src/extension.ts:673:32",
+      "name": "src/extension.ts:673",
       "kind": "arrow",
       "parentScopeId": "src/extension.ts:68:1",
       "filePath": "src/extension.ts",
-      "location": "src/extension.ts:627:32"
+      "location": "src/extension.ts:673:32"
     },
-    "src/extension.ts:641:66": {
-      "scopeId": "src/extension.ts:641:66",
-      "name": "src/extension.ts:641",
+    "src/extension.ts:690:66": {
+      "scopeId": "src/extension.ts:690:66",
+      "name": "src/extension.ts:690",
       "kind": "arrow",
       "parentScopeId": "src/extension.ts:68:1",
       "filePath": "src/extension.ts",
-      "location": "src/extension.ts:641:66"
+      "location": "src/extension.ts:690:66"
     },
-    "src/extension.ts:662:54": {
-      "scopeId": "src/extension.ts:662:54",
-      "name": "src/extension.ts:662",
+    "src/extension.ts:718:66": {
+      "scopeId": "src/extension.ts:718:66",
+      "name": "src/extension.ts:718",
       "kind": "arrow",
       "parentScopeId": "src/extension.ts:68:1",
       "filePath": "src/extension.ts",
-      "location": "src/extension.ts:662:54"
+      "location": "src/extension.ts:718:66"
     },
-    "src/extension.ts:686:12": {
-      "scopeId": "src/extension.ts:686:12",
-      "name": "src/extension.ts:686",
+    "src/extension.ts:739:54": {
+      "scopeId": "src/extension.ts:739:54",
+      "name": "src/extension.ts:739",
       "kind": "arrow",
       "parentScopeId": "src/extension.ts:68:1",
       "filePath": "src/extension.ts",
-      "location": "src/extension.ts:686:12"
+      "location": "src/extension.ts:739:54"
     },
-    "src/extension.ts:710:25": {
-      "scopeId": "src/extension.ts:710:25",
+    "src/extension.ts:763:12": {
+      "scopeId": "src/extension.ts:763:12",
+      "name": "src/extension.ts:763",
+      "kind": "arrow",
+      "parentScopeId": "src/extension.ts:68:1",
+      "filePath": "src/extension.ts",
+      "location": "src/extension.ts:763:12"
+    },
+    "src/extension.ts:787:25": {
+      "scopeId": "src/extension.ts:787:25",
       "name": "onTacticaEvent",
       "kind": "arrow",
       "parentScopeId": "src/extension.ts:68:1",
       "filePath": "src/extension.ts",
-      "location": "src/extension.ts:710:25"
+      "location": "src/extension.ts:787:25"
     },
-    "src/extension.ts:715:37": {
-      "scopeId": "src/extension.ts:715:37",
-      "name": "src/extension.ts:715",
+    "src/extension.ts:792:37": {
+      "scopeId": "src/extension.ts:792:37",
+      "name": "src/extension.ts:792",
       "kind": "arrow",
-      "parentScopeId": "src/extension.ts:710:25",
+      "parentScopeId": "src/extension.ts:787:25",
       "filePath": "src/extension.ts",
-      "location": "src/extension.ts:715:37"
+      "location": "src/extension.ts:792:37"
     },
-    "src/extension.ts:748:1": {
-      "scopeId": "src/extension.ts:748:1",
+    "src/extension.ts:825:1": {
+      "scopeId": "src/extension.ts:825:1",
       "name": "discoverTacticaSources",
       "kind": "function",
       "parentScopeId": "src/extension.ts",
       "filePath": "src/extension.ts",
-      "location": "src/extension.ts:748:1"
+      "location": "src/extension.ts:825:1"
     },
-    "src/extension.ts:754:34": {
-      "scopeId": "src/extension.ts:754:34",
-      "name": "src/extension.ts:754",
+    "src/extension.ts:831:34": {
+      "scopeId": "src/extension.ts:831:34",
+      "name": "src/extension.ts:831",
       "kind": "arrow",
-      "parentScopeId": "src/extension.ts:748:1",
+      "parentScopeId": "src/extension.ts:825:1",
       "filePath": "src/extension.ts",
-      "location": "src/extension.ts:754:34"
+      "location": "src/extension.ts:831:34"
     },
-    "src/extension.ts:758:1": {
-      "scopeId": "src/extension.ts:758:1",
+    "src/extension.ts:835:1": {
+      "scopeId": "src/extension.ts:835:1",
       "name": "refreshTypeGraph",
       "kind": "function",
       "parentScopeId": "src/extension.ts",
       "filePath": "src/extension.ts",
-      "location": "src/extension.ts:758:1"
+      "location": "src/extension.ts:835:1"
     },
-    "src/extension.ts:806:1": {
-      "scopeId": "src/extension.ts:806:1",
+    "src/extension.ts:883:1": {
+      "scopeId": "src/extension.ts:883:1",
       "name": "flushTacticaChanges",
       "kind": "function",
       "parentScopeId": "src/extension.ts",
       "filePath": "src/extension.ts",
-      "location": "src/extension.ts:806:1"
+      "location": "src/extension.ts:883:1"
     },
-    "src/extension.ts:819:1": {
-      "scopeId": "src/extension.ts:819:1",
+    "src/extension.ts:896:1": {
+      "scopeId": "src/extension.ts:896:1",
       "name": "deactivate",
       "kind": "function",
       "parentScopeId": "src/extension.ts",
       "filePath": "src/extension.ts",
-      "location": "src/extension.ts:819:1"
+      "location": "src/extension.ts:896:1"
     },
     "src/models/Definition.ts": {
       "scopeId": "src/models/Definition.ts",
@@ -5487,7 +5575,7 @@
     {
       "name": "treeItemId",
       "scopeId": "src/views/treeProvider.ts",
-      "declaration": "src/views/treeProvider.ts:23:7",
+      "declaration": "src/views/treeProvider.ts:29:7",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -5495,25 +5583,41 @@
     },
     {
       "name": "data",
-      "scopeId": "src/views/treeProvider.ts:23:20",
-      "declaration": "src/views/treeProvider.ts:23:30",
+      "scopeId": "src/views/treeProvider.ts:29:20",
+      "declaration": "src/views/treeProvider.ts:29:30",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
       "inferredType": "MnemonicaTreeItemData"
     },
     {
+      "name": "name",
+      "scopeId": "src/views/treeProvider.ts:29:20",
+      "declaration": "src/views/treeProvider.ts:30:8",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "defId",
+      "scopeId": "src/views/treeProvider.ts:29:20",
+      "declaration": "src/views/treeProvider.ts:31:8",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
       "name": "id",
-      "scopeId": "src/views/treeProvider.ts:23:20",
-      "declaration": "src/views/treeProvider.ts:24:8",
+      "scopeId": "src/views/treeProvider.ts:29:20",
+      "declaration": "src/views/treeProvider.ts:34:8",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "data",
-      "scopeId": "src/views/treeProvider.ts:41:2",
-      "declaration": "src/views/treeProvider.ts:42:19",
+      "scopeId": "src/views/treeProvider.ts:51:2",
+      "declaration": "src/views/treeProvider.ts:52:19",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -5521,8 +5625,8 @@
     },
     {
       "name": "collapsibleState",
-      "scopeId": "src/views/treeProvider.ts:41:2",
-      "declaration": "src/views/treeProvider.ts:43:19",
+      "scopeId": "src/views/treeProvider.ts:51:2",
+      "declaration": "src/views/treeProvider.ts:53:19",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -5530,8 +5634,8 @@
     },
     {
       "name": "type",
-      "scopeId": "src/views/treeProvider.ts:75:2",
-      "declaration": "src/views/treeProvider.ts:75:23",
+      "scopeId": "src/views/treeProvider.ts:85:2",
+      "declaration": "src/views/treeProvider.ts:85:23",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -5539,8 +5643,8 @@
     },
     {
       "name": "workspacePath",
-      "scopeId": "src/views/treeProvider.ts:114:2",
-      "declaration": "src/views/treeProvider.ts:114:16",
+      "scopeId": "src/views/treeProvider.ts:132:2",
+      "declaration": "src/views/treeProvider.ts:132:16",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -5548,8 +5652,8 @@
     },
     {
       "name": "registry",
-      "scopeId": "src/views/treeProvider.ts:123:2",
-      "declaration": "src/views/treeProvider.ts:123:15",
+      "scopeId": "src/views/treeProvider.ts:141:2",
+      "declaration": "src/views/treeProvider.ts:141:15",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -5558,56 +5662,150 @@
     },
     {
       "name": "definitionsModel",
-      "scopeId": "src/views/treeProvider.ts:128:2",
-      "declaration": "src/views/treeProvider.ts:137:9",
+      "scopeId": "src/views/treeProvider.ts:146:2",
+      "declaration": "src/views/treeProvider.ts:155:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "info",
-      "scopeId": "src/views/treeProvider.ts:128:2",
-      "declaration": "src/views/treeProvider.ts:141:11",
+      "scopeId": "src/views/treeProvider.ts:146:2",
+      "declaration": "src/views/treeProvider.ts:159:11",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "parsed",
-      "scopeId": "src/views/treeProvider.ts:128:2",
-      "declaration": "src/views/treeProvider.ts:149:11",
+      "scopeId": "src/views/treeProvider.ts:146:2",
+      "declaration": "src/views/treeProvider.ts:167:11",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "filePath",
-      "scopeId": "src/views/treeProvider.ts:128:2",
-      "declaration": "src/views/treeProvider.ts:150:11",
+      "scopeId": "src/views/treeProvider.ts:146:2",
+      "declaration": "src/views/treeProvider.ts:168:11",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "line",
-      "scopeId": "src/views/treeProvider.ts:128:2",
-      "declaration": "src/views/treeProvider.ts:151:11",
+      "scopeId": "src/views/treeProvider.ts:146:2",
+      "declaration": "src/views/treeProvider.ts:169:11",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "column",
-      "scopeId": "src/views/treeProvider.ts:128:2",
-      "declaration": "src/views/treeProvider.ts:152:11",
+      "scopeId": "src/views/treeProvider.ts:146:2",
+      "declaration": "src/views/treeProvider.ts:170:11",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "text",
+      "scopeId": "src/views/treeProvider.ts:193:2",
+      "declaration": "src/views/treeProvider.ts:193:13",
+      "isParameter": true,
+      "isMutable": true,
+      "reassignments": [],
+      "inferredType": "string"
+    },
+    {
+      "name": "fullName",
+      "scopeId": "src/views/treeProvider.ts:210:2",
+      "declaration": "src/views/treeProvider.ts:210:18",
+      "isParameter": true,
+      "isMutable": true,
+      "reassignments": [],
+      "inferredType": "string"
+    },
+    {
+      "name": "def",
+      "scopeId": "src/views/treeProvider.ts:210:2",
+      "declaration": "src/views/treeProvider.ts:211:9",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "item",
+      "scopeId": "src/views/treeProvider.ts:210:2",
+      "declaration": "src/views/treeProvider.ts:212:9",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "fullName",
+      "scopeId": "src/views/treeProvider.ts:218:2",
+      "declaration": "src/views/treeProvider.ts:218:11",
+      "isParameter": true,
+      "isMutable": true,
+      "reassignments": [],
+      "inferredType": "string"
+    },
+    {
+      "name": "known",
+      "scopeId": "src/views/treeProvider.ts:218:2",
+      "declaration": "src/views/treeProvider.ts:219:9",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "needle",
+      "scopeId": "src/views/treeProvider.ts:223:2",
+      "declaration": "src/views/treeProvider.ts:233:9",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "visible",
+      "scopeId": "src/views/treeProvider.ts:223:2",
+      "declaration": "src/views/treeProvider.ts:234:9",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": [],
+      "inferredType": "Set<string>"
+    },
+    {
+      "name": "def",
+      "scopeId": "src/views/treeProvider.ts:223:2",
+      "declaration": "src/views/treeProvider.ts:235:14",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "parent",
+      "scopeId": "src/views/treeProvider.ts:223:2",
+      "declaration": "src/views/treeProvider.ts:243:8",
+      "isParameter": false,
+      "isMutable": true,
+      "reassignments": [
+        "src/views/treeProvider.ts:248:5"
+      ]
+    },
+    {
+      "name": "parentDef",
+      "scopeId": "src/views/treeProvider.ts:223:2",
+      "declaration": "src/views/treeProvider.ts:247:11",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "element",
-      "scopeId": "src/views/treeProvider.ts:173:2",
-      "declaration": "src/views/treeProvider.ts:173:15",
+      "scopeId": "src/views/treeProvider.ts:254:2",
+      "declaration": "src/views/treeProvider.ts:254:15",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -5615,8 +5813,8 @@
     },
     {
       "name": "element",
-      "scopeId": "src/views/treeProvider.ts:179:2",
-      "declaration": "src/views/treeProvider.ts:179:13",
+      "scopeId": "src/views/treeProvider.ts:260:2",
+      "declaration": "src/views/treeProvider.ts:260:13",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -5624,32 +5822,32 @@
     },
     {
       "name": "def",
-      "scopeId": "src/views/treeProvider.ts:179:2",
-      "declaration": "src/views/treeProvider.ts:183:9",
+      "scopeId": "src/views/treeProvider.ts:260:2",
+      "declaration": "src/views/treeProvider.ts:264:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "parentDef",
-      "scopeId": "src/views/treeProvider.ts:179:2",
-      "declaration": "src/views/treeProvider.ts:185:10",
+      "scopeId": "src/views/treeProvider.ts:260:2",
+      "declaration": "src/views/treeProvider.ts:266:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "parentItem",
-      "scopeId": "src/views/treeProvider.ts:179:2",
-      "declaration": "src/views/treeProvider.ts:187:11",
+      "scopeId": "src/views/treeProvider.ts:260:2",
+      "declaration": "src/views/treeProvider.ts:268:11",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "rootItem",
-      "scopeId": "src/views/treeProvider.ts:179:2",
-      "declaration": "src/views/treeProvider.ts:191:9",
+      "scopeId": "src/views/treeProvider.ts:260:2",
+      "declaration": "src/views/treeProvider.ts:272:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -5657,8 +5855,8 @@
     },
     {
       "name": "data",
-      "scopeId": "src/views/treeProvider.ts:198:2",
-      "declaration": "src/views/treeProvider.ts:198:17",
+      "scopeId": "src/views/treeProvider.ts:279:2",
+      "declaration": "src/views/treeProvider.ts:279:17",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -5666,16 +5864,16 @@
     },
     {
       "name": "item",
-      "scopeId": "src/views/treeProvider.ts:198:2",
-      "declaration": "src/views/treeProvider.ts:199:9",
+      "scopeId": "src/views/treeProvider.ts:279:2",
+      "declaration": "src/views/treeProvider.ts:280:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "element",
-      "scopeId": "src/views/treeProvider.ts:203:2",
-      "declaration": "src/views/treeProvider.ts:203:21",
+      "scopeId": "src/views/treeProvider.ts:284:2",
+      "declaration": "src/views/treeProvider.ts:284:21",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -5683,64 +5881,64 @@
     },
     {
       "name": "roots",
-      "scopeId": "src/views/treeProvider.ts:203:2",
-      "declaration": "src/views/treeProvider.ts:213:10",
+      "scopeId": "src/views/treeProvider.ts:284:2",
+      "declaration": "src/views/treeProvider.ts:294:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "r",
-      "scopeId": "src/views/treeProvider.ts:215:69",
-      "declaration": "src/views/treeProvider.ts:215:69",
+      "scopeId": "src/views/treeProvider.ts:296:69",
+      "declaration": "src/views/treeProvider.ts:296:69",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "def",
-      "scopeId": "src/views/treeProvider.ts:217:21",
-      "declaration": "src/views/treeProvider.ts:217:21",
+      "scopeId": "src/views/treeProvider.ts:298:21",
+      "declaration": "src/views/treeProvider.ts:298:21",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "lookupName",
-      "scopeId": "src/views/treeProvider.ts:203:2",
-      "declaration": "src/views/treeProvider.ts:222:9",
+      "scopeId": "src/views/treeProvider.ts:284:2",
+      "declaration": "src/views/treeProvider.ts:303:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "defChildren",
-      "scopeId": "src/views/treeProvider.ts:203:2",
-      "declaration": "src/views/treeProvider.ts:223:9",
+      "scopeId": "src/views/treeProvider.ts:284:2",
+      "declaration": "src/views/treeProvider.ts:304:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "c",
-      "scopeId": "src/views/treeProvider.ts:227:68",
-      "declaration": "src/views/treeProvider.ts:227:68",
+      "scopeId": "src/views/treeProvider.ts:308:68",
+      "declaration": "src/views/treeProvider.ts:308:68",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "def",
-      "scopeId": "src/views/treeProvider.ts:230:26",
-      "declaration": "src/views/treeProvider.ts:230:26",
+      "scopeId": "src/views/treeProvider.ts:311:26",
+      "declaration": "src/views/treeProvider.ts:311:26",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "roots",
-      "scopeId": "src/views/treeProvider.ts:233:2",
-      "declaration": "src/views/treeProvider.ts:234:9",
+      "scopeId": "src/views/treeProvider.ts:314:2",
+      "declaration": "src/views/treeProvider.ts:315:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -5748,32 +5946,32 @@
     },
     {
       "name": "def",
-      "scopeId": "src/views/treeProvider.ts:233:2",
-      "declaration": "src/views/treeProvider.ts:235:14",
+      "scopeId": "src/views/treeProvider.ts:314:2",
+      "declaration": "src/views/treeProvider.ts:316:14",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "a",
-      "scopeId": "src/views/treeProvider.ts:240:21",
-      "declaration": "src/views/treeProvider.ts:240:22",
+      "scopeId": "src/views/treeProvider.ts:321:21",
+      "declaration": "src/views/treeProvider.ts:321:22",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "b",
-      "scopeId": "src/views/treeProvider.ts:240:21",
-      "declaration": "src/views/treeProvider.ts:240:25",
+      "scopeId": "src/views/treeProvider.ts:321:21",
+      "declaration": "src/views/treeProvider.ts:321:25",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "parentName",
-      "scopeId": "src/views/treeProvider.ts:243:2",
-      "declaration": "src/views/treeProvider.ts:243:31",
+      "scopeId": "src/views/treeProvider.ts:324:2",
+      "declaration": "src/views/treeProvider.ts:324:31",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -5781,8 +5979,8 @@
     },
     {
       "name": "children",
-      "scopeId": "src/views/treeProvider.ts:243:2",
-      "declaration": "src/views/treeProvider.ts:244:9",
+      "scopeId": "src/views/treeProvider.ts:324:2",
+      "declaration": "src/views/treeProvider.ts:325:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -5790,32 +5988,49 @@
     },
     {
       "name": "def",
-      "scopeId": "src/views/treeProvider.ts:243:2",
-      "declaration": "src/views/treeProvider.ts:245:14",
+      "scopeId": "src/views/treeProvider.ts:324:2",
+      "declaration": "src/views/treeProvider.ts:326:14",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "a",
-      "scopeId": "src/views/treeProvider.ts:250:24",
-      "declaration": "src/views/treeProvider.ts:250:25",
+      "scopeId": "src/views/treeProvider.ts:331:24",
+      "declaration": "src/views/treeProvider.ts:331:25",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "b",
-      "scopeId": "src/views/treeProvider.ts:250:24",
-      "declaration": "src/views/treeProvider.ts:250:28",
+      "scopeId": "src/views/treeProvider.ts:331:24",
+      "declaration": "src/views/treeProvider.ts:331:28",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "def",
-      "scopeId": "src/views/treeProvider.ts:253:2",
-      "declaration": "src/views/treeProvider.ts:253:32",
+      "scopeId": "src/views/treeProvider.ts:334:2",
+      "declaration": "src/views/treeProvider.ts:334:27",
+      "isParameter": true,
+      "isMutable": true,
+      "reassignments": [],
+      "inferredType": "DefinitionData"
+    },
+    {
+      "name": "visible",
+      "scopeId": "src/views/treeProvider.ts:334:2",
+      "declaration": "src/views/treeProvider.ts:335:9",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "def",
+      "scopeId": "src/views/treeProvider.ts:339:2",
+      "declaration": "src/views/treeProvider.ts:339:32",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -5823,24 +6038,40 @@
     },
     {
       "name": "shortName",
-      "scopeId": "src/views/treeProvider.ts:253:2",
-      "declaration": "src/views/treeProvider.ts:254:9",
+      "scopeId": "src/views/treeProvider.ts:339:2",
+      "declaration": "src/views/treeProvider.ts:340:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "hasChildren",
-      "scopeId": "src/views/treeProvider.ts:253:2",
-      "declaration": "src/views/treeProvider.ts:255:9",
+      "scopeId": "src/views/treeProvider.ts:339:2",
+      "declaration": "src/views/treeProvider.ts:341:9",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "openState",
+      "scopeId": "src/views/treeProvider.ts:339:2",
+      "declaration": "src/views/treeProvider.ts:343:9",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "collapsibleState",
+      "scopeId": "src/views/treeProvider.ts:339:2",
+      "declaration": "src/views/treeProvider.ts:346:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "item",
-      "scopeId": "src/views/treeProvider.ts:253:2",
-      "declaration": "src/views/treeProvider.ts:261:9",
+      "scopeId": "src/views/treeProvider.ts:339:2",
+      "declaration": "src/views/treeProvider.ts:352:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -7852,7 +8083,7 @@
     {
       "name": "node",
       "scopeId": "src/core/GraphBuilder.ts:21:2",
-      "declaration": "src/core/GraphBuilder.ts:223:15",
+      "declaration": "src/core/GraphBuilder.ts:228:15",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
@@ -7860,7 +8091,7 @@
     {
       "name": "info",
       "scopeId": "src/core/GraphBuilder.ts:21:2",
-      "declaration": "src/core/GraphBuilder.ts:246:12",
+      "declaration": "src/core/GraphBuilder.ts:251:12",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
@@ -7884,7 +8115,7 @@
     {
       "name": "usages",
       "scopeId": "src/core/GraphBuilder.ts:21:2",
-      "declaration": "src/core/GraphBuilder.ts:113:9",
+      "declaration": "src/core/GraphBuilder.ts:118:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
@@ -7892,7 +8123,7 @@
     {
       "name": "instantiated",
       "scopeId": "src/core/GraphBuilder.ts:21:2",
-      "declaration": "src/core/GraphBuilder.ts:114:9",
+      "declaration": "src/core/GraphBuilder.ts:119:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -7901,15 +8132,15 @@
     {
       "name": "list",
       "scopeId": "src/core/GraphBuilder.ts:21:2",
-      "declaration": "src/core/GraphBuilder.ts:117:11",
+      "declaration": "src/core/GraphBuilder.ts:122:11",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "u",
-      "scopeId": "src/core/GraphBuilder.ts:119:19",
-      "declaration": "src/core/GraphBuilder.ts:119:20",
+      "scopeId": "src/core/GraphBuilder.ts:124:19",
+      "declaration": "src/core/GraphBuilder.ts:124:20",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
@@ -7917,7 +8148,7 @@
     {
       "name": "eds",
       "scopeId": "src/core/GraphBuilder.ts:21:2",
-      "declaration": "src/core/GraphBuilder.ts:131:9",
+      "declaration": "src/core/GraphBuilder.ts:136:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
@@ -7925,7 +8156,7 @@
     {
       "name": "pathHitSeen",
       "scopeId": "src/core/GraphBuilder.ts:21:2",
-      "declaration": "src/core/GraphBuilder.ts:135:10",
+      "declaration": "src/core/GraphBuilder.ts:140:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -7934,7 +8165,7 @@
     {
       "name": "edsEntries",
       "scopeId": "src/core/GraphBuilder.ts:21:2",
-      "declaration": "src/core/GraphBuilder.ts:137:11",
+      "declaration": "src/core/GraphBuilder.ts:142:11",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
@@ -7942,15 +8173,15 @@
     {
       "name": "primaryKind",
       "scopeId": "src/core/GraphBuilder.ts:21:2",
-      "declaration": "src/core/GraphBuilder.ts:140:12",
+      "declaration": "src/core/GraphBuilder.ts:145:12",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "e",
-      "scopeId": "src/core/GraphBuilder.ts:142:39",
-      "declaration": "src/core/GraphBuilder.ts:142:40",
+      "scopeId": "src/core/GraphBuilder.ts:147:39",
+      "declaration": "src/core/GraphBuilder.ts:147:40",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -7958,8 +8189,8 @@
     },
     {
       "name": "entry",
-      "scopeId": "src/core/GraphBuilder.ts:142:39",
-      "declaration": "src/core/GraphBuilder.ts:143:13",
+      "scopeId": "src/core/GraphBuilder.ts:147:39",
+      "declaration": "src/core/GraphBuilder.ts:148:13",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
@@ -7967,7 +8198,7 @@
     {
       "name": "e",
       "scopeId": "src/core/GraphBuilder.ts:21:2",
-      "declaration": "src/core/GraphBuilder.ts:189:16",
+      "declaration": "src/core/GraphBuilder.ts:194:16",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
@@ -7975,7 +8206,7 @@
     {
       "name": "creates",
       "scopeId": "src/core/GraphBuilder.ts:21:2",
-      "declaration": "src/core/GraphBuilder.ts:191:12",
+      "declaration": "src/core/GraphBuilder.ts:196:12",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
@@ -7983,7 +8214,7 @@
     {
       "name": "target",
       "scopeId": "src/core/GraphBuilder.ts:21:2",
-      "declaration": "src/core/GraphBuilder.ts:247:12",
+      "declaration": "src/core/GraphBuilder.ts:252:12",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
@@ -7991,7 +8222,7 @@
     {
       "name": "dedupeKey",
       "scopeId": "src/core/GraphBuilder.ts:21:2",
-      "declaration": "src/core/GraphBuilder.ts:198:13",
+      "declaration": "src/core/GraphBuilder.ts:203:13",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -8000,7 +8231,7 @@
     {
       "name": "hit",
       "scopeId": "src/core/GraphBuilder.ts:21:2",
-      "declaration": "src/core/GraphBuilder.ts:163:14",
+      "declaration": "src/core/GraphBuilder.ts:168:14",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
@@ -8008,7 +8239,7 @@
     {
       "name": "d3ById",
       "scopeId": "src/core/GraphBuilder.ts:21:2",
-      "declaration": "src/core/GraphBuilder.ts:185:10",
+      "declaration": "src/core/GraphBuilder.ts:190:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -8016,8 +8247,8 @@
     },
     {
       "name": "n",
-      "scopeId": "src/core/GraphBuilder.ts:185:47",
-      "declaration": "src/core/GraphBuilder.ts:185:48",
+      "scopeId": "src/core/GraphBuilder.ts:190:47",
+      "declaration": "src/core/GraphBuilder.ts:190:48",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
@@ -8025,7 +8256,7 @@
     {
       "name": "externalSeen",
       "scopeId": "src/core/GraphBuilder.ts:21:2",
-      "declaration": "src/core/GraphBuilder.ts:186:10",
+      "declaration": "src/core/GraphBuilder.ts:191:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -8034,7 +8265,7 @@
     {
       "name": "targetNode",
       "scopeId": "src/core/GraphBuilder.ts:21:2",
-      "declaration": "src/core/GraphBuilder.ts:195:13",
+      "declaration": "src/core/GraphBuilder.ts:200:13",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
@@ -8042,7 +8273,7 @@
     {
       "name": "location",
       "scopeId": "src/core/GraphBuilder.ts:21:2",
-      "declaration": "src/core/GraphBuilder.ts:197:13",
+      "declaration": "src/core/GraphBuilder.ts:202:13",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
@@ -8050,7 +8281,7 @@
     {
       "name": "row",
       "scopeId": "src/core/GraphBuilder.ts:21:2",
-      "declaration": "src/core/GraphBuilder.ts:201:13",
+      "declaration": "src/core/GraphBuilder.ts:206:13",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
@@ -8058,7 +8289,7 @@
     {
       "name": "defs",
       "scopeId": "src/core/GraphBuilder.ts:21:2",
-      "declaration": "src/core/GraphBuilder.ts:221:9",
+      "declaration": "src/core/GraphBuilder.ts:226:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
@@ -8066,7 +8297,7 @@
     {
       "name": "def",
       "scopeId": "src/core/GraphBuilder.ts:21:2",
-      "declaration": "src/core/GraphBuilder.ts:224:11",
+      "declaration": "src/core/GraphBuilder.ts:229:11",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
@@ -8074,7 +8305,7 @@
     {
       "name": "parsed",
       "scopeId": "src/core/GraphBuilder.ts:21:2",
-      "declaration": "src/core/GraphBuilder.ts:228:13",
+      "declaration": "src/core/GraphBuilder.ts:233:13",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
@@ -8082,7 +8313,7 @@
     {
       "name": "flow",
       "scopeId": "src/core/GraphBuilder.ts:21:2",
-      "declaration": "src/core/GraphBuilder.ts:241:9",
+      "declaration": "src/core/GraphBuilder.ts:246:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
@@ -8090,7 +8321,7 @@
     {
       "name": "flowEntry",
       "scopeId": "src/core/GraphBuilder.ts:21:2",
-      "declaration": "src/core/GraphBuilder.ts:245:16",
+      "declaration": "src/core/GraphBuilder.ts:250:16",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
@@ -8098,7 +8329,7 @@
     {
       "name": "control",
       "scopeId": "src/core/GraphBuilder.ts:21:2",
-      "declaration": "src/core/GraphBuilder.ts:264:9",
+      "declaration": "src/core/GraphBuilder.ts:269:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
@@ -8106,7 +8337,7 @@
     {
       "name": "creationGraph",
       "scopeId": "src/core/GraphBuilder.ts:21:2",
-      "declaration": "src/core/GraphBuilder.ts:265:9",
+      "declaration": "src/core/GraphBuilder.ts:270:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
@@ -8114,15 +8345,15 @@
     {
       "name": "wrappers",
       "scopeId": "src/core/GraphBuilder.ts:21:2",
-      "declaration": "src/core/GraphBuilder.ts:275:10",
+      "declaration": "src/core/GraphBuilder.ts:280:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "nodeMap",
-      "scopeId": "src/core/GraphBuilder.ts:301:2",
-      "declaration": "src/core/GraphBuilder.ts:302:3",
+      "scopeId": "src/core/GraphBuilder.ts:306:2",
+      "declaration": "src/core/GraphBuilder.ts:307:3",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -8130,8 +8361,8 @@
     },
     {
       "name": "instantiated",
-      "scopeId": "src/core/GraphBuilder.ts:301:2",
-      "declaration": "src/core/GraphBuilder.ts:303:3",
+      "scopeId": "src/core/GraphBuilder.ts:306:2",
+      "declaration": "src/core/GraphBuilder.ts:308:3",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -8139,8 +8370,8 @@
     },
     {
       "name": "nodes",
-      "scopeId": "src/core/GraphBuilder.ts:301:2",
-      "declaration": "src/core/GraphBuilder.ts:305:9",
+      "scopeId": "src/core/GraphBuilder.ts:306:2",
+      "declaration": "src/core/GraphBuilder.ts:310:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -8148,16 +8379,16 @@
     },
     {
       "name": "knot",
-      "scopeId": "src/core/GraphBuilder.ts:305:54",
-      "declaration": "src/core/GraphBuilder.ts:305:54",
+      "scopeId": "src/core/GraphBuilder.ts:310:54",
+      "declaration": "src/core/GraphBuilder.ts:310:54",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "links",
-      "scopeId": "src/core/GraphBuilder.ts:301:2",
-      "declaration": "src/core/GraphBuilder.ts:311:9",
+      "scopeId": "src/core/GraphBuilder.ts:306:2",
+      "declaration": "src/core/GraphBuilder.ts:316:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -8165,16 +8396,16 @@
     },
     {
       "name": "edge",
-      "scopeId": "src/core/GraphBuilder.ts:311:54",
-      "declaration": "src/core/GraphBuilder.ts:311:54",
+      "scopeId": "src/core/GraphBuilder.ts:316:54",
+      "declaration": "src/core/GraphBuilder.ts:316:54",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "grafts",
-      "scopeId": "src/core/GraphBuilder.ts:301:2",
-      "declaration": "src/core/GraphBuilder.ts:322:9",
+      "scopeId": "src/core/GraphBuilder.ts:306:2",
+      "declaration": "src/core/GraphBuilder.ts:327:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -8182,24 +8413,24 @@
     },
     {
       "name": "typeId",
-      "scopeId": "src/core/GraphBuilder.ts:301:2",
-      "declaration": "src/core/GraphBuilder.ts:323:14",
+      "scopeId": "src/core/GraphBuilder.ts:306:2",
+      "declaration": "src/core/GraphBuilder.ts:328:14",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "result",
-      "scopeId": "src/core/GraphBuilder.ts:301:2",
-      "declaration": "src/core/GraphBuilder.ts:327:9",
+      "scopeId": "src/core/GraphBuilder.ts:306:2",
+      "declaration": "src/core/GraphBuilder.ts:332:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "graph",
-      "scopeId": "src/core/GraphBuilder.ts:338:2",
-      "declaration": "src/core/GraphBuilder.ts:339:3",
+      "scopeId": "src/core/GraphBuilder.ts:343:2",
+      "declaration": "src/core/GraphBuilder.ts:344:3",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -8207,8 +8438,8 @@
     },
     {
       "name": "nodeMap",
-      "scopeId": "src/core/GraphBuilder.ts:338:2",
-      "declaration": "src/core/GraphBuilder.ts:340:3",
+      "scopeId": "src/core/GraphBuilder.ts:343:2",
+      "declaration": "src/core/GraphBuilder.ts:345:3",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -8216,8 +8447,8 @@
     },
     {
       "name": "createsByHolder",
-      "scopeId": "src/core/GraphBuilder.ts:338:2",
-      "declaration": "src/core/GraphBuilder.ts:342:9",
+      "scopeId": "src/core/GraphBuilder.ts:343:2",
+      "declaration": "src/core/GraphBuilder.ts:347:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -8225,26 +8456,26 @@
     },
     {
       "name": "anchor",
-      "scopeId": "src/core/GraphBuilder.ts:338:2",
-      "declaration": "src/core/GraphBuilder.ts:343:14",
+      "scopeId": "src/core/GraphBuilder.ts:343:2",
+      "declaration": "src/core/GraphBuilder.ts:348:14",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "list",
-      "scopeId": "src/core/GraphBuilder.ts:338:2",
-      "declaration": "src/core/GraphBuilder.ts:345:8",
+      "scopeId": "src/core/GraphBuilder.ts:343:2",
+      "declaration": "src/core/GraphBuilder.ts:350:8",
       "isParameter": false,
       "isMutable": true,
       "reassignments": [
-        "src/core/GraphBuilder.ts:347:5"
+        "src/core/GraphBuilder.ts:352:5"
       ]
     },
     {
       "name": "nodes",
-      "scopeId": "src/core/GraphBuilder.ts:338:2",
-      "declaration": "src/core/GraphBuilder.ts:360:9",
+      "scopeId": "src/core/GraphBuilder.ts:343:2",
+      "declaration": "src/core/GraphBuilder.ts:365:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -8252,44 +8483,44 @@
     },
     {
       "name": "node",
-      "scopeId": "src/core/GraphBuilder.ts:360:51",
-      "declaration": "src/core/GraphBuilder.ts:360:52",
+      "scopeId": "src/core/GraphBuilder.ts:365:51",
+      "declaration": "src/core/GraphBuilder.ts:365:52",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "baseName",
-      "scopeId": "src/core/GraphBuilder.ts:360:51",
-      "declaration": "src/core/GraphBuilder.ts:368:10",
+      "scopeId": "src/core/GraphBuilder.ts:365:51",
+      "declaration": "src/core/GraphBuilder.ts:373:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "name",
-      "scopeId": "src/core/GraphBuilder.ts:360:51",
-      "declaration": "src/core/GraphBuilder.ts:369:8",
+      "scopeId": "src/core/GraphBuilder.ts:365:51",
+      "declaration": "src/core/GraphBuilder.ts:374:8",
       "isParameter": false,
       "isMutable": true,
       "reassignments": [
-        "src/core/GraphBuilder.ts:371:5",
-        "src/core/GraphBuilder.ts:373:5",
-        "src/core/GraphBuilder.ts:377:6"
+        "src/core/GraphBuilder.ts:376:5",
+        "src/core/GraphBuilder.ts:378:5",
+        "src/core/GraphBuilder.ts:382:6"
       ]
     },
     {
       "name": "anonymous",
-      "scopeId": "src/core/GraphBuilder.ts:360:51",
-      "declaration": "src/core/GraphBuilder.ts:375:11",
+      "scopeId": "src/core/GraphBuilder.ts:365:51",
+      "declaration": "src/core/GraphBuilder.ts:380:11",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "creationNode",
-      "scopeId": "src/core/GraphBuilder.ts:360:51",
-      "declaration": "src/core/GraphBuilder.ts:380:10",
+      "scopeId": "src/core/GraphBuilder.ts:365:51",
+      "declaration": "src/core/GraphBuilder.ts:385:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -8297,8 +8528,8 @@
     },
     {
       "name": "known",
-      "scopeId": "src/core/GraphBuilder.ts:338:2",
-      "declaration": "src/core/GraphBuilder.ts:392:9",
+      "scopeId": "src/core/GraphBuilder.ts:343:2",
+      "declaration": "src/core/GraphBuilder.ts:397:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -8306,16 +8537,16 @@
     },
     {
       "name": "n",
-      "scopeId": "src/core/GraphBuilder.ts:392:35",
-      "declaration": "src/core/GraphBuilder.ts:392:36",
+      "scopeId": "src/core/GraphBuilder.ts:397:35",
+      "declaration": "src/core/GraphBuilder.ts:397:36",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "links",
-      "scopeId": "src/core/GraphBuilder.ts:338:2",
-      "declaration": "src/core/GraphBuilder.ts:393:9",
+      "scopeId": "src/core/GraphBuilder.ts:343:2",
+      "declaration": "src/core/GraphBuilder.ts:398:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -8323,24 +8554,24 @@
     },
     {
       "name": "edge",
-      "scopeId": "src/core/GraphBuilder.ts:338:2",
-      "declaration": "src/core/GraphBuilder.ts:394:14",
+      "scopeId": "src/core/GraphBuilder.ts:343:2",
+      "declaration": "src/core/GraphBuilder.ts:399:14",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "section",
-      "scopeId": "src/core/GraphBuilder.ts:338:2",
-      "declaration": "src/core/GraphBuilder.ts:399:9",
+      "scopeId": "src/core/GraphBuilder.ts:343:2",
+      "declaration": "src/core/GraphBuilder.ts:404:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "eds",
-      "scopeId": "src/core/GraphBuilder.ts:412:2",
-      "declaration": "src/core/GraphBuilder.ts:413:3",
+      "scopeId": "src/core/GraphBuilder.ts:417:2",
+      "declaration": "src/core/GraphBuilder.ts:418:3",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -8348,8 +8579,8 @@
     },
     {
       "name": "nodeMap",
-      "scopeId": "src/core/GraphBuilder.ts:412:2",
-      "declaration": "src/core/GraphBuilder.ts:414:3",
+      "scopeId": "src/core/GraphBuilder.ts:417:2",
+      "declaration": "src/core/GraphBuilder.ts:419:3",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -8357,8 +8588,8 @@
     },
     {
       "name": "creationGraph",
-      "scopeId": "src/core/GraphBuilder.ts:412:2",
-      "declaration": "src/core/GraphBuilder.ts:415:3",
+      "scopeId": "src/core/GraphBuilder.ts:417:2",
+      "declaration": "src/core/GraphBuilder.ts:420:3",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -8366,8 +8597,8 @@
     },
     {
       "name": "creationScopeIds",
-      "scopeId": "src/core/GraphBuilder.ts:412:2",
-      "declaration": "src/core/GraphBuilder.ts:417:9",
+      "scopeId": "src/core/GraphBuilder.ts:417:2",
+      "declaration": "src/core/GraphBuilder.ts:422:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -8375,16 +8606,16 @@
     },
     {
       "name": "node",
-      "scopeId": "src/core/GraphBuilder.ts:418:37",
-      "declaration": "src/core/GraphBuilder.ts:418:38",
+      "scopeId": "src/core/GraphBuilder.ts:423:37",
+      "declaration": "src/core/GraphBuilder.ts:423:38",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "nodes",
-      "scopeId": "src/core/GraphBuilder.ts:412:2",
-      "declaration": "src/core/GraphBuilder.ts:421:9",
+      "scopeId": "src/core/GraphBuilder.ts:417:2",
+      "declaration": "src/core/GraphBuilder.ts:426:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -8392,25 +8623,7 @@
     },
     {
       "name": "byId",
-      "scopeId": "src/core/GraphBuilder.ts:412:2",
-      "declaration": "src/core/GraphBuilder.ts:422:9",
-      "isParameter": false,
-      "isMutable": false,
-      "reassignments": [],
-      "inferredType": "Map"
-    },
-    {
-      "name": "viaById",
-      "scopeId": "src/core/GraphBuilder.ts:412:2",
-      "declaration": "src/core/GraphBuilder.ts:423:9",
-      "isParameter": false,
-      "isMutable": false,
-      "reassignments": [],
-      "inferredType": "Map"
-    },
-    {
-      "name": "scopeById",
-      "scopeId": "src/core/GraphBuilder.ts:412:2",
+      "scopeId": "src/core/GraphBuilder.ts:417:2",
       "declaration": "src/core/GraphBuilder.ts:427:9",
       "isParameter": false,
       "isMutable": false,
@@ -8418,8 +8631,8 @@
       "inferredType": "Map"
     },
     {
-      "name": "createsById",
-      "scopeId": "src/core/GraphBuilder.ts:412:2",
+      "name": "viaById",
+      "scopeId": "src/core/GraphBuilder.ts:417:2",
       "declaration": "src/core/GraphBuilder.ts:428:9",
       "isParameter": false,
       "isMutable": false,
@@ -8427,105 +8640,123 @@
       "inferredType": "Map"
     },
     {
+      "name": "scopeById",
+      "scopeId": "src/core/GraphBuilder.ts:417:2",
+      "declaration": "src/core/GraphBuilder.ts:432:9",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": [],
+      "inferredType": "Map"
+    },
+    {
+      "name": "createsById",
+      "scopeId": "src/core/GraphBuilder.ts:417:2",
+      "declaration": "src/core/GraphBuilder.ts:433:9",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": [],
+      "inferredType": "Map"
+    },
+    {
       "name": "e",
-      "scopeId": "src/core/GraphBuilder.ts:412:2",
-      "declaration": "src/core/GraphBuilder.ts:430:15",
+      "scopeId": "src/core/GraphBuilder.ts:417:2",
+      "declaration": "src/core/GraphBuilder.ts:435:15",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "info",
-      "scopeId": "src/core/GraphBuilder.ts:412:2",
-      "declaration": "src/core/GraphBuilder.ts:431:11",
-      "isParameter": false,
-      "isMutable": false,
-      "reassignments": []
-    },
-    {
-      "name": "parsed",
-      "scopeId": "src/core/GraphBuilder.ts:412:2",
-      "declaration": "src/core/GraphBuilder.ts:434:11",
-      "isParameter": false,
-      "isMutable": false,
-      "reassignments": []
-    },
-    {
-      "name": "label",
-      "scopeId": "src/core/GraphBuilder.ts:412:2",
-      "declaration": "src/core/GraphBuilder.ts:435:11",
-      "isParameter": false,
-      "isMutable": false,
-      "reassignments": []
-    },
-    {
-      "name": "baseName",
-      "scopeId": "src/core/GraphBuilder.ts:412:2",
+      "scopeId": "src/core/GraphBuilder.ts:417:2",
       "declaration": "src/core/GraphBuilder.ts:436:11",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
+      "name": "parsed",
+      "scopeId": "src/core/GraphBuilder.ts:417:2",
+      "declaration": "src/core/GraphBuilder.ts:439:11",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "label",
+      "scopeId": "src/core/GraphBuilder.ts:417:2",
+      "declaration": "src/core/GraphBuilder.ts:440:11",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "baseName",
+      "scopeId": "src/core/GraphBuilder.ts:417:2",
+      "declaration": "src/core/GraphBuilder.ts:441:11",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
       "name": "name",
-      "scopeId": "src/core/GraphBuilder.ts:412:2",
-      "declaration": "src/core/GraphBuilder.ts:437:11",
+      "scopeId": "src/core/GraphBuilder.ts:417:2",
+      "declaration": "src/core/GraphBuilder.ts:442:11",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "node",
-      "scopeId": "src/core/GraphBuilder.ts:412:2",
-      "declaration": "src/core/GraphBuilder.ts:511:14",
+      "scopeId": "src/core/GraphBuilder.ts:417:2",
+      "declaration": "src/core/GraphBuilder.ts:516:14",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "callbackScopeId",
-      "scopeId": "src/core/GraphBuilder.ts:412:2",
-      "declaration": "src/core/GraphBuilder.ts:446:11",
+      "scopeId": "src/core/GraphBuilder.ts:417:2",
+      "declaration": "src/core/GraphBuilder.ts:451:11",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "holderScopeId",
-      "scopeId": "src/core/GraphBuilder.ts:412:2",
-      "declaration": "src/core/GraphBuilder.ts:447:11",
+      "scopeId": "src/core/GraphBuilder.ts:417:2",
+      "declaration": "src/core/GraphBuilder.ts:452:11",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "wrapsTypePath",
-      "scopeId": "src/core/GraphBuilder.ts:412:2",
-      "declaration": "src/core/GraphBuilder.ts:453:11",
+      "scopeId": "src/core/GraphBuilder.ts:417:2",
+      "declaration": "src/core/GraphBuilder.ts:458:11",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "creates",
-      "scopeId": "src/core/GraphBuilder.ts:412:2",
-      "declaration": "src/core/GraphBuilder.ts:512:10",
+      "scopeId": "src/core/GraphBuilder.ts:417:2",
+      "declaration": "src/core/GraphBuilder.ts:517:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "t",
-      "scopeId": "src/core/GraphBuilder.ts:468:47",
-      "declaration": "src/core/GraphBuilder.ts:468:48",
+      "scopeId": "src/core/GraphBuilder.ts:473:47",
+      "declaration": "src/core/GraphBuilder.ts:473:48",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "generationCache",
-      "scopeId": "src/core/GraphBuilder.ts:412:2",
-      "declaration": "src/core/GraphBuilder.ts:480:9",
+      "scopeId": "src/core/GraphBuilder.ts:417:2",
+      "declaration": "src/core/GraphBuilder.ts:485:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -8533,8 +8764,8 @@
     },
     {
       "name": "generationOf",
-      "scopeId": "src/core/GraphBuilder.ts:412:2",
-      "declaration": "src/core/GraphBuilder.ts:481:9",
+      "scopeId": "src/core/GraphBuilder.ts:417:2",
+      "declaration": "src/core/GraphBuilder.ts:486:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -8542,8 +8773,8 @@
     },
     {
       "name": "id",
-      "scopeId": "src/core/GraphBuilder.ts:481:24",
-      "declaration": "src/core/GraphBuilder.ts:481:25",
+      "scopeId": "src/core/GraphBuilder.ts:486:24",
+      "declaration": "src/core/GraphBuilder.ts:486:25",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -8551,8 +8782,8 @@
     },
     {
       "name": "trail",
-      "scopeId": "src/core/GraphBuilder.ts:481:24",
-      "declaration": "src/core/GraphBuilder.ts:481:37",
+      "scopeId": "src/core/GraphBuilder.ts:486:24",
+      "declaration": "src/core/GraphBuilder.ts:486:37",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -8560,35 +8791,35 @@
     },
     {
       "name": "cached",
-      "scopeId": "src/core/GraphBuilder.ts:481:24",
-      "declaration": "src/core/GraphBuilder.ts:482:10",
+      "scopeId": "src/core/GraphBuilder.ts:486:24",
+      "declaration": "src/core/GraphBuilder.ts:487:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "via",
-      "scopeId": "src/core/GraphBuilder.ts:481:24",
-      "declaration": "src/core/GraphBuilder.ts:486:10",
+      "scopeId": "src/core/GraphBuilder.ts:486:24",
+      "declaration": "src/core/GraphBuilder.ts:491:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "generation",
-      "scopeId": "src/core/GraphBuilder.ts:481:24",
-      "declaration": "src/core/GraphBuilder.ts:487:8",
+      "scopeId": "src/core/GraphBuilder.ts:486:24",
+      "declaration": "src/core/GraphBuilder.ts:492:8",
       "isParameter": false,
       "isMutable": true,
       "reassignments": [
-        "src/core/GraphBuilder.ts:489:5"
+        "src/core/GraphBuilder.ts:494:5"
       ],
       "inferredType": "number"
     },
     {
       "name": "links",
-      "scopeId": "src/core/GraphBuilder.ts:412:2",
-      "declaration": "src/core/GraphBuilder.ts:495:9",
+      "scopeId": "src/core/GraphBuilder.ts:417:2",
+      "declaration": "src/core/GraphBuilder.ts:500:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -8596,16 +8827,16 @@
     },
     {
       "name": "via",
-      "scopeId": "src/core/GraphBuilder.ts:412:2",
-      "declaration": "src/core/GraphBuilder.ts:498:10",
+      "scopeId": "src/core/GraphBuilder.ts:417:2",
+      "declaration": "src/core/GraphBuilder.ts:503:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "ctorSeen",
-      "scopeId": "src/core/GraphBuilder.ts:412:2",
-      "declaration": "src/core/GraphBuilder.ts:510:9",
+      "scopeId": "src/core/GraphBuilder.ts:417:2",
+      "declaration": "src/core/GraphBuilder.ts:515:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -8613,24 +8844,24 @@
     },
     {
       "name": "typePath",
-      "scopeId": "src/core/GraphBuilder.ts:412:2",
-      "declaration": "src/core/GraphBuilder.ts:514:15",
+      "scopeId": "src/core/GraphBuilder.ts:417:2",
+      "declaration": "src/core/GraphBuilder.ts:519:15",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "child",
-      "scopeId": "src/core/GraphBuilder.ts:412:2",
-      "declaration": "src/core/GraphBuilder.ts:515:16",
+      "scopeId": "src/core/GraphBuilder.ts:417:2",
+      "declaration": "src/core/GraphBuilder.ts:520:16",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "dedupeKey",
-      "scopeId": "src/core/GraphBuilder.ts:412:2",
-      "declaration": "src/core/GraphBuilder.ts:518:12",
+      "scopeId": "src/core/GraphBuilder.ts:417:2",
+      "declaration": "src/core/GraphBuilder.ts:523:12",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -8638,16 +8869,16 @@
     },
     {
       "name": "section",
-      "scopeId": "src/core/GraphBuilder.ts:412:2",
-      "declaration": "src/core/GraphBuilder.ts:526:9",
+      "scopeId": "src/core/GraphBuilder.ts:417:2",
+      "declaration": "src/core/GraphBuilder.ts:531:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "kind",
-      "scopeId": "src/core/GraphBuilder.ts:530:2",
-      "declaration": "src/core/GraphBuilder.ts:530:28",
+      "scopeId": "src/core/GraphBuilder.ts:535:2",
+      "declaration": "src/core/GraphBuilder.ts:535:28",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -8655,8 +8886,8 @@
     },
     {
       "name": "name",
-      "scopeId": "src/core/GraphBuilder.ts:542:2",
-      "declaration": "src/core/GraphBuilder.ts:542:31",
+      "scopeId": "src/core/GraphBuilder.ts:547:2",
+      "declaration": "src/core/GraphBuilder.ts:547:31",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -8664,8 +8895,8 @@
     },
     {
       "name": "entry",
-      "scopeId": "src/core/GraphBuilder.ts:542:2",
-      "declaration": "src/core/GraphBuilder.ts:542:45",
+      "scopeId": "src/core/GraphBuilder.ts:547:2",
+      "declaration": "src/core/GraphBuilder.ts:547:45",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -8673,8 +8904,8 @@
     },
     {
       "name": "properties",
-      "scopeId": "src/core/GraphBuilder.ts:542:2",
-      "declaration": "src/core/GraphBuilder.ts:543:9",
+      "scopeId": "src/core/GraphBuilder.ts:547:2",
+      "declaration": "src/core/GraphBuilder.ts:548:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -8682,24 +8913,24 @@
     },
     {
       "name": "pv",
-      "scopeId": "src/core/GraphBuilder.ts:542:2",
-      "declaration": "src/core/GraphBuilder.ts:547:12",
+      "scopeId": "src/core/GraphBuilder.ts:547:2",
+      "declaration": "src/core/GraphBuilder.ts:552:12",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "location",
-      "scopeId": "src/core/GraphBuilder.ts:542:2",
-      "declaration": "src/core/GraphBuilder.ts:559:9",
+      "scopeId": "src/core/GraphBuilder.ts:547:2",
+      "declaration": "src/core/GraphBuilder.ts:564:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "typeNode",
-      "scopeId": "src/core/GraphBuilder.ts:542:2",
-      "declaration": "src/core/GraphBuilder.ts:561:9",
+      "scopeId": "src/core/GraphBuilder.ts:547:2",
+      "declaration": "src/core/GraphBuilder.ts:566:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -8707,8 +8938,8 @@
     },
     {
       "name": "graphData",
-      "scopeId": "src/core/GraphBuilder.ts:574:2",
-      "declaration": "src/core/GraphBuilder.ts:574:18",
+      "scopeId": "src/core/GraphBuilder.ts:579:2",
+      "declaration": "src/core/GraphBuilder.ts:579:18",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -8716,16 +8947,16 @@
     },
     {
       "name": "maxDepth",
-      "scopeId": "src/core/GraphBuilder.ts:574:2",
-      "declaration": "src/core/GraphBuilder.ts:579:9",
+      "scopeId": "src/core/GraphBuilder.ts:579:2",
+      "declaration": "src/core/GraphBuilder.ts:584:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "n",
-      "scopeId": "src/core/GraphBuilder.ts:579:55",
-      "declaration": "src/core/GraphBuilder.ts:579:55",
+      "scopeId": "src/core/GraphBuilder.ts:584:55",
+      "declaration": "src/core/GraphBuilder.ts:584:55",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
@@ -12205,15 +12436,7 @@
       "reassignments": []
     },
     {
-      "name": "name",
-      "scopeId": "src/webview/panel.ts:407:4",
-      "declaration": "src/webview/panel.ts:489:13",
-      "isParameter": false,
-      "isMutable": false,
-      "reassignments": []
-    },
-    {
-      "name": "resolved",
+      "name": "id",
       "scopeId": "src/webview/panel.ts:407:4",
       "declaration": "src/webview/panel.ts:490:13",
       "isParameter": false,
@@ -12221,33 +12444,49 @@
       "reassignments": []
     },
     {
+      "name": "name",
+      "scopeId": "src/webview/panel.ts:407:4",
+      "declaration": "src/webview/panel.ts:504:13",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "resolved",
+      "scopeId": "src/webview/panel.ts:407:4",
+      "declaration": "src/webview/panel.ts:505:13",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
       "name": "event",
-      "scopeId": "src/webview/panel.ts:526:4",
-      "declaration": "src/webview/panel.ts:526:5",
+      "scopeId": "src/webview/panel.ts:541:4",
+      "declaration": "src/webview/panel.ts:541:5",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "reload",
-      "scopeId": "src/webview/panel.ts:548:2",
-      "declaration": "src/webview/panel.ts:548:29",
+      "scopeId": "src/webview/panel.ts:563:2",
+      "declaration": "src/webview/panel.ts:563:29",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "graphData",
-      "scopeId": "src/webview/panel.ts:548:2",
-      "declaration": "src/webview/panel.ts:552:9",
+      "scopeId": "src/webview/panel.ts:563:2",
+      "declaration": "src/webview/panel.ts:567:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "on",
-      "scopeId": "src/webview/panel.ts:567:2",
-      "declaration": "src/webview/panel.ts:567:28",
+      "scopeId": "src/webview/panel.ts:582:2",
+      "declaration": "src/webview/panel.ts:582:28",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -12255,8 +12494,8 @@
     },
     {
       "name": "graphData",
-      "scopeId": "src/webview/panel.ts:571:2",
-      "declaration": "src/webview/panel.ts:571:23",
+      "scopeId": "src/webview/panel.ts:586:2",
+      "declaration": "src/webview/panel.ts:586:23",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -12264,64 +12503,64 @@
     },
     {
       "name": "layout",
-      "scopeId": "src/webview/panel.ts:571:2",
-      "declaration": "src/webview/panel.ts:574:9",
+      "scopeId": "src/webview/panel.ts:586:2",
+      "declaration": "src/webview/panel.ts:589:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "cameraData",
-      "scopeId": "src/webview/panel.ts:571:2",
-      "declaration": "src/webview/panel.ts:578:9",
+      "scopeId": "src/webview/panel.ts:586:2",
+      "declaration": "src/webview/panel.ts:593:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "filePath",
-      "scopeId": "src/webview/panel.ts:593:2",
-      "declaration": "src/webview/panel.ts:594:9",
+      "scopeId": "src/webview/panel.ts:608:2",
+      "declaration": "src/webview/panel.ts:609:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "filePath",
-      "scopeId": "src/webview/panel.ts:598:2",
-      "declaration": "src/webview/panel.ts:599:9",
+      "scopeId": "src/webview/panel.ts:613:2",
+      "declaration": "src/webview/panel.ts:614:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "parsed",
-      "scopeId": "src/webview/panel.ts:598:2",
-      "declaration": "src/webview/panel.ts:604:10",
+      "scopeId": "src/webview/panel.ts:613:2",
+      "declaration": "src/webview/panel.ts:619:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "generatedAt",
-      "scopeId": "src/webview/panel.ts:598:2",
-      "declaration": "src/webview/panel.ts:610:10",
+      "scopeId": "src/webview/panel.ts:613:2",
+      "declaration": "src/webview/panel.ts:625:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "savedAtMs",
-      "scopeId": "src/webview/panel.ts:598:2",
-      "declaration": "src/webview/panel.ts:612:11",
+      "scopeId": "src/webview/panel.ts:613:2",
+      "declaration": "src/webview/panel.ts:627:11",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "data",
-      "scopeId": "src/webview/panel.ts:625:2",
-      "declaration": "src/webview/panel.ts:625:34",
+      "scopeId": "src/webview/panel.ts:640:2",
+      "declaration": "src/webview/panel.ts:640:34",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -12329,24 +12568,24 @@
     },
     {
       "name": "filePath",
-      "scopeId": "src/webview/panel.ts:625:2",
-      "declaration": "src/webview/panel.ts:626:9",
+      "scopeId": "src/webview/panel.ts:640:2",
+      "declaration": "src/webview/panel.ts:641:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "cameraData",
-      "scopeId": "src/webview/panel.ts:625:2",
-      "declaration": "src/webview/panel.ts:631:10",
+      "scopeId": "src/webview/panel.ts:640:2",
+      "declaration": "src/webview/panel.ts:646:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "html",
-      "scopeId": "src/webview/panel.ts:646:2",
-      "declaration": "src/webview/panel.ts:646:34",
+      "scopeId": "src/webview/panel.ts:661:2",
+      "declaration": "src/webview/panel.ts:661:34",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -12354,16 +12593,16 @@
     },
     {
       "name": "target",
-      "scopeId": "src/webview/panel.ts:646:2",
-      "declaration": "src/webview/panel.ts:647:9",
+      "scopeId": "src/webview/panel.ts:661:2",
+      "declaration": "src/webview/panel.ts:662:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "id",
-      "scopeId": "src/webview/panel.ts:672:2",
-      "declaration": "src/webview/panel.ts:672:21",
+      "scopeId": "src/webview/panel.ts:687:2",
+      "declaration": "src/webview/panel.ts:687:21",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -12371,8 +12610,8 @@
     },
     {
       "name": "name",
-      "scopeId": "src/webview/panel.ts:672:2",
-      "declaration": "src/webview/panel.ts:672:33",
+      "scopeId": "src/webview/panel.ts:687:2",
+      "declaration": "src/webview/panel.ts:687:33",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -12380,56 +12619,56 @@
     },
     {
       "name": "scene",
-      "scopeId": "src/webview/panel.ts:672:2",
-      "declaration": "src/webview/panel.ts:673:9",
+      "scopeId": "src/webview/panel.ts:687:2",
+      "declaration": "src/webview/panel.ts:688:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "chain",
-      "scopeId": "src/webview/panel.ts:672:2",
-      "declaration": "src/webview/panel.ts:675:9",
+      "scopeId": "src/webview/panel.ts:687:2",
+      "declaration": "src/webview/panel.ts:690:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "segment",
-      "scopeId": "src/webview/panel.ts:675:35",
-      "declaration": "src/webview/panel.ts:675:36",
+      "scopeId": "src/webview/panel.ts:690:35",
+      "declaration": "src/webview/panel.ts:690:36",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "index",
-      "scopeId": "src/webview/panel.ts:675:35",
-      "declaration": "src/webview/panel.ts:675:45",
+      "scopeId": "src/webview/panel.ts:690:35",
+      "declaration": "src/webview/panel.ts:690:45",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "parts",
-      "scopeId": "src/webview/panel.ts:675:35",
-      "declaration": "src/webview/panel.ts:675:52",
+      "scopeId": "src/webview/panel.ts:690:35",
+      "declaration": "src/webview/panel.ts:690:52",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "sphere",
-      "scopeId": "src/webview/panel.ts:672:2",
-      "declaration": "src/webview/panel.ts:680:9",
+      "scopeId": "src/webview/panel.ts:687:2",
+      "declaration": "src/webview/panel.ts:695:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "data",
-      "scopeId": "src/webview/panel.ts:690:2",
-      "declaration": "src/webview/panel.ts:690:25",
+      "scopeId": "src/webview/panel.ts:705:2",
+      "declaration": "src/webview/panel.ts:705:25",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -12437,40 +12676,40 @@
     },
     {
       "name": "scene",
-      "scopeId": "src/webview/panel.ts:690:2",
-      "declaration": "src/webview/panel.ts:691:9",
+      "scopeId": "src/webview/panel.ts:705:2",
+      "declaration": "src/webview/panel.ts:706:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "state",
-      "scopeId": "src/webview/panel.ts:690:2",
-      "declaration": "src/webview/panel.ts:693:9",
-      "isParameter": false,
-      "isMutable": false,
-      "reassignments": []
-    },
-    {
-      "name": "cam",
-      "scopeId": "src/webview/panel.ts:690:2",
-      "declaration": "src/webview/panel.ts:698:10",
-      "isParameter": false,
-      "isMutable": false,
-      "reassignments": []
-    },
-    {
-      "name": "focused",
-      "scopeId": "src/webview/panel.ts:690:2",
+      "scopeId": "src/webview/panel.ts:705:2",
       "declaration": "src/webview/panel.ts:708:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
+      "name": "cam",
+      "scopeId": "src/webview/panel.ts:705:2",
+      "declaration": "src/webview/panel.ts:713:10",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "focused",
+      "scopeId": "src/webview/panel.ts:705:2",
+      "declaration": "src/webview/panel.ts:723:9",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
       "name": "location",
-      "scopeId": "src/webview/panel.ts:714:2",
-      "declaration": "src/webview/panel.ts:714:38",
+      "scopeId": "src/webview/panel.ts:729:2",
+      "declaration": "src/webview/panel.ts:729:38",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -12478,8 +12717,8 @@
     },
     {
       "name": "html",
-      "scopeId": "src/webview/panel.ts:736:2",
-      "declaration": "src/webview/panel.ts:737:3",
+      "scopeId": "src/webview/panel.ts:751:2",
+      "declaration": "src/webview/panel.ts:752:3",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -12487,8 +12726,8 @@
     },
     {
       "name": "styleUri",
-      "scopeId": "src/webview/panel.ts:736:2",
-      "declaration": "src/webview/panel.ts:738:3",
+      "scopeId": "src/webview/panel.ts:751:2",
+      "declaration": "src/webview/panel.ts:753:3",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -12496,8 +12735,8 @@
     },
     {
       "name": "d3Uri",
-      "scopeId": "src/webview/panel.ts:736:2",
-      "declaration": "src/webview/panel.ts:739:3",
+      "scopeId": "src/webview/panel.ts:751:2",
+      "declaration": "src/webview/panel.ts:754:3",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -12505,8 +12744,8 @@
     },
     {
       "name": "threeUri",
-      "scopeId": "src/webview/panel.ts:736:2",
-      "declaration": "src/webview/panel.ts:740:3",
+      "scopeId": "src/webview/panel.ts:751:2",
+      "declaration": "src/webview/panel.ts:755:3",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -12514,8 +12753,8 @@
     },
     {
       "name": "scriptUri",
-      "scopeId": "src/webview/panel.ts:736:2",
-      "declaration": "src/webview/panel.ts:741:3",
+      "scopeId": "src/webview/panel.ts:751:2",
+      "declaration": "src/webview/panel.ts:756:3",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -12523,8 +12762,8 @@
     },
     {
       "name": "configScript",
-      "scopeId": "src/webview/panel.ts:736:2",
-      "declaration": "src/webview/panel.ts:742:3",
+      "scopeId": "src/webview/panel.ts:751:2",
+      "declaration": "src/webview/panel.ts:757:3",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -12532,8 +12771,8 @@
     },
     {
       "name": "extensionUri",
-      "scopeId": "src/webview/panel.ts:752:2",
-      "declaration": "src/webview/panel.ts:752:29",
+      "scopeId": "src/webview/panel.ts:767:2",
+      "declaration": "src/webview/panel.ts:767:29",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -12541,40 +12780,40 @@
     },
     {
       "name": "config",
-      "scopeId": "src/webview/panel.ts:752:2",
-      "declaration": "src/webview/panel.ts:753:9",
+      "scopeId": "src/webview/panel.ts:767:2",
+      "declaration": "src/webview/panel.ts:768:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "showProperties",
-      "scopeId": "src/webview/panel.ts:752:2",
-      "declaration": "src/webview/panel.ts:754:9",
+      "scopeId": "src/webview/panel.ts:767:2",
+      "declaration": "src/webview/panel.ts:769:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "styleUri",
-      "scopeId": "src/webview/panel.ts:752:2",
-      "declaration": "src/webview/panel.ts:757:9",
+      "scopeId": "src/webview/panel.ts:767:2",
+      "declaration": "src/webview/panel.ts:772:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "scriptUri",
-      "scopeId": "src/webview/panel.ts:752:2",
-      "declaration": "src/webview/panel.ts:760:9",
+      "scopeId": "src/webview/panel.ts:767:2",
+      "declaration": "src/webview/panel.ts:775:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "d3Uri",
-      "scopeId": "src/webview/panel.ts:752:2",
-      "declaration": "src/webview/panel.ts:765:9",
+      "scopeId": "src/webview/panel.ts:767:2",
+      "declaration": "src/webview/panel.ts:780:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -12582,8 +12821,8 @@
     },
     {
       "name": "threeUri",
-      "scopeId": "src/webview/panel.ts:752:2",
-      "declaration": "src/webview/panel.ts:767:9",
+      "scopeId": "src/webview/panel.ts:767:2",
+      "declaration": "src/webview/panel.ts:782:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -12591,8 +12830,8 @@
     },
     {
       "name": "configScript",
-      "scopeId": "src/webview/panel.ts:752:2",
-      "declaration": "src/webview/panel.ts:772:9",
+      "scopeId": "src/webview/panel.ts:767:2",
+      "declaration": "src/webview/panel.ts:787:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -12600,8 +12839,8 @@
     },
     {
       "name": "withSkeletonSlot",
-      "scopeId": "src/webview/panel.ts:752:2",
-      "declaration": "src/webview/panel.ts:783:9",
+      "scopeId": "src/webview/panel.ts:767:2",
+      "declaration": "src/webview/panel.ts:798:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -12609,16 +12848,16 @@
     },
     {
       "name": "skeleton",
-      "scopeId": "src/webview/panel.ts:752:2",
-      "declaration": "src/webview/panel.ts:839:9",
+      "scopeId": "src/webview/panel.ts:767:2",
+      "declaration": "src/webview/panel.ts:854:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "skeletonScript",
-      "scopeId": "src/webview/panel.ts:752:2",
-      "declaration": "src/webview/panel.ts:842:9",
+      "scopeId": "src/webview/panel.ts:767:2",
+      "declaration": "src/webview/panel.ts:857:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -12626,16 +12865,16 @@
     },
     {
       "name": "result",
-      "scopeId": "src/webview/panel.ts:752:2",
-      "declaration": "src/webview/panel.ts:843:9",
+      "scopeId": "src/webview/panel.ts:767:2",
+      "declaration": "src/webview/panel.ts:858:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "x",
-      "scopeId": "src/webview/panel.ts:847:2",
-      "declaration": "src/webview/panel.ts:858:10",
+      "scopeId": "src/webview/panel.ts:862:2",
+      "declaration": "src/webview/panel.ts:873:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
@@ -15025,7 +15264,7 @@
       "isParameter": false,
       "isMutable": true,
       "reassignments": [
-        "src/extension.ts:239:2"
+        "src/extension.ts:274:2"
       ],
       "inferredType": "MnemonicaDefinitionProvider"
     },
@@ -15036,7 +15275,7 @@
       "isParameter": false,
       "isMutable": true,
       "reassignments": [
-        "src/extension.ts:240:2"
+        "src/extension.ts:275:2"
       ],
       "inferredType": "MnemonicaReferenceProvider"
     },
@@ -15047,7 +15286,7 @@
       "isParameter": false,
       "isMutable": true,
       "reassignments": [
-        "src/extension.ts:266:2"
+        "src/extension.ts:301:2"
       ],
       "inferredType": "StrategyServer"
     },
@@ -15058,7 +15297,7 @@
       "isParameter": false,
       "isMutable": true,
       "reassignments": [
-        "src/extension.ts:694:2"
+        "src/extension.ts:771:2"
       ],
       "inferredType": "vscode.StatusBarItem"
     },
@@ -15069,7 +15308,7 @@
       "isParameter": false,
       "isMutable": true,
       "reassignments": [
-        "src/extension.ts:285:2"
+        "src/extension.ts:320:2"
       ],
       "inferredType": "MainOrchestrator"
     },
@@ -15080,7 +15319,7 @@
       "isParameter": false,
       "isMutable": true,
       "reassignments": [
-        "src/extension.ts:366:2"
+        "src/extension.ts:401:2"
       ],
       "inferredType": "LiveTraceTreeProvider"
     },
@@ -15091,7 +15330,7 @@
       "isParameter": false,
       "isMutable": true,
       "reassignments": [
-        "src/extension.ts:319:3"
+        "src/extension.ts:354:3"
       ],
       "inferredType": "typeof refreshTypeGraph"
     },
@@ -15182,9 +15421,42 @@
       "reassignments": []
     },
     {
+      "name": "showTypesFilter",
+      "scopeId": "src/extension.ts:68:1",
+      "declaration": "src/extension.ts:194:8",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": [],
+      "inferredType": "function"
+    },
+    {
+      "name": "filter",
+      "scopeId": "src/extension.ts:194:26",
+      "declaration": "src/extension.ts:195:9",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "matches",
+      "scopeId": "src/extension.ts:194:26",
+      "declaration": "src/extension.ts:196:9",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "text",
+      "scopeId": "src/extension.ts:206:64",
+      "declaration": "src/extension.ts:207:10",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
       "name": "item",
-      "scopeId": "src/extension.ts:198:64",
-      "declaration": "src/extension.ts:198:65",
+      "scopeId": "src/extension.ts:233:64",
+      "declaration": "src/extension.ts:233:65",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -15192,56 +15464,56 @@
     },
     {
       "name": "id",
-      "scopeId": "src/extension.ts:198:64",
-      "declaration": "src/extension.ts:201:10",
+      "scopeId": "src/extension.ts:233:64",
+      "declaration": "src/extension.ts:236:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "name",
-      "scopeId": "src/extension.ts:198:64",
-      "declaration": "src/extension.ts:202:10",
+      "scopeId": "src/extension.ts:233:64",
+      "declaration": "src/extension.ts:237:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "graphData",
-      "scopeId": "src/extension.ts:198:64",
-      "declaration": "src/extension.ts:203:10",
+      "scopeId": "src/extension.ts:233:64",
+      "declaration": "src/extension.ts:238:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "sourceRoot",
-      "scopeId": "src/extension.ts:198:64",
-      "declaration": "src/extension.ts:210:10",
+      "scopeId": "src/extension.ts:233:64",
+      "declaration": "src/extension.ts:245:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "trie",
-      "scopeId": "src/extension.ts:198:64",
-      "declaration": "src/extension.ts:219:10",
+      "scopeId": "src/extension.ts:233:64",
+      "declaration": "src/extension.ts:254:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "trieNode",
-      "scopeId": "src/extension.ts:198:64",
-      "declaration": "src/extension.ts:220:10",
+      "scopeId": "src/extension.ts:233:64",
+      "declaration": "src/extension.ts:255:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "menu",
-      "scopeId": "src/extension.ts:198:64",
-      "declaration": "src/extension.ts:222:11",
+      "scopeId": "src/extension.ts:233:64",
+      "declaration": "src/extension.ts:257:11",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
@@ -15249,7 +15521,7 @@
     {
       "name": "strategyPort",
       "scopeId": "src/extension.ts:68:1",
-      "declaration": "src/extension.ts:264:8",
+      "declaration": "src/extension.ts:299:8",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
@@ -15257,15 +15529,15 @@
     {
       "name": "strategyWsPort",
       "scopeId": "src/extension.ts:68:1",
-      "declaration": "src/extension.ts:265:8",
+      "declaration": "src/extension.ts:300:8",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "err",
-      "scopeId": "src/extension.ts:267:31",
-      "declaration": "src/extension.ts:267:32",
+      "scopeId": "src/extension.ts:302:31",
+      "declaration": "src/extension.ts:302:32",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -15273,48 +15545,48 @@
     },
     {
       "name": "sourceRoot",
-      "scopeId": "src/extension.ts:298:26",
-      "declaration": "src/extension.ts:298:27",
+      "scopeId": "src/extension.ts:333:26",
+      "declaration": "src/extension.ts:333:27",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "origin",
-      "scopeId": "src/extension.ts:298:26",
-      "declaration": "src/extension.ts:298:39",
+      "scopeId": "src/extension.ts:333:26",
+      "declaration": "src/extension.ts:333:39",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "sidebarRoot",
-      "scopeId": "src/extension.ts:298:26",
-      "declaration": "src/extension.ts:300:9",
+      "scopeId": "src/extension.ts:333:26",
+      "declaration": "src/extension.ts:335:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "registry",
-      "scopeId": "src/extension.ts:298:26",
-      "declaration": "src/extension.ts:302:9",
+      "scopeId": "src/extension.ts:333:26",
+      "declaration": "src/extension.ts:337:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "started",
-      "scopeId": "src/extension.ts:313:45",
-      "declaration": "src/extension.ts:313:46",
+      "scopeId": "src/extension.ts:348:45",
+      "declaration": "src/extension.ts:348:46",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "RegistryType",
-      "scopeId": "src/extension.ts:313:45",
-      "declaration": "src/extension.ts:317:9",
+      "scopeId": "src/extension.ts:348:45",
+      "declaration": "src/extension.ts:352:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -15322,32 +15594,32 @@
     },
     {
       "name": "traceContext",
-      "scopeId": "src/extension.ts:313:45",
-      "declaration": "src/extension.ts:318:9",
+      "scopeId": "src/extension.ts:348:45",
+      "declaration": "src/extension.ts:353:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "event",
-      "scopeId": "src/extension.ts:339:45",
-      "declaration": "src/extension.ts:339:46",
+      "scopeId": "src/extension.ts:374:45",
+      "declaration": "src/extension.ts:374:46",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "followOn",
-      "scopeId": "src/extension.ts:339:45",
-      "declaration": "src/extension.ts:344:11",
+      "scopeId": "src/extension.ts:374:45",
+      "declaration": "src/extension.ts:379:11",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "name",
-      "scopeId": "src/extension.ts:355:14",
-      "declaration": "src/extension.ts:355:15",
+      "scopeId": "src/extension.ts:390:14",
+      "declaration": "src/extension.ts:390:15",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -15355,8 +15627,8 @@
     },
     {
       "name": "rootId",
-      "scopeId": "src/extension.ts:356:19",
-      "declaration": "src/extension.ts:356:20",
+      "scopeId": "src/extension.ts:391:19",
+      "declaration": "src/extension.ts:391:20",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -15364,8 +15636,8 @@
     },
     {
       "name": "rootId",
-      "scopeId": "src/extension.ts:357:14",
-      "declaration": "src/extension.ts:357:15",
+      "scopeId": "src/extension.ts:392:14",
+      "declaration": "src/extension.ts:392:15",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -15373,8 +15645,8 @@
     },
     {
       "name": "edges",
-      "scopeId": "src/extension.ts:357:14",
-      "declaration": "src/extension.ts:357:31",
+      "scopeId": "src/extension.ts:392:14",
+      "declaration": "src/extension.ts:392:31",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -15382,8 +15654,8 @@
     },
     {
       "name": "continuation",
-      "scopeId": "src/extension.ts:357:14",
-      "declaration": "src/extension.ts:358:10",
+      "scopeId": "src/extension.ts:392:14",
+      "declaration": "src/extension.ts:393:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
@@ -15391,7 +15663,7 @@
     {
       "name": "withTracePanel",
       "scopeId": "src/extension.ts:68:1",
-      "declaration": "src/extension.ts:376:8",
+      "declaration": "src/extension.ts:411:8",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -15399,8 +15671,8 @@
     },
     {
       "name": "action",
-      "scopeId": "src/extension.ts:376:25",
-      "declaration": "src/extension.ts:376:26",
+      "scopeId": "src/extension.ts:411:25",
+      "declaration": "src/extension.ts:411:26",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -15408,8 +15680,8 @@
     },
     {
       "name": "warnText",
-      "scopeId": "src/extension.ts:376:25",
-      "declaration": "src/extension.ts:376:49",
+      "scopeId": "src/extension.ts:411:25",
+      "declaration": "src/extension.ts:411:49",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -15417,16 +15689,16 @@
     },
     {
       "name": "sourceRoot",
-      "scopeId": "src/extension.ts:376:25",
-      "declaration": "src/extension.ts:378:10",
+      "scopeId": "src/extension.ts:411:25",
+      "declaration": "src/extension.ts:413:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "data",
-      "scopeId": "src/extension.ts:390:62",
-      "declaration": "src/extension.ts:390:63",
+      "scopeId": "src/extension.ts:425:62",
+      "declaration": "src/extension.ts:425:63",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -15434,8 +15706,8 @@
     },
     {
       "name": "arg",
-      "scopeId": "src/extension.ts:397:64",
-      "declaration": "src/extension.ts:397:65",
+      "scopeId": "src/extension.ts:432:64",
+      "declaration": "src/extension.ts:432:65",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -15443,16 +15715,16 @@
     },
     {
       "name": "data",
-      "scopeId": "src/extension.ts:397:64",
-      "declaration": "src/extension.ts:401:10",
+      "scopeId": "src/extension.ts:432:64",
+      "declaration": "src/extension.ts:436:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "arg",
-      "scopeId": "src/extension.ts:408:68",
-      "declaration": "src/extension.ts:408:69",
+      "scopeId": "src/extension.ts:443:68",
+      "declaration": "src/extension.ts:443:69",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -15460,24 +15732,24 @@
     },
     {
       "name": "data",
-      "scopeId": "src/extension.ts:408:68",
-      "declaration": "src/extension.ts:411:10",
+      "scopeId": "src/extension.ts:443:68",
+      "declaration": "src/extension.ts:446:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "base",
-      "scopeId": "src/extension.ts:408:68",
-      "declaration": "src/extension.ts:415:10",
+      "scopeId": "src/extension.ts:443:68",
+      "declaration": "src/extension.ts:450:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "location",
-      "scopeId": "src/extension.ts:418:66",
-      "declaration": "src/extension.ts:418:73",
+      "scopeId": "src/extension.ts:453:66",
+      "declaration": "src/extension.ts:453:73",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -15485,8 +15757,8 @@
     },
     {
       "name": "uri",
-      "scopeId": "src/extension.ts:432:14",
-      "declaration": "src/extension.ts:432:15",
+      "scopeId": "src/extension.ts:467:14",
+      "declaration": "src/extension.ts:467:15",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -15494,8 +15766,8 @@
     },
     {
       "name": "params",
-      "scopeId": "src/extension.ts:432:14",
-      "declaration": "src/extension.ts:436:10",
+      "scopeId": "src/extension.ts:467:14",
+      "declaration": "src/extension.ts:471:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -15503,68 +15775,68 @@
     },
     {
       "name": "groups",
-      "scopeId": "src/extension.ts:432:14",
-      "declaration": "src/extension.ts:437:10",
+      "scopeId": "src/extension.ts:467:14",
+      "declaration": "src/extension.ts:472:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "found",
-      "scopeId": "src/extension.ts:432:14",
-      "declaration": "src/extension.ts:442:8",
+      "scopeId": "src/extension.ts:467:14",
+      "declaration": "src/extension.ts:477:8",
       "isParameter": false,
       "isMutable": true,
       "reassignments": [
-        "src/extension.ts:445:5",
-        "src/extension.ts:449:5"
+        "src/extension.ts:480:5",
+        "src/extension.ts:484:5"
       ],
       "inferredType": "traceGroup | undefined"
     },
     {
       "name": "rootParam",
-      "scopeId": "src/extension.ts:432:14",
-      "declaration": "src/extension.ts:443:10",
+      "scopeId": "src/extension.ts:467:14",
+      "declaration": "src/extension.ts:478:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "g",
-      "scopeId": "src/extension.ts:445:25",
-      "declaration": "src/extension.ts:445:25",
+      "scopeId": "src/extension.ts:480:25",
+      "declaration": "src/extension.ts:480:25",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "jaegerId",
-      "scopeId": "src/extension.ts:432:14",
-      "declaration": "src/extension.ts:447:10",
+      "scopeId": "src/extension.ts:467:14",
+      "declaration": "src/extension.ts:482:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "g",
-      "scopeId": "src/extension.ts:449:25",
-      "declaration": "src/extension.ts:449:25",
+      "scopeId": "src/extension.ts:484:25",
+      "declaration": "src/extension.ts:484:25",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "e",
-      "scopeId": "src/extension.ts:449:43",
-      "declaration": "src/extension.ts:449:43",
+      "scopeId": "src/extension.ts:484:43",
+      "declaration": "src/extension.ts:484:43",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "group",
-      "scopeId": "src/extension.ts:432:14",
-      "declaration": "src/extension.ts:455:10",
+      "scopeId": "src/extension.ts:467:14",
+      "declaration": "src/extension.ts:490:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
@@ -15572,7 +15844,7 @@
     {
       "name": "navigationCommands",
       "scopeId": "src/extension.ts:68:1",
-      "declaration": "src/extension.ts:469:8",
+      "declaration": "src/extension.ts:504:8",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
@@ -15580,7 +15852,7 @@
     {
       "name": "treeCommands",
       "scopeId": "src/extension.ts:68:1",
-      "declaration": "src/extension.ts:470:8",
+      "declaration": "src/extension.ts:505:8",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
@@ -15588,7 +15860,7 @@
     {
       "name": "utilityCommands",
       "scopeId": "src/extension.ts:68:1",
-      "declaration": "src/extension.ts:471:8",
+      "declaration": "src/extension.ts:506:8",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
@@ -15596,137 +15868,137 @@
     {
       "name": "workspaceCommands",
       "scopeId": "src/extension.ts:68:1",
-      "declaration": "src/extension.ts:472:8",
+      "declaration": "src/extension.ts:507:8",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "cmd",
-      "scopeId": "src/extension.ts:474:29",
-      "declaration": "src/extension.ts:474:29",
+      "scopeId": "src/extension.ts:509:29",
+      "declaration": "src/extension.ts:509:29",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "cmd",
-      "scopeId": "src/extension.ts:475:23",
-      "declaration": "src/extension.ts:475:23",
+      "scopeId": "src/extension.ts:510:23",
+      "declaration": "src/extension.ts:510:23",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "cmd",
-      "scopeId": "src/extension.ts:476:26",
-      "declaration": "src/extension.ts:476:26",
+      "scopeId": "src/extension.ts:511:26",
+      "declaration": "src/extension.ts:511:26",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "cmd",
-      "scopeId": "src/extension.ts:477:28",
-      "declaration": "src/extension.ts:477:28",
+      "scopeId": "src/extension.ts:512:28",
+      "declaration": "src/extension.ts:512:28",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "trieSource",
-      "scopeId": "src/extension.ts:489:66",
-      "declaration": "src/extension.ts:490:10",
+      "scopeId": "src/extension.ts:524:66",
+      "declaration": "src/extension.ts:525:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "found",
-      "scopeId": "src/extension.ts:489:66",
-      "declaration": "src/extension.ts:497:11",
+      "scopeId": "src/extension.ts:524:66",
+      "declaration": "src/extension.ts:532:11",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "importing",
-      "scopeId": "src/extension.ts:489:66",
-      "declaration": "src/extension.ts:499:12",
+      "scopeId": "src/extension.ts:524:66",
+      "declaration": "src/extension.ts:534:12",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "browsing",
-      "scopeId": "src/extension.ts:489:66",
-      "declaration": "src/extension.ts:508:11",
+      "scopeId": "src/extension.ts:524:66",
+      "declaration": "src/extension.ts:543:11",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "sources",
-      "scopeId": "src/extension.ts:489:66",
-      "declaration": "src/extension.ts:517:10",
+      "scopeId": "src/extension.ts:524:66",
+      "declaration": "src/extension.ts:552:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "sourceRoot",
-      "scopeId": "src/extension.ts:489:66",
-      "declaration": "src/extension.ts:522:8",
+      "scopeId": "src/extension.ts:524:66",
+      "declaration": "src/extension.ts:557:8",
       "isParameter": false,
       "isMutable": true,
       "reassignments": [
-        "src/extension.ts:540:5"
+        "src/extension.ts:575:5"
       ]
     },
     {
       "name": "workspaceRoot",
-      "scopeId": "src/extension.ts:489:66",
-      "declaration": "src/extension.ts:524:11",
+      "scopeId": "src/extension.ts:524:66",
+      "declaration": "src/extension.ts:559:11",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "picked",
-      "scopeId": "src/extension.ts:489:66",
-      "declaration": "src/extension.ts:525:11",
+      "scopeId": "src/extension.ts:524:66",
+      "declaration": "src/extension.ts:560:11",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "source",
-      "scopeId": "src/extension.ts:526:18",
-      "declaration": "src/extension.ts:526:18",
+      "scopeId": "src/extension.ts:561:18",
+      "declaration": "src/extension.ts:561:18",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "relative",
-      "scopeId": "src/extension.ts:526:18",
-      "declaration": "src/extension.ts:527:13",
+      "scopeId": "src/extension.ts:561:18",
+      "declaration": "src/extension.ts:562:13",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "item",
-      "scopeId": "src/extension.ts:526:18",
-      "declaration": "src/extension.ts:528:13",
+      "scopeId": "src/extension.ts:561:18",
+      "declaration": "src/extension.ts:563:13",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "graphData",
-      "scopeId": "src/extension.ts:552:67",
-      "declaration": "src/extension.ts:553:10",
+      "scopeId": "src/extension.ts:587:67",
+      "declaration": "src/extension.ts:588:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
@@ -15734,7 +16006,7 @@
     {
       "name": "activateTreeItem",
       "scopeId": "src/extension.ts:68:1",
-      "declaration": "src/extension.ts:568:8",
+      "declaration": "src/extension.ts:605:8",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -15742,41 +16014,49 @@
     },
     {
       "name": "data",
-      "scopeId": "src/extension.ts:568:27",
-      "declaration": "src/extension.ts:568:34",
+      "scopeId": "src/extension.ts:605:27",
+      "declaration": "src/extension.ts:605:34",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
       "inferredType": "MnemonicaTreeItemData"
     },
     {
+      "name": "focusGraph",
+      "scopeId": "src/extension.ts:605:27",
+      "declaration": "src/extension.ts:605:63",
+      "isParameter": true,
+      "isMutable": true,
+      "reassignments": []
+    },
+    {
       "name": "typeName",
-      "scopeId": "src/extension.ts:568:27",
-      "declaration": "src/extension.ts:578:9",
+      "scopeId": "src/extension.ts:605:27",
+      "declaration": "src/extension.ts:615:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "usages",
-      "scopeId": "src/extension.ts:568:27",
-      "declaration": "src/extension.ts:582:9",
+      "scopeId": "src/extension.ts:605:27",
+      "declaration": "src/extension.ts:619:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "nodeId",
-      "scopeId": "src/extension.ts:568:27",
-      "declaration": "src/extension.ts:595:9",
+      "scopeId": "src/extension.ts:605:27",
+      "declaration": "src/extension.ts:636:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "rotated",
-      "scopeId": "src/extension.ts:568:27",
-      "declaration": "src/extension.ts:596:9",
+      "scopeId": "src/extension.ts:605:27",
+      "declaration": "src/extension.ts:637:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
@@ -15784,18 +16064,18 @@
     {
       "name": "lastActivation",
       "scopeId": "src/extension.ts:68:1",
-      "declaration": "src/extension.ts:615:6",
+      "declaration": "src/extension.ts:656:6",
       "isParameter": false,
       "isMutable": true,
       "reassignments": [
-        "src/extension.ts:622:3"
+        "src/extension.ts:663:3"
       ],
       "inferredType": "{ id: string; at: number } | undefined"
     },
     {
       "name": "activateTreeItemOnce",
       "scopeId": "src/extension.ts:68:1",
-      "declaration": "src/extension.ts:616:8",
+      "declaration": "src/extension.ts:657:8",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -15803,8 +16083,8 @@
     },
     {
       "name": "data",
-      "scopeId": "src/extension.ts:616:31",
-      "declaration": "src/extension.ts:616:38",
+      "scopeId": "src/extension.ts:657:31",
+      "declaration": "src/extension.ts:657:38",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -15812,40 +16092,93 @@
     },
     {
       "name": "id",
-      "scopeId": "src/extension.ts:616:31",
-      "declaration": "src/extension.ts:617:9",
+      "scopeId": "src/extension.ts:657:31",
+      "declaration": "src/extension.ts:658:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "now",
-      "scopeId": "src/extension.ts:616:31",
-      "declaration": "src/extension.ts:618:9",
+      "scopeId": "src/extension.ts:657:31",
+      "declaration": "src/extension.ts:659:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
+      "name": "revealedFromGraph",
+      "scopeId": "src/extension.ts:68:1",
+      "declaration": "src/extension.ts:670:6",
+      "isParameter": false,
+      "isMutable": true,
+      "reassignments": [
+        "src/extension.ts:682:4",
+        "src/extension.ts:708:5"
+      ],
+      "inferredType": "string | undefined"
+    },
+    {
       "name": "event",
-      "scopeId": "src/extension.ts:627:32",
-      "declaration": "src/extension.ts:627:39",
+      "scopeId": "src/extension.ts:673:32",
+      "declaration": "src/extension.ts:673:39",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "selected",
-      "scopeId": "src/extension.ts:627:32",
-      "declaration": "src/extension.ts:628:9",
+      "scopeId": "src/extension.ts:673:32",
+      "declaration": "src/extension.ts:674:9",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "selectedName",
+      "scopeId": "src/extension.ts:673:32",
+      "declaration": "src/extension.ts:680:9",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "fullName",
+      "scopeId": "src/extension.ts:690:66",
+      "declaration": "src/extension.ts:690:73",
+      "isParameter": true,
+      "isMutable": true,
+      "reassignments": [],
+      "inferredType": "string"
+    },
+    {
+      "name": "item",
+      "scopeId": "src/extension.ts:690:66",
+      "declaration": "src/extension.ts:699:10",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "current",
+      "scopeId": "src/extension.ts:690:66",
+      "declaration": "src/extension.ts:705:10",
+      "isParameter": false,
+      "isMutable": false,
+      "reassignments": []
+    },
+    {
+      "name": "alreadySelected",
+      "scopeId": "src/extension.ts:690:66",
+      "declaration": "src/extension.ts:706:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "data",
-      "scopeId": "src/extension.ts:641:66",
-      "declaration": "src/extension.ts:641:73",
+      "scopeId": "src/extension.ts:718:66",
+      "declaration": "src/extension.ts:718:73",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -15853,8 +16186,8 @@
     },
     {
       "name": "item",
-      "scopeId": "src/extension.ts:641:66",
-      "declaration": "src/extension.ts:645:10",
+      "scopeId": "src/extension.ts:718:66",
+      "declaration": "src/extension.ts:722:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
@@ -15862,7 +16195,7 @@
     {
       "name": "workspaceFolders",
       "scopeId": "src/extension.ts:68:1",
-      "declaration": "src/extension.ts:653:8",
+      "declaration": "src/extension.ts:730:8",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
@@ -15870,31 +16203,31 @@
     {
       "name": "workspacePath",
       "scopeId": "src/extension.ts:68:1",
-      "declaration": "src/extension.ts:655:9",
+      "declaration": "src/extension.ts:732:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "registry",
-      "scopeId": "src/extension.ts:662:54",
-      "declaration": "src/extension.ts:671:10",
+      "scopeId": "src/extension.ts:739:54",
+      "declaration": "src/extension.ts:748:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "graphData",
-      "scopeId": "src/extension.ts:662:54",
-      "declaration": "src/extension.ts:681:10",
+      "scopeId": "src/extension.ts:739:54",
+      "declaration": "src/extension.ts:758:10",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "err",
-      "scopeId": "src/extension.ts:686:12",
-      "declaration": "src/extension.ts:686:13",
+      "scopeId": "src/extension.ts:763:12",
+      "declaration": "src/extension.ts:763:13",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -15903,7 +16236,7 @@
     {
       "name": "tacticaWatcher",
       "scopeId": "src/extension.ts:68:1",
-      "declaration": "src/extension.ts:709:8",
+      "declaration": "src/extension.ts:786:8",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
@@ -15911,7 +16244,7 @@
     {
       "name": "onTacticaEvent",
       "scopeId": "src/extension.ts:68:1",
-      "declaration": "src/extension.ts:710:8",
+      "declaration": "src/extension.ts:787:8",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -15919,8 +16252,8 @@
     },
     {
       "name": "uri",
-      "scopeId": "src/extension.ts:710:25",
-      "declaration": "src/extension.ts:710:26",
+      "scopeId": "src/extension.ts:787:25",
+      "declaration": "src/extension.ts:787:26",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -15929,23 +16262,23 @@
     {
       "name": "debugHandle",
       "scopeId": "src/extension.ts:68:1",
-      "declaration": "src/extension.ts:726:8",
+      "declaration": "src/extension.ts:803:8",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "found",
-      "scopeId": "src/extension.ts:748:1",
-      "declaration": "src/extension.ts:749:8",
+      "scopeId": "src/extension.ts:825:1",
+      "declaration": "src/extension.ts:826:8",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "roots",
-      "scopeId": "src/extension.ts:748:1",
-      "declaration": "src/extension.ts:750:8",
+      "scopeId": "src/extension.ts:825:1",
+      "declaration": "src/extension.ts:827:8",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -15953,40 +16286,40 @@
     },
     {
       "name": "uri",
-      "scopeId": "src/extension.ts:748:1",
-      "declaration": "src/extension.ts:751:13",
+      "scopeId": "src/extension.ts:825:1",
+      "declaration": "src/extension.ts:828:13",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "ordered",
-      "scopeId": "src/extension.ts:748:1",
-      "declaration": "src/extension.ts:754:8",
+      "scopeId": "src/extension.ts:825:1",
+      "declaration": "src/extension.ts:831:8",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "a",
-      "scopeId": "src/extension.ts:754:34",
-      "declaration": "src/extension.ts:754:35",
+      "scopeId": "src/extension.ts:831:34",
+      "declaration": "src/extension.ts:831:35",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "b",
-      "scopeId": "src/extension.ts:754:34",
-      "declaration": "src/extension.ts:754:38",
+      "scopeId": "src/extension.ts:831:34",
+      "declaration": "src/extension.ts:831:38",
       "isParameter": true,
       "isMutable": true,
       "reassignments": []
     },
     {
       "name": "_context",
-      "scopeId": "src/extension.ts:758:1",
-      "declaration": "src/extension.ts:758:33",
+      "scopeId": "src/extension.ts:835:1",
+      "declaration": "src/extension.ts:835:33",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -15994,32 +16327,32 @@
     },
     {
       "name": "logger",
-      "scopeId": "src/extension.ts:758:1",
-      "declaration": "src/extension.ts:759:8",
+      "scopeId": "src/extension.ts:835:1",
+      "declaration": "src/extension.ts:836:8",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "workspaceFolders",
-      "scopeId": "src/extension.ts:758:1",
-      "declaration": "src/extension.ts:760:8",
+      "scopeId": "src/extension.ts:835:1",
+      "declaration": "src/extension.ts:837:8",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "registry",
-      "scopeId": "src/extension.ts:758:1",
-      "declaration": "src/extension.ts:772:9",
+      "scopeId": "src/extension.ts:835:1",
+      "declaration": "src/extension.ts:849:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "graphData",
-      "scopeId": "src/extension.ts:758:1",
-      "declaration": "src/extension.ts:776:9",
+      "scopeId": "src/extension.ts:835:1",
+      "declaration": "src/extension.ts:853:9",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
@@ -16027,7 +16360,7 @@
     {
       "name": "tacticaChangedRoots",
       "scopeId": "src/extension.ts",
-      "declaration": "src/extension.ts:799:7",
+      "declaration": "src/extension.ts:876:7",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -16036,7 +16369,7 @@
     {
       "name": "tacticaDebounceTimer",
       "scopeId": "src/extension.ts",
-      "declaration": "src/extension.ts:800:5",
+      "declaration": "src/extension.ts:877:5",
       "isParameter": false,
       "isMutable": true,
       "reassignments": [],
@@ -16044,8 +16377,8 @@
     },
     {
       "name": "context",
-      "scopeId": "src/extension.ts:806:1",
-      "declaration": "src/extension.ts:806:36",
+      "scopeId": "src/extension.ts:883:1",
+      "declaration": "src/extension.ts:883:36",
       "isParameter": true,
       "isMutable": true,
       "reassignments": [],
@@ -16053,8 +16386,8 @@
     },
     {
       "name": "roots",
-      "scopeId": "src/extension.ts:806:1",
-      "declaration": "src/extension.ts:807:8",
+      "scopeId": "src/extension.ts:883:1",
+      "declaration": "src/extension.ts:884:8",
       "isParameter": false,
       "isMutable": false,
       "reassignments": [],
@@ -16062,24 +16395,24 @@
     },
     {
       "name": "sidebarRoot",
-      "scopeId": "src/extension.ts:806:1",
-      "declaration": "src/extension.ts:809:8",
+      "scopeId": "src/extension.ts:883:1",
+      "declaration": "src/extension.ts:886:8",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "root",
-      "scopeId": "src/extension.ts:806:1",
-      "declaration": "src/extension.ts:810:13",
+      "scopeId": "src/extension.ts:883:1",
+      "declaration": "src/extension.ts:887:13",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []
     },
     {
       "name": "logger",
-      "scopeId": "src/extension.ts:819:1",
-      "declaration": "src/extension.ts:821:8",
+      "scopeId": "src/extension.ts:896:1",
+      "declaration": "src/extension.ts:898:8",
       "isParameter": false,
       "isMutable": false,
       "reassignments": []

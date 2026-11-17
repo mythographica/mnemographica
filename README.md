@@ -6,13 +6,13 @@ Explore mnemonica type hierarchies in VS Code: definitions, generated types, usa
 
 ## Features
 
-- **Types Tree**: The full inheritance hierarchy — the `define()` sites, nested by parent
+- **Types Tree**: The full inheritance hierarchy — the `define()` sites, nested by parent. The filter button in its title bar keeps the types whose dotted name contains a substring, each with its whole family
 - **Usages View**: Every place the selected type is referenced, one click to jump
 - **Flow View**: Execution flow from `flow.json`, grouped by kind (instantiation, property access, pass-as-arg, …) → type → entry
 - **By Generation View**: All types grouped by inheritance depth
 - **Diamonds View**: The callers graph — which scopes construct which types, from entry points down to every `new` site (`control.json`)
 - **Bagels View**: Every `dive.wrap` call site from `eds.json`, as a trie keyed by the wrapped type
-- **3D Graph**: The whole hierarchy as an interactive Three.js scene (`Mnemonica: Ψ 3D`) — type spheres, creation diamonds, wrap rings, and the dive internals backplane, with draggable nodes (Ctrl+drag a sphere to move its whole subtree; Ctrl+wheel in a generation's radius window spreads its siblings apart) and a persistent layout (Save)
+- **3D Graph**: The whole hierarchy as an interactive Three.js scene (`Mnemonica: Ψ 3D`) — type spheres, creation diamonds, wrap rings, and the dive internals backplane, with draggable nodes (Ctrl+drag a sphere to move its whole subtree; Ctrl+wheel in a generation's radius window spreads its siblings apart) and a persistent layout (Save). Ctrl+click a sphere, or the `ø` button in its tooltip, to select its type in the Types tree
 - **Live Trace**: The sidebar collects a running app's dive-trace stream — recent traces grouped by shape, errored ones in red, click to isolate a trace in the 3D graph or open it in Jaeger
 - **Code Navigation**: Ctrl+Click (Go to Definition) and Shift+F12 (Find References) for your mnemonica types
 - **Live Connection Tabs**: `Ψ Strategy MCP` spawns and watches the strategy server; `Ψ App Channel` connects directly to a running app's embedded WS channel — no CDP, no debugger

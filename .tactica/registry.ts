@@ -55,12 +55,12 @@ import type {
  */
 declare module 'mnemonica' {
 	interface TypeRegistry {
-		'LoggerTab': new () => LoggerTab;
-		'LoggerTab.LogEntry': new (data: { level: 'info' | 'warning' | 'error'; message: string; timestamp: number; args?: Array<unknown> }) => LoggerTab_LogEntry;
-		'Main': new (extensionVersion: string) => Main;
-		'Main.Adapter': new (data: { name: string; domain: string; enabled: boolean }) => Main_Adapter;
-		'Registry': new () => Registry;
-		'Registry.RegistryEntry': new (data: { id: string; name: string; filePath: string; line: number; column: number }) => Registry_RegistryEntry;
+		'LoggerTab': RegistryEntry<LoggerTab, 'LoggerTab', object, []>;
+		'LoggerTab.LogEntry': RegistryEntry<LoggerTab_LogEntry, 'LoggerTab.LogEntry', LoggerTab, [data: { level: 'info' | 'warning' | 'error'; message: string; timestamp: number; args?: Array<unknown> }]>;
+		'Main': RegistryEntry<Main, 'Main', object, [extensionVersion: string]>;
+		'Main.Adapter': RegistryEntry<Main_Adapter, 'Main.Adapter', Main, [data: { name: string; domain: string; enabled: boolean }]>;
+		'Registry': RegistryEntry<Registry, 'Registry', object, []>;
+		'Registry.RegistryEntry': RegistryEntry<Registry_RegistryEntry, 'Registry.RegistryEntry', Registry, [data: { id: string; name: string; filePath: string; line: number; column: number }]>;
 	}
 }
 
@@ -103,5 +103,5 @@ declare module '../src/models/collections' {
 	}
 }
 
-import type { TypeRegistry } from 'mnemonica';
+import type { RegistryEntry, TypeRegistry } from 'mnemonica';
 export type { TypeRegistry };

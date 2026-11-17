@@ -2,7 +2,7 @@
 	"name": "mnemographica",
 	"displayName": "Mnemonica Graphica",
 	"description": "Explore mnemonica type hierarchies: definitions, types, usages, execution flow and generations, with go-to-definition navigation",
-	"version": "0.5.9",
+	"version": "0.5.11",
 	"publisher": "Mythographica",
 	"repository": {
 		"type": "git",
@@ -161,6 +161,18 @@
 				"icon": "$(clear-all)"
 			},
 			{
+				"command": "mnemographica.filterTypes",
+				"title": "Filter Types",
+				"category": "Mnemonica",
+				"icon": "$(filter)"
+			},
+			{
+				"command": "mnemographica.clearTypesFilter",
+				"title": "Show All Types",
+				"category": "Mnemonica",
+				"icon": "$(clear-all)"
+			},
+			{
 				"command": "mnemographica.showOnGraph",
 				"title": "Show on Graph",
 				"category": "Mnemonica",
@@ -227,6 +239,16 @@
 					"command": "mnemographica.selectWorkspace",
 					"when": "view == mnemonicaTypes",
 					"group": "navigation@2"
+				},
+				{
+					"command": "mnemographica.filterTypes",
+					"when": "view == mnemonicaTypes",
+					"group": "navigation@3"
+				},
+				{
+					"command": "mnemographica.clearTypesFilter",
+					"when": "view == mnemonicaTypes && mnemographica.typesFiltered",
+					"group": "navigation@4"
 				},
 				{
 					"command": "mnemographica.openSettings",
@@ -406,10 +428,10 @@
 		"@mnemonica/dive": "^0.10.4",
 		"@mnemonica/lethe": "^0.2.2",
 		"@mnemonica/strategy": "^0.5.3",
-		"@mnemonica/tactica": "^0.4.8",
+		"@mnemonica/tactica": "^0.5.5",
 		"@mnemonica/topologica": "^0.1.0",
 		"ajv": "^8.20.0",
-		"mnemonica": "^1.4.2",
+		"mnemonica": "^1.4.8",
 		"ws": "^8.22.0"
 	}
 }

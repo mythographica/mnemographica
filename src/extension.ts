@@ -189,6 +189,41 @@ export function activate(context: vscode.ExtensionContext) {
 		})
 	);
 
+	// Types filter (toolbar buttons in the Types panel): the view title
+	// shows the filter and its match count, kept current across reloads
+	const showTypesFilter = () => {
+		const filter = treeProvider.getFilter();
+		const matches = treeProvider.getFilterMatchCount();
+		treeView.description = filter ? `"${filter}" · ${matches}` : undefined;
+		treeView.message = filter && matches === 0
+			? `No type name contains "${filter}"`
+			: undefined;
+		void vscode.commands.executeCommand('setContext', 'mnemographica.typesFiltered', Boolean(filter));
+	};
+	context.subscriptions.push(treeProvider.onDidChangeTreeData(showTypesFilter));
+
+	context.subscriptions.push(
+		vscode.commands.registerCommand('mnemographica.filterTypes', async () => {
+			const text = await vscode.window.showInputBox({
+				title       : 'Filter Types',
+				prompt      : 'Types whose dotted name contains this text, with their families (empty: all)',
+				placeHolder : 'e.g. Node',
+				value       : treeProvider.getFilter()
+			});
+			// Escape keeps the current filter
+			if (text === undefined) { return; }
+			treeProvider.setFilter(text);
+			logger.info(`[Extension] Types filter: "${treeProvider.getFilter()}", ${treeProvider.getFilterMatchCount()} matches`);
+		})
+	);
+
+	context.subscriptions.push(
+		vscode.commands.registerCommand('mnemographica.clearTypesFilter', () => {
+			treeProvider.setFilter('');
+			logger.info('[Extension] Types filter cleared');
+		})
+	);
+
 	// Register show-on-graph command (right-click on type/definition):
 	// open the 3D panel when closed, then rotate onto the node. The
 	// focusNode request rides the two-level queue (panel.pendingFocus
@@ -565,7 +600,9 @@ export function activate(context: vscode.ExtensionContext) {
 	// a row, keyboard navigation) and the mnemographica.treeItemClick item
 	// command below — re-clicks on the ALREADY-SELECTED row never fire the
 	// selection event, only the command does
-	const activateTreeItem = async (data: MnemonicaTreeItemData) => {
+	// focusGraph false: Usages only — a selection the 3D view itself
+	// asked for (revealInTypes) moves neither the camera nor the editor
+	const activateTreeItem = async (data: MnemonicaTreeItemData, focusGraph = true) => {
 		if (!data.fullPath) {
 			// Clear usages when nothing is selected
 			usagesProvider.clear();
@@ -586,6 +623,10 @@ export function activate(context: vscode.ExtensionContext) {
 		} else {
 			usagesProvider.clear();
 			logger.info(`[Extension] No usages found for ${typeName}`);
+		}
+
+		if (!focusGraph) {
+			return;
 		}
 
 		// Navigate to the selected item — unless the 3D graph is on screen,
@@ -623,6 +664,11 @@ export function activate(context: vscode.ExtensionContext) {
 		await activateTreeItem(data);
 	};
 
+	// The type a 3D-driven reveal is selecting (Ctrl+click on a sphere, the
+	// tooltip's ø button): its selection event only updates Usages — the
+	// sphere is already in view, so no camera move and no file jump
+	let revealedFromGraph: string | undefined;
+
 	// Navigate to definition when item is selected and update usages view
 	treeView.onDidChangeSelection(async (event) => {
 		const selected = event.selection[0];
@@ -631,8 +677,39 @@ export function activate(context: vscode.ExtensionContext) {
 			usagesProvider.clear();
 			return;
 		}
+		const selectedName = selected.data.fullName || selected.data.label;
+		if (revealedFromGraph === selectedName) {
+			revealedFromGraph = undefined;
+			await activateTreeItem(selected.data, false);
+			return;
+		}
 		await activateTreeItemOnce(selected.data);
 	});
+
+	context.subscriptions.push(
+		vscode.commands.registerCommand('mnemographica.revealInTypes', async (fullName: string) => {
+			if (!treeProvider.hasType(fullName)) {
+				logger.warn(`[Extension] Reveal in Types: no type ${fullName} in the Types tree`);
+				return;
+			}
+			// A type the Types filter hides: drop the filter first
+			if (!treeProvider.getItemForName(fullName)) {
+				treeProvider.setFilter('');
+			}
+			const item = treeProvider.getItemForName(fullName);
+			if (!item) {
+				return;
+			}
+			// An already-selected row fires no selection event — the
+			// flag is set only when one will arrive
+			const current = treeView.selection[0];
+			const alreadySelected = current !== undefined && (current.data.fullName || current.data.label) === fullName;
+			if (!alreadySelected) {
+				revealedFromGraph = fullName;
+			}
+			await treeView.reveal(item, { select: true, focus: false, expand: false });
+		})
+	);
 
 	// The item command fires on EVERY row click, including the re-clicks
 	// the selection event skips — clicking the same element again

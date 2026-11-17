@@ -109,6 +109,34 @@ body {
 	opacity: 1;
 }
 
+/* the sphere tooltip's ø (Reveal in Types), top-right corner */
+#tooltip .tooltip-reveal {
+	float: right;
+	margin: -6px -6px 0 8px;
+	padding: 0 4px;
+	font: inherit;
+	font-size: 12px;
+	line-height: 16px;
+	color: var(--vscode-editorHoverWidget-foreground);
+	background: transparent;
+	border: 1px solid var(--vscode-editorHoverWidget-border);
+	border-radius: 3px;
+	cursor: pointer;
+}
+
+/* The tooltip passes clicks through to the canvas (pointer-events is
+   inherited); only the links and the ø button of a VISIBLE tooltip take
+   them: the EDS site rows, the diamond/bagel jump rows */
+#tooltip.visible .tooltip-reveal,
+#tooltip.visible .eds-entry,
+#tooltip.visible .jump-entry {
+	pointer-events: auto;
+}
+
+#tooltip .tooltip-reveal:hover {
+	background: var(--vscode-toolbar-hoverBackground);
+}
+
 #controls {
 	position: absolute;
 	top: 10px;

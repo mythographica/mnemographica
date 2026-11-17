@@ -15,15 +15,25 @@ export type MnemonicaTreeItemData = {
 	column?: number;
 	// Full definition name for lookup (needed when label is shortened for display)
 	fullName?: string;
+	// The Types filter text the item was built under ('' or absent: none)
+	filter?: string;
 };
 
 // The stable item id — shared by the MnemonicaTreeItem constructor and
 // the provider's click-to-expand lookup, which must reproduce the id
-// from the command's bare data payload
+// from the command's bare data payload. Definition ids carry the filter
+// text: VS Code keeps a row's expansion state by id and ignores the
+// provider's collapsibleState for an id it already knows, so a filtered
+// tree gets fresh ids (the path down to every match opens) and clearing
+// the filter brings back the unfiltered rows' own expansion state
 const treeItemId = function (data: MnemonicaTreeItemData): string {
+	const name = data.fullName || data.label;
+	const defId = data.filter
+		? `def:${name}|filter:${data.filter}`
+		: `def:${name}`;
 	const id = data.type === 'root'
 		? `root:${data.label}`
-		: `def:${data.fullName || data.label}`;
+		: defId;
 	return id;
 };
 
@@ -102,6 +112,14 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 	private logger = getLogger();
 	private currentWorkspacePath: string | undefined;
 	private registry: Registry | undefined;
+	// The Types filter: a case-insensitive substring of the dotted
+	// fullName. Every matching type shows with its whole family — its
+	// ancestors (the path down to it, opened) and all its descendants.
+	// '' shows everything
+	private filterText = '';
+	private filterVisible: Set<string> | undefined;
+	private filterOpen: Set<string> = new Set();
+	private filterMatchCount = 0;
 
 	refresh (): void {
 		// The tree re-fetches displayed items after this — cached
@@ -167,7 +185,70 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 			}
 		}
 
+		// A reload keeps the filter text and recomputes its families
+		this.computeFilter();
 		this.refresh();
+	}
+
+	setFilter (text: string): void {
+		this.filterText = text.trim();
+		this.computeFilter();
+		this.refresh();
+	}
+
+	getFilter (): string {
+		return this.filterText;
+	}
+
+	getFilterMatchCount (): number {
+		return this.filterMatchCount;
+	}
+
+	// The item TreeView.reveal needs for a type's dotted fullName — the
+	// 3D view's sphere ids are the same keys. undefined when the type is
+	// unknown or hidden by the current filter
+	getItemForName (fullName: string): MnemonicaTreeItem | undefined {
+		const def = this.definitions.get(fullName);
+		const item = def && this.isFilterVisible(def)
+			? this.createDefinitionItem(def)
+			: undefined;
+		return item;
+	}
+
+	hasType (fullName: string): boolean {
+		const known = this.definitions.has(fullName);
+		return known;
+	}
+
+	private computeFilter (): void {
+		this.filterOpen = new Set();
+		this.filterMatchCount = 0;
+		if (!this.filterText) {
+			this.filterVisible = undefined;
+			return;
+		}
+		// A descendant's fullName extends its ancestor's dotted fullName,
+		// so every descendant of a match is itself a match: the family
+		// below a match needs no walk of its own
+		const needle = this.filterText.toLowerCase();
+		const visible: Set<string> = new Set();
+		for (const def of this.definitions.values()) {
+			if (!def.fullName.toLowerCase().includes(needle)) {
+				continue;
+			}
+			this.filterMatchCount++;
+			visible.add(def.fullName);
+			// the ancestors: the path down to the match, opened; an
+			// ancestor already open has its whole chain open above it
+			let parent = def.parent;
+			while (parent && !this.filterOpen.has(parent)) {
+				visible.add(parent);
+				this.filterOpen.add(parent);
+				const parentDef = this.definitions.get(parent);
+				parent = parentDef ? parentDef.parent : undefined;
+			}
+		}
+		this.filterVisible = visible;
 	}
 
 	getTreeItem (element: MnemonicaTreeItem): vscode.TreeItem {
@@ -233,7 +314,7 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 	private getRootDefinitions (): DefinitionData[] {
 		const roots: DefinitionData[] = [];
 		for (const def of this.definitions.values()) {
-			if (!def.parent) {
+			if (!def.parent && this.isFilterVisible(def)) {
 				roots.push(def);
 			}
 		}
@@ -243,16 +324,26 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 	private getChildDefinitions (parentName: string): DefinitionData[] {
 		const children: DefinitionData[] = [];
 		for (const def of this.definitions.values()) {
-			if (def.parent === parentName) {
+			if (def.parent === parentName && this.isFilterVisible(def)) {
 				children.push(def);
 			}
 		}
 		return children.sort((a, b) => a.name.localeCompare(b.name));
 	}
 
+	private isFilterVisible (def: DefinitionData): boolean {
+		const visible = !this.filterVisible || this.filterVisible.has(def.fullName);
+		return visible;
+	}
+
 	private createDefinitionItem (def: DefinitionData): MnemonicaTreeItem {
 		const shortName = def.name.includes('.') ? def.name.split('.').pop()! : def.name;
 		const hasChildren = this.getChildDefinitions(def.fullName).length > 0;
+		// under a filter, the path down to every match opens
+		const openState = this.filterOpen.has(def.fullName)
+			? vscode.TreeItemCollapsibleState.Expanded
+			: vscode.TreeItemCollapsibleState.Collapsed;
+		const collapsibleState = hasChildren ? openState : vscode.TreeItemCollapsibleState.None;
 
 		if (this.debug) {
 			this.logger.info(`[MnemonicaTree] createDefinitionItem: ${def.name} (short: ${shortName}), fullName: ${def.fullName}, hasChildren: ${hasChildren}`);
@@ -265,9 +356,10 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 				fullPath: def.fullPath,
 				line: def.line,
 				column: def.column + 9, // define(' === 9
-				fullName: def.fullName  // Use fullName (the key) for lookups
+				fullName: def.fullName,  // Use fullName (the key) for lookups
+				filter: this.filterText
 			},
-			hasChildren ? vscode.TreeItemCollapsibleState.Collapsed : vscode.TreeItemCollapsibleState.None
+			collapsibleState
 		);
 		// Cache by stable id so the treeItemClick command's data payload
 		// can resolve back to the live instance for click-to-expand
