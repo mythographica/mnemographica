@@ -12,6 +12,33 @@ import type { rawCallers } from '../models/Control';
 import { getLogger } from '../services/LoggerService';
 
 /**
+ * Construction census (usages.json): the types that are instantiated or
+ * reached as a constructor value. A type outside the set is never created
+ * at runtime (the transparent sphere, the Types view's "unused"). A
+ * `propertyAccess` counts: `instance.Sub` is the subtype constructor. A
+ * read of it is how tactica sees a constructor put into a table and built
+ * through a computed key, or a bare `instance.Sub(…)` call on a receiver
+ * it cannot resolve. undefined when the registry has no usages loaded (no
+ * census: nothing counts as unused)
+ */
+export const createdTypes = function (registry: Registry): Set<string> | undefined {
+	const usages = registry.getUsages();
+	if (!usages) {
+		const none = undefined;
+		return none;
+	}
+	const created = new Set<string>();
+	for (const [ typeName, usageEntries ] of usages.entries()) {
+		// a malformed usages.json entry is skipped, not fatal
+		if (!Array.isArray(usageEntries)) { continue; }
+		if (usageEntries.some((u) => u.kind === 'instantiation' || u.kind === 'propertyAccess')) {
+			created.add(typeName);
+		}
+	}
+	return created;
+};
+
+/**
  * Pure graph builder - constructs graph data from registry without VS Code dependencies
  */
 export class GraphBuilder {
@@ -106,25 +133,12 @@ export class GraphBuilder {
 
 		const graphData = GraphConverter.convert(typeNodes);
 
-		// Construction census (usages.json): a type that is neither
-		// instantiated nor reached as a constructor value is never created
-		// at runtime — the EdsProbe diagnostic. Path-hits sourced on such
-		// types are never taken, and attachHooks grafts skip them (hooks
-		// only fire on real constructions). A `propertyAccess` counts:
-		// `instance.Sub` is the subtype constructor. A read of it is how
-		// tactica sees a constructor put into a table and built through a
-		// computed key, or a bare `instance.Sub(…)` call on a receiver it
-		// cannot resolve
-		const usages = registry.getUsages();
-		const instantiated = new Set<string>();
-		if (usages) {
-			for (const [typeName, usageEntries] of usages.entries()) {
-				const list = usageEntries as unknown as Array<Record<string, unknown>>;
-				if (!Array.isArray(list)) { continue; }
-				if (list.some((u) => u.kind === 'instantiation' || u.kind === 'propertyAccess')) {
-					instantiated.add(typeName);
-				}
-			}
+		// Construction census: the never-created types are the EdsProbe
+		// diagnostic. Path-hits sourced on such types are never taken, and
+		// attachHooks grafts skip them (hooks only fire on real
+		// constructions)
+		const instantiated = createdTypes(registry);
+		if (instantiated) {
 			for (const node of graphData.nodes) {
 				if (!instantiated.has(node.id)) {
 					node.neverCreated = true;
@@ -171,7 +185,7 @@ export class GraphBuilder {
 								kind: 'edsPathHit',
 								location: info.location as string | undefined,
 								code: info.code as string | undefined,
-								neverTaken: usages ? !instantiated.has(node.id) : undefined
+								neverTaken: instantiated ? !instantiated.has(node.id) : undefined
 							};
 							graphData.execflow.push(hit);
 						}
@@ -285,7 +299,7 @@ export class GraphBuilder {
 				// attachHooks hub with its per-type grafts, and the
 				// adapter sinks. Emitted only when dive wiring is visible
 				// — no wraps, no backplane
-				graphData.internals = this.buildInternalsSection(nodeMap, usages ? instantiated : undefined);
+				graphData.internals = this.buildInternalsSection(nodeMap, instantiated);
 			}
 		}
 

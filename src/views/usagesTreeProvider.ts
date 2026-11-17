@@ -40,8 +40,12 @@ export class UsageTreeItem extends vscode.TreeItem {
 		public readonly workspacePath: string,
 		public readonly typeName: string = ''
 	) {
-		// Show relative path and line number
-		const relativePath = path.relative(workspacePath, usage.filePath);
+		// Show the path relative to the project root, and line number. A
+		// file outside the root, or no root known, shows its full path:
+		// path.relative('') would resolve against the extension host's cwd
+		const fromRoot = workspacePath ? path.relative(workspacePath, usage.filePath) : '';
+		const insideRoot = fromRoot !== '' && !fromRoot.startsWith('..') && !path.isAbsolute(fromRoot);
+		const relativePath = insideRoot ? fromRoot : usage.filePath;
 		const label = `${relativePath}:${usage.line}`;
 		
 		super(label, vscode.TreeItemCollapsibleState.None);

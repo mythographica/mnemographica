@@ -1,17 +1,17 @@
 {
   "version": "1.2",
-  "generatedAt": "2026-11-17T13:17:20.581Z",
+  "generatedAt": "2026-11-17T21:27:40.796Z",
   "eds": {
     "unknown": [
+      {
+        "location": "src/core/GraphBuilder.ts:260:16",
+        "kind": "contextConsume",
+        "code": "registry.getFlow()"
+      },
       {
         "location": "src/views/flowTreeProvider.ts:125:21",
         "kind": "contextConsume",
         "code": "this.registry.getFlow()"
-      },
-      {
-        "location": "src/core/GraphBuilder.ts:246:16",
-        "kind": "contextConsume",
-        "code": "registry.getFlow()"
       },
       {
         "location": "src/strategy/selfTrace.ts:150:18",

@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-11-17T13:17:20.610Z",
+  "generatedAt": "2026-11-17T21:27:40.809Z",
   "modules": {
     "src/topologica/bootstrap.ts": {
       "filePath": "src/topologica/bootstrap.ts",
@@ -172,162 +172,6 @@
         "path"
       ]
     },
-    "src/views/treeProvider.ts": {
-      "filePath": "src/views/treeProvider.ts",
-      "definedTypes": [],
-      "exportedBindings": [
-        {
-          "name": "MnemonicaTreeItemData",
-          "kind": "type",
-          "sourceModule": "src/views/treeProvider.ts",
-          "isReExport": false
-        },
-        {
-          "name": "MnemonicaTreeItem",
-          "kind": "class",
-          "sourceModule": "src/views/treeProvider.ts",
-          "isReExport": false
-        },
-        {
-          "name": "MnemonicaTreeProvider",
-          "kind": "class",
-          "sourceModule": "src/views/treeProvider.ts",
-          "isReExport": false
-        }
-      ],
-      "importedBindings": [
-        {
-          "name": "vscode",
-          "kind": "unknown",
-          "sourceModule": "node_modules/@types/vscode/index.d.ts",
-          "importKind": "namespace",
-          "isReExport": false,
-          "external": true
-        },
-        {
-          "name": "getLogger",
-          "kind": "function",
-          "sourceModule": "src/services/LoggerService.ts",
-          "importKind": "named",
-          "isReExport": false
-        },
-        {
-          "name": "parseTacticaLocation",
-          "kind": "function",
-          "sourceModule": "src/utils/paths.ts",
-          "importKind": "named",
-          "isReExport": false
-        },
-        {
-          "name": "Registry",
-          "kind": "unknown",
-          "sourceModule": ".tactica/types.ts",
-          "importKind": "named",
-          "isReExport": false
-        }
-      ],
-      "dependencies": [
-        "src/services/LoggerService.ts",
-        "src/utils/paths.ts"
-      ],
-      "unresolvedSpecifiers": [],
-      "builtinSpecifiers": []
-    },
-    "src/views/usagesTreeProvider.ts": {
-      "filePath": "src/views/usagesTreeProvider.ts",
-      "definedTypes": [],
-      "exportedBindings": [
-        {
-          "name": "UsageTreeItem",
-          "kind": "class",
-          "sourceModule": "src/views/usagesTreeProvider.ts",
-          "isReExport": false
-        },
-        {
-          "name": "UsagesTreeProvider",
-          "kind": "class",
-          "sourceModule": "src/views/usagesTreeProvider.ts",
-          "isReExport": false
-        }
-      ],
-      "importedBindings": [
-        {
-          "name": "vscode",
-          "kind": "unknown",
-          "sourceModule": "node_modules/@types/vscode/index.d.ts",
-          "importKind": "namespace",
-          "isReExport": false,
-          "external": true
-        }
-      ],
-      "dependencies": [],
-      "unresolvedSpecifiers": [],
-      "builtinSpecifiers": [
-        "path"
-      ]
-    },
-    "src/views/flowTreeProvider.ts": {
-      "filePath": "src/views/flowTreeProvider.ts",
-      "definedTypes": [],
-      "exportedBindings": [
-        {
-          "name": "FlowTreeItem",
-          "kind": "class",
-          "sourceModule": "src/views/flowTreeProvider.ts",
-          "isReExport": false
-        },
-        {
-          "name": "FlowTreeProvider",
-          "kind": "class",
-          "sourceModule": "src/views/flowTreeProvider.ts",
-          "isReExport": false
-        }
-      ],
-      "importedBindings": [
-        {
-          "name": "vscode",
-          "kind": "unknown",
-          "sourceModule": "node_modules/@types/vscode/index.d.ts",
-          "importKind": "namespace",
-          "isReExport": false,
-          "external": true
-        },
-        {
-          "name": "getLogger",
-          "kind": "function",
-          "sourceModule": "src/services/LoggerService.ts",
-          "importKind": "named",
-          "isReExport": false
-        },
-        {
-          "name": "parseTacticaLocation",
-          "kind": "function",
-          "sourceModule": "src/utils/paths.ts",
-          "importKind": "named",
-          "isReExport": false
-        },
-        {
-          "name": "shortLocation",
-          "kind": "function",
-          "sourceModule": "src/utils/paths.ts",
-          "importKind": "named",
-          "isReExport": false
-        },
-        {
-          "name": "Registry",
-          "kind": "unknown",
-          "sourceModule": ".tactica/types.ts",
-          "importKind": "named",
-          "isReExport": false
-        }
-      ],
-      "dependencies": [
-        "src/services/LoggerService.ts",
-        "src/utils/paths.ts"
-      ],
-      "unresolvedSpecifiers": [],
-      "builtinSpecifiers": []
-    },
     "src/types/tactica-types.ts": {
       "filePath": "src/types/tactica-types.ts",
       "definedTypes": [],
@@ -453,6 +297,607 @@
       ],
       "dependencies": [
         "src/types/tactica-types.ts"
+      ],
+      "unresolvedSpecifiers": [],
+      "builtinSpecifiers": []
+    },
+    "src/graph/converter.ts": {
+      "filePath": "src/graph/converter.ts",
+      "definedTypes": [],
+      "exportedBindings": [
+        {
+          "name": "GraphConverter",
+          "kind": "class",
+          "sourceModule": "src/graph/converter.ts",
+          "isReExport": false
+        }
+      ],
+      "importedBindings": [
+        {
+          "name": "TypeNode",
+          "kind": "type",
+          "sourceModule": "src/types/index.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "D3Node",
+          "kind": "type",
+          "sourceModule": "src/types/index.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "D3Link",
+          "kind": "type",
+          "sourceModule": "src/types/index.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "GraphData",
+          "kind": "type",
+          "sourceModule": "src/types/index.ts",
+          "importKind": "named",
+          "isReExport": false
+        }
+      ],
+      "dependencies": [
+        "src/types/index.ts"
+      ],
+      "unresolvedSpecifiers": [],
+      "builtinSpecifiers": []
+    },
+    "src/graph/internals-manifest.ts": {
+      "filePath": "src/graph/internals-manifest.ts",
+      "definedTypes": [],
+      "exportedBindings": [
+        {
+          "name": "rawInternalKnot",
+          "kind": "type",
+          "sourceModule": "src/graph/internals-manifest.ts",
+          "isReExport": false
+        },
+        {
+          "name": "rawInternalEdge",
+          "kind": "type",
+          "sourceModule": "src/graph/internals-manifest.ts",
+          "isReExport": false
+        },
+        {
+          "name": "INTERNAL_KNOTS",
+          "kind": "const",
+          "sourceModule": "src/graph/internals-manifest.ts",
+          "isReExport": false
+        },
+        {
+          "name": "INTERNAL_EDGES",
+          "kind": "const",
+          "sourceModule": "src/graph/internals-manifest.ts",
+          "isReExport": false
+        },
+        {
+          "name": "COLLECTION_HOOKUP_EDGE",
+          "kind": "const",
+          "sourceModule": "src/graph/internals-manifest.ts",
+          "isReExport": false
+        }
+      ],
+      "importedBindings": [],
+      "dependencies": [],
+      "unresolvedSpecifiers": [],
+      "builtinSpecifiers": []
+    },
+    "src/utils/collections.ts": {
+      "filePath": "src/utils/collections.ts",
+      "definedTypes": [],
+      "exportedBindings": [
+        {
+          "name": "DEFAULT_COLLECTION",
+          "kind": "const",
+          "sourceModule": "src/utils/collections.ts",
+          "isReExport": false
+        },
+        {
+          "name": "ALL_COLLECTIONS",
+          "kind": "const",
+          "sourceModule": "src/utils/collections.ts",
+          "isReExport": false
+        },
+        {
+          "name": "collectionOfPath",
+          "kind": "function",
+          "sourceModule": "src/utils/collections.ts",
+          "isReExport": false
+        }
+      ],
+      "importedBindings": [],
+      "dependencies": [],
+      "unresolvedSpecifiers": [],
+      "builtinSpecifiers": []
+    },
+    "src/models/collections.ts": {
+      "filePath": "src/models/collections.ts",
+      "definedTypes": [],
+      "exportedBindings": [
+        {
+          "name": "BackendRegistry",
+          "kind": "type",
+          "sourceModule": "src/models/collections.ts",
+          "isReExport": false
+        },
+        {
+          "name": "Backend",
+          "kind": "const",
+          "sourceModule": "src/models/collections.ts",
+          "isReExport": false
+        },
+        {
+          "name": "FrontendRegistry",
+          "kind": "type",
+          "sourceModule": "src/models/collections.ts",
+          "isReExport": false
+        },
+        {
+          "name": "Frontend",
+          "kind": "const",
+          "sourceModule": "src/models/collections.ts",
+          "isReExport": false
+        },
+        {
+          "name": "setProps",
+          "kind": "function",
+          "sourceModule": "src/models/collections.ts",
+          "isReExport": false
+        }
+      ],
+      "importedBindings": [
+        {
+          "name": "createTypesCollection",
+          "kind": "unknown",
+          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
+          "importKind": "named",
+          "isReExport": false,
+          "external": true
+        }
+      ],
+      "dependencies": [],
+      "unresolvedSpecifiers": [],
+      "builtinSpecifiers": []
+    },
+    "src/models/Control.ts": {
+      "filePath": "src/models/Control.ts",
+      "definedTypes": [
+        "collection_1::Control",
+        "collection_1::Control.ControlPoint"
+      ],
+      "exportedBindings": [
+        {
+          "name": "rawControlPoint",
+          "kind": "type",
+          "sourceModule": "src/models/Control.ts",
+          "isReExport": false
+        },
+        {
+          "name": "rawCallersNode",
+          "kind": "type",
+          "sourceModule": "src/models/Control.ts",
+          "isReExport": false
+        },
+        {
+          "name": "rawCallersEdge",
+          "kind": "type",
+          "sourceModule": "src/models/Control.ts",
+          "isReExport": false
+        },
+        {
+          "name": "rawCallersAnchor",
+          "kind": "type",
+          "sourceModule": "src/models/Control.ts",
+          "isReExport": false
+        },
+        {
+          "name": "rawCallers",
+          "kind": "type",
+          "sourceModule": "src/models/Control.ts",
+          "isReExport": false
+        },
+        {
+          "name": "ControlPointInstance",
+          "kind": "type",
+          "sourceModule": "src/models/Control.ts",
+          "isReExport": false
+        },
+        {
+          "name": "rawControlFile",
+          "kind": "type",
+          "sourceModule": "src/models/Control.ts",
+          "isReExport": false
+        },
+        {
+          "name": "Control",
+          "kind": "const",
+          "sourceModule": "src/models/Control.ts",
+          "isReExport": false
+        },
+        {
+          "name": "ControlPoint",
+          "kind": "const",
+          "sourceModule": "src/models/Control.ts",
+          "isReExport": false
+        },
+        {
+          "name": "default",
+          "kind": "const",
+          "sourceModule": "src/models/Control.ts",
+          "importKind": "default",
+          "isReExport": false,
+          "importAlias": "Control"
+        }
+      ],
+      "importedBindings": [
+        {
+          "name": "Backend",
+          "kind": "const",
+          "sourceModule": "src/models/collections.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "setProps",
+          "kind": "function",
+          "sourceModule": "src/models/collections.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "getLogger",
+          "kind": "function",
+          "sourceModule": "src/services/LoggerService.ts",
+          "importKind": "named",
+          "isReExport": false
+        }
+      ],
+      "dependencies": [
+        "src/models/collections.ts",
+        "src/services/LoggerService.ts"
+      ],
+      "unresolvedSpecifiers": [],
+      "builtinSpecifiers": []
+    },
+    "src/core/GraphBuilder.ts": {
+      "filePath": "src/core/GraphBuilder.ts",
+      "definedTypes": [],
+      "exportedBindings": [
+        {
+          "name": "createdTypes",
+          "kind": "function",
+          "sourceModule": "src/core/GraphBuilder.ts",
+          "isReExport": false
+        },
+        {
+          "name": "GraphBuilder",
+          "kind": "class",
+          "sourceModule": "src/core/GraphBuilder.ts",
+          "isReExport": false
+        }
+      ],
+      "importedBindings": [
+        {
+          "name": "GraphData",
+          "kind": "type",
+          "sourceModule": "src/types/index.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "D3CreationNode",
+          "kind": "type",
+          "sourceModule": "src/types/index.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "D3CreationLink",
+          "kind": "type",
+          "sourceModule": "src/types/index.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "D3WrapperNode",
+          "kind": "type",
+          "sourceModule": "src/types/index.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "D3WrapperLink",
+          "kind": "type",
+          "sourceModule": "src/types/index.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "D3InternalNode",
+          "kind": "type",
+          "sourceModule": "src/types/index.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "D3InternalLink",
+          "kind": "type",
+          "sourceModule": "src/types/index.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "GraphConverter",
+          "kind": "class",
+          "sourceModule": "src/graph/converter.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "INTERNAL_KNOTS",
+          "kind": "const",
+          "sourceModule": "src/graph/internals-manifest.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "INTERNAL_EDGES",
+          "kind": "const",
+          "sourceModule": "src/graph/internals-manifest.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "COLLECTION_HOOKUP_EDGE",
+          "kind": "const",
+          "sourceModule": "src/graph/internals-manifest.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "TypeNode",
+          "kind": "type",
+          "sourceModule": "src/types/tactica-types.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "collectionOfPath",
+          "kind": "function",
+          "sourceModule": "src/utils/collections.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "DEFAULT_COLLECTION",
+          "kind": "const",
+          "sourceModule": "src/utils/collections.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "ALL_COLLECTIONS",
+          "kind": "const",
+          "sourceModule": "src/utils/collections.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "parseTacticaLocation",
+          "kind": "function",
+          "sourceModule": "src/utils/paths.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "Registry",
+          "kind": "unknown",
+          "sourceModule": ".tactica/types.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "rawCallers",
+          "kind": "type",
+          "sourceModule": "src/models/Control.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "getLogger",
+          "kind": "function",
+          "sourceModule": "src/services/LoggerService.ts",
+          "importKind": "named",
+          "isReExport": false
+        }
+      ],
+      "dependencies": [
+        "src/types/index.ts",
+        "src/graph/converter.ts",
+        "src/graph/internals-manifest.ts",
+        "src/types/tactica-types.ts",
+        "src/utils/collections.ts",
+        "src/utils/paths.ts",
+        "src/models/Control.ts",
+        "src/services/LoggerService.ts"
+      ],
+      "unresolvedSpecifiers": [],
+      "builtinSpecifiers": [
+        "path"
+      ]
+    },
+    "src/views/treeProvider.ts": {
+      "filePath": "src/views/treeProvider.ts",
+      "definedTypes": [],
+      "exportedBindings": [
+        {
+          "name": "UsageMode",
+          "kind": "type",
+          "sourceModule": "src/views/treeProvider.ts",
+          "isReExport": false
+        },
+        {
+          "name": "MnemonicaTreeItemData",
+          "kind": "type",
+          "sourceModule": "src/views/treeProvider.ts",
+          "isReExport": false
+        },
+        {
+          "name": "MnemonicaTreeItem",
+          "kind": "class",
+          "sourceModule": "src/views/treeProvider.ts",
+          "isReExport": false
+        },
+        {
+          "name": "MnemonicaTreeProvider",
+          "kind": "class",
+          "sourceModule": "src/views/treeProvider.ts",
+          "isReExport": false
+        }
+      ],
+      "importedBindings": [
+        {
+          "name": "vscode",
+          "kind": "unknown",
+          "sourceModule": "node_modules/@types/vscode/index.d.ts",
+          "importKind": "namespace",
+          "isReExport": false,
+          "external": true
+        },
+        {
+          "name": "getLogger",
+          "kind": "function",
+          "sourceModule": "src/services/LoggerService.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "parseTacticaLocation",
+          "kind": "function",
+          "sourceModule": "src/utils/paths.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "createdTypes",
+          "kind": "function",
+          "sourceModule": "src/core/GraphBuilder.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "Registry",
+          "kind": "unknown",
+          "sourceModule": ".tactica/types.ts",
+          "importKind": "named",
+          "isReExport": false
+        }
+      ],
+      "dependencies": [
+        "src/services/LoggerService.ts",
+        "src/utils/paths.ts",
+        "src/core/GraphBuilder.ts"
+      ],
+      "unresolvedSpecifiers": [],
+      "builtinSpecifiers": []
+    },
+    "src/views/usagesTreeProvider.ts": {
+      "filePath": "src/views/usagesTreeProvider.ts",
+      "definedTypes": [],
+      "exportedBindings": [
+        {
+          "name": "UsageTreeItem",
+          "kind": "class",
+          "sourceModule": "src/views/usagesTreeProvider.ts",
+          "isReExport": false
+        },
+        {
+          "name": "UsagesTreeProvider",
+          "kind": "class",
+          "sourceModule": "src/views/usagesTreeProvider.ts",
+          "isReExport": false
+        }
+      ],
+      "importedBindings": [
+        {
+          "name": "vscode",
+          "kind": "unknown",
+          "sourceModule": "node_modules/@types/vscode/index.d.ts",
+          "importKind": "namespace",
+          "isReExport": false,
+          "external": true
+        }
+      ],
+      "dependencies": [],
+      "unresolvedSpecifiers": [],
+      "builtinSpecifiers": [
+        "path"
+      ]
+    },
+    "src/views/flowTreeProvider.ts": {
+      "filePath": "src/views/flowTreeProvider.ts",
+      "definedTypes": [],
+      "exportedBindings": [
+        {
+          "name": "FlowTreeItem",
+          "kind": "class",
+          "sourceModule": "src/views/flowTreeProvider.ts",
+          "isReExport": false
+        },
+        {
+          "name": "FlowTreeProvider",
+          "kind": "class",
+          "sourceModule": "src/views/flowTreeProvider.ts",
+          "isReExport": false
+        }
+      ],
+      "importedBindings": [
+        {
+          "name": "vscode",
+          "kind": "unknown",
+          "sourceModule": "node_modules/@types/vscode/index.d.ts",
+          "importKind": "namespace",
+          "isReExport": false,
+          "external": true
+        },
+        {
+          "name": "getLogger",
+          "kind": "function",
+          "sourceModule": "src/services/LoggerService.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "parseTacticaLocation",
+          "kind": "function",
+          "sourceModule": "src/utils/paths.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "shortLocation",
+          "kind": "function",
+          "sourceModule": "src/utils/paths.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "Registry",
+          "kind": "unknown",
+          "sourceModule": ".tactica/types.ts",
+          "importKind": "named",
+          "isReExport": false
+        }
+      ],
+      "dependencies": [
+        "src/services/LoggerService.ts",
+        "src/utils/paths.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
@@ -747,431 +1192,6 @@
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": []
-    },
-    "src/graph/converter.ts": {
-      "filePath": "src/graph/converter.ts",
-      "definedTypes": [],
-      "exportedBindings": [
-        {
-          "name": "GraphConverter",
-          "kind": "class",
-          "sourceModule": "src/graph/converter.ts",
-          "isReExport": false
-        }
-      ],
-      "importedBindings": [
-        {
-          "name": "TypeNode",
-          "kind": "type",
-          "sourceModule": "src/types/index.ts",
-          "importKind": "named",
-          "isReExport": false
-        },
-        {
-          "name": "D3Node",
-          "kind": "type",
-          "sourceModule": "src/types/index.ts",
-          "importKind": "named",
-          "isReExport": false
-        },
-        {
-          "name": "D3Link",
-          "kind": "type",
-          "sourceModule": "src/types/index.ts",
-          "importKind": "named",
-          "isReExport": false
-        },
-        {
-          "name": "GraphData",
-          "kind": "type",
-          "sourceModule": "src/types/index.ts",
-          "importKind": "named",
-          "isReExport": false
-        }
-      ],
-      "dependencies": [
-        "src/types/index.ts"
-      ],
-      "unresolvedSpecifiers": [],
-      "builtinSpecifiers": []
-    },
-    "src/graph/internals-manifest.ts": {
-      "filePath": "src/graph/internals-manifest.ts",
-      "definedTypes": [],
-      "exportedBindings": [
-        {
-          "name": "rawInternalKnot",
-          "kind": "type",
-          "sourceModule": "src/graph/internals-manifest.ts",
-          "isReExport": false
-        },
-        {
-          "name": "rawInternalEdge",
-          "kind": "type",
-          "sourceModule": "src/graph/internals-manifest.ts",
-          "isReExport": false
-        },
-        {
-          "name": "INTERNAL_KNOTS",
-          "kind": "const",
-          "sourceModule": "src/graph/internals-manifest.ts",
-          "isReExport": false
-        },
-        {
-          "name": "INTERNAL_EDGES",
-          "kind": "const",
-          "sourceModule": "src/graph/internals-manifest.ts",
-          "isReExport": false
-        },
-        {
-          "name": "COLLECTION_HOOKUP_EDGE",
-          "kind": "const",
-          "sourceModule": "src/graph/internals-manifest.ts",
-          "isReExport": false
-        }
-      ],
-      "importedBindings": [],
-      "dependencies": [],
-      "unresolvedSpecifiers": [],
-      "builtinSpecifiers": []
-    },
-    "src/utils/collections.ts": {
-      "filePath": "src/utils/collections.ts",
-      "definedTypes": [],
-      "exportedBindings": [
-        {
-          "name": "DEFAULT_COLLECTION",
-          "kind": "const",
-          "sourceModule": "src/utils/collections.ts",
-          "isReExport": false
-        },
-        {
-          "name": "ALL_COLLECTIONS",
-          "kind": "const",
-          "sourceModule": "src/utils/collections.ts",
-          "isReExport": false
-        },
-        {
-          "name": "collectionOfPath",
-          "kind": "function",
-          "sourceModule": "src/utils/collections.ts",
-          "isReExport": false
-        }
-      ],
-      "importedBindings": [],
-      "dependencies": [],
-      "unresolvedSpecifiers": [],
-      "builtinSpecifiers": []
-    },
-    "src/models/collections.ts": {
-      "filePath": "src/models/collections.ts",
-      "definedTypes": [],
-      "exportedBindings": [
-        {
-          "name": "BackendRegistry",
-          "kind": "type",
-          "sourceModule": "src/models/collections.ts",
-          "isReExport": false
-        },
-        {
-          "name": "Backend",
-          "kind": "const",
-          "sourceModule": "src/models/collections.ts",
-          "isReExport": false
-        },
-        {
-          "name": "FrontendRegistry",
-          "kind": "type",
-          "sourceModule": "src/models/collections.ts",
-          "isReExport": false
-        },
-        {
-          "name": "Frontend",
-          "kind": "const",
-          "sourceModule": "src/models/collections.ts",
-          "isReExport": false
-        },
-        {
-          "name": "setProps",
-          "kind": "function",
-          "sourceModule": "src/models/collections.ts",
-          "isReExport": false
-        }
-      ],
-      "importedBindings": [
-        {
-          "name": "createTypesCollection",
-          "kind": "unknown",
-          "sourceModule": "node_modules/mnemonica/build/index.d.ts",
-          "importKind": "named",
-          "isReExport": false,
-          "external": true
-        }
-      ],
-      "dependencies": [],
-      "unresolvedSpecifiers": [],
-      "builtinSpecifiers": []
-    },
-    "src/models/Control.ts": {
-      "filePath": "src/models/Control.ts",
-      "definedTypes": [
-        "collection_1::Control",
-        "collection_1::Control.ControlPoint"
-      ],
-      "exportedBindings": [
-        {
-          "name": "rawControlPoint",
-          "kind": "type",
-          "sourceModule": "src/models/Control.ts",
-          "isReExport": false
-        },
-        {
-          "name": "rawCallersNode",
-          "kind": "type",
-          "sourceModule": "src/models/Control.ts",
-          "isReExport": false
-        },
-        {
-          "name": "rawCallersEdge",
-          "kind": "type",
-          "sourceModule": "src/models/Control.ts",
-          "isReExport": false
-        },
-        {
-          "name": "rawCallersAnchor",
-          "kind": "type",
-          "sourceModule": "src/models/Control.ts",
-          "isReExport": false
-        },
-        {
-          "name": "rawCallers",
-          "kind": "type",
-          "sourceModule": "src/models/Control.ts",
-          "isReExport": false
-        },
-        {
-          "name": "ControlPointInstance",
-          "kind": "type",
-          "sourceModule": "src/models/Control.ts",
-          "isReExport": false
-        },
-        {
-          "name": "rawControlFile",
-          "kind": "type",
-          "sourceModule": "src/models/Control.ts",
-          "isReExport": false
-        },
-        {
-          "name": "Control",
-          "kind": "const",
-          "sourceModule": "src/models/Control.ts",
-          "isReExport": false
-        },
-        {
-          "name": "ControlPoint",
-          "kind": "const",
-          "sourceModule": "src/models/Control.ts",
-          "isReExport": false
-        },
-        {
-          "name": "default",
-          "kind": "const",
-          "sourceModule": "src/models/Control.ts",
-          "importKind": "default",
-          "isReExport": false,
-          "importAlias": "Control"
-        }
-      ],
-      "importedBindings": [
-        {
-          "name": "Backend",
-          "kind": "const",
-          "sourceModule": "src/models/collections.ts",
-          "importKind": "named",
-          "isReExport": false
-        },
-        {
-          "name": "setProps",
-          "kind": "function",
-          "sourceModule": "src/models/collections.ts",
-          "importKind": "named",
-          "isReExport": false
-        },
-        {
-          "name": "getLogger",
-          "kind": "function",
-          "sourceModule": "src/services/LoggerService.ts",
-          "importKind": "named",
-          "isReExport": false
-        }
-      ],
-      "dependencies": [
-        "src/models/collections.ts",
-        "src/services/LoggerService.ts"
-      ],
-      "unresolvedSpecifiers": [],
-      "builtinSpecifiers": []
-    },
-    "src/core/GraphBuilder.ts": {
-      "filePath": "src/core/GraphBuilder.ts",
-      "definedTypes": [],
-      "exportedBindings": [
-        {
-          "name": "GraphBuilder",
-          "kind": "class",
-          "sourceModule": "src/core/GraphBuilder.ts",
-          "isReExport": false
-        }
-      ],
-      "importedBindings": [
-        {
-          "name": "GraphData",
-          "kind": "type",
-          "sourceModule": "src/types/index.ts",
-          "importKind": "named",
-          "isReExport": false
-        },
-        {
-          "name": "D3CreationNode",
-          "kind": "type",
-          "sourceModule": "src/types/index.ts",
-          "importKind": "named",
-          "isReExport": false
-        },
-        {
-          "name": "D3CreationLink",
-          "kind": "type",
-          "sourceModule": "src/types/index.ts",
-          "importKind": "named",
-          "isReExport": false
-        },
-        {
-          "name": "D3WrapperNode",
-          "kind": "type",
-          "sourceModule": "src/types/index.ts",
-          "importKind": "named",
-          "isReExport": false
-        },
-        {
-          "name": "D3WrapperLink",
-          "kind": "type",
-          "sourceModule": "src/types/index.ts",
-          "importKind": "named",
-          "isReExport": false
-        },
-        {
-          "name": "D3InternalNode",
-          "kind": "type",
-          "sourceModule": "src/types/index.ts",
-          "importKind": "named",
-          "isReExport": false
-        },
-        {
-          "name": "D3InternalLink",
-          "kind": "type",
-          "sourceModule": "src/types/index.ts",
-          "importKind": "named",
-          "isReExport": false
-        },
-        {
-          "name": "GraphConverter",
-          "kind": "class",
-          "sourceModule": "src/graph/converter.ts",
-          "importKind": "named",
-          "isReExport": false
-        },
-        {
-          "name": "INTERNAL_KNOTS",
-          "kind": "const",
-          "sourceModule": "src/graph/internals-manifest.ts",
-          "importKind": "named",
-          "isReExport": false
-        },
-        {
-          "name": "INTERNAL_EDGES",
-          "kind": "const",
-          "sourceModule": "src/graph/internals-manifest.ts",
-          "importKind": "named",
-          "isReExport": false
-        },
-        {
-          "name": "COLLECTION_HOOKUP_EDGE",
-          "kind": "const",
-          "sourceModule": "src/graph/internals-manifest.ts",
-          "importKind": "named",
-          "isReExport": false
-        },
-        {
-          "name": "TypeNode",
-          "kind": "type",
-          "sourceModule": "src/types/tactica-types.ts",
-          "importKind": "named",
-          "isReExport": false
-        },
-        {
-          "name": "collectionOfPath",
-          "kind": "function",
-          "sourceModule": "src/utils/collections.ts",
-          "importKind": "named",
-          "isReExport": false
-        },
-        {
-          "name": "DEFAULT_COLLECTION",
-          "kind": "const",
-          "sourceModule": "src/utils/collections.ts",
-          "importKind": "named",
-          "isReExport": false
-        },
-        {
-          "name": "ALL_COLLECTIONS",
-          "kind": "const",
-          "sourceModule": "src/utils/collections.ts",
-          "importKind": "named",
-          "isReExport": false
-        },
-        {
-          "name": "parseTacticaLocation",
-          "kind": "function",
-          "sourceModule": "src/utils/paths.ts",
-          "importKind": "named",
-          "isReExport": false
-        },
-        {
-          "name": "Registry",
-          "kind": "unknown",
-          "sourceModule": ".tactica/types.ts",
-          "importKind": "named",
-          "isReExport": false
-        },
-        {
-          "name": "rawCallers",
-          "kind": "type",
-          "sourceModule": "src/models/Control.ts",
-          "importKind": "named",
-          "isReExport": false
-        },
-        {
-          "name": "getLogger",
-          "kind": "function",
-          "sourceModule": "src/services/LoggerService.ts",
-          "importKind": "named",
-          "isReExport": false
-        }
-      ],
-      "dependencies": [
-        "src/types/index.ts",
-        "src/graph/converter.ts",
-        "src/graph/internals-manifest.ts",
-        "src/types/tactica-types.ts",
-        "src/utils/collections.ts",
-        "src/utils/paths.ts",
-        "src/models/Control.ts",
-        "src/services/LoggerService.ts"
-      ],
-      "unresolvedSpecifiers": [],
-      "builtinSpecifiers": [
-        "path"
-      ]
     },
     "src/utils/letheValidation.ts": {
       "filePath": "src/utils/letheValidation.ts",
@@ -2450,6 +2470,13 @@
           "sourceModule": "src/utils/paths.ts",
           "importKind": "named",
           "isReExport": false
+        },
+        {
+          "name": "GraphPanel",
+          "kind": "class",
+          "sourceModule": "src/webview/panel.ts",
+          "importKind": "named",
+          "isReExport": false
         }
       ],
       "dependencies": [
@@ -2460,7 +2487,8 @@
         "src/views/bagelsTreeProvider.ts",
         "src/core/MainOrchestrator.ts",
         "src/services/LoggerService.ts",
-        "src/utils/paths.ts"
+        "src/utils/paths.ts",
+        "src/webview/panel.ts"
       ],
       "unresolvedSpecifiers": [],
       "builtinSpecifiers": [
@@ -2518,6 +2546,13 @@
         },
         {
           "name": "MnemonicaTreeItemData",
+          "kind": "type",
+          "sourceModule": "src/views/treeProvider.ts",
+          "importKind": "named",
+          "isReExport": false
+        },
+        {
+          "name": "UsageMode",
           "kind": "type",
           "sourceModule": "src/views/treeProvider.ts",
           "importKind": "named",

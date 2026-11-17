@@ -6,7 +6,7 @@ Explore mnemonica type hierarchies in VS Code: definitions, generated types, usa
 
 ## Features
 
-- **Types Tree**: The full inheritance hierarchy — the `define()` sites, nested by parent. The filter button in its title bar keeps the types whose dotted name contains a substring, each with its whole family
+- **Types Tree**: The full inheritance hierarchy — the `define()` sites, nested by parent. The filter button in its title bar keeps the types whose dotted name contains a substring, each with its whole family; the circle button next to it cycles between only the unused types (never created, the transparent spheres), hiding them, and all
 - **Usages View**: Every place the selected type is referenced, one click to jump
 - **Flow View**: Execution flow from `flow.json`, grouped by kind (instantiation, property access, pass-as-arg, …) → type → entry
 - **By Generation View**: All types grouped by inheritance depth

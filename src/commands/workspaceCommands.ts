@@ -11,6 +11,7 @@ import { BagelsTreeProvider } from '../views/bagelsTreeProvider';
 import { MainOrchestrator } from '../core/MainOrchestrator';
 import { getLogger } from '../services/LoggerService';
 import { tacticaDirOf } from '../utils/paths';
+import { GraphPanel } from '../webview/panel';
 
 type WorkspaceQuickPickItem = {
 	label: string;
@@ -131,6 +132,9 @@ async function loadWorkspace(
 		treeProvider.setWorkspace(workspacePath);
 		await mainOrchestrator.loadWorkspace(workspacePath);
 		const registry = mainOrchestrator.getRegistry();
+		// The sidebar now renders THIS source's Registry: sidebar-driven
+		// focus and the 3D view's reveal-in-Types route by it
+		GraphPanel.primarySource = workspacePath;
 		if (registry) {
 			treeProvider.setRegistry(registry);
 			treeProvider.loadFromRegistry();

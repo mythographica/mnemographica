@@ -2,7 +2,7 @@
 	"name": "mnemographica",
 	"displayName": "Mnemonica Graphica",
 	"description": "Explore mnemonica type hierarchies: definitions, types, usages, execution flow and generations, with go-to-definition navigation",
-	"version": "0.5.11",
+	"version": "0.5.12",
 	"publisher": "Mythographica",
 	"repository": {
 		"type": "git",
@@ -173,6 +173,24 @@
 				"icon": "$(clear-all)"
 			},
 			{
+				"command": "mnemographica.typesOnlyUnused",
+				"title": "Show Only Unused Types",
+				"category": "Mnemonica",
+				"icon": "$(circle-large-outline)"
+			},
+			{
+				"command": "mnemographica.typesHideUnused",
+				"title": "Hide Unused Types",
+				"category": "Mnemonica",
+				"icon": "$(circle-slash)"
+			},
+			{
+				"command": "mnemographica.typesAllUsage",
+				"title": "Show Used and Unused Types",
+				"category": "Mnemonica",
+				"icon": "$(circle-large-filled)"
+			},
+			{
 				"command": "mnemographica.showOnGraph",
 				"title": "Show on Graph",
 				"category": "Mnemonica",
@@ -246,9 +264,24 @@
 					"group": "navigation@3"
 				},
 				{
+					"command": "mnemographica.typesOnlyUnused",
+					"when": "view == mnemonicaTypes && mnemographica.typesUsage != unused && mnemographica.typesUsage != used",
+					"group": "navigation@4"
+				},
+				{
+					"command": "mnemographica.typesHideUnused",
+					"when": "view == mnemonicaTypes && mnemographica.typesUsage == unused",
+					"group": "navigation@4"
+				},
+				{
+					"command": "mnemographica.typesAllUsage",
+					"when": "view == mnemonicaTypes && mnemographica.typesUsage == used",
+					"group": "navigation@4"
+				},
+				{
 					"command": "mnemographica.clearTypesFilter",
 					"when": "view == mnemonicaTypes && mnemographica.typesFiltered",
-					"group": "navigation@4"
+					"group": "navigation@5"
 				},
 				{
 					"command": "mnemographica.openSettings",

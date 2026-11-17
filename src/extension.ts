@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import { lookup } from 'mnemonica';
-import { MnemonicaTreeProvider, MnemonicaTreeItem, type MnemonicaTreeItemData } from './views/treeProvider';
+import { MnemonicaTreeProvider, MnemonicaTreeItem, type MnemonicaTreeItemData, type UsageMode } from './views/treeProvider';
 import { UsagesTreeProvider, UsageTreeItem } from './views/usagesTreeProvider';
 import { FlowTreeProvider, FlowTreeItem } from './views/flowTreeProvider';
 import { GenTreeProvider, GenTreeItem } from './views/genTreeProvider';
@@ -190,15 +190,24 @@ export function activate(context: vscode.ExtensionContext) {
 	);
 
 	// Types filter (toolbar buttons in the Types panel): the view title
-	// shows the filter and its match count, kept current across reloads
+	// shows the filter text, the usage mode and the match count, kept
+	// current across reloads
 	const showTypesFilter = () => {
 		const filter = treeProvider.getFilter();
+		const usage = treeProvider.getUsageMode();
 		const matches = treeProvider.getFilterMatchCount();
-		treeView.description = filter ? `"${filter}" · ${matches}` : undefined;
-		treeView.message = filter && matches === 0
-			? `No type name contains "${filter}"`
+		const parts = [
+			...(filter ? [ `"${filter}"` ] : []),
+			...(usage === 'all' ? [] : [ usage ]),
+		];
+		const filtered = parts.length > 0;
+		treeView.description = filtered ? `${parts.join(' · ')} · ${matches}` : undefined;
+		const usageWords = usage === 'unused' ? 'unused type' : usage === 'used' ? 'used type' : 'type';
+		treeView.message = filtered && matches === 0
+			? (filter ? `No ${usageWords} name contains "${filter}"` : `No ${usageWords}s`)
 			: undefined;
-		void vscode.commands.executeCommand('setContext', 'mnemographica.typesFiltered', Boolean(filter));
+		void vscode.commands.executeCommand('setContext', 'mnemographica.typesFiltered', filtered);
+		void vscode.commands.executeCommand('setContext', 'mnemographica.typesUsage', usage);
 	};
 	context.subscriptions.push(treeProvider.onDidChangeTreeData(showTypesFilter));
 
@@ -219,10 +228,28 @@ export function activate(context: vscode.ExtensionContext) {
 
 	context.subscriptions.push(
 		vscode.commands.registerCommand('mnemographica.clearTypesFilter', () => {
+			treeProvider.setUsageMode('all');
 			treeProvider.setFilter('');
 			logger.info('[Extension] Types filter cleared');
 		})
 	);
+
+	// The usage toggle in the Types title bar cycles all → only unused →
+	// hide unused → all; one command per state, so each shows its own
+	// icon and names the step it takes (menus pick it by typesUsage)
+	const usageSteps: Array<{ command: string; next: UsageMode }> = [
+		{ command : 'mnemographica.typesOnlyUnused', next : 'unused' },
+		{ command : 'mnemographica.typesHideUnused', next : 'used' },
+		{ command : 'mnemographica.typesAllUsage', next : 'all' },
+	];
+	for (const step of usageSteps) {
+		context.subscriptions.push(
+			vscode.commands.registerCommand(step.command, () => {
+				treeProvider.setUsageMode(step.next);
+				logger.info(`[Extension] Types usage filter: ${step.next}, ${treeProvider.getFilterMatchCount()} matches`);
+			})
+		);
+	}
 
 	// Register show-on-graph command (right-click on type/definition):
 	// open the 3D panel when closed, then rotate onto the node. The
@@ -618,7 +645,8 @@ export function activate(context: vscode.ExtensionContext) {
 		// Get usages from reference provider
 		const usages = referenceProvider.getUsagesForType(typeName);
 		if (usages && usages.length > 0) {
-			usagesProvider.setType(typeName, usages);
+			// usage paths show relative to the sidebar's project root
+			usagesProvider.setType(typeName, usages, mainOrchestrator.getWorkspacePath());
 			logger.info(`[Extension] Loaded ${usages.length} usages for ${typeName}`);
 		} else {
 			usagesProvider.clear();

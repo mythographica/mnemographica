@@ -191,11 +191,22 @@ The extension helps AI agents:
      filtered tree gets fresh ids and clearing restores the unfiltered
      rows' own state. A reload keeps the filter. The view description
      shows `"text" · N`; the context key `mnemographica.typesFiltered`
-     shows the clear button.
+     shows the clear button, which also resets the usage filter.
+     **Usage filter** (the title-bar toggle, one command per state:
+     `typesOnlyUnused` → `typesHideUnused` → `typesAllUsage`, picked by
+     the context key `mnemographica.typesUsage`): only unused, hide
+     unused, or all. Unused is the construction census
+     (`createdTypes` in `core/GraphBuilder.ts`, the same set that makes
+     a sphere transparent). It combines with the text: a type matches
+     when it passes both; its ancestors show as the path whatever their
+     own usage. Paths open for text and for only-unused, not for hide
+     unused (that keeps most rows). The ids carry the mode with the text.
      **Reveal from 3D** (`mnemographica.revealInTypes`): Ctrl+click on a
      sphere or the sphere tooltip's `ø` posts `revealInTypes` with the
-     sphere id (the same dotted fullName). Only the primary source's
-     panel is honored, since the tree renders the primary Registry. A
+     sphere id (the same dotted fullName). Only the panel of the project
+     the sidebar shows (`GraphPanel.primarySource`: the first workspace
+     folder at activation, then each "Select workspace" switch) is
+     honored, since the tree renders that project's Registry. A
      filter that hides the type is cleared first. The selection it
      causes updates Usages only, with no camera move and no file jump.
      Not Alt+click: window managers take Alt+button to move the window

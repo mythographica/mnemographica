@@ -3,9 +3,15 @@
 import * as vscode from 'vscode';
 import { getLogger } from '../services/LoggerService';
 import { parseTacticaLocation } from '../utils/paths';
+import { createdTypes } from '../core/GraphBuilder';
 import type { Registry } from '../../.tactica/types';
 
 type TreeNodeType = 'root' | 'type' | 'definition';
+
+// The Types view's usage filter (the title-bar toggle cycles them):
+// 'unused' — only the types the construction census never sees created
+// (the transparent spheres), 'used' — those hidden, 'all' — no filter
+export type UsageMode = 'all' | 'unused' | 'used';
 
 export type MnemonicaTreeItemData = {
 	label: string;
@@ -15,7 +21,8 @@ export type MnemonicaTreeItemData = {
 	column?: number;
 	// Full definition name for lookup (needed when label is shortened for display)
 	fullName?: string;
-	// The Types filter text the item was built under ('' or absent: none)
+	// The Types filter key the item was built under: the text, plus the
+	// usage mode when it filters ('' or absent: none)
 	filter?: string;
 };
 
@@ -117,6 +124,11 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 	// ancestors (the path down to it, opened) and all its descendants.
 	// '' shows everything
 	private filterText = '';
+	// The usage filter, combined with the text: a type matches when it
+	// passes both. `created` is the census, re-read on every load
+	// (undefined: no usages loaded, nothing counts as unused)
+	private usageMode: UsageMode = 'all';
+	private created: Set<string> | undefined;
 	private filterVisible: Set<string> | undefined;
 	private filterOpen: Set<string> = new Set();
 	private filterMatchCount = 0;
@@ -185,7 +197,10 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 			}
 		}
 
-		// A reload keeps the filter text and recomputes its families
+		this.created = createdTypes(this.registry);
+
+		// A reload keeps the filter text and usage mode and recomputes
+		// their families
 		this.computeFilter();
 		this.refresh();
 	}
@@ -198,6 +213,33 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 
 	getFilter (): string {
 		return this.filterText;
+	}
+
+	setUsageMode (mode: UsageMode): void {
+		this.usageMode = mode;
+		this.computeFilter();
+		this.refresh();
+	}
+
+	getUsageMode (): UsageMode {
+		return this.usageMode;
+	}
+
+	// The key the item ids carry: a change of text or usage mode gives
+	// the rows fresh ids (see treeItemId)
+	private filterKey (): string {
+		const key = this.usageMode === 'all'
+			? this.filterText
+			: `${this.filterText}|usage:${this.usageMode}`;
+		return key;
+	}
+
+	private matchesUsage (def: DefinitionData): boolean {
+		const unused = this.created !== undefined && !this.created.has(def.fullName);
+		const matches = this.usageMode === 'all'
+			|| (this.usageMode === 'unused' && unused)
+			|| (this.usageMode === 'used' && !unused);
+		return matches;
 	}
 
 	getFilterMatchCount (): number {
@@ -223,27 +265,37 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 	private computeFilter (): void {
 		this.filterOpen = new Set();
 		this.filterMatchCount = 0;
-		if (!this.filterText) {
+		if (!this.filterText && this.usageMode === 'all') {
 			this.filterVisible = undefined;
 			return;
 		}
 		// A descendant's fullName extends its ancestor's dotted fullName,
-		// so every descendant of a match is itself a match: the family
-		// below a match needs no walk of its own
+		// so every descendant of a text match is itself a text match: the
+		// family below a match needs no walk of its own. The usage mode
+		// then keeps only the family members that pass it
 		const needle = this.filterText.toLowerCase();
+		// The path down to each match opens when the filter narrows the
+		// tree (text, or only the unused); hiding the unused keeps most
+		// rows, and opening every path would unfold the whole tree
+		const openPaths = this.filterText !== '' || this.usageMode === 'unused';
 		const visible: Set<string> = new Set();
+		const walked: Set<string> = new Set();
 		for (const def of this.definitions.values()) {
-			if (!def.fullName.toLowerCase().includes(needle)) {
+			if (!def.fullName.toLowerCase().includes(needle) || !this.matchesUsage(def)) {
 				continue;
 			}
 			this.filterMatchCount++;
 			visible.add(def.fullName);
-			// the ancestors: the path down to the match, opened; an
-			// ancestor already open has its whole chain open above it
+			// the ancestors, shown (and opened) whatever their own usage:
+			// the path down to the match; an ancestor already walked has
+			// its whole chain done above it
 			let parent = def.parent;
-			while (parent && !this.filterOpen.has(parent)) {
+			while (parent && !walked.has(parent)) {
+				walked.add(parent);
 				visible.add(parent);
-				this.filterOpen.add(parent);
+				if (openPaths) {
+					this.filterOpen.add(parent);
+				}
 				const parentDef = this.definitions.get(parent);
 				parent = parentDef ? parentDef.parent : undefined;
 			}
@@ -357,7 +409,7 @@ export class MnemonicaTreeProvider implements vscode.TreeDataProvider<MnemonicaT
 				line: def.line,
 				column: def.column + 9, // define(' === 9
 				fullName: def.fullName,  // Use fullName (the key) for lookups
-				filter: this.filterText
+				filter: this.filterKey()
 			},
 			collapsibleState
 		);

@@ -488,7 +488,8 @@ export class GraphPanel {
 					// panel's spheres have rows there
 					if (message.data && typeof message.data === 'object' && 'id' in message.data) {
 						const id = String(message.data.id);
-						if (this.sourceRoot !== GraphPanel.primarySource) {
+						const primary = GraphPanel.primarySource;
+						if (primary === null || projectKey(this.sourceRoot) !== projectKey(primary)) {
 							logger.warn(`[GraphPanel] Reveal in Types: ${id} is in ${this.sourceName}, the Types tree shows the primary source`);
 							break;
 						}
